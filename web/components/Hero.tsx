@@ -101,7 +101,7 @@ export function Hero() {
             <div className="absolute inset-0 -rotate-3 rounded-[2rem] border border-line bg-surface/60 shadow-soft" />
             <div className="absolute inset-0 rotate-2 overflow-hidden rounded-[2rem] border border-line bg-surface shadow-lift">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Monograma J&V Agency"
                 fill
                 sizes="(min-width:1024px) 28rem, 100vw"

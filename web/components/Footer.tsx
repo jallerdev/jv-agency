@@ -24,7 +24,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3">
               <span className="relative h-10 w-10 overflow-hidden rounded-lg ring-1 ring-surface/20">
-                <Image src="/logo.png" alt="J&V Agency" fill sizes="40px" className="object-cover" />
+                <Image src="/logo.webp" alt="J&V Agency" fill sizes="40px" className="object-cover" />
               </span>
               <span className="font-display text-xl text-surface">J&amp;V Agency</span>
             </div>
