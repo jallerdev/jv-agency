@@ -1,27 +1,40 @@
 import type { Metadata } from "next";
-import { Fraunces, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
+const fraunces = localFont({
   display: "swap",
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
   variable: "--font-display",
+  src: [
+    { path: "./fonts/Fraunces-300.woff2", weight: "300", style: "normal" },
+    { path: "./fonts/Fraunces-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/Fraunces-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/Fraunces-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/Fraunces-300-italic.woff2", weight: "300", style: "italic" },
+    { path: "./fonts/Fraunces-400-italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/Fraunces-500-italic.woff2", weight: "500", style: "italic" },
+    { path: "./fonts/Fraunces-600-italic.woff2", weight: "600", style: "italic" },
+  ],
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
+const jakarta = localFont({
   display: "swap",
-  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
+  src: [
+    { path: "./fonts/PlusJakartaSans-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/PlusJakartaSans-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/PlusJakartaSans-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/PlusJakartaSans-700.woff2", weight: "700", style: "normal" },
+  ],
 });
 
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
+const plexMono = localFont({
   display: "swap",
-  weight: ["400", "500"],
   variable: "--font-mono",
+  src: [
+    { path: "./fonts/IBMPlexMono-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/IBMPlexMono-500.woff2", weight: "500", style: "normal" },
+  ],
 });
 
 export const metadata: Metadata = {
