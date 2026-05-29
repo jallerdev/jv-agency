@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -33,8 +32,7 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-        <a href="/" className="flex items-center gap-2.5 animate-fade-in-down">
-          <Logo className="h-9 w-auto text-ink" />
+        <a href="/" className="animate-fade-in-down">
           <span className="font-display text-xl tracking-tight text-ink">
             JV <span className="text-primary-dark">Agencia</span>
           </span>

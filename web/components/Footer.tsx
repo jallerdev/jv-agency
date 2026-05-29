@@ -1,5 +1,4 @@
 import { Instagram, Linkedin, Mail, MapPin } from "lucide-react";
-import { Logo } from "@/components/Logo";
 
 const COLUMNS = [
   {
@@ -22,8 +21,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-2.5">
-              <Logo className="h-9 w-auto text-surface" />
+            <div className="flex items-center">
               <span className="font-display text-xl text-surface">JV Agencia</span>
             </div>
             <p className="mt-5 max-w-xs font-body text-sm leading-relaxed text-surface/60">
