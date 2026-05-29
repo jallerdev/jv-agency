@@ -1,11 +1,16 @@
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpRight, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const RESULTS = [
-  { metric: "+86%", label: "conversión del sitio" },
-  { metric: "1.2s", label: "tiempo de carga" },
-  { metric: "99.9%", label: "uptime" },
+const BLOOMROSE_URL = "https://www.bloomroseaccesorios.com";
+
+const STACK = [
+  "Diseño UI a medida",
+  "Next.js + Supabase",
+  "Pagos con Wompi",
+  "Envíos Coordinadora",
 ];
 
 export function MediaSection() {
@@ -27,7 +32,7 @@ export function MediaSection() {
           {/* ambient glow */}
           <div className="pointer-events-none absolute inset-x-10 top-10 h-72 rounded-full bg-accent/15 blur-3xl" />
 
-          {/* Browser mockup (designed, not a stock photo) */}
+          {/* Browser frame with the real Bloomrose storefront */}
           <div className="relative mx-auto max-w-5xl overflow-hidden rounded-2xl border border-line bg-surface shadow-lift">
             <div className="flex items-center gap-2 border-b border-line bg-background/60 px-5 py-3">
               <span className="h-3 w-3 rounded-full bg-danger/70" />
@@ -35,58 +40,51 @@ export function MediaSection() {
               <span className="h-3 w-3 rounded-full bg-success/70" />
               <div className="ml-4 flex-1">
                 <div className="mx-auto w-fit rounded-full border border-line bg-surface px-4 py-1 font-mono text-xs text-ink-soft">
-                  cliente.jvagencia.com
+                  www.bloomroseaccesorios.com
                 </div>
               </div>
             </div>
-
-            {/* faux site hero */}
-            <div className="grid gap-0 md:grid-cols-2">
-              <div className="bg-gradient-to-br from-primary-dark via-primary to-accent p-10 text-surface md:p-14">
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-surface/70">
-                  Diseño + desarrollo · e-commerce
-                </p>
-                <p className="mt-6 font-display text-3xl leading-tight md:text-4xl">
-                  Una tienda que por fin se ve tan buena como sus productos.
-                </p>
-                <div className="mt-8 inline-flex items-center gap-2 rounded-full bg-surface/15 px-5 py-2 font-body text-sm backdrop-blur">
-                  Comprar ahora <ArrowUpRight className="h-4 w-4" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 bg-surface p-6 md:p-8">
-                {[0, 1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="aspect-square rounded-xl border border-line bg-gradient-to-br from-background to-secondary/25"
-                  >
-                    <div className="flex h-full flex-col justify-end p-3">
-                      <div className="h-2 w-3/4 rounded-full bg-primary/30" />
-                      <div className="mt-2 h-2 w-1/2 rounded-full bg-primary/20" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <a href={BLOOMROSE_URL} target="_blank" rel="noopener noreferrer" className="block">
+              <Image
+                src="/work/bloomrose.webp"
+                alt="Bloomrose — tienda de bisutería y accesorios diseñada y construida por J&V Agency"
+                width={2000}
+                height={1160}
+                className="h-auto w-full"
+                sizes="(min-width:1024px) 64rem, 100vw"
+              />
+            </a>
           </div>
 
-          {/* floating results card */}
-          <div className="mx-auto mt-8 max-w-5xl">
-            <div className="grid gap-4 rounded-2xl border border-line bg-surface/80 p-6 backdrop-blur sm:grid-cols-3 md:absolute md:-bottom-10 md:right-8 md:max-w-md md:grid-cols-1 md:gap-3">
-              <div className="flex items-center gap-2 sm:col-span-3 md:col-span-1">
-                <TrendingUp className="h-5 w-5 text-success" />
-                <span className="font-body text-sm font-semibold text-ink">
-                  Resultados a 6 meses
+          {/* Project meta */}
+          <div className="mx-auto mt-8 flex max-w-5xl flex-col gap-6 rounded-2xl border border-line bg-surface/80 p-6 backdrop-blur md:flex-row md:items-center md:justify-between md:p-8">
+            <div>
+              <div className="flex items-center gap-3">
+                <h3 className="font-display text-2xl text-ink">Bloomrose</h3>
+                <span className="rounded-full bg-accent/15 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
+                  E-commerce
                 </span>
               </div>
-              <div className="grid grid-cols-3 gap-4 sm:col-span-3 md:col-span-1">
-                {RESULTS.map((r) => (
-                  <div key={r.label}>
-                    <p className="font-mono text-2xl text-primary-dark">{r.metric}</p>
-                    <p className="font-body text-xs text-ink-soft">{r.label}</p>
-                  </div>
+              <p className="mt-2 max-w-xl font-body text-sm leading-relaxed text-ink-soft">
+                Tienda online de bisutería y accesorios para el mercado colombiano. Diseño y
+                desarrollo de punta a punta: catálogo, carrito, cuentas, pagos y envíos.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {STACK.map((s) => (
+                  <span
+                    key={s}
+                    className="rounded-full border border-line bg-background/50 px-3 py-1 font-body text-xs text-ink-soft"
+                  >
+                    {s}
+                  </span>
                 ))}
               </div>
             </div>
+            <Button asChild variant="outline" size="md" className="shrink-0">
+              <a href={BLOOMROSE_URL} target="_blank" rel="noopener noreferrer">
+                Visitar sitio <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </Button>
           </div>
         </Reveal>
       </div>
