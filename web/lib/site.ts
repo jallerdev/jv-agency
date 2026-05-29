@@ -3,4 +3,4 @@
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://jvagencia.com";
 
-export const SITE_NAME = "J&V Agency";
+export const SITE_NAME = "JV Agencia";

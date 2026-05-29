@@ -504,7 +504,7 @@ function SummaryPanel({ answers, sticky }: { answers: Answers; sticky?: boolean 
 function buildWhatsAppMessage(answers: Answers): string {
   const t = computeTotals(answers);
   const lines: string[] = [];
-  lines.push("Cotización web — J&V Agency");
+  lines.push("Cotización web — JV Agencia");
   lines.push("");
   lines.push(`Tipo de sitio: ${answers.type ? TYPE_LABEL[answers.type] : "—"}`);
   lines.push(`Páginas/secciones: ${answers.pages}`);

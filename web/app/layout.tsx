@@ -40,7 +40,7 @@ const plexMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "J&V Agency — Estudio de diseño y desarrollo web para PYMEs en LATAM",
+  title: "JV Agencia — Estudio de diseño y desarrollo web para PYMEs en LATAM",
   description:
     "Diseño + código en el mismo equipo. Webs y software a medida que se ven de marca grande y funcionan de verdad. Sin presupuesto corporativo.",
   keywords: [
@@ -57,15 +57,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_LA",
     url: SITE_URL,
-    title: "J&V Agency — Hacemos que te tomen en serio",
+    title: "JV Agencia — Hacemos que te tomen en serio",
     description:
       "Estudio de diseño + código para PYMEs de LATAM. Diseño que enamora, código que aguanta.",
     siteName: SITE_NAME,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "J&V Agency — diseño + código" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "JV Agencia — diseño + código" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "J&V Agency — Hacemos que te tomen en serio",
+    title: "JV Agencia — Hacemos que te tomen en serio",
     description:
       "Diseño + código en el mismo equipo. Webs y software a medida para PYMEs de LATAM.",
     images: ["/og.png"],

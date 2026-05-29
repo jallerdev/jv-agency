@@ -24,9 +24,9 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3">
               <span className="relative h-10 w-10 overflow-hidden rounded-lg ring-1 ring-surface/20">
-                <Image src="/logo.webp" alt="J&V Agency" fill sizes="40px" className="object-cover" />
+                <Image src="/logo.webp" alt="JV Agencia" fill sizes="40px" className="object-cover" />
               </span>
-              <span className="font-display text-xl text-surface">J&amp;V Agency</span>
+              <span className="font-display text-xl text-surface">JV Agencia</span>
             </div>
             <p className="mt-5 max-w-xs font-body text-sm leading-relaxed text-surface/60">
               Diseño que enamora, código que aguanta. Webs y software a medida para que las PYMEs de
@@ -76,7 +76,7 @@ export function Footer() {
               <MapPin className="h-4 w-4" /> LATAM · Remoto
             </span>
           </div>
-          <p>© {new Date().getFullYear()} J&amp;V Agency. Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} JV Agencia. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

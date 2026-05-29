@@ -1,7 +1,7 @@
 import { WHATSAPP_NUMBER } from "@/lib/contact";
 
 const PREFILL =
-  "Hola J&V Agency 👋 Me interesa hablar sobre un proyecto de diseño o desarrollo web.";
+  "Hola JV Agencia 👋 Me interesa hablar sobre un proyecto de diseño o desarrollo web.";
 
 export function WhatsAppButton() {
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PREFILL)}`;

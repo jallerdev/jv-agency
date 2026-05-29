@@ -147,7 +147,7 @@ export function ScheduleCall() {
 
   const waHref = (() => {
     const msg =
-      `Hola J&V Agency 👋 Quiero agendar una llamada.\n\n` +
+      `Hola JV Agencia 👋 Quiero agendar una llamada.\n\n` +
       `• Nombre: ${values.name}\n` +
       `• Servicio: ${serviceLabel}\n` +
       `• Fecha: ${prettyDate(values.date)}\n` +

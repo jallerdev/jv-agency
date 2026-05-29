@@ -5,7 +5,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Cotizador } from "@/components/Cotizador";
 
 export const metadata: Metadata = {
-  title: "Cotizador web — J&V Agency",
+  title: "Cotizador web — JV Agencia",
   description:
     "Calcula en minutos cuánto cuesta tu landing, web corporativa o tienda online. Estimado al instante y 10% de descuento si avanzas hoy.",
 };

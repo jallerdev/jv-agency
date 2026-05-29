@@ -35,10 +35,10 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
         <a href="/" className="flex items-center gap-3 animate-fade-in-down">
           <span className="relative h-11 w-11 overflow-hidden rounded-xl ring-1 ring-line">
-            <Image src="/logo.webp" alt="J&V Agency" fill sizes="44px" className="object-cover" priority />
+            <Image src="/logo.webp" alt="JV Agencia" fill sizes="44px" className="object-cover" priority />
           </span>
           <span className="font-display text-xl tracking-tight text-ink">
-            J&amp;V <span className="text-primary-dark">Agency</span>
+            JV <span className="text-primary-dark">Agencia</span>
           </span>
         </a>
 

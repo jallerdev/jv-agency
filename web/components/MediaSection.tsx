@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button";
 
 const BLOOMROSE_URL = "https://www.bloomroseaccesorios.com";
 
-const STACK = [
+const FEATURES = [
   "Diseño UI a medida",
-  "Next.js + Supabase",
-  "Pagos con Wompi",
-  "Envíos Coordinadora",
+  "Pagos en línea (PSE, Nequi, tarjeta)",
+  "Cotizacion de Envíos",
+  "Catálogo con control de stock",
+  "Cuentas y seguimiento de pedidos",
 ];
 
 export function MediaSection() {
@@ -47,7 +48,7 @@ export function MediaSection() {
             <a href={BLOOMROSE_URL} target="_blank" rel="noopener noreferrer" className="block">
               <Image
                 src="/work/bloomrose.webp"
-                alt="Bloomrose — tienda de bisutería y accesorios diseñada y construida por J&V Agency"
+                alt="Bloomrose — tienda de bisutería y accesorios diseñada y construida por JV Agencia"
                 width={2000}
                 height={1160}
                 className="h-auto w-full"
@@ -70,7 +71,7 @@ export function MediaSection() {
                 desarrollo de punta a punta: catálogo, carrito, cuentas, pagos y envíos.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {STACK.map((s) => (
+                {FEATURES.map((s) => (
                   <span
                     key={s}
                     className="rounded-full border border-line bg-background/50 px-3 py-1 font-body text-xs text-ink-soft"

@@ -79,7 +79,7 @@ export async function POST(req: Request) {
 
       const event = await createMeetEvent({
         start,
-        summary: `Llamada J&V × ${name}`,
+        summary: `Llamada JV Agencia × ${name}`,
         description,
         attendeeEmail: email ?? null,
       });
