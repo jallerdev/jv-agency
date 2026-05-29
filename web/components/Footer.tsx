@@ -70,7 +70,7 @@ export function Footer() {
         <div className="mt-14 flex flex-col gap-3 border-t border-surface/10 pt-8 font-body text-sm text-surface/50 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <span className="inline-flex items-center gap-2">
-              <Mail className="h-4 w-4" /> hola@jvagency.com
+              <Mail className="h-4 w-4" /> contact@jvagencia.com
             </span>
             <span className="inline-flex items-center gap-2">
               <MapPin className="h-4 w-4" /> LATAM · Remoto

@@ -3,7 +3,6 @@ import { Hero } from "@/components/Hero";
 import { MediaSection } from "@/components/MediaSection";
 import { Benefits } from "@/components/Benefits";
 import { Process } from "@/components/Process";
-import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -18,7 +17,6 @@ export default function Home() {
         <MediaSection />
         <Benefits />
         <Process />
-        <Testimonials />
         <FAQ />
         <FinalCTA />
       </main>

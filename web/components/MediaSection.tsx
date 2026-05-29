@@ -35,7 +35,7 @@ export function MediaSection() {
               <span className="h-3 w-3 rounded-full bg-success/70" />
               <div className="ml-4 flex-1">
                 <div className="mx-auto w-fit rounded-full border border-line bg-surface px-4 py-1 font-mono text-xs text-ink-soft">
-                  cliente.jvagency.com
+                  cliente.jvagencia.com
                 </div>
               </div>
             </div>
