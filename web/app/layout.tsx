@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const fraunces = localFont({
   display: "swap",
@@ -38,7 +39,7 @@ const plexMono = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jvagency.com"),
+  metadataBase: new URL(SITE_URL),
   title: "J&V Agency — Estudio de diseño y desarrollo web para PYMEs en LATAM",
   description:
     "Diseño + código en el mismo equipo. Webs y software a medida que se ven de marca grande y funcionan de verdad. Sin presupuesto corporativo.",
@@ -50,21 +51,24 @@ export const metadata: Metadata = {
     "estudio de desarrollo LATAM",
     "web para PYMEs",
   ],
-  authors: [{ name: "J&V Agency" }],
+  authors: [{ name: SITE_NAME }],
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "es_LA",
+    url: SITE_URL,
     title: "J&V Agency — Hacemos que te tomen en serio",
     description:
       "Estudio de diseño + código para PYMEs de LATAM. Diseño que enamora, código que aguanta.",
-    siteName: "J&V Agency",
-    images: [{ url: "/logo.png", width: 1200, height: 630, alt: "J&V Agency" }],
+    siteName: SITE_NAME,
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "J&V Agency — diseño + código" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "J&V Agency — Hacemos que te tomen en serio",
     description:
       "Diseño + código en el mismo equipo. Webs y software a medida para PYMEs de LATAM.",
+    images: ["/og.png"],
   },
 };
 
