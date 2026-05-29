@@ -9,7 +9,7 @@ const BLOOMROSE_URL = "https://www.bloomroseaccesorios.com";
 const FEATURES = [
   "Diseño UI a medida",
   "Pagos en línea (PSE, Nequi, tarjeta)",
-  "Cotizacion de Envíos",
+  "Cotización de envíos",
   "Catálogo con control de stock",
   "Cuentas y seguimiento de pedidos",
 ];
