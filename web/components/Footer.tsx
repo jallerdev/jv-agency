@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Instagram, Linkedin, Mail, MapPin } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 const COLUMNS = [
   {
@@ -22,10 +22,8 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-3">
-              <span className="relative h-10 w-10 overflow-hidden rounded-lg ring-1 ring-surface/20">
-                <Image src="/logo.webp" alt="JV Agencia" fill sizes="40px" className="object-cover" />
-              </span>
+            <div className="flex items-center gap-2.5">
+              <Logo className="h-9 w-auto text-surface" />
               <span className="font-display text-xl text-surface">JV Agencia</span>
             </div>
             <p className="mt-5 max-w-xs font-body text-sm leading-relaxed text-surface/60">
