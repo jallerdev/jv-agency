@@ -93,17 +93,12 @@ export async function POST(req: Request) {
   }
 
   // 2. Reenviar el lead a HalcónOS (best-effort: el evento ya es el resultado clave).
+  //    El link Meet y la duración viajan como campos separados — halcon los persiste
+  //    como una tasks(kind='meeting') asociada al lead, no embebidos en la nota.
   const url = process.env.HALCON_INBOUND_URL;
   const apiKey = process.env.HALCON_INBOUND_API_KEY;
   let leadSaved = false;
   if (url && apiKey) {
-    const note = [
-      userNote,
-      "Llamada agendada desde la landing.",
-      meetLink ? `Google Meet: ${meetLink}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -114,7 +109,9 @@ export async function POST(req: Request) {
           phone,
           service: serviceLabel,
           scheduledAt: start.toUTC().toISO() ?? undefined,
-          note: note || undefined,
+          meetUrl: meetLink ?? undefined,
+          durationMin: 30,
+          note: userNote || undefined,
         }),
       });
       leadSaved = res.ok;
