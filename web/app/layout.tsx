@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { StructuredData } from "@/components/StructuredData";
 
 const fraunces = localFont({
   display: "swap",
@@ -51,8 +52,18 @@ export const metadata: Metadata = {
     "estudio de desarrollo LATAM",
     "web para PYMEs",
   ],
+  applicationName: SITE_NAME,
   authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "technology",
+  formatDetection: { telephone: true, email: true, address: true },
   alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
   openGraph: {
     type: "website",
     locale: "es_LA",
@@ -82,6 +93,7 @@ export default function RootLayout({
       <body
         className={`${fraunces.variable} ${jakarta.variable} ${plexMono.variable} bg-paper bg-grain`}
       >
+        <StructuredData />
         {children}
       </body>
     </html>

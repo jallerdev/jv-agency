@@ -1,20 +1,46 @@
-import { Instagram, Linkedin, Mail, MapPin } from "lucide-react";
+import Link from "next/link";
+import { Instagram, Facebook, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import {
+  ADDRESS_LINE,
+  BUSINESS,
+  WHATSAPP_LINK,
+} from "@/lib/business";
 
-const COLUMNS = [
+const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Servicios",
-    links: ["Desarrollo web", "Software a medida", "Diseño web / UI", "Mantenimiento"],
+    links: [
+      { label: "Desarrollo web", href: "/#servicios" },
+      { label: "Software a medida", href: "/#servicios" },
+      { label: "Diseño web / UI", href: "/#servicios" },
+      { label: "Mantenimiento", href: "/#servicios" },
+    ],
   },
   {
     title: "Agencia",
-    links: ["Trabajo", "Proceso", "Sobre nosotros", "Contacto"],
+    links: [
+      { label: "Trabajo", href: "/#trabajo" },
+      { label: "Proceso", href: "/#proceso" },
+      { label: "Cotizador", href: "/cotizador" },
+      { label: "Contacto", href: "/#contacto" },
+    ],
   },
   {
     title: "Legal",
-    links: ["Términos y condiciones", "Política de privacidad", "Política de cookies"],
+    links: [
+      { label: "Política de privacidad", href: "/privacidad" },
+      { label: "Términos y condiciones", href: "/terminos" },
+      { label: "Política de cookies", href: "/cookies" },
+    ],
   },
 ];
+
+const SOCIAL = [
+  { Icon: Facebook, url: BUSINESS.social.facebook, label: "Facebook" },
+  { Icon: Instagram, url: BUSINESS.social.instagram, label: "Instagram" },
+  { Icon: Mail, url: `mailto:${BUSINESS.email}`, label: "Correo" },
+].filter((s) => Boolean(s.url));
 
 export function Footer() {
   return (
@@ -31,11 +57,13 @@ export function Footer() {
               LATAM se vean —y funcionen— a la altura de sus ambiciones.
             </p>
             <div className="mt-6 flex gap-3">
-              {[Instagram, Linkedin, Mail].map((Icon, i) => (
+              {SOCIAL.map(({ Icon, url, label }) => (
                 <a
-                  key={i}
-                  href="#"
-                  aria-label="Red social"
+                  key={label}
+                  href={url}
+                  aria-label={label}
+                  target={url.startsWith("http") ? "_blank" : undefined}
+                  rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="grid h-10 w-10 place-items-center rounded-full border border-surface/15 text-surface/70 transition-all hover:scale-105 hover:border-accent hover:text-accent"
                 >
                   <Icon className="h-4 w-4" />
@@ -51,13 +79,13 @@ export function Footer() {
               </h3>
               <ul className="mt-5 space-y-3">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
                       className="font-body text-sm text-surface/60 transition-colors hover:text-accent"
                     >
-                      {link}
-                    </a>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -65,16 +93,38 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-surface/10 pt-8 font-body text-sm text-surface/50 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-4 border-t border-surface/10 pt-8 font-body text-sm text-surface/50">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <a
+              href={`mailto:${BUSINESS.email}`}
+              className="inline-flex items-center gap-2 transition-colors hover:text-accent"
+            >
+              <Mail className="h-4 w-4" /> {BUSINESS.email}
+            </a>
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 transition-colors hover:text-accent"
+            >
+              <Phone className="h-4 w-4" /> WhatsApp {BUSINESS.whatsappDisplay}
+            </a>
+            <a
+              href={`tel:${BUSINESS.phone}`}
+              className="inline-flex items-center gap-2 transition-colors hover:text-accent"
+            >
+              <Phone className="h-4 w-4" /> {BUSINESS.phoneDisplay}
+            </a>
             <span className="inline-flex items-center gap-2">
-              <Mail className="h-4 w-4" /> contact@jvagencia.com
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4" /> LATAM · Remoto
+              <MapPin className="h-4 w-4" /> {ADDRESS_LINE}
             </span>
           </div>
-          <p>© {new Date().getFullYear()} JV Agencia. Todos los derechos reservados.</p>
+          <div className="flex flex-col gap-1 text-surface/40 md:flex-row md:items-center md:justify-between">
+            <span>
+              {BUSINESS.legalName} · NIT {BUSINESS.taxId}
+            </span>
+            <span>© {new Date().getFullYear()} {BUSINESS.tradeName}. Todos los derechos reservados.</span>
+          </div>
         </div>
       </div>
     </footer>
