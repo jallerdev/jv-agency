@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Cotizador web — JV Agencia",
   description:
     "Calcula en minutos cuánto cuesta tu landing, web corporativa o tienda online. Estimado al instante y 10% de descuento si avanzas hoy.",
+  alternates: { canonical: "/cotizador" },
 };
 
 export default function CotizadorPage() {

@@ -1,0 +1,23 @@
+# JV Agencia
+
+> Estudio de diseño y desarrollo de productos digitales para PYMEs en Latinoamérica.
+> Diseño + código en el mismo equipo: webs y software a medida que se ven de marca
+> grande y funcionan de verdad.
+
+## Servicios
+- Desarrollo web: sitios, landing pages, e-commerce y web corporativa.
+- Software a medida: apps web, sistemas internos y plataformas.
+- Diseño web / UI: interfaz y experiencia a medida.
+- Mantenimiento y soporte: mejoras continuas post-lanzamiento.
+
+## Páginas
+- Inicio: https://www.jvagencia.com/
+- Cotizador: https://www.jvagencia.com/cotizador
+- Política de privacidad: https://www.jvagencia.com/privacidad
+- Términos y condiciones: https://www.jvagencia.com/terminos
+- Política de cookies: https://www.jvagencia.com/cookies
+
+## Contacto
+- Email: contact@jvagencia.com
+- WhatsApp: +57 315 947 5589
+- Ubicación: Turbaco, Bolívar, Colombia (servicio a toda Latinoamérica)
