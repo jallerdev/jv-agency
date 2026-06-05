@@ -20,7 +20,7 @@ export const PRICES = {
   extraPage: 80000,
   extras: {
     gateway: 300000,
-    email: 100000,
+    email: 150000,
     domain: 100000,
     hosting: 150000,
     seo: 250000,
