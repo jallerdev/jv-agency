@@ -547,7 +547,7 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
         </div>
 
         <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-surface shadow-soft">
-          <p className="font-body text-sm text-surface/80">Total estimado con 10% hoy</p>
+          <p className="font-body text-sm text-surface/80">Total estimado con {Math.round(DISCOUNT_TODAY * 100)}% hoy</p>
           <p className="mt-1 font-display text-4xl">{money(t.total)}</p>
           <p className="mt-1 font-body text-sm text-surface/70 line-through">{money(t.subtotal)}</p>
         </div>

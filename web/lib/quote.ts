@@ -2,7 +2,7 @@
 // Moneda: COP (peso colombiano). Los valores son base de referencia y
 // se pueden ajustar aquí sin tocar la UI.
 
-export const DISCOUNT_TODAY = 0.1; // 10% si se contrata hoy
+export const DISCOUNT_TODAY = 0.25; // 25% si se contrata hoy (promo de lanzamiento)
 
 export type SiteType = "landing" | "corp" | "ecom";
 export type Delivery = "urgent" | "standard" | "extended";
