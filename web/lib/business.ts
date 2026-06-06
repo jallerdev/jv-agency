@@ -12,7 +12,7 @@ export const BUSINESS = {
   /** NIT / identificación fiscal. */
   taxId: "1007264035-7",
 
-  email: "contact@jvagencia.com",
+  email: "contacto@jvagencia.com",
 
   /** WhatsApp Business de la agencia (el de la WABA). Formato E.164 sin "+". */
   whatsapp: "573159475589",
