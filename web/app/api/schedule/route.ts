@@ -48,21 +48,18 @@ export async function POST(req: Request) {
   const userNote = body.note?.trim();
 
   // 1. Crear el evento con Meet (si Google está configurado).
+  //    Si el calendario falla (token caído, API caída), NO abortamos la reserva:
+  //    seguimos con meetLink=null y el lead se cierra por WhatsApp. Mejor capturar
+  //    el lead que rechazarlo por un problema de infraestructura del calendario.
   let meetLink: string | null = null;
   if (isGoogleConfigured()) {
     // Revalidar disponibilidad para evitar doble reserva por carrera.
-    try {
-      const slots = await freeSlots(date);
-      if (!slots.includes(time)) {
-        return NextResponse.json(
-          { ok: false, error: "Ese horario se acaba de ocupar. Elige otro, por favor.", code: "SLOT_TAKEN" },
-          { status: 409 }
-        );
-      }
-    } catch {
+    // (freeSlots ya degrada solo si el calendario falla, así que no aborta aquí.)
+    const slots = await freeSlots(date);
+    if (!slots.includes(time)) {
       return NextResponse.json(
-        { ok: false, error: "No se pudo verificar la disponibilidad." },
-        { status: 502 }
+        { ok: false, error: "Ese horario se acaba de ocupar. Elige otro, por favor.", code: "SLOT_TAKEN" },
+        { status: 409 }
       );
     }
 
@@ -84,11 +81,10 @@ export async function POST(req: Request) {
         attendeeEmail: email ?? null,
       });
       meetLink = event.meetLink;
-    } catch {
-      return NextResponse.json(
-        { ok: false, error: "No se pudo crear la videollamada. Intenta de nuevo." },
-        { status: 502 }
-      );
+    } catch (err) {
+      // El calendario falló: degradamos a confirmación por WhatsApp en vez de 502.
+      console.error("[schedule] createMeetEvent falló; sigo sin Meet link:", err);
+      meetLink = null;
     }
   }
 

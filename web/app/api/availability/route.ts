@@ -15,7 +15,8 @@ export async function GET(req: Request) {
   try {
     const slots = await freeSlots(date);
     return NextResponse.json({ ok: true, slots });
-  } catch {
+  } catch (err) {
+    console.error("[availability] freeSlots falló:", err);
     return NextResponse.json(
       { ok: false, error: "No se pudo consultar la disponibilidad." },
       { status: 502 }

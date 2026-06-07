@@ -31,7 +31,16 @@ export async function freeSlots(date: string): Promise<string[]> {
   const dayEnd = candidates[candidates.length - 1].end.toUTC().toISO();
   if (!dayStart || !dayEnd) return candidates.map((c) => c.time);
 
-  const busy = await getBusy(dayStart, dayEnd);
+  // Si el calendario falla (token expirado/revocado, API caída), NO bloqueamos
+  // la agenda: devolvemos todos los slots y dejamos que /api/schedule cierre por
+  // WhatsApp. Mostrar "sin horarios" haría ver el estudio como lleno para siempre.
+  let busy: BusyInterval[];
+  try {
+    busy = await getBusy(dayStart, dayEnd);
+  } catch (err) {
+    console.error("[availability] getBusy falló; devuelvo todos los slots:", err);
+    return candidates.map((c) => c.time);
+  }
 
   return candidates
     .filter((c) => !overlaps(c.start.toMillis(), c.end.toMillis(), busy))
