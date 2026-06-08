@@ -34,11 +34,19 @@ export const PRICES = {
     { label: "400 a 1.000 productos", min: 401, max: 1000, add: 2000000 },
     { label: "1.000 a 5.000 productos", min: 1001, max: 5000, add: 3000000 },
   ],
+  // El ajuste de precio por plazo es uniforme; las SEMANAS dependen del tipo de
+  // proyecto (un landing no toma lo mismo que una tienda) — ver deliveryWeeks.
   delivery: {
-    urgent: { label: "Urgente — 1 semana", mod: 0.25 },
-    standard: { label: "Estándar — 2 semanas", mod: 0 },
-    extended: { label: "Extendida — 4 semanas", mod: -0.1 },
-  } as Record<Delivery, { label: string; mod: number }>,
+    urgent: { tier: "Urgente", mod: 0.25 },
+    standard: { tier: "Estándar", mod: 0 },
+    extended: { tier: "Extendida", mod: -0.1 },
+  } as Record<Delivery, { tier: string; mod: number }>,
+  // Semanas estimadas de entrega por tipo de proyecto y plazo.
+  deliveryWeeks: {
+    landing: { urgent: 1, standard: 2, extended: 4 },
+    corp: { urgent: 2, standard: 3, extended: 5 },
+    ecom: { urgent: 3, standard: 5, extended: 8 },
+  } as Record<SiteType, Record<Delivery, number>>,
 };
 
 export const TYPE_LABEL: Record<SiteType, string> = {
@@ -149,3 +157,14 @@ const copFormatter = new Intl.NumberFormat("es-CO", {
 });
 
 export const money = (n: number) => copFormatter.format(n);
+
+/** Semanas de entrega para un tipo de proyecto y plazo (default landing si no hay tipo). */
+export function deliveryWeeksFor(type: SiteType | null, delivery: Delivery): number {
+  return PRICES.deliveryWeeks[type ?? "landing"][delivery];
+}
+
+/** Etiqueta dinámica del plazo, p. ej. "Estándar — 2 semanas" / "Estándar — 5 semanas". */
+export function deliveryLabel(type: SiteType | null, delivery: Delivery): string {
+  const weeks = deliveryWeeksFor(type, delivery);
+  return `${PRICES.delivery[delivery].tier} — ${weeks} semana${weeks > 1 ? "s" : ""}`;
+}

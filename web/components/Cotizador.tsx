@@ -24,6 +24,7 @@ import {
   TYPE_LABEL,
   DISCOUNT_TODAY,
   computeTotals,
+  deliveryLabel,
   initialAnswers,
   money,
   type Answers,
@@ -320,7 +321,10 @@ function StepBody({
 
   // delivery
   return (
-    <StepHeader title="¿Para cuándo lo necesitas?" desc="El tiempo de entrega ajusta el presupuesto.">
+    <StepHeader
+      title="¿Para cuándo lo necesitas?"
+      desc="Los plazos se ajustan al tipo de proyecto que elegiste. Entregar más rápido sube el precio; con más tiempo, baja."
+    >
       <div className="grid gap-3">
         {DELIVERY_OPTIONS.map((o) => {
           const conf = PRICES.delivery[o.id];
@@ -351,7 +355,7 @@ function StepBody({
               >
                 <Icon className="h-5 w-5" />
               </span>
-              <span className="flex-1 font-body font-medium text-ink">{conf.label}</span>
+              <span className="flex-1 font-body font-medium text-ink">{deliveryLabel(answers.type, o.id)}</span>
               <span
                 className={cn(
                   "font-mono text-sm",
@@ -515,7 +519,7 @@ function buildWhatsAppMessage(answers: Answers): string {
   lines.push("Incluye:");
   for (const it of t.items) lines.push(`• ${it.label} — ${money(it.amount)}`);
   lines.push("");
-  lines.push(`Entrega: ${PRICES.delivery[answers.delivery].label}`);
+  lines.push(`Entrega: ${deliveryLabel(answers.type, answers.delivery)}`);
   lines.push("");
   lines.push(`Subtotal: ${money(t.subtotal)}`);
   lines.push(`Descuento hoy (${Math.round(DISCOUNT_TODAY * 100)}%): - ${money(t.discount)}`);
@@ -561,7 +565,7 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
           ))}
           <div className="flex items-center justify-between gap-4 bg-surface px-5 py-3">
             <dt className="font-body text-sm text-ink-soft">Entrega</dt>
-            <dd className="font-body text-sm text-ink">{PRICES.delivery[answers.delivery].label}</dd>
+            <dd className="font-body text-sm text-ink">{deliveryLabel(answers.type, answers.delivery)}</dd>
           </div>
         </dl>
 
