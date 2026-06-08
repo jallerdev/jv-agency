@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JV Agencia — Kit de Ventas</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primary:#985C3E;        /* bronce cobrizo */
+    --primary-dark:#6E4128;   /* bronce profundo */
+    --secondary:#B08968;      /* taupe cálido */
+    --accent:#C0763B;         /* cobre vivo */
+    --surface:#FAF6F1;        /* crema */
+    --bg:#F4EDE4;             /* taupe muy claro */
+    --ink:#2B2420;            /* espresso */
+    --ink-soft:#6B5E54;       /* taupe oscuro */
+    --line:#E4D8CB;           /* arena */
+    --success:#4F7A52;
+    --error:#B0453C;
+    --display:'Fraunces', Georgia, 'Times New Roman', serif;
+    --body:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --mono:'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  }
+
+  *{box-sizing:border-box}
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{
+    margin:0;
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.6;
+    font-size:15px;
+  }
+
+  /* ---------- Layout ---------- */
+  .page{
+    max-width:820px;
+    margin:0 auto;
+    padding:48px 56px;
+    background:var(--bg);
+  }
+  .sheet + .sheet{ margin-top:8px; }
+
+  h1,h2,h3,h4{ font-family:var(--display); font-weight:400; color:var(--ink); line-height:1.12; margin:0; }
+  p{ margin:0 0 14px; }
+  strong{ font-weight:600; color:var(--ink); }
+  a{ color:var(--primary-dark); text-decoration:none; }
+
+  .eyebrow{
+    font-family:var(--body); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.14em; color:var(--accent);
+    margin:0 0 14px;
+  }
+  .metal{ color:var(--primary); }
+  .muted{ color:var(--ink-soft); }
+  .lead{ font-size:17px; color:var(--ink-soft); }
+  .small{ font-size:13px; }
+  .center{ text-align:center; }
+
+  .divider{ height:1px; background:var(--line); border:0; margin:34px 0; }
+
+  /* ---------- Cover ---------- */
+  .cover{
+    min-height:920px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding:64px 56px;
+    background:
+      radial-gradient(1100px 460px at 78% -8%, rgba(192,118,59,.22), transparent 60%),
+      radial-gradient(720px 360px at -10% 108%, rgba(152,92,62,.16), transparent 60%),
+      var(--surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+  }
+  .cover .brand{
+    font-family:var(--display); font-weight:600; font-size:20px;
+    letter-spacing:.30em; text-transform:uppercase; color:var(--primary-dark);
+  }
+  .cover .brand .amp{ color:var(--accent); }
+  .cover h1{
+    font-size:62px; font-weight:300; letter-spacing:-.02em; line-height:1.02;
+    margin-top:8px;
+  }
+  .cover h1 em{ font-style:italic; font-weight:400; color:var(--primary); }
+  .cover .kicker{
+    display:inline-block; margin-bottom:28px;
+    font-family:var(--mono); font-size:12px; letter-spacing:.04em;
+    color:var(--primary-dark);
+    border:1px solid var(--line); background:rgba(255,255,255,.5);
+    padding:7px 14px; border-radius:999px;
+  }
+  .cover .tagline{ font-family:var(--display); font-style:italic; font-size:22px; color:var(--ink-soft); margin-top:22px; }
+  .cover .meta{ display:flex; flex-wrap:wrap; gap:8px 28px; font-size:13px; color:var(--ink-soft); }
+  .cover .meta b{ color:var(--ink); }
+
+  /* ---------- Section heads ---------- */
+  .partlabel{
+    display:inline-block;
+    font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--surface); background:var(--primary);
+    padding:6px 12px; border-radius:6px; margin-bottom:18px;
+  }
+  .sec-h2{ font-size:34px; letter-spacing:-.01em; margin-bottom:10px; }
+
+  /* ---------- Cards ---------- */
+  .grid{ display:grid; gap:14px; }
+  .grid-2{ grid-template-columns:1fr 1fr; }
+  .card{
+    border:1px solid var(--line); background:var(--surface);
+    border-radius:14px; padding:20px 22px;
+    break-inside:avoid;
+  }
+  .card.featured{ border-color:rgba(152,92,62,.30); background:linear-gradient(135deg,var(--surface),rgba(176,137,104,.12)); }
+  .card h3{ font-size:21px; margin-bottom:6px; }
+  .card .ico{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:42px; height:42px; border-radius:11px;
+    background:linear-gradient(135deg,var(--primary),var(--accent));
+    color:#fff; font-size:20px; margin-bottom:14px;
+  }
+  .card .price{ font-family:var(--mono); font-size:15px; color:var(--primary-dark); font-weight:500; }
+
+  /* ---------- Steps ---------- */
+  .steps{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .step{ border:1px solid var(--line); background:var(--surface); border-radius:14px; padding:18px 20px; break-inside:avoid; }
+  .step .n{ font-family:var(--mono); font-size:26px; color:var(--accent); }
+  .step h4{ font-size:18px; margin:8px 0 6px; }
+
+  /* ---------- Tables ---------- */
+  table{ width:100%; border-collapse:collapse; font-size:14px; break-inside:avoid; }
+  caption{ text-align:left; font-family:var(--display); font-size:19px; margin-bottom:10px; color:var(--ink); }
+  th,td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  thead th{
+    font-family:var(--body); font-size:11px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--ink-soft); background:rgba(176,137,104,.10); border-bottom:1px solid var(--line);
+  }
+  td.num, th.num{ text-align:right; font-family:var(--mono); white-space:nowrap; }
+  tbody tr:nth-child(even) td{ background:rgba(250,246,241,.6); }
+  .tablewrap{ border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--surface); break-inside:avoid; }
+  .tablewrap table th:first-child, .tablewrap table td:first-child{ padding-left:18px; }
+  .tablewrap table th:last-child, .tablewrap table td:last-child{ padding-right:18px; }
+
+  /* ---------- Quote example ---------- */
+  .quote-ex{
+    border:1px solid var(--line); border-radius:14px; background:var(--surface);
+    padding:18px 22px; margin:0 0 14px; break-inside:avoid;
+  }
+  .quote-ex h4{ font-size:17px; margin-bottom:10px; }
+  .quote-ex .row{ display:flex; justify-content:space-between; font-size:14px; padding:4px 0; border-bottom:1px dashed var(--line); }
+  .quote-ex .row:last-of-type{ border-bottom:0; }
+  .quote-ex .row .amt{ font-family:var(--mono); }
+  .quote-ex .total{ display:flex; justify-content:space-between; margin-top:10px; padding-top:10px; border-top:2px solid var(--line); font-weight:600; font-size:16px; }
+  .quote-ex .total .amt{ font-family:var(--mono); color:var(--primary-dark); }
+  .strike{ text-decoration:line-through; color:var(--ink-soft); }
+
+  /* ---------- Objections ---------- */
+  .obj{ border-left:3px solid var(--accent); padding:4px 0 4px 16px; margin:0 0 18px; break-inside:avoid; }
+  .obj .q{ font-family:var(--display); font-size:17px; color:var(--ink); margin-bottom:4px; }
+  .obj .a{ color:var(--ink-soft); margin:0; }
+
+  /* ---------- Callout ---------- */
+  .callout{
+    border:1px solid rgba(192,118,59,.35); background:rgba(192,118,59,.08);
+    border-radius:14px; padding:18px 22px; break-inside:avoid;
+  }
+  .callout.todo{ border-style:dashed; border-color:var(--error); background:rgba(176,69,60,.06); }
+  .pill{
+    display:inline-block; font-family:var(--mono); font-size:12px;
+    background:var(--primary); color:#fff; padding:4px 10px; border-radius:999px;
+  }
+
+  ul.clean{ margin:0 0 14px; padding-left:20px; }
+  ul.clean li{ margin-bottom:7px; }
+  ol.script{ padding-left:22px; }
+  ol.script li{ margin-bottom:12px; }
+  .tag{ display:inline-block; font-size:12px; border:1px solid var(--line); background:rgba(255,255,255,.5); color:var(--ink-soft); padding:3px 10px; border-radius:999px; margin:0 6px 6px 0; }
+
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 28px; font-size:14px; }
+  .contact-grid b{ color:var(--ink); }
+
+  .foot{ margin-top:40px; padding-top:18px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-soft); display:flex; justify-content:space-between; }
+
+  /* ---------- Print ---------- */
+  @page{ size:A4; margin:14mm; }
+  @media print{
+    body{ background:#fff; }
+    .page{ padding:0; max-width:none; }
+    .no-print{ display:none !important; }
+    .pagebreak{ break-before:page; }
+    .cover{ min-height:0; height:248mm; border-radius:0; }
+    .card,.step,.tablewrap,.quote-ex,.obj,.callout,table{ break-inside:avoid; }
+    a{ color:var(--primary-dark); }
+  }
+
+  /* ---------- Screen helper bar ---------- */
+  .helper{
+    position:sticky; top:0; z-index:10;
+    background:var(--ink); color:var(--surface);
+    font-size:13px; text-align:center; padding:10px 16px;
+  }
+  .helper b{ color:#fff; }
+  .helper kbd{ font-family:var(--mono); background:rgba(255,255,255,.15); padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<div class="helper no-print">
+  💡 Para guardarlo como PDF: presiona <kbd>Ctrl/Cmd + P</kbd> → Destino <b>“Guardar como PDF”</b> → activa <b>“Gráficos de fondo”</b>. Esta barra no aparece en el PDF.
+</div>
+
+<div class="page">
+
+  <!-- ============ COVER ============ -->
+  <section class="cover sheet">
+    <div>
+      <div class="brand">J<span class="amp">&amp;</span>V&nbsp;AGENCIA</div>
+    </div>
+    <div>
+      <span class="kicker">Kit de Ventas · Material para el equipo comercial</span>
+      <h1>Hacemos que<br>te tomen <em>en serio.</em></h1>
+      <p class="tagline">Diseño que enamora. Código que aguanta.</p>
+    </div>
+    <div>
+      <hr class="divider" style="margin:0 0 22px">
+      <div class="meta">
+        <span><b>Estudio de</b> diseño + código</span>
+        <span><b>Mercado:</b> Latinoamérica</span>
+        <span><b>Web:</b> www.jvagencia.com</span>
+        <span><b>Versión:</b> Junio 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ÍNDICE / CÓMO USAR ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <span class="partlabel">Cómo usar este documento</span>
+    <h2 class="sec-h2">Tiene dos partes.</h2>
+    <p class="lead">Está pensado para que cierres ventas sin necesitar a nadie más al lado.</p>
+    <div class="grid grid-2" style="margin-top:22px">
+      <div class="card featured">
+        <span class="pill">Parte 1</span>
+        <h3 style="margin-top:12px">Para mostrarle al cliente</h3>
+        <p class="muted" style="margin:0">Quiénes somos, qué hacemos, un caso real y cómo trabajamos. Puedes enseñar estas páginas en una reunión o enviarlas por WhatsApp/correo.</p>
+      </div>
+      <div class="card">
+        <span class="pill" style="background:var(--ink)">Parte 2</span>
+        <h3 style="margin-top:12px">Solo para ti (vendedor)</h3>
+        <p class="muted" style="margin:0">Precios, cómo cotizar, manejo de objeciones, guion de venta, cómo cerrar, tu comisión y cómo usar el CRM. <strong>No se la muestres al cliente tal cual.</strong></p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <h3 style="font-size:22px; margin-bottom:10px">En una frase</h3>
+    <p>Somos un <strong>estudio de diseño + código</strong>: diseñamos y programamos sitios web y software a medida para PYMEs y emprendedores de LATAM que quieren verse como una marca grande —<strong>sin pagar precio de marca grande</strong>. No hacemos marketing ni publicidad; hacemos pocas cosas, bien.</p>
+  </section>
+
+  <!-- ====================================================== -->
+  <!-- ===================  PARTE 1: CLIENTE  =============== -->
+  <!-- ====================================================== -->
+
+  <!-- ============ QUIÉNES SOMOS ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <span class="partlabel">Parte 1 · Brochure</span>
+    <p class="eyebrow">Quiénes somos</p>
+    <h2 class="sec-h2">Diseño y código. <span class="metal">El mismo equipo.</span></h2>
+    <p class="lead">La mayoría tiene que elegir: o un diseñador que entrega algo bonito que nadie sabe construir, o un programador que entrega algo sólido pero amateur.</p>
+    <p>En J&amp;V unimos <strong>diseño y desarrollo en el mismo equipo</strong>, para que tu sitio o tu software tenga el acabado de una marca grande por fuera y la solidez de un buen producto por dentro. No vendemos “una web”: vendemos <strong>una presencia digital que te da credibilidad, que no se rompe y que crece contigo</strong>.</p>
+
+    <div class="grid grid-2" style="margin-top:20px">
+      <div class="card">
+        <h3 style="font-size:18px">Lo que sí somos</h3>
+        <ul class="clean muted" style="margin-bottom:0">
+          <li>Diseño + código en un mismo equipo</li>
+          <li>Premium en el acabado, accesible en el precio</li>
+          <li>Meticulosos: lo bien hecho se nota</li>
+          <li>Socios técnicos de largo plazo</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-size:18px">Lo que no somos</h3>
+        <ul class="clean muted" style="margin-bottom:0">
+          <li>Una agencia de marketing 360°</li>
+          <li>Una fábrica de webs en plantilla</li>
+          <li>Caros ni inaccesibles</li>
+          <li>Proveedores de “entregar y desaparecer”</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICIOS ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">Lo que hacemos</p>
+    <h2 class="sec-h2">Nuestros servicios</h2>
+    <p class="lead">Cuatro frentes, un solo equipo que los conecta desde el primer día.</p>
+
+    <div class="grid grid-2" style="margin-top:20px">
+      <div class="card featured">
+        <span class="ico">&lt;/&gt;</span>
+        <h3>Desarrollo web</h3>
+        <p class="muted" style="margin:0">Sitios, landing pages, e-commerce y web corporativa. Rápidos, sólidos y pensados para crecer contigo.</p>
+      </div>
+      <div class="card">
+        <span class="ico">▣</span>
+        <h3>Software a medida</h3>
+        <p class="muted" style="margin:0">Apps web, sistemas internos y plataformas hechas a tu medida, no forzadas a una plantilla.</p>
+      </div>
+      <div class="card">
+        <span class="ico">◑</span>
+        <h3>Diseño web / UI</h3>
+        <p class="muted" style="margin:0">Interfaz y experiencia que se ven de marca grande. Diseñamos pensando en cómo se va a construir.</p>
+      </div>
+      <div class="card">
+        <span class="ico">✚</span>
+        <h3>Mantenimiento y soporte</h3>
+        <p class="muted" style="margin:0">No desaparecemos al entregar. Mejoras continuas, hosting y soporte para que todo siga funcionando.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:20px">
+      <strong>El diferencial:</strong> no necesitas un diseñador por un lado y un programador por otro. Necesitas un equipo donde las dos cosas se hablan desde el primer día. Eso somos.
+    </div>
+  </section>
+
+  <!-- ============ CASO DE ESTUDIO ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">Caso de estudio</p>
+    <h2 class="sec-h2">Bloomrose <span class="metal">— de correcta a memorable.</span></h2>
+    <p class="lead">Tienda online de bisutería y accesorios para el mercado colombiano. Diseño y desarrollo de punta a punta.</p>
+
+    <div class="card" style="margin-top:18px">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
+        <h3 style="font-size:22px">Bloomrose</h3>
+        <span class="tag" style="border-color:rgba(192,118,59,.35); color:var(--primary-dark)">E-commerce</span>
+      </div>
+      <p class="muted" style="margin:10px 0 14px">Catálogo, carrito, cuentas, pagos y envíos. Una marca pequeña con una tienda que se ve y funciona como una grande.</p>
+      <div>
+        <span class="tag">Diseño UI a medida</span>
+        <span class="tag">Pagos en línea (PSE, Nequi, tarjeta)</span>
+        <span class="tag">Cotización de envíos</span>
+        <span class="tag">Catálogo con control de stock</span>
+        <span class="tag">Cuentas y seguimiento de pedidos</span>
+      </div>
+      <p class="small muted" style="margin:14px 0 0">Míralo en vivo: <strong>www.bloomroseaccesorios.com</strong></p>
+    </div>
+
+    <p style="margin-top:18px">No entregamos plantillas. Diseñamos y construimos a medida —y se nota por fuera y por dentro. <strong>Es exactamente lo que tu cliente puede tener.</strong></p>
+  </section>
+
+  <!-- ============ PROCESO ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">Cómo trabajamos</p>
+    <h2 class="sec-h2">Un proceso que da <span class="metal">tranquilidad.</span></h2>
+
+    <div class="steps" style="margin-top:20px">
+      <div class="step"><span class="n">01</span><h4>Entendemos tu proyecto</h4><p class="muted small" style="margin:0">Antes de diseñar o programar, escuchamos. Definimos qué necesitas y para qué.</p></div>
+      <div class="step"><span class="n">02</span><h4>Diseñamos la interfaz</h4><p class="muted small" style="margin:0">Pantallas y experiencia que se ven de marca grande —y pensadas para construirse bien.</p></div>
+      <div class="step"><span class="n">03</span><h4>Construimos a medida</h4><p class="muted small" style="margin:0">Desarrollamos tu web o software con código sólido, rápido y hecho para durar.</p></div>
+      <div class="step"><span class="n">04</span><h4>Lanzamos y acompañamos</h4><p class="muted small" style="margin:0">Publicamos, dejamos todo documentado y seguimos contigo con soporte y mejoras.</p></div>
+    </div>
+
+    <div class="callout" style="margin-top:22px">
+      <strong>Tiempos típicos:</strong> una web suele tomar de 2 a 4 semanas según el alcance; un software a medida varía y se estima en la primera llamada. Siempre con un cronograma realista, sin promesas que no podamos cumplir.
+    </div>
+  </section>
+
+  <!-- ====================================================== -->
+  <!-- ================  PARTE 2: VENDEDOR  ================= -->
+  <!-- ====================================================== -->
+
+  <!-- ============ CLIENTE IDEAL ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <span class="partlabel" style="background:var(--ink)">Parte 2 · Solo para ti, vendedor</span>
+    <p class="eyebrow">A quién le vendes</p>
+    <h2 class="sec-h2">El cliente ideal</h2>
+    <p class="lead">No le vendemos a todo el mundo. Mientras mejor califiques, más fácil cierras.</p>
+
+    <div class="grid grid-2" style="margin-top:18px">
+      <div class="card">
+        <h3 style="font-size:18px">✓ Sí es para nosotros</h3>
+        <ul class="clean muted" style="margin-bottom:0">
+          <li>PYMEs y emprendedores de LATAM <strong>con tracción</strong> (ya venden algo)</li>
+          <li>Tienen una web fea / vieja / hecha en plantilla, o no tienen</li>
+          <li>Quieren <strong>verse más grandes</strong> de lo que su tamaño sugiere</li>
+          <li>Negocios que venden por redes y necesitan tienda o catálogo</li>
+          <li>Valoran lo bien hecho; no necesariamente son técnicos</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-size:18px">✗ No pierdas tiempo si…</h3>
+        <ul class="clean muted" style="margin-bottom:0">
+          <li>Solo buscan “lo más barato posible”</li>
+          <li>Quieren marketing, pauta o manejo de redes (eso <strong>no</strong> lo hacemos)</li>
+          <li>No tienen claro su negocio ni para qué quieren la web</li>
+          <li>Esperan todo gratis “a ver si funciona”</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <h3 style="font-size:20px; margin-bottom:8px">Dónde encontrarlos</h3>
+    <p class="muted" style="margin:0">Negocios locales con Instagram activo pero sin web decente · Tiendas que venden por WhatsApp/DM y sufren con los pedidos · Profesionales independientes (clínicas, abogados, restaurantes, inmobiliarias) · Tu propia red y referidos · Marcas que ya pautan pero mandan el tráfico a un perfil, no a un sitio.</p>
+  </section>
+
+  <!-- ============ PRECIOS ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">Tu herramienta principal</p>
+    <h2 class="sec-h2">Precios de referencia</h2>
+    <p class="lead">Valores en <strong>pesos colombianos (COP)</strong>. Son base de referencia; la cotización real la arma la calculadora online (ver más abajo).</p>
+
+    <div class="tablewrap" style="margin-top:18px">
+      <table>
+        <caption style="padding:16px 18px 0">Tipo de proyecto (precio base)</caption>
+        <thead><tr><th>Proyecto</th><th>Incluye</th><th class="num">Desde</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Landing page</strong></td><td class="muted">1 página de alto impacto para vender o captar</td><td class="num">$450.000</td></tr>
+          <tr><td><strong>Web corporativa</strong></td><td class="muted">Sitio multipágina para empresa o marca</td><td class="num">$800.000</td></tr>
+          <tr><td><strong>Tienda online</strong></td><td class="muted">E-commerce con catálogo, carrito y pagos</td><td class="num">$1.500.000</td></tr>
+          <tr><td>Página adicional</td><td class="muted">Cada página extra sobre la primera</td><td class="num">$80.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <caption style="padding:16px 18px 0">Complementos (extras)</caption>
+        <thead><tr><th>Extra</th><th class="num">Precio</th></tr></thead>
+        <tbody>
+          <tr><td>Pasarela de pago (PSE, Nequi, tarjeta)</td><td class="num">$300.000</td></tr>
+          <tr><td>SEO básico (aparecer en Google)</td><td class="num">$250.000</td></tr>
+          <tr><td>Idioma adicional</td><td class="num">$200.000</td></tr>
+          <tr><td>Correo corporativo (tucorreo@tumarca.com)</td><td class="num">$150.000</td></tr>
+          <tr><td>Hosting y configuración</td><td class="num">$150.000</td></tr>
+          <tr><td>Blog / Noticias</td><td class="num">$150.000</td></tr>
+          <tr><td>Registro de dominio (tumarca.com)</td><td class="num">$100.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="tablewrap">
+        <table>
+          <caption style="padding:16px 18px 0">Catálogo (solo tienda online)</caption>
+          <thead><tr><th>Nº de productos</th><th class="num">Se suma</th></tr></thead>
+          <tbody>
+            <tr><td>0 a 50</td><td class="num">$250.000</td></tr>
+            <tr><td>50 a 150</td><td class="num">$450.000</td></tr>
+            <tr><td>150 a 400</td><td class="num">$1.000.000</td></tr>
+            <tr><td>400 a 1.000</td><td class="num">$2.000.000</td></tr>
+            <tr><td>1.000 a 5.000</td><td class="num">$3.000.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <caption style="padding:16px 18px 0">Tiempo de entrega</caption>
+          <thead><tr><th>Plazo</th><th class="num">Ajuste</th></tr></thead>
+          <tbody>
+            <tr><td>Urgente — 1 semana</td><td class="num" style="color:var(--error)">+25%</td></tr>
+            <tr><td>Estándar — 2 semanas</td><td class="num">0%</td></tr>
+            <tr><td>Extendida — 4 semanas</td><td class="num" style="color:var(--success)">−10%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:18px">
+      <span class="pill" style="background:var(--accent)">Promo de lanzamiento</span>
+      <p style="margin:12px 0 0"><strong>25% de descuento</strong> sobre el total en todos los servicios si el cliente contrata ahora. <strong>Es tu mejor herramienta de cierre</strong> — crea urgencia real, no inventada. El descuento se aplica al final, después de sumar todo.</p>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO COTIZAR ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">Paso a paso</p>
+    <h2 class="sec-h2">Cómo armar una cotización</h2>
+    <p class="lead">No tienes que sacar cuentas a mano. Usa la calculadora online: <strong>www.jvagencia.com/cotizador</strong></p>
+
+    <ol class="script" style="margin-top:16px">
+      <li><strong>Elige el tipo de proyecto</strong> (landing, web corporativa o tienda online).</li>
+      <li><strong>Suma lo que el cliente necesita:</strong> páginas, productos (si es tienda) y los extras (dominio, correo, hosting, pasarela, SEO…).</li>
+      <li><strong>Define el plazo</strong> (estándar es lo normal; urgente sube 25%, extendida baja 10%).</li>
+      <li>La calculadora aplica sola el <strong>25% de la promo</strong> y te da el total. Ese es el número que le dices al cliente.</li>
+    </ol>
+
+    <h3 style="font-size:20px; margin:24px 0 10px">3 ejemplos reales</h3>
+
+    <div class="quote-ex">
+      <h4>① Emprendedor que quiere una landing para vender un servicio</h4>
+      <div class="row"><span>Landing page</span><span class="amt">$450.000</span></div>
+      <div class="row"><span>Entrega estándar (2 semanas)</span><span class="amt">$0</span></div>
+      <div class="row"><span>Promo de lanzamiento −25%</span><span class="amt" style="color:var(--success)">−$112.500</span></div>
+      <div class="total"><span>Total hoy <span class="small strike" style="font-weight:400">antes $450.000</span></span><span class="amt">$337.500</span></div>
+    </div>
+
+    <div class="quote-ex">
+      <h4>② Empresa que quiere web corporativa de 5 páginas, completa</h4>
+      <div class="row"><span>Web corporativa</span><span class="amt">$800.000</span></div>
+      <div class="row"><span>4 páginas adicionales</span><span class="amt">$320.000</span></div>
+      <div class="row"><span>Dominio + Correo + Hosting + SEO básico</span><span class="amt">$650.000</span></div>
+      <div class="row"><span>Promo de lanzamiento −25%</span><span class="amt" style="color:var(--success)">−$442.500</span></div>
+      <div class="total"><span>Total hoy <span class="small strike" style="font-weight:400">antes $1.770.000</span></span><span class="amt">$1.327.500</span></div>
+    </div>
+
+    <div class="quote-ex">
+      <h4>③ Tienda online tipo Bloomrose (hasta 150 productos)</h4>
+      <div class="row"><span>Tienda online + catálogo (50–150 productos)</span><span class="amt">$1.950.000</span></div>
+      <div class="row"><span>Pasarela de pago + Dominio + Correo + Hosting</span><span class="amt">$700.000</span></div>
+      <div class="row"><span>Promo de lanzamiento −25%</span><span class="amt" style="color:var(--success)">−$662.500</span></div>
+      <div class="total"><span>Total hoy <span class="small strike" style="font-weight:400">antes $2.650.000</span></span><span class="amt">$1.987.500</span></div>
+    </div>
+
+    <p class="small muted" style="margin-top:6px">Los precios son una guía. Si un proyecto es especial o muy grande, pásamelo y lo cotizamos juntos antes de prometer nada.</p>
+  </section>
+
+  <!-- ============ GUION ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">Tu guion</p>
+    <h2 class="sec-h2">Cómo presentar (sin sonar a vendedor)</h2>
+    <p class="lead">La voz de J&amp;V es segura, cálida y clara —nunca presión, nunca humo. Habla del <strong>resultado</strong>, no de la tecnología.</p>
+
+    <ol class="script" style="margin-top:16px">
+      <li><strong>Engancha con el dolor, no con el servicio.</strong><br>
+        <span class="muted">“¿Tu negocio se ve en internet tan bien como lo que realmente ofreces? Muchos venden por DM y pierden clientes porque no se ven serios.”</span></li>
+      <li><strong>Posiciona el diferencial.</strong><br>
+        <span class="muted">“Hay quien te hace algo bonito que no funciona, y quien te hace algo que funciona pero se ve amateur. Nosotros somos diseño y código en el mismo equipo: se ve de marca grande y no se rompe.”</span></li>
+      <li><strong>Muestra el caso real.</strong><br>
+        <span class="muted">Abre Bloomrose (bloomroseaccesorios.com) o la web jvagencia.com en el celular. “Esto es lo que puedes tener.”</span></li>
+      <li><strong>Califica con preguntas.</strong><br>
+        <span class="muted">¿Qué vendes y a quién? ¿Tienes web hoy? ¿Vendes en línea o por DM? ¿Para cuándo lo necesitas?</span></li>
+      <li><strong>Cotiza en vivo.</strong><br>
+        <span class="muted">Abre el cotizador, arma su caso, y dale el número <em>con la promo ya aplicada</em>.</span></li>
+      <li><strong>Cierra con la promo y la llamada.</strong><br>
+        <span class="muted">“Si arrancamos esta semana, te queda en X con el 25% de lanzamiento. Te agendo una llamada de diagnóstico sin costo con el equipo para afinar todo. ¿Te va mañana o pasado?”</span></li>
+    </ol>
+
+    <div class="callout" style="margin-top:18px">
+      <strong>Regla de oro:</strong> nunca prometas marketing, pauta, redes ni SEO avanzado. Si lo piden, di con franqueza “eso no es lo nuestro, nos enfocamos en diseño y desarrollo”. La franqueza vende más que el humo.
+    </div>
+  </section>
+
+  <!-- ============ OBJECIONES ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">Manejo de objeciones</p>
+    <h2 class="sec-h2">Qué responder cuando…</h2>
+
+    <div style="margin-top:18px">
+      <div class="obj">
+        <p class="q">“Está caro / consigo más barato.”</p>
+        <p class="a">Más barato casi siempre es plantilla genérica que se ve igual a la de todos y se rompe. Aquí es diseño + código a medida, hecho para durar y para que te tomen en serio. Y con el 25% de lanzamiento, hoy es la mejor ventana para hacerlo.</p>
+      </div>
+      <div class="obj">
+        <p class="q">“¿Por qué no contrato a un diseñador y un programador por separado?”</p>
+        <p class="a">Porque coordinar a dos que no se hablan sale más caro y más lento. Con nosotros el que diseña piensa en cómo se construye y el que construye respeta el diseño. Menos reprocesos, mejor resultado.</p>
+      </div>
+      <div class="obj">
+        <p class="q">“¿Trabajan con negocios pequeños o solo con empresas grandes?”</p>
+        <p class="a">Con PYMEs y emprendedores que ya tienen tracción y quieren verse a la altura de sus ambiciones. Si estás listo para dar el salto, eres justo para quien trabajamos.</p>
+      </div>
+      <div class="obj">
+        <p class="q">“¿Cuánto se demora?”</p>
+        <p class="a">Una web suele tomar de 2 a 4 semanas según el alcance; un software a medida varía y lo estimamos contigo. En la primera llamada te damos un cronograma realista.</p>
+      </div>
+      <div class="obj">
+        <p class="q">“¿Y después de entregar me quedo solo?”</p>
+        <p class="a">No. Pensamos en relaciones de largo plazo: te dejamos todo documentado y hay planes de acompañamiento para que la web siga creciendo contigo.</p>
+      </div>
+      <div class="obj">
+        <p class="q">“¿También me manejan las redes / la pauta?”</p>
+        <p class="a">No, y te lo decimos de frente: nos enfocamos en diseño web, desarrollo y software a medida. Preferimos hacer pocas cosas muy bien que prometerte humo.</p>
+      </div>
+      <div class="obj">
+        <p class="q">“Déjame pensarlo.”</p>
+        <p class="a">Claro, sin presión. Solo ten en cuenta que el 25% de lanzamiento es por tiempo limitado. ¿Te agendo la llamada de diagnóstico sin costo para esta semana? No te compromete a nada y sales con todo más claro.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CIERRE Y COMISIÓN ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">El cierre</p>
+    <h2 class="sec-h2">Cómo se cierra y cómo cobras</h2>
+
+    <h3 style="font-size:20px; margin:6px 0 8px">El cierre siempre es el mismo</h3>
+    <p>Tu meta en cada conversación no es “venderlo todo”, es <strong>agendar la llamada de diagnóstico sin costo</strong> con el equipo. Ahí se afina la propuesta y se cierra. Tú llevas al cliente caliente hasta esa puerta.</p>
+    <ul class="clean">
+      <li><strong>Agenda la llamada:</strong> www.jvagencia.com (botón “Agenda una llamada”).</li>
+      <li><strong>WhatsApp directo:</strong> +57 315 947 5589.</li>
+      <li>Pásame los datos del cliente y el resumen de lo que quiere para no repetir nada.</li>
+    </ul>
+
+    <hr class="divider">
+
+    <div class="callout">
+      <span class="pill" style="background:var(--accent)">Tu comisión</span>
+      <p style="margin:12px 0 6px; font-size:18px"><strong>Ganas el 20% del valor de cada proyecto que cierres.</strong></p>
+      <p class="muted" style="margin:0">Sobre el monto final que paga el cliente —el mismo que arroja el cotizador, con la promo ya aplicada— recibes el <strong>20%</strong>. Sin tope: mientras más cierres, más ganas.</p>
+      <div class="contact-grid" style="margin-top:14px; font-size:14px">
+        <span><b>Ejemplo:</b> proyecto de $1.000.000 → tu comisión: <strong>$200.000</strong></span>
+        <span><b>Ejemplo:</b> tienda de $2.000.000 → tu comisión: <strong>$400.000</strong></span>
+      </div>
+    </div>
+
+    <h3 style="font-size:20px; margin:24px 0 8px">Qué cuenta como venta cerrada</h3>
+    <p class="muted" style="margin:0">Se define con el detalle de la comisión, pero en general: el cliente que tú trajiste firma/paga el proyecto. Mantén un registro simple (nombre, contacto, proyecto, fecha) para que no haya dudas a la hora de pagar.</p>
+  </section>
+
+  <!-- ============ EL CRM (HALCÓNOS) ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <span class="partlabel" style="background:var(--ink)">Parte 2 · Tu herramienta de trabajo</span>
+    <p class="eyebrow">El CRM</p>
+    <h2 class="sec-h2">Dónde trabajas tus leads <span class="metal">cada día.</span></h2>
+    <p class="lead">Te damos acceso a <strong>HalcónOS</strong>, nuestro CRM. Ahí ves tus leads, los contactas y registras todo. Cada venta que cierres queda con tu nombre.</p>
+
+    <div class="grid grid-2" style="margin-top:20px">
+      <div class="card featured">
+        <h3 style="font-size:18px">Lo que puedes hacer</h3>
+        <ul class="clean muted" style="margin-bottom:0">
+          <li><strong>Ver tus leads</strong> asignados, con sus datos de contacto</li>
+          <li><strong>Llamar o escribir por WhatsApp</strong> con un clic</li>
+          <li><strong>Marcar contactado</strong> y cambiar el estado del lead</li>
+          <li><strong>Programar seguimientos</strong> y verlos en “Hoy”</li>
+          <li><strong>Descubrir</strong> negocios nuevos en Google Maps e importarlos</li>
+          <li><strong>Generar con IA</strong> tu estrategia, propuesta y mensaje de contacto</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-size:18px">Tu día ideal en el CRM</h3>
+        <ol class="script muted" style="margin:0; padding-left:18px">
+          <li>Abre <strong>“Hoy”</strong> y revisa tus seguimientos.</li>
+          <li>Abre un lead y mira sus datos.</li>
+          <li><strong>Llama o escribe</strong> por WhatsApp.</li>
+          <li><strong>Marca contactado</strong> y deja una nota.</li>
+          <li><strong>Programa</strong> el siguiente seguimiento.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:20px">
+      <strong>Solo ves tus leads.</strong> Cada vendedor ve únicamente los leads que tiene asignados —los que te asignamos o los que tú descubres/importas. Cuando cierres, avísame para convertir el lead en proyecto.
+    </div>
+
+    <p class="small muted" style="margin-top:14px"><strong>Para empezar:</strong> te llega una invitación a tu correo, creas tu cuenta y entras. La primera vez verás un <strong>tour guiado</strong> que te muestra todo; puedes repetirlo cuando quieras con el botón <strong>“?”</strong> arriba a la derecha.</p>
+  </section>
+
+  <!-- ============ HERRAMIENTAS Y CONTACTO ============ -->
+  <section class="sheet pagebreak" style="padding-top:8px">
+    <p class="eyebrow">Tu caja de herramientas</p>
+    <h2 class="sec-h2">Enlaces y contacto</h2>
+
+    <div class="grid grid-2" style="margin-top:18px">
+      <div class="card">
+        <h3 style="font-size:18px">Para enseñar al cliente</h3>
+        <ul class="clean muted" style="margin-bottom:0">
+          <li><strong>Web:</strong> www.jvagencia.com</li>
+          <li><strong>Caso real:</strong> www.bloomroseaccesorios.com</li>
+          <li><strong>Cotizador:</strong> www.jvagencia.com/cotizador</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-size:18px">Para coordinar conmigo</h3>
+        <div class="contact-grid" style="grid-template-columns:1fr">
+          <span><b>WhatsApp:</b> +57 315 947 5589</span>
+          <span><b>Teléfono:</b> +57 311 869 4288</span>
+          <span><b>Correo:</b> contacto@jvagencia.com</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3 style="font-size:18px">Redes (para mostrar y etiquetar)</h3>
+      <div class="contact-grid">
+        <span><b>Instagram:</b> @jvangencia</span>
+        <span><b>Facebook:</b> JV Agencia</span>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:20px">
+      <strong>Lo único que tienes que recordar:</strong> vendes credibilidad, no “una web”. Diseño + código en el mismo equipo, acabado de marca grande sin presupuesto corporativo, y un 25% de lanzamiento que cierra solo. Habla claro, muestra el caso real, y agenda la llamada.
+    </div>
+
+    <div class="foot">
+      <span>JV Agencia · Estudio de diseño + código · Latinoamérica</span>
+      <span>Documento interno de ventas · v. Junio 2026</span>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
