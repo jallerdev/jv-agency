@@ -19,7 +19,7 @@ const GUIDE_PATHS = new Set(["/kit-vendedores", "/kit-vendedores.html"]);
 function guideAuthOk(req: NextRequest): boolean {
   const expectedPass = process.env.GUIDE_PASSWORD;
   if (!expectedPass) return false; // sin contraseña configurada → no se expone
-  const expectedUser = process.env.GUIDE_USER || "jv";
+  const expectedUser = process.env.GUIDE_USER || "jvagencia";
 
   const header = req.headers.get("authorization") ?? "";
   if (!header.startsWith("Basic ")) return false;
