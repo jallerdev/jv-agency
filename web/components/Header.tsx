@@ -35,7 +35,7 @@ export function Header() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
         <a href="/" className="flex items-center gap-2.5 animate-fade-in-down">
-          <Logo className="h-9 w-auto text-black" />
+          <Logo className="h-9 w-auto" />
           <span className="font-display text-xl tracking-tight text-ink">Agencia</span>
         </a>
 
