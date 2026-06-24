@@ -22,7 +22,6 @@ import { WHATSAPP_NUMBER } from "@/lib/contact";
 import {
   PRICES,
   TYPE_LABEL,
-  DISCOUNT_TODAY,
   computeTotals,
   deliveryLabel,
   initialAnswers,
@@ -488,10 +487,6 @@ function SummaryPanel({ answers, sticky }: { answers: Answers; sticky?: boolean 
           <span>Subtotal</span>
           <span className="font-mono text-ink">{money(t.subtotal)}</span>
         </div>
-        <div className="flex items-center justify-between font-body text-sm text-success">
-          <span>Descuento hoy ({Math.round(DISCOUNT_TODAY * 100)}%)</span>
-          <span className="font-mono">- {money(t.discount)}</span>
-        </div>
         <div className="flex items-end justify-between pt-1">
           <span className="font-body text-sm font-medium text-ink">Total estimado</span>
           <span className="font-display text-2xl text-primary-dark">{money(t.total)}</span>
@@ -521,8 +516,6 @@ function buildWhatsAppMessage(answers: Answers): string {
   lines.push("");
   lines.push(`Entrega: ${deliveryLabel(answers.type, answers.delivery)}`);
   lines.push("");
-  lines.push(`Subtotal: ${money(t.subtotal)}`);
-  lines.push(`Descuento hoy (${Math.round(DISCOUNT_TODAY * 100)}%): - ${money(t.discount)}`);
   lines.push(`Total estimado: ${money(t.total)}`);
   lines.push("");
   lines.push("Quiero avanzar con este proyecto. ¿Agendamos la llamada?");
@@ -545,15 +538,14 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
           <div>
             <h2 className="font-display text-2xl text-ink md:text-3xl">Tu cotización está lista</h2>
             <p className="font-body text-sm text-ink-soft">
-              Este es el estimado de tu proyecto con el descuento de hoy.
+              Este es el estimado de tu proyecto.
             </p>
           </div>
         </div>
 
         <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-surface shadow-soft">
-          <p className="font-body text-sm text-surface/80">Total estimado con {Math.round(DISCOUNT_TODAY * 100)}% hoy</p>
+          <p className="font-body text-sm text-surface/80">Total estimado</p>
           <p className="mt-1 font-display text-4xl">{money(t.total)}</p>
-          <p className="mt-1 font-body text-sm text-surface/70 line-through">{money(t.subtotal)}</p>
         </div>
 
         <dl className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-line bg-line">

@@ -3,13 +3,10 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Cotizador } from "@/components/Cotizador";
-import { DISCOUNT_TODAY } from "@/lib/quote";
-
-const DISCOUNT_PCT = Math.round(DISCOUNT_TODAY * 100);
 
 export const metadata: Metadata = {
   title: "Cotizador web — JV Agencia",
-  description: `Calcula en minutos cuánto cuesta tu landing, web corporativa o tienda online. Estimado al instante y ${DISCOUNT_PCT}% de descuento si avanzas hoy.`,
+  description: "Calcula en minutos cuánto cuesta tu landing, web corporativa o tienda online. Estimado al instante.",
   alternates: { canonical: "/cotizador" },
 };
 
@@ -28,8 +25,7 @@ export default function CotizadorPage() {
               <span className="block text-metal text-metal-anim">en minutos</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg text-ink-soft">
-              Responde unas preguntas rápidas y arma el estimado de tu proyecto al instante. Si
-              decides avanzar hoy, aplicamos un {DISCOUNT_PCT}% de descuento.
+              Responde unas preguntas rápidas y arma el estimado de tu proyecto al instante.
             </p>
           </div>
 

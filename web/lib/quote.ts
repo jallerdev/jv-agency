@@ -2,8 +2,6 @@
 // Moneda: COP (peso colombiano). Los valores son base de referencia y
 // se pueden ajustar aquí sin tocar la UI.
 
-export const DISCOUNT_TODAY = 0.25; // 25% si se contrata hoy (promo de lanzamiento)
-
 export type SiteType = "landing" | "corp" | "ecom";
 export type Delivery = "urgent" | "standard" | "extended";
 export type ExtraKey =
@@ -90,7 +88,6 @@ export type Totals = {
   baseSum: number;
   deliveryAdjustment: number;
   subtotal: number;
-  discount: number;
   total: number;
 };
 
@@ -143,11 +140,9 @@ export function computeTotals(a: Answers): Totals {
   const del = PRICES.delivery[a.delivery] ?? PRICES.delivery.standard;
   const deliveryAdjustment = Math.round(baseSum * del.mod);
   const subtotal = baseSum + deliveryAdjustment;
+  const total = subtotal;
 
-  const discount = Math.round(subtotal * DISCOUNT_TODAY);
-  const total = subtotal - discount;
-
-  return { items, baseSum, deliveryAdjustment, subtotal, discount, total };
+  return { items, baseSum, deliveryAdjustment, subtotal, total };
 }
 
 const copFormatter = new Intl.NumberFormat("es-CO", {

@@ -1,7 +1,6 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { DISCOUNT_TODAY } from "@/lib/quote";
 
 export function Hero() {
   return (
@@ -56,11 +55,10 @@ export function Hero() {
           style={{ animationDelay: "600ms" }}
         >
           <Sparkles className="h-4 w-4 text-accent" />
-          Promo de lanzamiento —{" "}
+          Cotiza tu proyecto —{" "}
           <strong className="font-semibold text-primary-dark">
-            {Math.round(DISCOUNT_TODAY * 100)}% de descuento
-          </strong>{" "}
-          en todos nuestros servicios
+            estimado al instante
+          </strong>
         </a>
       </div>
     </section>
