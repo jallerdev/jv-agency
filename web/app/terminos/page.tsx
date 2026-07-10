@@ -17,8 +17,8 @@ export default function TerminosPage() {
     >
       <h2>1. Identificación</h2>
       <p>
-        Este sitio es operado por <strong>{BUSINESS.legalName}</strong> (“JV Agencia”), NIT{" "}
-        {BUSINESS.taxId}. Para cualquier asunto puedes contactarnos en{" "}
+        Este sitio es operado por <strong>{BUSINESS.legalNameOfficial}</strong> (“JV Agencia”),
+        persona natural con NIT {BUSINESS.taxId}. Para cualquier asunto puedes contactarnos en{" "}
         <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.
       </p>
 

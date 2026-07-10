@@ -21,7 +21,7 @@ export function StructuredData() {
         "@type": "Organization",
         "@id": `${SITE_URL}/#organization`,
         name: SITE_NAME,
-        legalName: BUSINESS.legalName,
+        legalName: BUSINESS.legalNameOfficial,
         url: SITE_URL,
         email: BUSINESS.email,
         telephone: BUSINESS.phone,
@@ -32,7 +32,7 @@ export function StructuredData() {
         },
         image: `${SITE_URL}/og.png`,
         address: postalAddress,
-        founder: { "@type": "Person", name: BUSINESS.legalName },
+        founder: { "@type": "Person", name: BUSINESS.legalNameOfficial },
         sameAs,
       },
       {

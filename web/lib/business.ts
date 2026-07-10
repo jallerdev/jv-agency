@@ -7,8 +7,17 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 export const BUSINESS = {
   /** Nombre comercial (marca, visible al público). */
   tradeName: SITE_NAME, // "JV Agencia"
-  /** Nombre legal del responsable (persona natural — coincide con el RUT). */
-  legalName: "Luis Ángel Gambín Jaller",
+  /**
+   * Nombre legal del responsable (persona natural) EN EL ORDEN DEL RUT: apellidos
+   * primero, SIN TILDES — exactamente "GAMBIN JALLER LUIS ANGEL". NO cambiar la
+   * ortografía ni el orden: la verificación de Meta compara el string contra el RUT
+   * y una tilde ("Gambín"/"Ángel") o el orden invertido rompen la coincidencia
+   * (fue la causa del rechazo). Título capitalizado para lectura; el string exacto
+   * en mayúscula vive en `legalNameOfficial`.
+   */
+  legalName: "Gambin Jaller Luis Angel",
+  /** Razón social EXACTA como aparece en el RUT/DIAN (match del crawler de Meta). */
+  legalNameOfficial: "GAMBIN JALLER LUIS ANGEL",
   /** NIT / identificación fiscal. */
   taxId: "1007264035-7",
 
@@ -23,7 +32,8 @@ export const BUSINESS = {
   phoneDisplay: "+57 311 869 4288",
 
   address: {
-    street: "URB La Cruz Cr 19 Mz G Lt 19",
+    // Exacto como el RUT (campo 41. Dirección principal).
+    street: "URB LA CRUZ CR 19 MZ G LT 19",
     city: "Turbaco",
     region: "Bolívar",
     postalCode: "131001",
