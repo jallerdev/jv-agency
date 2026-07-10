@@ -122,7 +122,7 @@ export function Footer() {
           </div>
           <div className="flex flex-col gap-1 text-surface/40 md:flex-row md:items-center md:justify-between">
             <span>
-              {BUSINESS.legalName} · NIT {BUSINESS.taxId}
+              {BUSINESS.legalNameOfficial} · NIT {BUSINESS.taxId}
             </span>
             <span>© {new Date().getFullYear()} {BUSINESS.tradeName}. Todos los derechos reservados.</span>
           </div>
