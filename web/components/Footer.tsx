@@ -22,9 +22,21 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: "Trabajo", href: "/#trabajo" },
       { label: "Proceso", href: "/#proceso" },
+      { label: "Blog", href: "/blog" },
       { label: "Sobre nosotros", href: "/sobre-nosotros" },
       { label: "Cotizador", href: "/cotizador" },
       { label: "Contacto", href: "/#contacto" },
+    ],
+  },
+  {
+    title: "Producto",
+    links: [
+      // HalcónOS es producto propio de la agencia. El enlace es legítimo y
+      // además cumple una función concreta de SEO: hasta ahora este sitio no
+      // enlazaba ni una vez al subdominio, que por eso no recibía nada de
+      // autoridad. Es el enlace más barato que teníamos disponible.
+      { label: "HalcónOS — CRM de ventas", href: "https://halcon.jvagencia.com" },
+      { label: "Blog de HalcónOS", href: "https://halcon.jvagencia.com/blog" },
     ],
   },
   {
@@ -47,7 +59,8 @@ export function Footer() {
   return (
     <footer className="relative border-t border-line bg-[#211b17] text-surface/80">
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        {/* 1 bloque de marca + 4 columnas de enlaces (se sumó «Producto»). */}
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
               <Logo className="h-9 w-auto" />
@@ -79,16 +92,28 @@ export function Footer() {
                 {col.title}
               </h3>
               <ul className="mt-5 space-y-3">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="font-body text-sm text-surface/60 transition-colors hover:text-accent"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {col.links.map((link) => {
+                  // Los enlaces a HalcónOS son a otro host: van con <a> y
+                  // `rel="noopener"`. Sin `noreferrer`, a propósito — queremos
+                  // que el referer llegue, es tráfico propio entre sitios
+                  // nuestros y sirve para atribuirlo en analítica.
+                  const external = link.href.startsWith("http");
+                  const cls =
+                    "font-body text-sm text-surface/60 transition-colors hover:text-accent";
+                  return (
+                    <li key={link.label}>
+                      {external ? (
+                        <a href={link.href} rel="noopener" className={cls}>
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link href={link.href} className={cls}>
+                          {link.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
