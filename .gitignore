@@ -1,3 +1,15 @@
+# Documentos de trabajo y estado de asistentes de IA.
+# ESTE REPO ES PUBLICO: estos archivos son notas internas, no producto, y no
+# deberian quedar publicados. Estaban sin cubrir, o sea a un `git add -A` de
+# subirse.
+.claude/
+ACTION-PLAN.md
+FULL-AUDIT-REPORT.md
+META-HANDOFF.md
+PENDIENTES.md
+SESION.md
+project-context.md
+
 # dependencies
 node_modules/
 
