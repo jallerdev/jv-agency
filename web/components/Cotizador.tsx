@@ -371,7 +371,7 @@ function StepBody({
   );
 }
 
-function StepHeader({
+export function StepHeader({
   title,
   desc,
   children,
@@ -389,7 +389,7 @@ function StepHeader({
   );
 }
 
-function ChoiceCard({
+export function ChoiceCard({
   active,
   onClick,
   title,

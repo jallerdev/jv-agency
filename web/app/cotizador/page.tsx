@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { Cotizador } from "@/components/Cotizador";
+import { CotizadorSwitch } from "@/components/CotizadorSwitch";
 
 export const metadata: Metadata = {
-  title: "Cotizador web — JV Agencia",
-  description: "Calcula en minutos cuánto cuesta tu landing, web corporativa o tienda online. Estimado al instante.",
+  title: "Cotizador — webs y automatizaciones | JV Agencia",
+  description: "Calcula en minutos cuánto cuesta tu sitio web o tu automatización de WhatsApp. Estimado al instante, sin dejar datos.",
   alternates: { canonical: "/cotizador" },
 };
 
@@ -18,7 +18,7 @@ export default function CotizadorPage() {
         <section className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-4 py-1.5 font-body text-xs font-medium uppercase tracking-wider text-primary-dark">
-              Cotizador web
+              Cotizador
             </span>
             <h1 className="mt-5 font-display text-4xl leading-tight text-ink sm:text-5xl">
               Calcula tu inversión
@@ -29,7 +29,7 @@ export default function CotizadorPage() {
             </p>
           </div>
 
-          <Cotizador />
+          <CotizadorSwitch />
         </section>
       </main>
       <Footer />
