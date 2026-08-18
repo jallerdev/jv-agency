@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Instagram, Facebook, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { MetaTechProvider } from "@/components/MetaTechProvider";
 import {
   ADDRESS_LINE,
   BUSINESS,
@@ -70,6 +71,8 @@ export function Footer() {
               Diseño que enamora, código que aguanta. Webs y software a medida para que las PYMEs de
               LATAM se vean —y funcionen— a la altura de sus ambiciones.
             </p>
+            <MetaTechProvider variant="compact" className="mt-6 border-surface/15 bg-surface/5" />
+
             <div className="mt-6 flex gap-3">
               {SOCIAL.map(({ Icon, url, label }) => (
                 <a
