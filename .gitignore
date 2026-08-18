@@ -9,6 +9,8 @@ META-HANDOFF.md
 PENDIENTES.md
 SESION.md
 project-context.md
+# Operaciones internas: describe como gestionamos clientes y accesos.
+docs/PLANTILLA-CLIENTES.md
 
 # dependencies
 node_modules/
