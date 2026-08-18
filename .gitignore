@@ -11,6 +11,7 @@ SESION.md
 project-context.md
 # Operaciones internas: describe como gestionamos clientes y accesos.
 docs/PLANTILLA-CLIENTES.md
+docs/apps-script-plantilla.gs
 
 # dependencies
 node_modules/
