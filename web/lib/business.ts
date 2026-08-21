@@ -47,7 +47,7 @@ export const BUSINESS = {
   /** Redes sociales activas (las vacías no se renderizan ni entran al JSON-LD). */
   social: {
     facebook: "https://www.facebook.com/profile.php?id=61590790404252",
-    instagram: "https://www.instagram.com/jvagencia/",
+    instagram: "https://www.instagram.com/jvagencia.col/",
   },
 } as const;
 
