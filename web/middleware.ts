@@ -37,6 +37,14 @@ const PRIVATE_DOCS: PrivateDoc[] = [
     realm: "JV Agencia - Material privado",
   },
   {
+    paths: ["/propuesta-monica", "/propuesta-sencilla-monica.html"],
+    file: "/propuesta-sencilla-monica.html",
+    passEnv: "COTIZACION_MONICA_PASSWORD",
+    userEnv: "COTIZACION_MONICA_USER",
+    defaultUser: "monica",
+    realm: "JV Agencia - Propuesta privada",
+  },
+  {
     paths: ["/cotizacion-monica", "/cotizacion-aula-monica.html"],
     file: "/cotizacion-aula-monica.html",
     passEnv: "COTIZACION_MONICA_PASSWORD",

@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Propuesta sencilla — Aula con IA · Prof. Mónica · JV Agencia</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primary:#985C3E; --primary-dark:#6E4128; --secondary:#B08968; --accent:#C0763B;
+    --surface:#FAF6F1; --bg:#F4EDE4; --ink:#2B2420; --ink-soft:#6B5E54; --line:#E4D8CB;
+    --success:#4F7A52; --warning:#B57E2C;
+    --display:'Fraunces', Georgia, serif;
+    --body:'Plus Jakarta Sans', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', Menlo, monospace;
+  }
+  *{ box-sizing:border-box }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; scroll-behavior:smooth; }
+  body{
+    margin:0; font-family:var(--body); color:var(--ink); background:var(--bg);
+    background-image:
+      radial-gradient(60rem 40rem at 88% -12%, rgba(192,118,59,.13), transparent 60%),
+      radial-gradient(50rem 40rem at -12% 18%, rgba(176,137,104,.15), transparent 55%);
+    background-attachment:fixed; line-height:1.62; font-size:15.5px; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:var(--display); font-weight:400; color:var(--ink); line-height:1.14; margin:0; }
+  p{ margin:0 0 14px; } strong{ font-weight:600; color:var(--ink); }
+  s{ color:var(--ink-soft); }
+
+  .bar{
+    position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between;
+    gap:16px; padding:14px clamp(18px,5vw,56px);
+    background:rgba(244,237,228,.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+  }
+  .bar b{ font-family:var(--display); font-size:17px; font-weight:600; }
+  .bar span{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-left:8px; }
+  .btn{
+    font-weight:600; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+    padding:11px 20px; border-radius:999px; border:1px solid var(--primary);
+    background:var(--primary); color:var(--surface); cursor:pointer;
+    transition:all .22s cubic-bezier(.4,0,.2,1); white-space:nowrap;
+  }
+  .btn:hover{ background:var(--primary-dark); border-color:var(--primary-dark); }
+
+  .doc{ max-width:860px; margin:0 auto; padding:clamp(30px,6vw,58px) clamp(18px,5vw,56px) 96px; }
+  .eyebrow{ font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.16em; color:var(--accent); margin:0 0 14px; display:block; }
+
+  .head h1{ font-size:clamp(30px,5.4vw,45px); letter-spacing:-.015em; margin-bottom:10px; }
+  .head h1 i{ font-style:italic; color:var(--primary); }
+  .head__sub{ color:var(--ink-soft); font-size:16.5px; max-width:54ch; margin-bottom:26px; }
+  .meta{ display:grid; grid-template-columns:repeat(auto-fit,minmax(155px,1fr)); gap:16px 22px;
+         padding:20px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .meta div{ display:flex; flex-direction:column; gap:3px; }
+  .meta span{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .meta b{ font-weight:500; font-size:14.5px; line-height:1.35; }
+
+  .sec{ margin-top:52px; }
+  .sec > h2{
+    font-size:clamp(22px,3.4vw,29px); letter-spacing:-.01em; padding-bottom:12px; margin-bottom:18px;
+    border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  }
+  .sec > h2 .n{ font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:.1em; }
+  .sec h3{ font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.15em; color:var(--primary); margin:30px 0 12px; font-family:var(--body); }
+
+  ul.list{ margin:0 0 14px; padding-left:20px; } ul.list li{ margin-bottom:9px; }
+  ul.list li::marker{ color:var(--accent); }
+  .note{ background:rgba(192,118,59,.075); border-left:3px solid var(--accent); padding:15px 19px;
+         border-radius:0 4px 4px 0; font-size:15px; color:#4a4038; margin:18px 0; }
+  .note p:last-child{ margin-bottom:0; }
+  .good{ background:rgba(79,122,82,.09); border-left-color:var(--success); }
+  .good strong{ color:#2f5c34; }
+  .fine{ font-size:13.5px; color:var(--ink-soft); font-style:italic; }
+
+  /* cambios */
+  .changes{ display:grid; gap:12px; margin:20px 0; }
+  .change{ display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:start;
+           background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px 18px; }
+  .change i{ font-family:var(--mono); font-style:normal; font-size:11px; color:var(--surface);
+             background:var(--success); width:22px; height:22px; border-radius:50%;
+             display:flex; align-items:center; justify-content:center; margin-top:2px; }
+  .change b{ display:block; font-family:var(--display); font-weight:600; font-size:17px; margin-bottom:3px; }
+  .change p{ margin:0; font-size:14.5px; color:var(--ink-soft); }
+
+  /* planes */
+  .plans{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:22px 0 8px; }
+  @media (max-width:820px){ .plans{ grid-template-columns:1fr; } }
+  .plan{ background:var(--surface); border:1px solid var(--line); border-radius:8px;
+         padding:24px 22px; display:flex; flex-direction:column; }
+  .plan--pick{ border-color:var(--primary); box-shadow:0 0 0 1px var(--primary); }
+  .plan__tag{ align-self:flex-start; font-weight:600; font-size:10px; text-transform:uppercase;
+              letter-spacing:.14em; padding:4px 10px; border-radius:999px; margin-bottom:12px;
+              background:rgba(192,118,59,.14); color:var(--primary-dark); }
+  .plan--pick .plan__tag{ background:var(--primary); color:var(--surface); }
+  .plan h3{ font-family:var(--display); font-weight:400; font-size:21px; text-transform:none;
+            letter-spacing:0; color:var(--ink); margin:0 0 8px; }
+  .plan__amt{ font-family:var(--mono); font-size:26px; color:var(--primary-dark); font-weight:500; letter-spacing:-.02em; }
+  .plan__amt small{ display:block; font-family:var(--body); font-size:12.5px; color:var(--success);
+                    letter-spacing:0; margin-top:5px; font-weight:600; }
+  .plan ul{ margin:16px 0 0; padding-left:0; list-style:none; font-size:14px; color:var(--ink-soft); }
+  .plan li{ margin-bottom:8px; padding-left:20px; position:relative; line-height:1.5; }
+  .plan li::before{ content:'·'; position:absolute; left:6px; color:var(--accent); font-weight:700; font-size:17px; top:-2px; }
+  .plan li.off{ opacity:.45; }
+  .plan li.off::before{ content:'–'; font-size:13px; top:0; }
+  .plan__foot{ margin-top:auto; padding-top:16px; font-size:12.5px; color:var(--ink-soft); font-style:italic; }
+
+  /* tabla */
+  .tbl-wrap{ overflow-x:auto; margin:10px 0; }
+  table{ width:100%; border-collapse:collapse; font-size:14px; }
+  thead th{ font-weight:600; font-size:10.5px; text-transform:uppercase; letter-spacing:.13em;
+            color:var(--primary-dark); text-align:left; padding:10px 12px;
+            border-bottom:1.5px solid var(--primary); }
+  tbody td{ padding:12px; vertical-align:top; border-bottom:1px solid var(--line); color:#3d352f; line-height:1.5; }
+  td.name{ font-weight:600; color:var(--ink); }
+  td.price{ font-family:var(--mono); font-size:13px; color:var(--primary-dark); white-space:nowrap; text-align:right; }
+  td.yes{ color:var(--success); font-weight:600; text-align:center; }
+  td.no{ color:var(--line); text-align:center; }
+  tfoot td{ padding:13px 12px; border-top:1.5px solid var(--primary); font-weight:600; }
+
+  /* calculadora */
+  .calc{ margin:22px 0 8px; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface); }
+  .calc__steps{ padding:22px clamp(16px,3vw,26px) 8px; display:grid; gap:18px; }
+  .calc__q{ font-weight:600; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+            color:var(--primary); display:block; margin-bottom:9px; }
+  .opts{ display:flex; flex-wrap:wrap; gap:8px; }
+  .seg{ position:relative; }
+  .seg input{ position:absolute; opacity:0; width:100%; height:100%; left:0; top:0; margin:0; cursor:pointer; }
+  .seg span{ display:block; padding:9px 15px; border-radius:999px; border:1px solid var(--line);
+             background:#fff; font-size:13.5px; color:var(--ink-soft); cursor:pointer;
+             transition:all .18s cubic-bezier(.4,0,.2,1); white-space:nowrap; }
+  .seg span b{ font-weight:600; color:var(--ink); }
+  .seg span em{ font-style:normal; font-family:var(--mono); font-size:11.5px; opacity:.8; }
+  .seg input:hover + span{ border-color:var(--secondary); }
+  .seg input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:2px; }
+  .seg input:checked + span{ background:var(--primary); border-color:var(--primary); color:#F7EFE7; }
+  .seg input:checked + span b, .seg input:checked + span em{ color:#fff; }
+  .calc__out{ margin-top:18px; background:var(--ink); color:#F2E9E0; display:grid; grid-template-columns:repeat(3,1fr); }
+  @media (max-width:700px){ .calc__out{ grid-template-columns:1fr; } }
+  .cell{ padding:20px clamp(14px,2.6vw,22px); border-right:1px solid rgba(224,160,98,.22); }
+  .cell:last-child{ border-right:none; }
+  @media (max-width:700px){ .cell{ border-right:none; border-bottom:1px solid rgba(224,160,98,.22); } .cell:last-child{ border-bottom:none; } }
+  .cell.hero{ background:rgba(224,160,98,.09); }
+  .k{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#E0A062; display:block; margin-bottom:7px; }
+  .v{ font-family:var(--mono); font-size:clamp(20px,3.1vw,26px); font-weight:500; letter-spacing:-.02em; line-height:1.1; }
+  .n2{ display:block; margin-top:6px; font-size:12px; color:#B3A496; line-height:1.45; }
+  .calc__detail{ padding:16px clamp(16px,3vw,26px); background:rgba(184,137,90,.1);
+                 border-top:1px solid var(--line); font-size:14.5px; color:#4a4038; margin:0; }
+  .calc__detail strong{ color:var(--primary-dark); }
+  .printsel{ display:none; }
+
+  /* linea de tiempo */
+  .tl{ list-style:none; margin:16px 0 0; padding:0 0 0 26px; border-left:2px solid var(--line); }
+  .tl li{ position:relative; padding:0 0 22px 4px; }
+  .tl li:last-child{ padding-bottom:0; }
+  .tl li::before{ content:''; position:absolute; left:-33px; top:6px; width:10px; height:10px;
+                  border-radius:50%; background:var(--surface); border:2px solid var(--accent); }
+  .tl b{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+         text-transform:uppercase; color:var(--accent); margin-bottom:3px; }
+
+  ol.steps{ counter-reset:s; list-style:none; margin:14px 0 0; padding:0; }
+  ol.steps li{ counter-increment:s; position:relative; padding:0 0 14px 42px; }
+  ol.steps li::before{ content:counter(s,decimal-leading-zero); position:absolute; left:0; top:1px;
+    font-family:var(--mono); font-size:12px; color:var(--surface); background:var(--primary);
+    width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(225px,1fr)); gap:14px; margin:16px 0; }
+  .card{ background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:17px 18px; }
+  .card b{ display:block; font-family:var(--display); font-weight:600; font-size:15.5px; margin-bottom:5px; }
+  .card p{ margin:0; font-size:13.5px; color:var(--ink-soft); line-height:1.55; }
+
+  .foot{ margin-top:70px; text-align:center; }
+  .rule{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:22px; }
+  .rule i{ display:block; height:1px; width:70px; background:var(--line); }
+  .rule b{ width:6px; height:6px; background:var(--accent); transform:rotate(45deg); }
+  .foot p{ max-width:52ch; margin:0 auto 10px; color:var(--ink-soft); }
+  .foot .sign{ font-family:var(--display); font-size:19px; color:var(--ink); margin-top:18px; }
+  .foot .sign span{ color:var(--primary); }
+  .foot .contact{ font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:6px; }
+
+  @media (max-width:760px){
+    .bar{ flex-direction:column; align-items:stretch; gap:10px; }
+    .bar .btn{ width:100%; }
+    thead{ display:none; }
+    table, tbody, tfoot, tr, td{ display:block; width:auto !important; }
+    tbody tr{ border:1px solid var(--line); border-radius:6px; padding:14px 16px; margin-bottom:12px; background:var(--surface); }
+    tbody td{ border:none; padding:4px 0; text-align:left !important; }
+    td.name{ font-family:var(--display); font-size:16.5px; }
+    td[data-l]::before{ content:attr(data-l) ' · '; font-family:var(--mono); font-size:10px;
+                        text-transform:uppercase; letter-spacing:.12em; color:var(--accent); }
+    td.name::before{ display:none; }
+    tfoot tr{ border-top:1.5px solid var(--primary); padding-top:12px; display:flex; justify-content:space-between; gap:12px; }
+    tfoot td{ border:none; padding:0; }
+  }
+
+  @media print{
+    @page{ size:A4; margin:14mm 12mm; }
+    body{ background:#fff; background-image:none; font-size:10.5pt; line-height:1.48; }
+    .bar{ display:none !important; }
+    .doc{ max-width:none; padding:0; }
+    .sec{ margin-top:22px; } .sec > h2{ break-after:avoid; font-size:16pt; }
+    table{ font-size:9pt; } thead{ display:table-header-group; } tr{ break-inside:avoid; }
+    .plan, .card, .note, .change, .calc{ break-inside:avoid; }
+    .plans{ grid-template-columns:repeat(3,1fr); gap:10px; }
+    .plan{ padding:14px 13px; } .plan__amt{ font-size:19px; } .plan h3{ font-size:16px; }
+    .calc__steps{ display:none; } .calc__out{ margin-top:0; }
+    .printsel{ display:block; padding:14px 16px 0; margin:0; font-size:10pt; color:var(--ink-soft); font-style:italic; }
+    .foot{ margin-top:34px; break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div><b>J&amp;V</b><span>Agencia</span></div>
+  <button class="btn" onclick="window.print()">Descargar PDF →</button>
+</div>
+
+<article class="doc">
+
+  <header class="head">
+    <span class="eyebrow">— Propuesta revisada</span>
+    <h1>Una versión <i>sencilla</i>, hecha para su bolsillo</h1>
+    <p class="head__sub">La misma idea de siempre —que sus niños escriban y la inteligencia artificial les dibuje y les siga el cuento— pero sin mensualidad, sin contraseñas y arrancando por lo que se acaba este año.</p>
+
+    <div class="meta">
+      <div><span>Preparado para</span><b>Prof. Mónica<br>Docente de primaria · Turbaco, Bolívar</b></div>
+      <div><span>Preparado por</span><b>Luis Jaller<br>Founder, J&amp;V Agencia</b></div>
+      <div><span>Fecha</span><b>25 de agosto de 2026</b></div>
+      <div><span>Validez</span><b>30 días<br>(hasta el 24 de septiembre)</b></div>
+    </div>
+  </header>
+
+  <!-- 01 -->
+  <section class="sec">
+    <h2><span class="n">01</span> Le hice caso</h2>
+
+    <p>Tía, leí bien su mensaje y tiene toda la razón. Si esto sale de su bolsillo y no del colegio, la propuesta anterior no cabía. Punto.</p>
+
+    <p>Así que no le hice un descuento encima del mismo proyecto —eso habría sido no escucharla—. La <strong>rearmé desde cero</strong>. No le quité calidad: le quité peso. Tres cosas cambiaron:</p>
+
+    <div class="changes">
+      <div class="change">
+        <i>1</i>
+        <div>
+          <b>Ya no hay mensualidad. Cero.</b>
+          <p>Ni un peso al mes, para siempre. Esto era lo más pesado de la propuesta anterior: $120.000 mensuales amarrados a su sueldo. Ya no existen. Le explico cómo en la sección 04.</p>
+        </div>
+      </div>
+      <div class="change">
+        <i>2</i>
+        <div>
+          <b>Los niños ya no necesitan contraseñas.</b>
+          <p>Tocan su nombre en una lista, como la lista de asistencia que usted misma me propuso. Aquella noche le dije que hacía falta autenticación; me equivoqué. Su idea era mejor y además era la barata: eso solo se llevaba casi la mitad del presupuesto anterior.</p>
+        </div>
+      </div>
+      <div class="change">
+        <i>3</i>
+        <div>
+          <b>Empezamos por el grupo que se va.</b>
+          <p>Usted lo dijo y es lo más urgente que hay aquí. Esos niños se van en noviembre. Lo que no alcancen a hacer este año, no se hace nunca. Por eso el plan más barato está diseñado para entregarse en dos semanas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="sec">
+    <h2><span class="n">02</span> Tres planes</h2>
+
+    <p>El primero es el que le recomiendo para arrancar. No porque sea el más barato, sino porque llega a tiempo para los niños que se van.</p>
+
+    <div class="plans">
+
+      <div class="plan plan--pick">
+        <span class="plan__tag">Plan 1 · sugerido</span>
+        <h3>Regalo de despedida</h3>
+        <div class="plan__amt">$390.000<small>$0 al mes · listo en 2 semanas</small></div>
+        <ul>
+          <li>Taller de cuentos con IA: el niño escribe, la IA continúa la historia y la ilustra</li>
+          <li>El niño toca su nombre en la lista — sin contraseñas</li>
+          <li>Todo queda guardado con su nombre</li>
+          <li><strong>El libro del curso en PDF</strong>, imprimible, para cada familia</li>
+          <li>Funciona en tablets y computadores</li>
+          <li class="off">Galería para proyectar</li>
+          <li class="off">Minijuego de dibujo</li>
+        </ul>
+        <p class="plan__foot">Alcanza para que los que se van dejen su cuento.</p>
+      </div>
+
+      <div class="plan">
+        <span class="plan__tag">Plan 2</span>
+        <h3>El aula que queda</h3>
+        <div class="plan__amt">$690.000<small>$0 al mes · listo en 4 semanas</small></div>
+        <ul>
+          <li>Todo lo del Plan 1</li>
+          <li><strong>Galería del salón</strong> para proyectar en clase o en una izada de bandera</li>
+          <li>Usted decide qué se muestra y qué se quita, con un PIN</li>
+          <li>Listas separadas por curso: 3°, 4° y 5°</li>
+          <li>Sirve para los grupos nuevos del año entrante</li>
+          <li class="off">Minijuego de dibujo</li>
+        </ul>
+        <p class="plan__foot">Si quiere que esto le dure más de un año, es este.</p>
+      </div>
+
+      <div class="plan">
+        <span class="plan__tag">Plan 3</span>
+        <h3>Con juegos</h3>
+        <div class="plan__amt">$990.000<small>$0 al mes · listo en 6 semanas</small></div>
+        <ul>
+          <li>Todo lo del Plan 2</li>
+          <li><strong>“Adivina mi dibujo”</strong>: el niño dibuja y la IA reconoce qué es</li>
+          <li>Puntos, medallas y palabras de ánimo</li>
+          <li>Un resumen por niño de lo que hizo</li>
+        </ul>
+        <p class="plan__foot">Para cuando ya quiera variedad de actividades.</p>
+      </div>
+
+    </div>
+
+    <div class="note good">
+      <p><strong>No se pierde nada por empezar chiquito.</strong> Si arranca con el Plan 1 y el año entrante quiere el 2, paga solo la diferencia: <strong>$300.000</strong>. Y del 2 al 3, otros $300.000. Nunca paga dos veces lo mismo. Este precio de subida se lo sostengo por doce meses.</p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="sec">
+    <h2><span class="n">03</span> Qué trae cada uno</h2>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Función</th><th style="text-align:center">Plan 1</th><th style="text-align:center">Plan 2</th><th style="text-align:center">Plan 3</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">El niño escribe y la IA continúa el cuento</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">La IA ilustra el cuento</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Cada trabajo queda con el nombre del niño</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Libro del curso en PDF imprimible</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Galería para proyectar en clase</td><td class="no" data-l="Plan 1">—</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Usted aprueba y quita con un PIN</td><td class="no" data-l="Plan 1">—</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Listas separadas por curso (3°, 4°, 5°)</td><td class="no" data-l="Plan 1">—</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Minijuego “adivina mi dibujo” con IA</td><td class="no" data-l="Plan 1">—</td><td class="no" data-l="Plan 2">—</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Puntos, medallas y ánimo</td><td class="no" data-l="Plan 1">—</td><td class="no" data-l="Plan 2">—</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Resumen por niño</td><td class="no" data-l="Plan 1">—</td><td class="no" data-l="Plan 2">—</td><td class="yes" data-l="Plan 3">sí</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>Precio</td><td class="price">$390.000</td><td class="price">$690.000</td><td class="price">$990.000</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <p class="fine">Lo que ya no está, y no hace falta: cuentas con contraseña por niño, panel de administración, acceso para acudientes y reportes detallados. Eso sigue existiendo en la propuesta completa, para el día en que el colegio la asuma.</p>
+  </section>
+
+  <!-- 04 -->
+  <section class="sec">
+    <h2><span class="n">04</span> Por qué ya no hay mensualidad</h2>
+
+    <p>Esta es la parte que le va a gustar. En la propuesta anterior le cobraba $120.000 al mes porque la inteligencia artificial cobra por cada cuento y cada dibujo. Eso sigue siendo cierto —<em>pasado cierto punto</em>.</p>
+
+    <p><strong>Google regala un nivel de uso.</strong> No pide tarjeta de crédito y no se vence. Alcanza para unas <strong>500 imágenes y 1.000 respuestas de texto al día</strong>. Su salón de treinta niños, en una sesión completa, hace entre 30 y 60 imágenes. No llega ni a la octava parte del techo.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Qué cuesta</th><th>Quién lo pone</th><th style="text-align:right">Lo que usted paga</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">Inteligencia artificial</td><td data-l="Quién">Google, en su nivel gratuito. Sin tarjeta.</td><td class="price" data-l="Usted paga">$0</td></tr>
+          <tr><td class="name">Hospedaje del sitio</td><td data-l="Quién">Yo, en la cuenta de J&amp;V Agencia.</td><td class="price" data-l="Usted paga">$0</td></tr>
+          <tr><td class="name">Dirección web</td><td data-l="Quién">Una dirección dentro de jvagencia.com.</td><td class="price" data-l="Usted paga">$0</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="2">Total mensual</td><td class="price">$0</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="note">
+      <p><strong>Y si un día se pasan del límite, no llega ninguna cuenta.</strong> La página avisa que hay que seguir mañana y sigue funcionando para leer lo que ya está hecho. Nunca hay un cobro sorpresa, porque no hay tarjeta conectada por ningún lado.</p>
+    </div>
+
+    <p class="fine">El día en que esto crezca —que lo use todo el colegio, o que quieran su propio dominio— ahí sí aparecen costos, y los miramos con calma. Mientras sea su salón, es $0.</p>
+  </section>
+
+  <!-- 05 -->
+  <section class="sec">
+    <h2><span class="n">05</span> El grupo que se va</h2>
+
+    <p>De todo lo que hay en este documento, esto es lo que más me importa.</p>
+
+    <p>En noviembre se le van unos niños. Lo que escriban y dibujen este año con usted, si no queda guardado en algún lado, se pierde. Por eso el Plan 1 termina en un <strong>libro</strong>: no en una pantalla.</p>
+
+    <p>Cada niño se lleva impresas las páginas con <strong>su cuento y la ilustración que la IA le hizo</strong>. Usted se queda con el libro completo del curso —el año entero de ese grupo, en un solo documento. Se imprime en cualquier papelería.</p>
+
+    <ul class="tl">
+      <li><b>Ahora</b><span>Usted me confirma y me pasa la lista de los niños.</span></li>
+      <li><b>Segunda semana de septiembre</b><span>Le entrego el taller funcionando. Los niños empiezan a escribir.</span></li>
+      <li><b>Septiembre, octubre, noviembre</b><span>Tres meses completos para llenar el libro. Sin afanes.</span></li>
+      <li><b>Antes de que se vayan</b><span>Descarga el libro, lo manda a imprimir y cada familia se lleva el suyo.</span></li>
+    </ul>
+  </section>
+
+  <!-- 06 -->
+  <section class="sec">
+    <h2><span class="n">06</span> Cómo se paga</h2>
+
+    <p>Toque los botones y las cifras se ajustan solas. Sin intereses: la cuota es el precio dividido, nada más.</p>
+
+    <div class="calc" id="calc">
+      <div class="calc__steps">
+        <div>
+          <span class="calc__q">Qué plan</span>
+          <div class="opts">
+            <label class="seg"><input type="radio" name="plan" value="1" checked><span><b>Plan 1</b> <em>$390.000</em></span></label>
+            <label class="seg"><input type="radio" name="plan" value="2"><span><b>Plan 2</b> <em>$690.000</em></span></label>
+            <label class="seg"><input type="radio" name="plan" value="3"><span><b>Plan 3</b> <em>$990.000</em></span></label>
+          </div>
+        </div>
+        <div>
+          <span class="calc__q">En cuántas cuotas</span>
+          <div class="opts">
+            <label class="seg"><input type="radio" name="cuotas" value="1"><span><b>De una</b></span></label>
+            <label class="seg"><input type="radio" name="cuotas" value="2"><span><b>2 cuotas</b></span></label>
+            <label class="seg"><input type="radio" name="cuotas" value="3" checked><span><b>3 cuotas</b></span></label>
+          </div>
+        </div>
+      </div>
+
+      <p class="printsel" id="printsel"></p>
+
+      <div class="calc__out">
+        <div class="cell"><span class="k">Paga hoy</span><span class="v" id="vHoy">$130.000</span><span class="n2" id="nHoy">Primera de 3 cuotas</span></div>
+        <div class="cell"><span class="k">Cada mes</span><span class="v" id="vMes">$130.000</span><span class="n2" id="nMes">Durante 3 meses. Después, nada.</span></div>
+        <div class="cell hero"><span class="k">Total, y ya</span><span class="v" id="vTot">$390.000</span><span class="n2" id="nTot">Sin mensualidad · $0 al mes para siempre</span></div>
+      </div>
+
+      <p class="calc__detail" id="detalle"></p>
+    </div>
+
+    <ul class="list" style="margin-top:22px">
+      <li><strong>Medios de pago:</strong> Nequi, transferencia o efectivo. Lo que le quede más fácil.</li>
+      <li><strong>Sin intereses y sin mora.</strong> Si un mes se le complica, me avisa y la corremos. No es un banco.</li>
+      <li><strong>La entrega no espera al pago.</strong> Yo entrego según el cronograma, esté o no terminada de pagar.</li>
+      <li><strong>Garantía de tres meses</strong> para corregir cualquier falla, sin costo.</li>
+      <li><strong>Es suyo.</strong> Los cuentos y dibujos de los niños son del salón. Si algún día quiere llevárselo a otro lado, se lo entrego todo exportado.</li>
+    </ul>
+  </section>
+
+  <!-- 07 -->
+  <section class="sec">
+    <h2><span class="n">07</span> Los niños</h2>
+
+    <p>Al quitar las contraseñas esto quedó <em>más</em> seguro, no menos: ya no hay credenciales de menores que proteger.</p>
+
+    <div class="cards">
+      <div class="card"><b>Sin cuentas ni correos</b><p>El niño toca su nombre en la lista del salón. No hay contraseñas que se pierdan ni correos de menores guardados en ningún lado.</p></div>
+      <div class="card"><b>Solo el nombre de pila</b><p>Nada de documento, dirección, teléfono, fecha de nacimiento ni fotos de sus caras. Nombre y curso, y ya.</p></div>
+      <div class="card"><b>Nada es público</b><p>La dirección no aparece en Google ni se puede adivinar. Lo que hacen los niños lo ve usted y quien usted decida.</p></div>
+      <div class="card"><b>Filtro en cada respuesta</b><p>Cada texto y cada imagen que genera la IA pasa por un filtro de contenido infantil antes de que el niño la vea.</p></div>
+      <div class="card"><b>Sin publicidad ni rastreo</b><p>No hay anuncios, no hay cookies de seguimiento y no se comparte nada con nadie.</p></div>
+      <div class="card"><b>Autorización de acudientes</b><p>Le entrego el formato listo, de una hoja, para que lo firmen. Conforme a la Ley 1581 de 2012.</p></div>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="sec">
+    <h2><span class="n">08</span> Qué necesito de usted</h2>
+    <ul class="list">
+      <li>La lista de los niños con <strong>nombre de pila y curso</strong>. Nada más.</li>
+      <li>La autorización firmada de los acudientes — yo le paso el formato.</li>
+      <li>Decirme con qué van a trabajar los niños: tablets, la sala de sistemas o el computador del salón.</li>
+      <li>Un rato conmigo el día de la entrega, para dejarla manejándolo sola.</li>
+    </ul>
+    <p class="fine">No necesito que usted abra cuentas técnicas, ni que registre tarjetas, ni que entienda de programación. De eso me encargo yo.</p>
+  </section>
+
+  <!-- 09 -->
+  <section class="sec">
+    <h2><span class="n">09</span> Próximos pasos</h2>
+    <ol class="steps">
+      <li>Me dice si este camino sí le cuadra, o qué le sigue apretando. Se puede ajustar más.</li>
+      <li>Escoge el plan y en cuántas cuotas.</li>
+      <li>Me pasa la lista de los niños y arranco esa semana.</li>
+      <li>Segunda semana de septiembre lo tiene funcionando, y los niños tienen tres meses para llenar el libro.</li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <div class="rule"><i></i><b></b><i></i></div>
+    <p>Tía, si esto todavía le aprieta, dígamelo con confianza y lo seguimos bajando. Prefiero hacerle algo pequeño que sí pueda pagar y que sus niños alcancen a usar este año, que una propuesta bonita que se quede en el papel.</p>
+    <p class="sign">Luis Jaller · <span>J&amp;V Agencia</span></p>
+    <p class="contact">contacto@jvagencia.com · jvagencia.com</p>
+  </footer>
+
+</article>
+
+<script>
+(function () {
+  var PRECIO = { "1": 390000, "2": 690000, "3": 990000 };
+  var NOMBRE = { "1": "Plan 1 — Regalo de despedida", "2": "Plan 2 — El aula que queda", "3": "Plan 3 — Con juegos" };
+  var SEMANAS = { "1": "dos semanas", "2": "cuatro semanas", "3": "seis semanas" };
+
+  function cop(n) { return "$" + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+  function pick(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+  function set(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; }
+
+  function render() {
+    var plan = pick("plan");
+    var n = parseInt(pick("cuotas"), 10);
+    var total = PRECIO[plan];
+    var cuota = total / n;
+
+    set("vHoy", cop(cuota));
+    set("nHoy", n === 1 ? "Pago único" : "Primera de " + n + " cuotas");
+    set("vMes", n === 1 ? "$0" : cop(cuota));
+    set("nMes", n === 1 ? "No queda nada pendiente." : "Durante " + n + " meses. Después, nada.");
+    set("vTot", cop(total));
+    set("nTot", "Sin mensualidad · $0 al mes para siempre");
+
+    var d = "Se lleva el <strong>" + NOMBRE[plan] + "</strong> (" + cop(total) + "). ";
+    d += n === 1
+      ? "Lo paga <strong>de una sola vez</strong>. "
+      : "Lo paga en <strong>" + n + " cuotas de " + cop(cuota) + "</strong>, sin intereses. ";
+    d += "Se lo entrego en <strong>" + SEMANAS[plan] + "</strong>, y de ahí en adelante <strong>no paga nada más</strong>: ni mensualidad, ni créditos de inteligencia artificial, ni hospedaje.";
+    document.getElementById("detalle").innerHTML = d;
+
+    set("printsel", "Escogido: " + NOMBRE[plan] + " · " + (n === 1 ? "pago único" : n + " cuotas de " + cop(cuota)) + ".");
+  }
+
+  document.getElementById("calc").addEventListener("change", render);
+  render();
+})();
+</script>
+</body>
+</html>
