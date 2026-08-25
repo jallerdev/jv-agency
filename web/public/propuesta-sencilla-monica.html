@@ -170,6 +170,12 @@
   .card b{ display:block; font-family:var(--display); font-weight:600; font-size:15.5px; margin-bottom:5px; }
   .card p{ margin:0; font-size:13.5px; color:var(--ink-soft); line-height:1.55; }
 
+  .figs{ display:flex; gap:7px; flex-wrap:wrap; margin:10px 0 2px; }
+  .fig{ width:38px; height:38px; border-radius:8px; border:1px solid var(--line); background:#fff;
+        display:flex; align-items:center; justify-content:center; font-size:19px; }
+  .fig.on{ border-color:var(--primary); background:rgba(192,118,59,.13); box-shadow:0 0 0 1px var(--primary); }
+  .figs-cap{ font-size:12.5px; color:var(--ink-soft); font-style:italic; margin:6px 0 0; }
+
   .foot{ margin-top:70px; text-align:center; }
   .rule{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:22px; }
   .rule i{ display:block; height:1px; width:70px; background:var(--line); }
@@ -222,7 +228,7 @@
   <header class="head">
     <span class="eyebrow">— Propuesta revisada</span>
     <h1>Una versión <i>sencilla</i>, hecha para su bolsillo</h1>
-    <p class="head__sub">La misma idea de siempre —que sus niños escriban y la inteligencia artificial les dibuje y les siga el cuento— pero sin mensualidad, sin contraseñas y arrancando por lo que se acaba este año.</p>
+    <p class="head__sub">La misma idea de siempre —que sus niños escriban y la inteligencia artificial les dibuje y les siga el cuento— pero sin mensualidad, sin contraseñas que se olviden y arrancando por lo que se acaba este año.</p>
 
     <div class="meta">
       <div><span>Preparado para</span><b>Prof. Mónica<br>Docente de primaria · Turbaco, Bolívar</b></div>
@@ -245,21 +251,21 @@
         <i>1</i>
         <div>
           <b>Ya no hay mensualidad. Cero.</b>
-          <p>Ni un peso al mes, para siempre. Esto era lo más pesado de la propuesta anterior: $120.000 mensuales amarrados a su sueldo. Ya no existen. Le explico cómo en la sección 04.</p>
+          <p>Ni un peso al mes, para siempre. Esto era lo más pesado de la propuesta anterior: $120.000 mensuales amarrados a su sueldo. Ya no existen. Le explico cómo en la sección 05.</p>
         </div>
       </div>
       <div class="change">
         <i>2</i>
         <div>
-          <b>Los niños ya no necesitan contraseñas.</b>
-          <p>Tocan su nombre en una lista, como la lista de asistencia que usted misma me propuso. Aquella noche le dije que hacía falta autenticación; me equivoqué. Su idea era mejor y además era la barata: eso solo se llevaba casi la mitad del presupuesto anterior.</p>
+          <b>Cada niño entra como él mismo, sin contraseñas.</b>
+          <p>Su idea de la lista de asistencia era la correcta, pero le faltaba un candado: tocar un nombre y ya, deja que cualquiera escriba haciéndose pasar por otro. Lo resolví sin volver a las contraseñas. Es la sección siguiente, y es la parte que más trabajé.</p>
         </div>
       </div>
       <div class="change">
         <i>3</i>
         <div>
           <b>Empezamos por el grupo que se va.</b>
-          <p>Usted lo dijo y es lo más urgente que hay aquí. Esos niños se van en noviembre. Lo que no alcancen a hacer este año, no se hace nunca. Por eso el plan más barato está diseñado para entregarse en dos semanas.</p>
+          <p>Usted lo dijo y es lo más urgente que hay aquí. Esos niños se van en noviembre. Lo que no alcancen a hacer este año, no se hace nunca.</p>
         </div>
       </div>
     </div>
@@ -267,7 +273,56 @@
 
   <!-- 02 -->
   <section class="sec">
-    <h2><span class="n">02</span> Tres planes</h2>
+    <h2><span class="n">02</span> Cómo entra cada niño</h2>
+
+    <p>Usted puso el dedo en el problema real. Si el niño solo toca su nombre en una lista, nada impide que Juan escriba como si fuera Camila. Y con niños de tercero a quinto eso no es una hipótesis: es lo primero que van a probar, y les va a parecer graciosísimo.</p>
+
+    <p>Ponerles usuario y contraseña era la solución cara —y además mala para esta edad—: se les olvida, se la escriben en la mano, se la prestan, y usted termina restableciendo claves en vez de dando clase.</p>
+
+    <p>Lo resolví con <strong>tres candados que se refuerzan entre sí</strong>:</p>
+
+    <div class="changes">
+      <div class="change">
+        <i>1</i>
+        <div>
+          <b>Una clave de figuras, no una contraseña</b>
+          <p>El niño toca su nombre y después su clave: <strong>tres figuras en orden</strong>, de un tablero de doce. No se escribe, se toca. Un niño de ocho años la recuerda como recuerda una canción.</p>
+          <div class="figs">
+            <span class="fig on">☀️</span><span class="fig">🐶</span><span class="fig on">⭐</span><span class="fig">🐢</span><span class="fig">🌵</span><span class="fig on">🐳</span>
+            <span class="fig">🍎</span><span class="fig">🎈</span><span class="fig">🦋</span><span class="fig">🚀</span><span class="fig">🌙</span><span class="fig">🐝</span>
+          </div>
+          <p class="figs-cap">Ejemplo: la clave de este niño es sol → estrella → ballena.</p>
+          <p style="margin-top:10px">Adivinarla al azar es <strong>1 posibilidad en 1.320</strong>. Y a los <strong>tres intentos fallidos el nombre se bloquea</strong> y solo usted lo libera, así que nadie se sienta a probar combinaciones.</p>
+        </div>
+      </div>
+
+      <div class="change">
+        <i>2</i>
+        <div>
+          <b>La sesión de clase la abre usted</b>
+          <p>La plataforma está <strong>cerrada</strong> hasta que usted abre la sesión, desde su celular o el computador del salón. Fuera de clase no entra nadie —ni desde la casa, ni un sábado—. Cuando termina la clase, la cierra y se acabó.</p>
+        </div>
+      </div>
+
+      <div class="change">
+        <i>3</i>
+        <div>
+          <b>Un niño, un dispositivo a la vez</b>
+          <p>Si Juan ya está adentro en la tablet 4, el nombre de Juan <strong>no se puede abrir en ninguna otra parte</strong>. Si Juan se cambia de tablet, usted lo libera con un toque.</p>
+        </div>
+      </div>
+    </div>
+
+    <p>Y encima de los tres: <strong>todo lo que se crea queda firmado</strong> con el nombre del niño, el dispositivo y la hora. Si algo se ve raro, usted puede ver exactamente de dónde salió.</p>
+
+    <div class="note">
+      <p><strong>Lo que esto sí resuelve, y lo que no.</strong> Detiene al niño que agarra la tablet del compañero y escribe por él —que es justo lo que a usted le preocupa—. Lo que ningún sistema del mundo detiene es que dos amigos se cuenten la clave a propósito, igual que ninguno evita que se presten el cuaderno. Para eso está usted, y para eso está el <strong>tablero en vivo</strong> del Plan 2, donde ve en todo momento quién está adentro y en qué máquina.</p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="sec">
+    <h2><span class="n">03</span> Tres planes</h2>
 
     <p>El primero es el que le recomiendo para arrancar. No porque sea el más barato, sino porque llega a tiempo para los niños que se van.</p>
 
@@ -275,15 +330,16 @@
 
       <div class="plan plan--pick">
         <span class="plan__tag">Plan 1 · sugerido</span>
-        <h3>Regalo de despedida</h3>
-        <div class="plan__amt">$390.000<small>$0 al mes · listo en 2 semanas</small></div>
+        <h3>El taller y el libro</h3>
+        <div class="plan__amt">$850.000<small>$0 al mes · listo en 3 semanas</small></div>
         <ul>
           <li>Taller de cuentos con IA: el niño escribe, la IA continúa la historia y la ilustra</li>
-          <li>El niño toca su nombre en la lista — sin contraseñas</li>
-          <li>Todo queda guardado con su nombre</li>
+          <li><strong>Los tres candados de identidad</strong>: clave de figuras, sesión que usted abre y un niño por dispositivo</li>
+          <li>Bloqueo a los tres intentos fallidos</li>
+          <li>Todo firmado con el nombre del niño, el dispositivo y la hora</li>
           <li><strong>El libro del curso en PDF</strong>, imprimible, para cada familia</li>
           <li>Funciona en tablets y computadores</li>
-          <li class="off">Galería para proyectar</li>
+          <li class="off">Galería y tablero en vivo</li>
           <li class="off">Minijuego de dibujo</li>
         </ul>
         <p class="plan__foot">Alcanza para que los que se van dejen su cuento.</p>
@@ -292,11 +348,12 @@
       <div class="plan">
         <span class="plan__tag">Plan 2</span>
         <h3>El aula que queda</h3>
-        <div class="plan__amt">$690.000<small>$0 al mes · listo en 4 semanas</small></div>
+        <div class="plan__amt">$1.150.000<small>$0 al mes · listo en 5 semanas</small></div>
         <ul>
           <li>Todo lo del Plan 1</li>
+          <li><strong>Tablero en vivo</strong>: quién está adentro, en qué dispositivo, desde qué hora</li>
           <li><strong>Galería del salón</strong> para proyectar en clase o en una izada de bandera</li>
-          <li>Usted decide qué se muestra y qué se quita, con un PIN</li>
+          <li>Usted aprueba, destaca y quita, con su PIN</li>
           <li>Listas separadas por curso: 3°, 4° y 5°</li>
           <li>Sirve para los grupos nuevos del año entrante</li>
           <li class="off">Minijuego de dibujo</li>
@@ -307,7 +364,7 @@
       <div class="plan">
         <span class="plan__tag">Plan 3</span>
         <h3>Con juegos</h3>
-        <div class="plan__amt">$990.000<small>$0 al mes · listo en 6 semanas</small></div>
+        <div class="plan__amt">$1.500.000<small>$0 al mes · listo en 7 semanas</small></div>
         <ul>
           <li>Todo lo del Plan 2</li>
           <li><strong>“Adivina mi dibujo”</strong>: el niño dibuja y la IA reconoce qué es</li>
@@ -320,13 +377,13 @@
     </div>
 
     <div class="note good">
-      <p><strong>No se pierde nada por empezar chiquito.</strong> Si arranca con el Plan 1 y el año entrante quiere el 2, paga solo la diferencia: <strong>$300.000</strong>. Y del 2 al 3, otros $300.000. Nunca paga dos veces lo mismo. Este precio de subida se lo sostengo por doce meses.</p>
+      <p><strong>No se pierde nada por empezar chiquito.</strong> Si arranca con el Plan 1 y el año entrante quiere el 2, paga solo la diferencia: <strong>$300.000</strong>. Y del 2 al 3, <strong>$350.000</strong>. Nunca paga dos veces lo mismo. Este precio de subida se lo sostengo por doce meses.</p>
     </div>
   </section>
 
-  <!-- 03 -->
+  <!-- 04 -->
   <section class="sec">
-    <h2><span class="n">03</span> Qué trae cada uno</h2>
+    <h2><span class="n">04</span> Qué trae cada uno</h2>
 
     <div class="tbl-wrap">
       <table>
@@ -336,27 +393,31 @@
         <tbody>
           <tr><td class="name">El niño escribe y la IA continúa el cuento</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
           <tr><td class="name">La IA ilustra el cuento</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
-          <tr><td class="name">Cada trabajo queda con el nombre del niño</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Clave de figuras por niño</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Sesión de clase que usted abre y cierra</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Un niño, un dispositivo a la vez</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Bloqueo a los tres intentos fallidos</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
           <tr><td class="name">Libro del curso en PDF imprimible</td><td class="yes" data-l="Plan 1">sí</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Tablero en vivo de quién está adentro</td><td class="no" data-l="Plan 1">—</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
           <tr><td class="name">Galería para proyectar en clase</td><td class="no" data-l="Plan 1">—</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
-          <tr><td class="name">Usted aprueba y quita con un PIN</td><td class="no" data-l="Plan 1">—</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
+          <tr><td class="name">Usted aprueba y quita con su PIN</td><td class="no" data-l="Plan 1">—</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
           <tr><td class="name">Listas separadas por curso (3°, 4°, 5°)</td><td class="no" data-l="Plan 1">—</td><td class="yes" data-l="Plan 2">sí</td><td class="yes" data-l="Plan 3">sí</td></tr>
           <tr><td class="name">Minijuego “adivina mi dibujo” con IA</td><td class="no" data-l="Plan 1">—</td><td class="no" data-l="Plan 2">—</td><td class="yes" data-l="Plan 3">sí</td></tr>
           <tr><td class="name">Puntos, medallas y ánimo</td><td class="no" data-l="Plan 1">—</td><td class="no" data-l="Plan 2">—</td><td class="yes" data-l="Plan 3">sí</td></tr>
           <tr><td class="name">Resumen por niño</td><td class="no" data-l="Plan 1">—</td><td class="no" data-l="Plan 2">—</td><td class="yes" data-l="Plan 3">sí</td></tr>
         </tbody>
         <tfoot>
-          <tr><td>Precio</td><td class="price">$390.000</td><td class="price">$690.000</td><td class="price">$990.000</td></tr>
+          <tr><td>Precio</td><td class="price">$850.000</td><td class="price">$1.150.000</td><td class="price">$1.500.000</td></tr>
         </tfoot>
       </table>
     </div>
 
-    <p class="fine">Lo que ya no está, y no hace falta: cuentas con contraseña por niño, panel de administración, acceso para acudientes y reportes detallados. Eso sigue existiendo en la propuesta completa, para el día en que el colegio la asuma.</p>
+    <p class="fine">Lo que ya no está, y no hace falta para su salón: cuentas con correo y contraseña, panel de administración completo, acceso para acudientes y reportes detallados. Eso sigue existiendo en la propuesta completa, para el día en que el colegio la asuma.</p>
   </section>
 
-  <!-- 04 -->
+  <!-- 05 -->
   <section class="sec">
-    <h2><span class="n">04</span> Por qué ya no hay mensualidad</h2>
+    <h2><span class="n">05</span> Por qué ya no hay mensualidad</h2>
 
     <p>Esta es la parte que le va a gustar. En la propuesta anterior le cobraba $120.000 al mes porque la inteligencia artificial cobra por cada cuento y cada dibujo. Eso sigue siendo cierto —<em>pasado cierto punto</em>.</p>
 
@@ -385,9 +446,9 @@
     <p class="fine">El día en que esto crezca —que lo use todo el colegio, o que quieran su propio dominio— ahí sí aparecen costos, y los miramos con calma. Mientras sea su salón, es $0.</p>
   </section>
 
-  <!-- 05 -->
+  <!-- 06 -->
   <section class="sec">
-    <h2><span class="n">05</span> El grupo que se va</h2>
+    <h2><span class="n">06</span> El grupo que se va</h2>
 
     <p>De todo lo que hay en este documento, esto es lo que más me importa.</p>
 
@@ -397,15 +458,15 @@
 
     <ul class="tl">
       <li><b>Ahora</b><span>Usted me confirma y me pasa la lista de los niños.</span></li>
-      <li><b>Segunda semana de septiembre</b><span>Le entrego el taller funcionando. Los niños empiezan a escribir.</span></li>
-      <li><b>Septiembre, octubre, noviembre</b><span>Tres meses completos para llenar el libro. Sin afanes.</span></li>
+      <li><b>Mediados de septiembre</b><span>Le entrego el taller funcionando, con las claves de figuras ya repartidas. Los niños empiezan a escribir.</span></li>
+      <li><b>Septiembre, octubre, noviembre</b><span>Dos meses y medio para llenar el libro. Sin afanes.</span></li>
       <li><b>Antes de que se vayan</b><span>Descarga el libro, lo manda a imprimir y cada familia se lleva el suyo.</span></li>
     </ul>
   </section>
 
-  <!-- 06 -->
+  <!-- 07 -->
   <section class="sec">
-    <h2><span class="n">06</span> Cómo se paga</h2>
+    <h2><span class="n">07</span> Cómo se paga</h2>
 
     <p>Toque los botones y las cifras se ajustan solas. Sin intereses: la cuota es el precio dividido, nada más.</p>
 
@@ -414,9 +475,9 @@
         <div>
           <span class="calc__q">Qué plan</span>
           <div class="opts">
-            <label class="seg"><input type="radio" name="plan" value="1" checked><span><b>Plan 1</b> <em>$390.000</em></span></label>
-            <label class="seg"><input type="radio" name="plan" value="2"><span><b>Plan 2</b> <em>$690.000</em></span></label>
-            <label class="seg"><input type="radio" name="plan" value="3"><span><b>Plan 3</b> <em>$990.000</em></span></label>
+            <label class="seg"><input type="radio" name="plan" value="1" checked><span><b>Plan 1</b> <em>$850.000</em></span></label>
+            <label class="seg"><input type="radio" name="plan" value="2"><span><b>Plan 2</b> <em>$1.150.000</em></span></label>
+            <label class="seg"><input type="radio" name="plan" value="3"><span><b>Plan 3</b> <em>$1.500.000</em></span></label>
           </div>
         </div>
         <div>
@@ -424,7 +485,8 @@
           <div class="opts">
             <label class="seg"><input type="radio" name="cuotas" value="1"><span><b>De una</b></span></label>
             <label class="seg"><input type="radio" name="cuotas" value="2"><span><b>2 cuotas</b></span></label>
-            <label class="seg"><input type="radio" name="cuotas" value="3" checked><span><b>3 cuotas</b></span></label>
+            <label class="seg"><input type="radio" name="cuotas" value="5" checked><span><b>5 cuotas</b></span></label>
+            <label class="seg"><input type="radio" name="cuotas" value="10"><span><b>10 cuotas</b></span></label>
           </div>
         </div>
       </div>
@@ -432,9 +494,9 @@
       <p class="printsel" id="printsel"></p>
 
       <div class="calc__out">
-        <div class="cell"><span class="k">Paga hoy</span><span class="v" id="vHoy">$130.000</span><span class="n2" id="nHoy">Primera de 3 cuotas</span></div>
-        <div class="cell"><span class="k">Cada mes</span><span class="v" id="vMes">$130.000</span><span class="n2" id="nMes">Durante 3 meses. Después, nada.</span></div>
-        <div class="cell hero"><span class="k">Total, y ya</span><span class="v" id="vTot">$390.000</span><span class="n2" id="nTot">Sin mensualidad · $0 al mes para siempre</span></div>
+        <div class="cell"><span class="k">Paga hoy</span><span class="v" id="vHoy">$170.000</span><span class="n2" id="nHoy">Primera de 5 cuotas</span></div>
+        <div class="cell"><span class="k">Cada mes</span><span class="v" id="vMes">$170.000</span><span class="n2" id="nMes">Durante 5 meses. Después, nada.</span></div>
+        <div class="cell hero"><span class="k">Total, y ya</span><span class="v" id="vTot">$850.000</span><span class="n2" id="nTot">Sin mensualidad · $0 al mes para siempre</span></div>
       </div>
 
       <p class="calc__detail" id="detalle"></p>
@@ -449,48 +511,48 @@
     </ul>
   </section>
 
-  <!-- 07 -->
+  <!-- 08 -->
   <section class="sec">
-    <h2><span class="n">07</span> Los niños</h2>
+    <h2><span class="n">08</span> Los niños</h2>
 
-    <p>Al quitar las contraseñas esto quedó <em>más</em> seguro, no menos: ya no hay credenciales de menores que proteger.</p>
+    <p>Cada niño entra como él mismo, pero sin que eso signifique guardar credenciales de menores en ningún lado.</p>
 
     <div class="cards">
-      <div class="card"><b>Sin cuentas ni correos</b><p>El niño toca su nombre en la lista del salón. No hay contraseñas que se pierdan ni correos de menores guardados en ningún lado.</p></div>
+      <div class="card"><b>Sin correos ni contraseñas</b><p>Una clave de tres figuras que el niño toca. No hay correos de menores guardados, ni contraseñas que recuperar por email.</p></div>
       <div class="card"><b>Solo el nombre de pila</b><p>Nada de documento, dirección, teléfono, fecha de nacimiento ni fotos de sus caras. Nombre y curso, y ya.</p></div>
+      <div class="card"><b>Cerrado fuera de clase</b><p>Si usted no abrió la sesión, la plataforma no deja entrar a nadie. Ni de noche, ni el fin de semana, ni desde la casa.</p></div>
       <div class="card"><b>Nada es público</b><p>La dirección no aparece en Google ni se puede adivinar. Lo que hacen los niños lo ve usted y quien usted decida.</p></div>
       <div class="card"><b>Filtro en cada respuesta</b><p>Cada texto y cada imagen que genera la IA pasa por un filtro de contenido infantil antes de que el niño la vea.</p></div>
-      <div class="card"><b>Sin publicidad ni rastreo</b><p>No hay anuncios, no hay cookies de seguimiento y no se comparte nada con nadie.</p></div>
       <div class="card"><b>Autorización de acudientes</b><p>Le entrego el formato listo, de una hoja, para que lo firmen. Conforme a la Ley 1581 de 2012.</p></div>
     </div>
   </section>
 
-  <!-- 08 -->
+  <!-- 09 -->
   <section class="sec">
-    <h2><span class="n">08</span> Qué necesito de usted</h2>
+    <h2><span class="n">09</span> Qué necesito de usted</h2>
     <ul class="list">
       <li>La lista de los niños con <strong>nombre de pila y curso</strong>. Nada más.</li>
       <li>La autorización firmada de los acudientes — yo le paso el formato.</li>
       <li>Decirme con qué van a trabajar los niños: tablets, la sala de sistemas o el computador del salón.</li>
-      <li>Un rato conmigo el día de la entrega, para dejarla manejándolo sola.</li>
+      <li>Un rato conmigo el día de la entrega, para repartir las claves de figuras y dejarla manejándolo sola.</li>
     </ul>
     <p class="fine">No necesito que usted abra cuentas técnicas, ni que registre tarjetas, ni que entienda de programación. De eso me encargo yo.</p>
   </section>
 
-  <!-- 09 -->
+  <!-- 10 -->
   <section class="sec">
-    <h2><span class="n">09</span> Próximos pasos</h2>
+    <h2><span class="n">10</span> Próximos pasos</h2>
     <ol class="steps">
       <li>Me dice si este camino sí le cuadra, o qué le sigue apretando. Se puede ajustar más.</li>
       <li>Escoge el plan y en cuántas cuotas.</li>
       <li>Me pasa la lista de los niños y arranco esa semana.</li>
-      <li>Segunda semana de septiembre lo tiene funcionando, y los niños tienen tres meses para llenar el libro.</li>
+      <li>A mediados de septiembre lo tiene funcionando, y los niños tienen dos meses y medio para llenar el libro.</li>
     </ol>
   </section>
 
   <footer class="foot">
     <div class="rule"><i></i><b></b><i></i></div>
-    <p>Tía, si esto todavía le aprieta, dígamelo con confianza y lo seguimos bajando. Prefiero hacerle algo pequeño que sí pueda pagar y que sus niños alcancen a usar este año, que una propuesta bonita que se quede en el papel.</p>
+    <p>Tía, si esto todavía le aprieta, dígamelo con confianza y lo seguimos ajustando. Prefiero hacerle algo que sí pueda pagar y que sus niños alcancen a usar este año, que una propuesta bonita que se quede en el papel.</p>
     <p class="sign">Luis Jaller · <span>J&amp;V Agencia</span></p>
     <p class="contact">contacto@jvagencia.com · jvagencia.com</p>
   </footer>
@@ -499,9 +561,9 @@
 
 <script>
 (function () {
-  var PRECIO = { "1": 390000, "2": 690000, "3": 990000 };
-  var NOMBRE = { "1": "Plan 1 — Regalo de despedida", "2": "Plan 2 — El aula que queda", "3": "Plan 3 — Con juegos" };
-  var SEMANAS = { "1": "dos semanas", "2": "cuatro semanas", "3": "seis semanas" };
+  var PRECIO = { "1": 850000, "2": 1150000, "3": 1500000 };
+  var NOMBRE = { "1": "Plan 1 \u2014 El taller y el libro", "2": "Plan 2 \u2014 El aula que queda", "3": "Plan 3 \u2014 Con juegos" };
+  var SEMANAS = { "1": "tres semanas", "2": "cinco semanas", "3": "siete semanas" };
 
   function cop(n) { return "$" + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
   function pick(name) {
@@ -517,20 +579,20 @@
     var cuota = total / n;
 
     set("vHoy", cop(cuota));
-    set("nHoy", n === 1 ? "Pago único" : "Primera de " + n + " cuotas");
+    set("nHoy", n === 1 ? "Pago \u00fanico" : "Primera de " + n + " cuotas");
     set("vMes", n === 1 ? "$0" : cop(cuota));
-    set("nMes", n === 1 ? "No queda nada pendiente." : "Durante " + n + " meses. Después, nada.");
+    set("nMes", n === 1 ? "No queda nada pendiente." : "Durante " + n + " meses. Despu\u00e9s, nada.");
     set("vTot", cop(total));
-    set("nTot", "Sin mensualidad · $0 al mes para siempre");
+    set("nTot", "Sin mensualidad \u00b7 $0 al mes para siempre");
 
     var d = "Se lleva el <strong>" + NOMBRE[plan] + "</strong> (" + cop(total) + "). ";
     d += n === 1
       ? "Lo paga <strong>de una sola vez</strong>. "
       : "Lo paga en <strong>" + n + " cuotas de " + cop(cuota) + "</strong>, sin intereses. ";
-    d += "Se lo entrego en <strong>" + SEMANAS[plan] + "</strong>, y de ahí en adelante <strong>no paga nada más</strong>: ni mensualidad, ni créditos de inteligencia artificial, ni hospedaje.";
+    d += "Se lo entrego en <strong>" + SEMANAS[plan] + "</strong>, y de ah\u00ed en adelante <strong>no paga nada m\u00e1s</strong>: ni mensualidad, ni cr\u00e9ditos de inteligencia artificial, ni hospedaje.";
     document.getElementById("detalle").innerHTML = d;
 
-    set("printsel", "Escogido: " + NOMBRE[plan] + " · " + (n === 1 ? "pago único" : n + " cuotas de " + cop(cuota)) + ".");
+    set("printsel", "Escogido: " + NOMBRE[plan] + " \u00b7 " + (n === 1 ? "pago \u00fanico" : n + " cuotas de " + cop(cuota)) + ".");
   }
 
   document.getElementById("calc").addEventListener("change", render);
