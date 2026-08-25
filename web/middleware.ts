@@ -10,16 +10,61 @@ export const config = {
   ],
 };
 
-// Guía de ventas interna: privada (solo por link + contraseña) y no indexable.
-// Se sirve el HTML estático desde public/kit-vendedores.html; la ruta limpia
-// /kit-vendedores se reescribe a ese archivo. La contraseña vive en la env var
-// GUIDE_PASSWORD (configurar en Vercel); sin ella, la guía queda inaccesible.
-const GUIDE_PATHS = new Set(["/kit-vendedores", "/kit-vendedores.html"]);
+// Documentos privados: se sirven como HTML estático desde public/, detrás de
+// Basic Auth y con noindex. Las credenciales viven SIEMPRE en variables de
+// entorno (configurar en Vercel); si falta la contraseña, el documento queda
+// inaccesible en vez de quedar abierto. Nunca escribir contraseñas aquí.
+type PrivateDoc = {
+  /** Rutas que sirven el documento (limpia y con .html). */
+  paths: string[];
+  /** Archivo real dentro de public/. */
+  file: string;
+  /** Env var con la contraseña. Sin ella, 401 siempre. */
+  passEnv: string;
+  /** Env var con el usuario, y su valor por defecto. */
+  userEnv: string;
+  defaultUser: string;
+  realm: string;
+};
 
-function guideAuthOk(req: NextRequest): boolean {
-  const expectedPass = process.env.GUIDE_PASSWORD;
+const PRIVATE_DOCS: PrivateDoc[] = [
+  {
+    paths: ["/kit-vendedores", "/kit-vendedores.html"],
+    file: "/kit-vendedores.html",
+    passEnv: "GUIDE_PASSWORD",
+    userEnv: "GUIDE_USER",
+    defaultUser: "jvagencia",
+    realm: "JV Agencia - Material privado",
+  },
+  {
+    paths: ["/cotizacion-monica", "/cotizacion-aula-monica.html"],
+    file: "/cotizacion-aula-monica.html",
+    passEnv: "COTIZACION_MONICA_PASSWORD",
+    userEnv: "COTIZACION_MONICA_USER",
+    defaultUser: "monica",
+    realm: "JV Agencia - Cotizacion privada",
+  },
+];
+
+function findPrivateDoc(pathname: string): PrivateDoc | undefined {
+  return PRIVATE_DOCS.find((doc) => doc.paths.includes(pathname));
+}
+
+/**
+ * Compara en tiempo constante para no filtrar la contraseña por diferencias
+ * de tiempo. Longitudes distintas se rechazan de una.
+ */
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+function docAuthOk(req: NextRequest, doc: PrivateDoc): boolean {
+  const expectedPass = process.env[doc.passEnv];
   if (!expectedPass) return false; // sin contraseña configurada → no se expone
-  const expectedUser = process.env.GUIDE_USER || "jvagencia";
+  const expectedUser = process.env[doc.userEnv] || doc.defaultUser;
 
   const header = req.headers.get("authorization") ?? "";
   if (!header.startsWith("Basic ")) return false;
@@ -32,9 +77,11 @@ function guideAuthOk(req: NextRequest): boolean {
   }
   const sep = decoded.indexOf(":");
   if (sep < 0) return false;
-  const user = decoded.slice(0, sep);
-  const pass = decoded.slice(sep + 1);
-  return user === expectedUser && pass === expectedPass;
+
+  return (
+    safeEqual(decoded.slice(0, sep), expectedUser) &&
+    safeEqual(decoded.slice(sep + 1), expectedPass)
+  );
 }
 
 export function middleware(req: NextRequest) {
@@ -49,14 +96,15 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  // Guía privada: Basic Auth + noindex.
+  // Documentos privados: Basic Auth + noindex + sin caché.
   const { pathname } = req.nextUrl;
-  if (GUIDE_PATHS.has(pathname)) {
-    if (!guideAuthOk(req)) {
+  const doc = findPrivateDoc(pathname);
+  if (doc) {
+    if (!docAuthOk(req, doc)) {
       return new NextResponse("Material privado de JV Agencia. Acceso restringido.", {
         status: 401,
         headers: {
-          "WWW-Authenticate": 'Basic realm="JV Agencia - Material privado"',
+          "WWW-Authenticate": `Basic realm="${doc.realm}"`,
           "Content-Type": "text/plain; charset=utf-8",
           "X-Robots-Tag": "noindex, nofollow",
           "Cache-Control": "no-store",
@@ -64,7 +112,7 @@ export function middleware(req: NextRequest) {
       });
     }
     const url = req.nextUrl.clone();
-    if (pathname === "/kit-vendedores") url.pathname = "/kit-vendedores.html";
+    url.pathname = doc.file;
     const res = NextResponse.rewrite(url);
     res.headers.set("X-Robots-Tag", "noindex, nofollow");
     res.headers.set("Cache-Control", "no-store");

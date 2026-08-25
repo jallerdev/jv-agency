@@ -1,0 +1,1122 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cotización — Aula con IA · Prof. Mónica · JV Agencia</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primary:#985C3E;        /* bronce cobrizo */
+    --primary-dark:#6E4128;   /* bronce profundo */
+    --secondary:#B08968;      /* taupe cálido */
+    --accent:#C0763B;         /* cobre vivo */
+    --surface:#FAF6F1;        /* crema */
+    --bg:#F4EDE4;             /* taupe muy claro */
+    --ink:#2B2420;            /* espresso */
+    --ink-soft:#6B5E54;       /* taupe oscuro */
+    --line:#E4D8CB;           /* arena */
+    --success:#4F7A52;
+    --warning:#B57E2C;
+    --error:#B0453C;
+    --display:'Fraunces', Georgia, 'Times New Roman', serif;
+    --body:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --mono:'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  }
+
+  *{ box-sizing:border-box }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--bg);
+    background-image:
+      radial-gradient(60rem 40rem at 88% -12%, rgba(192,118,59,.13), transparent 60%),
+      radial-gradient(50rem 40rem at -12% 18%, rgba(176,137,104,.15), transparent 55%);
+    background-attachment:fixed;
+    line-height:1.62;
+    font-size:15px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,h4{ font-family:var(--display); font-weight:400; color:var(--ink); line-height:1.14; margin:0; }
+  p{ margin:0 0 14px; }
+  strong{ font-weight:600; color:var(--ink); }
+  em{ font-style:italic; }
+  a{ color:var(--primary-dark); text-decoration:none; }
+  s{ color:var(--ink-soft); }
+
+  /* ---------- Barra superior ---------- */
+  .bar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:14px clamp(18px,5vw,56px);
+    background:rgba(244,237,228,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .bar__brand{ display:flex; align-items:center; gap:10px; }
+  .bar__brand b{ font-family:var(--display); font-size:17px; font-weight:600; letter-spacing:.01em; }
+  .bar__brand span{ font-family:var(--body); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); }
+  .bar__actions{ display:flex; gap:10px; }
+
+  .btn{
+    font-family:var(--body); font-weight:600; font-size:12px;
+    letter-spacing:.1em; text-transform:uppercase;
+    padding:11px 20px; border-radius:999px; border:1px solid var(--primary);
+    cursor:pointer; transition:all .22s cubic-bezier(.4,0,.2,1);
+    display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  .btn--primary{ background:var(--primary); color:var(--surface); }
+  .btn--primary:hover{ background:var(--primary-dark); border-color:var(--primary-dark); }
+  .btn--ghost{ background:transparent; color:var(--primary-dark); }
+  .btn--ghost:hover{ background:var(--primary); color:var(--surface); }
+
+  /* ---------- Documento ---------- */
+  .quote{ max-width:880px; margin:0 auto; padding:clamp(30px,6vw,60px) clamp(18px,5vw,56px) 96px; }
+
+  .eyebrow{
+    font-family:var(--body); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.16em; color:var(--accent);
+    margin:0 0 14px; display:block;
+  }
+
+  .head h1{
+    font-size:clamp(30px,5.4vw,46px);
+    letter-spacing:-.015em;
+    margin-bottom:8px;
+  }
+  .head h1 i{ font-style:italic; color:var(--primary); }
+  .head__sub{ color:var(--ink-soft); font-size:16px; max-width:56ch; margin-bottom:26px; }
+
+  .meta{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:16px 22px;
+    padding:20px 0 22px; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .meta div{ display:flex; flex-direction:column; gap:3px; }
+  .meta span{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .meta b{ font-weight:500; font-size:14.5px; color:var(--ink); line-height:1.35; }
+
+  /* ---------- Secciones ---------- */
+  .sec{ margin-top:52px; }
+  .sec > h2{
+    font-size:clamp(22px,3.4vw,29px); letter-spacing:-.01em;
+    padding-bottom:12px; margin-bottom:18px; border-bottom:1px solid var(--line);
+    display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  }
+  .sec > h2 .n{ font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:.1em; }
+  .sec > h2 em{ font-size:.56em; color:var(--ink-soft); font-family:var(--body); font-style:italic; }
+  .sec h3{
+    font-family:var(--body); font-weight:600; font-size:12px;
+    text-transform:uppercase; letter-spacing:.15em; color:var(--primary);
+    margin:32px 0 12px;
+  }
+
+  ul.list{ margin:0 0 14px; padding-left:20px; }
+  ul.list li{ margin-bottom:8px; }
+  ul.list li::marker{ color:var(--accent); }
+
+  .note{
+    background:rgba(192,118,59,.075);
+    border-left:3px solid var(--accent);
+    padding:14px 18px; border-radius:0 4px 4px 0;
+    font-size:14.5px; color:#4a4038; margin:16px 0;
+  }
+  .note p:last-child{ margin-bottom:0; }
+  .fine{ font-size:13px; color:var(--ink-soft); font-style:italic; }
+
+  /* ---------- Tablas ---------- */
+  .tbl-wrap{ overflow-x:auto; margin:8px 0 4px; }
+  table{ width:100%; border-collapse:collapse; font-size:14px; }
+  thead th{
+    font-family:var(--body); font-weight:600; font-size:10.5px;
+    text-transform:uppercase; letter-spacing:.13em; color:var(--primary-dark);
+    text-align:left; padding:10px 12px;
+    border-bottom:1.5px solid var(--primary); white-space:nowrap;
+  }
+  tbody td{ padding:12px; vertical-align:top; border-bottom:1px solid var(--line); line-height:1.5; color:#3d352f; }
+  tbody tr:last-child td{ border-bottom:none; }
+  td.name{ font-weight:600; color:var(--ink); width:27%; }
+  td.num{ font-family:var(--mono); font-size:11px; color:var(--accent); width:34px; padding-right:0; }
+  td.price{ font-family:var(--mono); font-size:13px; color:var(--primary-dark); font-weight:500; white-space:nowrap; text-align:right; width:20%; }
+  tfoot td{
+    padding:14px 12px; border-top:1.5px solid var(--primary);
+    font-weight:600; color:var(--ink);
+  }
+  tfoot td.price{ font-size:15px; color:var(--primary-dark); }
+
+  /* ---------- Bloque de oferta ---------- */
+  .offer{
+    margin:26px 0 6px; padding:26px clamp(20px,4vw,30px);
+    background:var(--ink); color:#F2E9E0; border-radius:6px;
+  }
+  .offer .eyebrow{ color:#E0A062; }
+  .offer h3{ color:#F2E9E0; font-family:var(--display); font-weight:400; font-size:21px; text-transform:none; letter-spacing:0; margin:0 0 4px; }
+  .offer__rows{ display:grid; gap:9px; margin-top:16px; }
+  .offer__rows > div{ display:flex; justify-content:space-between; align-items:baseline; gap:18px; font-size:15px; }
+  .offer__rows > div > :first-child{ color:#B3A496; }
+  .offer__rows s{ color:#8A7A6C; font-family:var(--mono); font-size:14px; }
+  .offer__rows .amt{ font-family:var(--mono); font-size:14px; color:#D9CBBD; }
+  .offer__final{
+    border-top:1px solid rgba(224,160,98,.34);
+    padding-top:13px; margin-top:5px;
+  }
+  .offer__final > :first-child{ color:#F2E9E0 !important; font-weight:600; }
+  .offer__final strong{ font-family:var(--display); font-size:27px; color:#E0A062; font-weight:600; letter-spacing:-.01em; }
+  .offer__tag{ margin:16px 0 0; font-size:13px; color:#C9A882; }
+
+  /* ---------- Dos opciones de compra ---------- */
+  .opts{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:22px 0 6px; }
+  @media (max-width:900px){ .opts{ grid-template-columns:1fr; } }
+  .opt{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px;
+    padding:24px 22px; display:flex; flex-direction:column;
+  }
+  .opt--pick{ border-color:var(--primary); box-shadow:0 0 0 1px var(--primary); }
+  .opt__tag{
+    align-self:flex-start; font-family:var(--body); font-weight:600; font-size:10px;
+    text-transform:uppercase; letter-spacing:.14em;
+    padding:4px 10px; border-radius:999px; margin-bottom:12px;
+    background:rgba(192,118,59,.14); color:var(--primary-dark);
+  }
+  .opt--pick .opt__tag{ background:var(--primary); color:var(--surface); }
+  .opt h3{ font-family:var(--display); font-weight:400; font-size:21px; text-transform:none; letter-spacing:0; color:var(--ink); margin:0 0 6px; }
+  .opt__desc{ font-size:14px; color:var(--ink-soft); margin-bottom:16px; }
+  .opt__amt{ font-family:var(--mono); font-size:26px; color:var(--primary-dark); font-weight:500; letter-spacing:-.02em; }
+  .opt__amt small{ display:block; font-family:var(--body); font-size:12.5px; color:var(--ink-soft); letter-spacing:0; margin-top:4px; font-weight:400; }
+  .opt__split{ margin-top:14px; padding-top:14px; border-top:1px solid var(--line); display:grid; gap:8px; }
+  .opt__split > div{ display:flex; justify-content:space-between; gap:12px; font-size:13.5px; }
+  .opt__split .k{ color:var(--ink-soft); }
+  .opt__split .v{ font-family:var(--mono); font-size:13px; color:var(--primary-dark); white-space:nowrap; }
+  .opt__foot{ margin-top:auto; padding-top:16px; font-size:12.5px; color:var(--ink-soft); font-style:italic; }
+  .opt--cuotas{ background:linear-gradient(180deg,rgba(192,118,59,.07),rgba(192,118,59,0) 60%),var(--surface); }
+  .opt__nointeres{ align-self:flex-start; font-family:var(--body); font-weight:600; font-size:10px;
+    text-transform:uppercase; letter-spacing:.13em; color:#2f5c34;
+    background:rgba(79,122,82,.14); padding:3px 9px; border-radius:999px; margin-top:10px; }
+
+  /* ---------- Dos pilares de inversión ---------- */
+  .pillars{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0 8px; }
+  @media (max-width:760px){ .pillars{ grid-template-columns:1fr; } }
+  .pillar{ border-radius:6px; padding:24px 22px; display:flex; flex-direction:column; }
+  .pillar--once{ background:var(--ink); color:#F2E9E0; }
+  .pillar--month{ background:var(--surface); border:1px solid var(--primary); }
+  .pillar .eyebrow{ margin-bottom:10px; }
+  .pillar--once .eyebrow{ color:#E0A062; }
+  .pillar h3{ font-family:var(--display); font-weight:400; font-size:20px; text-transform:none; letter-spacing:0; margin:0 0 10px; }
+  .pillar--once h3{ color:#F2E9E0; }
+  .pillar__amt{ font-family:var(--mono); font-size:30px; font-weight:500; letter-spacing:-.02em; line-height:1.1; }
+  .pillar--once .pillar__amt{ color:#E0A062; }
+  .pillar--month .pillar__amt{ color:var(--primary-dark); }
+  .pillar__amt small{ display:block; font-family:var(--body); font-size:12.5px; font-weight:400; letter-spacing:0; margin-top:6px; }
+  .pillar--once .pillar__amt small{ color:#B3A496; }
+  .pillar--month .pillar__amt small{ color:var(--ink-soft); }
+  .pillar ul{ margin:16px 0 0; padding-left:18px; font-size:13.5px; line-height:1.55; }
+  .pillar--once ul{ color:#D9CBBD; }
+  .pillar--month ul{ color:var(--ink-soft); }
+  .pillar li{ margin-bottom:5px; }
+  .pillar--once li::marker{ color:#E0A062; }
+  .pillar--month li::marker{ color:var(--accent); }
+  .pillar__foot{ margin-top:auto; padding-top:16px; font-size:12.5px; font-style:italic; }
+  .pillar--once .pillar__foot{ color:#9C8B7C; }
+  .pillar--month .pillar__foot{ color:var(--ink-soft); }
+  .vs{ text-align:center; font-family:var(--mono); font-size:11px; letter-spacing:.16em;
+       text-transform:uppercase; color:var(--ink-soft); margin:14px 0 0; }
+
+
+  /* ---------- Configurador interactivo ---------- */
+  .cfg{ margin:22px 0 8px; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface); }
+  .cfg__steps{ padding:22px clamp(16px,3vw,26px) 6px; display:grid; gap:20px; }
+  .cfg__step{ display:grid; gap:9px; }
+  .cfg__q{ font-family:var(--body); font-weight:600; font-size:11px; letter-spacing:.14em;
+           text-transform:uppercase; color:var(--primary); display:flex; align-items:center; gap:9px; }
+  .cfg__q i{ font-family:var(--mono); font-style:normal; font-size:10px; color:var(--surface);
+             background:var(--secondary); width:18px; height:18px; border-radius:50%;
+             display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .cfg__opts{ display:flex; flex-wrap:wrap; gap:8px; }
+  .seg{ position:relative; }
+  .seg input{ position:absolute; opacity:0; width:100%; height:100%; left:0; top:0; margin:0; cursor:pointer; }
+  .seg span{
+    display:block; padding:9px 15px; border-radius:999px;
+    border:1px solid var(--line); background:#fff;
+    font-size:13.5px; color:var(--ink-soft); line-height:1.3;
+    transition:all .18s cubic-bezier(.4,0,.2,1); cursor:pointer; white-space:nowrap;
+  }
+  .seg span b{ font-weight:600; color:var(--ink); }
+  .seg span em{ font-style:normal; font-family:var(--mono); font-size:11.5px; opacity:.8; }
+  .seg input:hover + span{ border-color:var(--secondary); }
+  .seg input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:2px; }
+  .seg input:checked + span{ background:var(--primary); border-color:var(--primary); color:#F7EFE7; }
+  .seg input:checked + span b, .seg input:checked + span em{ color:#fff; }
+  .cfg__sub{ margin-left:27px; }
+  .cfg__sub[hidden]{ display:none; }
+
+  .cfg__out{
+    margin-top:20px; background:var(--ink); color:#F2E9E0;
+    display:grid; grid-template-columns:repeat(3,1fr);
+  }
+  @media (max-width:700px){ .cfg__out{ grid-template-columns:1fr; } }
+  .cfg__cell{ padding:20px clamp(14px,2.6vw,22px); border-right:1px solid rgba(224,160,98,.22); }
+  .cfg__cell:last-child{ border-right:none; }
+  @media (max-width:700px){
+    .cfg__cell{ border-right:none; border-bottom:1px solid rgba(224,160,98,.22); }
+    .cfg__cell:last-child{ border-bottom:none; }
+  }
+  .cfg__cell.is-hero{ background:rgba(224,160,98,.09); }
+  .cfg__k{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#E0A062; display:block; margin-bottom:7px; }
+  .cfg__v{ font-family:var(--mono); font-size:clamp(20px,3.1vw,26px); font-weight:500; letter-spacing:-.02em; color:#F2E9E0; line-height:1.1; }
+  .cfg__n{ display:block; margin-top:6px; font-size:12px; color:#B3A496; line-height:1.45; }
+  .cfg__detail{
+    padding:16px clamp(16px,3vw,26px); background:rgba(184,137,90,.1);
+    border-top:1px solid var(--line); font-size:14px; color:#4a4038; margin:0;
+  }
+  .cfg__detail strong{ color:var(--primary-dark); }
+  .cfg__printsel{ display:none; }
+
+  @media print{
+    .cfg{ break-inside:avoid; }
+    .cfg__steps{ display:none; }
+    .cfg__out{ margin-top:0; }
+    .cfg__printsel{ display:block; padding:14px 16px 0; margin:0; font-size:10pt; color:var(--ink-soft); font-style:italic; }
+  }
+
+  /* ---------- Franja de igualdad ---------- */
+  .equal{
+    margin:18px 0 0; padding:15px 20px; border-radius:6px;
+    background:rgba(79,122,82,.09); border-left:3px solid var(--success);
+    font-size:14.5px; color:#3d4a3e;
+  }
+  .equal strong{ color:#2f5c34; }
+
+  /* ---------- Tarjetas de protección ---------- */
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin:16px 0; }
+  .card{ background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:18px 18px 16px; }
+  .card b{ display:block; font-family:var(--display); font-weight:600; font-size:15.5px; margin-bottom:6px; color:var(--ink); }
+  .card p{ margin:0; font-size:13.5px; color:var(--ink-soft); line-height:1.55; }
+
+  /* ---------- Línea de tiempo ---------- */
+  .tl{ list-style:none; margin:14px 0 0; padding:0 0 0 26px; border-left:2px solid var(--line); }
+  .tl li{ position:relative; padding:0 0 22px 4px; }
+  .tl li:last-child{ padding-bottom:0; }
+  .tl li::before{
+    content:''; position:absolute; left:-33px; top:6px;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--surface); border:2px solid var(--accent);
+  }
+  .tl b{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:3px; }
+  .tl span{ font-size:14.5px; color:#3d352f; }
+
+  /* ---------- Pasos ---------- */
+  ol.steps{ counter-reset:s; list-style:none; margin:14px 0 0; padding:0; }
+  ol.steps li{ counter-increment:s; position:relative; padding:0 0 14px 42px; font-size:15px; }
+  ol.steps li::before{
+    content:counter(s,decimal-leading-zero);
+    position:absolute; left:0; top:1px;
+    font-family:var(--mono); font-size:12px; color:var(--surface);
+    background:var(--primary); width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ---------- Pie ---------- */
+  .foot{ margin-top:70px; text-align:center; }
+  .rule{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:22px; }
+  .rule i{ display:block; height:1px; width:70px; background:var(--line); }
+  .rule b{ width:6px; height:6px; background:var(--accent); transform:rotate(45deg); }
+  .foot p{ max-width:52ch; margin:0 auto 10px; color:var(--ink-soft); font-size:15px; }
+  .foot .sign{ font-family:var(--display); font-size:19px; color:var(--ink); margin-top:18px; }
+  .foot .sign span{ color:var(--primary); }
+  .foot .contact{ font-family:var(--mono); font-size:12px; color:var(--ink-soft); letter-spacing:.04em; margin-top:6px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:760px){
+    .opts{ grid-template-columns:1fr; }
+    .bar{ flex-direction:column; align-items:stretch; gap:10px; }
+    .bar__actions .btn{ flex:1; justify-content:center; }
+    thead{ display:none; }
+    table, tbody, tfoot, tr, td{ display:block; width:auto !important; }
+    tbody tr{
+      border:1px solid var(--line); border-radius:6px;
+      padding:14px 16px; margin-bottom:12px; background:var(--surface);
+    }
+    tbody td{ border:none; padding:4px 0; }
+    td.num{ display:none; }
+    td.name{ font-size:16px; font-family:var(--display); font-weight:600; }
+    td.price{ text-align:left; font-size:15px; padding-top:8px; }
+    td[data-l]::before{
+      content:attr(data-l) ' · ';
+      font-family:var(--mono); font-size:10px; text-transform:uppercase;
+      letter-spacing:.12em; color:var(--accent);
+    }
+    td.name::before{ display:none; }
+    tfoot tr{ border-top:1.5px solid var(--primary); padding-top:12px; display:flex; justify-content:space-between; gap:12px; }
+    tfoot td{ border:none; padding:0; }
+  }
+
+  /* ---------- Impresión ---------- */
+  @media print{
+    @page{ size:A4; margin:14mm 12mm; }
+    body{ background:#fff; background-image:none; font-size:10.5pt; line-height:1.48; }
+    .bar, .no-print{ display:none !important; }
+    .quote{ max-width:none; padding:0; }
+    .sec{ margin-top:22px; break-inside:auto; }
+    .sec > h2{ break-after:avoid; font-size:16pt; }
+    .sec h3{ break-after:avoid; }
+    table{ font-size:9pt; }
+    thead{ display:table-header-group; }
+    tr{ break-inside:avoid; }
+    .offer, .opt, .card, .note, .equal{ break-inside:avoid; }
+    .opts{ grid-template-columns:repeat(3,1fr); gap:10px; }
+    .opt{ padding:14px 13px; }
+    .opt__amt{ font-size:19px; }
+    .opt h3{ font-size:16px; }
+    .foot{ margin-top:34px; break-inside:avoid; }
+    .page-break{ break-before:page; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar no-print">
+  <div class="bar__brand">
+    <b>J&amp;V</b><span>Agencia</span>
+  </div>
+  <div class="bar__actions">
+    <button class="btn btn--primary" onclick="window.print()">Descargar PDF →</button>
+  </div>
+</div>
+
+<article class="quote">
+
+  <header class="head">
+    <span class="eyebrow">— Propuesta</span>
+    <h1>Cotización — <i>Aula con Inteligencia Artificial</i></h1>
+    <p class="head__sub">Una plataforma propia para que sus niños de 3°, 4° y 5° escriban, dibujen y jueguen con inteligencia artificial — y para que usted vea, guarde y muestre todo lo que crean.</p>
+
+    <div class="meta">
+      <div><span>Preparado para</span><b>Prof. Mónica<br>Docente de primaria · Turbaco, Bolívar</b></div>
+      <div><span>Preparado por</span><b>Luis Jaller<br>Founder, J&amp;V Agencia</b></div>
+      <div><span>Fecha</span><b>25 de agosto de 2026</b></div>
+      <div><span>Validez</span><b>30 días<br>(hasta el 24 de septiembre de 2026)</b></div>
+      <div><span>Moneda</span><b>Pesos colombianos (COP)</b></div>
+    </div>
+  </header>
+
+  <!-- 01 -->
+  <section class="sec">
+    <h2><span class="n">01</span> Resumen ejecutivo</h2>
+
+    <p>Tía, esto es lo que hablamos por WhatsApp, ya aterrizado y con precio. La idea suya era clara y me encantó: que los niños escriban <em>“Había una vez un dragón azul que vivía en el bosque”</em> y que la inteligencia artificial les <strong>dibuje el dragón y les siga el cuento</strong>. Y encima, poder <strong>mostrar lo que están haciendo sus niños</strong>.</p>
+
+    <p>Para eso no sirve una página prestada ni un sitio genérico: hay que construir <strong>una plataforma propia del aula</strong>, con una cuenta para cada niño, con la inteligencia artificial adentro y con un panel donde usted manda. Eso es lo que cotizo aquí.</p>
+
+    <p>Aquí hay <strong>dos pagos, y solo dos</strong>. Es importante que quede claro desde ahora:</p>
+    <ul class="list">
+      <li><strong>Un pago único</strong> — construir la plataforma. Se paga una vez y ya.</li>
+      <li><strong>Una mensualidad</strong> — mantenerla viva. La inteligencia artificial cobra por cada cuento que continúa y cada dibujo que genera, y el sitio necesita estar alojado en internet. Eso no se paga una vez: se paga cada mes que los niños la usen.</li>
+    </ul>
+    <p>No hay nada más. Ni matrícula, ni licencia por niño, ni cobros escondidos.</p>
+
+    <div class="note">
+      <p><strong>Precio de familia.</strong> El valor de mercado de esta plataforma en Colombia es de <strong>$6.600.000 COP</strong>. A usted se lo dejo en <strong>$3.300.000</strong> — la mitad. No es un descuento comercial: es porque es usted, y porque el proyecto me gusta. Y si prefiere, ese pago único se puede hacer <strong>en cuotas mensuales desde $330.000, sin intereses</strong>. La mensualidad de operación arranca en <strong>$120.000</strong>, con el primer mes incluido.</p>
+    </div>
+
+    <p class="fine">Los valores de las mejoras opcionales y de los servicios recurrentes son estimaciones de mercado en Colombia y se afinan al definir el alcance final. Valores en COP, no incluyen IVA si llegara a aplicar.</p>
+  </section>
+
+  <!-- 02 -->
+  <section class="sec">
+    <h2><span class="n">02</span> Qué se construye <em>(precio por módulo)</em></h2>
+
+    <p>Cada línea es una pieza real de trabajo. El valor que aparece es el de mercado; abajo va el precio de familia.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th></th><th>Módulo</th><th>Qué hace</th><th style="text-align:right">Valor de mercado</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num">01</td>
+            <td class="name">Diseño e identidad de la plataforma</td>
+            <td data-l="Qué hace">Nombre, colores, tipografías y un personaje guía pensados para niños de 8 a 11 años. Botones grandes, lectura fácil, nada de pantallas de adulto.</td>
+            <td class="price" data-l="Valor">$500.000</td>
+          </tr>
+          <tr>
+            <td class="num">02</td>
+            <td class="name">Cuentas de los niños y de la docente</td>
+            <td data-l="Qué hace">Cada niño entra con <strong>usuario y contraseña</strong> — sin correo, sin celular, sin redes. Dos roles: niño y docente. Usted restablece contraseñas cuando alguno la olvide.</td>
+            <td class="price" data-l="Valor">$600.000</td>
+          </tr>
+          <tr>
+            <td class="num">03</td>
+            <td class="name">Panel de la docente</td>
+            <td data-l="Qué hace">Su centro de mando: crear los grupos de 3°, 4° y 5°, cargar la lista de niños de una sola vez, activar o desactivar actividades y ver quién está trabajando.</td>
+            <td class="price" data-l="Valor">$850.000</td>
+          </tr>
+          <tr>
+            <td class="num">04</td>
+            <td class="name">Taller de cuentos con IA</td>
+            <td data-l="Qué hace">El corazón del proyecto. El niño escribe una frase, la IA <strong>continúa la historia</strong> y le <strong>genera la ilustración</strong>. El cuento queda guardado en su perfil, con todas sus versiones.</td>
+            <td class="price" data-l="Valor">$1.100.000</td>
+          </tr>
+          <tr>
+            <td class="num">05</td>
+            <td class="name">Minijuego “Adivina mi dibujo”</td>
+            <td data-l="Qué hace">El niño dibuja en la pantalla y la IA de visión adivina qué dibujó. Si acierta, celebra; si no, le hace preguntas para llegar. Reconocimiento de imágenes real.</td>
+            <td class="price" data-l="Valor">$700.000</td>
+          </tr>
+          <tr>
+            <td class="num">06</td>
+            <td class="name">Minijuego de matemáticas y escritura</td>
+            <td data-l="Qué hace">Ejercicios donde la IA <strong>revisa la respuesta y explica el error</strong> con lenguaje de niño — no solo “malo”, sino por qué y cómo se arregla.</td>
+            <td class="price" data-l="Valor">$650.000</td>
+          </tr>
+          <tr>
+            <td class="num">07</td>
+            <td class="name">Recompensas y palabras de ánimo</td>
+            <td data-l="Qué hace">Puntos, medallas y mensajes de aliento según el desempeño de cada niño. Se premia el esfuerzo y la constancia, no solo el acierto.</td>
+            <td class="price" data-l="Valor">$350.000</td>
+          </tr>
+          <tr>
+            <td class="num">08</td>
+            <td class="name">Galería / mostrador de trabajos</td>
+            <td data-l="Qué hace">El muro de creaciones del salón: cuentos, ilustraciones y dibujos. Usted <strong>decide qué se muestra</strong> antes de que aparezca. Ideal para proyectar en clase o en una izada de bandera.</td>
+            <td class="price" data-l="Valor">$600.000</td>
+          </tr>
+          <tr>
+            <td class="num">09</td>
+            <td class="name">Reportes por niño</td>
+            <td data-l="Qué hace">Cuántos cuentos escribió, cómo va en los juegos, en qué mejoró y en qué se está quedando. Sirve para hablar con los acudientes con datos en la mano.</td>
+            <td class="price" data-l="Valor">$400.000</td>
+          </tr>
+          <tr>
+            <td class="num">10</td>
+            <td class="name">Protección de datos de menores</td>
+            <td data-l="Qué hace">Filtro de seguridad en cada texto e imagen que genera la IA, sin publicidad ni rastreo, y cumplimiento de la Ley 1581 de 2012 con formato de autorización para los acudientes.</td>
+            <td class="price" data-l="Valor">$450.000</td>
+          </tr>
+          <tr>
+            <td class="num">11</td>
+            <td class="name">Tablets, pruebas, puesta en marcha y capacitación</td>
+            <td data-l="Qué hace">Que funcione bien en las tablets y computadores del salón, pruebas con niños reales, publicación en línea y una sesión para dejarla a usted manejándolo sola.</td>
+            <td class="price" data-l="Valor">$400.000</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="num"></td>
+            <td colspan="2">Valor total de mercado</td>
+            <td class="price">$6.600.000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <p class="fine">Referencia: en Colombia, una plataforma con usuarios registrados y panel de administración se cotiza entre $3.500.000 y $15.000.000. Un e-commerce básico, entre $4.500.000 y $12.000.000. Esta plataforma queda en la mitad de ese rango.</p>
+  </section>
+
+  <!-- 03 -->
+  <section class="sec">
+    <h2><span class="n">03</span> Pago único — construir la plataforma <em>(precio de familia)</em></h2>
+
+    <div class="offer">
+      <span class="eyebrow">— Precio de familia</span>
+      <h3>La mitad del valor de mercado</h3>
+      <p style="margin:0;font-size:14px;color:#B3A496">Pago único. Cubre construir la plataforma completa y entregársela funcionando.</p>
+      <div class="offer__rows">
+        <div><span>Valor total de mercado</span><s>$6.600.000 COP</s></div>
+        <div><span>Descuento familiar (50%)</span><span class="amt">−$3.300.000 COP</span></div>
+        <div class="offer__final"><span>Precio final</span><strong>$3.300.000 COP</strong></div>
+      </div>
+      <p class="offer__tag">Válido durante la vigencia de esta cotización (30 días).</p>
+    </div>
+
+    <p style="margin-top:26px">Ese precio se puede tomar de tres maneras. <strong>Las tres suman exactamente lo mismo</strong> — la diferencia es cuándo paga y cuándo recibe.</p>
+
+    <div class="opts">
+
+      <div class="opt">
+        <span class="opt__tag">Opción A</span>
+        <h3>Todo de una</h3>
+        <p class="opt__desc">Los once módulos completos, entregados juntos. La plataforma nace terminada.</p>
+        <div class="opt__amt">$3.300.000<small>pago único · entrega en 7–8 semanas</small></div>
+        <div class="opt__split">
+          <div><span class="k">Anticipo (50%)</span><span class="v">$1.650.000</span></div>
+          <div><span class="k">Contra entrega (50%)</span><span class="v">$1.650.000</span></div>
+        </div>
+        <p class="opt__foot">Conviene si ya sabe que quiere todo y prefiere no volver a hablar de plata.</p>
+      </div>
+
+      <div class="opt opt--pick">
+        <span class="opt__tag">Opción B · sugerida</span>
+        <h3>Por fases</h3>
+        <p class="opt__desc">Arranca con el corazón del proyecto y le suma los juegos cuando ya vea a los niños usándolo.</p>
+        <div class="opt__amt">$2.250.000<small>para empezar · entrega en 4–5 semanas</small></div>
+        <div class="opt__split">
+          <div><span class="k">Fase 1 — hoy</span><span class="v">$2.250.000</span></div>
+          <div><span class="k">Fase 2 — cuando quiera</span><span class="v">$1.050.000</span></div>
+          <div><span class="k">Total si toma las dos</span><span class="v">$3.300.000</span></div>
+        </div>
+        <p class="opt__foot">Conviene si prefiere empezar con menos plata y decidir el resto viendo resultados.</p>
+      </div>
+
+      <div class="opt opt--cuotas">
+        <span class="opt__tag">Opción C</span>
+        <h3>En cuotas mensuales</h3>
+        <p class="opt__desc">La plataforma completa, pagada de a poco. Entrego todo igual; usted paga mes a mes.</p>
+        <div class="opt__amt">$550.000<small>al mes · 6 cuotas · total $3.300.000</small></div>
+        <div class="opt__split">
+          <div><span class="k">Primera cuota</span><span class="v">Al arrancar</span></div>
+          <div><span class="k">Cuotas 2 a 6</span><span class="v">Cada 30 días</span></div>
+          <div><span class="k">Recargo por financiar</span><span class="v">$0</span></div>
+        </div>
+        <span class="opt__nointeres">Sin intereses</span>
+        <p class="opt__foot">Conviene si prefiere que no le pegue duro un solo mes.</p>
+      </div>
+
+    </div>
+
+    <div class="equal">
+      <strong>Ninguna de las tres cuesta más.</strong> Fase 1 + Fase 2 suman los mismos $3.300.000 que la Opción A, y las seis cuotas de la Opción C también. No hay recargo por esperar, ni intereses por financiar, ni castigo por arrancar de a poco.
+    </div>
+
+    <h3>Planes de cuota mensual</h3>
+    <p>Sin intereses y sin recargos: la cuota es el precio dividido, nada más. Elija el plazo que le cuadre con el sueldo.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Plan</th><th>Sobre qué</th><th style="text-align:right">Cuota mensual</th><th style="text-align:right">Total</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">6 cuotas</td>
+            <td data-l="Sobre qué">Plataforma completa (Opción A pagada de a poco). Es el plan sugerido.</td>
+            <td class="price" data-l="Cuota"><strong>$550.000</strong> / mes</td>
+            <td class="price" data-l="Total">$3.300.000</td>
+          </tr>
+          <tr>
+            <td class="name">10 cuotas</td>
+            <td data-l="Sobre qué">Plataforma completa, con la cuota más baja posible.</td>
+            <td class="price" data-l="Cuota"><strong>$330.000</strong> / mes</td>
+            <td class="price" data-l="Total">$3.300.000</td>
+          </tr>
+          <tr>
+            <td class="name">5 cuotas <em style="font-family:var(--body);font-style:italic;color:var(--ink-soft)">(solo Fase 1)</em></td>
+            <td data-l="Sobre qué">Combina la Opción B con la C: arranca solo con la Fase 1 y encima la paga en cuotas. Es la forma más suave de empezar.</td>
+            <td class="price" data-l="Cuota"><strong>$450.000</strong> / mes</td>
+            <td class="price" data-l="Total">$2.250.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <p><strong>La entrega no se frena por las cuotas.</strong> Yo trabajo y entrego según el cronograma normal, esté o no terminada de pagar. La única condición es que la última cuota se pague antes de que yo le entregue el dominio y las claves de administración a su nombre.</p>
+    </div>
+
+    <h3>Qué trae cada fase</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Fase</th><th>Módulos que incluye</th><th style="text-align:right">Mercado</th><th style="text-align:right">Familia</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Fase 1<br><span style="font-family:var(--body);font-weight:400;font-size:13px;color:var(--ink-soft)">El aula viva</span></td>
+            <td data-l="Incluye">Diseño e identidad · Cuentas de niños y docente · Panel de la docente · <strong>Taller de cuentos con IA</strong> · Galería de trabajos · Protección de datos · Puesta en marcha y capacitación <span style="color:var(--ink-soft)">(módulos 01, 02, 03, 04, 08, 10, 11)</span></td>
+            <td class="price" data-l="Mercado"><s>$4.500.000</s></td>
+            <td class="price" data-l="Familia"><strong>$2.250.000</strong></td>
+          </tr>
+          <tr>
+            <td class="name">Fase 2<br><span style="font-family:var(--body);font-weight:400;font-size:13px;color:var(--ink-soft)">Los minijuegos</span></td>
+            <td data-l="Incluye">Minijuego “Adivina mi dibujo” con IA de visión · Minijuego de matemáticas y escritura con calificación IA · Recompensas y palabras de ánimo · Reportes por niño <span style="color:var(--ink-soft)">(módulos 05, 06, 07, 09)</span></td>
+            <td class="price" data-l="Mercado"><s>$2.100.000</s></td>
+            <td class="price" data-l="Familia"><strong>$1.050.000</strong></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Total de las dos fases</td>
+            <td class="price"><s>$6.600.000</s></td>
+            <td class="price">$3.300.000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <p class="fine">El precio de familia de la Fase 2 se mantiene durante <strong>doce meses</strong> desde la entrega de la Fase 1. Después de ese plazo se recotiza.</p>
+  </section>
+
+  <!-- 04 -->
+  <section class="sec page-break">
+    <h2><span class="n">04</span> Pago mensual — mantener el aula viva</h2>
+
+    <p>La plataforma se construye una vez, pero <strong>vive todos los meses</strong>. Dos cosas cuestan de forma permanente:</p>
+
+    <ul class="list">
+      <li><strong>La inteligencia artificial.</strong> Cada cuento que continúa, cada ilustración que dibuja y cada dibujo que reconoce consume créditos que se le pagan a Google. No es una licencia fija: se paga por uso real.</li>
+      <li><strong>El alojamiento.</strong> El sitio, la base de datos y el guardado de todos los cuentos y dibujos de los niños tienen que vivir en un servidor.</li>
+    </ul>
+
+    <h3>Plan todo incluido <em style="font-family:var(--body);font-style:italic;color:var(--ink-soft);text-transform:none;letter-spacing:0">(recomendado — usted paga una sola cifra)</em></h3>
+
+    <p>Yo me encargo de la cuenta de Google, del servidor y de las copias de seguridad. Usted no abre cuentas técnicas ni pelea con facturas en dólares: paga una mensualidad y ya.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Plan</th><th>Para quién</th><th>Qué incluye cada mes</th><th style="text-align:right">Mensualidad</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Salón</td>
+            <td data-l="Para quién">Un curso, hasta <strong>35 niños</strong></td>
+            <td data-l="Incluye">Hosting, dominio y copias de seguridad · Créditos de IA para <strong>hasta 300 ilustraciones</strong> y unas 1.500 interacciones al mes · Soporte por WhatsApp</td>
+            <td class="price" data-l="Mensualidad"><strong>$120.000</strong> / mes</td>
+          </tr>
+          <tr>
+            <td class="name">Tres cursos</td>
+            <td data-l="Para quién">3°, 4° y 5° juntos, hasta <strong>100 niños</strong></td>
+            <td data-l="Incluye">Lo mismo, con créditos para <strong>hasta 900 ilustraciones</strong> y unas 4.500 interacciones al mes</td>
+            <td class="price" data-l="Mensualidad"><strong>$280.000</strong> / mes</td>
+          </tr>
+          <tr>
+            <td class="name">Colegio</td>
+            <td data-l="Para quién">Varias docentes, varios grupos</td>
+            <td data-l="Incluye">Cuentas separadas por docente, reportes por grupo y créditos a la medida del uso</td>
+            <td class="price" data-l="Mensualidad">Desde <strong>$450.000</strong> / mes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <p><strong>Primer mes incluido</strong> y sin permanencia: se paga mes a mes y se puede parar en vacaciones. Si en diciembre y enero no hay clase, no paga esos meses — la plataforma queda guardada con todo adentro y se reactiva cuando vuelvan.</p>
+    </div>
+
+    <h3>Si prefiere pagarle a Google directamente</h3>
+
+    <p>También se puede hacer así: la cuenta de inteligencia artificial queda a nombre suyo o del colegio, y usted le paga a cada proveedor por aparte. Sale un poco más barato, pero le toca administrarlo.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Concepto</th><th>A quién se le paga</th><th style="text-align:right">Costo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Créditos de inteligencia artificial</td>
+            <td data-l="A quién">A Google, con su tarjeta</td>
+            <td class="price" data-l="Costo">$50.000 – $90.000 / mes<br><span style="font-family:var(--body);font-size:12px;color:var(--ink-soft)">un salón, uso normal</span></td>
+          </tr>
+          <tr>
+            <td class="name">Hosting + dominio</td>
+            <td data-l="A quién">Al proveedor. <strong>Primer año incluido.</strong></td>
+            <td class="price" data-l="Costo">$200.000 – $400.000 / año<br><span style="font-family:var(--body);font-size:12px;color:var(--ink-soft)">unos $17.000–$33.000 al mes</span></td>
+          </tr>
+          <tr>
+            <td class="name">Mi acompañamiento <em style="font-family:var(--body);font-style:italic;color:var(--ink-soft)">(opcional)</em></td>
+            <td data-l="A quién">A mí. Ajustes, grupos nuevos al empezar el año, respaldos y monitoreo.</td>
+            <td class="price" data-l="Costo">$120.000 – $200.000 / mes<br><span style="font-family:var(--body);font-size:12px;color:var(--ink-soft)">o $250.000–$400.000 por trimestre</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>De dónde salen esos números de IA</h3>
+    <p>Cálculo con la TRM del 25 de agosto de 2026 (<strong>$3.056,51</strong> por dólar) y precios públicos de Google.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Escenario</th><th>Qué significa</th><th style="text-align:right">Costo mensual de IA</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Un salón, uso normal</td>
+            <td data-l="Qué significa">30 niños, dos sesiones por semana. Unas 240 ilustraciones al mes, más los cuentos continuados y los dibujos reconocidos.</td>
+            <td class="price" data-l="Costo">$50.000 – $90.000</td>
+          </tr>
+          <tr>
+            <td class="name">Un salón, uso intensivo</td>
+            <td data-l="Qué significa">30 niños trabajando casi a diario.</td>
+            <td class="price" data-l="Costo">$90.000 – $180.000</td>
+          </tr>
+          <tr>
+            <td class="name">Los tres cursos</td>
+            <td data-l="Qué significa">3°, 4° y 5° juntos — unos 90 niños activos.</td>
+            <td class="price" data-l="Costo">$150.000 – $300.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <p><strong>El tope lo pone usted.</strong> Dejo configurado un límite mensual de créditos. Si el salón se emociona y lo consume antes de tiempo, la plataforma sigue funcionando y las actividades con IA se pausan hasta el mes siguiente o hasta que usted decida ampliar. <strong>Nunca va a llegar una cuenta que no esperaba.</strong></p>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="sec">
+    <h2><span class="n">05</span> Resumen de inversión</h2>
+
+    <p>Todo lo anterior, armado a su gusto. <strong>Toque los botones</strong> y las cifras se recalculan solas — así ve cuánto le queda cada combinación antes de decidir. Lo que deje escogido es lo que sale impreso si descarga el PDF.</p>
+
+    <div class="cfg" id="cfg">
+      <div class="cfg__steps">
+
+        <div class="cfg__step">
+          <span class="cfg__q"><i>1</i> Qué construimos</span>
+          <div class="cfg__opts">
+          <label class="seg"><input type="radio" name="alcance" value="completa" checked><span><b>Plataforma completa</b> <em>$3.300.000</em></span></label>
+          <label class="seg"><input type="radio" name="alcance" value="fase1"><span><b>Solo la Fase 1</b> <em>$2.250.000</em></span></label>
+          </div>
+        </div>
+
+        <div class="cfg__step">
+          <span class="cfg__q"><i>2</i> Cómo paga la construcción</span>
+          <div class="cfg__opts">
+          <label class="seg"><input type="radio" name="pago" value="contado" checked><span><b>De una</b> <em>50% y 50%</em></span></label>
+          <label class="seg"><input type="radio" name="pago" value="cuotas"><span><b>En cuotas mensuales</b> <em>sin intereses</em></span></label>
+          </div>
+          <div class="cfg__opts cfg__sub" id="plazos" hidden>
+          <label class="seg"><input type="radio" name="plazo" value="5"><span><b>5 meses</b></span></label>
+          <label class="seg"><input type="radio" name="plazo" value="6" checked><span><b>6 meses</b></span></label>
+          <label class="seg"><input type="radio" name="plazo" value="10"><span><b>10 meses</b></span></label>
+          </div>
+        </div>
+
+        <div class="cfg__step">
+          <span class="cfg__q"><i>3</i> Plan mensual de operación</span>
+          <div class="cfg__opts">
+          <label class="seg"><input type="radio" name="plan" value="salon" checked><span><b>Salón</b> <em>1 curso · $120.000</em></span></label>
+          <label class="seg"><input type="radio" name="plan" value="tres"><span><b>Tres cursos</b> <em>3°,4°,5° · $280.000</em></span></label>
+          <label class="seg"><input type="radio" name="plan" value="colegio"><span><b>Colegio</b> <em>desde $450.000</em></span></label>
+          <label class="seg"><input type="radio" name="plan" value="propio"><span><b>Yo le pago a Google</b> <em>≈$85.000</em></span></label>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="cfg__printsel" id="printsel"></p>
+
+      <div class="cfg__out">
+        <div class="cfg__cell">
+          <span class="cfg__k">Paga hoy</span>
+          <span class="cfg__v" id="vHoy">$1.650.000</span>
+          <span class="cfg__n" id="nHoy">Anticipo del 50%</span>
+        </div>
+        <div class="cfg__cell">
+          <span class="cfg__k">Cada mes</span>
+          <span class="cfg__v" id="vMes">$120.000</span>
+          <span class="cfg__n" id="nMes">Plan Salón · primer mes incluido</span>
+        </div>
+        <div class="cfg__cell is-hero">
+          <span class="cfg__k">Primer año completo</span>
+          <span class="cfg__v" id="vAno">$4.620.000</span>
+          <span class="cfg__n" id="nAno">Construcción + once meses de operación</span>
+        </div>
+      </div>
+
+      <p class="cfg__detail" id="detalle"></p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Concepto</th><th>Tipo</th><th style="text-align:right">Valor (COP)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Plataforma completa</td>
+            <td data-l="Tipo">Pago único</td>
+            <td class="price" data-l="Valor"><s>$6.600.000</s> → <strong>$3.300.000</strong></td>
+          </tr>
+          <tr>
+            <td class="name">Plan mensual del aula</td>
+            <td data-l="Tipo">Mensual</td>
+            <td class="price" data-l="Valor">$120.000 – $280.000 / mes<br><span style="font-family:var(--body);font-size:12px;color:var(--ink-soft)">primer mes incluido</span></td>
+          </tr>
+          <tr>
+            <td class="name">Mejoras opcionales</td>
+            <td data-l="Tipo">A futuro, si quiere</td>
+            <td class="price" data-l="Valor">$200.000 – $700.000 c/u</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Para arrancar hoy</td>
+            <td class="price">Pago único + $0 el primer mes</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <p class="fine">Valores en COP, no incluyen IVA si llegara a aplicar. La mensualidad se factura por mes vencido y se puede suspender en vacaciones.</p>
+  </section>
+
+  <!-- 06 -->
+  <section class="sec">
+    <h2><span class="n">06</span> Cómo se protege a los niños</h2>
+
+    <p>Esto no es un extra: va incluido en el módulo 10 y es innegociable. Son menores de edad.</p>
+
+    <div class="cards">
+      <div class="card">
+        <b>Sin correo, sin redes, sin chat</b>
+        <p>Los niños entran con usuario y contraseña. No hay correo electrónico, no hay mensajería entre ellos, no hay forma de que alguien de afuera los contacte.</p>
+      </div>
+      <div class="card">
+        <b>Nada es público por defecto</b>
+        <p>Todo lo que crean llega primero a usted. La galería solo muestra lo que usted aprueba, y usted lo puede quitar cuando quiera.</p>
+      </div>
+      <div class="card">
+        <b>Filtro en cada salida de la IA</b>
+        <p>Cada texto y cada imagen que genera la inteligencia artificial pasa por un filtro de contenido infantil antes de que el niño la vea.</p>
+      </div>
+      <div class="card">
+        <b>Ley 1581 de 2012</b>
+        <p>Tratamiento de datos conforme a la ley colombiana de Habeas Data. Le entrego el formato de autorización para que lo firmen los acudientes.</p>
+      </div>
+      <div class="card">
+        <b>Cero publicidad, cero rastreo</b>
+        <p>No hay anuncios, no hay cookies de seguimiento y los datos de los niños no se comparten ni se venden a nadie.</p>
+      </div>
+      <div class="card">
+        <b>Datos mínimos</b>
+        <p>Solo nombre y curso. Sin documento de identidad, sin dirección, sin teléfono, sin fecha de nacimiento, sin fotos de sus caras.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="sec">
+    <h2><span class="n">07</span> Mejoras opcionales <em>(para más adelante)</em></h2>
+
+    <p>Nada de esto hace falta para arrancar. Se lo dejo escrito para que sepa hasta dónde puede llegar la plataforma cuando quiera. <strong>Todos los valores ya tienen aplicado el precio de familia.</strong></p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Mejora</th><th>Qué resuelve</th><th style="text-align:right">Valor familia</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">La IA lee el cuento en voz alta</td>
+            <td data-l="Qué resuelve">Los de tercero todavía leen despacio. Que el cuento se escuche cambia la experiencia por completo.</td>
+            <td class="price" data-l="Valor">$250.000</td>
+          </tr>
+          <tr>
+            <td class="name">El niño dicta y la IA escribe</td>
+            <td data-l="Qué resuelve">Para los que escriben lento en el teclado: hablan, y la plataforma transcribe. Se enfocan en imaginar, no en teclear.</td>
+            <td class="price" data-l="Valor">$350.000</td>
+          </tr>
+          <tr>
+            <td class="name">Integrar sus juegos de Educaplay</td>
+            <td data-l="Qué resuelve">Los juegos que usted ya sabe hacer quedan dentro de la plataforma, con el mismo login y contando para los reportes.</td>
+            <td class="price" data-l="Valor">$200.000</td>
+          </tr>
+          <tr>
+            <td class="name">El libro del curso, en PDF</td>
+            <td data-l="Qué resuelve">Antología imprimible con los mejores cuentos e ilustraciones del año. Un recuerdo físico para cada familia.</td>
+            <td class="price" data-l="Valor">$300.000</td>
+          </tr>
+          <tr>
+            <td class="name">Acceso para los acudientes</td>
+            <td data-l="Qué resuelve">Cada papá o mamá entra con su clave y ve únicamente lo que hizo su hijo. Reuniones de entrega de notas con evidencia.</td>
+            <td class="price" data-l="Valor">$450.000</td>
+          </tr>
+          <tr>
+            <td class="name">Tablero para proyectar en clase</td>
+            <td data-l="Qué resuelve">Vista grande para el videobeam: los cuentos e ilustraciones aparecen en vivo mientras los niños los crean.</td>
+            <td class="price" data-l="Valor">$400.000</td>
+          </tr>
+          <tr>
+            <td class="name">Diplomas y certificados automáticos</td>
+            <td data-l="Qué resuelve">“Mejor cuentista del mes”, “Constancia del período”. Se generan solos y se imprimen.</td>
+            <td class="price" data-l="Valor">$200.000</td>
+          </tr>
+          <tr>
+            <td class="name">Instalable como app</td>
+            <td data-l="Qué resuelve">Que quede con su ícono en la pantalla de la tablet, sin pasar por el navegador.</td>
+            <td class="price" data-l="Valor">$250.000</td>
+          </tr>
+          <tr>
+            <td class="name">Modo bilingüe español / inglés</td>
+            <td data-l="Qué resuelve">Que los niños escriban y la IA responda en inglés. Sirve para el área de idiomas.</td>
+            <td class="price" data-l="Valor">$300.000</td>
+          </tr>
+          <tr>
+            <td class="name">Varios docentes y varios colegios</td>
+            <td data-l="Qué resuelve">Si otras profes o el colegio entero lo quieren usar: cada una con sus grupos, sus niños y sus reportes por separado.</td>
+            <td class="price" data-l="Valor">$700.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="sec">
+    <h2><span class="n">08</span> Tiempos de entrega</h2>
+
+    <p>Contados desde el anticipo. Le voy mostrando avances para que corrija sobre la marcha, no al final.</p>
+
+    <ul class="tl">
+      <li><b>Semana 1</b><span>Reunión de arranque en Turbaco, diseño de la plataforma y del personaje guía. Usted aprueba cómo se va a ver antes de que yo programe nada.</span></li>
+      <li><b>Semanas 2 – 3</b><span>Cuentas de los niños, panel de la docente y carga de las listas de 3°, 4° y 5°. Al final de la semana 3 usted ya puede entrar y crear sus grupos.</span></li>
+      <li><b>Semanas 4 – 5</b><span>Taller de cuentos con IA y galería de trabajos. <strong>Aquí termina la Fase 1</strong> y los niños ya pueden escribir e ilustrar.</span></li>
+      <li><b>Semanas 6 – 7</b><span>Los dos minijuegos, las recompensas y los reportes por niño. <em>(Fase 2)</em></span></li>
+      <li><b>Semana 8</b><span>Pruebas con niños reales en el salón, ajustes finales, publicación y capacitación para dejarla manejándolo sola.</span></li>
+    </ul>
+  </section>
+
+  <!-- 09 -->
+  <section class="sec">
+    <h2><span class="n">09</span> Condiciones</h2>
+
+    <ul class="list">
+      <li><strong>Pago único — forma de pago:</strong> 50% de anticipo para arrancar y 50% contra entrega. En la Opción B, ese 50/50 aplica sobre cada fase por separado.</li>
+      <li><strong>Pago en cuotas (Opción C):</strong> de 5 a 10 cuotas mensuales iguales, <strong>sin intereses ni recargos</strong>. La primera se paga al arrancar y las demás cada 30 días. Puede adelantar cuotas o cancelar el saldo cuando quiera, sin penalidad.</li>
+      <li><strong>Si se atrasa una cuota:</strong> me avisa y la corremos. No cobro mora ni le apago la plataforma — es familia, no un banco.</li>
+      <li><strong>Pago mensual:</strong> arranca el segundo mes (el primero va incluido) y se factura por mes vencido. <strong>Sin permanencia y sin cláusula de salida:</strong> avisa con quince días y se suspende.</li>
+      <li><strong>Vacaciones:</strong> los meses sin clase no se cobran. La plataforma queda guardada con todos los cuentos y dibujos adentro, y se reactiva sin costo cuando vuelvan.</li>
+      <li><strong>Si un mes se pasa de créditos:</strong> las actividades con IA se pausan hasta el mes siguiente. Nunca se factura por encima del plan sin que usted lo autorice antes.</li>
+      <li><strong>Si deja de pagar la mensualidad:</strong> la plataforma se apaga, pero los datos de los niños no se borran. Le entrego todo exportado y guardado por seis meses.</li>
+      <li><strong>Medios de pago:</strong> transferencia, Nequi o Bancolombia. Le paso los datos cuando confirme.</li>
+      <li><strong>Validez de la oferta:</strong> 30 días, hasta el 24 de septiembre de 2026.</li>
+      <li><strong>Ajustes incluidos:</strong> dos rondas de cambios por módulo, sin costo. Cambios que reescriban un módulo ya aprobado se cotizan aparte.</li>
+      <li><strong>Propiedad:</strong> la plataforma es suya. Le entrego el acceso completo, el dominio a su nombre y el código.</li>
+      <li><strong>Garantía:</strong> tres meses de corrección de fallas sin costo desde la entrega.</li>
+      <li><strong>Notas:</strong> valores en COP, no incluyen IVA si llegara a aplicar. Los créditos de IA y la renovación de hosting se pagan directamente a los proveedores.</li>
+    </ul>
+
+    <h3>Lo que necesito de usted</h3>
+    <ul class="list">
+      <li>La lista de los niños con <strong>nombre y curso</strong> — nada más. Sin documentos, sin direcciones, sin teléfonos.</li>
+      <li>La autorización firmada de los acudientes. Yo le entrego el formato listo, usted solo lo hace firmar.</li>
+      <li>Un correo suyo para el panel de docente.</li>
+      <li>Confirmar con qué van a trabajar los niños: tablets, computadores del colegio o la sala de sistemas.</li>
+    </ul>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec">
+    <h2><span class="n">10</span> Próximos pasos</h2>
+    <ol class="steps">
+      <li>Nos vemos en Turbaco y usted me cuenta las ideas que tiene en mente — dijo que me iba a mostrar varias cosas.</li>
+      <li>Elige cómo paga <strong>la construcción</strong>: Opción A (todo de una, $3.300.000), Opción B (por fases, desde $2.250.000) u Opción C (en cuotas, desde $330.000 al mes).</li>
+      <li>Elige el <strong>plan mensual</strong>: Salón ($120.000) si arranca con un curso, o Tres cursos ($280.000) si mete a 3°, 4° y 5° de una. El primer mes va incluido, así que de esto no paga nada todavía.</li>
+      <li>Con el anticipo arranco esa misma semana con el diseño.</li>
+      <li>En la semana 3 ya está entrando al panel a crear sus grupos.</li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <div class="rule"><i></i><b></b><i></i></div>
+    <p>Gracias por pensar en mí para esto, tía. Me gusta el proyecto y me gusta más para quién es. Cualquier cosa que quiera cambiar de esta propuesta, me dice y la ajustamos.</p>
+    <p class="sign">Luis Jaller · <span>J&amp;V Agencia</span></p>
+    <p class="contact">contacto@jvagencia.com · jvagencia.com</p>
+  </footer>
+
+</article>
+
+
+<script>
+(function () {
+  var BUILD  = { completa: 3300000, fase1: 2250000 };
+  var FASE2  = 1050000;
+  var PLAN   = { salon: 120000, tres: 280000, colegio: 450000, propio: 85000 };
+  var PLAN_L = {
+    salon:    'plan Salón',
+    tres:     'plan Tres cursos',
+    colegio:  'plan Colegio',
+    propio:   'créditos pagados por usted a Google'
+  };
+  var ALC_L  = { completa: 'Plataforma completa', fase1: 'Solo la Fase 1' };
+
+  function cop(n) {
+    return '$' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+  function pick(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+  function set(id, txt) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  }
+
+  function render() {
+    var alcance = pick('alcance');
+    var pago    = pick('pago');
+    var plan    = pick('plan');
+    var plazo   = parseInt(pick('plazo'), 10) || 6;
+
+    var build   = BUILD[alcance];
+    var mensual = PLAN[plan];
+    var esCuota = pago === 'cuotas';
+    var aprox   = plan === 'propio';
+
+    document.getElementById('plazos').hidden = !esCuota;
+
+    // --- Paga hoy ---
+    var hoy   = esCuota ? build / plazo : build / 2;
+    var notaHoy = esCuota
+      ? 'Primera de ' + plazo + ' cuotas de ' + cop(build / plazo)
+      : 'Anticipo del 50% · el otro 50% contra entrega';
+
+    // --- Cada mes ---
+    var mes, notaMes;
+    if (esCuota) {
+      mes = build / plazo + mensual;
+      notaMes = 'Cuota ' + cop(build / plazo) + ' + ' + cop(mensual) +
+                ' de operación, durante ' + plazo + ' meses. Después, solo ' + cop(mensual) + '.';
+    } else {
+      mes = mensual;
+      notaMes = PLAN_L[plan].charAt(0).toUpperCase() + PLAN_L[plan].slice(1) + ' · primer mes incluido';
+    }
+
+    // --- Primer año: construcción + 11 meses de operación (el primero va incluido) ---
+    var ano = build + mensual * 11;
+    var notaAno = 'Construcción + once meses de operación' + (aprox ? ' (estimado)' : '');
+
+    set('vHoy', cop(hoy));   set('nHoy', notaHoy);
+    set('vMes', cop(mes));   set('nMes', notaMes);
+    set('vAno', cop(ano));   set('nAno', notaAno);
+
+    // --- Frase de detalle ---
+    var d = [];
+    d.push(alcance === 'completa'
+      ? 'Se construye la <strong>plataforma completa</strong> (' + cop(build) + ').'
+      : 'Se construye <strong>solo la Fase 1</strong> — el aula viva (' + cop(build) + '). La Fase 2 queda a ' + cop(FASE2) + ' cuando la quiera, durante doce meses.');
+
+    d.push(esCuota
+      ? 'La paga en <strong>' + plazo + ' cuotas de ' + cop(build / plazo) + '</strong>, sin intereses.'
+      : 'La paga <strong>50% al arrancar y 50% contra entrega</strong>.');
+
+    d.push(aprox
+      ? 'La cuenta de inteligencia artificial queda a nombre suyo: le paga a Google entre <strong>$50.000 y $90.000 al mes</strong>, más el hosting.'
+      : 'La operación va en el <strong>' + PLAN_L[plan] + ' (' + cop(mensual) + ' al mes)</strong>, con el primer mes incluido y sin permanencia.');
+
+    d.push('En doce meses, todo junto: <strong>' + cop(ano) + '</strong>' + (aprox ? ' aproximados' : '') + '.');
+
+    document.getElementById('detalle').innerHTML = d.join(' ');
+
+    // --- Resumen para la versión impresa ---
+    set('printsel', 'Configurado como: ' + ALC_L[alcance] + ' · ' +
+      (esCuota ? plazo + ' cuotas' : 'pago 50/50') + ' · ' + PLAN_L[plan] + '.');
+  }
+
+  document.getElementById('cfg').addEventListener('change', render);
+  render();
+})();
+</script>
+
+</body>
+</html>
