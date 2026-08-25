@@ -46,8 +46,40 @@ const PRIVATE_DOCS: PrivateDoc[] = [
   },
 ];
 
+/**
+ * Canonicaliza la ruta antes de compararla contra PRIVATE_DOCS.
+ *
+ * Sin esto hay una fuga real: el middleware ve la ruta tal como llega, pero la
+ * capa de archivos estáticos la decodifica antes de resolver el archivo. Asi,
+ * /kit-vendedores%2Ehtml no coincide con ninguna entrada de la lista, pasa de
+ * largo, y el estático se entrega sin pedir contraseña. Lo mismo con cualquier
+ * otro caracter codificado (%2D, %6C, ...).
+ *
+ * Se decodifica hasta punto fijo (por si viene codificado varias veces), se
+ * colapsan las barras, se quita la barra final y se pasa a minúsculas. Al
+ * comparar sobre la forma canónica, todas las variantes caen en la misma
+ * entrada y quedan detrás de Basic Auth.
+ */
+function normalizePath(pathname: string): string {
+  let out = pathname;
+  for (let i = 0; i < 5; i++) {
+    let decoded: string;
+    try {
+      decoded = decodeURIComponent(out);
+    } catch {
+      break; // secuencia inválida: nos quedamos con la última forma válida
+    }
+    if (decoded === out) break;
+    out = decoded;
+  }
+  out = out.replace(/\\/g, "/").replace(/\/{2,}/g, "/");
+  if (out.length > 1) out = out.replace(/\/+$/, "");
+  return out.toLowerCase();
+}
+
 function findPrivateDoc(pathname: string): PrivateDoc | undefined {
-  return PRIVATE_DOCS.find((doc) => doc.paths.includes(pathname));
+  const normalized = normalizePath(pathname);
+  return PRIVATE_DOCS.find((doc) => doc.paths.includes(normalized));
 }
 
 /**
