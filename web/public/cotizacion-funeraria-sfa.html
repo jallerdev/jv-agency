@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
 <style>
 
+
   :root{
     --primary:#985C3E; --primary-dark:#6E4128; --secondary:#B08968; --accent:#C0763B;
     --surface:#FAF6F1; --bg:#F4EDE4; --ink:#2B2420; --ink-soft:#6B5E54; --line:#E4D8CB;
@@ -238,6 +239,13 @@
   .cifra{ background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:18px; text-align:center; }
   .cifra b{ display:block; font-family:var(--display); font-size:30px; color:var(--primary); line-height:1.1; }
   .cifra span{ font-size:12.5px; color:var(--ink-soft); }
+
+
+  /* Añadidos de este documento */
+  .totalrow td{ font-weight:700; border-top:2px solid var(--line); }
+  .totalrow .price{ font-size:15px; color:var(--ink); }
+  .tachado{ text-decoration:line-through; color:var(--ink-soft); font-weight:400; }
+  .grande{ font-family:var(--display); font-size:clamp(34px,6vw,52px); line-height:1.05; color:var(--primary); }
 </style>
 </head>
 <body>
@@ -251,12 +259,10 @@
 
   <header class="head">
     <span class="eyebrow">— Cotización del sitio web</span>
-    <h1>Lo que se hizo, lo que vale y <i>lo que usted paga</i></h1>
+    <h1>El sitio de la funeraria, <i>ya entregado</i></h1>
     <p class="head__sub">
-      El sitio de la funeraria ya está en línea y funcionando. Este documento no es un
-      presupuesto de algo por hacer: es la cuenta de algo que ya está hecho, para que usted
-      vea con claridad qué recibió y por qué el precio que le estoy pasando no se parece a
-      lo que esto cuesta.
+      La página está en línea y funcionando. Este documento es simplemente la cuenta: qué se
+      hizo, cuánto vale y cuánto le queda por pagar.
     </p>
     <div class="meta">
       <div><span>Preparado para</span><b>Jairo Alberto Gambín Quintana<br>Funeraria San Francisco de Asís C.E.</b></div>
@@ -269,140 +275,105 @@
   </header>
 
   <section class="sec">
-    <h2><span class="n">01</span> Antes de los números</h2>
+    <h2><span class="n">01</span> Para qué es este documento</h2>
     <p>
-      Don Jairo, le voy a poner los precios reales del mercado en este documento. No para
-      cobrárselos —el precio suyo está en la sección 05 y es otro— sino porque me parece
-      falta de respeto entregarle algo y decirle «no se preocupe, no fue nada». Sí fue algo.
-      Y usted tiene derecho a saber qué recibió.
+      Tío, le desgloso los precios porque me parece que usted tiene derecho a saber qué
+      recibió. No para cobrárselo completo —el precio suyo está en la sección 05 y es otro—,
+      sino para que quede claro de qué estamos hablando.
     </p>
     <p>
-      Lo segundo que quiero dejar claro: <strong>esto no es una plantilla</strong>. No compré
-      un diseño hecho y le cambié el logo. La paleta de colores, las letras, los dibujos, los
-      iconos, la ilustración de la esquela, la forma en que se ordena cada página — todo eso
-      se hizo para esta funeraria y no existe en ningún otro lado.
+      Lo único que sí quiero dejar dicho: <strong>esto no es una plantilla</strong>. Los
+      colores, las letras, los dibujos, los iconos y la ilustración de la esquela se hicieron
+      para esta funeraria. Una página comprada se reconoce, y en este oficio verse igual a
+      todo el mundo no ayuda.
     </p>
-    <div class="note good">
-      <p><strong>Por qué importa la diferencia.</strong> Una plantilla se reconoce. La ven en
-      cien negocios distintos y transmite exactamente eso: que usted es uno de cien. En un
-      oficio donde la gente llega en el peor día de su vida, verse igual a todo el mundo no
-      es un detalle estético — es una desventaja.</p>
-    </div>
   </section>
 
   <section class="sec">
     <h2><span class="n">02</span> Lo que quedó hecho</h2>
 
-    <div class="cifras">
-      <div class="cifra"><b>11</b><span>páginas</span></div>
-      <div class="cifra"><b>17</b><span>iconos dibujados</span></div>
-      <div class="cifra"><b>23</b><span>piezas reutilizables</span></div>
-      <div class="cifra"><b>5.484</b><span>líneas escritas</span></div>
-    </div>
-
     <h3>La página que ve la gente</h3>
     <ul class="list">
-      <li><strong>Portada</strong> con el teléfono a la vista en todo momento y un botón de
-        WhatsApp que sigue al visitante mientras baja. Quien llega desesperado no tiene que
-        buscar: el número está en la primera pantalla.</li>
-      <li><strong>Nosotros</strong>, con la historia, la misión, la visión, los valores y el
-        paso a paso de cómo se atiende un servicio.</li>
+      <li><strong>Portada</strong> con el teléfono a la vista todo el tiempo y un botón de
+        WhatsApp que sigue al visitante mientras baja.</li>
+      <li><strong>Nosotros</strong>, con quiénes son, la misión, la visión, los valores, la
+        política de calidad y el paso a paso del servicio.</li>
       <li><strong>Servicios, cobertura, flota y planes</strong>, cada uno con su sección.</li>
-      <li><strong>La flota</strong>, con las fotos de los tres coches fúnebres en un carrusel
-        que se pasa con el dedo.</li>
-      <li><strong>Política de tratamiento de datos</strong>, escrita conforme a la Ley 1581 de
-        2012 y publicada, como exige la Superintendencia.</li>
+      <li><strong>La flota</strong>, con los tres coches en un carrusel que se pasa con el dedo.</li>
+      <li><strong>Política de tratamiento de datos</strong>, conforme a la Ley 1581 de 2012.</li>
     </ul>
 
     <h3>Los obituarios</h3>
     <ul class="list">
-      <li>Usted publica un obituario desde el celular en menos de dos minutos.</li>
-      <li>Cada obituario tiene <strong>su propio enlace</strong>. La familia lo manda por
-        WhatsApp y a quien lo recibe le aparece una tarjeta con el nombre, el día y la hora
-        — no un enlace pelado que nadie abre.</li>
-      <li><strong>Se retiran solos</strong> tres días después de la velación. Nadie tiene que
-        acordarse de borrar nada. El enlace sigue funcionando para quien lo guardó.</li>
-      <li>Botón para que quien lo lea <strong>mande la condolencia</strong> por WhatsApp a la
-        funeraria, y ustedes se la hacen llegar a la familia.</li>
+      <li>Se publica desde el celular en menos de dos minutos.</li>
+      <li>Cada uno tiene <strong>su propio enlace</strong>. Al mandarlo por WhatsApp aparece una
+        tarjeta con el nombre, el día y la hora.</li>
+      <li><strong>Sale del listado solo</strong> a los tres días. No se borra: queda guardado y
+        el enlace sigue abriendo para quien lo tenga.</li>
+      <li>Botón para que quien lo lea <strong>mande la condolencia</strong> por WhatsApp.</li>
     </ul>
 
     <h3>La esquela</h3>
     <ul class="list">
-      <li>Se arma sola con lo que usted escribió. No hay que volver a montarla en Canva ni
-        pagarle a nadie que la diseñe cada vez.</li>
-      <li>Sale en <strong>imagen</strong> para mandar por WhatsApp y en <strong>PDF</strong>
-        tamaño oficio horizontal para llevar a imprimir.</li>
-      <li>El fondo —la acuarela, el eucalipto, el romero, las flores, el rosario y la cruz—
-        está dibujado a mano para ustedes.</li>
-      <li>Tiene un interruptor para <strong>quitar la cruz y el rosario</strong> cuando la
-        familia no es católica. Un toque, y la esquela sale sin símbolos religiosos.</li>
+      <li>Se arma sola con lo que usted escribió. No hay que volver a montarla cada vez.</li>
+      <li>Sale en <strong>imagen</strong> para WhatsApp y en <strong>PDF</strong> para imprimir.</li>
+      <li>El fondo está dibujado para ustedes, siguiendo el diseño que ya venían usando.</li>
+      <li>Interruptor para <strong>quitar la cruz y el rosario</strong> cuando la familia no
+        quiere símbolos religiosos.</li>
     </ul>
 
     <h3>El panel privado</h3>
     <ul class="list">
-      <li>Entra con una sola contraseña, desde el celular. Botones grandes, para usar de pie
-        y con afán.</li>
-      <li>Crear, editar, publicar y despublicar obituarios.</li>
-      <li><strong>No deja publicar sin anotar quién de la familia autorizó.</strong> Eso no es
-        un capricho: la ley se lo exige y es lo que lo protege si algún día alguien reclama.</li>
-      <li>Cerrado con llave de verdad: la contraseña nunca viaja al navegador, y tras cinco
-        intentos fallidos el sistema bloquea a quien lo esté intentando.</li>
+      <li>Una sola contraseña, desde el celular. Botones grandes, para usar de pie.</li>
+      <li>Crear, editar, publicar, despublicar y eliminar obituarios.</li>
+      <li><strong>No deja publicar sin anotar quién de la familia autorizó.</strong> La ley lo
+        pide y es lo que los protege si algún día alguien reclama.</li>
+      <li>Cerrado con llave: la contraseña nunca viaja al navegador, y tras cinco intentos
+        fallidos el sistema bloquea.</li>
     </ul>
 
-    <h3>Lo que usted puede cambiar sin llamarme</h3>
+    <h3>Lo que ustedes pueden cambiar solos</h3>
     <ul class="list">
-      <li><strong>Todos los textos del sitio están en un solo archivo</strong>, escrito en
-        español y con instrucciones adentro. Cambiar un teléfono, un horario o un párrafo no
-        requiere programar ni pagarle a nadie.</li>
-      <li><strong>Modo revisión:</strong> le paso un enlace, usted abre el sitio, toca
-        cualquier texto o foto que no le guste y escribe qué quiere cambiar. A mí me llega la
-        lista con la página, el texto exacto y su comentario. Se acabó el «cámbiame eso de
-        allá arriba, el de la parte azul».</li>
+      <li><strong>Todos los textos están en un solo archivo</strong>, en español y con
+        instrucciones adentro.</li>
+      <li><strong>Modo revisión:</strong> abre el sitio con un enlace, toca lo que no le gusta
+        y escribe qué cambiar. A mí me llega la lista con la página y el texto exacto.</li>
     </ul>
   </section>
 
   <section class="sec">
     <h2><span class="n">03</span> Lo que se dibujó desde cero</h2>
-    <p>Esta es la parte que normalmente se cobra aparte, como diseño de marca:</p>
     <div class="cards">
-      <div class="card"><b>La paleta</b><p>Verde litúrgico sobre caliza. Sin negro ni blanco puros, porque en pantalla cansan la vista de quien lleva horas despierto.</p></div>
-      <div class="card"><b>Las letras</b><p>Dos familias combinadas, con el tamaño base subido a propósito: buena parte de quien lee esto pasa de sesenta años.</p></div>
-      <div class="card"><b>17 iconos</b><p>Carroza, capilla, vela, manos, flor, ruta, documento… Dibujados uno por uno, no bajados de un paquete.</p></div>
-      <div class="card"><b>El emblema</b><p>San Francisco con el ave, preparado en dos versiones para fondo claro y oscuro, y comprimido de 109 KB a 8 KB.</p></div>
-      <div class="card"><b>El fondo de la esquela</b><p>Acuarela, ramas de eucalipto, romero, gypsophila, flores, estrellas, rosario y cruz. Todo vectorial: se imprime nítido a cualquier tamaño.</p></div>
-      <div class="card"><b>Las fotos de la flota</b><p>Siete fotos recortadas al mismo formato, encuadradas una por una y optimizadas para que carguen rápido con datos móviles.</p></div>
+      <div class="card"><b>La paleta</b><p>Verde litúrgico sobre caliza. Sin negro ni blanco puros, que en pantalla cansan la vista.</p></div>
+      <div class="card"><b>Las letras</b><p>Dos familias combinadas, con el tamaño base subido: buena parte de quien lee esto pasa de sesenta años.</p></div>
+      <div class="card"><b>17 iconos</b><p>Carroza, capilla, vela, manos, flor, ruta, documento. Dibujados uno por uno.</p></div>
+      <div class="card"><b>El emblema</b><p>San Francisco con el ave, preparado en dos versiones para fondo claro y oscuro.</p></div>
+      <div class="card"><b>El fondo de la esquela</b><p>Acuarela, eucalipto, romero, flores y estrellas. Todo vectorial: se imprime nítido a cualquier tamaño.</p></div>
+      <div class="card"><b>Las fotos de la flota</b><p>Siete fotos recortadas al mismo formato, encuadradas una por una y optimizadas.</p></div>
     </div>
   </section>
 
   <section class="sec">
-    <h2><span class="n">04</span> Lo que esto vale</h2>
-    <p>
-      Precios de mercado en Colombia para un sitio hecho a la medida, sin plantilla, con base
-      de datos y panel propio. Se los desgloso para que vea que no es una cifra sacada del aire:
-    </p>
+    <h2><span class="n">04</span> Lo que vale</h2>
+    <p>Se lo desgloso por partes para que vea de dónde sale la cifra:</p>
     <div class="tbl-wrap">
       <table>
         <thead><tr><th>Lo que se hizo</th><th style="text-align:right">Valor</th></tr></thead>
         <tbody>
-          <tr><td class="name">Identidad visual y arte propio (paleta, letras, 17 iconos, emblema)</td><td class="price" data-l="Valor">$700.000</td></tr>
-          <tr><td class="name">Portada y página «Nosotros»</td><td class="price" data-l="Valor">$600.000</td></tr>
-          <tr><td class="name">Sistema de obituarios (base de datos, listado, enlace propio, vencimiento automático, compartir por WhatsApp)</td><td class="price" data-l="Valor">$900.000</td></tr>
-          <tr><td class="name">Panel privado con contraseña y seguridad</td><td class="price" data-l="Valor">$650.000</td></tr>
-          <tr><td class="name">Esquela imprimible en PDF e imagen, con fondo ilustrado</td><td class="price" data-l="Valor">$550.000</td></tr>
-          <tr><td class="name">Política de datos y control de autorización de la familia (Ley 1581)</td><td class="price" data-l="Valor">$400.000</td></tr>
-          <tr><td class="name">Archivo único para que ustedes editen todos los textos</td><td class="price" data-l="Valor">$250.000</td></tr>
-          <tr><td class="name">Modo revisión con comentarios sobre el sitio</td><td class="price" data-l="Valor">$350.000</td></tr>
-          <tr><td class="name">Fotos de la flota: recorte, encuadre, optimización y carrusel</td><td class="price" data-l="Valor">$200.000</td></tr>
-          <tr><td class="name">Puesta en línea, base de datos, pruebas y correcciones</td><td class="price" data-l="Valor">$300.000</td></tr>
-          <tr class="totalrow"><td class="name">Valor real del trabajo</td><td class="price" data-l="Total">$4.900.000</td></tr>
+          <tr><td class="name">Identidad visual y arte propio (paleta, letras, iconos, emblema)</td><td class="price" data-l="Valor">$350.000</td></tr>
+          <tr><td class="name">Portada y página «Nosotros»</td><td class="price" data-l="Valor">$350.000</td></tr>
+          <tr><td class="name">Sistema de obituarios (base de datos, enlace propio, vencimiento automático, WhatsApp)</td><td class="price" data-l="Valor">$500.000</td></tr>
+          <tr><td class="name">Panel privado con contraseña</td><td class="price" data-l="Valor">$350.000</td></tr>
+          <tr><td class="name">Esquela en PDF e imagen, con fondo ilustrado</td><td class="price" data-l="Valor">$300.000</td></tr>
+          <tr><td class="name">Política de datos y autorización de la familia (Ley 1581)</td><td class="price" data-l="Valor">$200.000</td></tr>
+          <tr><td class="name">Archivo único para editar todos los textos</td><td class="price" data-l="Valor">$150.000</td></tr>
+          <tr><td class="name">Modo revisión con comentarios sobre el sitio</td><td class="price" data-l="Valor">$200.000</td></tr>
+          <tr><td class="name">Fotos de la flota: recorte, encuadre y carrusel</td><td class="price" data-l="Valor">$120.000</td></tr>
+          <tr><td class="name">Puesta en línea, base de datos y pruebas</td><td class="price" data-l="Valor">$180.000</td></tr>
+          <tr class="totalrow"><td class="name">Total</td><td class="price" data-l="Total">$2.700.000</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="fine">
-      Son cerca de cien horas de trabajo. Si le pidiera esto mismo a una agencia de Cartagena,
-      la cifra estaría entre cuatro y seis millones, y le entregarían menos: casi ninguna hace
-      la esquela automática ni el modo revisión.
-    </p>
   </section>
 
   <section class="sec">
@@ -411,47 +382,24 @@
     <div class="offerbox">
       <span class="eyebrow">— Precio de familia</span>
       <div class="offerbox__amt grande">$850.000</div>
-      <p class="offerbox__note">Pago único. Antes: <span class="tachado">$4.900.000</span></p>
-    </div>
-
-    <div class="cifras">
-      <div class="cifra"><b>$4.050.000</b><span>lo que no se le cobra</span></div>
-      <div class="cifra"><b>83%</b><span>de rebaja</span></div>
-      <div class="cifra"><b>$8.500</b><span>por hora de trabajo</span></div>
+      <p class="offerbox__note">Pago único. Sobre <span class="tachado">$2.700.000</span></p>
     </div>
 
     <p>
-      Esa última cifra es la que quiero que mire. Cien horas, ochocientos cincuenta mil pesos:
-      <strong>ocho mil quinientos pesos la hora</strong>. Está por debajo de lo que cuesta un
-      almuerzo corriente en el centro. No es un descuento comercial de esos que se inventan
-      subiendo el precio antes para poder bajarlo después. Es trabajo hecho por debajo de su
-      costo, a propósito, porque usted es familia y porque quería que esta funeraria tuviera
-      algo del tamaño de lo que hace.
+      Es bastante menos de lo que vale y así lo quise. Usted es familia y esta funeraria hace
+      un trabajo que me parece que merecía una página en serio. No hay que darle más vueltas
+      al asunto.
     </p>
-    <div class="note">
+    <div class="note good">
       <p>
-        Lo digo sin rodeos para que no quede duda: <strong>no estoy ganando dinero con este
-        proyecto</strong>. Lo que le cobro alcanza para el tiempo, no para el trabajo. Y está
-        bien — lo hice sabiendo eso.
+        Incluye <strong>tres meses de garantía</strong> y los ajustes de texto que necesite en
+        ese tiempo, sin costo.
       </p>
     </div>
   </section>
 
   <section class="sec">
-    <h2><span class="n">06</span> Lo que no entró en la cuenta</h2>
-    <p>Cosas que se hicieron y no están sumadas arriba:</p>
-    <div class="regalo">
-      <div><i>✓</i><span><b>La esquela se rehízo cuatro veces</b> hasta dejarla igual a la que ustedes usan. Ninguna de esas vueltas se cobró.</span></div>
-      <div><i>✓</i><span><b>El estudio legal</b> de qué exige la ley colombiana para publicar los datos de un fallecido, y el rediseño del panel para cumplirlo.</span></div>
-      <div><i>✓</i><span><b>El modo revisión completo</b>, que no estaba en lo hablado y se construyó porque hacía falta.</span></div>
-      <div><i>✓</i><span><b>La optimización de todas las imágenes</b>: el sitio pesa un tercio de lo que pesaba. Con datos móviles se nota.</span></div>
-      <div><i>✓</i><span><b>El cambio de base de datos</b> a la cuenta de la empresa, para que quede a nombre de ustedes y no del mío.</span></div>
-      <div><i>✓</i><span><b>Tres meses de garantía</b> sobre todo lo entregado, y los ajustes de texto que pida en ese tiempo.</span></div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <h2><span class="n">07</span> Cómo se paga</h2>
+    <h2><span class="n">06</span> Cómo se paga</h2>
     <ul class="list">
       <li><strong>De una:</strong> $850.000.</li>
       <li><strong>En dos cuotas:</strong> $425.000 ahora y $425.000 el mes entrante.</li>
@@ -459,20 +407,20 @@
     </ul>
     <p class="fine">
       Sin intereses: la cuota es el precio dividido, nada más. Nequi, transferencia o efectivo.
-      Si un mes se complica, me avisa y la corremos — no es un banco.
+      Si un mes se complica, me avisa y la corremos.
     </p>
 
-    <h3>Lo que se paga cada mes: nada</h3>
+    <h3>Cada mes: nada</h3>
     <p>
       El sitio está montado sobre servicios que hoy no cobran por el tamaño de esta funeraria.
-      <strong>No hay mensualidad.</strong> El único gasto que va a aparecer es el dominio propio,
-      cuando lo quieran: entre $60.000 y $120.000 al año, pagados directamente al proveedor
-      del dominio, no a mí.
+      <strong>No hay mensualidad.</strong> El único gasto que aparecería es el dominio propio,
+      cuando lo quieran: entre $60.000 y $120.000 al año, pagados al proveedor del dominio, no
+      a mí.
     </p>
     <div class="note">
       <p>
         Hoy la dirección es <strong>funeraria-san-francisco-de-asis.netlify.app</strong> y
-        funciona perfectamente. Con dominio propio quedaría algo como
+        funciona bien. Con dominio propio quedaría algo como
         <strong>funerariasanfranciscodeasis.com</strong>, y de paso desaparece el sello de
         «Powered by Netlify» de la esquina.
       </p>
@@ -480,58 +428,51 @@
   </section>
 
   <section class="sec">
-    <h2><span class="n">08</span> Lo que necesito de usted</h2>
-    <p>Cosas pendientes que solo ustedes pueden darme. Ninguna cuesta plata:</p>
+    <h2><span class="n">07</span> Lo que necesito de usted</h2>
+    <p>Nada de esto cuesta plata, pero solo ustedes lo tienen:</p>
     <ol class="steps">
       <li><strong>Las coberturas reales de los tres planes.</strong> Lo que está publicado es
-        un borrador mío. Es el único texto del sitio que un cliente podría reclamarles, así que
-        prefiero que salga de lo que dice el contrato de verdad.</li>
+        un borrador mío. Es el único texto que un cliente podría reclamarles, así que prefiero
+        que salga del contrato de verdad.</li>
       <li><strong>Confirmar el horario.</strong> El sitio dice «atendemos las 24 horas, todos
         los días». Si la oficina tiene horario distinto al de emergencias, hay que decirlo.</li>
-      <li><strong>Revisar la misión y la visión.</strong> Las redacté yo. Son palabras puestas
-        en boca de la empresa y deberían ser las suyas.</li>
       <li><strong>Los datos del obituario de prueba.</strong> Publiqué el de don Rafael Antonio
-        con la información de la esquela que me pasaron; la fecha de fallecimiento, la sala y la
-        hora de velación las supuse. Corríjalas desde el panel.</li>
+        con la información de la esquela; la fecha de fallecimiento, la sala, la hora de
+        velación y la dirección de la sala las supuse. Corríjalas desde el panel.</li>
     </ol>
   </section>
 
   <section class="sec">
-    <h2><span class="n">09</span> Lo que sigue</h2>
+    <h2><span class="n">08</span> Lo que sigue</h2>
     <p>
-      Esto no se acaba aquí. Hay cosas que quedaron anotadas para más adelante, y se las dejo
-      escritas para que sepa hacia dónde puede crecer el sitio cuando ustedes quieran:
+      Cosas que quedaron anotadas para más adelante, para que sepa hacia dónde puede crecer el
+      sitio cuando ustedes quieran:
     </p>
     <ul class="tl">
       <li><b>Dominio propio</b><span>El nombre de la funeraria en la dirección, y sin el sello de Netlify.</span></li>
-      <li><b>Fotos profesionales de la flota</b><span>Las de ahora son de celular y sirven. Con luz de tarde y fondo despejado, los mismos vehículos se ven el doble de bien.</span></li>
+      <li><b>Fotos profesionales de la flota</b><span>Las de ahora son de celular y sirven. Con luz de tarde y fondo despejado se ven el doble de bien.</span></li>
       <li><b>Condolencias públicas</b><span>Que la gente escriba en el obituario y ustedes aprueben antes de que aparezca.</span></li>
       <li><b>Fotografía del fallecido</b><span>Subirla desde el panel, con recorte automático.</span></li>
-      <li><b>Más de un usuario</b><span>Que cada persona del equipo entre con su propia clave y quede registrado quién publicó qué.</span></li>
+      <li><b>Más de un usuario</b><span>Que cada persona entre con su propia clave y quede registrado quién publicó qué.</span></li>
       <li><b>Aparecer en Google Maps y en las búsquedas</b><span>El sitio ya está preparado por dentro; falta el trabajo de posicionamiento.</span></li>
     </ul>
-    <p class="fine">
-      Nada de esto es urgente ni se cobra hoy. Cuando llegue el momento lo cotizamos aparte, y
-      con la misma consideración.
-    </p>
+    <p class="fine">Nada de esto es urgente. Cuando llegue el momento lo vemos.</p>
   </section>
 
   <section class="sec">
-    <h2><span class="n">10</span> Garantía y propiedad</h2>
+    <h2><span class="n">09</span> Garantía y propiedad</h2>
     <div class="cards">
       <div class="card"><b>Tres meses de garantía</b><p>Cualquier falla de lo entregado se corrige sin costo hasta el 29 de noviembre de 2026.</p></div>
-      <div class="card"><b>El sitio es suyo</b><p>El código, los textos, los dibujos y la base de datos quedan a nombre de la funeraria. Si algún día quieren llevárselo a otra parte, se lo entrego todo.</p></div>
-      <div class="card"><b>La base está en su cuenta</b><p>La base de datos quedó en la cuenta de Supabase creada con el correo de la empresa, no en la mía.</p></div>
-      <div class="card"><b>Soporte por WhatsApp</b><p>Me escribe y le respondo. No hay tiquetes, ni formularios, ni horarios de atención.</p></div>
+      <div class="card"><b>El sitio es suyo</b><p>El código, los textos, los dibujos y la base de datos quedan a nombre de la funeraria. Si algún día quieren llevárselo, se lo entrego todo.</p></div>
+      <div class="card"><b>La base está en su cuenta</b><p>Quedó en la cuenta creada con el correo de la empresa, no en la mía.</p></div>
+      <div class="card"><b>Soporte por WhatsApp</b><p>Me escribe y le respondo. No hay tiquetes ni formularios.</p></div>
     </div>
   </section>
 
-  <div class="note good">
+  <div class="note">
     <p>
-      Don Jairo: le hice esto porque me pareció que una funeraria que atiende a las tres de la
-      mañana, con carros propios y a la que la gente llama por el nombre, merecía algo mejor que
-      una página comprada. Si algo de lo que está aquí no le cuadra —el precio, un texto, una
-      foto— dígamelo con confianza. Se ajusta.
+      Tío, si algo de lo que está aquí no le cuadra —el precio, un texto, una foto— dígamelo
+      con confianza. Se ajusta.
     </p>
   </div>
 
