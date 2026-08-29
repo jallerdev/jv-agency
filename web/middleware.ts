@@ -52,6 +52,14 @@ const PRIVATE_DOCS: PrivateDoc[] = [
     defaultUser: "monica",
     realm: "JV Agencia - Cotizacion privada",
   },
+  {
+    paths: ["/cotizacion-funeraria", "/cotizacion-funeraria-sfa.html"],
+    file: "/cotizacion-funeraria-sfa.html",
+    passEnv: "COTIZACION_FUNERARIA_PASSWORD",
+    userEnv: "COTIZACION_FUNERARIA_USER",
+    defaultUser: "funeraria",
+    realm: "JV Agencia - Cotizacion privada",
+  },
 ];
 
 /**
