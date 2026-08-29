@@ -246,6 +246,9 @@
   .totalrow .price{ font-size:15px; color:var(--ink); }
   .tachado{ text-decoration:line-through; color:var(--ink-soft); font-weight:400; }
   .grande{ font-family:var(--display); font-size:clamp(34px,6vw,52px); line-height:1.05; color:var(--primary); }
+  /* La regla global pinta <strong> del color de la tinta, que es el mismo
+     fondo de la caja oscura: sin esto el saldo queda invisible. */
+  .offerbox strong{ color:#F2E9E0; }
 </style>
 </head>
 <body>
@@ -388,7 +391,7 @@
     <div class="offerbox">
       <span class="eyebrow">— Precio de familia</span>
       <div class="offerbox__amt grande">$850.000</div>
-      <p class="offerbox__note">Pago único. Sobre <span class="tachado">$3.900.000</span></p>
+      <p class="offerbox__note">Sobre <span class="tachado">$3.900.000</span> · Abonados $300.000 · <strong>Saldo $550.000</strong></p>
     </div>
 
     <p>
@@ -397,6 +400,18 @@
       familia y porque esta funeraria hace un trabajo que me parece que merecía una página en
       serio. No hay que darle más vueltas al asunto.
     </p>
+    <h3>La cuenta</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tbody>
+          <tr><td class="name">Precio de familia</td><td class="price" data-l="Valor">$850.000</td></tr>
+          <tr><td class="name">Abono ya recibido</td><td class="price" data-l="Valor">− $300.000</td></tr>
+          <tr class="totalrow"><td class="name">Saldo por pagar</td><td class="price" data-l="Saldo">$550.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">Gracias por el abono. Queda registrado.</p>
+
     <div class="note good">
       <p>
         Incluye <strong>tres meses de garantía</strong> y los ajustes de texto que necesite en
@@ -407,10 +422,11 @@
 
   <section class="sec">
     <h2><span class="n">06</span> Cómo se paga</h2>
+    <p>Sobre el saldo de <strong>$550.000</strong>:</p>
     <ul class="list">
-      <li><strong>De una:</strong> $850.000.</li>
-      <li><strong>En dos cuotas:</strong> $425.000 ahora y $425.000 el mes entrante.</li>
-      <li><strong>En cinco cuotas:</strong> $170.000 al mes durante cinco meses.</li>
+      <li><strong>De una:</strong> $550.000.</li>
+      <li><strong>En dos cuotas:</strong> $275.000 ahora y $275.000 el mes entrante.</li>
+      <li><strong>En cinco cuotas:</strong> $110.000 al mes durante cinco meses.</li>
     </ul>
     <p class="fine">
       Sin intereses: la cuota es el precio dividido, nada más. Nequi, transferencia o efectivo.
