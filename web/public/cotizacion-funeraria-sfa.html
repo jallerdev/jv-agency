@@ -249,12 +249,22 @@
   /* La regla global pinta <strong> del color de la tinta, que es el mismo
      fondo de la caja oscura: sin esto el saldo queda invisible. */
   .offerbox strong{ color:#F2E9E0; }
+
+  /* Marca de la barra: el monograma lleva a la página de la agencia. */
+  .bar .marca{ display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit; }
+  .bar .marca img{ width:34px; height:34px; border-radius:7px; display:block;
+                   box-shadow:0 1px 3px rgba(43,36,32,.18); }
+  .bar .marca:hover b{ color:var(--primary); }
+  .bar .marca b{ transition:color .2s; }
 </style>
 </head>
 <body>
 
 <div class="bar">
-  <div><b>J&amp;V</b><span>Agencia</span></div>
+  <a class="marca" href="https://www.jvagencia.com/" target="_blank" rel="noopener">
+    <img src="/jv-monograma.png" alt="" width="256" height="256" />
+    <span><b>J&amp;V</b><span>Agencia</span></span>
+  </a>
   <button class="btn" onclick="window.print()">Descargar PDF →</button>
 </div>
 
@@ -515,6 +525,15 @@
         obituarios y las esquelas en el panel. Yo escribí muchos de esos textos a partir de lo
         que fuimos hablando; ustedes son los que saben si están bien.</li>
     </ol>
+    <div class="note good">
+      <p>
+        <strong>Le dejé una guía aparte para esto:</strong>
+        <a href="/guia-funeraria" style="color:var(--primary-dark)">cómo revisar el sitio</a>.
+        Con capturas de pantalla, la contraseña del panel y la lista de las siete páginas que
+        hay que abrir. Se lee en cinco minutos.
+      </p>
+    </div>
+
     <div class="note">
       <p>
         Para lo primero le paso un <strong>enlace de revisión</strong>. Con él abre el sitio

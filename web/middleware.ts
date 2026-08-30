@@ -60,6 +60,16 @@ const PRIVATE_DOCS: PrivateDoc[] = [
     defaultUser: "funeraria",
     realm: "JV Agencia - Cotizacion privada",
   },
+  {
+    // Anexo de la cotizacion. Lleva la contrasena del panel del cliente, asi
+    // que va detras de la misma puerta y con noindex.
+    paths: ["/guia-funeraria", "/guia-funeraria-sfa.html"],
+    file: "/guia-funeraria-sfa.html",
+    passEnv: "COTIZACION_FUNERARIA_PASSWORD",
+    userEnv: "COTIZACION_FUNERARIA_USER",
+    defaultUser: "funeraria",
+    realm: "JV Agencia - Guia privada",
+  },
 ];
 
 /**

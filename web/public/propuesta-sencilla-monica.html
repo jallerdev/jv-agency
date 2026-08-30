@@ -222,12 +222,22 @@
     .printsel{ display:block; padding:14px 16px 0; margin:0; font-size:10pt; color:var(--ink-soft); font-style:italic; }
     .foot{ margin-top:34px; break-inside:avoid; }
   }
+
+  /* Marca de la barra: el monograma lleva a la página de la agencia. */
+  .bar .marca{ display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit; }
+  .bar .marca img{ width:34px; height:34px; border-radius:7px; display:block;
+                   box-shadow:0 1px 3px rgba(43,36,32,.18); }
+  .bar .marca:hover b{ color:var(--primary); }
+  .bar .marca b{ transition:color .2s; }
 </style>
 </head>
 <body>
 
 <div class="bar">
-  <div><b>J&amp;V</b><span>Agencia</span></div>
+  <a class="marca" href="https://www.jvagencia.com/" target="_blank" rel="noopener">
+    <img src="/jv-monograma.png" alt="" width="256" height="256" />
+    <span><b>J&amp;V</b><span>Agencia</span></span>
+  </a>
   <button class="btn" onclick="window.print()">Descargar PDF →</button>
 </div>
 
