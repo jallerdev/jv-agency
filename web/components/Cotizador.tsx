@@ -606,18 +606,50 @@ function StepBody({
                 ? [
                     "Cada página escrita para lo que esa página tiene que lograr",
                     "Titulares, textos de apoyo y llamados a la acción",
-                    "Imágenes de banco con licencia comercial, ya incluida",
+                    "Imágenes de banco con licencia comercial, ya pagada",
+                    "Guía de fotos con el celular: qué tomar, desde dónde y con qué luz",
+                    "Retoque de las fotos que nos mandes: recorte, luz, color y peso",
                     "Dos rondas de ajustes sobre los textos entregados",
                   ]
                 : [
                     "Cada página escrita para lo que esa página tiene que lograr",
                     "Titulares, textos de apoyo y llamados a la acción",
                     "Revisión de ortografía y de coherencia de marca",
+                    "Retoque de las fotos que nos mandes: recorte, luz, color y peso",
                     "Dos rondas de ajustes sobre los textos entregados",
-                    "Las fotos las entregas tú; te decimos qué necesitamos y en qué formato",
                   ]
             }
           />
+        )}
+
+        {/* Decirlo antes de vender evita la pelea de despues: no hacemos
+            sesion de fotos, y las imagenes de banco no muestran SU negocio. */}
+        {answers.contenido === "todo" && (
+          <div className="mt-4 rounded-2xl border border-line bg-background/40 p-5">
+            <p className="font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+              Lo que no incluye
+            </p>
+            <p className="mt-3 font-body text-sm text-ink-soft">
+              <strong className="text-ink">No hacemos sesión de fotos de tu negocio.</strong>{" "}
+              Las imágenes de banco sirven para ilustrar ideas, pero no pueden mostrar tu local,
+              tu equipo ni tu producto — y esas son justo las que generan confianza.
+            </p>
+            <p className="mt-2 font-body text-sm text-ink-soft">
+              La salida que funciona: <strong className="text-ink">las tomas tú con el celular</strong>{" "}
+              siguiendo la guía que te damos, y nosotros las arreglamos. Un teléfono de hoy con
+              buena luz da mejor resultado que una foto de banco que se nota comprada. Si
+              prefieres un fotógrafo profesional, te ayudamos a conseguirlo y se cotiza aparte.
+            </p>
+            <a
+              href="/guia-fotos-celular.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1.5 font-body text-sm font-medium text-primary-dark underline underline-offset-4 transition-colors hover:text-primary"
+            >
+              Ver la guía de fotos con el celular
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
         )}
       </StepHeader>
     );

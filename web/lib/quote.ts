@@ -503,7 +503,7 @@ export const CONTENIDO_OPCIONES: Opcion<Contenido>[] = [
   {
     id: "todo",
     label: "Ustedes se encargan de todo",
-    desc: "Textos escritos por nosotros más imágenes de banco con licencia incluida.",
+    desc: "Textos escritos por nosotros, imágenes de banco con licencia, y te arreglamos las fotos que tomes con el celular.",
     porPagina: true,
   },
 ];
