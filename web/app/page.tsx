@@ -4,6 +4,7 @@ import { MediaSection } from "@/components/MediaSection";
 import { Credentials } from "@/components/Credentials";
 import { Benefits } from "@/components/Benefits";
 import { Process } from "@/components/Process";
+import { Founder } from "@/components/Founder";
 import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -20,6 +21,7 @@ export default function Home() {
         <MediaSection />
         <Benefits />
         <Process />
+        <Founder />
         <Testimonials />
         <FAQ />
         <FinalCTA />

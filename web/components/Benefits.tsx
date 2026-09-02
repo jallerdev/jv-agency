@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Code2, Palette, Boxes, LifeBuoy, MessageSquareText, Search, ArrowUpRight } from "lucide-react";
@@ -6,7 +8,14 @@ import { Code2, Palette, Boxes, LifeBuoy, MessageSquareText, Search, ArrowUpRigh
 //   fila 1 → 3 + 2   ·   fila 2 → 2 + 3   ·   fila 3 → 3 + 2
 // Al entrar SEO como sexto servicio la última fila dejó de ser una tarjeta
 // ancha y pasó a ser un par, para no romper la suma.
-const SERVICES = [
+const SERVICES: {
+  icon: typeof Code2;
+  title: string;
+  desc: string;
+  span: string;
+  featured?: boolean;
+  href?: string;
+}[] = [
   {
     icon: Code2,
     title: "Desarrollo web",
@@ -16,11 +25,12 @@ const SERVICES = [
   },
   {
     icon: MessageSquareText,
-    title: "Automatización de WhatsApp",
+    title: "Chatbot de WhatsApp",
     // El estatus de proveedor de tecnología es verificable y es el
     // diferenciador real: la mayoría de agencias tiene que tercerizar
     // la conexión con Meta. Se enuncia como hecho, sin insinuar respaldo.
-    desc: "Tu número contesta solo: capta interesados, agenda citas, toma pedidos y pasa a una persona cuando se complica. Somos proveedor de tecnología verificado por Meta, así que la conexión la hacemos nosotros.",
+    desc: "Tu número contesta solo: capta interesados, agenda citas, toma pedidos y pasa a una persona cuando se complica. Somos proveedor de tecnología verificado por Meta, así que la conexión la hacemos nosotros y no la terceriza nadie.",
+    href: "/servicios/chatbot-whatsapp",
     span: "lg:col-span-2",
     featured: true,
   },
@@ -58,6 +68,26 @@ const SERVICES = [
   },
 ];
 
+/** Enlace si el servicio ya tiene página propia; si no, un contenedor normal. */
+function ServiceCard({
+  href,
+  className,
+  children,
+}: {
+  href?: string;
+  className: string;
+  children: React.ReactNode;
+}) {
+  if (href) {
+    return (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return <div className={className}>{children}</div>;
+}
+
 export function Benefits() {
   return (
     <section id="servicios" className="relative py-24 md:py-32">
@@ -85,9 +115,13 @@ export function Benefits() {
             const Icon = s.icon;
             return (
               <Reveal key={s.title} delay={i * 90} className={s.span}>
-                <article
+                {/* Solo los servicios que ya tienen página propia son enlace.
+                    Los demás siguen siendo tarjeta, para no prometer un clic
+                    que no lleva a ninguna parte. */}
+                <ServiceCard
+                  href={s.href}
                   className={[
-                    "group relative h-full overflow-hidden rounded-2xl border p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift",
+                    "group relative flex h-full flex-col overflow-hidden rounded-2xl border p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift",
                     s.featured
                       ? "border-primary/20 bg-gradient-to-br from-surface to-secondary/15"
                       : "border-line bg-surface/70",
@@ -101,7 +135,13 @@ export function Benefits() {
                   </div>
                   <h3 className="mt-6 font-display text-2xl text-ink">{s.title}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{s.desc}</p>
-                </article>
+                  {s.href && (
+                    <span className="mt-5 inline-flex items-center gap-1.5 font-body text-sm font-medium text-primary-dark">
+                      Ver el servicio
+                      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </span>
+                  )}
+                </ServiceCard>
               </Reveal>
             );
           })}

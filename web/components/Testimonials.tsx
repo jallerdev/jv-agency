@@ -35,6 +35,10 @@ export function Testimonials() {
               <br />
               <span className="text-metal">Lo dicen ellos.</span>
             </h2>
+            <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
+              Recomendaciones públicas de gente con la que he trabajado, escritas en sus perfiles
+              de LinkedIn. Están enlazadas para que cualquiera las verifique.
+            </p>
           </div>
         </Reveal>
 
@@ -51,9 +55,26 @@ export function Testimonials() {
                 >
                   <Quote className="h-7 w-7 shrink-0 text-accent/50" aria-hidden="true" />
 
-                  <blockquote className="mt-5 flex-1 font-body leading-relaxed text-ink-soft">
+                  <blockquote
+                    className="mt-5 flex-1 font-body leading-relaxed text-ink-soft"
+                    {...(t.original ? { cite: t.url } : {})}
+                  >
                     “{t.quote}”
                   </blockquote>
+
+                  {/* Si venia en otro idioma se dice, y el original queda a la
+                      mano: la traduccion sirve al lector, el original es la
+                      prueba y no se esconde. */}
+                  {t.original && (
+                    <details className="mt-3">
+                      <summary className="cursor-pointer list-none font-mono text-[10px] uppercase tracking-[.12em] text-ink-soft transition-colors hover:text-ink">
+                        Traducida del inglés · ver original
+                      </summary>
+                      <p className="mt-2 font-body text-sm italic leading-relaxed text-ink-soft/80">
+                        “{t.original}”
+                      </p>
+                    </details>
+                  )}
 
                   <div className="mt-7 flex items-center gap-3 border-t border-line pt-5">
                     <span
@@ -66,7 +87,7 @@ export function Testimonials() {
                       <cite className="block font-body font-semibold not-italic text-ink">
                         {t.author}
                       </cite>
-                      <span className="block truncate font-body text-sm text-ink-soft">
+                      <span className="block font-body text-sm leading-snug text-ink-soft">
                         {t.role}
                       </span>
                     </span>

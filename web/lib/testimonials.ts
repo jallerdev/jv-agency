@@ -46,6 +46,13 @@ export type Testimonial = {
   url?: string;
   /** Iniciales para el monograma. Si se omite, se calculan del nombre. */
   initials?: string;
+  /**
+   * Si la recomendación se escribió en otro idioma, `quote` lleva la traducción
+   * y aquí queda el texto original. La tarjeta avisa que está traducida: al
+   * lector le sirve el español, pero la prueba es el original y no se tira.
+   */
+  originalLang?: "en";
+  original?: string;
 };
 
 /**
@@ -64,7 +71,47 @@ export type Testimonial = {
  *     url: "https://www.linkedin.com/in/usuario/",
  *   },
  */
-export const TESTIMONIALS: Testimonial[] = [];
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    // Original en inglés; la traducción es nuestra y la tarjeta lo dice.
+    quote:
+      "Luis ha estado trabajando conmigo en InvitiApp y ha sido fantástico. Ha ayudado con la " +
+      "infraestructura en AWS, el desarrollo full-stack con Next.js, las pruebas, la detección de " +
+      "mejoras de rendimiento en la base de datos, y ha aportado ideas valiosas de producto. Y lo " +
+      "más importante: de verdad le importa el producto.",
+    original:
+      "Luis has been working with me on InvitiApp, and he has been fantastic. He has helped with " +
+      "AWS infrastructure, full-stack development using Next.js, testing, identifying database " +
+      "performance improvements, and contributing valuable product ideas. Most importantly, he " +
+      "genuinely cares about the product. Thank you, Luis, for all your great work on InvitiApp!",
+    originalLang: "en",
+    author: "David Adrian Uribe Soto",
+    role: "Software Engineer · lo supervisó directamente en InvitiApp",
+    source: "LinkedIn",
+    url: "https://www.linkedin.com/in/jallerdev",
+  },
+  {
+    quote:
+      "Tuve la oportunidad de trabajar con Luis y, honestamente, es de esas personas que hacen que " +
+      "el trabajo en equipo sea fácil. Es un desarrollador muy sólido, sobre todo en backend, y se " +
+      "le nota el dominio que tiene del ecosistema de Node.js y TypeScript. Más allá de lo técnico, " +
+      "lo que más valoro es lo intencional que es al hacer las cosas bien: siempre está pensando en " +
+      "escalabilidad, en automatización y en cómo mejorar el flujo de trabajo del equipo. […]",
+    original:
+      "I had the chance to work with Luis, and honestly, he's one of those people who just makes " +
+      "teamwork easy. He's a very solid developer, especially on the backend, and it really shows " +
+      "how strong his command is of the Node.js and TypeScript ecosystem. Beyond his technical " +
+      "skills, what I appreciate the most is how intentional he is about doing things right. He's " +
+      "always thinking about scalability, automation, and how to improve the team's workflow. His " +
+      "experience with tools like Docker, Terraform, and AWS brings a lot of structure and " +
+      "reliability […]",
+    originalLang: "en",
+    author: "Justin Castro Perez",
+    role: "Systems Engineer · trabajaron juntos en varias empresas",
+    source: "LinkedIn",
+    url: "https://www.linkedin.com/in/jallerdev",
+  },
+];
 
 /** Iniciales del nombre, máximo dos letras. */
 export function initialsOf(t: Testimonial): string {

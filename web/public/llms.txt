@@ -6,9 +6,11 @@
 
 ## Servicios
 - Desarrollo web: sitios, landing pages, e-commerce y web corporativa.
-- Automatización de WhatsApp: respuestas automáticas, captura de interesados,
-  agendamiento y pedidos sobre la WhatsApp Business Platform. JV Agencia es
-  proveedor de tecnología verificado por Meta.
+- Chatbot de WhatsApp (automatización de WhatsApp): respuestas automáticas,
+  captura de interesados, agendamiento de citas, pedidos y avisos sobre la
+  WhatsApp Business Platform. JV Agencia es proveedor de tecnología verificado
+  por Meta, así que conecta el número directamente y no revende plataforma de
+  terceros. Detalle: https://www.jvagencia.com/servicios/chatbot-whatsapp
 - SEO y posicionamiento: SEO técnico entregado con el sitio y planes mensuales
   de posicionamiento local para Colombia y Latinoamérica.
 - Software a medida: apps web, sistemas internos y plataformas.
@@ -17,6 +19,7 @@
 
 ## Páginas
 - Inicio: https://www.jvagencia.com/
+- Chatbot de WhatsApp: https://www.jvagencia.com/servicios/chatbot-whatsapp
 - Sobre nosotros: https://www.jvagencia.com/sobre-nosotros
 - Blog: https://www.jvagencia.com/blog
 - Política de privacidad: https://www.jvagencia.com/privacidad
