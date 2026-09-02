@@ -61,6 +61,14 @@ const PRIVATE_DOCS: PrivateDoc[] = [
     realm: "JV Agencia - Cotizacion privada",
   },
   {
+    paths: ["/cotizacion-pixels", "/cotizacion-pixels-maker.html"],
+    file: "/cotizacion-pixels-maker.html",
+    passEnv: "COTIZACION_PIXELS_PASSWORD",
+    userEnv: "COTIZACION_PIXELS_USER",
+    defaultUser: "pixels",
+    realm: "JV Agencia - Cotizacion privada",
+  },
+  {
     // Anexo de la cotizacion. Lleva la contrasena del panel del cliente, asi
     // que va detras de la misma puerta y con noindex.
     paths: ["/guia-funeraria", "/guia-funeraria-sfa.html"],
