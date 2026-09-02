@@ -45,7 +45,9 @@ const SERVICES = [
   {
     icon: Palette,
     title: "Diseño web / UI",
-    desc: "Interfaz y experiencia que se ven de marca grande. Diseñamos pensando en cómo se va a construir.",
+    // No se vende aparte: entra en todo proyecto web. Decirlo evita que el
+    // cliente crea que el diseño es un extra que se le puede cobrar despues.
+    desc: "Interfaz y experiencia que se ven de marca grande, pensadas desde el primer día en cómo se van a construir. No es un servicio aparte ni un extra: va dentro de cada proyecto web que hacemos.",
     span: "lg:col-span-3",
   },
   {

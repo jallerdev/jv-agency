@@ -338,14 +338,15 @@ export const TOGGLES: Record<ToggleKey, ToggleDef> = {
   },
   booking: {
     label: "Agendamiento en línea",
-    desc: "Que reserven la cita sin escribirte",
+    desc: "Que reserven la cita solos, sin escribirte ni llamarte",
     price: PRICES.toggles.booking,
     appliesTo: ["landing", "corp"],
     incluye: [
-      "Calendario con tu disponibilidad real, conectado a Google Calendar",
-      "El cliente escoge día y hora y recibe la confirmación",
+      "Calendario con tu disponibilidad real, conectado a tu Google Calendar",
+      "El cliente escoge día y hora y le llega la confirmación por correo",
       "Recordatorio automático antes de la cita",
-      "Bloqueo de horarios y días no laborables",
+      "Tú bloqueas horarios, días no laborables y vacaciones desde tu propio calendario",
+      "Una sola agenda y un solo servicio. Varias agendas —dos o más profesionales con horarios distintos— o cobrar la cita por adelantado se cotizan aparte",
     ],
   },
 
@@ -387,15 +388,16 @@ export const TOGGLES: Record<ToggleKey, ToggleDef> = {
     ],
   },
   clientarea: {
-    label: "Área privada de clientes",
-    desc: "Que cada cliente entre con su usuario y vea lo suyo",
+    label: "Zona privada para tus clientes",
+    desc: "Cada cliente entra con su clave y ve solo lo suyo: sus facturas, sus documentos, el estado de su caso",
     price: PRICES.toggles.clientarea,
     appliesTo: ["corp"],
     incluye: [
       "Registro, inicio de sesión y recuperación de contraseña",
-      "Panel donde cada cliente ve solo su información",
-      "Roles y permisos: quién puede ver y hacer qué",
-      "Es lo más grande de esta lista: agrega semanas al cronograma",
+      "Cada cliente ve únicamente su información, nunca la de otro",
+      "Sirve para: consultar facturas, descargar documentos, ver en qué va un trámite o un pedido",
+      "Tú administras quién entra y qué puede ver",
+      "Es lo más grande de esta lista. Ya no es una página: es un sistema con usuarios, y agrega semanas al cronograma",
     ],
   },
 
@@ -1071,19 +1073,20 @@ export const SEO_PLAN_DETALLE: Record<SeoPlan, string[]> = {
 };
 
 export const SEO_EXTRA_LABEL: Record<SeoExtraKey, string> = {
-  puestaApunto: "Puesta a punto inicial",
+  puestaApunto: "Revisión y arreglo del sitio",
   ficha: "Ficha de Google Business",
   contenidoExtra: "Contenidos adicionales",
 };
 
 export const SEO_EXTRA_DETALLE: Record<SeoExtraKey, string[]> = {
   puestaApunto: [
-    "Auditoría completa del sitio: técnica, de contenido y de enlaces",
-    "Corrección de lo que esté frenando el posicionamiento",
-    "Investigación de palabras clave y mapa de una página por intención",
-    "Datos estructurados, sitemap, canónicos y velocidad",
-    "Analítica y Search Console configurados para poder medir",
-    "Va una sola vez. Si el sitio lo hicimos nosotros con SEO técnico, no hace falta",
+    "Revisamos el sitio entero y hacemos la lista de lo que lo está frenando en Google",
+    "Arreglamos lo encontrado: páginas lentas, enlaces rotos, textos repetidos, imágenes pesadas, páginas que Google no puede leer",
+    "Averiguamos qué busca la gente de tu sector y con qué palabras exactas, y asignamos una página a cada búsqueda",
+    "Dejamos los títulos, las descripciones y los datos que Google lee en cada página",
+    "Instalamos la analítica y damos de alta el sitio en Google, para poder medir desde el mes uno",
+    "Va una sola vez, al principio. Es arrancar parejo: sin esto, el trabajo mensual empuja un carro con el freno puesto",
+    "Si el sitio lo hicimos nosotros con SEO técnico incluido, esto ya está hecho y no se cobra",
   ],
   ficha: [
     "Creación y verificación de la ficha ante Google",
