@@ -13,6 +13,8 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     title: "Servicios",
     links: [
       { label: "Desarrollo web", href: "/#servicios" },
+      { label: "Automatización de WhatsApp", href: "/cotizador" },
+      { label: "SEO y posicionamiento", href: "/cotizador" },
       { label: "Software a medida", href: "/#servicios" },
       { label: "Diseño web / UI", href: "/#servicios" },
       { label: "Mantenimiento", href: "/#servicios" },

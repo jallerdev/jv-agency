@@ -18,15 +18,15 @@ const FAQS = [
   },
   {
     q: "¿Cuánto tarda un proyecto?",
-    a: "Una web suele tomar de 4 a 8 semanas según el alcance; un software a medida varía más y lo estimamos contigo. En la primera llamada te damos un cronograma realista, sin promesas que no podamos cumplir.",
+    a: "Depende del tipo: una landing page toma de 1 a 4 semanas, una web corporativa de 2 a 5 y una tienda online de 3 a 8, según el plazo que escojas. Un software a medida varía más y lo estimamos contigo. Las semanas se cuentan desde que tengamos el contenido y la marca; si los textos los escribimos nosotros, ese tiempo ya está contado.",
   },
   {
     q: "¿Hacen marketing o publicidad también?",
-    a: "No. Nos enfocamos en lo que hacemos bien: diseño web, desarrollo y software a medida. Preferimos decirte con franqueza que eso no es lo nuestro antes que prometer humo.",
+    a: "Hacemos SEO —que te encuentren en Google sin pagar por cada clic— y automatización de WhatsApp. Lo que no hacemos es pauta pagada: no manejamos tu presupuesto de anuncios en Meta ni en Google Ads, ni community management. Preferimos decírtelo antes que cobrarte por algo que no es lo nuestro. Si necesitas pauta, te dejamos la landing y el píxel listos para que quien la maneje trabaje sobre terreno firme.",
   },
   {
     q: "¿Qué pasa después de entregar? ¿Me quedo solo?",
-    a: "No. Pensamos en relaciones de largo plazo. Te dejamos todo documentado y ofrecemos planes de acompañamiento para que la marca siga creciendo con método.",
+    a: "No. La entrega incluye capacitación y 30 días de ajustes sin costo. De ahí en adelante hay planes de mantenimiento mensual —desde el que solo vigila que el sitio no se caiga hasta el que le hace mejoras cada mes— y los puedes ver con precio en el cotizador. Si prefieres no contratar ninguno, el sitio es tuyo igual y sigue funcionando.",
   },
   {
     q: "¿Cómo empiezo?",

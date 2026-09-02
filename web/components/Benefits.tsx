@@ -1,7 +1,11 @@
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
-import { Code2, Palette, Boxes, LifeBuoy, ArrowUpRight } from "lucide-react";
+import { Code2, Palette, Boxes, LifeBuoy, MessageSquareText, Search, ArrowUpRight } from "lucide-react";
 
+// La rejilla es de 5 columnas: cada fila tiene que sumar 5.
+//   fila 1 → 3 + 2   ·   fila 2 → 2 + 3   ·   fila 3 → 3 + 2
+// Al entrar SEO como sexto servicio la última fila dejó de ser una tarjeta
+// ancha y pasó a ser un par, para no romper la suma.
 const SERVICES = [
   {
     icon: Code2,
@@ -11,22 +15,44 @@ const SERVICES = [
     featured: true,
   },
   {
+    icon: MessageSquareText,
+    title: "Automatización de WhatsApp",
+    // El estatus de proveedor de tecnología es verificable y es el
+    // diferenciador real: la mayoría de agencias tiene que tercerizar
+    // la conexión con Meta. Se enuncia como hecho, sin insinuar respaldo.
+    desc: "Tu número contesta solo: capta interesados, agenda citas, toma pedidos y pasa a una persona cuando se complica. Somos proveedor de tecnología verificado por Meta, así que la conexión la hacemos nosotros.",
+    span: "lg:col-span-2",
+    featured: true,
+  },
+  {
+    icon: Search,
+    // El SEO existía como un extra de $250.000 dentro del cotizador y no
+    // figuraba como servicio en ninguna parte del sitio, aunque es de lo que
+    // más preguntan. Se enuncia separando las dos cosas —lo técnico, que se
+    // hace una vez, y el posicionamiento, que es mensual— porque confundirlas
+    // es lo que quema al cliente antes de llegar a nosotros.
+    desc: "Que te encuentren cuando buscan lo que vendes. El SEO técnico va con el sitio; posicionar es trabajo mensual y lo decimos claro. Nadie garantiza el primer puesto: garantizamos el trabajo y el informe.",
+    title: "SEO y posicionamiento",
+    span: "lg:col-span-2",
+    featured: true,
+  },
+  {
     icon: Boxes,
     title: "Software a medida",
     desc: "Apps web, sistemas internos y plataformas hechas a tu medida, no forzadas a una plantilla.",
-    span: "lg:col-span-2",
+    span: "lg:col-span-3",
   },
   {
     icon: Palette,
     title: "Diseño web / UI",
     desc: "Interfaz y experiencia que se ven de marca grande. Diseñamos pensando en cómo se va a construir.",
-    span: "lg:col-span-2",
+    span: "lg:col-span-3",
   },
   {
     icon: LifeBuoy,
     title: "Mantenimiento y soporte",
-    desc: "No desaparecemos al entregar. Mejoras continuas, hosting y soporte para que todo siga funcionando.",
-    span: "lg:col-span-3",
+    desc: "No desaparecemos al entregar. Mejoras continuas, hosting y soporte para que todo siga funcionando. Una automatización sobre todo: si expira un token de Meta o rechazan una plantilla, deja de responder sin avisar.",
+    span: "lg:col-span-2",
   },
 ];
 
@@ -46,7 +72,8 @@ export function Benefits() {
           <Reveal delay={100}>
             <p className="font-body text-lg leading-relaxed text-ink-soft lg:pb-2">
               No necesitas un diseñador por un lado y un programador por otro. Necesitas un equipo
-              donde las dos cosas se hablan desde el primer día. Eso somos.
+              donde las dos cosas se hablan desde el primer día. Eso somos — y desde que Meta nos
+              verificó como proveedor de tecnología, también dejamos tu WhatsApp contestando solo.
             </p>
           </Reveal>
         </div>

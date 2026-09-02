@@ -34,7 +34,7 @@ export function WebOInstagramPost() {
           <tr>
             <td>Costo de empezar</td>
             <td>Cero</td>
-            <td>Desde $800.000</td>
+            <td>Desde $450.000</td>
           </tr>
           <tr>
             <td>Vida útil del contenido</td>

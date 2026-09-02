@@ -6,16 +6,24 @@
 
 ## Servicios
 - Desarrollo web: sitios, landing pages, e-commerce y web corporativa.
+- Automatización de WhatsApp: respuestas automáticas, captura de interesados,
+  agendamiento y pedidos sobre la WhatsApp Business Platform. JV Agencia es
+  proveedor de tecnología verificado por Meta.
+- SEO y posicionamiento: SEO técnico entregado con el sitio y planes mensuales
+  de posicionamiento local para Colombia y Latinoamérica.
 - Software a medida: apps web, sistemas internos y plataformas.
 - Diseño web / UI: interfaz y experiencia a medida.
-- Mantenimiento y soporte: mejoras continuas post-lanzamiento.
+- Mantenimiento y soporte: planes mensuales de mejoras continuas post-lanzamiento.
 
 ## Páginas
 - Inicio: https://www.jvagencia.com/
-- Cotizador: https://www.jvagencia.com/cotizador
+- Cotizador (web, automatización y SEO): https://www.jvagencia.com/cotizador
+- Sobre nosotros: https://www.jvagencia.com/sobre-nosotros
+- Blog: https://www.jvagencia.com/blog
 - Política de privacidad: https://www.jvagencia.com/privacidad
 - Términos y condiciones: https://www.jvagencia.com/terminos
 - Política de cookies: https://www.jvagencia.com/cookies
+- Eliminación de datos: https://www.jvagencia.com/eliminacion-de-datos
 
 ## Contacto
 - Email: contacto@jvagencia.com

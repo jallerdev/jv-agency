@@ -48,7 +48,7 @@ export function StructuredData() {
         "@id": `${SITE_URL}/#service`,
         name: SITE_NAME,
         description:
-          "Estudio de diseño y desarrollo web y software a medida para PYMEs en Latinoamérica.",
+          "Estudio de diseño y desarrollo web, software a medida, automatización de WhatsApp y SEO para PYMEs en Latinoamérica.",
         url: SITE_URL,
         image: `${SITE_URL}/og.png`,
         email: BUSINESS.email,
@@ -60,11 +60,76 @@ export function StructuredData() {
         sameAs,
         knowsAbout: [
           "Desarrollo web",
+          "Automatización de WhatsApp",
+          "WhatsApp Business Platform",
+          "SEO",
+          "Posicionamiento web",
           "Software a medida",
           "Diseño web",
           "Diseño UI/UX",
           "Mantenimiento web",
         ],
+        // El catálogo es lo que le dice a Google QUÉ vendemos, no solo quién
+        // somos. Tiene que coincidir con los servicios de la portada y con las
+        // líneas del cotizador: si no coinciden, el dato estructurado miente.
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Servicios de JV Agencia",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Desarrollo web",
+                description:
+                  "Landing pages, webs corporativas y tiendas online con diseño propio.",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Automatización de WhatsApp",
+                description:
+                  "Respuestas automáticas, captura de interesados, agendamiento y pedidos sobre la WhatsApp Business Platform.",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "SEO y posicionamiento",
+                description:
+                  "SEO técnico entregado con el sitio y planes mensuales de posicionamiento local.",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Software a medida",
+                description: "Apps web, sistemas internos y plataformas hechas a medida.",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Diseño web / UI",
+                description: "Interfaz y experiencia de usuario para web y producto digital.",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Mantenimiento y soporte",
+                description:
+                  "Planes mensuales de vigilancia, respaldos, cambios de contenido y mejoras continuas.",
+              },
+            },
+          ],
+        },
       },
     ],
   };
