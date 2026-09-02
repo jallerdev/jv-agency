@@ -138,6 +138,27 @@ Al probar el cotizador, los botones no respondían: los assets devolvían **400 
 sirviendo los hashes de un build anterior. **Matar todos los `next start` antes de levantar
 uno nuevo** después de cada build.
 
+**Volvió a pasar el 2026-09-02, y así fue como se coló** (dos trampas, las dos evitables):
+
+1. `next start` sobre un puerto ocupado **no hace ruido**: falla con `EADDRINUSE` dentro
+   del log y el proceso viejo sigue atendiendo. Si se lanza con `setsid ... &` ni siquiera
+   se ve el error. **Revisar el log de arranque, no asumir que arrancó.**
+2. **`curl` devolvió 200 y eso no prueba nada.** El HTML lo pinta el servidor y llega
+   perfecto; lo que revienta es la hidratación, en el navegador. Un 200 con la página
+   rota se ve idéntico a un 200 sano.
+
+Receta que sí funciona:
+
+```bash
+ps -eo pid,cmd | grep -E "next-server|next start" | grep -v grep   # ver qué hay vivo
+kill -9 <pid>                 # `pkill -f next` mata también el shell de la herramienta
+rm -rf .next && npx next build
+npx next start -p <puerto> ; head -4 <log>   # confirmar que arrancó de verdad
+```
+
+Y verificar con navegador, no con `curl`: cargar la página, escuchar `pageerror` y
+**hacer clic en un botón** para comprobar que React respondió.
+
 ---
 
 ## 6 · Qué NO se toca aquí
