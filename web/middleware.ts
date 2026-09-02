@@ -81,6 +81,38 @@ const PRIVATE_DOCS: PrivateDoc[] = [
 ];
 
 /**
+ * Rutas de la APP que quedan detrás de Basic Auth.
+ *
+ * Se diferencian de PRIVATE_DOCS en dos cosas: no hay archivo en public/ que
+ * servir —la ruta la pinta Next.js como siempre— y el emparejamiento es por
+ * prefijo, para cubrir cualquier subruta que cuelgue de ella.
+ *
+ * El cotizador entra aquí por decisión de negocio: publicar la lista de
+ * precios completa deja que la competencia la copie y que el cliente vea el
+ * número antes de que nadie le explique qué está comprando. Queda como
+ * herramienta de venta interna, con la misma contraseña del kit de vendedores
+ * —GUIDE_PASSWORD— para que el vendedor maneje una sola clave.
+ */
+type PrivateRoute = {
+  /** Prefijo de ruta, en minúscula y sin barra final. */
+  prefix: string;
+  passEnv: string;
+  userEnv: string;
+  defaultUser: string;
+  realm: string;
+};
+
+const PRIVATE_ROUTES: PrivateRoute[] = [
+  {
+    prefix: "/cotizador",
+    passEnv: "GUIDE_PASSWORD",
+    userEnv: "GUIDE_USER",
+    defaultUser: "jvagencia",
+    realm: "JV Agencia - Herramienta de venta",
+  },
+];
+
+/**
  * Canonicaliza la ruta antes de compararla contra PRIVATE_DOCS.
  *
  * Sin esto hay una fuga real: el middleware ve la ruta tal como llega, pero la
@@ -116,6 +148,13 @@ function findPrivateDoc(pathname: string): PrivateDoc | undefined {
   return PRIVATE_DOCS.find((doc) => doc.paths.includes(normalized));
 }
 
+function findPrivateRoute(pathname: string): PrivateRoute | undefined {
+  const normalized = normalizePath(pathname);
+  return PRIVATE_ROUTES.find(
+    (r) => normalized === r.prefix || normalized.startsWith(r.prefix + "/"),
+  );
+}
+
 /**
  * Compara en tiempo constante para no filtrar la contraseña por diferencias
  * de tiempo. Longitudes distintas se rechazan de una.
@@ -127,7 +166,10 @@ function safeEqual(a: string, b: string): boolean {
   return diff === 0;
 }
 
-function docAuthOk(req: NextRequest, doc: PrivateDoc): boolean {
+/** Credenciales esperadas. Lo comparten los documentos y las rutas privadas. */
+type Guarded = { passEnv: string; userEnv: string; defaultUser: string };
+
+function authOk(req: NextRequest, doc: Guarded): boolean {
   const expectedPass = process.env[doc.passEnv];
   if (!expectedPass) return false; // sin contraseña configurada → no se expone
   const expectedUser = process.env[doc.userEnv] || doc.defaultUser;
@@ -166,7 +208,7 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const doc = findPrivateDoc(pathname);
   if (doc) {
-    if (!docAuthOk(req, doc)) {
+    if (!authOk(req, doc)) {
       return new NextResponse("Material privado de JV Agencia. Acceso restringido.", {
         status: 401,
         headers: {
@@ -180,6 +222,26 @@ export function middleware(req: NextRequest) {
     const url = req.nextUrl.clone();
     url.pathname = doc.file;
     const res = NextResponse.rewrite(url);
+    res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    res.headers.set("Cache-Control", "no-store");
+    return res;
+  }
+
+  // Rutas privadas de la app: misma puerta, pero la sirve Next.js sin rewrite.
+  const route = findPrivateRoute(pathname);
+  if (route) {
+    if (!authOk(req, route)) {
+      return new NextResponse("Herramienta interna de JV Agencia. Acceso restringido.", {
+        status: 401,
+        headers: {
+          "WWW-Authenticate": `Basic realm="${route.realm}"`,
+          "Content-Type": "text/plain; charset=utf-8",
+          "X-Robots-Tag": "noindex, nofollow",
+          "Cache-Control": "no-store",
+        },
+      });
+    }
+    const res = NextResponse.next();
     res.headers.set("X-Robots-Tag", "noindex, nofollow");
     res.headers.set("Cache-Control", "no-store");
     return res;

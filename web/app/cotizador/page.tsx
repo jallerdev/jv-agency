@@ -6,8 +6,10 @@ import { CotizadorSwitch } from "@/components/CotizadorSwitch";
 
 export const metadata: Metadata = {
   title: "Cotizador — webs y automatizaciones | JV Agencia",
-  description: "Calcula en minutos cuánto cuesta tu sitio web o tu automatización de WhatsApp. Estimado al instante, sin dejar datos.",
-  alternates: { canonical: "/cotizador" },
+  description: "Herramienta interna de venta de JV Agencia.",
+  // Herramienta privada: sin canónico y fuera de los buscadores. El middleware
+  // ya manda X-Robots-Tag, esto es el cinturón por si alguien la enlaza.
+  robots: { index: false, follow: false },
 };
 
 export default function CotizadorPage() {

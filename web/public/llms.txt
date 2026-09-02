@@ -17,7 +17,6 @@
 
 ## Páginas
 - Inicio: https://www.jvagencia.com/
-- Cotizador (web, automatización y SEO): https://www.jvagencia.com/cotizador
 - Sobre nosotros: https://www.jvagencia.com/sobre-nosotros
 - Blog: https://www.jvagencia.com/blog
 - Política de privacidad: https://www.jvagencia.com/privacidad

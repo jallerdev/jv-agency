@@ -13,8 +13,8 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     title: "Servicios",
     links: [
       { label: "Desarrollo web", href: "/#servicios" },
-      { label: "Automatización de WhatsApp", href: "/cotizador" },
-      { label: "SEO y posicionamiento", href: "/cotizador" },
+      { label: "Automatización de WhatsApp", href: "/#servicios" },
+      { label: "SEO y posicionamiento", href: "/#servicios" },
       { label: "Software a medida", href: "/#servicios" },
       { label: "Diseño web / UI", href: "/#servicios" },
       { label: "Mantenimiento", href: "/#servicios" },
@@ -27,7 +27,6 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Proceso", href: "/#proceso" },
       { label: "Blog", href: "/blog" },
       { label: "Sobre nosotros", href: "/sobre-nosotros" },
-      { label: "Cotizador", href: "/cotizador" },
       { label: "Contacto", href: "/#contacto" },
     ],
   },

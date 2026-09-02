@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     q: "¿Qué pasa después de entregar? ¿Me quedo solo?",
-    a: "No. La entrega incluye capacitación y 30 días de ajustes sin costo. De ahí en adelante hay planes de mantenimiento mensual —desde el que solo vigila que el sitio no se caiga hasta el que le hace mejoras cada mes— y los puedes ver con precio en el cotizador. Si prefieres no contratar ninguno, el sitio es tuyo igual y sigue funcionando.",
+    a: "No. La entrega incluye capacitación y 30 días de ajustes sin costo. De ahí en adelante hay planes de mantenimiento mensual —desde el que solo vigila que el sitio no se caiga hasta el que le hace mejoras cada mes— y te pasamos el que corresponda con su precio en la propuesta. Si prefieres no contratar ninguno, el sitio es tuyo igual y sigue funcionando.",
   },
   {
     q: "¿Cómo empiezo?",

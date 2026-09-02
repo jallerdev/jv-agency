@@ -50,14 +50,14 @@ export function Hero() {
         </div>
 
         <a
-          href="/cotizador"
+          href="#contacto"
           className="group mt-8 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 font-body text-sm text-ink transition-colors hover:bg-accent/20 animate-fade-in"
           style={{ animationDelay: "600ms" }}
         >
           <Sparkles className="h-4 w-4 text-accent" />
-          Cotiza tu proyecto —{" "}
+          Cuéntanos tu proyecto —{" "}
           <strong className="font-semibold text-primary-dark">
-            estimado al instante
+            presupuesto en la primera llamada
           </strong>
         </a>
       </div>

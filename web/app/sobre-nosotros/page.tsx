@@ -252,7 +252,7 @@ export default function SobreNosotrosPage() {
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <a href="/cotizador">Calcular mi proyecto</a>
+                <a href="/#contacto">Calcular mi proyecto</a>
               </Button>
             </div>
           </Reveal>

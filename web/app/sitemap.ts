@@ -7,7 +7,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: SITE_URL, changeFrequency: "monthly", priority: 1 },
     { url: `${SITE_URL}/sobre-nosotros`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${SITE_URL}/cotizador`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/blog`, changeFrequency: "weekly", priority: 0.9 },
     // Los posts salen del manifest de lib/blog.ts: al agregar uno allí entra
     // solo acá, sin tener que acordarse de tocar este archivo.
