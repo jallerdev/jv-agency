@@ -1,20 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Globe, MessageSquareText } from "lucide-react";
+import { Globe, MessageSquareText, Search } from "lucide-react";
 
 import { Cotizador } from "@/components/Cotizador";
 import { CotizadorAutomatizaciones } from "@/components/CotizadorAutomatizaciones";
+import { CotizadorSeo } from "@/components/CotizadorSeo";
 import { cn } from "@/lib/utils";
 
-// Un solo punto de entrada para las dos líneas de negocio. Se mantienen como
-// componentes separados a propósito: el cotizador web ya convierte y no se
-// toca por dentro para agregar automatizaciones.
-type Linea = "web" | "automatizacion";
+// Un solo punto de entrada para las tres líneas de negocio. Se mantienen como
+// componentes separados a propósito: cada uno tiene su propia lógica de
+// precios y mezclarlos en un solo flujo los volvería ilegibles.
+//
+// El SEO entró como línea propia porque antes existía SOLO como un extra de
+// $250.000 dentro del cotizador web. Ese extra es SEO técnico —se hace una vez
+// y se acaba— mientras que posicionar es trabajo mensual. Venderlos con el
+// mismo nombre hacía creer que por $250.000 se llegaba al primer puesto.
+type Linea = "web" | "automatizacion" | "seo";
 
 const OPCIONES: { id: Linea; label: string; icon: typeof Globe }[] = [
   { id: "web", label: "Sitio web", icon: Globe },
   { id: "automatizacion", label: "Automatización", icon: MessageSquareText },
+  { id: "seo", label: "SEO", icon: Search },
 ];
 
 export function CotizadorSwitch() {
@@ -24,7 +31,7 @@ export function CotizadorSwitch() {
     <>
       <div className="mb-8 flex justify-center">
         <div role="tablist" aria-label="Tipo de cotización"
-          className="inline-flex gap-1 rounded-full border border-line bg-surface/70 p-1.5">
+          className="inline-flex flex-wrap justify-center gap-1 rounded-full border border-line bg-surface/70 p-1.5">
           {OPCIONES.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -45,7 +52,9 @@ export function CotizadorSwitch() {
         </div>
       </div>
 
-      {linea === "web" ? <Cotizador /> : <CotizadorAutomatizaciones />}
+      {linea === "web" && <Cotizador />}
+      {linea === "automatizacion" && <CotizadorAutomatizaciones />}
+      {linea === "seo" && <CotizadorSeo />}
     </>
   );
 }
