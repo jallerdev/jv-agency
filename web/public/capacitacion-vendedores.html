@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Qué estás vendiendo · Capacitación de vendedores · J&amp;V Agencia</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primary:#985C3E; --primary-dark:#6E4128; --accent:#C0763B;
+    --surface:#FAF6F1; --bg:#F4EDE4; --ink:#2B2420; --ink-soft:#6B5E54; --line:#E4D8CB;
+    --success:#4F7A52; --error:#B04A3A; --warning:#B57E2C;
+    --display:'Fraunces', Georgia, serif;
+    --body:'Plus Jakarta Sans', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', Menlo, monospace;
+  }
+  *{ box-sizing:border-box }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; scroll-behavior:smooth; }
+  body{ margin:0; font-family:var(--body); color:var(--ink); background:var(--bg);
+        line-height:1.62; font-size:16px; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:var(--display); font-weight:400; line-height:1.15; margin:0; }
+  p{ margin:0 0 14px; } strong{ font-weight:600; }
+  code{ font-family:var(--mono); font-size:.9em; background:rgba(152,92,62,.1);
+        padding:1px 5px; border-radius:4px; }
+
+  .bar{ position:sticky; top:0; z-index:30; display:flex; align-items:center; justify-content:space-between;
+        gap:16px; padding:14px clamp(18px,5vw,56px);
+        background:rgba(244,237,228,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .bar b{ font-family:var(--display); font-size:17px; font-weight:600; }
+  .bar em{ font-style:normal; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+           color:var(--ink-soft); margin-left:8px; }
+  .btn{ font-weight:600; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+        padding:11px 20px; border-radius:999px; border:1px solid var(--primary);
+        background:var(--primary); color:var(--surface); cursor:pointer; white-space:nowrap; }
+
+  .doc{ max-width:860px; margin:0 auto; padding:clamp(30px,6vw,56px) clamp(18px,5vw,56px) 90px; }
+  .eyebrow{ font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.16em;
+            color:var(--accent); margin:0 0 14px; display:block; }
+  h1{ font-size:clamp(30px,5.4vw,46px); letter-spacing:-.015em; margin-bottom:12px; }
+  .sub{ color:var(--ink-soft); font-size:17.5px; max-width:54ch; }
+
+  .toc{ margin:34px 0 0; padding:22px 26px; background:var(--surface);
+        border:1px solid var(--line); border-radius:10px; }
+  .toc p{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--ink-soft); margin:0 0 12px; }
+  .toc ol{ margin:0; padding-left:20px; columns:2; column-gap:28px; }
+  @media (max-width:620px){ .toc ol{ columns:1; } }
+  .toc li{ margin-bottom:7px; break-inside:avoid; }
+  .toc a{ color:var(--primary-dark); text-decoration:none; font-size:15px; }
+  .toc a:hover{ text-decoration:underline; }
+
+  .sec{ margin-top:56px; scroll-margin-top:80px; }
+  .sec > h2{ font-size:clamp(22px,3.6vw,30px); padding-bottom:12px; margin-bottom:18px;
+             border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .sec > h2 .n{ font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:.1em; }
+  .sec h3{ font-family:var(--display); font-size:22px; margin:32px 0 10px; }
+
+  ul.list{ margin:0 0 14px; padding-left:20px; } ul.list li{ margin-bottom:9px; }
+  ul.list li::marker{ color:var(--accent); }
+
+  /* Ficha de concepto */
+  .cpt{ background:var(--surface); border:1px solid var(--line); border-radius:10px;
+        padding:22px 24px; margin:16px 0; }
+  .cpt h4{ font-family:var(--display); font-weight:600; font-size:20px; margin:0 0 4px; }
+  .cpt .tag{ display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+             text-transform:uppercase; color:var(--primary-dark); background:rgba(192,118,59,.14);
+             padding:3px 9px; border-radius:999px; margin-bottom:10px; }
+  .cpt dl{ margin:0; }
+  .cpt dt{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+           color:var(--accent); margin-top:14px; }
+  .cpt dd{ margin:4px 0 0; font-size:15.5px; }
+  .cpt .decir{ background:rgba(79,122,82,.09); border-left:3px solid var(--success);
+               padding:12px 16px; border-radius:0 6px 6px 0; margin-top:6px;
+               font-size:15.5px; font-style:italic; color:#33513a; }
+  .cpt .decir b{ font-style:normal; }
+
+  .note{ background:rgba(192,118,59,.09); border-left:3px solid var(--accent);
+         padding:16px 20px; border-radius:0 6px 6px 0; margin:20px 0; font-size:15.5px; }
+  .note p:last-child{ margin-bottom:0; }
+  .note.stop{ background:rgba(176,74,58,.08); border-left-color:var(--error); }
+  .note.stop strong{ color:var(--error); }
+  .note.good{ background:rgba(79,122,82,.09); border-left-color:var(--success); }
+
+  /* Objeciones */
+  .obj{ border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:14px 0;
+        background:var(--surface); }
+  .obj .q{ padding:15px 20px; font-weight:600; font-size:16.5px; background:rgba(152,92,62,.07);
+           border-bottom:1px solid var(--line); }
+  .obj .q::before{ content:'“'; color:var(--accent); font-family:var(--display); font-size:22px;
+                   margin-right:2px; }
+  .obj .q::after{ content:'”'; color:var(--accent); font-family:var(--display); font-size:22px; }
+  .obj .a{ padding:16px 20px; font-size:15.5px; }
+  .obj .a p:last-child{ margin-bottom:0; }
+  .obj .a em{ color:var(--ink-soft); }
+
+  .tablewrap{ overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:10px;
+              background:var(--surface); }
+  table{ width:100%; border-collapse:collapse; font-size:15px; }
+  thead th{ font-weight:700; font-size:10.5px; text-transform:uppercase; letter-spacing:.13em;
+            color:var(--primary-dark); text-align:left; padding:13px 16px;
+            border-bottom:1.5px solid var(--primary); }
+  tbody td{ padding:13px 16px; vertical-align:top; border-bottom:1px solid var(--line); line-height:1.5; }
+  tbody tr:last-child td{ border-bottom:none; }
+  td.num{ font-family:var(--mono); font-size:13.5px; white-space:nowrap; text-align:right;
+          color:var(--primary-dark); }
+
+  .quiz{ counter-reset:q; list-style:none; margin:16px 0 0; padding:0; }
+  .quiz li{ counter-increment:q; position:relative; padding:0 0 14px 42px; font-size:15.5px; }
+  .quiz li::before{ content:counter(q,decimal-leading-zero); position:absolute; left:0; top:1px;
+    font-family:var(--mono); font-size:12px; color:var(--surface); background:var(--primary);
+    width:27px; height:27px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+  .fine{ font-size:13.5px; color:var(--ink-soft); font-style:italic; }
+  .foot{ margin-top:70px; text-align:center; border-top:1px solid var(--line); padding-top:30px; }
+  .foot .sign{ font-family:var(--display); font-size:19px; }
+  .foot .contact{ font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:6px; }
+
+  @media print{
+    @page{ size:A4; margin:14mm 12mm; }
+    body{ background:#fff; font-size:10.5pt; line-height:1.45; }
+    .bar,.toc{ display:none !important; }
+    .doc{ max-width:none; padding:0; }
+    .sec{ margin-top:24px; break-before:auto; }
+    .sec > h2{ font-size:16pt; break-after:avoid; }
+    .cpt,.obj,.note,tr{ break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span><b>J&amp;V</b><em>Capacitación</em></span>
+  <button class="btn" onclick="window.print()">Descargar PDF →</button>
+</div>
+
+<div class="doc">
+
+  <span class="eyebrow">— Material interno · no compartir con clientes</span>
+  <h1>Qué estás vendiendo</h1>
+  <p class="sub">
+    No necesitas ser técnico para vender esto. Necesitas entender <strong>qué hace cada
+    cosa, a quién le sirve y cómo explicarla sin palabras raras</strong>. Eso es todo lo
+    que hay aquí.
+  </p>
+
+  <div class="toc">
+    <p>Contenido</p>
+    <ol>
+      <li><a href="#c1">Cómo usar esta guía</a></li>
+      <li><a href="#c2">Los seis productos, en una frase</a></li>
+      <li><a href="#c3">El diccionario: cada palabra técnica</a></li>
+      <li><a href="#c4">Cómo explicar lo que no se ve</a></li>
+      <li><a href="#c5">Las objeciones y qué responder</a></li>
+      <li><a href="#c6">Lo que nunca prometas</a></li>
+      <li><a href="#c7">Cómo saber si ya lo entendiste</a></li>
+    </ol>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="sec" id="c1">
+    <h2><span class="n">01</span> Cómo usar esta guía</h2>
+    <p>
+      Esta guía es el <strong>«qué es»</strong>. El kit de ventas es el <strong>«cuánto
+      cuesta»</strong> y el <strong>«cómo lo digo»</strong>. Se usan juntos.
+    </p>
+    <p>
+      No la leas de corrido. Léete las secciones 01 y 02 hoy, y ten la 03 abierta cuando
+      estés cotizando: es un diccionario para consultar, no para memorizar.
+    </p>
+    <div class="note good">
+      <p>
+        <strong>La regla que resume todo:</strong> el cliente no compra una página web.
+        Compra <em>que lo encuentren, que le crean y que le escriban</em>. Cada vez que
+        expliques algo, termina en uno de esos tres. Si no puedes, es porque esa función
+        no le sirve — y entonces no se la vendas.
+      </p>
+    </div>
+    <div class="note stop">
+      <p>
+        <strong>Nunca inventes.</strong> Si no sabes algo, la respuesta correcta es «buena
+        pregunta, déjame confirmarlo y te digo hoy mismo». Eso genera más confianza que
+        una respuesta inventada, y no nos deja vendida una promesa que no podemos cumplir.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="sec" id="c2">
+    <h2><span class="n">02</span> Los seis productos, en una frase</h2>
+    <p>Si solo te acuerdas de esto, ya puedes tener una conversación:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Producto</th><th>La frase</th><th class="num">Desde</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Landing page</strong></td><td>Una sola página que hace que lo encuentren, le crean y le escriban.</td><td class="num">$450.000</td></tr>
+          <tr><td><strong>Web corporativa</strong></td><td>La cara oficial de la empresa, con página para cada cosa que hace.</td><td class="num">$1.750.000</td></tr>
+          <tr><td><strong>Tienda online</strong></td><td>Vende sola, de noche y los domingos, sin que usted conteste pedido por pedido.</td><td class="num">$1.900.000</td></tr>
+          <tr><td><strong>Chatbot de WhatsApp</strong></td><td>Su número contesta solo lo de siempre y le pasa a usted solo lo que vale la pena.</td><td class="num">$700.000</td></tr>
+          <tr><td><strong>SEO / posicionamiento</strong></td><td>Que aparezca en Google cuando alguien busca lo que usted vende, sin pagar por cada clic.</td><td class="num">$650.000/mes</td></tr>
+          <tr><td><strong>Software a la medida</strong></td><td>Un sistema para esa tarea manual que le come el día.</td><td class="num">se cotiza</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <p>
+        <strong>El mantenimiento no es un producto, es un acompañante.</strong> Va con
+        cualquiera de los seis y es el ingreso que se repite. Desde $120.000 al mes.
+        Ofrécelo <em>siempre</em> en la misma conversación: después de entregado cuesta el
+        triple.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="sec" id="c3">
+    <h2><span class="n">03</span> El diccionario</h2>
+    <p>
+      Cada concepto con cuatro cosas: qué es de verdad, por qué le importa al cliente, la
+      frase con la que se lo explicas, y el error típico. <strong>La frase en verde es
+      literal: puedes decirla tal cual.</strong>
+    </p>
+
+    <h3>Lo básico para existir en internet</h3>
+
+    <div class="cpt">
+      <span class="tag">Dominio</span>
+      <h4>El nombre de su negocio en internet</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>La dirección: <code>sunegocio.com</code>. Se alquila por año a un registrador, no se compra para siempre.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Sin dominio propio la dirección es fea y prestada. Con dominio propio se ve serio y se puede dictar por teléfono.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Es como la dirección de su local, pero en internet. <b>Queda a nombre suyo, no del nuestro</b>: si algún día se va, se lo lleva.»</dd>
+        <dt>El error típico</dt>
+        <dd>Prometer que el dominio es «para siempre». Se renueva cada año. El primer año va incluido; la renovación la paga él al registrador.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Hosting</span>
+      <h4>Dónde vive la página para estar siempre prendida</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Un computador encendido las 24 horas donde están los archivos del sitio.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Sin hosting la página no existe. Y de la calidad del hosting depende que cargue rápido y no se caiga.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«El dominio es la dirección; el hosting es <b>el local donde está la página</b>. Uno sin el otro no sirve.»</dd>
+        <dt>El error típico</dt>
+        <dd>Confundirlo con el dominio. Son dos cosas y se cobran por separado ($100.000 y $150.000).</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">SSL · HTTPS</span>
+      <h4>El candadito de la barra del navegador</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Un certificado que cifra lo que viaja entre el visitante y la página.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Sin él, el navegador muestra <strong>«No es seguro»</strong> en rojo y la gente se va. Google además lo penaliza.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Es el candadito que sale al lado de la dirección. <b>Va incluido siempre</b>, no se cobra aparte.»</dd>
+        <dt>El error típico</dt>
+        <dd>Cobrarlo. Va incluido en todos nuestros proyectos. Si el cliente viene de otra agencia que se lo cobraba, dilo: es un punto a favor.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Correo corporativo</span>
+      <h4>hola@sunegocio.com en vez de @gmail</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Buzones con el dominio del negocio, configurados para que no caigan en la carpeta de spam.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Un presupuesto que llega de <code>@hotmail</code> pesa menos que uno que llega del dominio de la empresa. Es puro percibido, y funciona.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Cuando usted le escribe a un cliente desde <b>su propio dominio</b>, la respuesta llega distinta. Es la diferencia entre parecer negocio y parecer persona.»</dd>
+        <dt>El error típico</dt>
+        <dd>No mencionar lo del spam. Esa es la mitad del valor: configuramos los registros técnicos para que sus correos lleguen a la bandeja y no a la basura.</dd>
+      </dl>
+    </div>
+
+    <h3>Lo que hace que la página sirva</h3>
+
+    <div class="cpt">
+      <span class="tag">Responsive</span>
+      <h4>Que se vea bien en el celular</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Que el diseño se reacomode al tamaño de la pantalla.</dd>
+        <dt>Por qué le importa</dt>
+        <dd><strong>Más del 70 % de las búsquedas en Colombia son desde el celular.</strong> Si se ve mal ahí, se ve mal para casi todos.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Siete de cada diez personas lo van a ver desde el celular. <b>Va incluido, no es un extra</b>: una página que no se ve bien en el teléfono no es una página.»</dd>
+        <dt>El error típico</dt>
+        <dd>Venderlo como una ventaja nuestra. En 2026 es el mínimo. Se menciona, no se presume.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Autoadministrable · CMS</span>
+      <h4>Que él pueda cambiar textos sin llamarnos</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Un panel con usuario y clave donde cambia textos, fotos, precios o productos sin tocar programación.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Sin panel, cada cambio de precio pasa por nosotros: cuesta plata y tiempo. Con panel, lo hace él en dos minutos.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Le dejamos un panel para que <b>cambie usted mismo</b> lo que se cambia seguido: precios, fotos, horarios. Sin depender de nosotros ni pagar por cada ajuste.»</dd>
+        <dt>El error típico</dt>
+        <dd>Prometerlo en un landing. La landing no lo trae. La <strong>corporativa sí lo incluye</strong>, y la <strong>tienda trae panel de productos</strong>. Para la corporativa, si quiere administrar más allá de lo básico, son $450.000 aparte.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Analítica</span>
+      <h4>Saber cuánta gente entra y cuántos escriben</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Google Analytics más los eventos que importan: clic al botón de WhatsApp, envío del formulario, llamada.</dd>
+        <dt>Por qué le importa</dt>
+        <dd><strong>Sin esto no hay forma de demostrarle que la página sirvió.</strong> Y a los tres meses va a preguntar si valió la pena.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Sin medir, en tres meses ninguno de los dos va a saber si esto funcionó. Con esto, <b>le puedo mostrar cuántos le escribieron y de dónde venían</b>.»</dd>
+        <dt>El error típico</dt>
+        <dd>Dejarlo sin marcar por ahorrarle $120.000. Es el extra que más ayuda a vender el mantenimiento después, porque el informe se sostiene en estos datos.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Píxel de campaña</span>
+      <h4>Que Meta y Google sepan quién le compró</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Un código que le avisa a Facebook/Instagram y Google Ads cuando alguien hizo lo que se quería (escribir, comprar, agendar).</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Sin píxel, la pauta gasta a ciegas. Con píxel, la plataforma aprende a quién mostrarle el anuncio y el mismo presupuesto rinde más.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Si va a invertir en anuncios, esto le dice a Facebook <b>quién de verdad le escribió</b>. Sin eso, está pagando por mostrarle el anuncio a cualquiera.»</dd>
+        <dt>El error típico</dt>
+        <dd>Ofrecérselo a quien no pauta. Solo sirve si va a poner plata en anuncios. Si no pauta, no se lo vendas.</dd>
+      </dl>
+    </div>
+
+    <h3>Vender por internet</h3>
+
+    <div class="cpt">
+      <span class="tag">Pasarela de pago</span>
+      <h4>Cobrar en línea con tarjeta, PSE o Nequi</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>La conexión con Wompi, ePayco, Bold o Mercado Pago para que el cliente pague y el pedido se confirme solo.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Deja de perseguir comprobantes de transferencia por WhatsApp.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«El cliente paga y el pedido <b>queda confirmado solo</b>. Usted deja de perseguir comprobantes.»</dd>
+        <dt>El error típico</dt>
+        <dd><strong>Dos, y los dos duelen.</strong> Uno: no aclarar que <em>la pasarela cobra su propia comisión por transacción, y eso no lo cobramos nosotros</em>. Dos: vendérsela a quien no la va a usar — en Colombia mucho comercio pequeño cierra por WhatsApp y cobra por transferencia, y para ese el cotizador tiene una opción que <strong>vale cero</strong>.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Variantes</span>
+      <h4>Tallas, colores y sabores con su propio inventario</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Un mismo producto con opciones, cada una con su precio y su stock aparte.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Sin variantes, la camisa roja talla M y la azul talla L son dos productos distintos y el inventario se vuelve un desorden.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«¿Vende lo mismo en varias tallas o colores? Entonces necesita esto, porque si no <b>le va a tocar cargar cada combinación como si fuera un producto distinto</b>.»</dd>
+        <dt>El error típico</dt>
+        <dd>No preguntarlo. Si vende ropa, comida o cualquier cosa con presentaciones, lo necesita casi seguro.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Carrito abandonado</span>
+      <h4>Recordarle al que dejó la compra a medias</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Detectar a quien llenó el carrito y no pagó, y mandarle un recordatorio.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Esa gente ya quería comprar. Es la venta más barata que existe: no hay que conseguir al cliente, ya está.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Mucha gente llena el carrito y se distrae. Esto <b>les recuerda que dejaron algo a medias</b> — y esa es la venta que menos trabajo cuesta recuperar.»</dd>
+        <dt>El error típico</dt>
+        <dd>Ofrecerlo a una tienda que todavía no vende. Sirve cuando ya hay tráfico. A una tienda nueva véndele primero el SEO.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Facturación DIAN</span>
+      <h4>Factura electrónica emitida sola en cada venta</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Conexión con un proveedor autorizado por la DIAN para que la factura salga y se envíe al comprador al confirmarse el pago.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Si está obligado a facturar electrónicamente, hacerlo a mano por cada venta es insostenible.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Cada venta <b>emite su factura sola</b> y le llega al comprador. Usted no tiene que entrar a hacerla una por una.»</dd>
+        <dt>El error típico</dt>
+        <dd><strong>No aclarar qué NO incluye.</strong> No incluimos la habilitación de su empresa ante la DIAN: ese trámite es suyo y tiene que estar hecho antes. Dilo antes de cobrar, no después.</dd>
+      </dl>
+    </div>
+
+    <h3>WhatsApp</h3>
+
+    <div class="cpt">
+      <span class="tag">Chatbot de WhatsApp</span>
+      <h4>Su número contesta solo</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Su WhatsApp Business conectado a la plataforma oficial de Meta, respondiendo lo repetido y pasándole a una persona lo que se complica.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Colombia es <strong>el país que más usa WhatsApp del mundo</strong>, y aquí la gente prefiere escribir por WhatsApp antes que llamar o llenar un formulario. El que no contesta rápido, pierde.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«¿Cuántas veces al día contesta lo mismo: precios, horarios, dónde queda? <b>Eso lo contesta solo</b>, a cualquier hora, y a usted solo le pasa lo que vale la pena.»</dd>
+        <dt>El error típico</dt>
+        <dd>Decir que es «un bot que reemplaza a la gente». No reemplaza a nadie: filtra. Véndelo como <em>recuperar horas</em>, no como <em>ahorrar un empleado</em>.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Proveedor verificado por Meta</span>
+      <h4>Nuestro mejor argumento, y casi no lo usamos</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>J&amp;V está verificada por Meta como proveedor de tecnología. Nosotros hacemos la conexión con WhatsApp directamente.</dd>
+        <dt>Por qué le importa</dt>
+        <dd><strong>Casi toda la competencia revende una plataforma de un tercero.</strong> Si esa plataforma sube el precio, cambia las reglas o cierra, el cliente queda colgado. Con nosotros, no hay intermediario.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«La mayoría le revende una plataforma de otro. Nosotros estamos <b>verificados por Meta</b> y hacemos la conexión directo. Es verificable, no es un sello que nos pusimos solos.»</dd>
+        <dt>El error típico</dt>
+        <dd>No mencionarlo. Es el diferenciador más fuerte que tenemos y es <em>comprobable</em>. Úsalo siempre que salga el tema de WhatsApp.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Consumo de Meta</span>
+      <h4>Lo que Meta cobra aparte, y hay que decirlo de una</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Meta le factura las conversaciones <strong>directamente al cliente</strong>, a su propio medio de pago. Nosotros cobramos por construir y mantener, no por las conversaciones.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Es plata que va a salir y que no está en nuestra cotización.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Una cosa más, y se la digo ahora para que no le sorprenda: <b>las conversaciones se las cobra Meta a usted directamente</b>, con su propia tarjeta. Nosotros cobramos por construirlo y mantenerlo.»</dd>
+        <dt>El error típico</dt>
+        <dd>Callarlo hasta la primera factura. Ahí el cliente siente que le escondimos un costo, y con razón. <strong>Dilo en la primera conversación, siempre.</strong></dd>
+      </dl>
+    </div>
+
+    <h3>Aparecer en Google</h3>
+
+    <div class="cpt">
+      <span class="tag">SEO técnico</span>
+      <h4>Que Google pueda leer y entender la página</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Títulos y descripciones por página, datos que Google lee, mapa del sitio, imágenes livianas con su descripción. <strong>Se hace una vez y se acaba.</strong></dd>
+        <dt>Por qué le importa</dt>
+        <dd>Es la base. Sin esto, ninguna cantidad de trabajo mensual sirve.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Esto es <b>dejar la página lista para competir</b>. No es subir de puesto — es poder jugar. Va una sola vez.»</dd>
+        <dt>El error típico</dt>
+        <dd><strong>Confundirlo con posicionamiento.</strong> Es el error más caro del kit. Ver el recuadro de abajo.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Posicionamiento · mensual</span>
+      <h4>Subir de puesto, mes a mes</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Trabajo continuo: contenido nuevo cada mes, ficha de Google gestionada, enlaces, optimización de lo que ya existe, informe mensual. Desde $650.000/mes.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>La pauta deja de traer gente el día que deja de pagarla. El posicionamiento se queda.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«El SEO técnico lo deja listo para competir. Esto es <b>competir</b>, todos los meses. Los primeros movimientos se ven entre el mes 3 y el 6.»</dd>
+        <dt>El error típico</dt>
+        <dd>Prometer posiciones. Ver la sección 06.</dd>
+      </dl>
+    </div>
+
+    <div class="note stop">
+      <p>
+        <strong>La diferencia que más se confunde, y la que más problemas trae.</strong>
+      </p>
+      <p>
+        <strong>SEO técnico ($250.000, una vez)</strong> = dejar la página bien construida
+        para que Google la entienda. Se hace y se acaba.<br>
+        <strong>Posicionamiento ($650.000/mes)</strong> = trabajar todos los meses para
+        subir de puesto. No se acaba nunca.
+      </p>
+      <p>
+        Si el cliente paga $250.000 creyendo que va a quedar de primero en Google, a los
+        dos meses tenemos un cliente furioso con razón. <strong>Sepáralas siempre, en voz
+        alta, aunque él no pregunte.</strong>
+      </p>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Ficha de Google Business</span>
+      <h4>Salir en el mapa</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>El perfil del negocio en Google Maps y en el recuadro de tres resultados locales que sale arriba de todo.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>En una búsqueda local, <strong>el mapa se lleva la mitad de los clics antes de que alguien vea el primer resultado normal</strong>. Y ahí es donde viven las reseñas.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Cuando alguien busca su servicio en su ciudad, lo primero que sale es un mapa con tres negocios. <b>Si usted no tiene ficha, no está en esa pelea.</b>»</dd>
+        <dt>El error típico</dt>
+        <dd>No ofrecerla. Cuesta $180.000, se hace una vez y es de lo que más resultado da por peso invertido.</dd>
+      </dl>
+    </div>
+
+    <h3>Lo que no se ve pero cuesta</h3>
+
+    <div class="cpt">
+      <span class="tag">Contenido</span>
+      <h4>Quién escribe los textos y pone las fotos</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Los textos de cada página y las fotos. Se cobra por página ($60.000 solo textos, $95.000 textos más imágenes de banco).</dd>
+        <dt>Por qué le importa</dt>
+        <dd><strong>Es lo que más veces deja un proyecto parado.</strong> El cliente dice «yo los mando» y pasan seis semanas.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Le voy a hacer la pregunta que más proyectos atrasa: <b>¿los textos los escribe usted o los escribimos nosotros?</b> Si los va a escribir usted, dígame para cuándo, con fecha.»</dd>
+        <dt>El error típico</dt>
+        <dd><strong>No preguntarlo</strong>, y que el proyecto se quede esperando. Y ojo con las fotos: <em>no hacemos sesión de fotos</em>. Las toma él con el celular siguiendo nuestra guía, y nosotros se las arreglamos. Si quiere fotógrafo, se lo conseguimos y se cotiza aparte.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Identidad de marca</span>
+      <h4>Logo, colores y tipografías</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Si no tiene nada: logo con sus versiones, paleta, tipografías y manual básico ($650.000). Si tiene logo pero nada más: extendemos eso a un estilo para el sitio ($180.000).</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Sin colores ni tipografías definidas, <strong>el sitio se diseña dos veces</strong>: primero a ojo y después cuando aparece el logo de verdad.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«¿Tiene logo y colores definidos? Se lo pregunto porque <b>si no, el sitio hay que diseñarlo dos veces</b>, y eso sí sale caro.»</dd>
+        <dt>El error típico</dt>
+        <dd>Asumir que «tiene logo» quiere decir que tiene marca. Pregunta si tiene los colores y las tipografías por escrito. Casi nunca los tienen.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Migración</span>
+      <h4>Traer el contenido de la web vieja</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Pasar textos, fotos, productos o artículos, y redirigir las direcciones viejas a las nuevas ($250.000).</dd>
+        <dt>Por qué le importa</dt>
+        <dd><strong>Sin las redirecciones se pierde lo que ya posicionaba</strong>, y quien tenga el enlace viejo cae en un error.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Si ya tiene web, hay que traer lo que sirve y <b>redirigir las direcciones viejas</b>. Si no se hace, Google pierde el rastro de lo que ya tenía ganado.»</dd>
+        <dt>El error típico</dt>
+        <dd>No preguntar si ya tiene web. Pregúntalo siempre, aunque parezca que no.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Mantenimiento</span>
+      <h4>Que alguien lo cuide después de entregado</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Mensual: hosting y dominio vigilados, respaldos, actualizaciones de seguridad, cambios de contenido e informe. Desde $120.000/mes.</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Una página sin cuidado se desactualiza, se rompe con el tiempo o queda desprotegida. Y él no se entera hasta que un cliente le avisa.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«La página no se rompe sola el primer día. Se rompe al sexto mes, y usted se entera <b>porque un cliente le dice que no le abre</b>. Por eso existe el plan.»</dd>
+        <dt>El error típico</dt>
+        <dd>Dejarlo para después de entregar. <strong>Ofrécelo en la misma conversación de la venta.</strong> Y para ti: es donde está tu 5% recurrente durante seis meses.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Zona privada de clientes</span>
+      <h4>Que cada cliente entre y vea lo suyo</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Usuarios con clave, donde cada cliente ve solo su información: sus facturas, sus documentos, en qué va su trámite ($900.000).</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Le quita de encima las llamadas de «¿cómo va lo mío?».</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«Cada cliente suyo entra con su clave y <b>ve solo lo de él</b>: sus facturas, sus documentos, en qué va su caso.»</dd>
+        <dt>El error típico</dt>
+        <dd>Venderlo como si fuera una página más. <strong>Ya no es una página, es un sistema con usuarios</strong>, y suma semanas al cronograma. Avísalo antes de prometer fecha.</dd>
+      </dl>
+    </div>
+
+    <div class="cpt">
+      <span class="tag">Agendamiento</span>
+      <h4>Que reserven la cita sin escribirle</h4>
+      <dl>
+        <dt>Qué es</dt>
+        <dd>Calendario conectado a su Google Calendar. El cliente escoge día y hora, recibe confirmación y recordatorio ($350.000).</dd>
+        <dt>Por qué le importa</dt>
+        <dd>Se acaba el ida y vuelta de «¿a qué hora tiene?» por WhatsApp.</dd>
+        <dt>Cómo lo dices</dt>
+        <dd class="decir">«El cliente ve su disponibilidad real y <b>agenda solo</b>. A usted le entra en el calendario y le llega el recordatorio.»</dd>
+        <dt>El error típico</dt>
+        <dd><strong>No decir hasta dónde llega.</strong> Cubre <em>una agenda y un servicio</em>. Si son varios profesionales con horarios distintos, o si quiere cobrar la cita por adelantado, eso se cotiza aparte. Dilo antes.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="sec" id="c4">
+    <h2><span class="n">04</span> Cómo explicar lo que no se ve</h2>
+    <p>
+      Lo difícil de vender esto es que <strong>casi nada se puede tocar</strong>. Tres
+      herramientas que funcionan siempre:
+    </p>
+
+    <h3>1. Compara con algo del mundo real</h3>
+    <ul class="list">
+      <li><strong>Dominio</strong> = la dirección del local. <strong>Hosting</strong> = el local.</li>
+      <li><strong>SEO técnico</strong> = ponerle vitrina y letrero. <strong>Posicionamiento</strong> = que su local quede en la calle principal, y eso toma tiempo.</li>
+      <li><strong>Mantenimiento</strong> = el aseo y las reparaciones. Nadie deja de barrer el local porque «ya lo abrió».</li>
+      <li><strong>Chatbot</strong> = alguien en la puerta que responde lo de siempre y le pasa a usted los clientes serios.</li>
+    </ul>
+
+    <h3>2. Habla de plata o de tiempo, no de función</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>No digas</th><th>Di</th></tr></thead>
+        <tbody>
+          <tr><td>«Tiene datos estructurados JSON-LD»</td><td>«Google entiende que usted es una empresa de X en Cartagena y lo muestra mejor»</td></tr>
+          <tr><td>«Es responsive»</td><td>«Se ve bien en el celular, que es por donde entran siete de cada diez»</td></tr>
+          <tr><td>«Integramos la pasarela»</td><td>«Deja de perseguir comprobantes de transferencia»</td></tr>
+          <tr><td>«Tiene un CMS»</td><td>«Usted cambia los precios en dos minutos sin llamarnos»</td></tr>
+          <tr><td>«Le hacemos SEO»</td><td>«Que lo encuentren cuando busquen lo que usted vende, sin pagar por cada clic»</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>3. Muestra, no expliques</h3>
+    <p>
+      Ten a la mano un ejemplo real en el celular. <strong>Treinta segundos mostrando una
+      página hecha valen más que diez minutos explicando.</strong> Y si el cliente está
+      pensando en un competidor suyo que ya tiene web, ábresela y compárenla juntos.
+    </p>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="sec" id="c5">
+    <h2><span class="n">05</span> Las objeciones y qué responder</h2>
+    <p class="fine">No son guiones para recitar. Es el argumento; ponlo en tus palabras.</p>
+
+    <div class="obj">
+      <div class="q">Está muy caro</div>
+      <div class="a">
+        <p>Nunca bajes el precio de una. Primero averigua contra qué lo compara: <em>«¿caro comparado con qué?»</em>. Casi siempre es contra una plantilla de $300.000 o contra nada.</p>
+        <p>Después dale la cuenta al revés: <strong>«¿cuánto le deja un cliente nuevo?»</strong> Si le deja $400.000 y el sitio cuesta $1.000.000, con tres clientes en el año ya se pagó. Casi ningún negocio recibe menos de tres clientes al año por internet.</p>
+        <p>Si de verdad no le alcanza, no regales: <strong>reduce el alcance</strong>. Menos páginas, sin extras, y crece después.</p>
+      </div>
+    </div>
+
+    <div class="obj">
+      <div class="q">Un primo me la hace por $300.000</div>
+      <div class="a">
+        <p>No hables mal del primo. Habla de lo que pasa después: <em>«puede ser. Pregúntele tres cosas: si el dominio queda a nombre suyo, quién se la mantiene en seis meses, y qué pasa si un día no le contesta el teléfono»</em>.</p>
+        <p>Y sé honesto con el piso: <strong>por debajo de $600.000 en Colombia lo que hay es plantilla prediseñada y sin soporte</strong>. Si eso es lo que necesita hoy, está bien — pero que sepa qué está comprando.</p>
+      </div>
+    </div>
+
+    <div class="obj">
+      <div class="q">Yo con Instagram estoy bien</div>
+      <div class="a">
+        <p>No lo contradigas: Instagram sirve. Muestra el hueco. <em>«Instagram lo encuentra quien no lo estaba buscando. Google lo encuentra quien ya quiere comprar lo que usted vende. Son dos cosas distintas y usted solo tiene una.»</em></p>
+        <p>Y el argumento que cierra: <strong>«el perfil no es suyo. Si mañana se lo cierran o se lo hackean, pierde todo. La página sí es suya.»</strong> Con clientes que ya han perdido cuentas, esto pega durísimo.</p>
+      </div>
+    </div>
+
+    <div class="obj">
+      <div class="q">¿Me garantiza que salgo de primero en Google?</div>
+      <div class="a">
+        <p><strong>No. Y esta es la respuesta correcta, aunque pierdas la venta.</strong></p>
+        <p><em>«No, y quien se lo prometa por escrito le está mintiendo: las posiciones las decide Google, no la agencia. Lo que sí le garantizo es el trabajo hecho, medido y visible en un informe todos los meses. Los primeros movimientos se ven entre el mes 3 y el 6.»</em></p>
+        <p>Un cliente que exige garantía de posición es un cliente que va a estar furioso en tres meses. <strong>Esa venta no la queremos.</strong></p>
+      </div>
+    </div>
+
+    <div class="obj">
+      <div class="q">Déjeme pensarlo</div>
+      <div class="a">
+        <p>«Déjeme pensarlo» casi nunca es «no». Es una duda que no salió. Pregúntala: <em>«claro. ¿Qué es lo que más lo tiene dudando: el precio, el tiempo, o no está seguro de que le vaya a servir?»</em></p>
+        <p>Y deja algo agendado antes de colgar. Un «yo lo llamo» sin fecha es un no.</p>
+      </div>
+    </div>
+
+    <div class="obj">
+      <div class="q">¿Y si no me gusta cómo queda?</div>
+      <div class="a">
+        <p><em>«Por eso no se paga todo de entrada. Usted ve avances y opina en el camino, no al final. Y la entrega incluye 30 días de ajustes sin costo.»</em></p>
+      </div>
+    </div>
+
+    <div class="obj">
+      <div class="q">¿Cuánto se demora?</div>
+      <div class="a">
+        <p>Landing 1 a 4 semanas · corporativa 2 a 5 · tienda 3 a 8, según el plazo que escoja.</p>
+        <p><strong>Y agrega siempre la letra chica, que evita el problema de después:</strong> <em>«las semanas se cuentan desde que tengamos el contenido y la marca. Si los textos los escribimos nosotros, ese tiempo ya está contado.»</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="sec" id="c6">
+    <h2><span class="n">06</span> Lo que nunca prometas</h2>
+    <p>
+      Cada una de estas nos ha costado —o nos va a costar— un cliente. No son sugerencias.
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Nunca</th><th>Por qué</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Primeros puestos en Google</strong></td><td>Nadie los controla. Prometerlo es mentir y se descubre en tres meses.</td></tr>
+          <tr><td><strong>Que el SEO técnico posiciona</strong></td><td>Es la base, no el resultado. Confundirlas es el error más caro del kit.</td></tr>
+          <tr><td><strong>Sesión de fotos</strong></td><td>No tenemos equipo. Él las toma con el celular y nosotros se las arreglamos.</td></tr>
+          <tr><td><strong>Que la pasarela no cobra comisión</strong></td><td>Sí cobra, por transacción, y no somos nosotros. Dilo antes.</td></tr>
+          <tr><td><strong>Que las conversaciones de WhatsApp van incluidas</strong></td><td>Meta se las cobra a él directamente.</td></tr>
+          <tr><td><strong>Habilitación ante la DIAN</strong></td><td>Ese trámite es suyo. Nosotros conectamos, no lo habilitamos.</td></tr>
+          <tr><td><strong>Fechas sin tener el contenido</strong></td><td>El reloj arranca cuando llegan los textos y la marca, no cuando se firma.</td></tr>
+          <tr><td><strong>Descuentos por tu cuenta</strong></td><td>El precio sale del cotizador. Si hay que ajustar algo, se consulta.</td></tr>
+          <tr><td><strong>Comisión recurrente a otro vendedor</strong></td><td>El 5% es tuyo y va hasta el sexto mes. No lo prometas a nombre de la agencia.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note stop">
+      <p>
+        <strong>Y la más importante:</strong> nunca compartas la contraseña del cotizador
+        ni de este material con un cliente. Tú armas el caso y le dices el total.
+        <strong>Le muestras el número, no la pantalla.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="sec" id="c7">
+    <h2><span class="n">07</span> Cómo saber si ya lo entendiste</h2>
+    <p>
+      Respóndelas en voz alta, sin mirar. Si trancas en alguna, vuelve a esa ficha del
+      diccionario. <strong>No sigas vendiendo hasta que las siete te salgan solas.</strong>
+    </p>
+    <ol class="quiz">
+      <li>Explica la diferencia entre <strong>dominio y hosting</strong> sin usar ninguna palabra técnica.</li>
+      <li>Un cliente pagó <strong>SEO técnico</strong> y a los dos meses reclama que no está de primero. ¿Qué le dices, y qué debiste haberle dicho antes?</li>
+      <li>Un restaurante quiere vender por internet pero cobra por transferencia y no quiere pasarela. ¿Qué le ofreces y cuánto suma?</li>
+      <li>¿Qué le cobra <strong>Meta</strong> al cliente que nosotros no le cobramos, y en qué momento se lo dices?</li>
+      <li>Te piden <strong>garantía de primer puesto</strong> en Google. Respuesta exacta.</li>
+      <li>¿Cuál es la pregunta que más proyectos atrasa, y por qué hay que hacerla de primeras?</li>
+      <li>¿Por qué el <strong>mantenimiento</strong> se ofrece en la misma conversación de la venta y no después?</li>
+    </ol>
+    <div class="note good">
+      <p>
+        <strong>Cuando las tengas:</strong> abre el cotizador y arma tres casos completos
+        —una landing, una corporativa y una tienda— explicando en voz alta cada opción que
+        marques, como si tuvieras al cliente enfrente. Ahí se termina de aprender.
+      </p>
+    </div>
+  </section>
+
+  <div class="note">
+    <p>
+      Si algo de aquí no te queda claro, o un cliente te preguntó algo que no está,
+      escríbeme. Esta guía crece con las preguntas que van llegando.
+    </p>
+  </div>
+
+  <div class="foot">
+    <p class="sign">Luis Jaller · J&amp;V Agencia</p>
+    <p class="contact">contacto@jvagencia.com · jvagencia.com</p>
+    <p class="fine" style="margin-top:14px">Material interno. No se comparte con clientes.</p>
+  </div>
+
+</div>
+</body>
+</html>
