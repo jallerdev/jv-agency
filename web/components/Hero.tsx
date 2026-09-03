@@ -17,11 +17,11 @@ export function Hero() {
 
         <h1 className="mt-8 font-display text-[2.9rem] font-light leading-[1.03] tracking-[-0.02em] text-ink sm:text-6xl lg:text-[5rem]">
           <span className="block animate-fade-in" style={{ animationDelay: "80ms" }}>
-            Hacemos que
+            Diseño de páginas web
           </span>
           <span className="block animate-fade-in" style={{ animationDelay: "200ms" }}>
-            te tomen{" "}
-            <span className="text-metal text-metal-anim font-normal italic">en serio.</span>
+            que hacen que{" "}
+            <span className="text-metal text-metal-anim font-normal italic">te tomen en serio.</span>
           </span>
         </h1>
 

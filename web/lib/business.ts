@@ -31,12 +31,24 @@ export const BUSINESS = {
   phone: "+573118694288",
   phoneDisplay: "+57 311 869 4288",
 
+  /**
+   * NAP público. J&V NO tiene local: se atiende de forma remota y en sitio del
+   * cliente, así que la dirección exacta es la casa de Luis y no se publica.
+   *
+   * `street` y `postalCode` quedan VACÍOS a propósito: el JSON-LD los omite
+   * cuando están vacíos (mejor incompleto que exponer un domicilio particular),
+   * y para Google esto es un negocio de área de servicio, donde lo correcto es
+   * declarar la zona que se cubre y ocultar la dirección.
+   *
+   * La dirección del RUT —la que pidió Meta para verificar contra la DIAN— vive
+   * en la declaración de renta y en el panel de Meta, no en el código público.
+   * Si una verificación futura vuelve a pedirla, se saca de ahí.
+   */
   address: {
-    // Exacto como el RUT (campo 41. Dirección principal).
-    street: "URB LA CRUZ CR 19 MZ G LT 19",
+    street: "",
     city: "Turbaco",
     region: "Bolívar",
-    postalCode: "131001",
+    postalCode: "",
     country: "Colombia",
     countryCode: "CO",
   },

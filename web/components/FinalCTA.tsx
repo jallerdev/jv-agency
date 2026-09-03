@@ -20,7 +20,7 @@ export function FinalCTA() {
         <div className="relative grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <Reveal className="text-surface">
             <h2 className="font-display text-4xl leading-tight text-surface sm:text-5xl">
-              Tu web, a la altura
+              Tu página web, a la altura
               <span className="block italic text-[#f0d9c4]">de tus ambiciones.</span>
             </h2>
             <p className="mt-6 max-w-md font-body text-lg text-surface/80">

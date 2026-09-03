@@ -41,17 +41,14 @@ const plexMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "JV Agencia — Estudio de diseño y desarrollo web para PYMEs en LATAM",
+  // El título arranca con lo que la gente escribe en Google —"diseño de páginas
+  // web"— y no con el nombre de la agencia, que solo busca quien ya nos conoce.
+  // 57 caracteres: cabe entero en el resultado sin que Google lo corte.
+  title: "Diseño de páginas web en Colombia para PYMEs | JV Agencia",
   description:
-    "Diseño + código en el mismo equipo. Webs y software a medida que se ven de marca grande y funcionan de verdad. Sin presupuesto corporativo.",
-  keywords: [
-    "desarrollo web",
-    "software a medida",
-    "diseño web",
-    "diseño UI",
-    "estudio de desarrollo LATAM",
-    "web para PYMEs",
-  ],
+    "Diseñamos páginas web, tiendas online y chatbots de WhatsApp para PYMEs de Colombia y LATAM. Diseño y código en el mismo equipo, sin presupuesto corporativo.",
+  // `keywords` se quitó a propósito: Google dejó de usarla en 2009 y lo único
+  // que logra es mostrarle a la competencia por qué términos peleamos.
   applicationName: SITE_NAME,
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
@@ -68,17 +65,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_LA",
     url: SITE_URL,
-    title: "JV Agencia — Hacemos que te tomen en serio",
+    title: "Diseño de páginas web en Colombia | JV Agencia",
     description:
-      "Estudio de diseño + código para PYMEs de LATAM. Diseño que enamora, código que aguanta.",
+      "Páginas web, tiendas online y chatbots de WhatsApp para PYMEs. Diseño y código en el mismo equipo.",
     siteName: SITE_NAME,
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "JV Agencia — diseño + código" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "JV Agencia — Hacemos que te tomen en serio",
+    title: "Diseño de páginas web en Colombia | JV Agencia",
     description:
-      "Diseño + código en el mismo equipo. Webs y software a medida para PYMEs de LATAM.",
+      "Páginas web, tiendas online y chatbots de WhatsApp para PYMEs de Colombia y LATAM.",
     images: ["/og.png"],
   },
 };

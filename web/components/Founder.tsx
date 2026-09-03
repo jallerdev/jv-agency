@@ -35,26 +35,22 @@ export function Founder() {
         <div className="grid items-center gap-10 rounded-[1.75rem] border border-line bg-surface/70 p-8 md:p-12 lg:grid-cols-[auto_1fr]">
           {/* Monograma. Cuando haya foto real, se reemplaza por <Image>. */}
           <Reveal>
-            <div className="flex items-center gap-6 lg:flex-col lg:items-start">
-              <span
-                aria-hidden="true"
-                className="grid h-24 w-24 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-accent font-display text-4xl text-surface shadow-lift md:h-28 md:w-28"
-              >
-                LJ
-              </span>
-              <div className="lg:hidden">
-                <p className="font-display text-2xl text-ink">{FOUNDER.name}</p>
-                <p className="font-body text-sm text-ink-soft">{FOUNDER.role}</p>
-              </div>
-            </div>
+            <span
+              aria-hidden="true"
+              className="grid h-24 w-24 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-accent font-display text-4xl text-surface shadow-lift md:h-28 md:w-28"
+            >
+              LJ
+            </span>
           </Reveal>
 
           <Reveal delay={100}>
             <div>
               <Badge>Quién está detrás</Badge>
 
-              <div className="mt-5 hidden lg:block">
-                <p className="font-display text-3xl text-ink">{FOUNDER.name}</p>
+              <div className="mt-5">
+                <h2 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
+                  Quién hace tu página web: {FOUNDER.name}
+                </h2>
                 <p className="font-body text-sm text-ink-soft">{FOUNDER.role}</p>
               </div>
 

@@ -31,8 +31,8 @@ export function Process() {
         <Reveal className="max-w-2xl">
           <Badge>Cómo trabajamos</Badge>
           <h2 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl">
-            Un proceso que da
-            <span className="text-metal"> tranquilidad.</span>
+            Cómo hacemos tu página web:
+            <span className="text-metal"> un proceso que da tranquilidad.</span>
           </h2>
         </Reveal>
 

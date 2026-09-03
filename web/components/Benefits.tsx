@@ -18,7 +18,7 @@ const SERVICES: {
 }[] = [
   {
     icon: Code2,
-    title: "Desarrollo web",
+    title: "Diseño de páginas web",
     desc: "Sitios, landing pages, e-commerce y web corporativa. Rápidos, sólidos y pensados para crecer contigo.",
     span: "lg:col-span-3",
     featured: true,
@@ -48,7 +48,7 @@ const SERVICES: {
   },
   {
     icon: Boxes,
-    title: "Software a medida",
+    title: "Software a la medida",
     desc: "Apps web, sistemas internos y plataformas hechas a tu medida, no forzadas a una plantilla.",
     span: "lg:col-span-3",
   },
@@ -62,7 +62,7 @@ const SERVICES: {
   },
   {
     icon: LifeBuoy,
-    title: "Mantenimiento y soporte",
+    title: "Mantenimiento de páginas web",
     desc: "No desaparecemos al entregar. Mejoras continuas, hosting y soporte para que todo siga funcionando. Una automatización sobre todo: si expira un token de Meta o rechazan una plantilla, deja de responder sin avisar.",
     span: "lg:col-span-2",
   },
@@ -96,9 +96,9 @@ export function Benefits() {
           <Reveal>
             <Badge>Lo que hacemos</Badge>
             <h2 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl">
-              Diseño y código.
+              Páginas web, tiendas online
               <br />
-              <span className="text-metal">El mismo equipo.</span>
+              <span className="text-metal">y chatbots de WhatsApp.</span>
             </h2>
           </Reveal>
           <Reveal delay={100}>

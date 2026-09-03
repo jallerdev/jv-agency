@@ -41,8 +41,8 @@ export function FAQ() {
         <Reveal>
           <Badge>Preguntas frecuentes</Badge>
           <h2 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl">
-            Lo que seguro
-            <span className="text-metal"> te estás preguntando.</span>
+            Preguntas frecuentes sobre
+            <span className="text-metal"> hacer tu página web.</span>
           </h2>
           <p className="mt-5 font-body text-ink-soft">
             ¿Tienes otra duda? Escríbenos y te respondemos con franqueza, sin letra chica.

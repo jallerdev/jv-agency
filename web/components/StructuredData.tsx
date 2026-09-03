@@ -5,12 +5,15 @@ import { BUSINESS, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "@/lib/business";
 export function StructuredData() {
   const sameAs = SOCIAL_LINKS.map((s) => s.url);
 
+  // Los campos vacíos se OMITEN, no se emiten en blanco: un `streetAddress: ""`
+  // en el JSON-LD es un dato malo, y aquí está vacío a propósito porque J&V no
+  // tiene local y la dirección exacta es un domicilio particular.
   const postalAddress = {
     "@type": "PostalAddress",
-    streetAddress: BUSINESS.address.street,
+    ...(BUSINESS.address.street ? { streetAddress: BUSINESS.address.street } : {}),
     addressLocality: BUSINESS.address.city,
     addressRegion: BUSINESS.address.region,
-    postalCode: BUSINESS.address.postalCode,
+    ...(BUSINESS.address.postalCode ? { postalCode: BUSINESS.address.postalCode } : {}),
     addressCountry: BUSINESS.address.countryCode,
   };
 
@@ -48,14 +51,19 @@ export function StructuredData() {
         "@id": `${SITE_URL}/#service`,
         name: SITE_NAME,
         description:
-          "Estudio de diseño y desarrollo web, software a medida, automatización de WhatsApp y SEO para PYMEs en Latinoamérica.",
+          "Estudio de diseño y desarrollo web, software a medida, chatbots de WhatsApp y SEO para PYMEs en Latinoamérica.",
         url: SITE_URL,
         image: `${SITE_URL}/og.png`,
         email: BUSINESS.email,
         telephone: BUSINESS.phone,
         priceRange: "$$",
         address: postalAddress,
-        areaServed: BUSINESS.areaServed,
+        // Negocio de área de servicio: no hay local que visitar. Se declara la
+        // zona cubierta, que es lo que Google espera cuando no hay dirección.
+        areaServed: [
+          { "@type": "Country", name: "Colombia" },
+          { "@type": "Place", name: BUSINESS.areaServed },
+        ],
         parentOrganization: { "@id": `${SITE_URL}/#organization` },
         sameAs,
         knowsAbout: [
@@ -89,9 +97,11 @@ export function StructuredData() {
               "@type": "Offer",
               itemOffered: {
                 "@type": "Service",
-                name: "Automatización de WhatsApp",
+                name: "Chatbot de WhatsApp",
+                alternateName: "Automatización de WhatsApp",
                 description:
-                  "Respuestas automáticas, captura de interesados, agendamiento y pedidos sobre la WhatsApp Business Platform.",
+                  "Respuestas automáticas, captura de interesados, agendamiento de citas, pedidos y avisos sobre la WhatsApp Business Platform.",
+                url: `${SITE_URL}/servicios/chatbot-whatsapp`,
               },
             },
             {

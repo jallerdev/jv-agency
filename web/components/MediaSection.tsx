@@ -21,7 +21,7 @@ export function MediaSection() {
         <Reveal className="mx-auto max-w-2xl text-center">
           <Badge>Caso de estudio</Badge>
           <h2 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl">
-            Marcas que pasan de
+            Páginas web que pasan de
             <span className="text-metal"> correctas a memorables.</span>
           </h2>
           <p className="mt-5 font-body text-lg text-ink-soft">
