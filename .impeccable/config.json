@@ -1,0 +1,32 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "fraunces",
+        "createdAt": "2026-09-03T03:59:45.398Z",
+        "reason": "Fraunces + Plus Jakarta Sans es la tipografia de los documentos de cliente de J&V desde antes de este trabajo: la usan cotizacion-funeraria-sfa, cotizacion-aula-monica, cotizacion-pixels-maker, propuesta-sencilla-monica, guia-funeraria-sfa, guia-fotos-celular, kit-vendedores, capacitacion-vendedores y playbook-vendedores. Cambiarla en uno solo rompe la familia visual."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "web/public/capacitacion-vendedores.html"
+        ],
+        "createdAt": "2026-09-03T03:59:45.432Z",
+        "reason": "El border-left de 3px en .note y .decir es el patron heredado de los 9 HTML de web/public, todos anteriores a este archivo. Es estilo de cita/aviso, no tarjeta con pestana lateral."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "web/public/playbook-vendedores.html"
+        ],
+        "createdAt": "2026-09-03T03:59:45.466Z",
+        "reason": "Mismo patron heredado que en capacitacion-vendedores: .note y .guion usan el border-left de la familia de documentos J&V."
+      }
+    ]
+  }
+}
