@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cómo conseguir clientes · Playbook de vendedores · J&amp;V Agencia</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primary:#985C3E; --primary-dark:#6E4128; --accent:#C0763B;
+    --surface:#FAF6F1; --bg:#F4EDE4; --ink:#2B2420; --ink-soft:#6B5E54; --line:#E4D8CB;
+    --success:#4F7A52; --error:#B04A3A;
+    --display:'Fraunces', Georgia, serif;
+    --body:'Plus Jakarta Sans', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', Menlo, monospace;
+  }
+  *{ box-sizing:border-box }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; scroll-behavior:smooth; }
+  body{ margin:0; font-family:var(--body); color:var(--ink); background:var(--bg);
+        line-height:1.62; font-size:16px; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:var(--display); font-weight:400; line-height:1.15; margin:0; }
+  p{ margin:0 0 14px; } strong{ font-weight:600; }
+
+  .bar{ position:sticky; top:0; z-index:30; display:flex; align-items:center; justify-content:space-between;
+        gap:16px; padding:14px clamp(18px,5vw,56px);
+        background:rgba(244,237,228,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .bar b{ font-family:var(--display); font-size:17px; font-weight:600; }
+  .bar em{ font-style:normal; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+           color:var(--ink-soft); margin-left:8px; }
+  .btn{ font-weight:600; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+        padding:11px 20px; border-radius:999px; border:1px solid var(--primary);
+        background:var(--primary); color:var(--surface); cursor:pointer; white-space:nowrap; }
+
+  .doc{ max-width:880px; margin:0 auto; padding:clamp(30px,6vw,56px) clamp(18px,5vw,56px) 90px; }
+  .eyebrow{ font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.16em;
+            color:var(--accent); margin:0 0 14px; display:block; }
+  h1{ font-size:clamp(30px,5.4vw,46px); letter-spacing:-.015em; margin-bottom:12px; }
+  .sub{ color:var(--ink-soft); font-size:17.5px; max-width:56ch; }
+
+  .toc{ margin:34px 0 0; padding:22px 26px; background:var(--surface);
+        border:1px solid var(--line); border-radius:10px; }
+  .toc p{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--ink-soft); margin:0 0 12px; }
+  .toc ol{ margin:0; padding-left:20px; columns:2; column-gap:28px; }
+  @media (max-width:620px){ .toc ol{ columns:1; } }
+  .toc li{ margin-bottom:7px; break-inside:avoid; }
+  .toc a{ color:var(--primary-dark); text-decoration:none; font-size:15px; }
+  .toc a:hover{ text-decoration:underline; }
+
+  .sec{ margin-top:56px; scroll-margin-top:80px; }
+  .sec > h2{ font-size:clamp(22px,3.6vw,30px); padding-bottom:12px; margin-bottom:18px;
+             border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .sec > h2 .n{ font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:.1em; }
+  .sec h3{ font-family:var(--display); font-size:22px; margin:34px 0 10px; }
+
+  ul.list{ margin:0 0 14px; padding-left:20px; } ul.list li{ margin-bottom:9px; }
+  ul.list li::marker{ color:var(--accent); }
+
+  /* Guion de video */
+  .vid{ background:var(--surface); border:1px solid var(--line); border-radius:10px;
+        padding:0; margin:16px 0; overflow:hidden; }
+  .vid__h{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+           padding:14px 22px; background:rgba(152,92,62,.07); border-bottom:1px solid var(--line); }
+  .vid__h b{ font-family:var(--display); font-weight:600; font-size:18px; }
+  .vid__h span{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+                color:var(--ink-soft); }
+  .vid__b{ padding:18px 22px; }
+  .vid__b dl{ margin:0; }
+  .vid__b dt{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+              color:var(--accent); margin-top:14px; }
+  .vid__b dt:first-child{ margin-top:0; }
+  .vid__b dd{ margin:5px 0 0; font-size:15.5px; }
+  .guion{ background:rgba(79,122,82,.09); border-left:3px solid var(--success);
+          padding:13px 17px; border-radius:0 6px 6px 0; font-size:15.5px; font-style:italic;
+          color:#33513a; }
+  .guion b{ font-style:normal; }
+
+  /* Mensaje listo para copiar */
+  .msg{ background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 20px;
+        margin:12px 0; font-size:15.5px; position:relative; }
+  .msg::before{ content:attr(data-l); position:absolute; top:-9px; left:16px; background:var(--bg);
+                padding:0 8px; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em;
+                text-transform:uppercase; color:var(--ink-soft); }
+  .msg p{ margin:0 0 10px; } .msg p:last-child{ margin-bottom:0; }
+
+  .note{ background:rgba(192,118,59,.09); border-left:3px solid var(--accent);
+         padding:16px 20px; border-radius:0 6px 6px 0; margin:20px 0; font-size:15.5px; }
+  .note p:last-child{ margin-bottom:0; }
+  .note.stop{ background:rgba(176,74,58,.08); border-left-color:var(--error); }
+  .note.stop strong{ color:var(--error); }
+  .note.good{ background:rgba(79,122,82,.09); border-left-color:var(--success); }
+
+  .tablewrap{ overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:10px;
+              background:var(--surface); }
+  table{ width:100%; border-collapse:collapse; font-size:15px; }
+  thead th{ font-weight:700; font-size:10.5px; text-transform:uppercase; letter-spacing:.13em;
+            color:var(--primary-dark); text-align:left; padding:13px 16px;
+            border-bottom:1.5px solid var(--primary); }
+  tbody td{ padding:13px 16px; vertical-align:top; border-bottom:1px solid var(--line); line-height:1.5; }
+  tbody tr:last-child td{ border-bottom:none; }
+
+  ol.pasos{ counter-reset:s; list-style:none; margin:16px 0 0; padding:0; }
+  ol.pasos li{ counter-increment:s; position:relative; padding:0 0 16px 42px; font-size:15.5px; }
+  ol.pasos li::before{ content:counter(s,decimal-leading-zero); position:absolute; left:0; top:1px;
+    font-family:var(--mono); font-size:12px; color:var(--surface); background:var(--primary);
+    width:27px; height:27px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+  .fine{ font-size:13.5px; color:var(--ink-soft); font-style:italic; }
+  .foot{ margin-top:70px; text-align:center; border-top:1px solid var(--line); padding-top:30px; }
+  .foot .sign{ font-family:var(--display); font-size:19px; }
+  .foot .contact{ font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:6px; }
+
+  @media print{
+    @page{ size:A4; margin:14mm 12mm; }
+    body{ background:#fff; font-size:10.5pt; line-height:1.45; }
+    .bar,.toc{ display:none !important; }
+    .doc{ max-width:none; padding:0; }
+    .sec{ margin-top:24px; }
+    .sec > h2{ font-size:16pt; break-after:avoid; }
+    .vid,.msg,.note,tr{ break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span><b>J&amp;V</b><em>Playbook</em></span>
+  <button class="btn" onclick="window.print()">Descargar PDF →</button>
+</div>
+
+<div class="doc">
+
+  <span class="eyebrow">— Material interno · no compartir con clientes</span>
+  <h1>Cómo conseguir clientes</h1>
+  <p class="sub">
+    El kit te dice cuánto cuesta. La capacitación, qué es cada cosa. Este es el otro pedazo:
+    <strong>cómo llega el cliente hasta ti</strong>. Guiones de video listos para grabar,
+    mensajes para copiar y pegar, y el calendario de qué publicar cada semana.
+  </p>
+
+  <div class="toc">
+    <p>Contenido</p>
+    <ol>
+      <li><a href="#c1">La regla: suelta conocimiento, no pitches</a></li>
+      <li><a href="#c2">A quién buscar, y cómo encontrarlo</a></li>
+      <li><a href="#c3">Diez guiones de video, listos</a></li>
+      <li><a href="#c4">Cómo grabar con el celular</a></li>
+      <li><a href="#c5">Publicaciones y estados de WhatsApp</a></li>
+      <li><a href="#c6">Los mensajes de primer contacto</a></li>
+      <li><a href="#c7">Las preguntas que hay que hacer</a></li>
+      <li><a href="#c8">Cómo mandar la cotización</a></li>
+      <li><a href="#c9">El seguimiento, con fechas</a></li>
+      <li><a href="#c10">Cuándo decir que no</a></li>
+      <li><a href="#c11">Tu primer mes, semana por semana</a></li>
+    </ol>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c1">
+    <h2><span class="n">01</span> La regla: suelta conocimiento, no pitches</h2>
+    <p>
+      Nadie sigue a un vendedor. Todo el mundo sigue a alguien que le enseña algo.
+    </p>
+    <p>
+      Si publicas «hacemos páginas web, escríbeme», compites con los otros cincuenta que
+      publican lo mismo y el dueño del restaurante pasa de largo. Si publicas <em>«tres
+      razones por las que la gente entra a tu Instagram y no te compra»</em>, ese mismo dueño
+      se detiene, lo lee, y <strong>ahora eres el que sabe</strong> — no el que vende.
+    </p>
+    <p>
+      Cuando por fin le hablas de una página web, ya no eres un desconocido pidiendo plata.
+      Eres el que le explicó algo gratis.
+    </p>
+
+    <div class="note good">
+      <p>
+        <strong>La proporción que funciona: 4 a 1.</strong> Por cada cuatro cosas que enseñas,
+        una que ofreces. Si inviertes esa proporción, la gente deja de mirarte.
+      </p>
+    </div>
+
+    <h3>Qué cuenta como «soltar conocimiento»</h3>
+    <ul class="list">
+      <li><strong>Enseñar algo que se puede usar hoy</strong>, aunque no te contrate. «Pon tu
+        WhatsApp en la bio así» vale más que «tenemos los mejores precios».</li>
+      <li><strong>Mostrar un error común</strong> y cómo se arregla. El que lo tiene se siente
+        visto.</li>
+      <li><strong>Explicar un término</strong> que todos usan y nadie entiende: dominio,
+        hosting, SEO. Ahí es donde la capacitación te sirve para grabar.</li>
+      <li><strong>Comparar dos cosas</strong>: Instagram contra página web, plantilla contra
+        diseño propio.</li>
+      <li><strong>Contar un antes y después</strong> real, con permiso del cliente.</li>
+    </ul>
+
+    <div class="note stop">
+      <p>
+        <strong>Lo que NO cuenta:</strong> frases motivacionales, «feliz lunes», la foto del
+        logo, «somos los mejores», y cualquier cosa que no le sirva a nadie que no te vaya a
+        comprar. Eso no es contenido, es ruido.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c2">
+    <h2><span class="n">02</span> A quién buscar, y cómo encontrarlo</h2>
+    <p>
+      «PYMEs y negocios en crecimiento» no sirve para salir a buscar: es demasiado vago. Esto
+      es lo mismo dicho de forma que puedas <strong>reconocerlo en la calle o en el
+      celular</strong>.
+    </p>
+
+    <h3>Qué es un negocio en crecimiento, en concreto</h3>
+    <p>
+      No es el tamaño: es el <strong>momento</strong>. Un negocio en crecimiento ya vende, ya
+      le entra plata, y está tropezando con su propio techo. Esas son las señales:
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Señal que puedes ver</th><th>Qué significa</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Lleva más de un año abierto</strong></td><td>Sobrevivió. Ya no está probando si el negocio funciona.</td></tr>
+          <tr><td><strong>Publica en redes al menos una vez por semana</strong></td><td>Le importa cómo se ve. El que no publica nunca, tampoco va a invertir en una web.</td></tr>
+          <tr><td><strong>Entre 1.000 y 50.000 seguidores</strong></td><td>Ni tan chico que no tenga plata, ni tan grande que ya tenga agencia.</td></tr>
+          <tr><td><strong>Contesta los comentarios y los mensajes</strong></td><td>Hay alguien atendiendo. Hay operación de verdad.</td></tr>
+          <tr><td><strong>Invirtió en algo hace poco</strong></td><td>Logo nuevo, local nuevo, fotos profesionales, un empleado más. Ya demostró que gasta en crecer.</td></tr>
+          <tr><td><strong>Está pautando</strong></td><td>Si paga por anuncios, tiene presupuesto de mercadeo. Y si el anuncio manda al perfil en vez de a una web, ese es tu argumento entero.</td></tr>
+          <tr><td><strong>Se queja de estar saturado</strong></td><td>«No doy abasto contestando», «se me pierden los pedidos». Ese es el dolor que resuelves.</td></tr>
+          <tr><td><strong>Su competencia directa ya tiene web</strong></td><td>El miedo a quedarse atrás cierra más ventas que cualquier argumento tuyo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">
+      Con tres o cuatro de estas señales, es tu cliente. Con una sola, es una conversación
+      larga que probablemente no cierra.
+    </p>
+
+    <h3>Los cinco tipos que mejor compran</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Su dolor</th><th>Qué ofrecerle primero</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Negocio local de servicios</strong><br><span class="fine">salón, barbería, spa, taller, veterinaria, estética</span></td><td>Vive de que lo encuentren cerca, y no aparece en Google Maps.</td><td>Landing + ficha de Google + agendamiento</td></tr>
+          <tr><td><strong>Restaurante o comida</strong></td><td>La carta está en una foto vieja de Instagram y nadie la abre.</td><td>Landing con carta y botón de pedido</td></tr>
+          <tr><td><strong>Vende por WhatsApp o DM</strong><br><span class="fine">ropa, accesorios, comida, productos</span></td><td>Se enreda con los pedidos, pierde mensajes, anota en una libreta.</td><td>Tienda online + chatbot</td></tr>
+          <tr><td><strong>Profesional independiente</strong><br><span class="fine">abogado, contador, médico, arquitecto</span></td><td>Le compran por confianza, y no tiene dónde demostrarla.</td><td>Web corporativa + agendamiento</td></tr>
+          <tr><td><strong>Empresa pequeña con varias áreas</strong><br><span class="fine">constructora, inmobiliaria, distribuidora</span></td><td>Se ve más chica de lo que es cuando la buscan.</td><td>Web corporativa + SEO mensual</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Dónde buscarlos, con el método exacto</h3>
+    <p>
+      No es «salir a buscar clientes». Es esto, que se hace sentado y en una hora:
+    </p>
+    <ol class="pasos">
+      <li>
+        <strong>Google Maps es la mina.</strong> Busca «[servicio] en [tu ciudad]» — por
+        ejemplo «salones de belleza en Cartagena». Abre las fichas una por una y anota
+        <strong>las que NO tienen sitio web</strong>. Tienen ficha, o sea que ya les importa
+        aparecer, y no tienen a dónde mandar a la gente. <em>Es el prospecto más calificado que
+        existe</em>, y está listado gratis.
+      </li>
+      <li>
+        <strong>Los que pautan y mandan al perfil.</strong> Cuando te salga un anuncio de un
+        negocio local en Instagram o Facebook, mira a dónde lleva el botón. Si lleva al perfil
+        o a un Linktree, ese negocio <strong>está pagando por tráfico que no aterriza en
+        ningún lado</strong>. Guárdalo.
+      </li>
+      <li>
+        <strong>Instagram por ubicación y hashtag.</strong> Busca por el lugar de tu ciudad, o
+        los hashtags de emprendimiento local. Mira quién tiene en la bio un Linktree en vez de
+        un dominio propio.
+      </li>
+      <li>
+        <strong>Tu propia lista de 20.</strong> Negocios de tu barrio, de tu familia, de gente
+        que ya te conoce. Búscalos en Google uno por uno. Los que no aparezcan son tus primeros
+        veinte, y con esos el mensaje es más fácil porque ya hay confianza.
+      </li>
+      <li>
+        <strong>Referidos, que es lo que más cierra.</strong> A todo cliente contento se le
+        pregunta: «¿conoce a alguien más a quien le sirva esto?». Se pregunta <em>una vez</em>,
+        cuando acaba de recibir algo que le gustó.
+      </li>
+      <li>
+        <strong>Los que te escriben por tus videos.</strong> Si estás publicando lo de la
+        sección siguiente, empiezan a llegar solos. Son los que mejor cierran, porque llegan
+        sabiendo quién eres.
+      </li>
+    </ol>
+
+    <div class="note good">
+      <p>
+        <strong>La prueba de dos minutos que abre la conversación.</strong> Antes de escribirle
+        a cualquiera, búscalo en Google como lo buscaría un cliente: «[su servicio] en [su
+        ciudad]». Captura la pantalla. Si no aparece, o si aparece la competencia primero,
+        <strong>ya tienes el mensaje escrito</strong> y no estás vendiendo: le estás mostrando
+        algo que no sabía.
+      </p>
+    </div>
+
+    <h3>A quién dejar pasar</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Señal</th><th>Por qué</th></tr></thead>
+        <tbody>
+          <tr><td>El negocio todavía es una idea</td><td>Sin clientes no hay con qué medir si la web sirvió, y sin plata no hay proyecto.</td></tr>
+          <tr><td>Publica cada tres meses, 200 seguidores</td><td>Si no invierte tiempo en lo gratis, no va a invertir plata en lo pago.</td></tr>
+          <tr><td>Ya tiene web reciente y decente</td><td>No hay dolor. Guárdalo para SEO o mantenimiento, no para una web nueva.</td></tr>
+          <tr><td>Solo quiere «lo más barato»</td><td>Ese cliente no lo tenemos y no lo queremos: por debajo de $600.000 el mercado es plantilla sin soporte.</td></tr>
+          <tr><td>Quiere pauta o manejo de redes</td><td>Eso no lo hacemos. Dilo de una y ofrécele lo que sí.</td></tr>
+          <tr><td>Empresa grande con área de mercadeo</td><td>Compran por licitación y a otra escala. No es nuestro terreno todavía.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c3">
+    <h2><span class="n">03</span> Diez guiones de video, listos</h2>
+    <p>
+      Todos de <strong>30 a 60 segundos</strong>, en vertical, para Reels, TikTok o estado de
+      WhatsApp. La estructura es siempre la misma:
+    </p>
+    <ol class="pasos">
+      <li><strong>Gancho (3 segundos).</strong> Si no enganchas ahí, no hay video. Nada de
+        «hola, hoy les vengo a hablar de…».</li>
+      <li><strong>El desarrollo (20–40 s).</strong> Una sola idea. Una.</li>
+      <li><strong>El cierre (5 s).</strong> Qué hacer ahora. Casi siempre: «escríbeme» o
+        «guarda esto».</li>
+    </ol>
+    <p class="fine">
+      Los guiones están escritos para decirlos, no para leerlos. Cámbiales las palabras a las
+      tuyas: si suena a que estás leyendo, no funciona.
+    </p>
+
+    <div class="vid">
+      <div class="vid__h"><b>1 · El que más funciona</b><span>Dolor · 45 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«Si tu negocio solo está en Instagram, <b>estás perdiendo clientes todos los días</b> y ni te enteras.»</dd>
+          <dt>Desarrollo</dt>
+          <dd>Explica: cuando alguien quiere comprar algo, lo busca en Google. Si te busca y no apareces, para esa persona no existes. Instagram te encuentra quien no te buscaba; Google te encuentra quien <em>ya quiere comprar</em> lo que vendes.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Escríbeme y te digo, gratis, si tu negocio aparece o no cuando te buscan.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>Ofreces una revisión gratis que te toma dos minutos —buscas su negocio en Google delante de él— y abre la conversación sin vender nada.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>2 · Enseñar un término</b><span>Educativo · 40 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«Te dijeron que necesitas <b>dominio y hosting</b> y quedaste igual. Te lo explico en treinta segundos.»</dd>
+          <dt>Desarrollo</dt>
+          <dd>El dominio es la dirección de tu local, pero en internet: <em>tunegocio.com</em>. El hosting es el local: donde vive la página para estar siempre prendida. Uno sin el otro no sirve. Y ojo: el dominio se alquila por año, no se compra para siempre.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Guarda esto para cuando te lo vuelvan a decir.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>«Guarda esto» hace que el video se guarde, y eso lo empuja más que un like. Y quedas como el que explica sin enredar.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>3 · El error que todos cometen</b><span>Dolor · 35 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«Tu página web tiene el número de WhatsApp… <b>y nadie te escribe</b>. Ya sé por qué.»</dd>
+          <dt>Desarrollo</dt>
+          <dd>Porque está escrito como texto y toca copiarlo, salir, abrir WhatsApp, pegarlo. Nadie hace eso. Tiene que ser un botón que abra el chat con el mensaje ya escrito. Enséñalo en pantalla: toca el botón y se abre solo.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Si tu página no hace esto, escríbeme y te digo cómo se arregla.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>Es concreto, se demuestra en pantalla, y el que lo tiene mal lo comprueba en diez segundos.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>4 · La comparación</b><span>Comparativo · 50 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«Una página de $300.000 y una de $1.500.000 <b>se ven casi igual</b>. La diferencia aparece a los seis meses.»</dd>
+          <dt>Desarrollo</dt>
+          <dd>A los seis meses: ¿el dominio quedó a nombre tuyo o del que te la hizo? ¿Puedes cambiar un precio sin llamar a nadie? ¿Alguien la mantiene? ¿Y si el que te la hizo no contesta? Ahí es donde se ve.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Antes de pagar, haz esas tres preguntas. A quien sea.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>No hablas mal de nadie y quedas como el honesto. El que ya se quemó se siente identificado.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>5 · WhatsApp que contesta solo</b><span>Producto · 45 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«¿Cuántas veces al día contestas <b>lo mismo</b> por WhatsApp? Horarios, precios, dónde quedas.»</dd>
+          <dt>Desarrollo</dt>
+          <dd>Muestra el chat en pantalla: alguien escribe a las 10 de la noche, el bot contesta al instante, y cuando la pregunta se complica se la pasa a una persona. Colombia es el país que más usa WhatsApp del mundo: aquí el que contesta primero, vende.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Si vives contestando lo mismo, escríbeme.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>Es el producto que mejor se muestra en video: se ve funcionando en cinco segundos.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>6 · La cuenta al revés</b><span>Objeción precio · 40 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«“Una página web está muy cara.” <b>Hagamos la cuenta.</b>»</dd>
+          <dt>Desarrollo</dt>
+          <dd>¿Cuánto te deja un cliente nuevo? Digamos $400.000. Si la página cuesta un millón, con tres clientes en todo el año ya se pagó. Tres. En un año. Y de ahí en adelante es ganancia. La pregunta no es si es cara: es cuántos clientes te trae.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Haz esa cuenta con tus números antes de decir que no.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>Le da la respuesta a la objeción <em>antes</em> de que la ponga. Cuando hablen, ya la trae resuelta.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>7 · El de las reseñas</b><span>Consejo gratis · 35 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«Tres reseñas en Google te ponen por delante de <b>la mitad de tu competencia</b>. Y es gratis.»</dd>
+          <dt>Desarrollo</dt>
+          <dd>Casi ningún negocio pequeño las pide. Se piden por WhatsApp en cinco minutos: le mandas el enlace directo al cliente contento y ya. Enseña cómo se saca el enlace desde la ficha de Google.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Hazlo esta semana. No te va a costar nada.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>Es un consejo que sirve <em>sin contratarte</em>. Eso es exactamente soltar conocimiento — y el que lo hace y le funciona, vuelve.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>8 · Antes y después</b><span>Prueba · 30 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«Así se veía este negocio en internet. <b>Así se ve ahora.</b>»</dd>
+          <dt>Desarrollo</dt>
+          <dd>Pantalla partida o corte seco. Sin narrar mucho: que hable la imagen. Al final, una frase de qué cambió en el negocio, no en el diseño: «ahora le escriben por WhatsApp desde la página».</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«¿Cómo se ve el tuyo?»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>Es el que más convierte de todos. <strong>Pide permiso al cliente antes de publicarlo</strong>, siempre.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>9 · El de la honestidad</b><span>Confianza · 40 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«Si alguien te promete que vas a salir <b>de primero en Google</b>, te está mintiendo.»</dd>
+          <dt>Desarrollo</dt>
+          <dd>Las posiciones las decide Google, no la agencia. Nadie las controla y nadie las garantiza. Lo que sí se puede prometer es el trabajo hecho, medido y en un informe. Y que los primeros movimientos se ven entre el mes 3 y el 6, no la semana que viene.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Si te lo prometieron por escrito, guarda ese papel. Lo vas a necesitar.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>Decir la verdad incómoda es el atajo más rápido a que te crean el resto.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="vid">
+      <div class="vid__h"><b>10 · Por sector</b><span>Segmentado · 40 s</span></div>
+      <div class="vid__b">
+        <dl>
+          <dt>Gancho</dt>
+          <dd class="guion">«Si tienes un <b>restaurante</b>, tu página necesita tres cosas. Solo tres.»</dd>
+          <dt>Desarrollo</dt>
+          <dd>La carta actualizada y fácil de abrir en el celular. El botón de pedido o reserva a la vista. Y fotos reales de la comida, no de banco. Todo lo demás es adorno.</dd>
+          <dt>Cierre</dt>
+          <dd class="guion">«Etiqueta a un amigo que tenga restaurante.»</dd>
+          <dt>Por qué funciona</dt>
+          <dd>Hablarle a un solo tipo de negocio hace que ese negocio sienta que le hablas a él. <strong>Repite el mismo guion cambiando el sector:</strong> salón de belleza, taller, clínica, gimnasio, inmobiliaria. Son diez videos de uno.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="note">
+      <p>
+        <strong>De dónde sacas más guiones sin inventar nada:</strong> abre la
+        <strong>capacitación</strong>. Cada ficha del diccionario es un video: el término, por
+        qué le importa al cliente, y la frase con la que se explica. Son 24 fichas — 24 videos
+        sin escribir una línea.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c4">
+    <h2><span class="n">04</span> Cómo grabar con el celular</h2>
+    <p>
+      No necesitas cámara, micrófono ni aro de luz. Necesitas cinco cosas:
+    </p>
+    <ol class="pasos">
+      <li><strong>Luz de ventana, de frente.</strong> Ponte mirando a la ventana, no de
+        espaldas. Si la ventana está detrás, sales en sombra.</li>
+      <li><strong>El celular a la altura de los ojos.</strong> Apóyalo en algo. Desde abajo
+        nadie se ve bien.</li>
+      <li><strong>Sitio callado.</strong> El audio importa más que la imagen: la gente perdona
+        un video feo, no un audio malo. Si hay eco, grábalo en un cuarto con cosas blandas
+        —cama, cortinas, ropa—.</li>
+      <li><strong>Habla como hablas.</strong> No pongas voz de locutor. Si te trabas, sigue: se
+        corta después.</li>
+      <li><strong>Subtítulos siempre.</strong> La mayoría lo ve sin sonido. Instagram y TikTok
+        los generan solos — solo hay que revisarlos, porque se equivocan con los nombres.</li>
+    </ol>
+
+    <div class="note good">
+      <p>
+        <strong>Regla del primer video:</strong> el primero te va a dar pena y va a quedar
+        regular. Publícalo igual. El décimo ya sale bien, y no hay forma de llegar al décimo
+        sin pasar por el primero.
+      </p>
+    </div>
+
+    <h3>Lo que la gente hace mal</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>No hagas</th><th>Haz</th></tr></thead>
+        <tbody>
+          <tr><td>«Hola, ¿cómo están? Hoy les vengo a hablar de…»</td><td>Arranca con la frase del gancho. Sin saludo.</td></tr>
+          <tr><td>Grabar en horizontal</td><td>Vertical. Es donde se ve.</td></tr>
+          <tr><td>Meter tres ideas en un video</td><td>Una idea. Las otras dos son otros dos videos.</td></tr>
+          <tr><td>Música fuerte encima de tu voz</td><td>Sin música, o muy bajita.</td></tr>
+          <tr><td>Poner el logo los primeros 3 segundos</td><td>El logo al final. Los 3 primeros segundos son del gancho.</td></tr>
+          <tr><td>Esperar a tener «buen equipo»</td><td>Grabar hoy con lo que tienes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c5">
+    <h2><span class="n">05</span> Publicaciones y estados de WhatsApp</h2>
+    <p>
+      El estado de WhatsApp es el canal más subestimado que tienes: lo ve gente que ya te
+      conoce, que es la que más fácil te compra. Publica ahí <strong>lo mismo</strong> que en
+      redes.
+    </p>
+
+    <div class="msg" data-l="Estado · consejo">
+      <p>💡 Consejo del día para negocios</p>
+      <p>Si alguien busca tu negocio en Google y no apareces, para esa persona no existes.</p>
+      <p>Escríbeme y te reviso gratis si tu negocio aparece o no. Toma dos minutos.</p>
+    </div>
+
+    <div class="msg" data-l="Estado · prueba social">
+      <p>Otro negocio que ya está en línea 🚀</p>
+      <p>[foto o video de la página, 5 segundos]</p>
+      <p>Hecho por J&amp;V Agencia. ¿Quieres uno así? Escríbeme.</p>
+    </div>
+
+    <div class="msg" data-l="Estado · pregunta">
+      <p>Pregunta para los que tienen negocio 👇</p>
+      <p>¿Cuántas veces al día contestas lo mismo por WhatsApp — horarios, precios, dónde quedas?</p>
+      <p>Respóndeme con un número. Te va a sorprender la cuenta.</p>
+    </div>
+
+    <p class="fine">
+      El último es el mejor de los tres: la gente responde, y una respuesta es una conversación
+      abierta. De ahí sale la venta.
+    </p>
+
+    <h3>Cada cuánto publicar</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Dónde</th><th>Cada cuánto</th><th>Qué</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Estado de WhatsApp</strong></td><td>Todos los días</td><td>Lo más fácil y lo que más rinde. Un consejo, una pregunta, un trabajo.</td></tr>
+          <tr><td><strong>Reels / TikTok</strong></td><td>2 o 3 por semana</td><td>Los guiones de la sección 02.</td></tr>
+          <tr><td><strong>Publicación normal</strong></td><td>1 por semana</td><td>El antes y después, o un caso contado.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">
+      Mejor tres veces por semana durante seis meses que todos los días durante dos semanas.
+      Esto es de constancia, no de arranques.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c6">
+    <h2><span class="n">06</span> Los mensajes de primer contacto</h2>
+    <p>
+      Copia, cambia lo que va entre corchetes, manda. <strong>Nunca mandes el mismo mensaje a
+      veinte negocios:</strong> se nota, y quema el número.
+    </p>
+
+    <div class="msg" data-l="Negocio que encontraste tú">
+      <p>Hola [nombre], vi [algo específico: su local, su Instagram, el aviso].</p>
+      <p>Los busqué en Google para [cosa concreta] y no los encontré — me sale primero [competencia o nada].</p>
+      <p>Trabajo con J&amp;V Agencia haciendo páginas web para negocios como el suyo. ¿Le interesa que le muestre en dos minutos qué está pasando? Sin compromiso.</p>
+    </div>
+    <p class="fine">
+      La clave es la <strong>primera línea</strong>: tiene que probar que miraste su negocio de
+      verdad. «Vi su local en [calle]» funciona; «espero se encuentre bien» no.
+    </p>
+
+    <div class="msg" data-l="Referido">
+      <p>Hola [nombre], [quien lo refirió] me pasó su contacto.</p>
+      <p>Me dijo que está pensando en [lo que necesita]. Yo hago eso: páginas web y automatización de WhatsApp para negocios.</p>
+      <p>¿Le sirve que hablemos diez minutos esta semana y le digo con franqueza si le sirve o no?</p>
+    </div>
+
+    <div class="msg" data-l="Le respondieron un video">
+      <p>¡Gracias por escribir! Cuénteme rápido: ¿qué tipo de negocio tiene y qué es lo que más le está costando hoy — que lo encuentren, que le escriban, o que le compren?</p>
+    </div>
+    <p class="fine">
+      Con esa sola pregunta ya sabes qué producto ofrecerle. Que lo encuentren → SEO. Que le
+      escriban → landing o chatbot. Que le compren → tienda.
+    </p>
+
+    <div class="msg" data-l="Cliente que ya te compró (recompra)">
+      <p>Hola [nombre], ¿cómo va todo con la página?</p>
+      <p>Le escribo por algo puntual: [cosa concreta que le sirve]. ¿Quiere que lo miremos?</p>
+    </div>
+
+    <div class="note stop">
+      <p>
+        <strong>Tres cosas que queman el número de WhatsApp:</strong> mandar el mismo texto a
+        mucha gente seguida, mandar audios largos sin que te los pidan, e insistir más de dos
+        veces sin respuesta. Si no contestan a la segunda, se deja quieto y se retoma en un mes.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c7">
+    <h2><span class="n">07</span> Las preguntas que hay que hacer</h2>
+    <p>
+      Antes de cotizar. En este orden. <strong>El que pregunta manda la conversación</strong>, y
+      cada respuesta te dice qué marcar en el cotizador.
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Pregunta</th><th>Para qué sirve la respuesta</th></tr></thead>
+        <tbody>
+          <tr><td>¿A qué se dedica el negocio y hace cuánto?</td><td>Ubicas el sector y si tiene tracción. Un negocio de un mes no compra igual que uno de cinco años.</td></tr>
+          <tr><td>¿Cómo le llegan los clientes hoy?</td><td>Si dice «voz a voz», el dolor es que no lo encuentran. Si dice «Instagram», el dolor es que no le creen.</td></tr>
+          <tr><td>¿Qué es lo que más le está costando: que lo encuentren, que le crean o que le compren?</td><td><strong>La pregunta más útil de todas.</strong> Te dice el producto directo.</td></tr>
+          <tr><td>¿Ya tiene página web?</td><td>Migración, sí o no. Y si la tiene mala, ya sabes contra qué compite.</td></tr>
+          <tr><td>¿Tiene logo y colores definidos?</td><td>Identidad de marca, sí o no. Casi nunca tienen los colores por escrito.</td></tr>
+          <tr><td>¿Los textos y las fotos los pone usted o los hacemos nosotros?</td><td>Lo que más atrasa un proyecto. <strong>Nunca la saltes.</strong></td></tr>
+          <tr><td>¿Vende productos o servicios?</td><td>Tienda contra landing o corporativa.</td></tr>
+          <tr><td>¿Cobra en línea o cierra por WhatsApp?</td><td>Pasarela sí o no. Recuerda que cerrar por WhatsApp vale cero.</td></tr>
+          <tr><td>¿Para cuándo lo necesita?</td><td>El plazo. Y si dice «para ayer», hay recargo.</td></tr>
+          <tr><td>¿Ya tiene un presupuesto en mente?</td><td>Te ahorra cotizar tres millones a quien tiene quinientos mil.</td></tr>
+          <tr><td>¿Decide usted solo o hay alguien más?</td><td><strong>La que más gente olvida.</strong> Si hay un socio o una esposa que decide, hay que tenerlos en la llamada o la venta se cae después.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note good">
+      <p>
+        <strong>No las dispares como interrogatorio.</strong> Son once, y una conversación
+        normal cubre siete u ocho sin que se sientan. Si solo alcanzas a hacer tres, que sean:
+        qué le está costando, quién pone los textos, y quién decide.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c8">
+    <h2><span class="n">08</span> Cómo mandar la cotización</h2>
+    <p>
+      El cotizador arma el mensaje solo: al final hay un botón <strong>«Enviar por
+      WhatsApp»</strong> que lo genera con el desglose y el total. Pero antes de mandarlo,
+      hazle tres cosas:
+    </p>
+    <ol class="pasos">
+      <li><strong>Ponle una línea arriba, tuya.</strong> «[Nombre], aquí está lo que hablamos.»
+        Un mensaje que arranca en «Cotización web — JV Agencia» parece automático.</li>
+      <li><strong>Recuérdale el dolor.</strong> Una frase: «esto resuelve lo que me dijo, que la
+        gente lo busca y no lo encuentra».</li>
+      <li><strong>Cierra con la siguiente acción, con fecha.</strong> «¿Le sirve que hablemos el
+        jueves a las 10 para resolver dudas?» Nunca cierres con «cualquier cosa me dice».</li>
+    </ol>
+
+    <div class="msg" data-l="Así queda">
+      <p>Don Jaime, aquí está lo que hablamos 👇</p>
+      <p>[el mensaje que genera el cotizador]</p>
+      <p>Esto resuelve justo lo que me contó: que la gente lo busca en Google y le sale primero la competencia.</p>
+      <p>¿Le sirve que hablemos el jueves a las 10 para resolver dudas? Si prefiere otro día, dígame cuál.</p>
+    </div>
+
+    <div class="note stop">
+      <p>
+        <strong>No le mandes el enlace del cotizador.</strong> Es privado y es tu herramienta:
+        tú armas el caso y le dices el total. <strong>Le muestras el número, no la
+        pantalla.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c9">
+    <h2><span class="n">09</span> El seguimiento, con fechas</h2>
+    <p>
+      Aquí se pierden la mayoría de las ventas. No por el precio: porque nadie volvió a
+      escribir. <strong>Agenda el siguiente contacto antes de colgar</strong>, siempre.
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Cuándo</th><th>Qué mandas</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mismo día</strong></td><td>La cotización, con las tres cosas de la sección 07.</td></tr>
+          <tr><td><strong>Día 2</strong></td><td>Algo de valor, no un «¿qué me dice?». Un ejemplo parecido a su caso: «mire cómo quedó esta, es del mismo estilo de negocio».</td></tr>
+          <tr><td><strong>Día 5</strong></td><td>Resolver la objeción que intuyes. «Le quedé debiendo una cosa: sobre el precio, se puede empezar por [alcance menor] y crecer después.»</td></tr>
+          <tr><td><strong>Día 10</strong></td><td>El cierre suave: «¿Sigue en pie o lo dejamos para más adelante? Dígame con confianza, no me ofendo.»</td></tr>
+          <tr><td><strong>Día 30</strong></td><td>Si no hubo respuesta: contenido, no venta. Un video, un consejo. Lo dejas vivo sin presionar.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note good">
+      <p>
+        <strong>La del día 10 funciona mejor de lo que parece.</strong> Darle permiso de decir
+        que no destraba a mucha gente que estaba evitando la conversación — y un «no» claro vale
+        más que un cliente en el limbo tres meses.
+      </p>
+    </div>
+    <p>
+      Todo esto se lleva en el <strong>CRM</strong>, no en la cabeza ni en las notas del
+      teléfono. Un lead sin fecha de próximo contacto es un lead perdido.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c10">
+    <h2><span class="n">10</span> Cuándo decir que no</h2>
+    <p>
+      Vender a quien no debes cuesta más que no vender. Estos son los que hay que dejar pasar,
+      o pasar a Luis antes de prometer nada:
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>La señal</th><th>Por qué</th></tr></thead>
+        <tbody>
+          <tr><td>Exige garantía de primer puesto en Google</td><td>Nadie la puede dar. Va a estar furioso en tres meses.</td></tr>
+          <tr><td>Regatea antes de saber qué incluye</td><td>El que negocia el precio antes del alcance, va a negociar todo el proyecto.</td></tr>
+          <tr><td>«Es urgente» pero no tiene contenido ni logo</td><td>La urgencia es suya, el retraso va a ser culpa nuestra.</td></tr>
+          <tr><td>Ya se peleó con dos agencias</td><td>Puede que tuviera razón. Puede que no. Averígualo antes.</td></tr>
+          <tr><td>Quiere pagar todo al final</td><td>No trabajamos así. Se abona para arrancar.</td></tr>
+          <tr><td>Pide copiar la página de otro</td><td>Ni se puede legalmente ni sirve: lo que funciona para otro negocio no funciona para el suyo.</td></tr>
+          <tr><td>No es el que decide y no quiere presentar a quien decide</td><td>Esa venta no existe. Está usando tu tiempo para tener una cifra.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <p>
+        <strong>Cómo se dice que no sin quemar el puente:</strong> «Con toda franqueza, creo que
+        lo que usted necesita no es lo que yo hago mejor. Prefiero decírselo ahora que
+        cobrarle y que quede mal.» El que recibe eso te recuerda, y a veces te recomienda.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="sec" id="c11">
+    <h2><span class="n">11</span> Tu primer mes, semana por semana</h2>
+    <p>
+      Si es tu primera vez vendiendo esto, no improvises el arranque. Este es el orden.
+    </p>
+
+    <h3>Semana 1 — entender</h3>
+    <ul class="list">
+      <li>Lee la <strong>capacitación</strong> completa. Contesta en voz alta las siete
+        preguntas del final.</li>
+      <li>Abre el <strong>cotizador</strong> y arma tres casos completos: una landing, una
+        corporativa y una tienda. Di en voz alta cada opción que marques.</li>
+      <li>Haz una lista de <strong>20 negocios</strong> que conozcas: de tu barrio, de tu
+        familia, de tu Instagram.</li>
+      <li>Búscalos en Google uno por uno. Anota cuáles <strong>no aparecen</strong>. Esos son
+        tus primeros veinte prospectos, y ya tienes el argumento.</li>
+    </ul>
+
+    <h3>Semana 2 — soltar conocimiento</h3>
+    <ul class="list">
+      <li>Graba y publica los <strong>videos 1, 2 y 7</strong> de la sección 02.</li>
+      <li>Publica <strong>estado de WhatsApp todos los días</strong>. Empieza por el de la
+        pregunta: es el que hace que la gente responda.</li>
+      <li>Escríbele a <strong>5 de tus 20</strong>, con el mensaje personalizado. Cinco, no
+        veinte.</li>
+    </ul>
+
+    <h3>Semana 3 — conversar</h3>
+    <ul class="list">
+      <li>Sigue publicando: <strong>videos 3, 5 y 10</strong>.</li>
+      <li>Escríbele a <strong>5 más</strong>.</li>
+      <li>De los que respondieron, agenda llamadas. Usa las <strong>preguntas de la sección
+        06</strong>.</li>
+      <li>Arma cotizaciones en el cotizador y mándalas con las tres cosas de la sección 07.</li>
+    </ul>
+
+    <h3>Semana 4 — cerrar</h3>
+    <ul class="list">
+      <li><strong>Seguimiento</strong> de todo lo que mandaste, con las fechas de la sección
+        08.</li>
+      <li>Videos <strong>4, 6 y 9</strong>.</li>
+      <li>Los que no respondieron en dos intentos: al día 30, y se dejan quietos.</li>
+      <li>Pásale a Luis los que estén listos para la llamada de diagnóstico.</li>
+    </ul>
+
+    <div class="note good">
+      <p>
+        <strong>Qué esperar de verdad del primer mes:</strong> de 20 contactos, responden entre
+        5 y 8; de esos, aceptan llamada 3 o 4; y se cierra 1 o 2. Eso es normal y es bueno.
+        <strong>Si esperas cerrar 10 la primera semana, vas a renunciar en la segunda.</strong>
+      </p>
+    </div>
+  </section>
+
+  <div class="note">
+    <p>
+      Si grabaste algo y no sabes si sirve, mándamelo antes de publicarlo. Si un cliente te
+      preguntó algo que no está en ninguna de las tres guías, escríbeme: eso es lo que las hace
+      crecer.
+    </p>
+  </div>
+
+  <div class="foot">
+    <p class="sign">Luis Jaller · J&amp;V Agencia</p>
+    <p class="contact">contacto@jvagencia.com · jvagencia.com</p>
+    <p class="fine" style="margin-top:14px">Material interno. No se comparte con clientes.</p>
+  </div>
+
+</div>
+</body>
+</html>

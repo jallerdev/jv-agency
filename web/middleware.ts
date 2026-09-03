@@ -61,6 +61,14 @@ const PRIVATE_DOCS: PrivateDoc[] = [
     realm: "JV Agencia - Cotizacion privada",
   },
   {
+    paths: ["/playbook", "/playbook-vendedores.html"],
+    file: "/playbook-vendedores.html",
+    passEnv: "GUIDE_PASSWORD",
+    userEnv: "GUIDE_USER",
+    defaultUser: "jvagencia",
+    realm: "JV Agencia - Material privado",
+  },
+  {
     paths: ["/capacitacion", "/capacitacion-vendedores.html"],
     file: "/capacitacion-vendedores.html",
     passEnv: "GUIDE_PASSWORD",
