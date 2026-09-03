@@ -78,7 +78,8 @@ export const TESTIMONIALS: Testimonial[] = [
       "Luis ha estado trabajando conmigo en InvitiApp y ha sido fantástico. Ha ayudado con la " +
       "infraestructura en AWS, el desarrollo full-stack con Next.js, las pruebas, la detección de " +
       "mejoras de rendimiento en la base de datos, y ha aportado ideas valiosas de producto. Y lo " +
-      "más importante: de verdad le importa el producto.",
+      "más importante: de verdad le importa el producto. Gracias, Luis, por todo tu gran trabajo " +
+      "en InvitiApp.",
     original:
       "Luis has been working with me on InvitiApp, and he has been fantastic. He has helped with " +
       "AWS infrastructure, full-stack development using Next.js, testing, identifying database " +
@@ -96,15 +97,21 @@ export const TESTIMONIALS: Testimonial[] = [
       "el trabajo en equipo sea fácil. Es un desarrollador muy sólido, sobre todo en backend, y se " +
       "le nota el dominio que tiene del ecosistema de Node.js y TypeScript. Más allá de lo técnico, " +
       "lo que más valoro es lo intencional que es al hacer las cosas bien: siempre está pensando en " +
-      "escalabilidad, en automatización y en cómo mejorar el flujo de trabajo del equipo. […]",
+      "escalabilidad, en automatización y en cómo mejorar el flujo de trabajo del equipo. […] Es " +
+      "responsable, proactivo y siempre dispuesto a ayudar o a aportar ideas que de verdad marcan " +
+      "la diferencia. En resumen: es un gran profesional y un compañero de equipo aún mejor. Lo " +
+      "recomiendo sin dudarlo.",
     original:
       "I had the chance to work with Luis, and honestly, he's one of those people who just makes " +
       "teamwork easy. He's a very solid developer, especially on the backend, and it really shows " +
-      "how strong his command is of the Node.js and TypeScript ecosystem. Beyond his technical " +
-      "skills, what I appreciate the most is how intentional he is about doing things right. He's " +
-      "always thinking about scalability, automation, and how to improve the team's workflow. His " +
-      "experience with tools like Docker, Terraform, and AWS brings a lot of structure and " +
-      "reliability […]",
+      "how strong his command is of the Node.js and TypeScript ecosystem.\n\n" +
+      "Beyond his technical skills, what I appreciate the most is how intentional he is about " +
+      "doing things right. He's always thinking about scalability, automation, and how to improve " +
+      "the team's workflow. His experience with tools like Docker, Terraform, and AWS brings a lot " +
+      "of structure and reliability to everything he works on.\n\n" +
+      "On top of that, he's responsible, proactive, and always willing to help or bring in ideas " +
+      "that truly make an impact. Overall, he's a great professional and an even better teammate.\n\n" +
+      "I definitely recommend him 🙌",
     originalLang: "en",
     author: "Justin Castro Perez",
     role: "Systems Engineer · trabajaron juntos en varias empresas",

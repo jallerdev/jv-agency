@@ -70,7 +70,7 @@ export function Testimonials() {
                       <summary className="cursor-pointer list-none font-mono text-[10px] uppercase tracking-[.12em] text-ink-soft transition-colors hover:text-ink">
                         Traducida del inglés · ver original
                       </summary>
-                      <p className="mt-2 font-body text-sm italic leading-relaxed text-ink-soft/80">
+                      <p className="mt-2 whitespace-pre-line font-body text-sm italic leading-relaxed text-ink-soft/80">
                         “{t.original}”
                       </p>
                     </details>
