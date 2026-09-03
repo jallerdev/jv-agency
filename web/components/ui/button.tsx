@@ -7,11 +7,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Accent (copper) fill pairs with ink text — WCAG-safe at this size
+        /* Bronce de marca con texto crema. Antes el relleno era el cobre
+           (#C0763B) con texto tinta, y el comentario decia que era seguro en
+           contraste: no lo era. Daba 4,28:1 y el minimo para texto normal es
+           4,5:1. Ponerle letras claras a ese mismo cobre lo empeoraba a 3,31:1,
+           asi que el arreglo no era cambiar el texto sino el relleno.
+
+           El bronce #985C3E con crema da 4,96:1, y al pasar el hover a
+           primary-dark sube a 7,97:1. De paso, el CTA del hero y el del
+           encabezado dejan de ser dos botones distintos: son el mismo. */
         primary:
-          "rounded-full bg-accent text-ink shadow-soft hover:shadow-glow hover:-translate-y-0.5 hover:bg-[#cb8049]",
-        // Deep bronze fill with cream text
-        solid:
           "rounded-full bg-primary text-surface shadow-soft hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lift",
         outline:
           "rounded-full border border-primary/35 bg-transparent text-primary-dark hover:border-primary hover:bg-primary/5",

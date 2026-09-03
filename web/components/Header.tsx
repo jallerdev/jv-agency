@@ -51,7 +51,7 @@ export function Header() {
           ))}
         </nav>
 
-        <Button size="sm" variant="solid" className="hidden sm:inline-flex" asChild>
+        <Button size="sm" variant="primary" className="hidden sm:inline-flex" asChild>
           <a href="/#contacto">Agenda una llamada</a>
         </Button>
       </div>
