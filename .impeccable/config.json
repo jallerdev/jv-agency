@@ -26,6 +26,24 @@
         ],
         "createdAt": "2026-09-03T03:59:45.466Z",
         "reason": "Mismo patron heredado que en capacitacion-vendedores: .note y .guion usan el border-left de la familia de documentos J&V."
+      },
+      {
+        "rule": "aphoristic-cadence",
+        "value": "*",
+        "files": [
+          "web/public/capacitacion-vendedores.html"
+        ],
+        "createdAt": "2026-09-05T03:47:21.458Z",
+        "reason": "Falso positivo de idioma, verificado corriendo la regex del detector sobre el archivo. NOT_A_RE (el patron ingles 'Not a X. Y.') da 0 coincidencias; las 7 que disparan vienen de SHORT_REBUTTAL_RE, que busca una frase seguida de 'No' o 'Just'. En ingles eso es una replica cortante; en espanol 'No' es el adverbio de negacion y abre cualquier imperativo: 'No la leas de corrido', 'No son sugerencias', 'No se comparte con clientes'. Los contrastes reales son 2, por debajo del umbral de 3 de la propia regla."
+      },
+      {
+        "rule": "aphoristic-cadence",
+        "value": "*",
+        "files": [
+          "web/public/playbook-vendedores.html"
+        ],
+        "createdAt": "2026-09-05T03:47:21.494Z",
+        "reason": "Falso positivo de idioma, verificado corriendo la regex del detector sobre el archivo. NOT_A_RE (el patron ingles 'Not a X. Y.') da 0 coincidencias; las 7 que disparan vienen de SHORT_REBUTTAL_RE, que busca una frase seguida de 'No' o 'Just'. En ingles eso es una replica cortante; en espanol 'No' es el adverbio de negacion y abre cualquier imperativo: 'No la leas de corrido', 'No son sugerencias', 'No se comparte con clientes'. Los contrastes reales son 2, por debajo del umbral de 3 de la propia regla. Mismo caso: documento en espanol con imperativos que empiezan por No."
       }
     ]
   }
