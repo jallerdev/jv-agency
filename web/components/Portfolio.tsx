@@ -18,13 +18,20 @@ type Proyecto = {
   nombre: string;
   categoria: string;
   desc: string;
-  url: string;
+  /**
+   * Solo los proyectos que ya se pueden mostrar. Un proyecto EN PROCESO no
+   * lleva enlace ni deja ver su dirección: se anuncia el trabajo sin mandar a
+   * nadie a un sitio que todavía no está listo para recibir visitas.
+   */
+  url?: string;
   /** Archivo en /public/work/ */
   img: string;
-  /** Dominio que se muestra en la barra del navegador. */
-  dominio: string;
+  /** Dominio que se muestra en la barra del navegador. Solo si hay `url`. */
+  dominio?: string;
   /** Producto propio de la agencia, no encargo de un cliente. */
   propio?: boolean;
+  /** Todavía no se puede visitar: se muestra la captura, sin enlace. */
+  enProceso?: boolean;
 };
 
 const PROYECTOS: Proyecto[] = [
@@ -50,51 +57,65 @@ const PROYECTOS: Proyecto[] = [
     nombre: "Pixels Maker",
     categoria: "Sitio corporativo",
     desc: "Fábrica de letreros, avisos luminosos y fachadas en ACM en Cartagena, Barranquilla y Bogotá.",
-    url: "https://pixels-maker.vercel.app",
     img: "/work/pixels-maker.webp",
-    dominio: "pixelsmaker.store",
+    enProceso: true,
   },
   {
     nombre: "NÜVA Plastic Surgery",
     categoria: "Salud",
     desc: "Cirugía plástica en Colombia, con acompañamiento médico para pacientes nacionales e internacionales.",
-    url: "https://nuva-plastic-surgery.vercel.app",
     img: "/work/nuva.webp",
-    dominio: "nuva-plastic-surgery.vercel.app",
+    enProceso: true,
   },
   {
     nombre: "Animal Expert",
     categoria: "Veterinaria",
     desc: "Centro médico veterinario en Turbaco: consulta especializada, cirugía, rayos X, fisioterapia y vacunación, con agenda en línea.",
-    url: "https://veterinaria-animal-expert.vercel.app",
     img: "/work/animal-expert.webp",
-    dominio: "veterinaria-animal-expert.vercel.app",
+    enProceso: true,
   },
   {
     nombre: "Dra. Natalia Acosta",
     categoria: "Odontología",
     desc: "Odontología integral en Turbaco: diseño de sonrisa, ortodoncia, blanqueamiento y cirugía oral, con agendamiento.",
-    url: "https://dra-natalia-acosta.vercel.app",
     img: "/work/natalia-acosta.webp",
-    dominio: "dra-natalia-acosta.vercel.app",
+    enProceso: true,
   },
   {
     nombre: "Fta. Elka Gómez",
     categoria: "Salud y spa",
     desc: "Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y experiencias de spa.",
-    url: "https://elkaspa-preview.vercel.app",
     img: "/work/elka-spa.webp",
-    dominio: "elkaspa-preview.vercel.app",
+    enProceso: true,
   },
   {
     nombre: "Peluquería Marcopolo",
     categoria: "Belleza",
     desc: "Salón de belleza en Barranquilla con cuatro décadas de oficio: corte de autor, color editorial y tratamientos.",
-    url: "https://marcopolo-peluqueria.vercel.app",
     img: "/work/marcopolo.webp",
-    dominio: "marcopolo-peluqueria.vercel.app",
+    enProceso: true,
   },
 ];
+
+/** Enlace solo si el proyecto se puede visitar; si no, un contenedor. */
+function Tarjeta({
+  href,
+  className,
+  children,
+}: {
+  href?: string;
+  className: string;
+  children: React.ReactNode;
+}) {
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
+      </a>
+    );
+  }
+  return <div className={className}>{children}</div>;
+}
 
 export function Portfolio() {
   return (
@@ -115,11 +136,14 @@ export function Portfolio() {
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {PROYECTOS.map((p, i) => (
             <Reveal key={p.nombre} delay={(i % 3) * 90}>
-              <a
+              <Tarjeta
                 href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface/70 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift"
+                className={[
+                  "group flex h-full flex-col overflow-hidden rounded-2xl border bg-surface/70 transition-all duration-300",
+                  p.url
+                    ? "border-line hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift"
+                    : "border-line/70",
+                ].join(" ")}
               >
                 {/* Marco de navegador: enmarca la captura y deja claro que es
                     un sitio real, con su dominio a la vista. */}
@@ -128,7 +152,7 @@ export function Portfolio() {
                   <span className="h-2 w-2 rounded-full bg-warning/60" />
                   <span className="h-2 w-2 rounded-full bg-success/60" />
                   <span className="ml-2 truncate font-mono text-[10px] text-ink-soft">
-                    {p.dominio}
+                    {p.dominio ?? "en desarrollo"}
                   </span>
                 </div>
 
@@ -146,7 +170,9 @@ export function Portfolio() {
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display text-xl text-ink">{p.nombre}</h3>
-                    <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-ink-soft/40 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
+                    {p.url && (
+                      <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-ink-soft/40 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
+                    )}
                   </div>
 
                   <span
@@ -159,9 +185,16 @@ export function Portfolio() {
                     {p.categoria}
                   </span>
 
+                  {p.enProceso && (
+                    <span className="mt-2 inline-flex w-fit items-center gap-1.5 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
+                      <span className="h-1.5 w-1.5 rounded-full bg-warning" />
+                      En proceso
+                    </span>
+                  )}
+
                   <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{p.desc}</p>
                 </div>
-              </a>
+              </Tarjeta>
             </Reveal>
           ))}
         </div>
