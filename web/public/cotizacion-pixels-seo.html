@@ -231,7 +231,6 @@
   /* Añadidos de este documento */
   .totalrow td{ font-weight:700; border-top:2px solid var(--line); }
   .totalrow .price{ font-size:15px; color:var(--ink); }
-  .tachado{ text-decoration:line-through; color:var(--ink-soft); font-weight:400; }
   .grande{ font-family:var(--display); font-size:clamp(38px,7vw,62px); line-height:1; color:var(--primary); }
   .regalo{ display:grid; gap:10px; margin:18px 0; }
   .regalo div{ display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
@@ -246,7 +245,6 @@
   /* Añadidos de este documento */
   .totalrow td{ font-weight:700; border-top:2px solid var(--line); }
   .totalrow .price{ font-size:15px; color:var(--ink); }
-  .tachado{ text-decoration:line-through; color:var(--ink-soft); font-weight:400; }
   .grande{ font-family:var(--display); font-size:clamp(34px,6vw,52px); line-height:1.05; color:var(--primary); }
   /* La regla global pinta <strong> del color de la tinta, que es el mismo
      fondo de la caja oscura: sin esto el saldo queda invisible. */
@@ -294,10 +292,6 @@
           border:1px dashed #B8A400; border-radius:3px; padding:1px 8px;
           font-family:var(--mono); font-size:12px; font-weight:600; }
 
-  /* Ítem incluido sin costo. */
-  .incluido{ display:block; margin-top:3px; font-family:var(--body); font-size:10px;
-             font-weight:700; letter-spacing:.13em; color:var(--success); }
-
   /* Datos del emisor, bajo el nombre. */
   .emisor{ font-size:13px; line-height:1.75; color:var(--ink-soft); margin:0; }
   .emisor b{ color:var(--ink); font-weight:600; }
@@ -309,7 +303,7 @@
          background:var(--surface); }
   .pago .cuando{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em;
                  text-transform:uppercase; color:#6B6B00; margin:0 0 6px; }
-  .pago .cifra{ font-family:var(--display); font-size:30px; font-weight:800;
+  .pago .monto{ font-family:var(--display); font-size:30px; font-weight:800;
                 line-height:1; margin:0 0 7px; }
   .pago .detalle{ margin:0; font-size:13.5px; color:var(--ink-soft); }
 
@@ -340,6 +334,54 @@
   .bar .marca .nombre{ font-family:var(--display); font-size:20px; font-weight:600;
                        letter-spacing:-.01em; color:var(--ink); transition:color .2s; }
   .bar .marca:hover .nombre{ color:var(--primary); }
+
+  /* ── Móvil: afinado propio de esta cotización ───────────────────────────
+     El bloque heredado partía la barra en dos filas —logo arriba, botón de
+     ancho completo abajo— y se comía media pantalla antes del contenido. Y las
+     filas de la tabla apretaban el precio al mismo tamaño que la descripción,
+     cuando el precio es lo que la gente busca al abrir una cotización. */
+  @media (max-width:760px){
+    /* La barra vuelve a una sola fila. */
+    .bar{ flex-direction:row; align-items:center; gap:12px; padding:12px 18px; }
+    .bar .btn{ width:auto; padding:9px 15px; font-size:11px; letter-spacing:.06em; }
+    .bar .marca svg{ height:26px; }
+    .bar .marca .nombre{ font-size:17px; }
+
+    /* Texto de lectura, un punto más grande y con más aire. */
+    body{ font-size:16px; line-height:1.65; }
+    .head h1{ font-size:clamp(27px,7.5vw,34px); }
+    .head__sub{ font-size:16px; }
+    .sec > h2{ font-size:23px; }
+    .sec p, ul.list li, ol.steps li{ font-size:15.5px; }
+
+    /* Cada fila es una tarjeta con aire de verdad. */
+    tbody tr{ padding:18px 18px 16px; border-radius:10px; margin-bottom:14px; }
+    tbody td{ padding:0; }
+    td.name{ font-size:18px; line-height:1.25; }
+    td.name div{ font-size:14.5px !important; line-height:1.6; margin-top:7px !important; }
+
+    /* El precio deja de ser una línea más: etiqueta a la izquierda, cifra
+       grande a la derecha, separado por un filete. Se lee como un recibo. */
+    td.price{ display:flex; align-items:baseline; justify-content:space-between;
+              gap:14px; margin-top:14px; padding-top:12px;
+              border-top:1px solid var(--line); font-size:20px; font-weight:600; }
+    td[data-l]::before{ content:attr(data-l); font-family:var(--mono); font-size:10px;
+                        text-transform:uppercase; letter-spacing:.14em;
+                        color:var(--ink-soft); align-self:center; }
+    td.name::before{ display:none; }
+    /* En subtotal, descuento y total la celda del nombre ya lo dice:
+       repetirlo en la etiqueta de la cifra sobra. */
+    .totalrow td[data-l]::before, .granTotal td[data-l]::before,
+    tr:has(> td.name:only-of-type) td[data-l]::before{ content:none; }
+
+    /* Subtotal y total, más peso todavía. */
+    .totalrow td.price{ font-size:22px; }
+    .granTotal td.price{ font-size:28px; border-top:none; }
+    .granTotal td.name{ font-size:20px; }
+
+    /* Las dos cajas de pago, una debajo de otra pero sin encogerse. */
+    .pago .monto{ font-size:32px; }
+  }
 </style>
 </head>
 <body>
@@ -407,7 +449,7 @@
                 enlazada a su página correspondiente.
               </div>
             </td>
-            <td class="price" data-l="Valor"><span class="tachado">$680.000</span><span class="incluido">INCLUIDO</span></td>
+            <td class="price" data-l="Valor">$380.000</td>
           </tr>
           <tr>
             <td class="name">Optimización SEO por palabras clave
@@ -460,9 +502,9 @@
             <td class="price" data-l="Valor">$290.000</td>
           </tr>
 
-          <tr class="totalrow"><td class="name">Subtotal</td><td class="price" data-l="Subtotal">$3.320.000</td></tr>
-          <tr><td class="name" style="color:var(--success)">Fichas de Google Business — incluidas sin costo</td><td class="price" data-l="Descuento" style="color:var(--success)">− $680.000</td></tr>
-          <tr class="granTotal"><td class="name">Total</td><td class="price" data-l="Total">$2.640.000</td></tr>
+          <tr class="totalrow"><td class="name">Subtotal</td><td class="price" data-l="Subtotal">$3.020.000</td></tr>
+          <tr><td class="name" style="color:var(--success)">Descuento por contratar todo junto</td><td class="price" data-l="Descuento" style="color:var(--success)">− $520.000</td></tr>
+          <tr class="granTotal"><td class="name">Total</td><td class="price" data-l="Total">$2.500.000</td></tr>
         </tbody>
       </table>
     </div>
@@ -476,13 +518,13 @@
     <div class="pagos">
       <div class="pago">
         <p class="cuando">Para iniciar · 50 %</p>
-        <p class="cifra">$1.320.000</p>
+        <p class="monto">$1.250.000</p>
         <p class="detalle">Con este pago arranca el trabajo. Los plazos empiezan a contar aquí,
           junto con la entrega del material.</p>
       </div>
       <div class="pago">
         <p class="cuando">Contra entrega · 50 %</p>
-        <p class="cifra">$1.320.000</p>
+        <p class="monto">$1.250.000</p>
         <p class="detalle">Al entregar lo cotizado y revisarlo juntos.</p>
       </div>
     </div>
@@ -561,7 +603,7 @@
     <div class="offerbox">
       <span class="eyebrow">— Gestión mensual de posicionamiento local</span>
       <div class="grande">$450.000 <span style="font-family:var(--body);font-size:18px;">/ mes</span></div>
-      <p class="offerbox__note">No está incluido en los $2.640.000</p>
+      <p class="offerbox__note">No está incluido en los $2.500.000</p>
     </div>
     <ul class="list">
       <li>Publicaciones y fotos semanales en ambas fichas.</li>
