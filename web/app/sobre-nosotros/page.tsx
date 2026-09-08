@@ -28,7 +28,7 @@ const FOUNDER = {
   role: "Full Stack Developer · Fundador",
   bio: "Full Stack Developer con foco fuerte en backend y arquitectura. No solo escribo código: traduzco necesidades de negocio en soluciones digitales claras. Me muevo entre producto, arquitectura y ejecución con la misma facilidad, para entregar software que no solo funciona, sino que genera impacto real.",
   linkedin: "https://www.linkedin.com/in/jallerdev",
-  github: "https://github.com/jallerangel",
+  github: "https://github.com/jallerdev",
   portfolio: "https://jaller-dev.vercel.app",
 };
 

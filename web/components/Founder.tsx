@@ -19,7 +19,7 @@ const FOUNDER = {
   name: "Luis Jaller",
   role: "Full Stack Developer · Fundador",
   linkedin: "https://www.linkedin.com/in/jallerdev",
-  github: "https://github.com/jallerangel",
+  github: "https://github.com/jallerdev",
 };
 
 const STATS = [
