@@ -38,6 +38,15 @@ const PROYECTOS: Proyecto[] = [
     propio: true,
   },
   {
+    nombre: "Hummik",
+    categoria: "Producto propio · SaaS",
+    desc: "Agenda de citas por WhatsApp: el cliente reserva desde el chat o desde un enlace y la cita cae sola en el calendario, con recordatorios contra los plantones.",
+    url: "https://www.hummik.com",
+    img: "/work/hummik.webp",
+    dominio: "hummik.com",
+    propio: true,
+  },
+  {
     nombre: "Pixels Maker",
     categoria: "Sitio corporativo",
     desc: "Fábrica de letreros, avisos luminosos y fachadas en ACM en Cartagena, Barranquilla y Bogotá.",
@@ -84,22 +93,6 @@ const PROYECTOS: Proyecto[] = [
     url: "https://marcopolo-peluqueria.vercel.app",
     img: "/work/marcopolo.webp",
     dominio: "marcopolo-peluqueria.vercel.app",
-  },
-  {
-    nombre: "KB ViveBeauty",
-    categoria: "Catálogo",
-    desc: "Catálogo de cuidado corporal y facial con precios al detal, pensado para vender por WhatsApp.",
-    url: "https://kb-vivebeauty.vercel.app",
-    img: "/work/vivebeauty.webp",
-    dominio: "kb-vivebeauty.vercel.app",
-  },
-  {
-    nombre: "KB Perfumes",
-    categoria: "Catálogo",
-    desc: "Catálogo de fragancias originales con lista de precios, para consultar y pedir desde el celular.",
-    url: "https://kb-perfumes.vercel.app",
-    img: "/work/kb-perfumes.webp",
-    dominio: "kb-perfumes.vercel.app",
   },
 ];
 
