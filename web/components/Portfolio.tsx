@@ -54,13 +54,6 @@ const PROYECTOS: Proyecto[] = [
     propio: true,
   },
   {
-    nombre: "Pixels Maker",
-    categoria: "Sitio corporativo",
-    desc: "Fábrica de letreros, avisos luminosos y fachadas en ACM en Cartagena, Barranquilla y Bogotá.",
-    img: "/work/pixels-maker.webp",
-    enProceso: true,
-  },
-  {
     nombre: "NÜVA Plastic Surgery",
     categoria: "Salud",
     desc: "Cirugía plástica en Colombia, con acompañamiento médico para pacientes nacionales e internacionales.",
