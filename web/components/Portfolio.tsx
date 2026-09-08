@@ -68,13 +68,6 @@ const PROYECTOS: Proyecto[] = [
     enProceso: true,
   },
   {
-    nombre: "Dra. Natalia Acosta",
-    categoria: "Odontología",
-    desc: "Odontología integral en Turbaco: diseño de sonrisa, ortodoncia, blanqueamiento y cirugía oral, con agendamiento.",
-    img: "/work/natalia-acosta.webp",
-    enProceso: true,
-  },
-  {
     nombre: "Fta. Elka Gómez",
     categoria: "Salud y spa",
     desc: "Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y experiencias de spa.",
