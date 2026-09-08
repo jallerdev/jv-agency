@@ -23,13 +23,21 @@ export const BUSINESS = {
 
   email: "contacto@jvagencia.com",
 
-  /** WhatsApp Business de la agencia (el de la WABA). Formato E.164 sin "+". */
-  whatsapp: "573159475589",
-  whatsappDisplay: "+57 315 947 5589",
+  /**
+   * UN SOLO número para todo: es el que tiene la automatización, el que
+   * aparece en WhatsApp como "JV Agencia" y el que publica la ficha de Google
+   * Business.
+   *
+   * Que sea uno solo no es simplificación: para el posicionamiento local,
+   * Google compara el teléfono de la ficha con el del sitio. Si no coinciden
+   * —o si el sitio muestra dos y la ficha uno— la señal se debilita. Antes
+   * había dos números y ninguno era el de la ficha.
+   */
+  whatsapp: "573161662975",
+  whatsappDisplay: "+57 316 166 2975",
 
-  /** Teléfono comercial (el registrado como teléfono del negocio en Meta). */
-  phone: "+573118694288",
-  phoneDisplay: "+57 311 869 4288",
+  phone: "+573161662975",
+  phoneDisplay: "+57 316 166 2975",
 
   /**
    * NAP público. J&V NO tiene local: se atiende de forma remota y en sitio del
