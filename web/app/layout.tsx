@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import Script from "next/script";
+
+import { SITE_NAME, SITE_URL, GA_MEASUREMENT_ID } from "@/lib/site";
 import { StructuredData } from "@/components/StructuredData";
 
 const fraunces = localFont({
@@ -92,6 +94,28 @@ export default function RootLayout({
       >
         <StructuredData />
         {children}
+
+        {/* Google Analytics 4.
+            Va con next/script y `afterInteractive`: se carga cuando la página
+            ya es usable, para no competir con el contenido por el hilo
+            principal ni castigar las métricas de carga que justamente sirve
+            para medir.
+            Solo en producción: en desarrollo ensuciaría los datos con visitas
+            que no son de nadie. */}
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );

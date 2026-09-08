@@ -28,11 +28,31 @@ export default function CookiesPage() {
           ejemplo, preferencias de visualización). No se pueden desactivar.
         </li>
         <li>
-          <strong>Analíticas (si están activas):</strong> nos ayudan a entender de forma anónima cómo
-          se usa el sitio para mejorarlo. No te identifican personalmente.
+          <strong>Analíticas:</strong> usamos <strong>Google Analytics 4</strong> para entender de
+          forma agregada cómo se usa el sitio —qué páginas se visitan, desde qué tipo de
+          dispositivo y por dónde llegan— y así mejorarlo. No te identifican personalmente y no
+          cruzamos esos datos con la información que nos dejas en el formulario. El tratamiento lo
+          realiza Google LLC como responsable de su propia herramienta; puedes consultar su
+          política en{" "}
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+            policies.google.com/privacy
+          </a>
+          .
         </li>
       </ul>
       <p>No utilizamos cookies de publicidad ni vendemos información obtenida mediante cookies.</p>
+      <p>
+        Si prefieres no ser contado en la analítica, puedes bloquear las cookies desde tu navegador
+        —ver el punto 3— o instalar el{" "}
+        <a
+          href="https://tools.google.com/dlpage/gaoptout"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          complemento de inhabilitación de Google Analytics
+        </a>
+        . El sitio funciona igual sin ellas.
+      </p>
 
       <h2>3. Cómo gestionar las cookies</h2>
       <p>
