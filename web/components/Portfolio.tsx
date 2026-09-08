@@ -54,6 +54,14 @@ const PROYECTOS: Proyecto[] = [
     propio: true,
   },
   {
+    nombre: "Bloomrose",
+    categoria: "Tienda online",
+    desc: "Tienda de bisutería y accesorios para el mercado colombiano: catálogo con inventario, carrito, cuentas, pagos en línea y cotización de envíos.",
+    url: "https://www.bloomroseaccesorios.com",
+    img: "/work/bloomrose.webp",
+    dominio: "bloomroseaccesorios.com",
+  },
+  {
     nombre: "NÜVA Plastic Surgery",
     categoria: "Salud",
     desc: "Cirugía plástica en Colombia, con acompañamiento médico para pacientes nacionales e internacionales.",
@@ -119,8 +127,26 @@ export function Portfolio() {
           </p>
         </Reveal>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {PROYECTOS.map((p, i) => (
+        {[
+          {
+            titulo: "En producción",
+            nota: "Con dominio propio y en línea. Toca cualquiera y compruébalo.",
+            items: PROYECTOS.filter((p) => p.url),
+          },
+          {
+            titulo: "Diseño y desarrollo",
+            nota: "Construidos y entregados. Se publican cuando el cliente conecte su dominio.",
+            items: PROYECTOS.filter((p) => !p.url),
+          },
+        ].map((grupo) => (
+        <div key={grupo.titulo} className="mt-16">
+          <div className="mb-8 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-line pb-4">
+            <h3 className="font-display text-2xl text-ink">{grupo.titulo}</h3>
+            <p className="font-body text-sm text-ink-soft">{grupo.nota}</p>
+          </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {grupo.items.map((p, i) => (
             <Reveal key={p.nombre} delay={(i % 3) * 90}>
               <Tarjeta
                 href={p.url}
@@ -173,19 +199,14 @@ export function Portfolio() {
                     {p.categoria}
                   </span>
 
-                  {p.enProceso && (
-                    <span className="mt-2 inline-flex w-fit items-center gap-1.5 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
-                      <span className="h-1.5 w-1.5 rounded-full bg-warning" />
-                      En proceso
-                    </span>
-                  )}
-
                   <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{p.desc}</p>
                 </div>
               </Tarjeta>
             </Reveal>
           ))}
         </div>
+        </div>
+        ))}
       </div>
     </section>
   );
