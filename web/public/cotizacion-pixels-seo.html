@@ -317,16 +317,12 @@
   .material{ display:grid; gap:10px 26px; margin:14px 0 0; padding:0; list-style:none;
              font-size:14.5px; }
   @media (min-width:600px){ .material{ grid-template-columns:1fr 1fr; } }
-  .material li{ display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:start; }
-  .material li::before{ content:''; width:14px; height:14px; margin-top:4px;
-    border:1.5px solid var(--line); border-radius:2px; background:#fff; }
+  .material li{ display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start; }
+  /* Punto, no casilla. El cuadro vacio parecia un checkbox que se podia marcar
+     y no lo era: una promesa de interaccion que el documento no cumple. */
+  .material li::before{ content:''; width:6px; height:6px; margin-top:8px;
+    border-radius:50%; background:var(--accent); }
 
-  /* Firmas. */
-  .firmas{ display:grid; gap:36px; margin-top:26px; }
-  @media (min-width:600px){ .firmas{ grid-template-columns:1fr 1fr; gap:44px; } }
-  .firma .raya{ border-bottom:1px solid var(--ink); height:58px; }
-  .firma .quien{ font-weight:600; font-size:14px; margin:9px 0 2px; }
-  .firma .rol{ font-size:12.5px; color:var(--ink-soft); margin:0; }
 
   /* Totales alineados a la derecha. */
   .totalrow td{ font-weight:700; border-top:2px solid var(--line); }
@@ -362,7 +358,7 @@
       <div><span>Teléfono del negocio</span><b>321 815 8374</b></div>
       <div><span>Número</span><b>JV-2026-024</b></div>
       <div><span>Fecha</span><b>8 de septiembre de 2026</b></div>
-      <div><span>Validez</span><b>15 días calendario<br>(hasta el 23 de septiembre)</b></div>
+      <div><span>Validez</span><b>1 mes<br>(hasta el 8 de octubre)</b></div>
       <div><span>Moneda</span><b>Pesos colombianos (COP)</b></div>
     </div>
 
@@ -570,22 +566,6 @@
     </p>
   </section>
 
-  <section class="sec">
-    <h2><span class="n">08</span> Aceptación</h2>
-    <div class="firmas">
-      <div class="firma">
-        <div class="raya"></div>
-        <p class="quien">Luis Ángel Gambín Jaller</p>
-        <p class="rol">JV Agencia · NIT 1007264035-7</p>
-      </div>
-      <div class="firma">
-        <div class="raya"></div>
-        <p class="quien">Firma y sello del cliente</p>
-        <p class="rol">Nombre, cédula y fecha de aceptación</p>
-      </div>
-    </div>
-  </section>
-
   <div class="note">
     <p>
       Si algo de lo que está aquí no les cuadra —el precio, el alcance, los plazos— dígamelo con
@@ -598,7 +578,7 @@
     <p class="sign">Luis Jaller · <span>J&amp;V Agencia</span></p>
     <p class="contact">contacto@jvagencia.com · jvagencia.com</p>
     <p class="fine" style="margin-top:14px">
-      Cotización JV-2026-024 · válida hasta el 23 de septiembre de 2026.
+      Cotización JV-2026-024 · válida hasta el 8 de octubre de 2026.
     </p>
   </div>
 
