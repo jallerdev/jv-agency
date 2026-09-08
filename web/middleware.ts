@@ -77,6 +77,16 @@ const PRIVATE_DOCS: PrivateDoc[] = [
     realm: "JV Agencia - Material privado",
   },
   {
+    // Segunda cotizacion para el mismo cliente: posicionamiento y orden del
+    // sitio que ya tienen en Wix. Comparte la clave con la del sitio nuevo.
+    paths: ["/cotizacion-pixels-seo", "/cotizacion-pixels-seo.html"],
+    file: "/cotizacion-pixels-seo.html",
+    passEnv: "COTIZACION_PIXELS_PASSWORD",
+    userEnv: "COTIZACION_PIXELS_USER",
+    defaultUser: "pixels",
+    realm: "JV Agencia - Cotizacion privada",
+  },
+  {
     paths: ["/cotizacion-pixels", "/cotizacion-pixels-maker.html"],
     file: "/cotizacion-pixels-maker.html",
     passEnv: "COTIZACION_PIXELS_PASSWORD",
