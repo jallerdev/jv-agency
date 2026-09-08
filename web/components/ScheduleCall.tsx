@@ -13,13 +13,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/contact";
+import { OPCIONES_SERVICIO } from "@/lib/services";
 
-const SERVICES = [
-  { id: "web", label: "Desarrollo web" },
-  { id: "software", label: "Software a medida" },
-  { id: "design", label: "Diseño web / UI" },
-  { id: "support", label: "Mantenimiento" },
-] as const;
+// Las opciones salen de lib/services.ts, que es la fuente unica: antes esta
+// lista vivia aparte y se quedo atras cuando cambiaron los servicios.
+const SERVICES = OPCIONES_SERVICIO;
 
 type FieldKey = "service" | "name" | "email" | "phone" | "date" | "time";
 
