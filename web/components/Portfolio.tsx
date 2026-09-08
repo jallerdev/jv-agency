@@ -151,9 +151,11 @@ export function Portfolio() {
                   <span className="h-2 w-2 rounded-full bg-danger/60" />
                   <span className="h-2 w-2 rounded-full bg-warning/60" />
                   <span className="h-2 w-2 rounded-full bg-success/60" />
-                  <span className="ml-2 truncate font-mono text-[10px] text-ink-soft">
-                    {p.dominio ?? "en desarrollo"}
-                  </span>
+                  {p.dominio && (
+                    <span className="ml-2 truncate font-mono text-[10px] text-ink-soft">
+                      {p.dominio}
+                    </span>
+                  )}
                 </div>
 
                 <div className="relative overflow-hidden bg-background">
