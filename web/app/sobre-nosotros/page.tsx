@@ -7,6 +7,7 @@ import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BUSINESS } from "@/lib/business";
 import { SITE_URL, WHATSAPP_LINK } from "@/lib/business";
 
 export const metadata: Metadata = {
@@ -74,8 +75,10 @@ const jsonLd = {
   url: `${SITE_URL}/sobre-nosotros`,
   about: { "@id": `${SITE_URL}/#organization` },
   mainEntity: {
+    // Mismo @id que el `founder` de la portada: una sola persona en el grafo.
+    "@id": `${SITE_URL}${BUSINESS.personId}`,
     "@type": "Person",
-    name: FOUNDER.name,
+    name: BUSINESS.founderName,
     jobTitle: "Full Stack Developer",
     worksFor: { "@id": `${SITE_URL}/#organization` },
     url: `${SITE_URL}/sobre-nosotros`,

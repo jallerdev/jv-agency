@@ -35,7 +35,22 @@ export function StructuredData() {
         },
         image: `${SITE_URL}/og.png`,
         address: postalAddress,
-        founder: { "@type": "Person", name: BUSINESS.legalNameOfficial },
+        // El founder era el string del RUT en mayusculas, y en /sobre-nosotros
+        // habia otra Person llamada distinto: Google veia DOS personas. Ahora
+        // las dos comparten @id, asi que son una sola entidad. El nombre legal
+        // no se pierde — baja a alternateName, y `legalName` de la
+        // Organization, que es lo que compara Meta, queda intacto.
+        founder: {
+          "@id": `${SITE_URL}${BUSINESS.personId}`,
+          "@type": "Person",
+          name: BUSINESS.founderName,
+          alternateName: BUSINESS.legalNameOfficial,
+          givenName: BUSINESS.founderGivenName,
+          familyName: BUSINESS.founderFamilyName,
+          jobTitle: "Full Stack Developer",
+          url: `${SITE_URL}/sobre-nosotros`,
+          sameAs: BUSINESS.founderProfiles,
+        },
         sameAs,
       },
       {

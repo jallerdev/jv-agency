@@ -21,6 +21,27 @@ export const BUSINESS = {
   /** NIT / identificación fiscal. */
   taxId: "1007264035-7",
 
+  /**
+   * Nombre con el que la persona se presenta y firma. Es el que va en el
+   * `name` de la Person del JSON-LD y el que lee un humano.
+   *
+   * NO reemplaza a `legalNameOfficial`: ese sigue en `legalName` de la
+   * Organization, que es el campo que Meta compara contra el RUT. Los dos
+   * conviven — uno identifica a la empresa ante la DIAN, el otro a la persona
+   * ante quien lee.
+   */
+  founderName: "Luis Jaller",
+  founderGivenName: "Luis",
+  founderFamilyName: "Jaller",
+  /** Ancla de la Person en el grafo. Un solo id = una sola persona. */
+  personId: "/#persona",
+  /** Perfiles verificables de la persona. Alimentan `sameAs` de la Person. */
+  founderProfiles: [
+    "https://www.linkedin.com/in/jallerdev",
+    "https://github.com/jallerangel",
+    "https://jaller-dev.vercel.app",
+  ] as string[],
+
   email: "contacto@jvagencia.com",
 
   /**
