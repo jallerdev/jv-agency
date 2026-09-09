@@ -23,7 +23,7 @@ Estado: se actualiza a medida que avanzo.
 
 ---
 
-## Tanda A · Rediseño integral  🔄 corriendo
+## Tanda A · Rediseño integral  ✅ hecho
 
 Workflow de cuatro fases y doce agentes.
 
@@ -45,7 +45,7 @@ El encargo principal, con tus palabras: que las capturas de las webs se vean
 
 ---
 
-## Tanda B · El copy en primera persona
+## Tanda B · El copy en primera persona  ✅ hecho
 
 Aplicar `COPY-PRIMERA-PERSONA.md` al código. Espera a la Tanda A porque toca
 los mismos componentes.
@@ -60,7 +60,7 @@ los mismos componentes.
 
 ---
 
-## Tanda C · La página de precios
+## Tanda C · La página de precios  ✅ hecho
 
 Ruta nueva `/precios`, enlazada desde el header, el hero, el pie y los
 artículos del blog.
@@ -80,7 +80,7 @@ Publicar precios es el diferenciador: ninguna agencia de Cartagena lo hace.
 
 ---
 
-## Tanda D · Las páginas que faltan para vender
+## Tanda D · Las páginas de servicio  ⏸️ sin empezar
 
 Del mapa de `SEO-INTENCIONES-DE-COMPRA.md`. Hoy el sitio no tiene **una sola
 página** que apunte a la intención de comprar.
@@ -96,7 +96,7 @@ Cinco páginas de servicio, empezando por las que ya tienen precio publicado:
 
 ---
 
-## Tanda F · Intenciones de compra  🔄 corriendo
+## Tanda F · Intenciones de compra  ✅ hecho
 
 Workflow de seis fases y once agentes, en paralelo con el rediseño porque no
 comparten un solo archivo: aquel edita `web/components/`, este crea rutas
@@ -141,7 +141,7 @@ hay ninguna.
 
 ---
 
-## Tanda E · Cierre
+## Tanda E · Cierre  ✅ hecho
 
 - `pnpm build` limpio.
 - Recorrido con navegador de todas las rutas: 200, hidratación, consola limpia.
@@ -213,3 +213,57 @@ sitio, y una tarea en segundo plano no garantiza que siga viva.
 commit. No se perdió nada, pero quedó registrado bajo un mensaje que habla de
 otra cosa. Si vas a seguir con dos sesiones, conviene que cada una trabaje en
 su propia rama.
+
+---
+
+## Cómo amaneció · 9 de septiembre, 06:00
+
+Cinco commits en la rama **`trabajo-nocturno`**, ya en GitHub. La rama `main`
+no se tocó: revísala y fusiónala tú.
+
+```
+ac7f091  Hablar en primera persona y publicar los precios
+9af02e3  Poner HSTS completo y una CSP en modo solo reporte
+5220054  Crear las paginas que atacan la intencion de comprar
+06d0c76  Rediseñar la portada entera: movimiento, jerarquia y portafolio
+7daffd1  Actualizar a Next 16 y React 19
+```
+
+**Ocho rutas nuevas:** `/precios`, tres de ciudad, dos de sector y dos
+artículos de precio.
+
+**Verificado, no supuesto:** build limpio, `tsc` sin errores, 24 comprobaciones
+en navegador a 1440 y 390 px sin un fallo, JSON-LD parseable en todas, y con
+`prefers-reduced-motion` ningún elemento queda invisible.
+
+### Las cinco decisiones que te esperan
+
+Están **visibles en el sitio**, no escondidas en un comentario, porque ninguna
+se podía inventar:
+
+| Dónde | Qué falta |
+|---|---|
+| Portada y `/precios` | El FAQ dice «1 a 4 semanas» y el chip del hero «lista en 5 días». Uno de los dos está mal |
+| Portada y `/sobre-nosotros` | Tiempo de respuesta. El sitio decía «<24h» y no lo confirmaste |
+| `/sobre-nosotros` | ¿Fintech y logística son reales? Es la línea del NDA |
+| `/servicios/chatbot-whatsapp` | Precio del plan mensual de mantenimiento |
+| Portafolio | Bloomrose sale dos veces: como caso a fondo y otra vez en la rejilla, con la misma captura |
+
+### Lo que quedó señalado y no toqué
+
+- **Cabecera apretada entre 768 y 810 px.** Ya pasaba antes con cinco destinos;
+  con «Precios» empeora un poco. El arreglo de fondo es mover el menú de
+  escritorio de `md` a `lg`, que es cambio de estructura y no de texto.
+- **Tanda D sin empezar:** las cuatro páginas de servicio
+  (`/servicios/diseno-de-paginas-web`, `posicionamiento-seo`,
+  `tiendas-virtuales`, `software-a-la-medida`).
+- **CSP en modo solo reporte.** En `next.config.mjs` está escrito qué falta para
+  activarla.
+
+### Dos cosas que aprendieron las sesiones esta noche
+
+**No uses `pkill -f "next dev"`.** Ese patrón no distingue proyecto y mata el
+servidor de cualquier otra sesión. Guarda el PID al lanzar y mata ese PID.
+
+**Un 200 en el puerto no prueba que sea tu sitio.** Comprueba el `<title>`
+antes de sacar conclusiones de una captura.
