@@ -78,12 +78,6 @@ const HERO_CSS = `
 `;
 
 /* Marcas de registro: las cuatro esquinas de la columna de texto. */
-const REGISTRO = [
-  "left-0 top-0 border-l border-t",
-  "right-0 top-0 border-r border-t",
-  "left-0 bottom-0 border-l border-b",
-  "right-0 bottom-0 border-r border-b",
-];
 
 export function Hero() {
   return (
@@ -97,26 +91,20 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative mx-auto flex max-w-4xl flex-col items-center px-5 text-center md:px-8">
-        {/* Guías de la columna de texto: la medida, dibujada. */}
+      {/* Rejilla editorial. El hero era una columna centrada y simetrica, y al
+          entrar la credencial a la derecha quedo desequilibrado: composicion
+          simetrica con un peso a un solo lado. En vez de devolver la credencial
+          abajo, se asume la asimetria —que es hacia donde se movieron los
+          heroes: rejilla editorial y tipografia primero, en vez de todo al
+          centro. El texto toma siete columnas y la credencial cinco. */}
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-y-12 px-5 md:px-8 lg:grid-cols-12 lg:gap-x-12">
+      <div className="relative flex flex-col items-center text-center lg:col-span-7 lg:items-start lg:text-left">
+        {/* Medianil: la unica linea que queda. Separa el argumento de la
+            credencial y solo existe donde existen las dos columnas. */}
         <span
           aria-hidden
-          className="jv-hero-rule pointer-events-none absolute inset-y-0 left-0 hidden w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent md:block"
+          className="jv-hero-rule pointer-events-none absolute -right-6 inset-y-6 hidden w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent lg:block"
         />
-        <span
-          aria-hidden
-          className="jv-hero-rule pointer-events-none absolute inset-y-0 right-0 hidden w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent md:block"
-        />
-        {REGISTRO.map((pos) => (
-          <span
-            key={pos}
-            aria-hidden
-            className={cn(
-              "jv-hero-decor pointer-events-none absolute hidden h-3.5 w-3.5 border-primary/35 md:block",
-              pos
-            )}
-          />
-        ))}
 
         <Badge className="jv-hero-in text-[10px] tracking-[0.14em] sm:text-xs sm:tracking-[0.18em]">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
@@ -128,7 +116,7 @@ export function Hero() {
             `sm:text-6xl` traía su propio line-height 1 y pisaba a
             `leading-tight`, así que en escritorio el h1 renderizaba a
             ratio 1,0 y los descendentes casi tocaban la línea siguiente. */}
-        <h1 className="mt-7 text-balance font-display text-[2.85rem]/[1.06] font-light tracking-[-0.02em] text-ink sm:mt-8 sm:text-6xl/[1.04] lg:text-[5rem]/[1.02]">
+        <h1 className="mt-7 text-balance font-display text-[2.85rem]/[1.06] font-light tracking-[-0.02em] text-ink sm:mt-8 sm:text-6xl/[1.04] lg:text-[3.5rem]/[1.05] xl:text-[4rem]/[1.03]">
           <span className="jv-hero-line">
             <span style={{ "--jv-delay": "120ms" } as React.CSSProperties}>
               Diseño de páginas web
@@ -190,17 +178,15 @@ export function Hero() {
       </div>
 
       {/* La credencial de Meta es el argumento mas fuerte que hay y estaba
-          debajo del pliegue, en su propia seccion. Ahora vive dentro del hero.
-          Una sola instancia: en flujo debajo del pitch, y a partir de 1536px
-          anclada a la derecha, donde el hero tiene espacio muerto. El margen
-          derecho se calcula para que nunca invada la columna de texto. */}
+          debajo del pliegue, en su propia seccion. Ahora es la segunda columna
+          del hero: se ve en la primera pantalla y ya no flota en absoluto
+          contra un hueco, que es lo que la hacia leerse como pegada encima. */}
       <div
-        className="jv-hero-in relative mx-auto mt-14 w-full max-w-xs px-5 md:px-8 min-[1700px]:absolute min-[1700px]:inset-y-0 min-[1700px]:right-0 min-[1700px]:mt-0 min-[1700px]:flex min-[1700px]:max-w-none min-[1700px]:items-center min-[1700px]:justify-end min-[1700px]:px-0"
+        className="jv-hero-in mx-auto w-full max-w-xs lg:col-span-5 lg:mx-0 lg:ml-auto lg:max-w-sm"
         style={{ "--jv-delay": "860ms" } as React.CSSProperties}
       >
-        <div className="min-[1700px]:mr-8 min-[1700px]:w-72">
-          <MetaTechProvider variant="rail" />
-        </div>
+        <MetaTechProvider variant="rail" />
+      </div>
       </div>
     </section>
   );
