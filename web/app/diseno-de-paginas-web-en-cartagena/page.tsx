@@ -142,12 +142,14 @@ const PRECIOS = [
     desde: money(850000),
     plazo: "5 días",
     d: "Una página que carga rápido, se ve seria en el teléfono y dice en diez segundos qué haces y cómo te contactan. Con tu dominio y tu correo propio.",
+    href: "/servicios/diseno-de-paginas-web",
   },
   {
     q: "Tienda online",
     desde: money(2500000),
     plazo: "3 semanas",
     d: "La tienda virtual completa: catálogo con inventario, carrito, cuentas de cliente, pagos en línea y cotización de envíos. Lo mismo que hice en Bloomrose.",
+    href: "/servicios/tiendas-virtuales",
   },
   {
     q: "Chatbot de WhatsApp",
@@ -161,18 +163,21 @@ const PRECIOS = [
     desde: money(390000),
     plazo: "5 días",
     d: "Por qué no apareces cuando te buscan, qué se arregla primero y qué se puede medir. Sirve igual si la página te la hizo otro.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     q: "SEO local, mensual",
     desde: `${money(450000)}/mes`,
     plazo: "trabajo continuo",
     d: "El trabajo de aparecer en búsquedas con ciudad: «funeraria en Cartagena», «avisos publicitarios en Cartagena», lo que sea que vendas.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     q: "Software a la medida",
     desde: "Según el alcance",
     plazo: "se define al cotizar",
     d: "Cuando el problema no es una página sino un proceso: reservas, inventario, historia clínica, lo que te come el día.",
+    href: "/servicios/software-a-la-medida",
   },
 ];
 
@@ -552,6 +557,16 @@ export default function DisenoPaginasWebCartagenaPage() {
                 >
                   bloomroseaccesorios.com <ExternalLink className="h-4 w-4" />
                 </a>
+                <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">
+                  Cómo se arma una así, qué trae por dentro y cuánto cuesta está en{" "}
+                  <Link
+                    href="/servicios/tiendas-virtuales"
+                    className="font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  >
+                    creación de tiendas virtuales
+                  </Link>
+                  .
+                </p>
               </article>
             </Reveal>
 

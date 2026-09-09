@@ -128,7 +128,11 @@ const LINEAS: Linea[] = [
    desde una página pública deja al visitante en una pantalla de contraseña. */
 const DETALLE = [
   { label: "Todos los servicios", href: "/#servicios" },
+  { label: "Diseño de páginas web", href: "/servicios/diseno-de-paginas-web" },
   { label: "Chatbot de WhatsApp", href: "/servicios/chatbot-whatsapp" },
+  { label: "Tiendas virtuales", href: "/servicios/tiendas-virtuales" },
+  { label: "Posicionamiento SEO", href: "/servicios/posicionamiento-seo" },
+  { label: "Software a la medida", href: "/servicios/software-a-la-medida" },
   {
     label: "Páginas web en Cartagena",
     href: "/diseno-de-paginas-web-en-cartagena",

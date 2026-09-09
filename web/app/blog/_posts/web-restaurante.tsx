@@ -144,7 +144,10 @@ export function WebRestaurantePost() {
         <Link href="/diseno-de-paginas-web-en-cartagena">
           diseño de páginas web en Cartagena
         </Link>{" "}
-        y <Link href="/diseno-de-paginas-web-en-barranquilla">en Barranquilla</Link>.
+        y <Link href="/diseno-de-paginas-web-en-barranquilla">en Barranquilla</Link>. El trabajo
+        mensual, con lo que incluye y lo que no promete, está en{" "}
+        <Link href="/servicios/posicionamiento-seo">posicionamiento SEO</Link>; y la página en sí,
+        en <Link href="/servicios/diseno-de-paginas-web">diseño de páginas web</Link>.
       </p>
     </>
   );

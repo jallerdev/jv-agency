@@ -26,7 +26,24 @@ export type Servicio = {
   nombre: string;
   /** Descripción de la tarjeta de la portada. */
   desc: string;
-  /** Página propia del servicio, si ya existe. */
+  /**
+   * Página propia del servicio, si ya existe. Solo los que lo tienen se
+   * vuelven enlace en la portada y en el formulario.
+   *
+   * Dos servicios NO lo llevan, y es a propósito:
+   *   design  -> «Diseño web / UI» no es un servicio aparte; va dentro de cada
+   *              proyecto web, así que su intención de búsqueda pertenece a
+   *              /servicios/diseno-de-paginas-web y una segunda tarjeta
+   *              apuntando ahí sería el mismo enlace dos veces.
+   *   support -> «Mantenimiento» todavía no tiene página propia.
+   *
+   * Y falta una tarjeta que sí tiene página: /servicios/tiendas-virtuales.
+   * Hoy la tienda virtual vive dentro de la descripción de «Diseño de páginas
+   * web» («e-commerce»), y darle tarjeta propia obliga a rehacer la rejilla de
+   * la portada, que es de cinco columnas y cuadra 3+2 / 2+3 / 3+2. Mientras
+   * tanto la página se alcanza desde el pie, desde /precios, desde las tres
+   * ciudades y desde la propia página de diseño web.
+   */
   href?: string;
 };
 
@@ -35,6 +52,7 @@ export const SERVICIOS: Servicio[] = [
     id: "web",
     nombre: "Diseño de páginas web",
     desc: "Sitios, landing pages, e-commerce y web corporativa. Rápidos, sólidos y pensados para crecer contigo. Desde $850.000.",
+    href: "/servicios/diseno-de-paginas-web",
   },
   {
     id: "chatbot",
@@ -46,11 +64,13 @@ export const SERVICIOS: Servicio[] = [
     id: "seo",
     nombre: "SEO y posicionamiento",
     desc: "Que te encuentren cuando buscan lo que vendes. El SEO técnico va con el sitio; posicionar es trabajo mensual y te lo digo claro. Nadie garantiza el primer puesto: yo garantizo el trabajo y el informe. Auditoría desde $390.000, plan mensual desde $450.000.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     id: "software",
     nombre: "Software a la medida",
     desc: "Apps web, sistemas internos y plataformas hechas a tu medida, no forzadas a una plantilla. El precio va según el alcance.",
+    href: "/servicios/software-a-la-medida",
   },
   {
     id: "design",

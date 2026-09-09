@@ -106,6 +106,7 @@ export function StructuredData() {
                 name: "Diseño de páginas web",
                 description:
                   "Landing pages, webs corporativas y tiendas online con diseño propio.",
+                url: `${SITE_URL}/servicios/diseno-de-paginas-web`,
               },
             },
             {
@@ -126,6 +127,7 @@ export function StructuredData() {
                 name: "SEO y posicionamiento",
                 description:
                   "SEO técnico entregado con el sitio y planes mensuales de posicionamiento local.",
+                url: `${SITE_URL}/servicios/posicionamiento-seo`,
               },
             },
             {
@@ -134,6 +136,7 @@ export function StructuredData() {
                 "@type": "Service",
                 name: "Software a la medida",
                 description: "Apps web, sistemas internos y plataformas hechas a la medida.",
+                url: `${SITE_URL}/servicios/software-a-la-medida`,
               },
             },
             {

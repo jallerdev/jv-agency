@@ -13,7 +13,7 @@ import { SITE_URL, WHATSAPP_LINK } from "@/lib/business";
 export const metadata: Metadata = {
   title: "Sobre mí — Luis Jaller | JV Agencia",
   description:
-    "JV Agencia es el estudio de Luis Jaller, diseñador y desarrollador web en Turbaco, Bolívar. Diseño y programo yo mismo para PYMEs de LATAM: 3+ años construyendo producto, 11+ proyectos en producción.",
+    "JV Agencia es el estudio de Luis Jaller, diseñador web y desarrollador en Turbaco, Bolívar. Diseño y programo yo mismo para PYMEs de LATAM: 3+ años construyendo producto, 11+ proyectos en producción.",
   alternates: { canonical: "/sobre-nosotros" },
   openGraph: {
     title: "Sobre mí — JV Agencia",
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
 
 const FOUNDER = {
   name: "Luis Jaller",
-  role: "Diseñador y desarrollador web",
-  bio: "Diseñador y desarrollador web con foco fuerte en backend y arquitectura. No solo escribo código: traduzco lo que necesita un negocio en decisiones de producto claras. Me muevo entre producto, arquitectura y ejecución con la misma facilidad, para entregar software que funciona y que además sirve para algo.",
+  role: "Diseñador web y desarrollador",
+  bio: "Diseñador web y desarrollador con foco fuerte en backend y arquitectura. No solo escribo código: traduzco lo que necesita un negocio en decisiones de producto claras. Me muevo entre producto, arquitectura y ejecución con la misma facilidad, para entregar software que funciona y que además sirve para algo.",
   linkedin: "https://www.linkedin.com/in/jallerdev",
   github: "https://github.com/jallerdev",
   portfolio: "https://jaller-dev.vercel.app",

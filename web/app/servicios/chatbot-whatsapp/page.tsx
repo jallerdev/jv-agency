@@ -404,6 +404,24 @@ export default function ChatbotWhatsappPage() {
               </Link>
               .
             </p>
+            <p className="mx-auto mt-5 max-w-xl font-body text-base leading-relaxed text-ink-soft">
+              El chatbot contesta; lo que le da algo que mostrar es la página. Si te falta,
+              está en{" "}
+              <Link
+                href="/servicios/diseno-de-paginas-web"
+                className="text-primary-dark underline underline-offset-4"
+              >
+                diseño de páginas web
+              </Link>
+              , y si además vendes producto, en{" "}
+              <Link
+                href="/servicios/tiendas-virtuales"
+                className="text-primary-dark underline underline-offset-4"
+              >
+                creación de tiendas virtuales
+              </Link>
+              .
+            </p>
           </Reveal>
         </section>
       </main>

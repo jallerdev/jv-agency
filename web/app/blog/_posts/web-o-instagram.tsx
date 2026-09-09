@@ -34,7 +34,7 @@ export function WebOInstagramPost() {
           <tr>
             <td>Costo de empezar</td>
             <td>Cero</td>
-            <td>Desde $450.000</td>
+            <td>Desde $850.000</td>
           </tr>
           <tr>
             <td>Vida útil del contenido</td>
@@ -136,6 +136,13 @@ export function WebOInstagramPost() {
         Empieza por lo gratis y hazlo bien: <strong>perfil de Google Business</strong> con fotos,
         horario, teléfono y reseñas, más el Instagram que ya tienes. Eso te pone en el mapa
         literalmente.
+      </p>
+      <p>
+        Cuando ese momento llegue, lo que hago yo está escrito con precio y plazo en{" "}
+        <Link href="/servicios/diseno-de-paginas-web">diseño de páginas web</Link>; y si lo que
+        te está ahogando es cobrar por el DM —mandar la foto otra vez, pasar el número de Nequi,
+        esperar el comprobante—, eso lo resuelve una tienda que cobra sola:{" "}
+        <Link href="/servicios/tiendas-virtuales">creación de tiendas virtuales</Link>.
       </p>
       <p>
         Cuando el negocio genere flujo estable, la web deja de ser un gasto y pasa a ser una

@@ -120,6 +120,7 @@ const PRECIOS = [
     desde: money(850000),
     plazo: "5 días",
     d: "Carta de servicios con precios, galería que actualizas tú, tu equipo con nombre, horario, cómo llegar y botón de WhatsApp que se ve desde el primer segundo.",
+    href: "/servicios/diseno-de-paginas-web",
   },
   {
     q: "Chatbot que agenda citas",
@@ -133,18 +134,21 @@ const PRECIOS = [
     desde: `${money(450000)}/mes`,
     plazo: "trabajo continuo",
     d: "El trabajo de aparecer cuando escriben «peluquería» o «spa» más el nombre de tu ciudad o de tu barrio. Es mensual porque es continuo, y lo digo claro.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     q: "Auditoría SEO",
     desde: money(390000),
     plazo: "5 días",
     d: "Ya tienes página y no aparece cuando te buscan. Te digo por qué, qué se arregla primero y qué se puede medir. Sirve igual si te la hizo otro.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     q: "Tienda online",
     desde: money(2500000),
     plazo: "3 semanas",
     d: "Si además vendes producto —shampoo, esmaltes, línea propia—: catálogo con inventario, carrito, pagos en línea y cotización de envíos.",
+    href: "/servicios/tiendas-virtuales",
   },
 ];
 

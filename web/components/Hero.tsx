@@ -120,7 +120,7 @@ export function Hero() {
 
         <Badge className="jv-hero-in text-[10px] tracking-[0.14em] sm:text-xs sm:tracking-[0.18em]">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-          Diseñador y desarrollador web · LATAM
+          Diseñador web y desarrollador · LATAM
         </Badge>
 
         {/* El titular entra por líneas. El interlineado va emparejado con el

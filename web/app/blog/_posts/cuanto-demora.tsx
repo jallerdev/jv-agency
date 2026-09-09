@@ -165,7 +165,8 @@ export function CuantoDemoraPost() {
         </Link>
         , <Link href="/diseno-de-paginas-web-en-barranquilla">en Barranquilla</Link> y{" "}
         <Link href="/diseno-de-paginas-web-en-bogota">en Bogotá</Link>, con el precio al lado de
-        cada entrega.
+        cada entrega. El detalle de qué se hace en cada uno de esos días está en{" "}
+        <Link href="/servicios/diseno-de-paginas-web">diseño de páginas web</Link>.
       </p>
     </>
   );

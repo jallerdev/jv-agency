@@ -123,6 +123,11 @@ export function NecesitaWebPost() {
         mayor. No se tira nada.
       </p>
       <p>
+        Si al llegar acá ya decidiste que sí, lo que sigue no es este artículo: es{" "}
+        <Link href="/servicios/diseno-de-paginas-web">diseño de páginas web</Link>, donde está
+        qué incluye, cuánto cuesta y en cuánto se entrega.
+      </p>
+      <p>
         Cuando el negocio vive de una agenda, la decisión es más fácil de tomar porque lo que la
         web reemplaza se puede contar: cuántas veces al día alguien pregunta por un precio o por
         un cupo. Lo desglosé por caso en{" "}

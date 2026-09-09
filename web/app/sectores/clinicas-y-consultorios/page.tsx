@@ -122,6 +122,7 @@ const PRECIOS = [
     desde: money(850000),
     plazo: "5 días",
     d: "Quién eres y qué atiendes, servicios explicados, preparación de la cita, sede con mapa, horario y el botón de WhatsApp visible desde el primer segundo.",
+    href: "/servicios/diseno-de-paginas-web",
   },
   {
     q: "Chatbot que agenda citas",
@@ -135,18 +136,21 @@ const PRECIOS = [
     desde: "Según el alcance",
     plazo: "se define al cotizar",
     d: "Cuando el problema ya no es la página sino el proceso: agenda propia con varios profesionales, control de sedes, historias clínicas. Se cotiza mirando el proceso, no adivinando.",
+    href: "/servicios/software-a-la-medida",
   },
   {
     q: "Auditoría SEO",
     desde: money(390000),
     plazo: "5 días",
     d: "Ya tienes página y no apareces cuando buscan tu especialidad más tu ciudad. Te digo por qué, qué se arregla primero y qué se puede medir.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     q: "SEO local, mensual",
     desde: `${money(450000)}/mes`,
     plazo: "trabajo continuo",
     d: "El trabajo continuo de aparecer en «odontólogo en Cartagena», «fisioterapia en Turbaco» o lo que sea que atiendas, con el nombre de tu ciudad al lado.",
+    href: "/servicios/posicionamiento-seo",
   },
 ];
 

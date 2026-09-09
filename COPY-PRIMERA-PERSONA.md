@@ -96,7 +96,7 @@ Botón: `Agenda una llamada`
 **Badge**
 
 ```
-Diseñador y desarrollador web · LATAM
+Diseñador web y desarrollador · LATAM
 ```
 
 **H1**
@@ -477,7 +477,7 @@ Luis Jaller
 **Rol**
 
 ```
-Diseñador y desarrollador web
+Diseñador web y desarrollador
 ```
 
 **Badge**
@@ -824,7 +824,7 @@ Sobre mí — Luis Jaller | JV Agencia
 **description**
 
 ```
-JV Agencia es el estudio de Luis Jaller, diseñador y desarrollador web en
+JV Agencia es el estudio de Luis Jaller, diseñador web y desarrollador en
 Turbaco, Bolívar. Diseño y programo yo mismo para PYMEs de LATAM: 3+ años
 construyendo producto, 11+ proyectos en producción.
 ```
@@ -875,13 +875,13 @@ proceso para que las PYMEs de LATAM tengan una web que se ve de marca grande
 
 ```
 Luis Jaller
-Diseñador y desarrollador web
+Diseñador web y desarrollador
 ```
 
 **Bio**
 
 ```
-Diseñador y desarrollador web con foco fuerte en backend y arquitectura. No
+Diseñador web y desarrollador con foco fuerte en backend y arquitectura. No
 solo escribo código: traduzco lo que necesita un negocio en decisiones de
 producto claras. Me muevo entre producto, arquitectura y ejecución con la
 misma facilidad, para entregar software que funciona y que además sirve para

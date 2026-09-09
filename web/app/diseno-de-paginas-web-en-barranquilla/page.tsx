@@ -65,31 +65,47 @@ export const metadata: Metadata = {
   },
 };
 
-/** Los seis únicos números de precio que se pueden publicar. */
-const PRECIOS = [
+/**
+ * Los seis únicos números de precio que se pueden publicar.
+ *
+ * `href` apunta a la página del servicio cuando existe. Esta página de ciudad
+ * resume; el desarrollo completo —qué incluye, cómo se cobra, qué no entra—
+ * vive en la página de servicio, y esa es la que tiene que recibir la señal.
+ */
+const PRECIOS: {
+  servicio: string;
+  desde: string;
+  plazo: string;
+  desc: string;
+  href?: string;
+}[] = [
   {
     servicio: "Página web",
     desde: "desde $850.000",
     plazo: "5 días",
     desc: "De una a varias páginas, con tus textos ordenados, tus fotos y un formulario que sí llega.",
+    href: "/servicios/diseno-de-paginas-web",
   },
   {
     servicio: "Tienda online",
     desde: "desde $2.500.000",
     plazo: "3 semanas",
     desc: "Catálogo, carrito, cuentas de cliente, pagos en línea y cálculo de envío.",
+    href: "/servicios/tiendas-virtuales",
   },
   {
     servicio: "Auditoría SEO",
     desde: "desde $390.000",
     plazo: "5 días",
     desc: "Qué te está frenando hoy y en qué orden arreglarlo. Sirva o no sirva que yo lo haga.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     servicio: "SEO local mensual",
     desde: "desde $450.000/mes",
     plazo: "trabajo continuo",
     desc: "Aparecer cuando alguien de Barranquilla busca lo que vendes. Es mensual porque es trabajo, no un botón.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     servicio: "Renovación anual",
@@ -102,6 +118,7 @@ const PRECIOS = [
     desde: "según alcance",
     plazo: "se estima contigo",
     desc: "Cuando lo que necesitas no es una página sino un sistema que te resuelva un proceso.",
+    href: "/servicios/software-a-la-medida",
   },
 ];
 
@@ -396,6 +413,15 @@ export default function BarranquillaPage() {
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.desc}
                   </p>
+                  {p.href && (
+                    <Link
+                      href={p.href}
+                      className="mt-3 inline-flex w-fit items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                    >
+                      Ver el detalle del servicio
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  )}
                   <p className="mt-5 border-t border-line pt-4 font-mono text-lg text-primary-dark">
                     {p.desde}
                   </p>

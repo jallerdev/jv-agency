@@ -460,8 +460,8 @@ export function CuantoCuestaSeoPost() {
         qué plan caes antes de cobrarte nada.
       </p>
       <p>
-        [PENDIENTE: enlazar a /servicios/posicionamiento-seo desde esta sección cuando la página
-        se publique]
+        Este artículo explica el mercado. Lo que yo hago, con lo que incluye y lo que no, está
+        en <Link href="/servicios/posicionamiento-seo">posicionamiento SEO</Link>.
       </p>
     </>
   );

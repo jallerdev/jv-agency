@@ -23,7 +23,7 @@ import { Badge } from "@/components/ui/badge";
  */
 const FOUNDER = {
   name: "Luis Jaller",
-  role: "Diseñador y desarrollador web",
+  role: "Diseñador web y desarrollador",
   linkedin: "https://www.linkedin.com/in/jallerdev",
   github: "https://github.com/jallerdev",
 };

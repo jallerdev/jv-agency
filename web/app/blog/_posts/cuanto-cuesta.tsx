@@ -158,6 +158,14 @@ export function CuantoCuestaPost() {
         .
       </p>
       <p>
+        Este artículo explica el mercado: los rangos, en qué se va la plata y qué preguntar.
+        Lo que hago yo por ese precio —qué entra, qué no entra y en cuánto lo entrego— está
+        aparte, en <Link href="/servicios/diseno-de-paginas-web">diseño de páginas web</Link>.
+        Y si lo tuyo no es mostrar sino vender en línea, esa es otra conversación y otro
+        presupuesto:{" "}
+        <Link href="/servicios/tiendas-virtuales">creación de tiendas virtuales</Link>.
+      </p>
+      <p>
         Y si lo que te falta ya no es el número sino con quién hacerla, ahí sí pesa dónde estás:
         precios, plazos y forma de trabajo están en{" "}
         <Link href="/diseno-de-paginas-web-en-cartagena">

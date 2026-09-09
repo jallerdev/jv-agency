@@ -90,12 +90,14 @@ const PRECIOS = [
     desde: 850000,
     plazo: "5 días",
     desc: "De una landing a una web corporativa. Diseño propio, no plantilla comprada.",
+    href: "/servicios/diseno-de-paginas-web",
   },
   {
     nombre: "Tienda online",
     desde: 2500000,
     plazo: "3 semanas",
     desc: "Catálogo, carrito, pagos en línea y panel para administrar productos e inventario.",
+    href: "/servicios/tiendas-virtuales",
   },
   {
     nombre: "Chatbot de WhatsApp",
@@ -109,6 +111,7 @@ const PRECIOS = [
     desde: 390000,
     plazo: "5 días",
     desc: "Qué te está frenando hoy en Google, con la lista de arreglos en orden de impacto.",
+    href: "/servicios/posicionamiento-seo",
   },
   {
     nombre: "SEO local mensual",
@@ -116,6 +119,7 @@ const PRECIOS = [
     plazo: "trabajo mensual",
     desc: "Contenido, ficha de Google y arreglos mes a mes. Los primeros movimientos, entre el mes 3 y el 6.",
     mensual: true,
+    href: "/servicios/posicionamiento-seo",
   },
   {
     nombre: "Renovación anual",
@@ -453,8 +457,16 @@ export default function DisenoPaginasWebBogotaPage() {
           <Reveal>
             <div className="mt-6 rounded-2xl border border-line bg-background/40 p-7">
               <p className="font-body leading-relaxed text-ink-soft">
-                <strong className="text-ink">Software a la medida va aparte</strong>, según el
-                alcance: un sistema interno no se cotiza por tabla. Y si quieres el desglose de por
+                <strong className="text-ink">
+                  <Link
+                    href="/servicios/software-a-la-medida"
+                    className="text-primary-dark underline underline-offset-4"
+                  >
+                    Software a la medida
+                  </Link>{" "}
+                  va aparte
+                </strong>
+                , según el alcance: un sistema interno no se cotiza por tabla. Y si quieres el desglose de por
                 qué una página cuesta lo que cuesta y en qué se va el tiempo de verdad, está escrito
                 en dos artículos abiertos:{" "}
                 <Link

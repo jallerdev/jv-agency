@@ -39,7 +39,11 @@ export const BUSINESS = {
    * si se escriben a mano, se desincronizan y Google lee un rol distinto del
    * que ve el visitante. Ya paso: decia "Full Stack Developer".
    */
-  founderRole: "Diseñador y desarrollador web",
+  /* «Diseñador web y desarrollador», no «Diseñador y desarrollador web»:
+     en la segunda forma el «web» solo se pega al segundo oficio y la frase
+     «diseñador web» —que se busca mas que «desarrollador web»— no aparece
+     en ninguna parte. Alimenta el jobTitle de la Person en el JSON-LD. */
+  founderRole: "Diseñador web y desarrollador",
   /** Ancla de la Person en el grafo. Un solo id = una sola persona. */
   personId: "/#persona",
   /** Perfiles verificables de la persona. Alimentan `sameAs` de la Person. */

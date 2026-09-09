@@ -12,6 +12,17 @@ const CIUDADES = [
   "diseno-de-paginas-web-en-bogota",
 ] as const;
 
+// Páginas de servicio: intención de DECISIÓN también ("chatbot de WhatsApp
+// Colombia", "crear tienda virtual Colombia"). Pesan igual que las de ciudad,
+// que es lo que ya tenía el chatbot cuando era la única que existía.
+const SERVICIOS = [
+  "servicios/diseno-de-paginas-web",
+  "servicios/chatbot-whatsapp",
+  "servicios/tiendas-virtuales",
+  "servicios/posicionamiento-seo",
+  "servicios/software-a-la-medida",
+] as const;
+
 // Páginas de sector: comerciales también, pero la consulta es más estrecha
 // que la de ciudad. Quedan justo debajo.
 const SECTORES = ["sectores/salones-y-spas", "sectores/clinicas-y-consultorios"] as const;
@@ -24,7 +35,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
-    { url: `${SITE_URL}/servicios/chatbot-whatsapp`, changeFrequency: "monthly", priority: 0.9 },
+    ...SERVICIOS.map((ruta) => ({
+      url: `${SITE_URL}/${ruta}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
     // Precios es pagina comercial, no articulo: la busca quien ya quiere
     // contratar y la enlazan el Header, el Hero, el pie y cada articulo.
     { url: `${SITE_URL}/precios`, changeFrequency: "monthly", priority: 0.9 },

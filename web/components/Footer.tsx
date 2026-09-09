@@ -11,12 +11,20 @@ import {
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Servicios",
+    // Cinco de estos seis apuntaban a /#servicios, un ancla de la portada:
+    // el pie está en todas las páginas del sitio, así que era la portada la
+    // que se quedaba con toda la señal interna de «software a la medida» o
+    // «SEO y posicionamiento» aunque cada uno ya tuviera página propia.
+    // Ahora cada servicio con página apunta a su página.
+    // «Diseño web / UI» sigue sin entrada propia a propósito: no es un
+    // servicio aparte y su intención vive en /servicios/diseno-de-paginas-web,
+    // que ya está de primero en la lista.
     links: [
-      { label: "Diseño de páginas web", href: "/#servicios" },
+      { label: "Diseño de páginas web", href: "/servicios/diseno-de-paginas-web" },
+      { label: "Tiendas virtuales", href: "/servicios/tiendas-virtuales" },
       { label: "Chatbot de WhatsApp", href: "/servicios/chatbot-whatsapp" },
-      { label: "SEO y posicionamiento", href: "/#servicios" },
-      { label: "Software a la medida", href: "/#servicios" },
-      { label: "Diseño web / UI", href: "/#servicios" },
+      { label: "Posicionamiento SEO", href: "/servicios/posicionamiento-seo" },
+      { label: "Software a la medida", href: "/servicios/software-a-la-medida" },
       { label: "Mantenimiento", href: "/#servicios" },
     ],
   },

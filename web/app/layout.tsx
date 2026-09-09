@@ -43,10 +43,24 @@ const plexMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  // El título arranca con lo que la gente escribe en Google —"diseño de páginas
-  // web"— y no con el nombre de la marca, que solo busca quien ya me conoce.
-  // 57 caracteres: cabe entero en el resultado sin que Google lo corte.
-  title: "Diseño de páginas web en Colombia para PYMEs | JV Agencia",
+  // POR QUÉ ESTE TÍTULO YA NO DICE "DISEÑO DE PÁGINAS WEB EN COLOMBIA"
+  // --------------------------------------------------------------------
+  // Lo decía, y el openGraph de más abajo lo decía CARÁCTER POR CARÁCTER igual
+  // que el title de /servicios/diseno-de-paginas-web. Dos URLs peleando la
+  // misma búsqueda: Google escoge una, y la portada —que tiene toda la
+  // autoridad interna— dejaba a la página de servicio sin salir nunca, aunque
+  // sea la que tiene el precio, el plazo, lo que incluye y lo que no.
+  //
+  // Se resolvió cediendo el término exacto a la página de servicio, que es la
+  // que responde la intención de contratar. Desde entonces cada enlace interno
+  // que dice "diseño de páginas web" —el pie, que está en todo el sitio; las
+  // tres ciudades; los sectores; el blog; la tarjeta de la portada— apunta a
+  // ella y no acá.
+  //
+  // La portada se queda con lo que de verdad es: el catálogo y la marca. Sigue
+  // llevando "páginas web" adelante, que es la palabra del mercado colombiano,
+  // pero ya no compite por la frase completa. 66 caracteres.
+  title: "Páginas web, tiendas virtuales y software en Colombia | JV Agencia",
   description:
     "Diseño páginas web, tiendas online y chatbots de WhatsApp para PYMEs de Colombia y LATAM. Yo diseño y yo programo, sin presupuesto corporativo.",
   // `keywords` se quitó a propósito: Google dejó de usarla en 2009 y lo único
@@ -67,17 +81,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_LA",
     url: SITE_URL,
-    title: "Diseño de páginas web en Colombia | JV Agencia",
+    title: "Páginas web, tiendas virtuales y software en Colombia | JV Agencia",
     description:
-      "Páginas web, tiendas online y chatbots de WhatsApp para PYMEs. Las diseño y las programo yo mismo.",
+      "Páginas web, tiendas virtuales y chatbots de WhatsApp para PYMEs. Las diseño y las programo yo mismo.",
     siteName: SITE_NAME,
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "JV Agencia — diseño y código en las mismas manos" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Diseño de páginas web en Colombia | JV Agencia",
+    title: "Páginas web, tiendas virtuales y software en Colombia | JV Agencia",
     description:
-      "Páginas web, tiendas online y chatbots de WhatsApp para PYMEs de Colombia y LATAM.",
+      "Páginas web, tiendas virtuales y chatbots de WhatsApp para PYMEs de Colombia y LATAM.",
     images: ["/og.png"],
   },
 };
