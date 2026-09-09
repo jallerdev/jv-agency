@@ -377,7 +377,7 @@ function SeoStepBody({
   return (
     <StepHeader
       title="¿Qué hace falta para arrancar?"
-      desc="Son trabajos de una sola vez, al principio. Si el sitio lo hicimos nosotros con SEO técnico incluido, la puesta a punto ya está hecha y la puedes desmarcar."
+      desc="Son trabajos de una sola vez, al principio. Si el sitio lo hice yo con SEO técnico incluido, la puesta a punto ya está hecha y la puedes desmarcar."
     >
       <div className="grid gap-3">
         <SeoToggle

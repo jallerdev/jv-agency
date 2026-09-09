@@ -24,29 +24,29 @@ export default function EliminacionDeDatosPage() {
       <ul>
         <li>Tu nombre completo.</li>
         <li>
-          El dato de contacto con el que interactuaste con nosotros (número de teléfono/WhatsApp o
+          El dato de contacto con el que interactuaste conmigo (número de teléfono/WhatsApp o
           correo electrónico).
         </li>
-        <li>La solicitud expresa de que eliminemos tus datos.</li>
+        <li>La solicitud expresa de que elimine tus datos.</li>
       </ul>
       <p>
-        También puedes solicitarlo escribiéndonos por WhatsApp al {BUSINESS.whatsappDisplay}.
+        También puedes solicitarlo escribiéndome por WhatsApp al {BUSINESS.whatsappDisplay}.
       </p>
 
-      <h2>2. Qué datos eliminamos</h2>
+      <h2>2. Qué datos elimino</h2>
       <ul>
         <li>Tus datos de contacto (nombre, correo, teléfono).</li>
         <li>El historial de conversaciones de WhatsApp asociado a tu número.</li>
-        <li>La información de proyecto/cotización que nos hayas compartido.</li>
+        <li>La información de proyecto/cotización que me hayas compartido.</li>
       </ul>
       <p>
-        Podremos conservar la información mínima exigida por obligaciones legales o contables
+        Podré conservar la información mínima exigida por obligaciones legales o contables
         (por ejemplo, facturación), durante el tiempo que la ley lo requiera.
       </p>
 
       <h2>3. Plazo</h2>
       <p>
-        Confirmaremos la recepción de tu solicitud y eliminaremos tus datos en un máximo de{" "}
+        Confirmo la recepción de tu solicitud y elimino tus datos en un máximo de{" "}
         <strong>15 días hábiles</strong>, conforme a la normativa colombiana de protección de datos.
       </p>
 
@@ -54,13 +54,13 @@ export default function EliminacionDeDatosPage() {
       <p>
         Algunos datos pueden estar en plataformas que actúan como encargados (Meta/WhatsApp, Google).
         Tu solicitud cubre la eliminación de la información que JV Agencia conserva; para los datos
-        que cada plataforma gestiona bajo sus propios términos, te orientaremos sobre cómo
+        que cada plataforma gestiona bajo sus propios términos, te oriento sobre cómo
         gestionarlos directamente con ellas.
       </p>
 
       <h2>5. Más información</h2>
       <p>
-        Consulta el detalle de tus derechos y del tratamiento de tus datos en nuestra{" "}
+        Consulta el detalle de tus derechos y del tratamiento de tus datos en mi{" "}
         <a href="/privacidad">Política de Privacidad</a>.
       </p>
     </LegalPage>

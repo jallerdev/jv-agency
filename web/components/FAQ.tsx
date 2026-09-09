@@ -24,30 +24,55 @@ import { Badge } from "@/components/ui/badge";
  *     tarjeta se asienta (papel sólido, sombra, borde de marca), el signo se
  *     vuelve un control lleno y aparece un filete de acento en el lomo.
  */
-const FAQS = [
+type Faq = {
+  q: string;
+  a: string;
+  /**
+   * Advertencia que se pinta DEBAJO de la respuesta, a la vista de cualquiera.
+   * Es un freno de mano: mientras esté puesta, esa respuesta no está lista
+   * para publicarse. Se quita resolviendo la contradicción, no borrando el
+   * marcador.
+   */
+  verify?: string;
+};
+
+const FAQS: Faq[] = [
   {
-    q: "¿Por qué un estudio de diseño + código y no contratar por separado?",
-    a: "Porque coordinar a un diseñador con un programador que no se hablan sale más caro y más lento. Con nosotros, el que diseña piensa en cómo se va a construir, y el que construye respeta el diseño. Menos reprocesos, mejor resultado.",
+    q: "¿Por qué contratar a una sola persona y no a un diseñador y un programador por aparte?",
+    a: "Porque coordinar a dos que no se hablan sale más caro y más lento. Yo diseño pensando en cómo se va a construir, y construyo respetando el diseño. Menos reprocesos y menos correos en copia.",
   },
   {
-    q: "¿Trabajan con negocios pequeños o solo con empresas grandes?",
-    a: "Trabajamos con PYMEs y emprendedores que ya tienen tracción y quieren una web o un software que se vea a la altura de sus ambiciones. Si estás listo para dar el salto, somos para ti.",
+    /* La objeción de fondo, dicha por su nombre y de primera. Esconderla no la
+       desactiva: el que la tiene en la cabeza la va a hacer igual, y prefiere
+       leer la respuesta aquí que quedarse con la duda. */
+    q: "¿Trabajas solo? ¿Qué pasa si desapareces?",
+    a: "Trabajo solo, sí, y por eso no tomo veinte proyectos a la vez. Todo lo que construyo queda documentado, y el código y los accesos son tuyos desde el primer día: si mañana quieres seguir con otra persona, puedes, sin quedar amarrado a mí.",
+  },
+  {
+    q: "¿Trabajas con negocios pequeños o solo con empresas grandes?",
+    a: "Trabajo con PYMEs y emprendedores que ya tienen clientes y quieren una web o un software que esté a la altura de lo que venden. Si estás en ese punto, encajamos.",
+  },
+  {
+    q: "¿Cuánto cuesta?",
+    a: "Está publicado en la página de precios: una página web arranca en $850.000 y una tienda online en $2.500.000. No hay que sacarme el número en una reunión.",
   },
   {
     q: "¿Cuánto tarda un proyecto?",
-    a: "Depende del tipo: una landing page toma de 1 a 4 semanas, una web corporativa de 2 a 5 y una tienda online de 3 a 8, según el plazo que escojas. Un software a medida varía más y lo estimamos contigo. Las semanas se cuentan desde que tengamos el contenido y la marca; si los textos los escribimos nosotros, ese tiempo ya está contado.",
+    a: "Depende del tipo: una landing page toma de 1 a 4 semanas, una web corporativa de 2 a 5 y una tienda online de 3 a 8, según el plazo que escojas. Un software a la medida varía más y lo estimo contigo. Las semanas se cuentan desde que tenga el contenido y la marca; si los textos los escribo yo, ese tiempo ya está contado.",
+    verify:
+      "[VERIFICAR: estos plazos (1 a 4 semanas) contradicen el «lista en 5 días» de la tabla de precios. Decide cuál es el bueno antes de publicar.]",
   },
   {
-    q: "¿Hacen marketing o publicidad también?",
-    a: "Hacemos SEO —que te encuentren en Google sin pagar por cada clic— y automatización de WhatsApp. Lo que no hacemos es pauta pagada: no manejamos tu presupuesto de anuncios en Meta ni en Google Ads, ni community management. Preferimos decírtelo antes que cobrarte por algo que no es lo nuestro. Si necesitas pauta, te dejamos la landing y el píxel listos para que quien la maneje trabaje sobre terreno firme.",
+    q: "¿Haces marketing o publicidad también?",
+    a: "Hago SEO —que te encuentren en Google sin pagar por cada clic— y chatbots de WhatsApp. Lo que no hago es pauta pagada: no manejo tu presupuesto de anuncios en Meta ni en Google Ads, ni community management. Prefiero decírtelo antes que cobrarte por algo que no es lo mío. Si necesitas pauta, te dejo la landing y el píxel listos para que quien la maneje trabaje sobre terreno firme.",
   },
   {
     q: "¿Qué pasa después de entregar? ¿Me quedo solo?",
-    a: "No. La entrega incluye capacitación y 30 días de ajustes sin costo. De ahí en adelante hay planes de mantenimiento mensual —desde el que solo vigila que el sitio no se caiga hasta el que le hace mejoras cada mes— y te pasamos el que corresponda con su precio en la propuesta. Si prefieres no contratar ninguno, el sitio es tuyo igual y sigue funcionando.",
+    a: "No. La entrega incluye capacitación y 30 días de ajustes sin costo. De ahí en adelante hay planes de mantenimiento mensual —desde el que solo vigila que el sitio no se caiga hasta el que le hace mejoras cada mes— y te paso el que corresponda con su precio en la propuesta. Si prefieres no contratar ninguno, el sitio es tuyo igual y sigue funcionando.",
   },
   {
     q: "¿Cómo empiezo?",
-    a: "Agenda una llamada de diagnóstico sin costo. Revisamos tu situación, te decimos con franqueza si podemos ayudarte y, si hay match, armamos una propuesta a tu medida.",
+    a: "Agenda una llamada de diagnóstico sin costo. Reviso tu situación, te digo con franqueza si te puedo ayudar y, si encajamos, te armo una propuesta a tu medida.",
   },
 ];
 
@@ -56,8 +81,8 @@ export function FAQ() {
     <section id="faq" className="relative py-24 md:py-32">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
         {/* El encabezado se queda quieto mientras se leen las preguntas: en una
-            columna de seis ítems que crecen al abrirse, el titular ya no se va
-            por arriba a la tercera pregunta. */}
+            columna de ítems que crecen al abrirse, el titular ya no se va por
+            arriba a la tercera pregunta. */}
         <Reveal
           distance="lg"
           className="lg:sticky lg:top-[calc(var(--header-h)+3rem)] lg:self-start"
@@ -73,9 +98,9 @@ export function FAQ() {
               href="#contacto"
               className="font-medium text-primary-dark underline decoration-primary/40 underline-offset-4 transition-surface duration-quick ease-state hover:text-primary hover:decoration-primary"
             >
-              Escríbenos
+              Escríbeme
             </Link>{" "}
-            y te respondemos con franqueza, sin letra chica.
+            y te respondo con franqueza, sin letra chica.
           </p>
         </Reveal>
 
@@ -117,10 +142,24 @@ export function FAQ() {
                 </AccordionPrimitive.Header>
 
                 <AccordionPrimitive.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                  <p className="max-w-[48ch] px-6 pb-6 pr-8 font-body text-base leading-relaxed text-ink-soft">
+                  <p className="max-w-[48ch] px-6 pr-8 pb-6 font-body text-base leading-relaxed text-ink-soft">
                     {item.a}
                   </p>
                 </AccordionPrimitive.Content>
+
+                {/* Dato por comprobar, a la vista. VA FUERA DE Content a
+                    proposito: Radix desmonta el contenido del acordeon cuando
+                    esta cerrado, asi que dentro el marcador no existia en el
+                    DOM hasta que alguien hiciera clic —y un marcador que hay
+                    que ir a buscar no cumple su unico trabajo. Aqui se ve al
+                    cargar la pagina, debajo de la pregunta que contradice. Si
+                    molesta verlo, esa es justamente la idea: se va cuando se
+                    resuelve. */}
+                {item.verify && (
+                  <p className="mx-6 mb-6 max-w-[48ch] rounded-xl border border-dashed border-accent/60 bg-accent/[0.07] px-4 py-3 font-mono text-xs leading-relaxed text-accent-ink">
+                    {item.verify}
+                  </p>
+                )}
               </AccordionPrimitive.Item>
             ))}
           </AccordionPrimitive.Root>

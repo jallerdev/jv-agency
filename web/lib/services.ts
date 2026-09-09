@@ -1,5 +1,5 @@
 /**
- * Los servicios que vende la agencia. FUENTE ÚNICA.
+ * Los servicios que vendo. FUENTE ÚNICA.
  *
  * Existía dos veces —una en `Benefits.tsx` para la portada y otra en
  * `ScheduleCall.tsx` para las opciones del formulario— y se desincronizaron:
@@ -34,33 +34,33 @@ export const SERVICIOS: Servicio[] = [
   {
     id: "web",
     nombre: "Diseño de páginas web",
-    desc: "Sitios, landing pages, e-commerce y web corporativa. Rápidos, sólidos y pensados para crecer contigo.",
+    desc: "Sitios, landing pages, e-commerce y web corporativa. Rápidos, sólidos y pensados para crecer contigo. Desde $850.000.",
   },
   {
     id: "chatbot",
     nombre: "Chatbot de WhatsApp",
-    desc: "Tu número contesta solo: capta interesados, agenda citas, toma pedidos y pasa a una persona cuando se complica. Somos proveedor de tecnología verificado por Meta, así que la conexión la hacemos nosotros y no la terceriza nadie.",
+    desc: "Tu número contesta solo: capta interesados, agenda citas, toma pedidos y pasa a una persona cuando se complica. Soy proveedor de tecnología verificado por Meta, así que la conexión la hago yo y no la terceriza nadie.",
     href: "/servicios/chatbot-whatsapp",
   },
   {
     id: "seo",
     nombre: "SEO y posicionamiento",
-    desc: "Que te encuentren cuando buscan lo que vendes. El SEO técnico va con el sitio; posicionar es trabajo mensual y lo decimos claro. Nadie garantiza el primer puesto: garantizamos el trabajo y el informe.",
+    desc: "Que te encuentren cuando buscan lo que vendes. El SEO técnico va con el sitio; posicionar es trabajo mensual y te lo digo claro. Nadie garantiza el primer puesto: yo garantizo el trabajo y el informe. Auditoría desde $390.000, plan mensual desde $450.000.",
   },
   {
     id: "software",
     nombre: "Software a la medida",
-    desc: "Apps web, sistemas internos y plataformas hechas a tu medida, no forzadas a una plantilla.",
+    desc: "Apps web, sistemas internos y plataformas hechas a tu medida, no forzadas a una plantilla. El precio va según el alcance.",
   },
   {
     id: "design",
     nombre: "Diseño web / UI",
-    desc: "Interfaz y experiencia que se ven de marca grande, pensadas desde el primer día en cómo se van a construir. No es un servicio aparte ni un extra: va dentro de cada proyecto web que hacemos.",
+    desc: "Interfaz y experiencia que se ven de marca grande, pensadas desde el primer día en cómo se van a construir. No es un servicio aparte ni un extra: va dentro de cada proyecto web que hago.",
   },
   {
     id: "support",
     nombre: "Mantenimiento de páginas web",
-    desc: "No desaparecemos al entregar. Mejoras continuas, hosting y soporte para que todo siga funcionando. Una automatización sobre todo: si expira un token de Meta o rechazan una plantilla, deja de responder sin avisar.",
+    desc: "No desaparezco al entregar. Mejoras continuas, hosting y soporte para que todo siga funcionando. Una automatización sobre todo: si expira un token de Meta o rechazan una plantilla, deja de responder sin avisar.",
   },
 ];
 

@@ -101,7 +101,7 @@ export function ScheduleCall() {
   const validate = () => {
     const e: Partial<Record<FieldKey, string>> = {};
     if (!service) e.service = "Elige una opción";
-    if (!values.name.trim()) e.name = "Necesitamos tu nombre";
+    if (!values.name.trim()) e.name = "Escribe tu nombre";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = "Ingresa un correo válido";
     if (values.phone.replace(/\D/g, "").length < 7) e.phone = "Ingresa un teléfono válido";
     if (!values.date) e.date = "Elige una fecha";
@@ -156,14 +156,14 @@ export function ScheduleCall() {
         return;
       }
       if (!res.ok) {
-        setSubmitError(data.error || "No se pudo agendar. Intenta de nuevo o escríbenos por WhatsApp.");
+        setSubmitError(data.error || "No se pudo agendar. Intenta de nuevo o escríbeme por WhatsApp.");
         return;
       }
 
       setMeetLink(typeof data.meetLink === "string" ? data.meetLink : null);
       setSubmitted(true);
     } catch {
-      setSubmitError("No se pudo agendar. Intenta de nuevo o escríbenos por WhatsApp.");
+      setSubmitError("No se pudo agendar. Intenta de nuevo o escríbeme por WhatsApp.");
     } finally {
       setSubmitting(false);
     }
@@ -218,7 +218,7 @@ export function ScheduleCall() {
           <div className="min-w-0">
             <h3 className="font-display text-2xl leading-tight text-ink">¡Listo, {firstName}!</h3>
             <p className="font-body text-sm text-ink-soft">
-              {meetLink ? "Tu llamada quedó agendada." : "Recibimos tu solicitud de llamada."}
+              {meetLink ? "Tu llamada quedó agendada." : "Recibí tu solicitud de llamada."}
             </p>
           </div>
         </div>
@@ -251,7 +251,7 @@ export function ScheduleCall() {
         {meetLink ? (
           <>
             <p className="mt-6 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-              Te enviamos la invitación a <span className="text-ink">{values.email}</span> con el
+              Te envié la invitación a <span className="text-ink">{values.email}</span> con el
               enlace de Google Meet. También puedes unirte desde aquí:
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -268,7 +268,7 @@ export function ScheduleCall() {
         ) : (
           <>
             <p className="mt-6 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-              Para confirmar la cita, envíanos los datos por WhatsApp. Te respondemos para cerrar el
+              Para confirmar la cita, envíame los datos por WhatsApp. Te respondo para cerrar el
               horario.
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -296,7 +296,7 @@ export function ScheduleCall() {
         <h3 className="font-display text-2xl leading-tight text-ink">Agenda tu llamada</h3>
       </div>
       <p className="mt-3 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-        Diagnóstico sin costo de 20 minutos por Google Meet. Cuéntanos qué necesitas.
+        Diagnóstico sin costo de 20 minutos por Google Meet. Cuéntame qué necesitas.
       </p>
 
       {/* Servicio */}
@@ -306,7 +306,7 @@ export function ScheduleCall() {
       <div className="mt-6 border-t border-line pt-6">
       <fieldset>
         <legend className="mb-3 font-body text-sm font-medium text-ink">
-          ¿En qué te ayudamos?
+          ¿En qué te ayudo?
         </legend>
         <div className="flex flex-wrap gap-2">
           {SERVICES.map((s) => {
@@ -483,7 +483,7 @@ export function ScheduleCall() {
       {/* Nota */}
       <div className="mt-6 border-t border-line pt-6">
         <label className="mb-2 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
-          Cuéntanos brevemente <span className="font-normal text-ink-soft">(opcional)</span>
+          Cuéntame brevemente <span className="font-normal text-ink-soft">(opcional)</span>
         </label>
         <textarea
           id={noteId}
@@ -510,7 +510,7 @@ export function ScheduleCall() {
               rel="noopener noreferrer"
               className="mt-1 inline-block font-body text-xs font-semibold text-ink underline decoration-line underline-offset-4 transition-surface duration-quick ease-state hover:decoration-primary"
             >
-              O escríbenos por WhatsApp
+              O escríbeme por WhatsApp
             </a>
           </div>
         </div>

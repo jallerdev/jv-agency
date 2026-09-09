@@ -6,8 +6,8 @@ export function StructuredData() {
   const sameAs = SOCIAL_LINKS.map((s) => s.url);
 
   // Los campos vacíos se OMITEN, no se emiten en blanco: un `streetAddress: ""`
-  // en el JSON-LD es un dato malo, y aquí está vacío a propósito porque J&V no
-  // tiene local y la dirección exacta es un domicilio particular.
+  // en el JSON-LD es un dato malo, y aquí está vacío a propósito porque no
+  // tengo local y la dirección exacta es un domicilio particular.
   const postalAddress = {
     "@type": "PostalAddress",
     ...(BUSINESS.address.street ? { streetAddress: BUSINESS.address.street } : {}),
@@ -47,7 +47,7 @@ export function StructuredData() {
           alternateName: BUSINESS.legalNameOfficial,
           givenName: BUSINESS.founderGivenName,
           familyName: BUSINESS.founderFamilyName,
-          jobTitle: "Full Stack Developer",
+          jobTitle: BUSINESS.founderRole,
           url: `${SITE_URL}/sobre-nosotros`,
           sameAs: BUSINESS.founderProfiles,
         },
@@ -66,7 +66,7 @@ export function StructuredData() {
         "@id": `${SITE_URL}/#service`,
         name: SITE_NAME,
         description:
-          "Estudio de diseño y desarrollo web, software a medida, chatbots de WhatsApp y SEO para PYMEs en Latinoamérica.",
+          "Estudio de diseño y desarrollo web, software a la medida, chatbots de WhatsApp y SEO para PYMEs en Latinoamérica, a cargo de Luis Jaller.",
         url: SITE_URL,
         image: `${SITE_URL}/og.png`,
         email: BUSINESS.email,
@@ -92,9 +92,9 @@ export function StructuredData() {
           "Diseño UI/UX",
           "Mantenimiento web",
         ],
-        // El catálogo es lo que le dice a Google QUÉ vendemos, no solo quién
-        // somos. Tiene que coincidir con los servicios de la portada y con las
-        // líneas del cotizador: si no coinciden, el dato estructurado miente.
+        // El catálogo es lo que le dice a Google QUÉ vendo, no solo quién soy.
+        // Tiene que coincidir con los servicios de la portada y con las líneas
+        // del cotizador: si no coinciden, el dato estructurado miente.
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Servicios de JV Agencia",
@@ -103,7 +103,7 @@ export function StructuredData() {
               "@type": "Offer",
               itemOffered: {
                 "@type": "Service",
-                name: "Desarrollo web",
+                name: "Diseño de páginas web",
                 description:
                   "Landing pages, webs corporativas y tiendas online con diseño propio.",
               },
@@ -132,8 +132,8 @@ export function StructuredData() {
               "@type": "Offer",
               itemOffered: {
                 "@type": "Service",
-                name: "Software a medida",
-                description: "Apps web, sistemas internos y plataformas hechas a medida.",
+                name: "Software a la medida",
+                description: "Apps web, sistemas internos y plataformas hechas a la medida.",
               },
             },
             {

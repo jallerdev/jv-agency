@@ -119,7 +119,7 @@ export function Hero() {
 
         <Badge className="jv-hero-in text-[10px] tracking-[0.14em] sm:text-xs sm:tracking-[0.18em]">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-          Estudio de diseño + código · LATAM
+          Diseñador y desarrollador web · LATAM
         </Badge>
 
         {/* El titular entra por líneas. El interlineado va emparejado con el
@@ -147,8 +147,8 @@ export function Hero() {
           className="jv-hero-in mt-6 max-w-[46ch] text-pretty font-body text-base leading-relaxed text-ink-soft sm:mt-7 sm:max-w-2xl sm:text-lg"
           style={{ "--jv-delay": "520ms" } as React.CSSProperties}
         >
-          Diseño y desarrollo en el mismo equipo. Tu web o tu software con el acabado de una
-          marca grande por fuera y la solidez de un buen producto por dentro —sin presupuesto
+          Diseño y programo yo mismo. Tu web o tu software con el acabado de una marca
+          grande por fuera y la solidez de un buen producto por dentro —sin presupuesto
           corporativo.
         </p>
 
@@ -165,7 +165,7 @@ export function Hero() {
             </a>
           </Button>
           <Button size="lg" variant="outline" className="w-full sm:w-auto" asChild>
-            <a href="#trabajo">Ver nuestro trabajo</a>
+            <a href="#trabajo">Ver mi trabajo</a>
           </Button>
         </div>
 
@@ -177,12 +177,12 @@ export function Hero() {
           style={{ "--jv-delay": "740ms" } as React.CSSProperties}
         >
           <a
-            href="#contacto"
+            href="/precios"
             className="group inline rounded-sm transition-surface duration-quick ease-state hover:text-ink"
           >
-            Cuéntanos tu proyecto —{" "}
+            Página web desde{" "}
             <strong className="font-semibold text-primary-dark underline decoration-primary/30 decoration-1 underline-offset-4 transition-surface duration-quick ease-state group-hover:decoration-primary">
-              presupuesto en la primera llamada
+              $850.000 · lista en 5 días
             </strong>
           </a>
         </p>

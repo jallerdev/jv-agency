@@ -4,8 +4,8 @@ import { Check } from "lucide-react";
 
 const PERKS = [
   "Diagnóstico sin costo de 20 minutos",
-  "Hablas directo con quien diseña y construye",
-  "Sin compromiso, sin letra chica",
+  "Hablas directo con quien diseña y programa",
+  "Precios publicados, desde $850.000",
 ];
 
 /* Cierre de la portada.
@@ -59,12 +59,12 @@ export function FinalCTA() {
             {/* Los dos sintagmas van enteros: el único corte posible cae entre
                 ellos, y «página web» —el término que vende— no se parte nunca. */}
             <span className="whitespace-nowrap">Tu página web,</span>{" "}
-            <span className="whitespace-nowrap">a la altura</span>
-            <span className="block italic text-surface">de tus ambiciones.</span>
+            <span className="whitespace-nowrap">hecha</span>
+            <span className="block italic text-surface">por quien la programa.</span>
           </h2>
           <p className="mt-6 max-w-[46ch] text-pretty font-body text-lg leading-relaxed text-surface/85">
-            Agenda una llamada y cuéntanos qué necesitas. Te decimos con franqueza si podemos
-            ayudarte —y cómo.
+            Agenda una llamada y cuéntame qué necesitas. Te digo con franqueza si te puedo
+            ayudar —y cómo.
           </p>
 
           {/* Las tres garantías dejan de ser viñetas y pasan a ser filas con

@@ -5,7 +5,7 @@ import { BUSINESS } from "@/lib/business";
 export const metadata: Metadata = {
   title: "Política de Cookies | JV Agencia",
   description:
-    "Política de cookies del sitio web de JV Agencia: qué cookies usamos, con qué fin y cómo puedes gestionarlas.",
+    "Política de cookies del sitio web de JV Agencia: qué cookies uso, con qué fin y cómo puedes gestionarlas.",
   alternates: { canonical: "/cookies" },
 };
 
@@ -21,17 +21,17 @@ export default function CookiesPage() {
         recordar información sobre tu visita, como tus preferencias o datos técnicos de navegación.
       </p>
 
-      <h2>2. Cookies que utilizamos</h2>
+      <h2>2. Cookies que uso</h2>
       <ul>
         <li>
           <strong>Necesarias:</strong> imprescindibles para que el sitio funcione correctamente (por
           ejemplo, preferencias de visualización). No se pueden desactivar.
         </li>
         <li>
-          <strong>Analíticas:</strong> usamos <strong>Google Analytics 4</strong> para entender de
+          <strong>Analíticas:</strong> uso <strong>Google Analytics 4</strong> para entender de
           forma agregada cómo se usa el sitio —qué páginas se visitan, desde qué tipo de
           dispositivo y por dónde llegan— y así mejorarlo. No te identifican personalmente y no
-          cruzamos esos datos con la información que nos dejas en el formulario. El tratamiento lo
+          cruzo esos datos con la información que me dejas en el formulario. El tratamiento lo
           realiza Google LLC como responsable de su propia herramienta; puedes consultar su
           política en{" "}
           <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
@@ -40,7 +40,7 @@ export default function CookiesPage() {
           .
         </li>
       </ul>
-      <p>No utilizamos cookies de publicidad ni vendemos información obtenida mediante cookies.</p>
+      <p>No uso cookies de publicidad ni vendo información obtenida mediante cookies.</p>
       <p>
         Si prefieres no ser contado en la analítica, puedes bloquear las cookies desde tu navegador
         —ver el punto 3— o instalar el{" "}
@@ -63,8 +63,8 @@ export default function CookiesPage() {
 
       <h2>4. Cambios</h2>
       <p>
-        Podemos actualizar esta política. Cualquier cambio se publicará en esta página. Para dudas,
-        escríbenos a <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.
+        Puedo actualizar esta política. Cualquier cambio se publicará en esta página. Para dudas,
+        escríbeme a <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.
       </p>
     </LegalPage>
   );

@@ -4,33 +4,34 @@ import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 /**
- * Rejilla de proyectos en producción.
+ * Rejilla de proyectos, en dos grupos: los que están en línea con dominio
+ * propio y los que construí por iniciativa propia (proyectos de estudio).
  *
- * Las capturas son de los sitios REALES, tomadas de la versión publicada, no
- * maquetas. Cada tarjeta enlaza al sitio para que cualquiera lo compruebe: un
+ * Las capturas son de los sitios REALES construidos, no maquetas. Los que
+ * están en línea enlazan al sitio para que cualquiera lo compruebe: un
  * portafolio que no se puede verificar vale lo mismo que no tenerlo.
  *
- * Cada descripción sale de la propia página del proyecto, no de nuestra
- * interpretación de lo que hace el cliente.
+ * Cada descripción sale de la propia página del proyecto, no de mi
+ * interpretación de lo que hace el negocio.
  */
 type Proyecto = {
   nombre: string;
   categoria: string;
   desc: string;
   /**
-   * Solo los proyectos que ya se pueden mostrar. Un proyecto EN PROCESO no
-   * lleva enlace ni deja ver su dirección: se anuncia el trabajo sin mandar a
-   * nadie a un sitio que todavía no está listo para recibir visitas.
+   * Solo los proyectos que están en línea con dominio propio. Un proyecto de
+   * estudio no lleva enlace ni dirección: enseño la captura y ya, sin mandar a
+   * nadie a un dominio que no existe.
    */
   url?: string;
   /** Archivo en /public/work/ */
   img: string;
   /** Dominio que se muestra en la barra del navegador. Solo si hay `url`. */
   dominio?: string;
-  /** Producto propio de la agencia, no encargo de un cliente. */
+  /** Producto mío: lo construí para mí, nadie me lo encargó. */
   propio?: boolean;
-  /** Todavía no se puede visitar: se muestra la captura, sin enlace. */
-  enProceso?: boolean;
+  /** Proyecto de estudio: terminado, pero sin dominio propio que enseñar. */
+  estudio?: boolean;
 };
 
 const PROYECTOS: Proyecto[] = [
@@ -61,32 +62,25 @@ const PROYECTOS: Proyecto[] = [
     dominio: "bloomroseaccesorios.com",
   },
   {
-    nombre: "NÜVA Plastic Surgery",
-    categoria: "Salud",
-    desc: "Cirugía plástica en Colombia, con acompañamiento médico para pacientes nacionales e internacionales.",
-    img: "/work/nuva.webp",
-    enProceso: true,
-  },
-  {
     nombre: "Animal Expert",
     categoria: "Veterinaria",
     desc: "Centro médico veterinario en Turbaco: consulta especializada, cirugía, rayos X, fisioterapia y vacunación, con agenda en línea.",
     img: "/work/animal-expert.webp",
-    enProceso: true,
+    estudio: true,
   },
   {
     nombre: "Fta. Elka Gómez",
     categoria: "Salud y spa",
     desc: "Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y experiencias de spa.",
     img: "/work/elka-spa.webp",
-    enProceso: true,
+    estudio: true,
   },
   {
     nombre: "Peluquería Marcopolo",
     categoria: "Belleza",
     desc: "Salón de belleza en Barranquilla con cuatro décadas de oficio: corte de autor, color editorial y tratamientos.",
     img: "/work/marcopolo.webp",
-    enProceso: true,
+    estudio: true,
   },
 ];
 
@@ -143,9 +137,10 @@ function BarraNavegador({ dominio, grande = false }: { dominio?: string; grande?
       ) : (
         /* Dos palabras y ya: la frase larga no cabía en la barra de una tarjeta
            de rejilla y se cortaba, que es justo el defecto que este chip venía
-           a arreglar. El porqué lo dice la nota del grupo. */
+           a arreglar. El porqué lo dice la nota del grupo: son proyectos que
+           construí por iniciativa propia, no encargos de nadie. */
         <span className="ml-1 whitespace-nowrap rounded-full border border-dashed border-secondary px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-primary-dark">
-          En entrega
+          En estudio
         </span>
       )}
     </div>
@@ -158,8 +153,8 @@ function BarraNavegador({ dominio, grande = false }: { dominio?: string; grande?
  * La ventana impone la proporción (16/9) en vez de confiar en el archivo: así
  * las capturas de 1600x1000 y la de 2000x1160 ocupan exactamente el mismo alto
  * y los títulos de una fila comparten línea base. El `scale-[1.04]` anclado
- * arriba recorta las canaletas blancas que traen dos de los archivos
- * (bloomrose por la derecha, nuva por abajo) sin tocar los assets.
+ * arriba recorta la canaleta blanca que trae el archivo de bloomrose por la
+ * derecha, sin tocar los assets.
  *
  * Al pasar el cursor la captura se DESPLAZA hacia arriba: se ve la parte del
  * sitio que la ventana escondía. El hover deja de ser "sube 4 px" y pasa a
@@ -179,7 +174,7 @@ function Captura({
     <div className="relative aspect-[16/9] overflow-hidden bg-ink">
       <Image
         src={p.img}
-        alt={`${p.nombre} — sitio diseñado y desarrollado por JV Agencia`}
+        alt={`${p.nombre} — sitio que diseñé y desarrollé`}
         width={1600}
         height={1000}
         quality={quality}
@@ -316,18 +311,18 @@ function Tarjeta({
   return <div className={className}>{children}</div>;
 }
 
-/* Composición de la rejilla. En vez de dejar que el auto-flow reparta siete
+/* Composición de la rejilla. En vez de dejar que el auto-flow reparta seis
    piezas iguales, cada grupo tiene su propia partitura sobre 12 columnas:
    - En producción: una placa a ancho completo (el trabajo que manda) y dos
      debajo. La fila cierra exacta.
-   - Diseño y desarrollo: 7/5 y 5/7. Cuatro piezas, dos filas, cero huecos,
-     y ninguna del mismo ancho que su vecina. */
+   - Proyectos de estudio: tres piezas en una sola fila de tercios en lg. En md
+     entran de a dos y la tercera queda sola a media columna, alineada a la
+     izquierda: hueco al final de la última fila, nunca en medio. */
 const SPANS_PRODUCCION = ["md:col-span-12", "md:col-span-6", "md:col-span-6"];
-const SPANS_TALLER = [
-  "md:col-span-6 lg:col-span-7",
-  "md:col-span-6 lg:col-span-5",
-  "md:col-span-6 lg:col-span-5",
-  "md:col-span-6 lg:col-span-7",
+const SPANS_ESTUDIO = [
+  "md:col-span-6 lg:col-span-4",
+  "md:col-span-6 lg:col-span-4",
+  "md:col-span-6 lg:col-span-4",
 ];
 
 const SIZES_ANCHA =
@@ -342,14 +337,14 @@ export function Portfolio() {
       nota: "Con dominio propio y en línea. Toca cualquiera y compruébalo.",
       items: PROYECTOS.filter((p) => p.url),
       spans: SPANS_PRODUCCION,
-      taller: false,
+      estudio: false,
     },
     {
-      titulo: "Diseño y desarrollo",
-      nota: "Construidos y entregados. Se publican cuando el cliente conecte su dominio.",
+      titulo: "Proyectos de estudio",
+      nota: "Proyectos de estudio. Sitios que diseñé y construí completos para negocios reales de la región, por iniciativa propia. Cada uno está terminado y se puede abrir.",
       items: PROYECTOS.filter((p) => !p.url),
-      spans: SPANS_TALLER,
-      taller: true,
+      spans: SPANS_ESTUDIO,
+      estudio: true,
     },
   ];
 
@@ -371,8 +366,9 @@ export function Portfolio() {
             <span className="text-primary-dark"> en línea, funcionando.</span>
           </h2>
           <p className="mt-4 max-w-2xl font-body text-lg text-ink-soft">
-            No son maquetas ni plantillas de muestra. Cada una está publicada y se puede abrir:
-            toca cualquiera y compruébalo.
+            No son maquetas ni plantillas de muestra. Abajo hay dos grupos: lo que está en
+            producción con dominio propio, y proyectos de estudio que construí completos por
+            iniciativa propia.
           </p>
         </Reveal>
 
@@ -386,15 +382,15 @@ export function Portfolio() {
               </span>
             </div>
 
-            {/* El segundo grupo vive en una bandeja hundida: se lee como taller
-                o mesa de entrega, no como un escalón peor. Las capturas siguen
-                a todo color y al mismo tamaño; lo que cambia es la superficie
-                que las sostiene, no su calidad. En móvil la bandeja se sangra
-                a borde de pantalla y actúa como banda tonal: el grupo se
-                distingue de un vistazo sin leer el encabezado. */}
+            {/* El segundo grupo vive en una bandeja hundida: se lee como mesa
+                de estudio, no como un escalón peor. Las capturas siguen a todo
+                color y al mismo tamaño; lo que cambia es la superficie que las
+                sostiene, no su calidad. En móvil la bandeja se sangra a borde
+                de pantalla y actúa como banda tonal: el grupo se distingue de
+                un vistazo sin leer el encabezado. */}
             <div
               className={
-                grupo.taller
+                grupo.estudio
                   ? "mt-8 -mx-5 bg-ink/[0.045] px-5 py-8 shadow-well md:mx-0 md:rounded-4xl md:p-8 lg:p-10"
                   : "mt-8"
               }
@@ -419,7 +415,7 @@ export function Portfolio() {
                 className="-mx-5 flex snap-x snap-mandatory scroll-pl-5 gap-4 overflow-x-auto px-5 pb-8 no-scrollbar [&>*:last-child]:snap-end md:mx-0 md:grid md:grid-cols-12 md:scroll-pl-0 md:gap-x-6 md:gap-y-12 md:overflow-visible md:px-0 md:pb-0"
               >
                 {grupo.items.map((p, i) => {
-                  const grande = !grupo.taller && i === 0;
+                  const grande = !grupo.estudio && i === 0;
                   return (
                     <Tarjeta
                       key={p.nombre}

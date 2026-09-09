@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: `${SITE_NAME} — Diseño y desarrollo web`,
     short_name: SITE_NAME,
     description:
-      "Estudio de diseño + código para PYMEs de LATAM. Webs y software a medida que se ven de marca grande y funcionan de verdad.",
+      "Estudio de diseño y código de Luis Jaller para PYMEs de LATAM. Webs y software a la medida que se ven de marca grande y funcionan de verdad.",
     start_url: "/",
     display: "standalone",
     background_color: "#F4EDE4",

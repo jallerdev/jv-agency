@@ -25,6 +25,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     })),
     { url: `${SITE_URL}/servicios/chatbot-whatsapp`, changeFrequency: "monthly", priority: 0.9 },
+    // Precios es pagina comercial, no articulo: la busca quien ya quiere
+    // contratar y la enlazan el Header, el Hero, el pie y cada articulo.
+    { url: `${SITE_URL}/precios`, changeFrequency: "monthly", priority: 0.9 },
     ...SECTORES.map((ruta) => ({
       url: `${SITE_URL}/${ruta}`,
       changeFrequency: "monthly" as const,

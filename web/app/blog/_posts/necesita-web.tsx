@@ -7,8 +7,8 @@ export function NecesitaWebPost() {
     <>
       <p>
         <strong>Respuesta honesta:</strong> no todos los negocios la necesitan hoy. Hay cuatro
-        casos en los que te conviene esperar, y decirlo nos cuesta trabajo a nosotros. Pero
-        vender una web a quien no la va a aprovechar termina en un cliente insatisfecho.
+        casos en los que te conviene esperar, y decirlo me cuesta trabajo a mí. Pero venderle
+        una web a quien no la va a aprovechar termina en un cliente insatisfecho.
       </p>
 
       <h2>La pregunta correcta no es esa</h2>

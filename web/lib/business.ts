@@ -33,6 +33,13 @@ export const BUSINESS = {
   founderName: "Luis Jaller",
   founderGivenName: "Luis",
   founderFamilyName: "Jaller",
+  /**
+   * Rol visible en la pagina (Founder.tsx y /sobre-nosotros). Vive aca porque
+   * el `jobTitle` de la Person se declara en DOS archivos que comparten @id:
+   * si se escriben a mano, se desincronizan y Google lee un rol distinto del
+   * que ve el visitante. Ya paso: decia "Full Stack Developer".
+   */
+  founderRole: "Diseñador y desarrollador web",
   /** Ancla de la Person en el grafo. Un solo id = una sola persona. */
   personId: "/#persona",
   /** Perfiles verificables de la persona. Alimentan `sameAs` de la Person. */

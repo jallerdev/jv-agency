@@ -50,21 +50,21 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
         <aside className="mt-16 rounded-2xl border border-ink/10 bg-ink/[0.03] p-7">
           <h2 className="font-display text-xl text-ink">¿Necesitas una web para tu negocio?</h2>
           <p className="mt-2 font-body text-sm leading-relaxed text-ink-soft">
-            Diseñamos y desarrollamos sitios para PYMEs de LATAM. Cuéntanos qué necesitas y te
-            damos un estimado sin compromiso.
+            Diseño y programo sitios para PYMEs de LATAM. Una página web arranca en $850.000 y
+            queda lista en 5 días; los demás precios están publicados.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link
-              href="/#contacto"
+              href="/precios"
               className="inline-flex items-center rounded-full bg-accent px-5 py-2.5 font-body text-sm font-medium text-white transition-opacity hover:opacity-90"
             >
-              Cotizar mi proyecto
+              Ver precios
             </Link>
             <Link
               href="/#contacto"
               className="inline-flex items-center rounded-full border border-ink/15 px-5 py-2.5 font-body text-sm font-medium text-ink transition-colors hover:bg-ink/5"
             >
-              Hablar con nosotros
+              Hablar conmigo
             </Link>
           </div>
         </aside>

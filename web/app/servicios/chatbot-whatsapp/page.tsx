@@ -27,7 +27,7 @@ import { A_PRICES, A_TYPE_LABEL, A_TYPE_DESC, money } from "@/lib/quote";
  * Existe por un hallazgo concreto de la investigación de septiembre de 2026:
  * la palabra «chatbot» no aparecía NI UNA VEZ en todo el sitio, mientras el
  * mercado colombiano busca exactamente eso — los competidores que salen
- * primeros se llaman Chatbot Colombia, Bots Colombia, Botiffy. Estábamos
+ * primeros se llaman Chatbot Colombia, Bots Colombia, Botiffy. Estaba
  * vendiendo el producto correcto con el nombre equivocado.
  *
  * El título y la descripción salen del mapa de `SEO-INTENCIONES-DE-COMPRA.md`.
@@ -35,12 +35,12 @@ import { A_PRICES, A_TYPE_LABEL, A_TYPE_DESC, money } from "@/lib/quote";
 export const metadata: Metadata = {
   title: "Chatbot de WhatsApp para empresas en Colombia | JV Agencia",
   description:
-    "Chatbot de WhatsApp que contesta solo, capta interesados, agenda citas y toma pedidos. Proveedor de tecnología verificado por Meta: conecto tu número sin intermediarios.",
+    "Chatbot de WhatsApp que contesta solo, capta interesados, agenda citas y toma pedidos. Soy proveedor de tecnología verificado por Meta: la conexión la hago yo, sin intermediarios.",
   alternates: { canonical: "/servicios/chatbot-whatsapp" },
   openGraph: {
     title: "Chatbot de WhatsApp para empresas en Colombia | JV Agencia",
     description:
-      "Su número contesta solo, a cualquier hora. Proveedor de tecnología verificado por Meta.",
+      "Tu número contesta solo, a cualquier hora. Proveedor de tecnología verificado por Meta.",
     url: `${SITE_URL}/servicios/chatbot-whatsapp`,
     type: "website",
   },
@@ -75,7 +75,7 @@ const PARA_QUIEN = [
 
 const INCLUYE = [
   "Conexión de tu número a la plataforma oficial de WhatsApp Business",
-  "Diseño del flujo de conversación, escrito con tus palabras y no con las nuestras",
+  "Diseño del flujo de conversación, escrito con tus palabras y no con las mías",
   "Dos plantillas de mensaje aprobadas ante Meta",
   "Traspaso a una persona cuando la conversación se complica",
   "Panel para ver las conversaciones y lo que el bot no supo contestar",
@@ -85,22 +85,22 @@ const INCLUYE = [
 const PROCESO = [
   {
     n: "01",
-    t: "Escuchamos una semana de tus chats",
-    d: "No inventamos preguntas. Miramos lo que de verdad te escriben y qué contestas hoy.",
+    t: "Escucho una semana de tus chats",
+    d: "No invento preguntas. Miro lo que de verdad te escriben y qué contestas hoy.",
   },
   {
     n: "02",
-    t: "Conectamos tu número",
-    d: "Nosotros hacemos la conexión con Meta. Tu número sigue siendo tuyo y no cambia.",
+    t: "Conecto tu número",
+    d: "La conexión con Meta la hago yo. Tu número sigue siendo tuyo y no cambia.",
   },
   {
     n: "03",
-    t: "Escribimos el flujo y lo probamos contigo",
-    d: "Lo ves funcionando y nos dices qué suena raro, antes de que lo vea un cliente.",
+    t: "Escribo el flujo y lo pruebas conmigo",
+    d: "Lo ves funcionando y me dices qué suena raro, antes de que lo vea un cliente.",
   },
   {
     n: "04",
-    t: "Sale al aire y lo vamos ajustando",
+    t: "Sale al aire y lo voy ajustando",
     d: "Las preguntas que el bot no supo contestar se revisan y se le enseñan.",
   },
 ];
@@ -108,7 +108,7 @@ const PROCESO = [
 const FAQS = [
   {
     q: "¿Reemplaza a alguien de mi equipo?",
-    a: "No, y no lo vendemos así. Filtra: contesta lo repetido y te pasa a ti las conversaciones que valen la pena. Lo que recuperas son horas, no un sueldo.",
+    a: "No, y no te lo vendo así. Filtra: contesta lo repetido y te pasa a ti las conversaciones que valen la pena. Lo que recuperas son horas, no un sueldo.",
   },
   {
     q: "¿Tengo que cambiar de número?",
@@ -116,7 +116,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto cuestan las conversaciones?",
-    a: "Eso lo cobra Meta directamente a tu cuenta, con tu propio medio de pago. Nosotros cobramos por construirlo y mantenerlo, no por las conversaciones. Lo decimos desde el principio para que no aparezca como sorpresa después.",
+    a: "Eso lo cobra Meta directamente a tu cuenta, con tu propio medio de pago. Yo cobro por construirlo y mantenerlo, no por las conversaciones. Te lo digo desde el principio para que no aparezca como sorpresa después.",
   },
   {
     q: "¿En cuánto tiempo queda funcionando?",
@@ -128,7 +128,9 @@ const FAQS = [
   },
   {
     q: "¿Necesito un plan mensual?",
-    a: "Es muy recomendable. Una automatización queda corriendo y hay cosas que se vencen solas: si expira el token de Meta o rechazan una plantilla, deja de responder y nadie se entera hasta que un cliente reclama. Los planes empiezan en " + money(A_PRICES.mantenimiento.basico) + " al mes.",
+    // El precio del plan mensual no está en el copy aprobado: queda visible como
+    // pendiente en vez de inventarse un número.
+    a: "Es muy recomendable. Una automatización queda corriendo y hay cosas que se vencen solas: si expira el token de Meta o rechazan una plantilla, deja de responder y nadie se entera hasta que un cliente reclama. Los planes empiezan en [PENDIENTE: precio del plan mensual de mantenimiento] al mes.",
   },
 ];
 
@@ -174,7 +176,7 @@ export default function ChatbotWhatsappPage() {
           <Reveal>
             <Badge>Chatbot de WhatsApp</Badge>
             <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              Su número contesta solo:
+              Tu número contesta solo:
               <span className="block text-metal">responde, agenda y vende</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
@@ -210,7 +212,7 @@ export default function ChatbotWhatsappPage() {
             <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Casi todos te revenden una plataforma.
-                <span className="text-metal"> Nosotros conectamos directo.</span>
+                <span className="text-metal"> Yo conecto directo.</span>
               </h2>
               <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
                 La mayoría de agencias en Colombia no está conectada a Meta: te revenden el
@@ -219,10 +221,10 @@ export default function ChatbotWhatsappPage() {
               </p>
               <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
                 <strong className="text-ink">
-                  J&amp;V es proveedor de tecnología verificado por Meta.
+                  Soy proveedor de tecnología verificado por Meta.
                 </strong>{" "}
-                La conexión de tu número la hacemos nosotros, sin intermediario. Es verificable —
-                no es un sello que nos pusimos solos.
+                La conexión de tu número la hago yo, sin intermediario. Es verificable —no es un
+                sello que me puse solo.
               </p>
             </div>
           </Reveal>
@@ -255,7 +257,7 @@ export default function ChatbotWhatsappPage() {
               Qué se puede automatizar
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Precios de referencia del proyecto. Se puede empezar por lo más simple y crecer
+              Precios de referencia del proyecto. Puedes empezar por lo más simple y crecer
               después, sin rehacer lo hecho.
             </p>
             <p className="mt-3 max-w-2xl font-body text-base leading-relaxed text-ink-soft">
@@ -296,14 +298,14 @@ export default function ChatbotWhatsappPage() {
           <Reveal>
             <div className="mt-6 rounded-2xl border border-line bg-background/40 p-7">
               <p className="font-body leading-relaxed text-ink-soft">
-                <strong className="text-ink">Una aclaración que hacemos siempre, de entrada:</strong>{" "}
+                <strong className="text-ink">Una aclaración que hago siempre, de entrada:</strong>{" "}
                 el consumo de la API de WhatsApp lo cobra <strong className="text-ink">Meta</strong>{" "}
                 directamente a tu cuenta, con tu propio medio de pago. No está en estos precios
-                porque no lo facturamos nosotros — depende de cuántas conversaciones tengas.
+                porque no lo facturo yo — depende de cuántas conversaciones tengas.
               </p>
               <p className="mt-4 font-body leading-relaxed text-ink-soft">
                 Y el plan de mantenimiento va aparte, desde{" "}
-                <strong className="text-ink">{money(A_PRICES.mantenimiento.basico)} al mes</strong>.
+                <strong className="text-ink">[PENDIENTE: precio del plan mensual de mantenimiento] al mes</strong>.
                 Sin plan, si expira el token de Meta o rechazan una plantilla, la automatización
                 deja de responder y nadie se entera.
               </p>
@@ -372,11 +374,11 @@ export default function ChatbotWhatsappPage() {
         <section className="mx-auto max-w-4xl px-5 py-16 text-center md:px-8 md:py-24">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Cuéntanos qué te preguntan todo el día
+              Cuéntame qué te preguntan todo el día
             </h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              En una llamada de veinte minutos sabemos si esto te sirve, cuánto costaría y en
-              cuánto quedaría funcionando. Si no te sirve, te lo decimos.
+              Veinte minutos bastan para saber si esto te sirve, cuánto costaría y en cuánto
+              quedaría funcionando. Si no te sirve, te lo digo.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>

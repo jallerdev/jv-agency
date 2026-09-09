@@ -608,21 +608,21 @@ function StepBody({
                     "Titulares, textos de apoyo y llamados a la acción",
                     "Imágenes de banco con licencia comercial, ya pagada",
                     "Guía de fotos con el celular: qué tomar, desde dónde y con qué luz",
-                    "Retoque de las fotos que nos mandes: recorte, luz, color y peso",
+                    "Retoque de las fotos que me mandes: recorte, luz, color y peso",
                     "Dos rondas de ajustes sobre los textos entregados",
                   ]
                 : [
                     "Cada página escrita para lo que esa página tiene que lograr",
                     "Titulares, textos de apoyo y llamados a la acción",
                     "Revisión de ortografía y de coherencia de marca",
-                    "Retoque de las fotos que nos mandes: recorte, luz, color y peso",
+                    "Retoque de las fotos que me mandes: recorte, luz, color y peso",
                     "Dos rondas de ajustes sobre los textos entregados",
                   ]
             }
           />
         )}
 
-        {/* Decirlo antes de vender evita la pelea de despues: no hacemos
+        {/* Decirlo antes de vender evita la pelea de despues: no hago
             sesion de fotos, y las imagenes de banco no muestran SU negocio. */}
         {answers.contenido === "todo" && (
           <div className="mt-4 rounded-2xl border border-line bg-background/40 p-5">
@@ -630,15 +630,15 @@ function StepBody({
               Lo que no incluye
             </p>
             <p className="mt-3 font-body text-sm text-ink-soft">
-              <strong className="text-ink">No hacemos sesión de fotos de tu negocio.</strong>{" "}
+              <strong className="text-ink">No hago sesión de fotos de tu negocio.</strong>{" "}
               Las imágenes de banco sirven para ilustrar ideas, pero no pueden mostrar tu local,
               tu equipo ni tu producto — y esas son justo las que generan confianza.
             </p>
             <p className="mt-2 font-body text-sm text-ink-soft">
               La salida que funciona: <strong className="text-ink">las tomas tú con el celular</strong>{" "}
-              siguiendo la guía que te damos, y nosotros las arreglamos. Un teléfono de hoy con
+              siguiendo la guía que te doy, y yo las arreglo. Un teléfono de hoy con
               buena luz da mejor resultado que una foto de banco que se nota comprada. Si
-              prefieres un fotógrafo profesional, te ayudamos a conseguirlo y se cotiza aparte.
+              prefieres un fotógrafo profesional, te ayudo a conseguirlo y se cotiza aparte.
             </p>
             <a
               href="/guia-fotos-celular.html"
@@ -742,7 +742,7 @@ function StepBody({
     return (
       <StepHeader
         title="¿Qué necesitas para salir al aire?"
-        desc="Marca lo que no tengas todavía. Si ya tienes dominio o alojamiento propios, déjalo sin marcar y lo conectamos sin costo."
+        desc="Marca lo que no tengas todavía. Si ya tienes dominio o alojamiento propios, déjalo sin marcar y lo conecto sin costo."
       >
         <div className="grid gap-3">
           {keys.map((k) => (
@@ -778,7 +778,7 @@ function StepBody({
           ))}
         </div>
         <p className="mt-4 font-body text-xs text-ink-soft">
-          ¿Necesitas algo que no está en la lista? Se cotiza aparte en la llamada: hacemos software
+          ¿Necesitas algo que no está en la lista? Se cotiza aparte en la llamada: hago software
           a medida, no solo sitios.
         </p>
       </StepHeader>
@@ -912,8 +912,8 @@ function StepBody({
         })}
       </div>
       <p className="mt-4 font-body text-xs text-ink-soft">
-        Las semanas se cuentan desde que tengamos el contenido y la marca. Si los textos los
-        escribimos nosotros, ese tiempo ya está contado.
+        Las semanas se cuentan desde que tenga el contenido y la marca. Si los textos los
+        escribo yo, ese tiempo ya está contado.
       </p>
     </StepHeader>
   );

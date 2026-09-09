@@ -18,12 +18,12 @@ import { Badge } from "@/components/ui/badge";
  *
  * Los datos salen de los mismos de /sobre-nosotros. Nada inventado.
  *
- * Es componente de cliente por una sola razón: las tres cifras cuentan al
- * entrar en pantalla. Todo lo demás es marcado estático.
+ * Es componente de cliente por una sola razón: las cifras cuentan al entrar
+ * en pantalla. Todo lo demás es marcado estático.
  */
 const FOUNDER = {
   name: "Luis Jaller",
-  role: "Full Stack Developer · Fundador",
+  role: "Diseñador y desarrollador web",
   linkedin: "https://www.linkedin.com/in/jallerdev",
   github: "https://github.com/jallerdev",
 };
@@ -31,21 +31,29 @@ const FOUNDER = {
 type Stat = {
   /** La cifra. Se cuenta desde cero al entrar en pantalla si `count` es true. */
   value: number;
-  /** Va antes de la cifra y no cuenta: el "<" de "menos de 24 h". */
+  /** Va antes de la cifra y no cuenta: el "<" de un tope ("menos de"). */
   prefix?: string;
   /** Va después y es parte de la cifra: el "+" de "3+". Se pinta en cobre. */
   suffix?: string;
   /** La unidad. Va separada del número, como manda la RAE, y en tinta. */
   unit?: string;
-  /** No todo número es un contador: "menos de 24 h" es un tope, no una suma. */
+  /** No todo número es un contador: un tope no es una suma. */
   count?: boolean;
+  /**
+   * Dato sin confirmar. Se pinta este texto en lugar de la cifra y queda A LA
+   * VISTA: antes de publicar hay que reemplazarlo por el dato o borrar la
+   * línea entera. Una cifra inventada cuesta más que un hueco.
+   */
+  pending?: string;
   label: string;
 };
 
 const STATS: Stat[] = [
   { value: 3, suffix: "+", count: true, label: "años construyendo producto" },
   { value: 11, suffix: "+", count: true, label: "proyectos en producción" },
-  { value: 24, prefix: "<", unit: "h", label: "tiempo de respuesta" },
+  /* El sitio decía "<24 h". Ese número nunca se confirmó, así que no se
+     publica: queda el marcador hasta que haya un dato de verdad. */
+  { value: 0, pending: "[PENDIENTE: dato]", label: "tiempo de respuesta" },
 ];
 
 const COUNT_DURATION = 900;
@@ -117,14 +125,22 @@ function StatItem({ stat }: { stat: Stat }) {
     <div className="flex flex-row-reverse items-baseline justify-between gap-4 py-4 sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-1.5 sm:py-0 sm:pl-7 sm:first:pl-0">
       <dt className="font-body text-sm leading-snug text-ink-soft sm:text-xs">{stat.label}</dt>
       <dd className="font-display text-2xl leading-none tabular-nums text-ink sm:text-[1.75rem]">
-        {stat.prefix && (
-          <span className="font-mono text-base text-ink-soft" aria-hidden="true">
-            {stat.prefix}
+        {stat.pending ? (
+          <span className="font-mono text-xs leading-snug tracking-[0.02em] text-accent-ink">
+            {stat.pending}
           </span>
+        ) : (
+          <>
+            {stat.prefix && (
+              <span className="font-mono text-base text-ink-soft" aria-hidden="true">
+                {stat.prefix}
+              </span>
+            )}
+            <span ref={ref}>{shown}</span>
+            {stat.suffix && <span className="text-accent">{stat.suffix}</span>}
+            {stat.unit && <span className="text-[0.7em] text-ink-soft"> {stat.unit}</span>}
+          </>
         )}
-        <span ref={ref}>{shown}</span>
-        {stat.suffix && <span className="text-accent">{stat.suffix}</span>}
-        {stat.unit && <span className="text-[0.7em] text-ink-soft"> {stat.unit}</span>}
       </dd>
     </div>
   );
@@ -160,8 +176,9 @@ export function Founder() {
                   aria-hidden="true"
                   className="mb-3 hidden h-px w-8 bg-line lg:block"
                 />
-                {/* Una línea por oficio: el "·" de la cadena original quedaba
-                    colgando al final del renglón en la columna estrecha. */}
+                {/* Una línea por oficio: si el rol vuelve a llevar un "·", ese
+                    separador queda colgando al final del renglón en la columna
+                    estrecha. Partirlo evita el cuelgue. */}
                 <p className="font-mono text-[11px] uppercase leading-[1.7] tracking-[0.12em] text-accent-ink">
                   {FOUNDER.role.split("·").map((part) => (
                     <span key={part} className="block">
@@ -180,15 +197,14 @@ export function Founder() {
               </h2>
 
               <p className="mt-5 max-w-[46ch] font-body text-base leading-relaxed text-ink-soft sm:text-lg">
-                Aquí no hay un equipo de cuentas que te pasa a un ejecutivo que te pasa a un
-                programador. <strong className="font-semibold text-ink">Hablas conmigo</strong>, y el
-                que diseña y escribe el código soy yo. Eso tiene un límite —no tomo veinte proyectos
-                a la vez— y una ventaja: nada se pierde en el camino entre lo que necesitas y lo que
-                se construye.
+                Aquí no hay ejecutivo de cuentas ni cadena de correos.{" "}
+                <strong className="font-semibold text-ink">Hablas conmigo</strong>, y el que diseña y
+                escribe el código soy yo. Eso tiene un límite —no tomo veinte proyectos a la vez— y
+                una ventaja: nada se pierde entre lo que pides y lo que se construye.
               </p>
 
-              {/* Las tres cifras son el único dato duro de la sección: dejan de
-                  ser texto suelto y pasan a ser una banda con filetes, cifras
+              {/* Las cifras son el único dato duro de la sección: dejan de ser
+                  texto suelto y pasan a ser una banda con filetes, cifras
                   tabulares y una cuenta que aterriza al entrar en pantalla. */}
               <dl className="mt-9 grid max-w-2xl grid-cols-1 divide-y divide-line border-y border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:border-b-0 sm:pt-6">
                 {STATS.map((s) => (
@@ -204,7 +220,7 @@ export function Founder() {
                   href="/sobre-nosotros"
                   className="tap-target group -mx-2 inline-flex items-center gap-1.5 rounded-lg px-2 font-body text-sm font-medium text-primary-dark underline decoration-primary/40 underline-offset-4 transition-surface duration-quick ease-state hover:text-primary hover:decoration-primary"
                 >
-                  Conoce más del estudio
+                  Más sobre mí
                   <ArrowUpRight
                     className="h-4 w-4 transition-transform duration-base ease-state group-hover:translate-x-0.5"
                     strokeWidth={1.75}

@@ -170,7 +170,7 @@ export function CuantoCuestaPost() {
       <h2>Nota para agencias y freelancers</h2>
       <p>
         Si llegaste acá porque <em>tú</em> vendes sitios web y quieres saber cuánto cobrar,
-        escribimos la versión desde el otro lado del mostrador en el blog de nuestro producto de
+        escribí la versión desde el otro lado del mostrador en el blog de mi producto de
         ventas:{" "}
         <a
           href="https://halcon.jvagencia.com/blog/cuanto-cobrar-por-una-pagina-web-colombia"

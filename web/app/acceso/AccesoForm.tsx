@@ -131,7 +131,7 @@ export function AccesoForm({
         </form>
 
         <p className="mt-6 border-t border-line pt-5 font-body text-xs leading-relaxed text-ink-soft">
-          ¿No tienes la contraseña o se te perdió? Escríbenos y te la reenviamos.
+          ¿No tienes la contraseña o se te perdió? Escríbeme y te la reenvío.
         </p>
       </div>
 

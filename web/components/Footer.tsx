@@ -12,10 +12,10 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Servicios",
     links: [
-      { label: "Desarrollo web", href: "/#servicios" },
+      { label: "Diseño de páginas web", href: "/#servicios" },
       { label: "Chatbot de WhatsApp", href: "/servicios/chatbot-whatsapp" },
       { label: "SEO y posicionamiento", href: "/#servicios" },
-      { label: "Software a medida", href: "/#servicios" },
+      { label: "Software a la medida", href: "/#servicios" },
       { label: "Diseño web / UI", href: "/#servicios" },
       { label: "Mantenimiento", href: "/#servicios" },
     ],
@@ -23,20 +23,21 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Agencia",
     links: [
+      { label: "Precios", href: "/precios" },
       { label: "Trabajo", href: "/#trabajo" },
       { label: "Proceso", href: "/#proceso" },
       { label: "Blog", href: "/blog" },
-      { label: "Sobre nosotros", href: "/sobre-nosotros" },
+      { label: "Sobre mí", href: "/sobre-nosotros" },
       { label: "Contacto", href: "/#contacto" },
     ],
   },
   {
     title: "Producto",
     links: [
-      // HalcónOS es producto propio de la agencia. El enlace es legítimo y
+      // HalcónOS es producto propio: lo construí yo. El enlace es legítimo y
       // además cumple una función concreta de SEO: hasta ahora este sitio no
       // enlazaba ni una vez al subdominio, que por eso no recibía nada de
-      // autoridad. Es el enlace más barato que teníamos disponible.
+      // autoridad. Es el enlace más barato que tenía disponible.
       { label: "HalcónOS — CRM de ventas", href: "https://halcon.jvagencia.com" },
       { label: "Blog de HalcónOS", href: "https://halcon.jvagencia.com/blog" },
     ],
@@ -109,8 +110,8 @@ export function Footer() {
               <span className="font-display text-xl text-surface">Agencia</span>
             </div>
             <p className="mt-5 max-w-xs text-pretty font-body text-sm leading-relaxed text-surface/70">
-              Diseño que enamora, código que aguanta. Webs y software a medida para que las PYMEs de
-              LATAM se vean —y funcionen— a la altura de sus ambiciones.
+              Diseño que enamora, código que aguanta. Webs y software a la medida para PYMEs de
+              LATAM, hechos por una sola persona de principio a fin.
             </p>
             <MetaTechProvider variant="compact" className="mt-6 border-surface/15 bg-surface/5" />
 
@@ -140,9 +141,9 @@ export function Footer() {
               <ul className="mt-3 space-y-0.5">
                 {col.links.map((link) => {
                   // Los enlaces a HalcónOS son a otro host: van con <a> y
-                  // `rel="noopener"`. Sin `noreferrer`, a propósito — queremos
+                  // `rel="noopener"`. Sin `noreferrer`, a propósito — quiero
                   // que el referer llegue, es tráfico propio entre sitios
-                  // nuestros y sirve para atribuirlo en analítica.
+                  // míos y sirve para atribuirlo en analítica.
                   const external = link.href.startsWith("http");
                   const cls =
                     "tap-target flex items-center font-body text-sm text-surface/70 transition-surface duration-quick ease-state hover:text-accent";

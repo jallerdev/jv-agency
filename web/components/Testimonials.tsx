@@ -42,7 +42,7 @@ export function Testimonials() {
           <div className="max-w-2xl">
             <Badge>Lo que dicen</Badge>
             <h2 className="mt-6 font-display text-3xl/[1.15] text-balance text-ink sm:text-[2.5rem]/[1.1]">
-              No lo decimos nosotros.{" "}
+              No lo digo yo.{" "}
               <span className="text-primary-dark">Lo dicen ellos.</span>
             </h2>
             <p className="mt-5 max-w-[48ch] font-body text-lg leading-relaxed text-ink-soft">

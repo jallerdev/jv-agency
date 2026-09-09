@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
    Dos trabajos: que el cambio de estado con el scroll se sienta preciso, y
    que en móvil exista navegación —hasta ahora, por debajo de 768px el
    encabezado contenía únicamente el logotipo: ni menú, ni hamburguesa, ni
-   CTA; los cinco destinos del sitio no tenían ninguna vía de acceso salvo
+   CTA; los seis destinos del sitio no tenían ninguna vía de acceso salvo
    bajar 18.000 px de portada.
 
    PRECISIÓN DEL CAMBIO DE ESTADO
@@ -41,9 +41,10 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { label: "Servicios", href: "/#servicios" },
+  { label: "Precios", href: "/precios" },
   { label: "Trabajo", href: "/#trabajo" },
   { label: "Proceso", href: "/#proceso" },
-  { label: "Nosotros", href: "/sobre-nosotros" },
+  { label: "Sobre mí", href: "/sobre-nosotros" },
   { label: "Preguntas", href: "/#faq" },
 ];
 
@@ -189,13 +190,12 @@ export function Header() {
 
   const solid = scrolled || open;
   const isHome = pathname === "/";
+  /* Los destinos con ruta propia (/precios, /sobre-nosotros) se marcan por
+     pathname; los de ancla, por la sección visible. */
+  const rutaActual = NAV.find((item) => item.href === pathname)?.href ?? null;
   const activeHref = open
     ? null
-    : pathname === "/sobre-nosotros"
-      ? "/sobre-nosotros"
-      : isHome && activeId
-        ? `/#${activeId}`
-        : null;
+    : (rutaActual ?? (isHome && activeId ? `/#${activeId}` : null));
 
 
   return (
@@ -232,7 +232,12 @@ export function Header() {
             <span className="font-display text-xl tracking-tight text-ink">Agencia</span>
           </a>
 
-          <nav aria-label="Principal" className="hidden items-center gap-9 md:flex">
+          {/* Entre 768 y 1023 el menu cabe justo: seis destinos, el logo y el boton
+              en una sola fila. Con gap-5 y sin nowrap, «Sobre mi» se partia en dos
+              lineas de 768 a 810. gap-4 da los 24 px que faltaban y whitespace-nowrap
+              impide que cualquier etiqueta de dos palabras se parta. De 1024 en
+              adelante manda lg:gap-9: el escritorio queda exactamente igual. */}
+          <nav aria-label="Principal" className="hidden items-center gap-4 md:flex lg:gap-9">
             {NAV.map((item) => {
               const active = activeHref === item.href;
               return (
@@ -241,7 +246,7 @@ export function Header() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "group relative py-1 font-body text-sm font-medium transition-surface duration-quick ease-state",
+                    "group relative whitespace-nowrap py-1 font-body text-sm font-medium transition-surface duration-quick ease-state",
                     active ? "text-ink" : "text-ink-soft hover:text-ink focus-visible:text-ink"
                   )}
                 >
@@ -335,11 +340,7 @@ export function Header() {
                   <a
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    aria-current={
-                      pathname === "/sobre-nosotros" && item.href === "/sobre-nosotros"
-                        ? "page"
-                        : undefined
-                    }
+                    aria-current={item.href === pathname ? "page" : undefined}
                     className="group flex items-center gap-4 py-4 transition-surface duration-quick ease-state"
                   >
                     <span className="font-mono text-[11px] tabular-nums text-accent-ink">
@@ -371,7 +372,7 @@ export function Header() {
             </Button>
           </div>
 
-          {/* La credencial también aquí: es lo más fuerte que tenemos y el menú
+          {/* La credencial también aquí: es lo más fuerte que tengo y el menú
               es una de las pocas pantallas que se ve entera de un vistazo. */}
           <div
             className="mt-auto animate-fade-in pt-10"

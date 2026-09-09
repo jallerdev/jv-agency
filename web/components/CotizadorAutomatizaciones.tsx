@@ -50,7 +50,7 @@ const TIPOS: { id: AutomationType; icon: typeof Bot }[] = [
 ];
 
 const INTEGRACIONES: { key: AutomationExtraKey; title: string; desc: string }[] = [
-  { key: "onboarding", title: "Conectar WhatsApp Business", desc: "Damos de alta tu número y hacemos la verificación con Meta." },
+  { key: "onboarding", title: "Conectar WhatsApp Business", desc: "Doy de alta tu número y hago la verificación con Meta." },
   { key: "ia", title: "Respuestas con IA", desc: "Contesta con tu propio contenido en vez de un menú rígido." },
   { key: "crm", title: "Integración con tu CRM", desc: "Cada conversación queda registrada en tu pipeline." },
   { key: "agenda", title: "Google Calendar", desc: "Lee tu disponibilidad real y agenda sin choques." },
@@ -166,7 +166,7 @@ export function CotizadorAutomatizaciones() {
                     active={a.mantenimiento === p}
                     onClick={() => set("mantenimiento", p)}
                     title={A_PLAN_LABEL[p].split(" — ")[0]}
-                    desc={A_PLAN_LABEL[p].split(" — ")[1] ?? "Queda funcionando, pero sin monitoreo de nuestra parte."}
+                    desc={A_PLAN_LABEL[p].split(" — ")[1] ?? "Queda funcionando, pero sin monitoreo de mi parte."}
                     right={A_PRICES.mantenimiento[p] ? `${money(A_PRICES.mantenimiento[p])}/mes` : "—"}
                   />
                 ))}
@@ -184,7 +184,7 @@ export function CotizadorAutomatizaciones() {
                     onClick={() => set("delivery", id)}
                     icon={<Icon className="h-5 w-5" />}
                     title={automationDeliveryLabel(a.type, id)}
-                    desc={id === "urgent" ? "Reordenamos la agenda." : id === "standard" ? "Nuestro ritmo normal." : "Con holgura, sale más económico."}
+                    desc={id === "urgent" ? "Reordeno la agenda." : id === "standard" ? "Mi ritmo normal." : "Con holgura, sale más económico."}
                   />
                 ))}
               </div>

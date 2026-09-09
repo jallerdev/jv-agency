@@ -139,7 +139,7 @@ export function WhatsAppButton() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Escríbenos por WhatsApp"
+      aria-label="Escríbeme por WhatsApp"
       aria-hidden={!visible}
       tabIndex={visible ? undefined : -1}
       data-visible={visible ? "" : undefined}
@@ -153,7 +153,7 @@ export function WhatsAppButton() {
     >
       {/* Etiqueta: aparece en hover y —esto faltaba— también con foco de teclado. */}
       <span className="pointer-events-none hidden max-w-0 overflow-hidden whitespace-nowrap rounded-full border border-line bg-surface px-0 py-2.5 font-body text-sm font-medium text-ink opacity-0 shadow-soft transition-all duration-slow ease-state group-hover:max-w-xs group-hover:px-5 group-hover:opacity-100 group-focus-visible:max-w-xs group-focus-visible:px-5 group-focus-visible:opacity-100 md:block">
-        Escríbenos por WhatsApp
+        Escríbeme por WhatsApp
       </span>
 
       <span className="relative flex h-14 w-14 items-center justify-center">

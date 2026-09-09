@@ -7,23 +7,23 @@ import { cn } from "@/lib/utils";
 const STEPS = [
   {
     n: "01",
-    title: "Entendemos tu proyecto",
-    desc: "Antes de diseñar o programar, escuchamos. Definimos qué necesitas y para qué.",
+    title: "Entiendo tu proyecto",
+    desc: "Antes de diseñar o programar, escucho. Defino contigo qué necesitas y para qué.",
   },
   {
     n: "02",
-    title: "Diseñamos la interfaz",
+    title: "Diseño la interfaz",
     desc: "Pantallas y experiencia que se ven de marca grande —y pensadas para construirse bien.",
   },
   {
     n: "03",
-    title: "Construimos a medida",
-    desc: "Desarrollamos tu web o software con código sólido, rápido y hecho para durar.",
+    title: "Construyo a la medida",
+    desc: "Programo tu web o tu software con código sólido, rápido y hecho para durar.",
   },
   {
     n: "04",
-    title: "Lanzamos y acompañamos",
-    desc: "Publicamos, dejamos todo documentado y seguimos contigo con soporte y mejoras.",
+    title: "Lanzo y acompaño",
+    desc: "Publico, dejo todo documentado y sigo contigo con soporte y mejoras.",
   },
 ];
 
@@ -50,11 +50,11 @@ export function Process() {
     >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <Reveal className="max-w-2xl" stagger distance="lg">
-          <Badge>Cómo trabajamos</Badge>
+          <Badge>Cómo trabajo</Badge>
           {/* 40px, no 48: el titular pesaba tanto como los cuatro pasos juntos.
               Y sin text-metal, que se reserva al h1 y al h2 de Servicios. */}
           <h2 className="mt-6 font-display text-3xl/[1.15] text-ink sm:text-[2.5rem]/[1.1]">
-            Cómo hacemos tu página web:{" "}
+            Cómo hago tu página web:{" "}
             <span className="text-primary-dark">un proceso que da tranquilidad.</span>
           </h2>
         </Reveal>

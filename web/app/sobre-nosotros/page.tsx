@@ -11,14 +11,14 @@ import { BUSINESS } from "@/lib/business";
 import { SITE_URL, WHATSAPP_LINK } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "Sobre nosotros — JV Agencia | Estudio de diseño y desarrollo",
+  title: "Sobre mí — Luis Jaller | JV Agencia",
   description:
-    "JV Agencia es un estudio de producto digital fundado por Luis Jaller (Full Stack Developer). Diseño y código en el mismo equipo para PYMEs de LATAM: 3+ años, 11+ proyectos en producción.",
+    "JV Agencia es el estudio de Luis Jaller, diseñador y desarrollador web en Turbaco, Bolívar. Diseño y programo yo mismo para PYMEs de LATAM: 3+ años construyendo producto, 11+ proyectos en producción.",
   alternates: { canonical: "/sobre-nosotros" },
   openGraph: {
-    title: "Sobre nosotros — JV Agencia",
+    title: "Sobre mí — JV Agencia",
     description:
-      "Estudio de producto digital fundado por Luis Jaller. Diseño + código en el mismo equipo para PYMEs de LATAM.",
+      "El estudio de Luis Jaller: diseño y código en las mismas manos, para PYMEs de LATAM.",
     url: `${SITE_URL}/sobre-nosotros`,
     type: "website",
   },
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
 
 const FOUNDER = {
   name: "Luis Jaller",
-  role: "Full Stack Developer · Fundador",
-  bio: "Full Stack Developer con foco fuerte en backend y arquitectura. No solo escribo código: traduzco necesidades de negocio en soluciones digitales claras. Me muevo entre producto, arquitectura y ejecución con la misma facilidad, para entregar software que no solo funciona, sino que genera impacto real.",
+  role: "Diseñador y desarrollador web",
+  bio: "Diseñador y desarrollador web con foco fuerte en backend y arquitectura. No solo escribo código: traduzco lo que necesita un negocio en decisiones de producto claras. Me muevo entre producto, arquitectura y ejecución con la misma facilidad, para entregar software que funciona y que además sirve para algo.",
   linkedin: "https://www.linkedin.com/in/jallerdev",
   github: "https://github.com/jallerdev",
   portfolio: "https://jaller-dev.vercel.app",
@@ -36,22 +36,24 @@ const FOUNDER = {
 const STATS = [
   { value: "3+", label: "años construyendo producto" },
   { value: "11+", label: "proyectos en producción" },
-  { value: "<24h", label: "tiempo de respuesta" },
-  { value: "100%", label: "diseño + código a medida" },
+  // El sitio decía «<24h», pero ese dato no está confirmado: queda visible como
+  // pendiente hasta que se confirme o se quite.
+  { value: "[PENDIENTE: dato]", label: "tiempo de respuesta" },
+  { value: "1", label: "persona, de principio a fin" },
 ];
 
 const APPROACH = [
   {
-    title: "Diseño y código en el mismo equipo",
-    desc: "No entregamos un diseño bonito que nadie sabe construir, ni un sistema sólido que se ve amateur. Las dos cosas, a la altura.",
+    title: "Diseño y código en las mismas manos",
+    desc: "No te entrego un diseño bonito que nadie sabe construir, ni un sistema sólido que se ve amateur. Las dos cosas, y hechas por la misma persona.",
   },
   {
-    title: "Pensamos en tu negocio, no solo en la web",
-    desc: "Traducimos lo que necesita tu negocio en decisiones de producto. El objetivo no es “una web”, es credibilidad que vende y que no se rompe.",
+    title: "Pienso en tu negocio, no solo en la web",
+    desc: "Traduzco lo que necesita tu negocio en decisiones de producto. El objetivo no es “una web”, es credibilidad que vende y que no se rompe.",
   },
   {
-    title: "Socios técnicos de largo plazo",
-    desc: "No entregamos y desaparecemos. Quedamos como tu equipo técnico para mantener, mejorar y escalar lo que construimos.",
+    title: "Socio técnico de largo plazo",
+    desc: "No entrego y desaparezco. Quedo como tu técnico de cabecera para mantener, mejorar y escalar lo que construí.",
   },
 ];
 
@@ -79,7 +81,7 @@ const jsonLd = {
     "@id": `${SITE_URL}${BUSINESS.personId}`,
     "@type": "Person",
     name: BUSINESS.founderName,
-    jobTitle: "Full Stack Developer",
+    jobTitle: BUSINESS.founderRole,
     worksFor: { "@id": `${SITE_URL}/#organization` },
     url: `${SITE_URL}/sobre-nosotros`,
     sameAs: [FOUNDER.linkedin, FOUNDER.github, FOUNDER.portfolio],
@@ -112,9 +114,9 @@ export default function SobreNosotrosPage() {
               <span className="text-metal"> en las mismas manos.</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              JV Agencia es un estudio de producto digital fundado por Luis Jaller. Unimos diseño y
-              desarrollo en un solo proceso para que las PYMEs de LATAM tengan una presencia que se
-              ve de marca grande —y funciona de verdad.
+              JV Agencia soy yo, Luis Jaller. Uno el diseño y el desarrollo en un solo proceso para
+              que las PYMEs de LATAM tengan una web que se ve de marca grande —y que funciona de
+              verdad.
             </p>
           </Reveal>
         </section>
@@ -123,15 +125,30 @@ export default function SobreNosotrosPage() {
         <section className="mx-auto max-w-5xl px-5 py-10 md:px-8">
           <Reveal>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {STATS.map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-2xl border border-line bg-surface/70 p-6 text-center"
-                >
-                  <div className="font-display text-3xl text-metal md:text-4xl">{s.value}</div>
-                  <div className="mt-2 font-body text-sm text-ink-soft">{s.label}</div>
-                </div>
-              ))}
+              {STATS.map((s) => {
+                // El marcador de pendiente es una frase, no una cifra: al tamaño
+                // de las cifras se sale de la tarjeta y queda cortado a la
+                // mitad. Se muestra más pequeño y partido, para que se lea
+                // entero. Las cifras de verdad no cambian.
+                const esPendiente = s.value.startsWith("[");
+                return (
+                  <div
+                    key={s.label}
+                    className="rounded-2xl border border-line bg-surface/70 p-6 text-center"
+                  >
+                    <div
+                      className={
+                        esPendiente
+                          ? "break-words font-display text-base leading-snug text-metal"
+                          : "font-display text-3xl text-metal md:text-4xl"
+                      }
+                    >
+                      {s.value}
+                    </div>
+                    <div className="mt-2 font-body text-sm text-ink-soft">{s.label}</div>
+                  </div>
+                );
+              })}
             </div>
           </Reveal>
         </section>
@@ -174,7 +191,7 @@ export default function SobreNosotrosPage() {
         {/* Enfoque */}
         <section className="mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo trabajamos</h2>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo trabajo</h2>
           </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {APPROACH.map((a, i) => (
@@ -192,7 +209,7 @@ export default function SobreNosotrosPage() {
         {/* Stack */}
         <section className="mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué dominamos</h2>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué domino</h2>
             <p className="mt-4 font-body text-ink-soft">
               Tecnología moderna y probada para construir productos rápidos, sólidos y listos para crecer.
             </p>
@@ -223,7 +240,10 @@ export default function SobreNosotrosPage() {
           <Reveal className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Algunos proyectos</h2>
             <p className="mt-4 font-body text-ink-soft">
-              Una muestra pública; el resto vive bajo NDA (SaaS, fintech, logística).
+              Una muestra pública; el resto está bajo NDA (SaaS, fintech, logística).
+            </p>
+            <p className="mt-3 font-body text-sm text-ink-soft">
+              [VERIFICAR: ¿fintech y logística son reales?]
             </p>
           </Reveal>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -246,16 +266,16 @@ export default function SobreNosotrosPage() {
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">¿Hablamos de tu proyecto?</h2>
             <p className="mx-auto mt-4 max-w-xl font-body text-ink-soft">
-              Cuéntanos qué necesitas. Te respondemos en menos de 24 horas.
+              Cuéntame qué necesitas y te respondo personalmente.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button asChild size="lg">
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  Escríbenos por WhatsApp
-                </a>
+                <a href="/precios">Ver precios</a>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <a href="/#contacto">Calcular mi proyecto</a>
+                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                  Escríbeme por WhatsApp
+                </a>
               </Button>
             </div>
           </Reveal>

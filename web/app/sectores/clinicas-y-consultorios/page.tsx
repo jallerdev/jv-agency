@@ -184,7 +184,7 @@ const FAQS = [
 export default function ClinicasYConsultoriosPage() {
   // Service, no LocalBusiness ni MedicalBusiness: el prestador de salud es el
   // cliente, no yo. Lo que se ofrece acá es diseño de páginas web, y marcarlo
-  // como negocio médico sería declarar algo que no somos. Sin FAQPage: desde
+  // como negocio médico sería declarar algo que no soy. Sin FAQPage: desde
   // 2023 Google lo restringió a sitios de gobierno y salud.
   const jsonLd = {
     "@context": "https://schema.org",

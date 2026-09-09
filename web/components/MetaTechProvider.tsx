@@ -6,12 +6,12 @@ import { cn } from "@/lib/utils";
 //   • NO se usa el logotipo de Meta ni el de WhatsApp. Cualquier contenido con
 //     activos de marca de Meta, Facebook, Instagram o WhatsApp requiere
 //     aprobación previa por su proceso de Brand Review. Por eso el sello de
-//     abajo es un escudo dibujado por nosotros, con NUESTRA paleta.
+//     abajo es un escudo dibujado por mí, con MI paleta.
 //   • NO se escribe "Powered by Meta": Meta lo prohíbe expresamente.
 //   • NO se insinúa respaldo ni recomendación. La frase es descriptiva y
-//     factual: declara una verificación que efectivamente tenemos.
-//   • Se mantiene la separación de identidades: nuestra tipografía, nuestros
-//     colores, sin azul de Meta ni verde de WhatsApp.
+//     factual: declara una verificación que efectivamente tengo.
+//   • Se mantiene la separación de identidades: mi tipografía, mis colores,
+//     sin azul de Meta ni verde de WhatsApp.
 //
 // El estatus es real y demostrable: verificación de negocio aprobada el
 // 11/07/2026 y "Access verification status: verificado como proveedor de
@@ -153,9 +153,9 @@ export function MetaTechProvider({
               Proveedor de tecnología verificado por Meta
             </p>
             <p className="mt-3 max-w-[58ch] text-pretty font-body text-sm leading-relaxed text-ink-soft">
-              Conectamos la cuenta de WhatsApp Business de tu negocio y construimos las
+              Conecto la cuenta de WhatsApp Business de tu negocio y construyo las
               automatizaciones sobre ella. Tu número, tus plantillas y la cuenta{" "}
-              <strong className="font-semibold text-ink">a tu nombre</strong> —no al nuestro.
+              <strong className="font-semibold text-ink">a tu nombre</strong> —no al mío.
             </p>
           </div>
         </div>

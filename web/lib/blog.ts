@@ -2,8 +2,8 @@
 // JSON-LD y la metadata de cada página.
 //
 // AUDIENCIA: dueños de PYMEs y negocios locales que evalúan tener (o rehacer)
-// su presencia web. NO escribimos acá sobre prospección, CRM ni ventas B2B —
-// ese clúster es de halcon.jvagencia.com, y duplicarlo haría que nuestros dos
+// su presencia web. NO escribo acá sobre prospección, CRM ni ventas B2B —
+// ese clúster es de halcon.jvagencia.com, y duplicarlo haría que mis dos
 // dominios compitan por la misma consulta y se partan la señal entre ellos.
 //
 // Regla de enlazado: cuando un post toque un tema de ventas o seguimiento de

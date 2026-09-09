@@ -42,8 +42,8 @@ export function MediaSection() {
             <span className="text-primary-dark"> de punta a punta.</span>
           </h2>
           <p className="mt-5 font-body text-lg text-ink-soft">
-            En vez de enseñar diez capturas, contamos una entera: qué necesitaba el negocio, qué
-            se construyó y cómo quedó. Los demás proyectos están más abajo.
+            En vez de enseñarte diez capturas, te cuento una entera: qué necesitaba el negocio,
+            qué construí y cómo quedó. Los demás proyectos están más abajo.
           </p>
         </Reveal>
 
@@ -98,7 +98,7 @@ export function MediaSection() {
                   <div className="relative aspect-[16/9] overflow-hidden bg-ink">
                     <Image
                       src={BLOOMROSE_IMG}
-                      alt="Bloomrose — tienda de bisutería y accesorios diseñada y construida por JV Agencia"
+                      alt="Bloomrose — tienda de bisutería y accesorios que diseñé y construí"
                       width={2000}
                       height={1160}
                       quality={85}
@@ -175,7 +175,7 @@ export function MediaSection() {
 
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
-                  Qué se construyó
+                  Qué construí
                 </p>
                 <ul className="mt-3 divide-y divide-line border-y border-line">
                   {FEATURES.map((s) => (

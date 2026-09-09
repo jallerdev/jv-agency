@@ -13,7 +13,7 @@ export default function TerminosPage() {
   return (
     <LegalPage
       title="Términos y Condiciones"
-      intro="Estos términos regulan el uso de este sitio web y la contratación de los servicios de JV Agencia. Al navegar o contratar nuestros servicios, aceptas estas condiciones."
+      intro="Estos términos regulan el uso de este sitio web y la contratación de los servicios de JV Agencia. Al navegar o contratar mis servicios, aceptas estas condiciones."
     >
       <h2>1. Identificación</h2>
       <p>
@@ -53,7 +53,7 @@ export default function TerminosPage() {
 
       <h2>6. Responsabilidad</h2>
       <p>
-        Nos esforzamos por entregar trabajo de alta calidad, pero no garantizamos resultados
+        Me esfuerzo por entregar trabajo de alta calidad, pero no garantizo resultados
         comerciales específicos (ventas, posicionamiento, tráfico). JV Agencia no será responsable por
         daños indirectos derivados del uso del sitio o de los servicios, ni por fallas de proveedores
         de terceros (alojamiento, dominios, plataformas).
@@ -61,7 +61,7 @@ export default function TerminosPage() {
 
       <h2>7. Enlaces de terceros</h2>
       <p>
-        Este sitio puede contener enlaces a sitios de terceros. No somos responsables del contenido ni
+        Este sitio puede contener enlaces a sitios de terceros. No soy responsable del contenido ni
         de las políticas de privacidad de dichos sitios.
       </p>
 
@@ -73,7 +73,7 @@ export default function TerminosPage() {
 
       <h2>9. Contacto</h2>
       <p>
-        Para preguntas sobre estos términos, escríbenos a{" "}
+        Para preguntas sobre estos términos, escríbeme a{" "}
         <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.
       </p>
     </LegalPage>

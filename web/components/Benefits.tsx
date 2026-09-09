@@ -189,7 +189,7 @@ export function Benefits() {
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <Reveal stagger distance="lg">
-            <Badge>Lo que hacemos</Badge>
+            <Badge>Lo que hago</Badge>
             <h2 className="mt-6 text-balance font-display text-4xl/[1.15] text-ink sm:text-5xl/[1.08]">
               Páginas web, tiendas online{" "}
               <span className="text-metal text-metal-block">
@@ -199,9 +199,9 @@ export function Benefits() {
           </Reveal>
           <Reveal delay={140}>
             <p className="font-body text-lg leading-relaxed text-ink-soft lg:pb-2">
-              No necesitas un diseñador por un lado y un programador por otro. Necesitas un equipo
-              donde las dos cosas se hablan desde el primer día. Eso somos — y desde que Meta nos
-              verificó como proveedor de tecnología, también dejamos tu WhatsApp contestando solo.
+              No necesitas un diseñador por un lado y un programador por otro. Necesitas a alguien
+              que haga las dos cosas y que hable contigo directo. Eso hago —y desde que Meta me
+              verificó como proveedor de tecnología, también dejo tu WhatsApp contestando solo.
             </p>
           </Reveal>
         </div>

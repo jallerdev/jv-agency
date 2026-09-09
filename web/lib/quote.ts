@@ -253,7 +253,7 @@ export const TOGGLES: Record<ToggleKey, ToggleDef> = {
     appliesTo: TODOS,
     recomendadoEn: TODOS,
     incluye: [
-      "Registro del dominio a tu nombre, no al nuestro",
+      "Registro del dominio a tu nombre, no al mío",
       "Apuntado al hosting y certificado SSL activo",
       "Primer año incluido; la renovación anual la pagas al registrador",
     ],
@@ -491,19 +491,19 @@ export type Opcion<T extends string> = {
 export const CONTENIDO_OPCIONES: Opcion<Contenido>[] = [
   {
     id: "cliente",
-    label: "Yo entrego los textos y las fotos",
-    desc: "Tú mandas todo listo. Nosotros lo maquetamos y lo corregimos de forma.",
+    label: "Tú entregas los textos y las fotos",
+    desc: "Tú mandas todo listo. Yo lo maqueto y lo corrijo de forma.",
   },
   {
     id: "textos",
-    label: "Ustedes escriben los textos, yo doy las fotos",
-    desc: "Escribimos cada página pensada para vender. Las imágenes las pones tú.",
+    label: "Yo escribo los textos, tú das las fotos",
+    desc: "Escribo cada página pensada para vender. Las imágenes las pones tú.",
     porPagina: true,
   },
   {
     id: "todo",
-    label: "Ustedes se encargan de todo",
-    desc: "Textos escritos por nosotros, imágenes de banco con licencia, y te arreglamos las fotos que tomes con el celular.",
+    label: "Yo me encargo de todo",
+    desc: "Textos escritos por mí, imágenes de banco con licencia, y te arreglo las fotos que tomes con el celular.",
     porPagina: true,
   },
 ];
@@ -517,7 +517,7 @@ export const MIGRACION_OPCIONES: Opcion<Migracion>[] = [
 export const MARCA_OPCIONES: Opcion<Marca>[] = [
   { id: "completa", label: "Tengo logo y manual de marca", desc: "Colores, tipografías y uso del logo ya definidos. Los aplicamos tal cual." },
   { id: "solo-logo", label: "Tengo logo, nada más", desc: "Extendemos el logo a una paleta, una tipografía y un estilo para el sitio." },
-  { id: "nada", label: "No tengo nada todavía", desc: "Creamos la identidad: logo, paleta, tipografías y manual de uso básico." },
+  { id: "nada", label: "No tengo nada todavía", desc: "Creo la identidad: logo, paleta, tipografías y manual de uso básico." },
 ];
 
 export const COBRO_OPCIONES: Opcion<Cobro>[] = [
@@ -557,7 +557,7 @@ export const SEO_DETALLE: Record<SeoNivel, string[]> = {
 };
 
 export const MANTENIMIENTO_OPCIONES: Opcion<MantenimientoWeb>[] = [
-  { id: "ninguno", label: "Sin plan", desc: "Te entregamos el sitio y queda a tu cargo. Puedes contratarlo después." },
+  { id: "ninguno", label: "Sin plan", desc: "Te entrego el sitio y queda a tu cargo. Puedes contratarlo después." },
   { id: "basico", label: "Básico", desc: "Que no se caiga y que esté al día." },
   { id: "estandar", label: "Estándar", desc: "Lo anterior más cambios de contenido cada mes." },
   { id: "avanzado", label: "Avanzado", desc: "Lo anterior más mejoras continuas y acompañamiento." },
@@ -755,12 +755,12 @@ export function deliveryLabel(type: SiteType | null, delivery: Delivery): string
 //     (una vez) y `monthly` (mensual) por separado. Mezclarlos infla el número
 //     de entrada y confunde al cliente.
 //
-//  2. LAS CONVERSACIONES NO SON INGRESO NUESTRO. Somos Tech Provider verificado
+//  2. LAS CONVERSACIONES NO SON INGRESO MIO. Soy Tech Provider verificado
 //     por Meta: en ese modelo Meta le cobra el consumo de la API DIRECTAMENTE al
-//     cliente, con su propio medio de pago. Nosotros cobramos por construir y
+//     cliente, con su propio medio de pago. Yo cobro por construir y
 //     mantener. Por eso el costo de conversaciones NO entra en los totales — se
 //     comunica como nota (ver `META_BILLING_NOTE`). Meterlo como ingreso sería
-//     cobrar dos veces algo que no facturamos.
+//     cobrar dos veces algo que no facturo.
 
 export type AutomationType = "faq" | "leads" | "citas" | "pedidos" | "avisos";
 
@@ -881,7 +881,7 @@ export const A_PLAN_DETALLE: Record<MaintenancePlan, string[]> = {
   ],
   avanzado: [
     "Todo lo del plan Estándar",
-    "Una mejora del flujo al mes, propuesta por nosotros con base en los datos",
+    "Una mejora del flujo al mes, que te propongo con base en los datos",
     "Revisión de las preguntas que el bot no supo contestar, y su solución",
     "Prioridad en la cola de soporte",
   ],
@@ -918,10 +918,10 @@ export const initialAutomationAnswers: AutomationAnswers = {
 /** Misma forma que el cotizador web: `Totals` ya trae el recurrente mensual. */
 export type AutomationTotals = Totals;
 
-/** Nota obligatoria en la propuesta: el consumo de Meta no lo facturamos nosotros. */
+/** Nota obligatoria en la propuesta: el consumo de Meta no lo facturo yo. */
 export const META_BILLING_NOTE =
   "El consumo de la API de WhatsApp lo cobra Meta directamente a tu cuenta, con tu " +
-  "propio medio de pago. No está incluido acá porque no lo facturamos nosotros: " +
+  "propio medio de pago. No está incluido acá porque no lo facturo yo: " +
   "depende de cuántas conversaciones tengas.";
 
 export function computeAutomationTotals(a: AutomationAnswers): AutomationTotals {
@@ -1080,13 +1080,13 @@ export const SEO_EXTRA_LABEL: Record<SeoExtraKey, string> = {
 
 export const SEO_EXTRA_DETALLE: Record<SeoExtraKey, string[]> = {
   puestaApunto: [
-    "Revisamos el sitio entero y hacemos la lista de lo que lo está frenando en Google",
-    "Arreglamos lo encontrado: páginas lentas, enlaces rotos, textos repetidos, imágenes pesadas, páginas que Google no puede leer",
-    "Averiguamos qué busca la gente de tu sector y con qué palabras exactas, y asignamos una página a cada búsqueda",
-    "Dejamos los títulos, las descripciones y los datos que Google lee en cada página",
-    "Instalamos la analítica y damos de alta el sitio en Google, para poder medir desde el mes uno",
+    "Reviso el sitio entero y hago la lista de lo que lo está frenando en Google",
+    "Arreglo lo encontrado: páginas lentas, enlaces rotos, textos repetidos, imágenes pesadas, páginas que Google no puede leer",
+    "Averiguo qué busca la gente de tu sector y con qué palabras exactas, y asigno una página a cada búsqueda",
+    "Dejo los títulos, las descripciones y los datos que Google lee en cada página",
+    "Instalo la analítica y doy de alta el sitio en Google, para poder medir desde el mes uno",
     "Va una sola vez, al principio. Es arrancar parejo: sin esto, el trabajo mensual empuja un carro con el freno puesto",
-    "Si el sitio lo hicimos nosotros con SEO técnico incluido, esto ya está hecho y no se cobra",
+    "Si el sitio lo hice yo con SEO técnico incluido, esto ya está hecho y no se cobra",
   ],
   ficha: [
     "Creación y verificación de la ficha ante Google",
@@ -1190,5 +1190,5 @@ export function seoContenidosTotales(a: SeoAnswers): number {
 export const SEO_HONESTY_NOTE =
   "Nadie puede garantizarte el primer puesto en Google, y quien te lo prometa " +
   "por escrito te está mintiendo: las posiciones las decide Google, no la " +
-  "agencia. Lo que sí garantizamos es el trabajo hecho, medido y visible en un " +
+  "agencia. Lo que sí te garantizo es el trabajo hecho, medido y visible en un " +
   "informe. Los primeros movimientos se ven entre el mes 3 y el 6.";

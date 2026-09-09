@@ -5,7 +5,7 @@ import { ADDRESS_LINE, BUSINESS } from "@/lib/business";
 export const metadata: Metadata = {
   title: "Política de Privacidad y Tratamiento de Datos | JV Agencia",
   description:
-    "Política de tratamiento de datos personales de JV Agencia conforme a la Ley 1581 de 2012 (Habeas Data) de Colombia. Conoce qué datos recolectamos, con qué fin y cómo ejercer tus derechos.",
+    "Política de tratamiento de datos personales de JV Agencia conforme a la Ley 1581 de 2012 (Habeas Data) de Colombia. Conoce qué datos recolecto, con qué fin y cómo ejercer tus derechos.",
   alternates: { canonical: "/privacidad" },
 };
 
@@ -13,7 +13,7 @@ export default function PrivacidadPage() {
   return (
     <LegalPage
       title="Política de Privacidad y Tratamiento de Datos"
-      intro="En JV Agencia respetamos y protegemos tus datos personales. Esta política describe cómo los recolectamos, usamos y protegemos, conforme a la Ley 1581 de 2012 y el Decreto 1074 de 2015 de Colombia (régimen de Habeas Data)."
+      intro="En JV Agencia respeto y protejo tus datos personales. Esta política describe cómo los recolecto, uso y protejo, conforme a la Ley 1581 de 2012 y el Decreto 1074 de 2015 de Colombia (régimen de Habeas Data)."
     >
       <h2>1. Responsable del tratamiento</h2>
       <p>
@@ -39,16 +39,16 @@ export default function PrivacidadPage() {
         Colombia.
       </p>
 
-      <h2>3. Datos que recolectamos</h2>
-      <p>Tratamos únicamente los datos que nos entregas de forma voluntaria, entre ellos:</p>
+      <h2>3. Datos que recolecto</h2>
+      <p>Trato únicamente los datos que me entregas de forma voluntaria, entre ellos:</p>
       <ul>
         <li>
           <strong>Datos de contacto:</strong> nombre, correo electrónico y número de teléfono que
-          ingresas en nuestro formulario de contacto o cotizador.
+          ingresas en el formulario de contacto o en el cotizador.
         </li>
         <li>
           <strong>Comunicaciones por WhatsApp:</strong> tu número de teléfono y el contenido de los
-          mensajes que nos envías cuando nos escribes por WhatsApp.
+          mensajes que me envías cuando me escribes por WhatsApp.
         </li>
         <li>
           <strong>Datos del proyecto:</strong> la información que compartes sobre tu negocio o
@@ -70,23 +70,23 @@ export default function PrivacidadPage() {
           WhatsApp.
         </li>
         <li>Gestionar la facturación y obligaciones contractuales.</li>
-        <li>Mejorar nuestro sitio web y la calidad de nuestros servicios.</li>
+        <li>Mejorar este sitio web y la calidad de los servicios que presto.</li>
       </ul>
       <p>
-        No vendemos, alquilamos ni compartimos tus datos personales con terceros para fines
-        comerciales ajenos a JV Agencia.
+        No vendo, alquilo ni comparto tus datos personales con terceros para fines comerciales
+        ajenos a JV Agencia.
       </p>
 
       <h2>5. Autorización</h2>
       <p>
-        Al enviar el formulario de contacto, usar el cotizador o escribirnos por WhatsApp, autorizas
+        Al enviar el formulario de contacto, usar el cotizador o escribirme por WhatsApp, autorizas
         de forma libre, previa, expresa e informada el tratamiento de tus datos personales conforme a
         esta política.
       </p>
 
       <h2>6. Encargados y transferencias</h2>
       <p>
-        Para operar, podemos apoyarnos en proveedores tecnológicos que actúan como encargados del
+        Para operar, puedo apoyarme en proveedores tecnológicos que actúan como encargados del
         tratamiento bajo sus propias políticas de privacidad, entre ellos:
       </p>
       <ul>
@@ -110,20 +110,20 @@ export default function PrivacidadPage() {
       <p>
         Puedes ejercer tus derechos escribiendo a{" "}
         <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> indicando tu nombre, el derecho que
-        deseas ejercer y tu solicitud. Atenderemos consultas en un máximo de 10 días hábiles y
+        deseas ejercer y tu solicitud. Atiendo las consultas en un máximo de 10 días hábiles y los
         reclamos en un máximo de 15 días hábiles, conforme a la ley.
       </p>
 
       <h2>9. Seguridad</h2>
       <p>
-        Aplicamos medidas técnicas y organizativas razonables para proteger tus datos contra acceso no
-        autorizado, pérdida o alteración. El acceso a la información está restringido al personal
-        necesario para cumplir las finalidades descritas.
+        Aplico medidas técnicas y organizativas razonables para proteger tus datos contra acceso no
+        autorizado, pérdida o alteración. El acceso a la información está restringido a lo
+        estrictamente necesario para cumplir las finalidades descritas.
       </p>
 
       <h2>10. Vigencia y cambios</h2>
       <p>
-        Esta política rige desde su publicación y puede actualizarse. Publicaremos cualquier cambio en
+        Esta política rige desde su publicación y puede actualizarse. Publicaré cualquier cambio en
         esta misma página, indicando la fecha de la última actualización.
       </p>
     </LegalPage>

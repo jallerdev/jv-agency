@@ -44,13 +44,13 @@ const plexMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   // El título arranca con lo que la gente escribe en Google —"diseño de páginas
-  // web"— y no con el nombre de la agencia, que solo busca quien ya nos conoce.
+  // web"— y no con el nombre de la marca, que solo busca quien ya me conoce.
   // 57 caracteres: cabe entero en el resultado sin que Google lo corte.
   title: "Diseño de páginas web en Colombia para PYMEs | JV Agencia",
   description:
-    "Diseñamos páginas web, tiendas online y chatbots de WhatsApp para PYMEs de Colombia y LATAM. Diseño y código en el mismo equipo, sin presupuesto corporativo.",
+    "Diseño páginas web, tiendas online y chatbots de WhatsApp para PYMEs de Colombia y LATAM. Yo diseño y yo programo, sin presupuesto corporativo.",
   // `keywords` se quitó a propósito: Google dejó de usarla en 2009 y lo único
-  // que logra es mostrarle a la competencia por qué términos peleamos.
+  // que logra es mostrarle a la competencia por qué términos peleo.
   applicationName: SITE_NAME,
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
@@ -69,9 +69,9 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: "Diseño de páginas web en Colombia | JV Agencia",
     description:
-      "Páginas web, tiendas online y chatbots de WhatsApp para PYMEs. Diseño y código en el mismo equipo.",
+      "Páginas web, tiendas online y chatbots de WhatsApp para PYMEs. Las diseño y las programo yo mismo.",
     siteName: SITE_NAME,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "JV Agencia — diseño + código" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "JV Agencia — diseño y código en las mismas manos" }],
   },
   twitter: {
     card: "summary_large_image",
