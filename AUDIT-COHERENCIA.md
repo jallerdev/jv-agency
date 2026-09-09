@@ -1,4 +1,4 @@
-# Auditoría de coherencia — J&V Agencia
+# Auditoría de coherencia — JV Agencia
 
 > Hecha el 2 de septiembre de 2026. Barrió `web/`, los dos kits de ventas, el blog,
 > `llms.txt` y los datos estructurados, buscando sitios donde el sitio **dice una cosa y

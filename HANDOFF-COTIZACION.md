@@ -80,7 +80,7 @@ Va en `web/public/`, siguiendo el patrón de `cotizacion-funeraria-sfa.html` y
 `cotizacion-aula-monica.html`: HTML autocontenido, `noindex`, tematizado con la paleta del
 cliente sobre la misma retícula.
 
-**Ya está preparado:** `docs/cotizaciones/estilo-pixels-maker.css` — el CSS de la familia J&V
+**Ya está preparado:** `docs/cotizaciones/estilo-pixels-maker.css` — el CSS de la familia JV Agencia
 con la paleta de Pixels Maker (amarillo `#FFFF00` / negro / blanco, muestreados de su logotipo;
 tipografías Big Shoulders Display + Barlow). Pegarlo dentro del `<style>` del nuevo archivo.
 
