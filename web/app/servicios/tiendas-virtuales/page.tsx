@@ -193,9 +193,14 @@ const FAQS = [
   },
   {
     q: "¿Cuánto me cobra la pasarela por cada venta?",
-    a: "Eso lo cobra la pasarela, no yo. ePayco, Wompi, PayU y Mercado Pago cobran un porcentaje por transacción más un fijo, y ese porcentaje cambia según el medio de pago —PSE no cuesta lo mismo que una tarjeta de crédito— y según cuánto factures al mes. La cuenta la abres tú, a tu nombre, y el dinero llega a tu cuenta sin pasar por la mía.",
-    verify:
-      "[PENDIENTE: tarifas vigentes de ePayco, Wompi, PayU y Mercado Pago. No se publica ninguna cifra hasta confirmarla en la página de cada pasarela, porque cambian y quedar desactualizado aquí es peor que no decirlo]",
+    /* La cifra va como RANGO y dicho que es aproximado, y el número que manda
+       es el de la pasarela. Publicar aquí la tarifa exacta de cada una sería
+       firmar un dato que ninguna de las cuatro me deja verificar desde fuera
+       —Wompi responde 403, PayU redirige a otro dominio y Mercado Pago pide
+       sesión— y que además cambian cuando quieren. Un rango orienta sin
+       prometer; una cifra desactualizada en una página de precios es una
+       mentira con fecha. */
+    a: "Eso lo cobra la pasarela, no yo. De referencia: en Colombia la comisión anda entre el 2,5 % y el 3,5 % de cada venta más un fijo de unos $700 a $1.000 por transacción, y sobre eso el IVA. Es un aproximado —cambia según el medio de pago (PSE no cuesta lo mismo que una tarjeta de crédito) y según cuánto factures al mes—, así que la cifra que manda es la que publica cada pasarela en su documentación oficial: ePayco, Wompi, PayU y Mercado Pago la tienen en su propia página de tarifas y ahí hay que mirarla antes de escoger. La cuenta la abres tú, a tu nombre, y el dinero llega a tu cuenta sin pasar por la mía.",
   },
   {
     q: "¿Voy a pagar mensualidad y además comisión por venta?",
