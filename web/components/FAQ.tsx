@@ -46,9 +46,11 @@ const FAQS: Faq[] = [
   },
   {
     q: "¿Cuánto tarda un proyecto?",
-    a: "Depende del tipo: una landing page toma de 1 a 4 semanas, una web corporativa de 2 a 5 y una tienda online de 3 a 8, según el plazo que escojas. Un software a la medida varía más y lo estimo contigo. Las semanas se cuentan desde que tenga el contenido y la marca; si los textos los escribo yo, ese tiempo ya está contado.",
-    verify:
-      "[VERIFICAR: estos plazos (1 a 4 semanas) contradicen el «lista en 5 días» de la tabla de precios. Decide cuál es el bueno antes de publicar.]",
+    /* Plazos confirmados por Luis el 9 de septiembre de 2026. Lo que resuelve
+       la contradiccion no es el numero sino DESDE CUANDO cuenta: el reloj
+       arranca con el material en la mano, no con la propuesta aceptada. Sin
+       esa frase, «5 dias» es una promesa que el cliente puede romper solo. */
+    a: "Depende del tipo, y el reloj arranca cuando tengo el material —contenido, marca y accesos—, no cuando aceptas la propuesta. Una landing page sale en 5 días. Una web corporativa toma de 1 a 2 semanas. Una tienda online, de 3 a 5. Un chatbot de WhatsApp, de 1 a 5 semanas según lo que automatices. Un software a la medida varía más y lo estimo contigo antes de empezar. Si los textos los escribo yo, ese tiempo ya está contado.",
   },
   {
     q: "¿Haces marketing o publicidad también?",

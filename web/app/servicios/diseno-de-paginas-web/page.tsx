@@ -92,9 +92,6 @@ export const metadata: Metadata = {
 const pesos = (n: number) => money(n).replace(/\s/g, "");
 
 /** El plazo está en disputa dentro del propio sitio. Se dice a la vista. */
-const VERIFICAR_PLAZO =
-  "[VERIFICAR: plazo real — el FAQ de la portada dice 1 a 4 semanas para una landing y acá y en /precios dice 5 días. Hay que decidir cuál es el bueno.]";
-
 /**
  * Las situaciones en que alguien contrata esto. No son perfiles de cliente:
  * son momentos. Quien se reconoce en uno ya sabe que necesita el servicio.
@@ -239,7 +236,6 @@ const FAQS = [
   {
     q: "¿En cuánto me la entregas de verdad, y desde cuándo se cuentan los días?",
     a: "Cinco días. Y la segunda mitad de la pregunta importa más que la primera: los días empiezan a contar cuando tengo el contenido y la marca, no el día que hablamos. Si me tardas dos semanas en mandar las fotos, la entrega se corre dos semanas y eso no es culpa de nadie. Si los textos los escribo yo, ese tiempo ya está contado.",
-    verify: VERIFICAR_PLAZO,
   },
   {
     q: "¿Yo la puedo editar después sin llamarte?",
@@ -472,7 +468,7 @@ export default function DisenoDePaginasWebPage() {
           <Reveal>
             <Badge>Precio y plazo</Badge>
             <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
-              Desde $850.000, lista en 5 días
+              Desde $850.000: la landing en 5 días, la corporativa en 1 a 2 semanas
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
               Es un piso, no una tarifa cerrada. El número final depende de cuántas páginas lleve,
@@ -486,13 +482,6 @@ export default function DisenoDePaginasWebPage() {
             </p>
           </Reveal>
 
-          {/* Dato en disputa dentro del propio sitio. A la vista, pegado al
-              plazo que contradice. El FAQ de la portada no se toca. */}
-          <Reveal>
-            <p className="mt-6 max-w-[62ch] rounded-xl border border-dashed border-accent/60 bg-accent/[0.07] px-4 py-3 font-mono text-xs leading-relaxed text-accent-ink">
-              {VERIFICAR_PLAZO}
-            </p>
-          </Reveal>
 
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {FORMATOS.map((f, i) => {
@@ -547,7 +536,7 @@ export default function DisenoDePaginasWebPage() {
               <strong className="text-ink">¿Vas a vender en línea?</strong> Carrito, inventario y
               pagos ya no son una página web: son una{" "}
               <strong className="text-ink">tienda virtual</strong>, y va por otro lado: desde
-              $2.500.000 y 3 semanas. Está en{" "}
+              $2.500.000 y de 3 a 5 semanas. Está en{" "}
               <Link
                 href="/servicios/tiendas-virtuales"
                 className="text-primary-dark underline underline-offset-4"
@@ -712,8 +701,15 @@ export default function DisenoDePaginasWebPage() {
                 <h3 className="mt-4 font-display text-2xl text-ink">HalcónOS y Hummik</h3>
                 <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
                   Un CRM de ventas y una agenda de citas por WhatsApp, los dos míos y los dos en
-                  línea. No son páginas web, son software, y están acá por una sola razón: si
-                  puedo construir y sostener eso, la página de tu negocio no es el reto.
+                  línea. No son páginas web, son{" "}
+                  <Link
+                    href="/servicios/software-a-la-medida"
+                    className="text-primary-dark underline underline-offset-4 hover:text-accent"
+                  >
+                    software a la medida
+                  </Link>
+                  , y están acá por una sola razón: si puedo construir y sostener eso, la página
+                  de tu negocio no es el reto.
                 </p>
                 <a
                   href="https://halcon.jvagencia.com"

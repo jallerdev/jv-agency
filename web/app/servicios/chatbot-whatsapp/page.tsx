@@ -177,7 +177,9 @@ export default function ChatbotWhatsappPage() {
           <Reveal>
             <Badge>Chatbot de WhatsApp</Badge>
             <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              Tu WhatsApp contesta solo:
+              {/* El espacio explícito importa: sin él, el textContent del h1 que
+                  lee un rastreador queda «contesta solo:responde». */}
+              Tu WhatsApp contesta solo:{" "}
               <span className="block text-metal">responde, agenda y vende</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">

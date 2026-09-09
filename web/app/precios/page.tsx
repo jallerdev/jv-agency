@@ -73,17 +73,15 @@ const LINEAS: Linea[] = [
   {
     servicio: "Página web",
     precio: "desde $850.000",
-    plazo: "lista en 5 días",
+    plazo: "5 días la landing · 1 a 2 semanas la corporativa",
     montoCop: 850000,
     esDesde: true,
     schemaDesc: "Página web a la medida, con dominio y correo propio.",
-    verify:
-      "[VERIFICAR: plazo real de una página web — el FAQ dice 1 a 4 semanas]",
   },
   {
     servicio: "Tienda online",
     precio: "desde $2.500.000",
-    plazo: "3 semanas",
+    plazo: "3 a 5 semanas",
     montoCop: 2500000,
     esDesde: true,
     schemaDesc:

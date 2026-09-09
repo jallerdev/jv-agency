@@ -276,7 +276,7 @@ export default function TiendasVirtualesPage() {
       "@type": "Offer",
       name: "Tienda online",
       description:
-        "Tienda en línea con catálogo, carrito, cuentas, pagos y envíos. Entrega en 3 semanas desde que el catálogo está completo.",
+        "Tienda en línea con catálogo, carrito, cuentas, pagos y envíos. Entrega en 3 a 5 semanas desde que el catálogo está completo.",
       priceSpecification: {
         "@type": "PriceSpecification",
         priceCurrency: "COP",
@@ -429,7 +429,7 @@ export default function TiendasVirtualesPage() {
                 <p className="font-mono text-2xl text-primary-dark">desde {money(2500000)}</p>
               </div>
               <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-line bg-background/50 px-4 py-2 font-body text-sm text-ink-soft">
-                <Clock className="h-4 w-4 text-accent" />3 semanas desde que el catálogo está
+                <Clock className="h-4 w-4 text-accent" />3 a 5 semanas desde que el catálogo está
                 completo
               </p>
               <p className="mt-5 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">

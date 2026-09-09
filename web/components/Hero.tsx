@@ -129,9 +129,13 @@ export function Hero() {
             `leading-tight`, así que en escritorio el h1 renderizaba a
             ratio 1,0 y los descendentes casi tocaban la línea siguiente. */}
         <h1 className="mt-7 text-balance font-display text-[2.85rem]/[1.06] font-light tracking-[-0.02em] text-ink sm:mt-8 sm:text-6xl/[1.04] lg:text-[3.5rem]/[1.05] xl:text-[4rem]/[1.03]">
+          {/* El espacio explícito importa. Las dos líneas del titular son
+              bloques distintos, así que la maqueta se ve bien igual; pero el
+              textContent que lee un rastreador iba pegado —«páginas webque
+              hacen»— y ahí se perdía el término exacto del h1 de la portada. */}
           <span className="jv-hero-line">
             <span style={{ "--jv-delay": "120ms" } as React.CSSProperties}>
-              Diseño de páginas web
+              Diseño de páginas web{" "}
             </span>
           </span>
           <span className="jv-hero-line">
