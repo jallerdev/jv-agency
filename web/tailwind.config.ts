@@ -17,6 +17,18 @@ const config: Config = {
         body: ["var(--font-body)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
+      /* La escala de opacidad de Tailwind va de cinco en cinco, y el
+         modificador `/12` que hay repartido por el sitio —`bg-primary/12`,
+         `bg-success/12`, `border-surface/12`, `to-secondary/12`— NO existe en
+         ella: esas nueve utilidades no generaban regla ninguna y el fondo
+         salía transparente o el borde caía al color por defecto. Se ve al
+         mirar el CSS servido: `bg-success/15` está, `bg-success/12` no.
+
+         Añadir el 12 arregla las nueve de una vez y deja escrito el valor que
+         alguien quiso. */
+      opacity: {
+        12: "0.12",
+      },
       colors: {
         primary: {
           DEFAULT: "#985C3E",
@@ -42,7 +54,14 @@ const config: Config = {
           soft: "#6B5E54",
         },
         line: "#E4D8CB",
-        success: "#4F7A52",
+        success: {
+          DEFAULT: "#4F7A52",
+          /* El mismo verde, oscurecido, para cuando hace de TEXTO —misma
+             regla que `accent.ink`. #4F7A52 da 3,98:1 sobre la pastilla de
+             `bg-success/12` y 4,35:1 sobre el papel: pasa para un icono de
+             24px, no para una etiqueta de 10px. Este da 5,23:1 y 6,06:1. */
+          ink: "#3F6642",
+        },
         warning: "#B57E2C",
         danger: "#B0453C",
       },

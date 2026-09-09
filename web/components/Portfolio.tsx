@@ -1,18 +1,42 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import * as Acordeon from "@radix-ui/react-accordion";
 import { ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
+import { cn } from "@/lib/utils";
 
 /**
- * Rejilla de proyectos, en dos grupos: los que están en línea con dominio
- * propio y los que construí por iniciativa propia (proyectos de estudio).
+ * El trabajo, como expediente.
  *
- * Las capturas son de los sitios REALES construidos, no maquetas. Los que
- * están en línea enlazan al sitio para que cualquiera lo compruebe: un
- * portafolio que no se puede verificar vale lo mismo que no tenerlo.
+ * POR QUÉ NO ES UNA REJILLA
+ * -------------------------
+ * Era una rejilla de seis placas iguales, y una rejilla trata a seis proyectos
+ * como seis celdas: la mirada las recorre de una pasada, ninguna gana peso y
+ * de ninguna se cuenta nada. Peor: con seis piezas siempre sobra sitio en la
+ * última fila, así que la composición se pasaba el rato tapando huecos —una
+ * placa ancha arriba, dos debajo, tres en tercios— en vez de decir algo.
  *
- * Cada descripción sale de la propia página del proyecto, no de mi
- * interpretación de lo que hace el negocio.
+ * Ahora es una lista de expedientes con uno abierto. Cada fila declara qué es
+ * y en qué estado está; la abierta enseña la captura a tamaño de verdad y, al
+ * lado, su ficha. Con pocos proyectos y buenos, la profundidad vende más que
+ * el inventario: el visitante no cuenta seis miniaturas, lee un caso.
+ *
+ * SIEMPRE HAY UNO ABIERTO
+ * -----------------------
+ * `collapsible` va desactivado a propósito. Si se pudieran cerrar todas, la
+ * sección tendría un estado en el que no se ve ni una captura —una lista de
+ * títulos donde debería haber trabajo—, y encima la ficha lateral se quedaría
+ * sin nada que mostrar.
+ *
+ * LO QUE DICE LA FICHA
+ * --------------------
+ * Tipo, estado, rol y dominio. Nada más, porque nada más está verificado: no
+ * hay fila de tecnologías porque el stack de cada proyecto no vive en estos
+ * datos, y rellenarla de memoria sería inventar en la única sección cuyo
+ * trabajo es demostrar.
  */
 type Proyecto = {
   nombre: string;
@@ -30,8 +54,6 @@ type Proyecto = {
   dominio?: string;
   /** Producto mío: lo construí para mí, nadie me lo encargó. */
   propio?: boolean;
-  /** Proyecto de estudio: terminado, pero sin dominio propio que enseñar. */
-  estudio?: boolean;
 };
 
 const PROYECTOS: Proyecto[] = [
@@ -66,23 +88,23 @@ const PROYECTOS: Proyecto[] = [
     categoria: "Veterinaria",
     desc: "Centro médico veterinario en Turbaco: consulta especializada, cirugía, rayos X, fisioterapia y vacunación, con agenda en línea.",
     img: "/work/animal-expert.webp",
-    estudio: true,
   },
   {
     nombre: "Fta. Elka Gómez",
     categoria: "Salud y spa",
     desc: "Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y experiencias de spa.",
     img: "/work/elka-spa.webp",
-    estudio: true,
   },
   {
     nombre: "Peluquería Marcopolo",
     categoria: "Belleza",
     desc: "Salón de belleza en Barranquilla con cuatro décadas de oficio: corte de autor, color editorial y tratamientos.",
     img: "/work/marcopolo.webp",
-    estudio: true,
   },
 ];
+
+const EN_PRODUCCION = PROYECTOS.filter((p) => p.url);
+const DE_ESTUDIO = PROYECTOS.filter((p) => !p.url);
 
 /* ===========================================================================
    LA PLACA
@@ -101,6 +123,8 @@ const PROYECTOS: Proyecto[] = [
 const BISEL = "rounded-3xl bg-gradient-to-b from-white/95 via-line to-secondary/45 p-[3px]";
 const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-ink";
 
+const SIZES_PLACA = "(min-width:1024px) 46rem, (min-width:768px) 88vw, 92vw";
+
 /**
  * Barra de navegador de la placa.
  *
@@ -108,37 +132,21 @@ const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-ink";
  * Sin dominio: en vez de dejar la barra vacía —que se lee como un marco roto—
  * dice explícitamente en qué estado está el proyecto.
  */
-function BarraNavegador({ dominio, grande = false }: { dominio?: string; grande?: boolean }) {
+function BarraNavegador({ dominio }: { dominio?: string }) {
   return (
-    <div
-      className={[
-        "flex items-center gap-2 border-b border-ink/10 bg-surface",
-        grande ? "px-5 py-3" : "px-4 py-2.5",
-      ].join(" ")}
-    >
+    <div className="flex items-center gap-2 border-b border-ink/10 bg-surface px-5 py-3">
       <span className="flex shrink-0 items-center gap-1.5">
-        <span className={grande ? "h-2.5 w-2.5 rounded-full bg-danger/55" : "h-2 w-2 rounded-full bg-danger/55"} />
-        <span className={grande ? "h-2.5 w-2.5 rounded-full bg-warning/55" : "h-2 w-2 rounded-full bg-warning/55"} />
-        <span className={grande ? "h-2.5 w-2.5 rounded-full bg-success/55" : "h-2 w-2 rounded-full bg-success/55"} />
+        <span className="h-2.5 w-2.5 rounded-full bg-danger/55" />
+        <span className="h-2.5 w-2.5 rounded-full bg-warning/55" />
+        <span className="h-2.5 w-2.5 rounded-full bg-success/55" />
       </span>
 
       {dominio ? (
         <span className="ml-1 flex min-w-0 items-center gap-2 rounded-full border border-line bg-background/70 px-3 py-1">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success ring-2 ring-success/25" />
-          <span
-            className={[
-              "truncate font-mono text-ink-soft",
-              grande ? "text-xs" : "text-[11px]",
-            ].join(" ")}
-          >
-            {dominio}
-          </span>
+          <span className="truncate font-mono text-xs text-ink-soft">{dominio}</span>
         </span>
       ) : (
-        /* Dos palabras y ya: la frase larga no cabía en la barra de una tarjeta
-           de rejilla y se cortaba, que es justo el defecto que este chip venía
-           a arreglar. El porqué lo dice la nota del grupo: son proyectos que
-           construí por iniciativa propia, no encargos de nadie. */
         <span className="ml-1 whitespace-nowrap rounded-full border border-dashed border-secondary px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-primary-dark">
           En estudio
         </span>
@@ -151,25 +159,15 @@ function BarraNavegador({ dominio, grande = false }: { dominio?: string; grande?
  * La captura dentro de la placa.
  *
  * La ventana impone la proporción (16/9) en vez de confiar en el archivo: así
- * las capturas de 1600x1000 y la de 2000x1160 ocupan exactamente el mismo alto
- * y los títulos de una fila comparten línea base. El `scale-[1.04]` anclado
- * arriba recorta la canaleta blanca que trae el archivo de bloomrose por la
- * derecha, sin tocar los assets.
+ * las capturas de 1600x1000 y la de 2000x1160 ocupan exactamente el mismo alto.
+ * El `scale-[1.04]` anclado arriba recorta la canaleta blanca que trae el
+ * archivo de bloomrose por la derecha, sin tocar los assets.
  *
  * Al pasar el cursor la captura se DESPLAZA hacia arriba: se ve la parte del
  * sitio que la ventana escondía. El hover deja de ser "sube 4 px" y pasa a
  * enseñar algo que antes no se veía.
  */
-function Captura({
-  p,
-  sizes,
-  quality = 85,
-}: {
-  p: Proyecto;
-  sizes: string;
-  quality?: number;
-}) {
-  const enLinea = Boolean(p.url);
+function Captura({ p }: { p: Proyecto }) {
   return (
     <div className="relative aspect-[16/9] overflow-hidden bg-ink">
       <Image
@@ -177,16 +175,16 @@ function Captura({
         alt={`${p.nombre} — sitio que diseñé y desarrollé`}
         width={1600}
         height={1000}
-        quality={quality}
-        sizes={sizes}
-        className="absolute inset-x-0 top-0 h-auto w-full origin-top scale-[1.04] transition-transform duration-ambient ease-entrance group-hover:-translate-y-[12%] group-focus-visible:-translate-y-[12%] motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-focus-visible:translate-y-0"
+        quality={85}
+        sizes={SIZES_PLACA}
+        className="absolute inset-x-0 top-0 h-auto w-full origin-top scale-[1.04] transition-transform duration-ambient ease-entrance group-hover/placa:-translate-y-[12%] group-focus-visible/placa:-translate-y-[12%] motion-reduce:transition-none motion-reduce:group-hover/placa:translate-y-0"
       />
 
       {/* Brillo especular: un reflejo que cruza el vidrio al pasar el cursor.
           Puramente decorativo, así que desaparece con movimiento reducido. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-tr from-transparent via-white/25 to-transparent mix-blend-overlay transition-transform duration-ambient ease-entrance group-hover:translate-x-full motion-reduce:hidden"
+        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-tr from-transparent via-white/25 to-transparent mix-blend-overlay transition-transform duration-ambient ease-entrance group-hover/placa:translate-x-full motion-reduce:hidden"
       />
 
       {/* Degradado inferior: insinúa que la captura sigue por debajo del corte. */}
@@ -195,10 +193,10 @@ function Captura({
         className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink/30 to-transparent"
       />
 
-      {enLinea && (
+      {p.url && (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between gap-3 bg-ink/90 px-4 py-2.5 font-mono text-[11px] text-surface backdrop-blur transition-transform duration-base ease-state group-hover:translate-y-0 group-focus-visible:translate-y-0 motion-reduce:transition-none">
+          className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between gap-3 bg-ink/90 px-5 py-3 font-mono text-xs text-surface backdrop-blur transition-transform duration-base ease-state group-hover/placa:translate-y-0 group-focus-visible/placa:translate-y-0 motion-reduce:transition-none">
           <span className="truncate">{p.dominio}</span>
           <span className="shrink-0">Abrir sitio ↗</span>
         </span>
@@ -207,146 +205,187 @@ function Captura({
   );
 }
 
-function Placa({
-  p,
-  sizes,
-  grande = false,
-}: {
-  p: Proyecto;
-  sizes: string;
-  grande?: boolean;
-}) {
-  const enLinea = Boolean(p.url);
-  return (
+/** La placa. Enlace cuando el proyecto se puede visitar; si no, un contenedor. */
+function Placa({ p }: { p: Proyecto }) {
+  const contenido = (
     <div
-      className={[
+      className={cn(
         BISEL,
         "transition-card duration-slow ease-state",
-        /* shadow-lift es solo para hover: en reposo la placa lleva su sombra
-           de marco, y al elevarse pasa a la versión larga. */
-        enLinea
-          ? "shadow-frame group-hover:-translate-y-1.5 group-hover:shadow-frame-hover group-focus-visible:-translate-y-1.5 group-focus-visible:shadow-frame-hover"
-          : "shadow-soft",
-      ].join(" ")}
+        p.url
+          ? "shadow-frame group-hover/placa:-translate-y-1.5 group-hover/placa:shadow-frame-hover group-focus-visible/placa:-translate-y-1.5 group-focus-visible/placa:shadow-frame-hover"
+          : "shadow-soft"
+      )}
     >
       <div className={PANTALLA}>
-        <BarraNavegador dominio={p.dominio} grande={grande} />
-        <Captura p={p} sizes={sizes} quality={85} />
+        <BarraNavegador dominio={p.dominio} />
+        <Captura p={p} />
       </div>
     </div>
   );
+
+  if (!p.url) return <div className="group/placa block rounded-3xl">{contenido}</div>;
+
+  return (
+    <a
+      href={p.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group/placa block rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-band"
+    >
+      {contenido}
+    </a>
+  );
 }
 
-/** Ficha del proyecto: nombre, categoría, qué es y la acción. */
-function Ficha({ p, grande = false }: { p: Proyecto; grande?: boolean }) {
+/* ---------------------------------------------------------------------------
+   La ficha del caso abierto
+   --------------------------------------------------------------------------- */
+
+/**
+ * Cuatro filas y ninguna inventada.
+ *
+ * Vive dos veces en el árbol: pegada arriba en la columna de la izquierda en
+ * escritorio, y dentro del panel abierto en móvil, donde no hay columna donde
+ * pegarla. Solo una de las dos está en `display` a la vez, así que un lector de
+ * pantalla nunca oye la ficha dos veces.
+ */
+function Expediente({ p, className }: { p: Proyecto; className?: string }) {
+  const filas: [string, string][] = [
+    ["Tipo", p.categoria],
+    ["Estado", p.url ? "En línea" : "En estudio"],
+    ["Rol", "Diseño + desarrollo"],
+    ["Dominio", p.dominio ?? "Sin dominio público"],
+  ];
+
   return (
-    <div className={grande ? "mt-6 lg:mt-0" : "mt-5"}>
-      {/* h4 a propósito: la cadena es h2 sección -> h3 grupo -> h4 proyecto,
-          para que un lector de pantalla oiga las tarjetas COMO HIJAS del
-          grupo y no como sus hermanas. */}
-      <h4
-        className={
-          grande
-            ? "font-display text-2xl/[1.15] text-ink sm:text-3xl/[1.1]"
-            : "font-display text-xl/[1.2] text-ink"
-        }
-      >
-        {p.nombre}
-      </h4>
-
-      <span
-        className={[
-          "mt-2.5 inline-flex w-fit rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em]",
-          p.propio
-            ? "bg-primary/12 text-primary-dark"
-            : "border border-line text-ink-soft",
-        ].join(" ")}
-      >
-        {p.categoria}
-      </span>
-
-      <p
-        className={
-          grande
-            ? "mt-4 max-w-[54ch] font-body text-base leading-relaxed text-ink-soft"
-            : "mt-3 max-w-[62ch] font-body text-sm leading-relaxed text-ink-soft"
-        }
-      >
-        {p.desc}
+    <div className={className}>
+      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+        Caso abierto
       </p>
-
-      {p.url && (
-        /* En reposo la flecha suelta daba 1,74:1 y era el único aviso de que
-           la tarjeta abre un sitio externo. Una pastilla con texto lo dice
-           en vez de insinuarlo, y cumple contraste desde el primer fotograma. */
-        <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state group-hover:border-primary group-hover:bg-primary group-hover:text-surface group-focus-visible:border-primary group-focus-visible:bg-primary group-focus-visible:text-surface">
-          Abrir sitio
-          <ArrowUpRight
-            className="h-3.5 w-3.5 transition-transform duration-base ease-state group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            strokeWidth={2.25}
-          />
-        </span>
-      )}
+      <p className="mt-3 font-display text-2xl/[1.15] text-ink">{p.nombre}</p>
+      <dl className="mt-5 border-t border-line">
+        {filas.map(([k, v]) => (
+          <div
+            key={k}
+            className="grid grid-cols-[6.5rem_1fr] gap-3 border-b border-line py-3"
+          >
+            <dt className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft">
+              {k}
+            </dt>
+            <dd className="min-w-0 font-body text-sm leading-relaxed text-ink">{v}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
 
-/** Enlace solo si el proyecto se puede visitar; si no, un contenedor. */
-function Tarjeta({
-  href,
-  className,
-  children,
-}: {
-  href?: string;
-  className: string;
-  children: React.ReactNode;
-}) {
-  if (href) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
-        {children}
-      </a>
-    );
-  }
-  return <div className={className}>{children}</div>;
+/* ---------------------------------------------------------------------------
+   Las filas
+   --------------------------------------------------------------------------- */
+
+function Fila({ p, n }: { p: Proyecto; n: string }) {
+  return (
+    <Acordeon.Item
+      value={p.nombre}
+      className="group/item border-b border-line last:border-b-0"
+    >
+      <Acordeon.Header>
+        <Acordeon.Trigger className="group/trigger relative flex w-full items-center gap-4 py-5 pl-5 pr-3 text-left transition-surface duration-quick ease-state hover:bg-ink/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:gap-6">
+          {/* Riel de cobre: marca cuál está abierto sin gastar un fondo. El
+              mismo gesto que usan las preguntas frecuentes. */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute bottom-3 left-0 top-3 w-[3px] origin-center scale-y-0 rounded-full bg-accent transition-transform duration-slow ease-state group-data-[state=open]/item:scale-y-100"
+          />
+
+          <span className="shrink-0 font-mono text-xs tabular-nums text-ink-soft/70">{n}</span>
+
+          {/* Miniatura. Una lista de títulos no sería un portafolio: aunque solo
+              se abra una, cada fila sigue enseñando de qué sitio habla. */}
+          <span className="relative hidden h-11 w-[4.5rem] shrink-0 overflow-hidden rounded-lg border border-line bg-ink sm:block">
+            <Image
+              src={p.img}
+              alt=""
+              aria-hidden
+              width={1600}
+              height={1000}
+              quality={45}
+              sizes="72px"
+              className="absolute inset-x-0 top-0 h-auto w-full"
+            />
+          </span>
+
+          <span className="min-w-0 flex-1">
+            <span className="block truncate font-display text-lg/[1.25] text-ink transition-colors duration-quick ease-state group-hover/trigger:text-primary-dark md:text-xl">
+              {p.nombre}
+            </span>
+            <span className="mt-0.5 block truncate font-body text-sm text-ink-soft">
+              {p.categoria}
+            </span>
+          </span>
+
+          <span
+            className={cn(
+              "hidden shrink-0 items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] md:inline-flex",
+              p.url
+                ? "bg-success/12 text-success-ink"
+                : "border border-dashed border-secondary text-ink-soft"
+            )}
+          >
+            {p.url && <span className="h-1.5 w-1.5 rounded-full bg-success" />}
+            {p.url ? "En línea" : "En estudio"}
+          </span>
+
+          {/* Signo de estado. No rota 45°: cuando la fila está abierta no se
+              puede volver a cerrar —siempre hay una abierta—, así que una «x»
+              prometería una acción que no existe. Se apaga y ya. */}
+          <span
+            aria-hidden
+            className="shrink-0 font-mono text-sm text-ink-soft/60 transition-opacity duration-base ease-state group-data-[state=open]/item:opacity-0"
+          >
+            +
+          </span>
+        </Acordeon.Trigger>
+      </Acordeon.Header>
+
+      <Acordeon.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+        <div className="px-5 pb-8 pt-1">
+          <Placa p={p} />
+
+          <p className="mt-6 max-w-[62ch] font-body text-base leading-relaxed text-ink-soft">
+            {p.desc}
+          </p>
+
+          {p.url && (
+            <a
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tap-target mt-5 inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-surface/70 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state hover:border-primary hover:bg-primary hover:text-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Abrir {p.dominio}
+              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.25} />
+            </a>
+          )}
+
+          {/* En móvil no hay columna lateral donde pegar la ficha, así que
+              baja al panel. */}
+          <Expediente p={p} className="mt-8 border-t border-line pt-6 lg:hidden" />
+        </div>
+      </Acordeon.Content>
+    </Acordeon.Item>
+  );
 }
 
-/* Composición de la rejilla. En vez de dejar que el auto-flow reparta seis
-   piezas iguales, cada grupo tiene su propia partitura sobre 12 columnas:
-   - En producción: una placa a ancho completo (el trabajo que manda) y dos
-     debajo. La fila cierra exacta.
-   - Proyectos de estudio: tres piezas en una sola fila de tercios en lg. En md
-     entran de a dos y la tercera queda sola a media columna, alineada a la
-     izquierda: hueco al final de la última fila, nunca en medio. */
-const SPANS_PRODUCCION = ["md:col-span-12", "md:col-span-6", "md:col-span-6"];
-const SPANS_ESTUDIO = [
-  "md:col-span-6 lg:col-span-4",
-  "md:col-span-6 lg:col-span-4",
-  "md:col-span-6 lg:col-span-4",
-];
-
-const SIZES_ANCHA =
-  "(min-width:1280px) 42rem, (min-width:1024px) 54vw, (min-width:768px) 90vw, 86vw";
-const SIZES_NORMAL =
-  "(min-width:1280px) 34rem, (min-width:1024px) 44vw, (min-width:768px) 44vw, 86vw";
+/* ---------------------------------------------------------------------------
+   La sección
+   --------------------------------------------------------------------------- */
 
 export function Portfolio() {
-  const grupos = [
-    {
-      titulo: "En producción",
-      nota: "Con dominio propio y en línea. Toca cualquiera y compruébalo.",
-      items: PROYECTOS.filter((p) => p.url),
-      spans: SPANS_PRODUCCION,
-      estudio: false,
-    },
-    {
-      titulo: "Proyectos de estudio",
-      nota: "Proyectos de estudio. Sitios que diseñé y construí completos para negocios reales de la región, por iniciativa propia. Cada uno está terminado y se puede abrir.",
-      items: PROYECTOS.filter((p) => !p.url),
-      spans: SPANS_ESTUDIO,
-      estudio: true,
-    },
-  ];
+  const [abierto, setAbierto] = useState(PROYECTOS[0].nombre);
+  const activo = PROYECTOS.find((p) => p.nombre === abierto) ?? PROYECTOS[0];
 
   return (
     /* Continúa el capítulo que abre MediaSection ("el trabajo"), así que no
@@ -354,9 +393,7 @@ export function Portfolio() {
     <section id="proyectos" className="relative pb-24 pt-10 md:pb-32 md:pt-14">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         {/* Encabezado de continuación, no de capítulo: alineado a la izquierda,
-            sin píldora y un escalón por debajo del h2 del caso a fondo. Antes
-            los dos bloques eran la misma construcción centrada y se leían como
-            la misma sección repetida. */}
+            sin píldora y un escalón por debajo del h2 del caso a fondo. */}
         <Reveal className="max-w-3xl" stagger>
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
             Proyectos
@@ -366,81 +403,70 @@ export function Portfolio() {
             <span className="text-primary-dark"> en línea, funcionando.</span>
           </h2>
           <p className="mt-4 max-w-2xl font-body text-lg text-ink-soft">
-            No son maquetas ni plantillas de muestra. Abajo hay dos grupos: lo que está en
-            producción con dominio propio, y proyectos de estudio que construí completos por
-            iniciativa propia.
+            No son maquetas ni plantillas de muestra. Abre cualquiera: los que tienen dominio
+            propio se pueden visitar y comprobar.
           </p>
         </Reveal>
 
-        {grupos.map((grupo) => (
-          <div key={grupo.titulo} className="mt-14 md:mt-16">
-            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-line pb-4">
-              <h3 className="font-display text-2xl text-ink">{grupo.titulo}</h3>
-              <p className="font-body text-sm text-ink-soft">{grupo.nota}</p>
-              <span className="ml-auto shrink-0 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft md:hidden">
-                Desliza →
-              </span>
-            </div>
-
-            {/* El segundo grupo vive en una bandeja hundida: se lee como mesa
-                de estudio, no como un escalón peor. Las capturas siguen a todo
-                color y al mismo tamaño; lo que cambia es la superficie que las
-                sostiene, no su calidad. En móvil la bandeja se sangra a borde
-                de pantalla y actúa como banda tonal: el grupo se distingue de
-                un vistazo sin leer el encabezado. */}
-            <div
-              className={
-                grupo.estudio
-                  ? "mt-8 -mx-5 bg-ink/[0.045] px-5 py-8 shadow-well md:mx-0 md:rounded-4xl md:p-8 lg:p-10"
-                  : "mt-8"
-              }
-            >
-              {/* Móvil: estante horizontal con arrastre y anclaje, para que la
-                  sección deje de ser una columna de siete rectángulos iguales.
-                  Los raíles se sangran hasta el borde de pantalla (px-5 exacto,
-                  como el resto de las secciones) para que la placa gane ancho
-                  y se asome la siguiente. El scroll vive DENTRO de este
-                  contenedor: el documento nunca desborda.
-                  A partir de md vuelve a ser rejilla de 12 columnas. */}
-              {/* El escalonado va en el CARRIL, no en cada tarjeta.
-                  Un IntersectionObserver se recorta contra el overflow de sus
-                  ancestros, así que las tarjetas que esperan a la derecha del
-                  estante nunca tocaban el viewport y se quedaban en opacity 0
-                  hasta que alguien deslizaba. Con `stagger` el observado es el
-                  carril —que sí está a la vista— y son sus hijos directos los
-                  que entran, uno detrás de otro. */}
-              <Reveal
-                variant="scale"
-                stagger
-                className="-mx-5 flex snap-x snap-mandatory scroll-pl-5 gap-4 overflow-x-auto px-5 pb-8 no-scrollbar [&>*:last-child]:snap-end md:mx-0 md:grid md:grid-cols-12 md:scroll-pl-0 md:gap-x-6 md:gap-y-12 md:overflow-visible md:px-0 md:pb-0"
-              >
-                {grupo.items.map((p, i) => {
-                  const grande = !grupo.estudio && i === 0;
-                  return (
-                    <Tarjeta
-                      key={p.nombre}
-                      href={p.url}
-                      className={[
-                        "group block rounded-3xl",
-                        "w-[86vw] max-w-[420px] shrink-0 snap-start md:w-auto md:max-w-none md:shrink",
-                        grupo.spans[i] ?? "md:col-span-6",
-                        grande ? "lg:grid lg:grid-cols-[1.32fr_1fr] lg:items-center lg:gap-10" : "",
-                      ].join(" ")}
-                    >
-                      <Placa
-                        p={p}
-                        grande={grande}
-                        sizes={grande ? SIZES_ANCHA : SIZES_NORMAL}
-                      />
-                      <Ficha p={p} grande={grande} />
-                    </Tarjeta>
-                  );
-                })}
-              </Reveal>
-            </div>
+        <Reveal
+          delay={80}
+          className="mt-12 gap-x-14 md:mt-14 lg:grid lg:grid-cols-[minmax(0,17rem)_minmax(0,1fr)]"
+        >
+          {/* Columna de la ficha. Pegada arriba: mientras se recorre la lista,
+              la ficha del caso abierto sigue a la vista en vez de quedarse
+              atrás. El desfase es el alto del encabezado más aire. */}
+          <div className="hidden lg:block">
+            <Expediente p={activo} className="sticky top-28" />
           </div>
-        ))}
+
+          <Acordeon.Root
+            type="single"
+            value={abierto}
+            onValueChange={(v) => v && setAbierto(v)}
+            className="min-w-0 overflow-hidden rounded-3xl border border-line bg-surface/70 shadow-soft"
+          >
+            <Encabezado
+              titulo="En producción"
+              nota="Con dominio propio y en línea. Toca cualquiera y compruébalo."
+            />
+            {EN_PRODUCCION.map((p, i) => (
+              <Fila key={p.nombre} p={p} n={String(i + 1).padStart(2, "0")} />
+            ))}
+
+            <Encabezado
+              titulo="Proyectos de estudio"
+              nota="Sitios que diseñé y construí completos para negocios reales de la región, por iniciativa propia. Cada uno está terminado."
+            />
+            {DE_ESTUDIO.map((p, i) => (
+              <Fila
+                key={p.nombre}
+                p={p}
+                n={String(EN_PRODUCCION.length + i + 1).padStart(2, "0")}
+              />
+            ))}
+          </Acordeon.Root>
+        </Reveal>
       </div>
     </section>
+  );
+}
+
+/**
+ * Separador de grupo dentro de la lista.
+ *
+ * Va DENTRO del acordeón, no fuera en dos listas: así las flechas del teclado
+ * recorren los seis expedientes seguidos, que es como se leen. El grupo lo dice
+ * una regla con etiqueta, no una caja aparte.
+ */
+function Encabezado({ titulo, nota }: { titulo: string; nota: string }) {
+  return (
+    <div className="border-b border-line bg-ink/[0.035] px-5 py-3.5">
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary-dark">
+          {titulo}
+        </h3>
+        <p className="min-w-0 font-body text-xs leading-relaxed text-ink-soft">{nota}</p>
+      </div>
+    </div>
   );
 }

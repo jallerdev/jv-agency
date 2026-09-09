@@ -902,7 +902,7 @@ function StepBody({
               <span
                 className={cn(
                   "font-mono text-sm",
-                  conf.mod > 0 ? "text-warning" : conf.mod < 0 ? "text-success" : "text-ink-soft",
+                  conf.mod > 0 ? "text-warning" : conf.mod < 0 ? "text-success-ink" : "text-ink-soft",
                 )}
               >
                 {tag}
@@ -1005,7 +1005,7 @@ function SummaryPanel({ answers, sticky }: { answers: Answers; sticky?: boolean 
             <dd
               className={cn(
                 "shrink-0 font-mono text-sm",
-                t.deliveryAdjustment > 0 ? "text-warning" : "text-success",
+                t.deliveryAdjustment > 0 ? "text-warning" : "text-success-ink",
               )}
             >
               {t.deliveryAdjustment > 0 ? "+ " : "- "}
