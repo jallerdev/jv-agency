@@ -63,7 +63,7 @@ export const SERVICIOS: Servicio[] = [
   {
     id: "seo",
     nombre: "SEO y posicionamiento",
-    desc: "Que te encuentren cuando buscan lo que vendes. El SEO técnico va con el sitio; posicionar es trabajo mensual y te lo digo claro. Nadie garantiza el primer puesto: yo garantizo el trabajo y el informe. Auditoría desde $390.000, plan mensual desde $450.000.",
+    desc: "Que te encuentren cuando buscan lo que vendes. El SEO técnico va con el sitio; posicionar es trabajo mensual y te lo digo claro. Nadie garantiza el primer puesto: yo garantizo el trabajo y el informe. Auditoría desde $390.000, plan mensual desde $650.000.",
     href: "/servicios/posicionamiento-seo",
   },
   {

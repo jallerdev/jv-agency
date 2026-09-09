@@ -167,7 +167,7 @@ const PRECIOS = [
   },
   {
     q: "SEO local, mensual",
-    desde: `${money(450000)}/mes`,
+    desde: `${money(650000)}/mes`,
     plazo: "trabajo continuo",
     d: "El trabajo de aparecer en búsquedas con ciudad: «funeraria en Cartagena», «avisos publicitarios en Cartagena», lo que sea que vendas.",
     href: "/servicios/posicionamiento-seo",
@@ -313,7 +313,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 450000,
+          minPrice: 650000,
         },
         availability: "https://schema.org/InStock",
       },

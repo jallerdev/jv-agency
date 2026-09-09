@@ -115,7 +115,7 @@ const PRECIOS = [
   },
   {
     nombre: "SEO local mensual",
-    desde: 450000,
+    desde: 650000,
     plazo: "trabajo mensual",
     desc: "Contenido, ficha de Google y arreglos mes a mes. Los primeros movimientos, entre el mes 3 y el 6.",
     mensual: true,

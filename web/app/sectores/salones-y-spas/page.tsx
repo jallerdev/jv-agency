@@ -131,7 +131,7 @@ const PRECIOS = [
   },
   {
     q: "SEO local, mensual",
-    desde: `${money(450000)}/mes`,
+    desde: `${money(650000)}/mes`,
     plazo: "trabajo continuo",
     d: "El trabajo de aparecer cuando escriben «peluquería» o «spa» más el nombre de tu ciudad o de tu barrio. Es mensual porque es continuo, y lo digo claro.",
     href: "/servicios/posicionamiento-seo",
@@ -247,7 +247,7 @@ export default function SalonesYSpasPage() {
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 450000,
+          minPrice: 650000,
         },
         availability: "https://schema.org/InStock",
       },

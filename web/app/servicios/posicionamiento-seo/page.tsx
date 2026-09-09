@@ -50,12 +50,12 @@ import {
 export const metadata: Metadata = {
   title: "Posicionamiento SEO en Colombia | JV Agencia",
   description:
-    "Posicionamiento web y SEO local en Colombia. Auditoría desde $390.000 y plan mensual desde $450.000. No prometo el primer puesto: garantizo el trabajo y el informe.",
+    "Posicionamiento web y SEO local en Colombia. Auditoría desde $390.000 y plan mensual desde $650.000. No prometo el primer puesto: garantizo el trabajo y el informe.",
   alternates: { canonical: "/servicios/posicionamiento-seo" },
   openGraph: {
     title: "Posicionamiento SEO en Colombia | JV Agencia",
     description:
-      "Que te encuentren cuando buscan lo que vendes. Auditoría SEO desde $390.000 y posicionamiento mensual desde $450.000.",
+      "Que te encuentren cuando buscan lo que vendes. Auditoría SEO desde $390.000 y posicionamiento mensual desde $650.000.",
     url: `${SITE_URL}/servicios/posicionamiento-seo`,
     type: "website",
   },
@@ -366,7 +366,7 @@ export default function PosicionamientoSeoPage() {
         priceSpecification: {
           "@type": "UnitPriceSpecification",
           priceCurrency: "COP",
-          minPrice: 450000,
+          minPrice: 650000,
           unitCode: "MON",
           unitText: "mes",
           billingDuration: 1,
@@ -578,7 +578,7 @@ export default function PosicionamientoSeoPage() {
                   búsquedas e informe mensual. Sin permanencia.
                 </p>
                 <p className="mt-5 border-t border-line pt-4 font-mono text-lg text-primary-dark">
-                  desde {money(450000)} al mes
+                  desde {money(650000)} al mes
                 </p>
                 <p className="mt-2 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
                   <Clock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
@@ -588,18 +588,6 @@ export default function PosicionamientoSeoPage() {
             </Reveal>
           </div>
 
-          {/* Dato por comprobar, a la vista. Dos números distintos para lo
-              mismo conviven hoy en el sitio y hay que dejar uno. Si molesta
-              verlo acá, esa es la idea: se va cuando se resuelva. */}
-          <Reveal>
-            <p className="mt-6 max-w-[62ch] rounded-xl border border-dashed border-accent/60 bg-accent/[0.07] px-5 py-4 font-mono text-xs leading-relaxed text-accent-ink">
-              [PENDIENTE: unificar el precio del plan mensual. Esta página, /precios y las
-              páginas de ciudad dicen desde {money(450000)} al mes; el cotizador
-              (SEO_PRICES.plan.local) y el artículo «¿Cuánto cuesta el SEO en Colombia?» dicen{" "}
-              {money(SEO_PRICES.plan.local)}. Son dos cifras para el mismo servicio y hay que
-              dejar una sola.]
-            </p>
-          </Reveal>
 
           <Reveal>
             <div className="mt-6 grid gap-4 rounded-2xl border border-line bg-background/40 p-7 font-body leading-relaxed text-ink-soft">

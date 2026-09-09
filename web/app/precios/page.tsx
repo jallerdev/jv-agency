@@ -98,8 +98,8 @@ const LINEAS: Linea[] = [
   },
   {
     servicio: "SEO local mensual",
-    precio: "desde $450.000 al mes",
-    montoCop: 450000,
+    precio: "desde $650.000 al mes",
+    montoCop: 650000,
     esDesde: true,
     mensual: true,
     schemaDesc: "Trabajo continuo de posicionamiento en búsquedas con ciudad.",

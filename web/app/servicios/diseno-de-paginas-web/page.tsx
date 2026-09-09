@@ -174,7 +174,7 @@ const NO_INCLUYE = [
   },
   {
     t: "El posicionamiento mensual",
-    d: `El SEO técnico de entrega sí va (títulos, datos estructurados, sitemap, velocidad). Posicionar es trabajo de todos los meses y se cobra aparte: auditoría desde ${pesos(390000)} y plan local desde ${pesos(450000)} al mes.`,
+    d: `El SEO técnico de entrega sí va (títulos, datos estructurados, sitemap, velocidad). Posicionar es trabajo de todos los meses y se cobra aparte: auditoría desde ${pesos(390000)} y plan local desde ${pesos(650000)} al mes.`,
   },
   {
     t: "Carrito, inventario y pagos en línea",

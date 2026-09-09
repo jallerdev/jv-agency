@@ -147,7 +147,7 @@ const PRECIOS = [
   },
   {
     q: "SEO local, mensual",
-    desde: `${money(450000)}/mes`,
+    desde: `${money(650000)}/mes`,
     plazo: "trabajo continuo",
     d: "El trabajo continuo de aparecer en «odontólogo en Cartagena», «fisioterapia en Turbaco» o lo que sea que atiendas, con el nombre de tu ciudad al lado.",
     href: "/servicios/posicionamiento-seo",
@@ -259,7 +259,7 @@ export default function ClinicasYConsultoriosPage() {
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 450000,
+          minPrice: 650000,
         },
         availability: "https://schema.org/InStock",
       },

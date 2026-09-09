@@ -102,7 +102,7 @@ const PRECIOS: {
   },
   {
     servicio: "SEO local mensual",
-    desde: "desde $450.000/mes",
+    desde: "desde $650.000/mes",
     plazo: "trabajo continuo",
     desc: "Aparecer cuando alguien de Barranquilla busca lo que vendes. Es mensual porque es trabajo, no un botón.",
     href: "/servicios/posicionamiento-seo",
@@ -273,7 +273,7 @@ export default function BarranquillaPage() {
         "@type": "Offer",
         name: "SEO local mensual",
         description: "Trabajo mensual de posicionamiento local en Barranquilla.",
-        price: 450000,
+        price: 650000,
         priceCurrency: "COP",
         availability: "https://schema.org/InStock",
       },
