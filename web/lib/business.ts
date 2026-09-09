@@ -38,7 +38,7 @@ export const BUSINESS = {
   /** Perfiles verificables de la persona. Alimentan `sameAs` de la Person. */
   founderProfiles: [
     "https://www.linkedin.com/in/jallerdev",
-    "https://github.com/jallerangel",
+    "https://github.com/jallerdev",
     "https://jaller-dev.vercel.app",
   ] as string[],
 
