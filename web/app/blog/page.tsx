@@ -11,7 +11,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/business";
 export const metadata: Metadata = {
   title: "Blog — Guías sobre páginas web para negocios | JV Agencia",
   description:
-    "Precios reales, plazos y criterios para decidir sobre la web de tu negocio. Sin tecnicismos y sin vender humo.",
+    "Precios reales, plazos y criterios para decidir sobre la página web de tu negocio, el chatbot de WhatsApp y el SEO. Sin tecnicismos y sin vender humo.",
   alternates: { canonical: "/blog" },
   openGraph: {
     title: `Blog — ${SITE_NAME}`,

@@ -35,7 +35,7 @@ import { A_PRICES, A_TYPE_LABEL, A_TYPE_DESC, money } from "@/lib/quote";
 export const metadata: Metadata = {
   title: "Chatbot de WhatsApp para empresas en Colombia | JV Agencia",
   description:
-    "Chatbot de WhatsApp que contesta solo, capta interesados, agenda citas y toma pedidos. Somos proveedor de tecnología verificado por Meta: la conexión la hacemos nosotros, sin intermediarios.",
+    "Chatbot de WhatsApp que contesta solo, capta interesados, agenda citas y toma pedidos. Proveedor de tecnología verificado por Meta: conecto tu número sin intermediarios.",
   alternates: { canonical: "/servicios/chatbot-whatsapp" },
   openGraph: {
     title: "Chatbot de WhatsApp para empresas en Colombia | JV Agencia",
@@ -258,6 +258,17 @@ export default function ChatbotWhatsappPage() {
               Precios de referencia del proyecto. Se puede empezar por lo más simple y crecer
               después, sin rehacer lo hecho.
             </p>
+            <p className="mt-3 max-w-2xl font-body text-base leading-relaxed text-ink-soft">
+              Aparte de esto, Meta cobra por su cuenta cada conversación de la API. Ese cobro no
+              entra acá y conviene tenerlo claro antes de firmar: está desglosado en{" "}
+              <Link
+                href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia"
+                className="text-primary-dark underline underline-offset-4"
+              >
+                cuánto cuesta un chatbot de WhatsApp en Colombia
+              </Link>
+              .
+            </p>
           </Reveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -377,6 +388,23 @@ export default function ChatbotWhatsappPage() {
                 <Link href="/#servicios">Ver los demás servicios</Link>
               </Button>
             </div>
+            <p className="mx-auto mt-8 max-w-xl font-body text-base leading-relaxed text-ink-soft">
+              ¿Todavía comparando presupuestos? Lee{" "}
+              <Link
+                href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia"
+                className="text-primary-dark underline underline-offset-4"
+              >
+                cuánto cuesta un chatbot de WhatsApp en Colombia
+              </Link>{" "}
+              y, si el chatbot va junto con la página,{" "}
+              <Link
+                href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
+                className="text-primary-dark underline underline-offset-4"
+              >
+                cuánto cuesta una página web en Colombia
+              </Link>
+              .
+            </p>
           </Reveal>
         </section>
       </main>

@@ -122,6 +122,17 @@ export function NecesitaWebPost() {
         Y si más adelante el negocio crece, esa landing se convierte en el home de un sitio
         mayor. No se tira nada.
       </p>
+      <p>
+        Cuando el negocio vive de una agenda, la decisión es más fácil de tomar porque lo que la
+        web reemplaza se puede contar: cuántas veces al día alguien pregunta por un precio o por
+        un cupo. Lo desglosé por caso en{" "}
+        <Link href="/sectores/salones-y-spas">páginas web para salones de belleza y spas</Link> y
+        en{" "}
+        <Link href="/sectores/clinicas-y-consultorios">
+          páginas web para clínicas y consultorios
+        </Link>
+        .
+      </p>
     </>
   );
 }

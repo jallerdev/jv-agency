@@ -145,7 +145,11 @@ export function CuantoDemoraPost() {
       <p>
         Y en SEO el tiempo compone: una página que lleva seis meses publicada rankea mejor que
         una idéntica publicada ayer. Salir antes no es solo llegar antes — es empezar antes el
-        reloj que sí importa.
+        reloj que sí importa. Ese reloj tiene su propio presupuesto, aparte del de la web:{" "}
+        <Link href="/blog/cuanto-cuesta-el-seo-en-colombia">
+          cuánto cuesta el SEO en Colombia
+        </Link>
+        .
       </p>
       <p>
         Si todavía estás decidiendo el alcance, mira los rangos en{" "}
@@ -153,6 +157,15 @@ export function CuantoDemoraPost() {
           cuánto cuesta una página web en Colombia
         </Link>{" "}
         o cuéntanos tu caso y te damos el cronograma en la <Link href="/#contacto">primera llamada</Link>.
+      </p>
+      <p>
+        Los plazos de arriba son los que manejo yo, y son los mismos que verás en{" "}
+        <Link href="/diseno-de-paginas-web-en-cartagena">
+          diseño de páginas web en Cartagena
+        </Link>
+        , <Link href="/diseno-de-paginas-web-en-barranquilla">en Barranquilla</Link> y{" "}
+        <Link href="/diseno-de-paginas-web-en-bogota">en Bogotá</Link>, con el precio al lado de
+        cada entrega.
       </p>
     </>
   );

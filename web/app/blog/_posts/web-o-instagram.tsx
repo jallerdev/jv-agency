@@ -120,6 +120,16 @@ export function WebOInstagramPost() {
           una página que va a traerte visitas durante años.
         </li>
       </ol>
+      <p>
+        En los negocios que viven de la agenda —salón, barbería, spa— ese salto del post a la
+        reserva es el que más plata deja sobre la mesa; lo trabajo aparte en{" "}
+        <Link href="/sectores/salones-y-spas">páginas web para salones de belleza y spas</Link>.
+        Y si lo que quieres es que el WhatsApp conteste solo cuando llega el mensaje,{" "}
+        <Link href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia">
+          cuánto cuesta un chatbot de WhatsApp
+        </Link>{" "}
+        tiene los precios de montaje y de mensualidad.
+      </p>
 
       <h2>Y si el presupuesto solo alcanza para una</h2>
       <p>

@@ -84,6 +84,18 @@ export function CuantoCuestaPost() {
           transacción, independiente de lo que pagues por el desarrollo.
         </li>
       </ul>
+      <p>
+        Hay dos más que la gente da por incluidas y son servicios completos por su cuenta, cada
+        uno con su propio presupuesto: posicionar el sitio para que aparezca en Google —los
+        rangos están en{" "}
+        <Link href="/blog/cuanto-cuesta-el-seo-en-colombia">cuánto cuesta el SEO en Colombia</Link>—
+        y automatizar el WhatsApp que empieza a sonar cuando el sitio funciona, con los números
+        en{" "}
+        <Link href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia">
+          cuánto cuesta un chatbot de WhatsApp
+        </Link>
+        .
+      </p>
 
       <h2>Las cinco cosas que disparan el precio</h2>
       <ol>
@@ -144,6 +156,15 @@ export function CuantoCuestaPost() {
           ¿mi negocio necesita página web?
         </Link>
         .
+      </p>
+      <p>
+        Y si lo que te falta ya no es el número sino con quién hacerla, ahí sí pesa dónde estás:
+        precios, plazos y forma de trabajo están en{" "}
+        <Link href="/diseno-de-paginas-web-en-cartagena">
+          diseño de páginas web en Cartagena
+        </Link>
+        , <Link href="/diseno-de-paginas-web-en-barranquilla">en Barranquilla</Link> y{" "}
+        <Link href="/diseno-de-paginas-web-en-bogota">en Bogotá</Link>.
       </p>
 
       <h2>Nota para agencias y freelancers</h2>

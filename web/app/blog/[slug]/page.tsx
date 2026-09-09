@@ -10,6 +10,8 @@ import { NecesitaWebPost } from "../_posts/necesita-web";
 import { WebOInstagramPost } from "../_posts/web-o-instagram";
 import { WebRestaurantePost } from "../_posts/web-restaurante";
 import { CuantoDemoraPost } from "../_posts/cuanto-demora";
+import { CuantoCuestaChatbotPost } from "../_posts/cuanto-cuesta-chatbot";
+import { CuantoCuestaSeoPost } from "../_posts/cuanto-cuesta-seo";
 
 // SSG completa: cada post se prerenderiza en el build.
 export function generateStaticParams() {
@@ -56,6 +58,8 @@ const CONTENT_BY_SLUG: Record<string, () => React.JSX.Element> = {
   "pagina-web-o-solo-instagram": WebOInstagramPost,
   "que-debe-tener-la-pagina-web-de-un-restaurante": WebRestaurantePost,
   "cuanto-se-demora-hacer-una-pagina-web": CuantoDemoraPost,
+  "cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia": CuantoCuestaChatbotPost,
+  "cuanto-cuesta-el-seo-en-colombia": CuantoCuestaSeoPost,
 };
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {

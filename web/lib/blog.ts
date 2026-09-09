@@ -57,6 +57,42 @@ export const POSTS: BlogPost[] = [
     category: "Precios",
   },
   {
+    slug: "cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia",
+    title: "¿Cuánto cuesta un chatbot de WhatsApp en Colombia? (2026)",
+    description:
+      "Precios reales de montaje y mensualidad en pesos, lo que Meta te cobra aparte por mensaje y el cambio del 1 de octubre de 2026 que casi nadie avisa.",
+    excerpt:
+      "El montaje es la parte fácil de averiguar. Lo que casi nadie te explica es lo que Meta te cobra a ti, aparte, por cada mensaje — y eso cambia el 1 de octubre.",
+    publishedAt: "2026-09-09",
+    readingMinutes: 9,
+    keywords: [
+      "cuánto cuesta un chatbot de WhatsApp",
+      "precio chatbot WhatsApp Colombia",
+      "cuánto vale un bot de WhatsApp",
+      "costo WhatsApp Business API Colombia",
+      "chatbot WhatsApp precio",
+    ],
+    category: "Precios",
+  },
+  {
+    slug: "cuanto-cuesta-el-seo-en-colombia",
+    title: "¿Cuánto cuesta el SEO en Colombia? Precios reales 2026",
+    description:
+      "Rangos reales del posicionamiento mensual y de las auditorías en Colombia, por qué existe un piso de precio y cómo reconocer el humo.",
+    excerpt:
+      "El SEO técnico se paga una vez; posicionar es mensual. Con esa confusión se venden planes de $300.000 que no alcanzan ni para la herramienta.",
+    publishedAt: "2026-09-09",
+    readingMinutes: 8,
+    keywords: [
+      "cuánto cuesta el SEO en Colombia",
+      "precio SEO mensual Colombia",
+      "cuánto cuesta una auditoría SEO",
+      "posicionamiento web precio Colombia",
+      "tarifas agencia SEO Colombia",
+    ],
+    category: "Precios",
+  },
+  {
     slug: "mi-negocio-necesita-pagina-web",
     title: "¿Mi negocio necesita página web en 2026?",
     description:

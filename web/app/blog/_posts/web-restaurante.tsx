@@ -136,6 +136,16 @@ export function WebRestaurantePost() {
         </Link>{" "}
         — hay casos donde el perfil de Google alcanza por ahora.
       </p>
+      <p>
+        La otra mitad del trabajo es aparecer cuando alguien busca dónde comer con el nombre de
+        la ciudad al lado. Eso es posicionamiento local y tiene su propio presupuesto:{" "}
+        <Link href="/blog/cuanto-cuesta-el-seo-en-colombia">cuánto cuesta el SEO en Colombia</Link>{" "}
+        lo explica, y si tu restaurante está en la costa, cómo lo trabajo está en{" "}
+        <Link href="/diseno-de-paginas-web-en-cartagena">
+          diseño de páginas web en Cartagena
+        </Link>{" "}
+        y <Link href="/diseno-de-paginas-web-en-barranquilla">en Barranquilla</Link>.
+      </p>
     </>
   );
 }
