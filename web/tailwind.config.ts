@@ -35,6 +35,8 @@ const config: Config = {
         },
         surface: "#FAF6F1",
         background: "#F4EDE4",
+        /* Papel en un tono mas hondo, para las bandas de seccion. */
+        band: "#ECE1D5",
         ink: {
           DEFAULT: "#2B2420",
           soft: "#6B5E54",

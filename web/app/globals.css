@@ -27,6 +27,10 @@
      tenue no se le lee textura, solo un dither; y encima era la capa que
      mataba los radiales del fondo. Ahora el ruido es un poco más grueso y
      un poco más presente, y la atmósfera vive aparte (body::before). */
+  /* Papel en un tono mas hondo: el canvas con 12% del secundario de marca.
+     Ver .bg-band mas abajo para los contrastes medidos. */
+  --color-band: #ECE1D5;
+
   --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.062'/%3E%3C/svg%3E");
 
   /* --- Movimiento: duraciones ------------------------------------------
@@ -149,6 +153,37 @@
 
   .bg-grain {
     background-image: var(--paper-grain);
+  }
+
+  /* --- Bandas de seccion ------------------------------------------------
+     El problema medido: las nueve secciones de la portada tenian
+     background-color transparente, asi que entre el hero y el bloque bronce
+     del cierre habia casi 9.000 px sin un solo cambio de tono. El ojo deja de
+     jerarquizar y empieza a hojear.
+
+     La banda es papel en un tono mas hondo, no un color nuevo: es el propio
+     canvas con un 12% del secundario de marca. Los numeros, medidos y no
+     estimados:
+
+       tarjeta (surface) sobre canvas ... 1,08:1   <- lo de antes
+       tarjeta (surface) sobre banda .... 1,20:1   <- una tarjeta que se ve
+       banda sobre canvas .............. 1,11:1
+       ink-soft sobre banda ............ 4,86:1   (AA pide 4,5)
+
+     Es decir: la banda no solo separa secciones, ademas hace que las tarjetas
+     que viven dentro se despeguen casi el doble que antes. Lleva el mismo
+     grano, para que se lea como el mismo papel en otro tono, y un filete
+     arriba y abajo para que el cambio se lea intencional y no como un
+     artefacto de render. */
+  .bg-band {
+    background-color: var(--color-band);
+    background-image: var(--paper-grain);
+  }
+
+  /* Dos secciones dentro de una misma banda son UN capitulo, no dos bloques
+     pegados: la segunda no vuelve a abrir con el padding completo. */
+  .band-group > section + section {
+    padding-top: 0;
   }
 
   /* El barrido metálico, con el brillo especular por fin dentro de AA.

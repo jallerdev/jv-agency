@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Chatbot de WhatsApp para empresas en Colombia | JV Agencia",
     description:
-      "Tu número contesta solo, a cualquier hora. Proveedor de tecnología verificado por Meta.",
+      "Tu WhatsApp contesta solo, a cualquier hora. Proveedor de tecnología verificado por Meta.",
     url: `${SITE_URL}/servicios/chatbot-whatsapp`,
     type: "website",
   },
@@ -177,7 +177,7 @@ export default function ChatbotWhatsappPage() {
           <Reveal>
             <Badge>Chatbot de WhatsApp</Badge>
             <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              Tu número contesta solo:
+              Tu WhatsApp contesta solo:
               <span className="block text-metal">responde, agenda y vende</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
