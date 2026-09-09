@@ -81,7 +81,19 @@ const HERO_CSS = `
 
 export function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden pt-28 pb-14 md:pt-44 md:pb-20">
+    <section
+      id="top"
+      /* El hero medía 756px fijos: a 1920x930 dejaba 174px de la banda
+         siguiente asomando, que se lee como un corte y no como una invitación
+         a bajar. Ahora ocupa la pantalla menos 4,5rem, así que SIEMPRE asoma
+         el mismo pellizco de lo que viene —lo justo para saber que hay más,
+         sin que parezca que la página terminó.
+         `svh` y no `vh`: en móvil `vh` mide la ventana sin la barra del
+         navegador y el hero se pasa de largo. El mínimo solo entra en md+;
+         abajo el contenido ya es más alto que la pantalla y forzarlo solo
+         empujaría los botones fuera de vista. */
+      className="relative flex items-center overflow-hidden pt-28 pb-14 md:min-h-[calc(100svh-4.5rem)] md:pt-32 md:pb-20"
+    >
       <style href="jv-hero" precedence="default" dangerouslySetInnerHTML={{ __html: HERO_CSS }} />
 
       {/* ── Fondo: mesa de trabajo ─────────────────────────────────────── */}
