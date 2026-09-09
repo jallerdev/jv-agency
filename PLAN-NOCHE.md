@@ -289,3 +289,32 @@ En este orden, y solo después de que Luis revise:
 Ojo con el paso 4: es el que hace que todo esto exista para el mundo. Hoy
 producción sigue sirviendo el copy viejo en plural, que es lo que Google
 muestra.
+
+---
+
+## Aparcado: rediseño de las once páginas internas
+
+Se paró antes de que ningún agente escribiera nada, para no gastar cuota. El
+árbol quedó limpio; no hay trabajo a medias.
+
+El guion completo está guardado y se retoma tal cual, sin volver a escribirlo:
+
+```
+~/.claude/projects/-home-jallerangel-Documents-JALLER-DEV-jv-agency-web/
+  9f42cf4e-fe9b-43f3-808e-d340e4fdf3da/workflows/scripts/
+  ui-ux-internas-v2-wf_f4b4b674-d2b.js
+```
+
+Cinco fases, doce agentes. Lleva dentro las tres peticiones: bandas de sección
+para ver dónde empieza y termina cada una, **móvil primero** con números
+exigidos y no impresiones, y **recortar texto** con la lista de lo que nunca se
+recorta —precios, plazos, condiciones honestas, marcadores pendientes—. Más una
+fase dedicada solo a proponer quince visuales construidos en código.
+
+Después de ese workflow viene el pase de **animación** con la skill
+`impeccable animate`, que ya está estudiado: los visuales son el momento con
+autoría —el chatbot escribiendo, el resultado de Google cambiando, el precio
+sumando—, y no un fade repartido por cada sección.
+
+**Lo barato y de más valor que se puede hacer sin gastar casi nada: desplegar.**
+Hay 17 commits que producción no tiene, y es lo que Google sigue sin ver.
