@@ -22,6 +22,7 @@ import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Faqs } from "@/components/Faqs";
+import { sinPendientes } from "@/components/Pendiente";
 import { SITE_URL } from "@/lib/site";
 import { WHATSAPP_LINK } from "@/lib/business";
 import {
@@ -847,7 +848,7 @@ export default function DisenoDePaginasWebPage() {
             </p>
           </Reveal>
           <Reveal delay={80} className="mt-10">
-            <Faqs items={FAQS} />
+            <Faqs items={sinPendientes(FAQS)} />
           </Reveal>
         </section>
 

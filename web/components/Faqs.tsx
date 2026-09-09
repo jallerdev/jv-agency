@@ -3,6 +3,8 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Plus } from "lucide-react";
 
+import { MOSTRAR_PENDIENTES } from "@/components/Pendiente";
+
 export type Faq = {
   q: string;
   a: React.ReactNode;
@@ -78,7 +80,7 @@ export function Faqs({
                   cargar la pagina, debajo de la pregunta que contradice. Si
                   molesta verlo, esa es justamente la idea: se va cuando se
                   resuelve. */}
-              {item.verify && (
+              {item.verify && MOSTRAR_PENDIENTES && (
                 <p className="mx-6 mb-6 max-w-[48ch] rounded-xl border border-dashed border-accent/60 bg-accent/[0.07] px-4 py-3 font-mono text-xs leading-relaxed text-accent-ink">
                   {item.verify}
                 </p>

@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MetaTechProvider } from "@/components/MetaTechProvider";
 import { Faqs } from "@/components/Faqs";
+import { sinPendientes } from "@/components/Pendiente";
 import { SITE_URL } from "@/lib/site";
 import { A_PRICES, A_TYPE_LABEL, A_TYPE_DESC, money } from "@/lib/quote";
 
@@ -129,9 +130,8 @@ const FAQS = [
   },
   {
     q: "¿Necesito un plan mensual?",
-    // El precio del plan mensual no está en el copy aprobado: queda visible como
-    // pendiente en vez de inventarse un número.
-    a: "Es muy recomendable. Una automatización queda corriendo y hay cosas que se vencen solas: si expira el token de Meta o rechazan una plantilla, deja de responder y nadie se entera hasta que un cliente reclama. Los planes empiezan en [PENDIENTE: precio del plan mensual de mantenimiento] al mes.",
+    // El precio sale de A_PRICES, que es la fuente de verdad del cotizador.
+    a: "Es muy recomendable. Una automatización queda corriendo y hay cosas que se vencen solas: si expira el token de Meta o rechazan una plantilla, deja de responder y nadie se entera hasta que un cliente reclama. Los planes empiezan en " + money(A_PRICES.mantenimiento.basico) + " al mes.",
   },
 ];
 
@@ -308,7 +308,7 @@ export default function ChatbotWhatsappPage() {
               </p>
               <p className="mt-4 font-body leading-relaxed text-ink-soft">
                 Y el plan de mantenimiento va aparte, desde{" "}
-                <strong className="text-ink">[PENDIENTE: precio del plan mensual de mantenimiento] al mes</strong>.
+                <strong className="text-ink">${money(A_PRICES.mantenimiento.basico)} al mes</strong>.
                 Sin plan, si expira el token de Meta o rechazan una plantilla, la automatización
                 deja de responder y nadie se entera.
               </p>
@@ -365,7 +365,7 @@ export default function ChatbotWhatsappPage() {
             {/* Mismo acordeon que la portada. Antes eran tarjetas siempre
                 abiertas: seis respuestas largas seguidas que habia que
                 atravesar para llegar al cierre. */}
-            <Faqs items={FAQS} />
+            <Faqs items={sinPendientes(FAQS)} />
           </Reveal>
         </section>
 

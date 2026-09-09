@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { Header } from "@/components/Header";
+import { Pendiente, sinPendientes } from "@/components/Pendiente";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
@@ -805,11 +806,9 @@ export default function PosicionamientoSeoPage() {
               posicionamiento mensual con seis meses cumplidos, y ese es
               justamente el dato que más pesa en esta página. No se inventa. */}
           <Reveal>
-            <p className="mt-6 max-w-[62ch] rounded-xl border border-dashed border-accent/60 bg-accent/[0.07] px-5 py-4 font-mono text-xs leading-relaxed text-accent-ink">
-              [PENDIENTE: caso real de posicionamiento mensual con al menos 6 meses cumplidos —
+            <Pendiente>[PENDIENTE: caso real de posicionamiento mensual con al menos 6 meses cumplidos —
               negocio, ciudad, qué se hizo y qué muestran las impresiones y los clics de su
-              Search Console. Hasta que exista, esta página no muestra resultados de clientes.]
-            </p>
+              Search Console. Hasta que exista, esta página no muestra resultados de clientes.]</Pendiente>
           </Reveal>
         </section>
 
@@ -821,7 +820,7 @@ export default function PosicionamientoSeoPage() {
             </h2>
           </Reveal>
           <Reveal delay={80} className="mt-10">
-            <Faqs items={FAQS} />
+            <Faqs items={sinPendientes(FAQS)} />
           </Reveal>
         </section>
 

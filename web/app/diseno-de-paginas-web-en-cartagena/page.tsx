@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { Header } from "@/components/Header";
+import { MOSTRAR_PENDIENTES, Pendiente } from "@/components/Pendiente";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
@@ -599,29 +600,37 @@ export default function DisenoPaginasWebCartagenaPage() {
               </article>
             </Reveal>
 
-            <Reveal delay={240}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
-                  Trabajo con negocios cartageneros
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">
-                  Pixels Maker y la Funeraria San Francisco de Asís
-                </h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Dos negocios de Cartagena de Indias. Con Pixels &amp; Pixels el problema era de
-                  búsqueda local pura: hacen letreros y avisos publicitarios, y cuando alguien
-                  escribe «avisos publicitarios en Cartagena» no aparecen. A la funeraria le
-                  entregué la página y el trabajo mensual para aparecer en «funeraria en Cartagena».
-                  Es exactamente el mismo trabajo que hace falta acá: decirle a Google de qué es tu
-                  negocio y en qué ciudad queda.
-                </p>
-                <p className="mt-5 rounded-xl border border-warning/40 bg-warning/10 p-4 font-mono text-[11px] leading-relaxed text-ink-soft">
-                  [PENDIENTE: autorización de Pixels Maker y de la Funeraria San Francisco de Asís
-                  para nombrarlos y mostrar el detalle del trabajo en una página pública. Hasta que
-                  Luis la confirme, este bloque no se publica.]
-                </p>
-              </article>
-            </Reveal>
+            {/* Nombra a Pixels Maker y a la Funeraria San Francisco de Asis con el
+
+                detalle del trabajo. Sin su autorizacion escrita eso no puede estar en
+
+                una pagina publica, asi que el bloque entero solo existe en desarrollo. */}
+
+            {MOSTRAR_PENDIENTES && (
+
+              <Reveal delay={240}>
+                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
+                    Trabajo con negocios cartageneros
+                  </span>
+                  <h3 className="mt-4 font-display text-2xl text-ink">
+                    Pixels Maker y la Funeraria San Francisco de Asís
+                  </h3>
+                  <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
+                    Dos negocios de Cartagena de Indias. Con Pixels &amp; Pixels el problema era de
+                    búsqueda local pura: hacen letreros y avisos publicitarios, y cuando alguien
+                    escribe «avisos publicitarios en Cartagena» no aparecen. A la funeraria le
+                    entregué la página y el trabajo mensual para aparecer en «funeraria en Cartagena».
+                    Es exactamente el mismo trabajo que hace falta acá: decirle a Google de qué es tu
+                    negocio y en qué ciudad queda.
+                  </p>
+                  <Pendiente>[PENDIENTE: autorización de Pixels Maker y de la Funeraria San Francisco de Asís
+                    para nombrarlos y mostrar el detalle del trabajo en una página pública. Hasta que
+                    Luis la confirme, este bloque no se publica.]</Pendiente>
+                </article>
+              </Reveal>
+
+            )}
           </div>
 
           <Reveal>

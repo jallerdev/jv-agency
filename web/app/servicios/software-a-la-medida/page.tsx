@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { Header } from "@/components/Header";
+import { Pendiente, sinPendientes } from "@/components/Pendiente";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
@@ -584,11 +585,9 @@ export default function SoftwareALaMedidaPage() {
                 . Si una etapa no se entregó, no se cobra.
               </p>
               {/* Dato que falta, a la vista. No se inventa un piso: se pide. */}
-              <p className="rounded-xl border border-dashed border-accent/60 bg-accent/[0.07] px-4 py-3 font-mono text-xs leading-relaxed text-accent-ink">
-                [PENDIENTE: definir el piso — por debajo de qué monto no vale la pena arrancar un
+              <Pendiente>[PENDIENTE: definir el piso — por debajo de qué monto no vale la pena arrancar un
                 software a la medida. Sin ese número, esta sección explica cómo se cotiza pero no le
-                dice al visitante si le alcanza, que es lo que vino a averiguar.]
-              </p>
+                dice al visitante si le alcanza, que es lo que vino a averiguar.]</Pendiente>
             </div>
           </Reveal>
         </section>
@@ -660,10 +659,8 @@ export default function SoftwareALaMedidaPage() {
             </p>
             {/* El plazo típico de la primera etapa es el dato que más preguntan
                 y el único que no tengo confirmado. Queda a la vista. */}
-            <p className="mt-4 max-w-2xl rounded-xl border border-dashed border-accent/60 bg-accent/[0.07] px-4 py-3 font-mono text-xs leading-relaxed text-accent-ink">
-              [PENDIENTE: plazo típico de la primera versión útil, en semanas. Es lo que todo el mundo
-              pregunta en la llamada y hoy la página no lo contesta.]
-            </p>
+            <Pendiente>[PENDIENTE: plazo típico de la primera versión útil, en semanas. Es lo que todo el mundo
+              pregunta en la llamada y hoy la página no lo contesta.]</Pendiente>
           </Reveal>
         </section>
 
@@ -781,7 +778,7 @@ export default function SoftwareALaMedidaPage() {
             </p>
           </Reveal>
           <Reveal delay={80} className="mt-10">
-            <Faqs items={FAQS} />
+            <Faqs items={sinPendientes(FAQS)} />
           </Reveal>
         </section>
 

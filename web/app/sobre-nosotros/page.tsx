@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Github, Linkedin, ArrowUpRight } from "lucide-react";
 import { Header } from "@/components/Header";
+import { Pendiente } from "@/components/Pendiente";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Logo } from "@/components/Logo";
@@ -240,11 +241,12 @@ export default function SobreNosotrosPage() {
           <Reveal className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Algunos proyectos</h2>
             <p className="mt-4 font-body text-ink-soft">
-              Una muestra pública; el resto está bajo NDA (SaaS, fintech, logística).
+              Una muestra pública; el resto está bajo NDA.
             </p>
-            <p className="mt-3 font-body text-sm text-ink-soft">
-              [VERIFICAR: ¿fintech y logística son reales?]
-            </p>
+            <Pendiente>
+              [VERIFICAR: la frase decía «SaaS, fintech, logística». Se quitaron los
+              sectores hasta que Luis confirme que son reales; el NDA se queda.]
+            </Pendiente>
           </Reveal>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {PROJECTS.map((p, i) => (

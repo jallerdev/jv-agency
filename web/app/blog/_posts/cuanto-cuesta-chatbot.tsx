@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Pendiente } from "@/components/Pendiente";
 
 import { A_PRICES, A_TYPE_LABEL, META_BILLING_NOTE, money } from "@/lib/quote";
 import type { AutomationType } from "@/lib/quote";
@@ -253,12 +254,7 @@ export function CuantoCuestaChatbotPost() {
         no con la cifra al centavo: la única lista que manda es la de Meta, y cambia cada tres
         meses.
       </p>
-      <p>
-        <strong>
-          [PENDIENTE: verificar la fila de Colombia contra la lista oficial de Meta el día de
-          publicación. Entra lista nueva el 1 de octubre de 2026 y estas cifras caducan ese día.]
-        </strong>
-      </p>
+      <Pendiente>[PENDIENTE: verificar la fila de Colombia contra la lista oficial de Meta el día de publicación. Entra lista nueva el 1 de octubre de 2026 y estas cifras caducan ese día.]</Pendiente>
 
       <h3>Lo que cambia el 1 de octubre de 2026</h3>
       <p>
@@ -362,10 +358,7 @@ export function CuantoCuestaChatbotPost() {
           solicita y Meta decide. Exige la verificación previa del negocio y trayectoria real de
           uso de la API, y el motivo de rechazo más común es que el nombre no coincida exactamente
           con el legal.{" "}
-          <strong>
-            [PENDIENTE: confirmar en la ayuda oficial de Meta el plazo para volver a solicitarlo
-            tras un rechazo — las fuentes secundarias hablan de 3 meses.]
-          </strong>
+          <Pendiente>[PENDIENTE: confirmar en la ayuda oficial de Meta el plazo para volver a solicitarlo tras un rechazo — las fuentes secundarias hablan de 3 meses.]</Pendiente>
         </li>
         <li>
           <strong>Las plantillas más allá de las incluidas</strong> y la corrección de las que
