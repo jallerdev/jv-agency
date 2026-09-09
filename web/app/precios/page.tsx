@@ -8,8 +8,8 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BotonCuentame } from "@/components/Cuentame";
 import { SITE_URL } from "@/lib/site";
-import { WHATSAPP_LINK } from "@/lib/business";
 
 /**
  * Página de precios. La enlazan el Header, el chip del Hero, el pie y el
@@ -326,11 +326,7 @@ export default function PreciosPage() {
               <Button asChild size="lg">
                 <a href="/#contacto">Agenda una llamada</a>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  Escríbeme por WhatsApp
-                </a>
-              </Button>
+              <BotonCuentame />
             </div>
           </Reveal>
         </section>

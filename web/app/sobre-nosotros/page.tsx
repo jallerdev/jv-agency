@@ -8,8 +8,9 @@ import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BotonCuentame } from "@/components/Cuentame";
 import { BUSINESS } from "@/lib/business";
-import { SITE_URL, WHATSAPP_LINK } from "@/lib/business";
+import { SITE_URL } from "@/lib/business";
 
 export const metadata: Metadata = {
   title: "Sobre mí — Luis Jaller | JV Agencia",
@@ -274,11 +275,7 @@ export default function SobreNosotrosPage() {
               <Button asChild size="lg">
                 <a href="/precios">Ver precios</a>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  Escríbeme por WhatsApp
-                </a>
-              </Button>
+              <BotonCuentame />
             </div>
           </Reveal>
         </section>

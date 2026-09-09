@@ -5,6 +5,7 @@ import Script from "next/script";
 
 import { SITE_NAME, SITE_URL, GA_MEASUREMENT_ID } from "@/lib/site";
 import { StructuredData } from "@/components/StructuredData";
+import { CuentameProvider } from "@/components/Cuentame";
 
 const fraunces = localFont({
   display: "swap",
@@ -107,7 +108,9 @@ export default function RootLayout({
         className={`${fraunces.variable} ${jakarta.variable} ${plexMono.variable} bg-paper bg-grain`}
       >
         <StructuredData />
-        {children}
+        {/* El diálogo de contacto vive en el layout, no en cada página: hay un
+            solo panel montado para todo el sitio y cualquier botón lo abre. */}
+        <CuentameProvider>{children}</CuentameProvider>
 
         {/* Google Analytics 4.
             Va con next/script y `afterInteractive`: se carga cuando la página

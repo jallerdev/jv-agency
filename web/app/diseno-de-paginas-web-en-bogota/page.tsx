@@ -20,8 +20,9 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BotonCuentame } from "@/components/Cuentame";
 import { SITE_URL } from "@/lib/site";
-import { BUSINESS, WHATSAPP_LINK } from "@/lib/business";
+import { BUSINESS } from "@/lib/business";
 import { INCLUIDO_SIEMPRE, A_PRICES, money } from "@/lib/quote";
 
 /**
@@ -677,12 +678,10 @@ export default function DisenoPaginasWebBogotaPage() {
                   Agenda una llamada <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-5 w-5" />
-                  Escríbeme por WhatsApp
-                </a>
-              </Button>
+              <BotonCuentame>
+                <MessageCircle className="h-5 w-5" />
+                Cuéntame tu proyecto
+              </BotonCuentame>
             </div>
             <p className="mx-auto mt-8 max-w-2xl font-body text-sm leading-relaxed text-ink-soft">
               También trabajo{" "}

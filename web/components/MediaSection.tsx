@@ -124,21 +124,36 @@ export function MediaSection() {
 
             {/* Reflejo. Es el gesto que convierte la captura en pieza expuesta y
                 no en imagen pegada: la misma imagen volteada, difuminada por una
-                máscara, apoyada bajo la placa. Decorativo puro, aria-hidden. */}
+                máscara, apoyada bajo la placa. Decorativo puro, aria-hidden.
+
+                Un reflejo delata el truco en cuanto la silueta no coincide: la
+                placa termina en esquina redonda y el reflejo arrancaba en
+                escuadra, así que se leía como una segunda imagen pegada debajo,
+                no como el mismo objeto visto en la mesa. Por eso el reflejo
+                repite la placa entera —bisel de 3 px y pantalla— con los mismos
+                radios, en espejo: lo que abajo es el borde superior era el
+                inferior de la placa, y ahí es donde va la curva.
+
+                Los gradientes también se invierten (`to-t`): en un espejo, el
+                brillo que corona el bisel queda por debajo. */}
             <div
               aria-hidden
               className="pointer-events-none relative mx-auto h-16 max-w-5xl overflow-hidden opacity-40 [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.85),transparent_78%)] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.85),transparent_78%)] md:h-24"
             >
-              <Image
-                src={BLOOMROSE_IMG}
-                alt=""
-                aria-hidden
-                width={2000}
-                height={1160}
-                quality={85}
-                sizes={BLOOMROSE_SIZES}
-                className="absolute inset-x-[3px] top-0 h-auto w-[calc(100%-6px)] -scale-y-100 blur-[1px]"
-              />
+              <div className="absolute inset-x-0 top-0 rounded-t-3xl bg-gradient-to-t from-white/95 via-line to-secondary/45 px-[3px] pt-[3px]">
+                <div className="overflow-hidden rounded-t-[1.56rem]">
+                  <Image
+                    src={BLOOMROSE_IMG}
+                    alt=""
+                    aria-hidden
+                    width={2000}
+                    height={1160}
+                    quality={85}
+                    sizes={BLOOMROSE_SIZES}
+                    className="h-auto w-full -scale-y-100 blur-[1px]"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 

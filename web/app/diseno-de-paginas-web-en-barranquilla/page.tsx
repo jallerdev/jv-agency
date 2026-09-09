@@ -18,8 +18,8 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BotonCuentame } from "@/components/Cuentame";
 import { SITE_URL } from "@/lib/site";
-import { WHATSAPP_LINK } from "@/lib/business";
 
 /**
  * Página de ciudad para la intención transaccional «diseño de páginas web en
@@ -311,11 +311,9 @@ export default function BarranquillaPage() {
 
           <Reveal delay={120}>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Button size="lg" variant="primary" asChild>
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  Escríbeme por WhatsApp <ArrowRight className="h-5 w-5" />
-                </a>
-              </Button>
+              <BotonCuentame variant="primary">
+                Cuéntame tu proyecto <ArrowRight className="h-5 w-5" />
+              </BotonCuentame>
               <Button size="lg" variant="outline" asChild>
                 <a href="#precios">Ver precios</a>
               </Button>
@@ -615,11 +613,7 @@ export default function BarranquillaPage() {
                   Agenda una llamada <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  Escríbeme por WhatsApp
-                </a>
-              </Button>
+              <BotonCuentame />
             </div>
             <p className="mt-8 font-body text-sm text-ink-soft">
               <Link href="/" className="underline underline-offset-4 hover:text-ink">

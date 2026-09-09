@@ -21,8 +21,8 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BotonCuentame } from "@/components/Cuentame";
 import { SITE_URL } from "@/lib/site";
-import { WHATSAPP_LINK } from "@/lib/business";
 import { A_PRICES, money } from "@/lib/quote";
 
 /**
@@ -743,11 +743,7 @@ export default function DisenoPaginasWebCartagenaPage() {
                   Agenda una llamada <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  Escríbeme por WhatsApp
-                </a>
-              </Button>
+              <BotonCuentame />
             </div>
             <p className="mx-auto mt-8 max-w-2xl font-body text-sm leading-relaxed text-ink-soft">
               También te puede servir:{" "}

@@ -132,6 +132,23 @@ const config: Config = {
           "0%": { backgroundPosition: "200% 0" },
           "100%": { backgroundPosition: "-200% 0" },
         },
+        /* Diálogo. La distancia la pone quien lo usa —en móvil el panel sube
+           desde abajo como una hoja, en escritorio solo se asienta— con
+           `[--dialog-from:...]`, así que un solo fotograma sirve para las dos
+           formas del mismo componente. */
+        "dialog-in": {
+          from: {
+            opacity: "0",
+            transform: "translateY(var(--dialog-from, 12px)) scale(var(--dialog-scale, 0.985))",
+          },
+          to: { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+        /* El velo solo aparece: si además se moviera, arrastraría la mirada
+           hacia el fondo justo cuando el panel la reclama. */
+        "veil-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
         /* Respiración de luz para los orbes del hero: se percibe y no cuesta
            recomponer un blur de 448px en cada fotograma. */
         "ambient-glow": {
@@ -147,6 +164,8 @@ const config: Config = {
         "fade-in": "fade-in var(--duration-ambient) var(--ease-entrance) both",
         "fade-in-down": "fade-in-down var(--duration-slow) var(--ease-entrance) both",
         "step-in": "step-in var(--duration-base) var(--ease-entrance) both",
+        "dialog-in": "dialog-in var(--duration-base) var(--ease-entrance) both",
+        "veil-in": "veil-in var(--duration-quick) var(--ease-entrance) both",
         "accordion-down": "accordion-down var(--duration-slow) var(--ease-entrance)",
         "accordion-up": "accordion-up var(--duration-base) var(--ease-exit)",
         /* Un gesto, no un bucle: el barrido metálico pasa una vez al cargar

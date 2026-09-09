@@ -24,8 +24,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Faqs } from "@/components/Faqs";
 import { sinPendientes } from "@/components/Pendiente";
+import { BotonCuentame } from "@/components/Cuentame";
 import { SITE_URL } from "@/lib/site";
-import { WHATSAPP_LINK } from "@/lib/business";
 import { PRICES, money } from "@/lib/quote";
 
 /**
@@ -645,11 +645,7 @@ export default function TiendasVirtualesPage() {
                   Agenda una llamada <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  Escríbeme por WhatsApp
-                </a>
-              </Button>
+              <BotonCuentame />
             </div>
             <p className="mx-auto mt-8 max-w-xl font-body text-base leading-relaxed text-ink-soft">
               ¿Todavía no sabes si te conviene una tienda o basta con{" "}
