@@ -18,17 +18,18 @@ export const metadata: Metadata = {
  * usuario no aportaba seguridad —viajaba en la misma cabecera— y sí obligaba al
  * cliente a recordar un dato más para leer su propia cotización.
  */
-export default function AccesoPage({
+export default async function AccesoPage({
   searchParams,
 }: {
-  searchParams: { doc?: string; next?: string };
+  searchParams: Promise<{ doc?: string; next?: string }>;
 }) {
-  const doc = buscarDocPorId(searchParams.doc ?? "");
+  const { doc: docId, next } = await searchParams;
+  const doc = buscarDocPorId(docId ?? "");
 
   // El destino se valida contra el catálogo antes de usarlo. Si no, cualquiera
   // podría armar /acceso?next=https://otro-sitio y convertir esta página en un
   // trampolín hacia donde quisiera.
-  const pedido = searchParams.next ?? "";
+  const pedido = next ?? "";
   const destino =
     doc && pedido.startsWith("/") && buscarDoc(pedido)?.id === doc.id
       ? pedido

@@ -19,9 +19,10 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const post = findPost(params.slug);
+  const { slug } = await params;
+  const post = findPost(slug);
   if (!post) return { title: "No encontrado" };
   const url = `${SITE_URL}/blog/${post.slug}`;
   return {
@@ -57,8 +58,9 @@ const CONTENT_BY_SLUG: Record<string, () => React.JSX.Element> = {
   "cuanto-se-demora-hacer-una-pagina-web": CuantoDemoraPost,
 };
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = findPost(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = findPost(slug);
   if (!post) notFound();
   const Content = CONTENT_BY_SLUG[post.slug];
   if (!Content) notFound();

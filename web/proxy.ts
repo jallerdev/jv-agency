@@ -10,7 +10,7 @@ import {
 // Dominio canónico CON www: el apex (jvagencia.com) redirige 308 → www.jvagencia.com.
 // localhost, IPs y dominios de preview se dejan intactos (no coinciden con el apex).
 // Nota: lo ideal es resolver esto también a nivel de Cloudflare/hosting (más rápido);
-// este middleware es la red de seguridad que viaja con la app.
+// este proxy es la red de seguridad que viaja con la app.
 export const config = {
   matcher: [
     "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest).*)",
@@ -28,7 +28,7 @@ export const config = {
  * cookie válida se manda a `/acceso`, que es una página del sitio y no la
  * ventana gris del navegador.
  */
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const hostname = (req.headers.get("host") ?? "").split(":")[0].toLowerCase();
 
   // Apex → www.
