@@ -17,6 +17,25 @@ import { cn } from "@/lib/utils";
 // 11/07/2026 y "Access verification status: verificado como proveedor de
 // tecnología" en el portafolio comercial. Si algún día caduca, este componente
 // sale del sitio el mismo día.
+//
+// ── RONDA DE DISEÑO ──────────────────────────────────────────────────────
+// Es el activo más fuerte del sitio y estaba resuelto como una tarjeta más:
+// mismo `rounded-2xl border-line bg-surface` que las otras siete de la
+// portada, con un orbe difuminado detrás que no se percibía. Ahora se compone
+// como lo que es —un documento acreditativo—: lomo de bronce a la izquierda,
+// sello circular montado sobre papel, guilloché grabado en la esquina (el
+// dibujo concéntrico de los títulos impresos) y un pie con regla donde vive
+// la prueba.
+//
+// Tres arreglos concretos de paso:
+//   • El sello de fecha —el ÚNICO dato verificable de la tarjeta— estaba en un
+//     `hidden sm:inline-flex`: desaparecía justo en móvil, que es donde más se
+//     lee. Ahora vive en el pie y se ve en todos los anchos.
+//   • El antetítulo de 11px iba en `text-accent`: 3,07:1 sobre el papel, falla
+//     AA. Pasa a `text-accent-ink` (6,00:1 sobre surface).
+//   • Tenía `hover:shadow-lift` sin ser un enlace: prometía un clic que no
+//     existe. Fuera; `shadow-lift` es solo para hover/foco de cosas que sí
+//     llevan a algún sitio.
 
 function VerifiedShield({ className }: { className?: string }) {
   return (
@@ -47,9 +66,27 @@ function VerifiedShield({ className }: { className?: string }) {
   );
 }
 
+/** Estado de la credencial. Vive en el pie para que se lea en todos los anchos. */
+function StatusChip({ className }: { className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] tabular-nums text-primary-dark",
+        className
+      )}
+    >
+      <span aria-hidden className="relative flex h-1.5 w-1.5 shrink-0">
+        <span className="absolute inline-flex h-full w-full animate-ping-thrice rounded-full bg-success opacity-60 motion-reduce:hidden" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
+      </span>
+      Verificado · jul 2026
+    </span>
+  );
+}
+
 /**
  * `compact` → pastilla de una línea, para el pie o junto a otros sellos.
- * `card`    → tarjeta con detalle, para la franja de confianza de la home.
+ * `card`    → credencial con detalle, para la franja de confianza de la home.
  */
 export function MetaTechProvider({
   variant = "card",
@@ -77,40 +114,55 @@ export function MetaTechProvider({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-line bg-surface/80 p-6 shadow-soft transition-shadow duration-300 hover:shadow-lift sm:p-8",
+        "relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-surface via-surface to-secondary/12 text-left shadow-soft",
         className
       )}
     >
-      {/* Resplandor cálido, mismo lenguaje que los orbes del hero. */}
-      <div
+      {/* Lomo: el canto encuadernado de un documento, no un borde de tarjeta. */}
+      <span
         aria-hidden
-        className="pointer-events-none absolute -left-12 -top-12 h-48 w-48 rounded-full bg-gradient-to-br from-accent/20 to-transparent blur-2xl"
+        className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-accent via-primary to-primary-dark"
       />
 
-      {/* Sello de fecha arriba a la derecha: equilibra la composición y es la
-          prueba concreta de la verificación. */}
-      <span className="absolute right-5 top-5 hidden items-center gap-1.5 rounded-full border border-line bg-background/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft sm:inline-flex">
-        <span className="h-1.5 w-1.5 rounded-full bg-success" />
-        Verificado · jul 2026
-      </span>
+      {/* Guilloché: anillos concéntricos grabados en la esquina, el recurso de
+          los títulos y los certificados. Reemplaza al orbe con blur, que sobre
+          este papel no producía ninguna diferencia perceptible. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(152,92,62,0.075)_0_1px,transparent_1px_10px)] sm:-right-20 sm:-top-20 sm:h-64 sm:w-64 [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
+      />
 
-      <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
-        <div className="w-fit shrink-0 self-start rounded-xl border border-line bg-gradient-to-br from-background to-surface p-3 shadow-soft">
-          <VerifiedShield className="h-11 w-11" />
+      <div className="relative p-6 pl-7 sm:p-8 sm:pl-10">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
+          {/* Sello: montado sobre papel, con su anillo de troquel. */}
+          <div className="relative w-fit shrink-0 self-start">
+            <div className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full border border-primary/25 bg-gradient-to-br from-background to-surface shadow-soft">
+              <VerifiedShield className="h-10 w-10" />
+            </div>
+            <span
+              aria-hidden
+              className="absolute -inset-1.5 rounded-full border border-dashed border-primary/25"
+            />
+          </div>
+
+          <div className="min-w-0 sm:pt-1">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+              Automatizaciones sobre WhatsApp
+            </p>
+            <p className="mt-2.5 text-balance font-display text-2xl leading-[1.15] text-ink sm:text-[1.75rem]">
+              Proveedor de tecnología verificado por Meta
+            </p>
+            <p className="mt-3 max-w-[58ch] text-pretty font-body text-sm leading-relaxed text-ink-soft">
+              Conectamos la cuenta de WhatsApp Business de tu negocio y construimos las
+              automatizaciones sobre ella. Tu número, tus plantillas y la cuenta{" "}
+              <strong className="font-semibold text-ink">a tu nombre</strong> —no al nuestro.
+            </p>
+          </div>
         </div>
 
-        <div className="min-w-0 sm:pt-0.5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
-            Automatizaciones sobre WhatsApp
-          </p>
-          <p className="mt-2.5 text-balance font-display text-2xl leading-[1.15] text-ink sm:text-[1.75rem]">
-            Proveedor de tecnología verificado por Meta
-          </p>
-          <p className="mt-3 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-            Conectamos la cuenta de WhatsApp Business de tu negocio y construimos las
-            automatizaciones sobre ella. Tu número, tus plantillas y la cuenta{" "}
-            <strong className="font-semibold text-ink">a tu nombre</strong> —no al nuestro.
-          </p>
+        {/* Pie de credencial: la regla y la prueba. */}
+        <div className="mt-6 flex items-center gap-4 border-t border-line pt-4">
+          <StatusChip />
         </div>
       </div>
     </div>

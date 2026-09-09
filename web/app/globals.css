@@ -2,20 +2,87 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   1. TOKENS
+   Todo lo que se repite en el sitio vive aquí. Si un valor de movimiento,
+   foco o atmósfera aparece a mano en un componente, es que falta un token.
+   ========================================================================== */
 :root {
+  /* --- Color (espejo de tailwind.config.ts, para usar en CSS plano) ------ */
   --color-primary: #985c3e;
   --color-primary-dark: #6e4128;
   --color-accent: #c0763b;
+  /* Cobre oscurecido para cuando el acento hace de TEXTO.
+     #C0763B sobre el papel da 3,07:1 (falla AA). Este da 5,56:1. */
+  --color-accent-ink: #8c4f1f;
+  --color-secondary: #b08968;
   --color-surface: #faf6f1;
   --color-background: #f4ede4;
+  --color-line: #e4d8cb;
   --color-ink: #2b2420;
+  --color-ink-soft: #6b5e54;
 
-  --easing: cubic-bezier(0.4, 0, 0.2, 1);
+  /* --- Textura de papel -------------------------------------------------
+     Antes: baseFrequency 0.85 al 4% de opacidad. A ese grano tan fino y tan
+     tenue no se le lee textura, solo un dither; y encima era la capa que
+     mataba los radiales del fondo. Ahora el ruido es un poco más grueso y
+     un poco más presente, y la atmósfera vive aparte (body::before). */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.062'/%3E%3C/svg%3E");
+
+  /* --- Movimiento: duraciones ------------------------------------------
+     Cinco escalones, cada uno con un trabajo. No inventar valores nuevos. */
+  --duration-instant: 0ms;    /* foco: aparece en el fotograma 0 */
+  --duration-quick: 120ms;    /* color, borde, opacidad, :active */
+  --duration-base: 200ms;     /* micro-gesto: flecha, chevron, subrayado, salidas */
+  --duration-slow: 320ms;     /* componente: tarjeta, header, acordeón que abre */
+  --duration-ambient: 560ms;  /* entrada en viewport y orquestación del hero */
+
+  /* --- Movimiento: curvas ----------------------------------------------
+     Cada curva es una frase: algo llega, algo se va, algo cambia,
+     algo tiene carácter. */
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);   /* llega rápido y se asienta */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);          /* acelera y desaparece */
+  --ease-state: cubic-bezier(0.2, 0, 0, 1);         /* cambia, sin llegar ni irse */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* sobreimpulso: solo momentos con carácter */
+
+  /* Alias de compatibilidad: el CSS viejo y las auditorías nombran así.
+     Apuntan al mismo sistema, no son valores independientes. */
+  --easing: var(--ease-state);
+  --dur-1: var(--duration-quick);
+  --dur-2: var(--duration-base);
+  --dur-3: var(--duration-slow);
+  --dur-4: var(--duration-ambient);
+  --dur-5: var(--duration-ambient);
+  --ease-entrada: var(--ease-entrance);
+  --ease-salida: var(--ease-exit);
+  --ease-estado: var(--ease-state);
+
+  /* --- Reveal ----------------------------------------------------------- */
+  --reveal-duration: var(--duration-ambient);
+  --reveal-stagger: 70ms;   /* un solo escalonado en todo el sitio */
+  --reveal-rise: 16px;      /* distancia por defecto (md) */
+  --rise-sm: 8px;           /* badges, etiquetas, texto en línea */
+  --rise-md: 16px;          /* párrafos y tarjetas */
+  --rise-lg: 28px;          /* bloques de sección enteros */
+  --reveal-shift: 24px;     /* desplazamiento lateral */
+  --reveal-scale: 0.965;    /* punto de partida de la variante "scale" */
+
+  /* --- Layout ----------------------------------------------------------- */
+  --header-h: 4.5rem;       /* alto real del header fijo (~69-73px) */
+  --gutter: 1.25rem;        /* px-5: el margen lateral de todas las secciones */
+  --fab-safe: 5.5rem;       /* alto del FAB de WhatsApp + su margen */
+
+  /* --- Foco ------------------------------------------------------------- */
+  --focus-ring-color: var(--color-primary-dark); /* 7,38:1 sobre el papel */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Ningún ancla vuelve a quedar debajo del header fijo. */
+    scroll-padding-top: calc(var(--header-h) + 1.5rem);
   }
 
   body {
@@ -26,6 +93,26 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Atmósfera anclada al viewport, no al documento.
+     Antes los dos radiales vivían en el background del <body>: en un
+     documento de 11.700 px se comprimían en el primer 8% del scroll y el
+     resto de la página quedaba crema plano. Como capa fija, la modulación
+     tonal acompaña todo el recorrido y no cuesta un solo repintado extra
+     (no se mueve: solo está ahí).
+     OJO: no hace falta añadir ningún <div> fijo en layout.tsx; esto ya lo
+     resuelve. Si además se agrega uno, la atmósfera queda al doble. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(55rem 40rem at 88% -8%, rgba(192, 118, 59, 0.16), transparent 62%),
+      radial-gradient(45rem 38rem at -8% 18%, rgba(176, 137, 104, 0.18), transparent 58%),
+      radial-gradient(40rem 32rem at 50% 108%, rgba(152, 92, 62, 0.10), transparent 60%);
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display), Georgia, serif;
   }
@@ -34,23 +121,48 @@
     background-color: rgba(192, 118, 59, 0.25);
     color: var(--color-ink);
   }
+
+  /* Foco de marca por defecto, para TODO lo enfocable.
+     Va con :where() (especificidad 0) a propósito: cualquier componente que
+     defina su propio anillo —Button, Input— lo pisa sin pelear, y lo que no
+     defina nada deja de caer en el outline negro del navegador. */
+  :where(a, button, summary, select, [tabindex]:not([tabindex="-1"]), [role="button"]):focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
 }
 
 @layer utilities {
-  /* Warm paper grain + radial glow background atmosphere */
+  /* --- Superficie de papel ---------------------------------------------
+     bg-paper y bg-grain pintan LA MISMA textura a propósito: en layout.tsx
+     van las dos juntas en el <body> y antes la segunda mataba a la primera
+     (las dos declaran background-image y ganaba la última). Ahora el orden
+     da igual. La atmósfera cálida ya no vive aquí: está en body::before.
+     - bg-paper: superficie completa (color + grano). Para el <body> y para
+       cualquier bloque que quiera leerse como papel.
+     - bg-grain: solo la textura, sin color. Para superponer sobre un fondo
+       que ya existe (p. ej. el bloque bronce del CTA final). */
   .bg-paper {
     background-color: var(--color-background);
-    background-image:
-      radial-gradient(60rem 40rem at 85% -10%, rgba(192, 118, 59, 0.14), transparent 60%),
-      radial-gradient(50rem 40rem at -10% 20%, rgba(176, 137, 104, 0.16), transparent 55%);
+    background-image: var(--paper-grain);
   }
 
   .bg-grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: var(--paper-grain);
   }
 
+  /* El barrido metálico, con el brillo especular por fin dentro de AA.
+     La parada clara era #e0a062: medida sobre los píxeles reales del h1 daba
+     1,75:1 contra el papel del hero —y este degradado solo se usa en dos
+     titulares, los dos texto grande, que necesitan 3:1—. El problema no se
+     veía desde ningún componente: la receta vive aquí y cada quien la aplicó
+     a su titular dando por hecho que ya estaba comprobada.
+     Ahora la parada más clara es #b06a35 (3,32:1 sobre el papel cálido del
+     hero, 3,65:1 sobre el de Servicios) y las otras cuatro van de 4,18:1 a
+     6,71:1. Sigue leyéndose como metal: el recorrido de luz se conserva,
+     solo deja de blanquearse en la cresta. */
   .text-metal {
-    background-image: linear-gradient(100deg, #6e4128 0%, #c0763b 38%, #e0a062 52%, #985c3e 70%, #6e4128 100%);
+    background-image: linear-gradient(100deg, #6e4128 0%, #985c3e 34%, #b06a35 52%, #8c4f1f 72%, #6e4128 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -58,20 +170,79 @@
     -webkit-text-fill-color: transparent;
   }
 
+  /* Para titulares de dos o tres líneas: el degradado recorre el bloque
+     entero en vez de repartir tres tonos al azar por renglón. */
+  .text-metal-block {
+    background-size: 100% auto;
+  }
+
   .text-metal-anim {
     animation: shimmer 6s linear infinite;
   }
 
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s var(--easing), transform 0.7s var(--easing);
-    will-change: opacity, transform;
+  /* --- Foco opt-in ------------------------------------------------------
+     Para envolturas que no son a/button/summary (una tarjeta con tabIndex,
+     un contenedor con focus-within) o para forzar el anillo de la casa
+     donde un componente ya declaró focus-visible:outline-none. */
+  .focus-ring:focus-visible,
+  .focus-ring-within:focus-within {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
   }
 
-  .reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+  /* Enlace de salto al contenido: invisible hasta que recibe foco. */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+  }
+  .skip-link:focus-visible {
+    left: 0.75rem;
+    top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+    padding: 0.625rem 1.25rem;
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  /* Área táctil mínima de 44x44 sin cambiar la tipografía ni el ritmo. */
+  .tap-target {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+  /* Variante para enlaces de lista: crece el área, no el texto. */
+  .tap-row {
+    display: block;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+  }
+
+  /* Sangrado a borde de pantalla dentro de un contenedor con px-5. */
+  .bleed-x {
+    margin-left: calc(var(--gutter) * -1);
+    margin-right: calc(var(--gutter) * -1);
+    width: calc(100% + var(--gutter) * 2);
+  }
+
+  /* Carril libre bajo el contenido para que el FAB de WhatsApp no se siente
+     encima de nada. Va en el <main> o en la última sección. */
+  .pb-fab {
+    padding-bottom: var(--fab-safe);
+  }
+
+  /* Ocultar la barra de scroll de un carrusel horizontal sin perder el scroll. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -124,17 +295,130 @@
   }
 }
 
+/* ==========================================================================
+   2. MOTOR DE ENTRADA (Reveal)
+   Fuera de @layer a propósito: son estilos de infraestructura que Tailwind
+   no debe poder purgar ni una utilidad suelta pisar por accidente.
+   Los aplica <Reveal>; no se escriben a mano en las secciones.
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity var(--reveal-duration) var(--ease-entrance),
+    transform var(--reveal-duration) var(--ease-entrance);
+}
+
+/* Variantes de entrada. El estado final siempre es el mismo: visible y sin
+   transformar; lo que cambia es de dónde viene. */
+.reveal[data-reveal="rise"]  { transform: translate3d(0, var(--reveal-rise), 0); }
+.reveal[data-reveal="fade"]  { transform: none; }
+.reveal[data-reveal="scale"] { transform: scale3d(var(--reveal-scale), var(--reveal-scale), 1); }
+.reveal[data-reveal="left"]  { transform: translate3d(calc(var(--reveal-shift) * -1), 0, 0); }
+.reveal[data-reveal="right"] { transform: translate3d(var(--reveal-shift), 0, 0); }
+.reveal[data-reveal="rise-scale"] {
+  transform: translate3d(0, var(--reveal-rise), 0) scale3d(var(--reveal-scale), var(--reveal-scale), 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Escalonado real de hijos: el contenedor no se anima, entran sus hijos.
+   El retardo se detiene en el cuarto: 0 / 70 / 140 / 210 ms y ahí queda,
+   para que una rejilla de siete tarjetas no tarde medio segundo en cerrar. */
+.reveal[data-reveal-stagger] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+.reveal[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-rise), 0);
+  transition:
+    opacity var(--reveal-duration) var(--ease-entrance),
+    transform var(--reveal-duration) var(--ease-entrance);
+}
+.reveal[data-reveal-stagger][data-reveal="fade"] > *  { transform: none; }
+.reveal[data-reveal-stagger][data-reveal="scale"] > * { transform: scale3d(var(--reveal-scale), var(--reveal-scale), 1); }
+.reveal[data-reveal-stagger][data-reveal="left"] > *  { transform: translate3d(calc(var(--reveal-shift) * -1), 0, 0); }
+.reveal[data-reveal-stagger][data-reveal="right"] > * { transform: translate3d(var(--reveal-shift), 0, 0); }
+.reveal[data-reveal-stagger] > *:nth-child(1) {
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal[data-reveal-stagger] > *:nth-child(2) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + var(--reveal-stagger));
+}
+.reveal[data-reveal-stagger] > *:nth-child(3) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + var(--reveal-stagger) * 2);
+}
+.reveal[data-reveal-stagger] > *:nth-child(n + 4) {
+  transition-delay: calc(var(--reveal-delay, 0ms) + var(--reveal-stagger) * 3);
+}
+.reveal[data-reveal-stagger].is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* Sin JavaScript (rastreadores, fallo de red, navegador con JS apagado) el
+   contenido se ve. Nunca invisible. */
+@media (scripting: none) {
+  .reveal,
+  .reveal[data-reveal-stagger] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   3. MOVIMIENTO REDUCIDO
+   Quien lo pide recibe la página quieta y completa, no un pop-in escalonado.
+   El bloque anterior solo anulaba la duración: el animation-delay seguía
+   vivo y con fill-mode both, así que el hero parpadeaba cuatro veces en
+   600 ms. Aquí se apagan también los retardos y las entradas decorativas.
+   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
-  .reveal {
-    opacity: 1;
-    transform: none;
+
+  /* Nada aparece desde cero: aparece y ya. */
+  .reveal,
+  .reveal[data-reveal-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .animate-fade-in,
+  .animate-fade-in-down,
+  .animate-step-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Decoración que se mueve sola: se apaga entera. */
+  .text-metal-anim,
+  .animate-float,
+  .animate-ambient-glow,
+  .animate-shimmer-once,
+  .animate-ping,
+  .animate-ping-thrice {
+    animation: none !important;
+  }
+
+  /* Excepción: un spinner comunica estado. Si se congela, el usuario no
+     sabe si su petición sigue viva. Gira, más lento. */
+  .animate-spin {
+    animation: spin 1.2s linear infinite !important;
   }
 }

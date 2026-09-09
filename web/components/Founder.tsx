@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Linkedin, Github } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
@@ -14,6 +17,9 @@ import { Badge } from "@/components/ui/badge";
  * quiere saber a quién le está entregando su proyecto.
  *
  * Los datos salen de los mismos de /sobre-nosotros. Nada inventado.
+ *
+ * Es componente de cliente por una sola razón: las tres cifras cuentan al
+ * entrar en pantalla. Todo lo demás es marcado estático.
  */
 const FOUNDER = {
   name: "Luis Jaller",
@@ -22,84 +28,211 @@ const FOUNDER = {
   github: "https://github.com/jallerdev",
 };
 
-const STATS = [
-  { value: "3+", label: "años construyendo producto" },
-  { value: "11+", label: "proyectos en producción" },
-  { value: "<24h", label: "tiempo de respuesta" },
+type Stat = {
+  /** La cifra. Se cuenta desde cero al entrar en pantalla si `count` es true. */
+  value: number;
+  /** Va antes de la cifra y no cuenta: el "<" de "menos de 24 h". */
+  prefix?: string;
+  /** Va después y es parte de la cifra: el "+" de "3+". Se pinta en cobre. */
+  suffix?: string;
+  /** La unidad. Va separada del número, como manda la RAE, y en tinta. */
+  unit?: string;
+  /** No todo número es un contador: "menos de 24 h" es un tope, no una suma. */
+  count?: boolean;
+  label: string;
+};
+
+const STATS: Stat[] = [
+  { value: 3, suffix: "+", count: true, label: "años construyendo producto" },
+  { value: 11, suffix: "+", count: true, label: "proyectos en producción" },
+  { value: 24, prefix: "<", unit: "h", label: "tiempo de respuesta" },
 ];
+
+const COUNT_DURATION = 900;
+
+/**
+ * Cuenta de 0 al valor final cuando el número entra en pantalla.
+ *
+ * Tres reglas:
+ *  1. El estado inicial es el valor FINAL, no cero: así el HTML del servidor
+ *     —y quien navegue sin JavaScript, y Google— ve "11+", nunca "0+".
+ *  2. Si el número ya está a la vista al montar, no se anima: contar algo que
+ *     el usuario ya leyó se ve como un error, no como un detalle.
+ *  3. Con prefers-reduced-motion no se cuenta nada. La cifra es el dato; la
+ *     animación es opcional y se apaga entera.
+ */
+function useCountUp(target: number, enabled: boolean) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [shown, setShown] = useState(target);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || !enabled) return;
+
+    const reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || typeof IntersectionObserver === "undefined") return;
+
+    const box = node.getBoundingClientRect();
+    if (box.top < window.innerHeight && box.bottom > 0) return;
+
+    setShown(0);
+
+    let raf = 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        const start = performance.now();
+        const tick = (now: number) => {
+          const t = Math.min((now - start) / COUNT_DURATION, 1);
+          /* Misma intención que --ease-entrance: llega rápido y aterriza. */
+          const eased = 1 - Math.pow(1 - t, 3);
+          setShown(Math.round(target * eased));
+          if (t < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { threshold: 0.6 }
+    );
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [target, enabled]);
+
+  return { ref, shown };
+}
+
+function StatItem({ stat }: { stat: Stat }) {
+  const { ref, shown } = useCountUp(stat.value, Boolean(stat.count));
+
+  return (
+    /* El <dt> es la etiqueta y el <dd> la cifra, que es como se define una
+       lista de descripción. El orden visual —cifra arriba, etiqueta abajo— lo
+       pone el flex, no el marcado. */
+    <div className="flex flex-row-reverse items-baseline justify-between gap-4 py-4 sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-1.5 sm:py-0 sm:pl-7 sm:first:pl-0">
+      <dt className="font-body text-sm leading-snug text-ink-soft sm:text-xs">{stat.label}</dt>
+      <dd className="font-display text-2xl leading-none tabular-nums text-ink sm:text-[1.75rem]">
+        {stat.prefix && (
+          <span className="font-mono text-base text-ink-soft" aria-hidden="true">
+            {stat.prefix}
+          </span>
+        )}
+        <span ref={ref}>{shown}</span>
+        {stat.suffix && <span className="text-accent">{stat.suffix}</span>}
+        {stat.unit && <span className="text-[0.7em] text-ink-soft"> {stat.unit}</span>}
+      </dd>
+    </div>
+  );
+}
 
 export function Founder() {
   return (
     <section id="quien" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <div className="grid items-center gap-10 rounded-[1.75rem] border border-line bg-surface/70 p-8 md:p-12 lg:grid-cols-[auto_1fr]">
-          {/* Monograma. Cuando haya foto real, se reemplaza por <Image>. */}
-          <Reveal>
-            <span
-              aria-hidden="true"
-              className="grid h-24 w-24 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-accent font-display text-4xl text-surface shadow-lift md:h-28 md:w-28"
-            >
-              LJ
-            </span>
-          </Reveal>
+        <Reveal
+          as="article"
+          distance="lg"
+          className="rounded-3xl border border-line bg-surface/80 p-6 shadow-soft sm:p-9 md:p-12"
+        >
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+            {/* Identidad. El monograma no es un avatar de relleno: es una placa
+                —bisel, filete grabado y luz de arriba— con el pie de firma
+                debajo. Cuando haya foto real, se reemplaza por <Image>. */}
+            <div className="flex items-center gap-5 lg:block lg:w-44 lg:shrink-0">
+              <span
+                aria-hidden="true"
+                className="relative grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center overflow-hidden rounded-2xl bg-[radial-gradient(120%_120%_at_25%_0%,#A9683F_0%,#8A5233_48%,#5C3620_100%)] shadow-soft ring-1 ring-inset ring-surface/20 sm:h-20 sm:w-20 lg:h-24 lg:w-24 lg:rounded-3xl"
+              >
+                <span className="pointer-events-none absolute inset-[6px] rounded-[1.125rem] border border-surface/20 lg:rounded-[1.375rem]" />
+                <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(155deg,rgba(255,255,255,0.22),transparent_44%)]" />
+                <span className="relative font-display text-[1.6rem] tracking-[0.08em] text-surface sm:text-3xl lg:text-[2.15rem]">
+                  LJ
+                </span>
+              </span>
 
-          <Reveal delay={100}>
-            <div>
+              <div className="min-w-0 lg:mt-5">
+                <span
+                  aria-hidden="true"
+                  className="mb-3 hidden h-px w-8 bg-line lg:block"
+                />
+                {/* Una línea por oficio: el "·" de la cadena original quedaba
+                    colgando al final del renglón en la columna estrecha. */}
+                <p className="font-mono text-[11px] uppercase leading-[1.7] tracking-[0.12em] text-accent-ink">
+                  {FOUNDER.role.split("·").map((part) => (
+                    <span key={part} className="block">
+                      {part.trim()}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            </div>
+
+            <div className="min-w-0 flex-1">
               <Badge>Quién está detrás</Badge>
 
-              <div className="mt-5">
-                <h2 className="font-display text-2xl leading-tight text-ink sm:text-3xl">
-                  Quién hace tu página web: {FOUNDER.name}
-                </h2>
-                <p className="font-body text-sm text-ink-soft">{FOUNDER.role}</p>
-              </div>
+              <h2 className="mt-5 font-display text-[1.75rem]/[1.2] text-balance text-ink sm:text-4xl/[1.15]">
+                Quién hace tu página web: {FOUNDER.name}
+              </h2>
 
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
+              <p className="mt-5 max-w-[46ch] font-body text-base leading-relaxed text-ink-soft sm:text-lg">
                 Aquí no hay un equipo de cuentas que te pasa a un ejecutivo que te pasa a un
-                programador. <strong className="text-ink">Hablas conmigo</strong>, y el que diseña
-                y escribe el código soy yo. Eso tiene un límite —no tomo veinte proyectos a la
-                vez— y una ventaja: nada se pierde en el camino entre lo que necesitas y lo que
+                programador. <strong className="font-semibold text-ink">Hablas conmigo</strong>, y el
+                que diseña y escribe el código soy yo. Eso tiene un límite —no tomo veinte proyectos
+                a la vez— y una ventaja: nada se pierde en el camino entre lo que necesitas y lo que
                 se construye.
               </p>
 
-              <dl className="mt-8 grid grid-cols-3 gap-4">
+              {/* Las tres cifras son el único dato duro de la sección: dejan de
+                  ser texto suelto y pasan a ser una banda con filetes, cifras
+                  tabulares y una cuenta que aterriza al entrar en pantalla. */}
+              <dl className="mt-9 grid max-w-2xl grid-cols-1 divide-y divide-line border-y border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:border-b-0 sm:pt-6">
                 {STATS.map((s) => (
-                  <div key={s.label}>
-                    <dt className="font-display text-3xl text-ink">{s.value}</dt>
-                    <dd className="mt-1 font-body text-xs leading-snug text-ink-soft">{s.label}</dd>
-                  </div>
+                  <StatItem key={s.label} stat={s} />
                 ))}
               </dl>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              {/* En móvil, dos filas limpias: primero a dónde lleva el estudio,
+                  después los perfiles. Envueltos en una sola fila, "GitHub"
+                  caía solo en un tercer renglón. */}
+              <div className="mt-8 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-5">
                 <Link
                   href="/sobre-nosotros"
-                  className="inline-flex items-center gap-1.5 font-body text-sm font-medium text-primary-dark underline underline-offset-4 transition-colors hover:text-primary"
+                  className="tap-target group -mx-2 inline-flex items-center gap-1.5 rounded-lg px-2 font-body text-sm font-medium text-primary-dark underline decoration-primary/40 underline-offset-4 transition-surface duration-quick ease-state hover:text-primary hover:decoration-primary"
                 >
                   Conoce más del estudio
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowUpRight
+                    className="h-4 w-4 transition-transform duration-base ease-state group-hover:translate-x-0.5"
+                    strokeWidth={1.75}
+                  />
                 </Link>
-                <span className="h-4 w-px bg-line" aria-hidden="true" />
-                <a
-                  href={FOUNDER.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-body text-sm text-ink-soft transition-colors hover:text-ink"
-                >
-                  <Linkedin className="h-4 w-4" /> LinkedIn
-                </a>
-                <a
-                  href={FOUNDER.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-body text-sm text-ink-soft transition-colors hover:text-ink"
-                >
-                  <Github className="h-4 w-4" /> GitHub
-                </a>
+                <span className="hidden h-4 w-px bg-line sm:block" aria-hidden="true" />
+                <div className="flex items-center gap-5">
+                  <a
+                    href={FOUNDER.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="tap-target -mx-2 inline-flex items-center gap-1.5 rounded-lg px-2 font-body text-sm text-ink-soft transition-surface duration-quick ease-state hover:text-ink"
+                  >
+                    <Linkedin className="h-4 w-4" strokeWidth={1.75} /> LinkedIn
+                  </a>
+                  <a
+                    href={FOUNDER.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="tap-target -mx-2 inline-flex items-center gap-1.5 rounded-lg px-2 font-body text-sm text-ink-soft transition-surface duration-quick ease-state hover:text-ink"
+                  >
+                    <Github className="h-4 w-4" strokeWidth={1.75} /> GitHub
+                  </a>
+                </div>
               </div>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -2,7 +2,6 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
-import { Badge } from "@/components/ui/badge";
 
 /**
  * Rejilla de proyectos en producción.
@@ -91,6 +90,212 @@ const PROYECTOS: Proyecto[] = [
   },
 ];
 
+/* ===========================================================================
+   LA PLACA
+   ---------------------------------------------------------------------------
+   Es la pieza que hermana esta sección con el caso a fondo de MediaSection:
+   bisel cálido de 3 px (passe-partout, no borde de 1 px), pantalla oscura
+   dentro y sombra de dos tiempos —contacto duro + difusa larga— para que la
+   captura tenga peso físico sobre el papel en vez de flotar pegada.
+
+   Si se toca aquí, hay que tocarlo igual en MediaSection.tsx: son el mismo
+   objeto a dos tamaños, no dos diseños distintos.
+
+   El radio interior sale de la regla de anidación: 1,75rem (rounded-3xl) menos
+   los 3 px del bisel = 1,56rem.
+   =========================================================================== */
+const BISEL = "rounded-3xl bg-gradient-to-b from-white/95 via-line to-secondary/45 p-[3px]";
+const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-ink";
+
+/**
+ * Barra de navegador de la placa.
+ *
+ * Con dominio: pastilla de URL con un punto verde de "en línea".
+ * Sin dominio: en vez de dejar la barra vacía —que se lee como un marco roto—
+ * dice explícitamente en qué estado está el proyecto.
+ */
+function BarraNavegador({ dominio, grande = false }: { dominio?: string; grande?: boolean }) {
+  return (
+    <div
+      className={[
+        "flex items-center gap-2 border-b border-ink/10 bg-surface",
+        grande ? "px-5 py-3" : "px-4 py-2.5",
+      ].join(" ")}
+    >
+      <span className="flex shrink-0 items-center gap-1.5">
+        <span className={grande ? "h-2.5 w-2.5 rounded-full bg-danger/55" : "h-2 w-2 rounded-full bg-danger/55"} />
+        <span className={grande ? "h-2.5 w-2.5 rounded-full bg-warning/55" : "h-2 w-2 rounded-full bg-warning/55"} />
+        <span className={grande ? "h-2.5 w-2.5 rounded-full bg-success/55" : "h-2 w-2 rounded-full bg-success/55"} />
+      </span>
+
+      {dominio ? (
+        <span className="ml-1 flex min-w-0 items-center gap-2 rounded-full border border-line bg-background/70 px-3 py-1">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success ring-2 ring-success/25" />
+          <span
+            className={[
+              "truncate font-mono text-ink-soft",
+              grande ? "text-xs" : "text-[11px]",
+            ].join(" ")}
+          >
+            {dominio}
+          </span>
+        </span>
+      ) : (
+        /* Dos palabras y ya: la frase larga no cabía en la barra de una tarjeta
+           de rejilla y se cortaba, que es justo el defecto que este chip venía
+           a arreglar. El porqué lo dice la nota del grupo. */
+        <span className="ml-1 whitespace-nowrap rounded-full border border-dashed border-secondary px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-primary-dark">
+          En entrega
+        </span>
+      )}
+    </div>
+  );
+}
+
+/**
+ * La captura dentro de la placa.
+ *
+ * La ventana impone la proporción (16/9) en vez de confiar en el archivo: así
+ * las capturas de 1600x1000 y la de 2000x1160 ocupan exactamente el mismo alto
+ * y los títulos de una fila comparten línea base. El `scale-[1.04]` anclado
+ * arriba recorta las canaletas blancas que traen dos de los archivos
+ * (bloomrose por la derecha, nuva por abajo) sin tocar los assets.
+ *
+ * Al pasar el cursor la captura se DESPLAZA hacia arriba: se ve la parte del
+ * sitio que la ventana escondía. El hover deja de ser "sube 4 px" y pasa a
+ * enseñar algo que antes no se veía.
+ */
+function Captura({
+  p,
+  sizes,
+  quality = 85,
+}: {
+  p: Proyecto;
+  sizes: string;
+  quality?: number;
+}) {
+  const enLinea = Boolean(p.url);
+  return (
+    <div className="relative aspect-[16/9] overflow-hidden bg-ink">
+      <Image
+        src={p.img}
+        alt={`${p.nombre} — sitio diseñado y desarrollado por JV Agencia`}
+        width={1600}
+        height={1000}
+        quality={quality}
+        sizes={sizes}
+        className="absolute inset-x-0 top-0 h-auto w-full origin-top scale-[1.04] transition-transform duration-ambient ease-entrance group-hover:-translate-y-[12%] group-focus-visible:-translate-y-[12%] motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-focus-visible:translate-y-0"
+      />
+
+      {/* Brillo especular: un reflejo que cruza el vidrio al pasar el cursor.
+          Puramente decorativo, así que desaparece con movimiento reducido. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-tr from-transparent via-white/25 to-transparent mix-blend-overlay transition-transform duration-ambient ease-entrance group-hover:translate-x-full motion-reduce:hidden"
+      />
+
+      {/* Degradado inferior: insinúa que la captura sigue por debajo del corte. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink/30 to-transparent"
+      />
+
+      {enLinea && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between gap-3 bg-ink/90 px-4 py-2.5 font-mono text-[11px] text-surface backdrop-blur transition-transform duration-base ease-state group-hover:translate-y-0 group-focus-visible:translate-y-0 motion-reduce:transition-none">
+          <span className="truncate">{p.dominio}</span>
+          <span className="shrink-0">Abrir sitio ↗</span>
+        </span>
+      )}
+    </div>
+  );
+}
+
+function Placa({
+  p,
+  sizes,
+  grande = false,
+}: {
+  p: Proyecto;
+  sizes: string;
+  grande?: boolean;
+}) {
+  const enLinea = Boolean(p.url);
+  return (
+    <div
+      className={[
+        BISEL,
+        "transition-card duration-slow ease-state",
+        /* shadow-lift es solo para hover: en reposo la placa lleva su sombra
+           de marco, y al elevarse pasa a la versión larga. */
+        enLinea
+          ? "shadow-frame group-hover:-translate-y-1.5 group-hover:shadow-frame-hover group-focus-visible:-translate-y-1.5 group-focus-visible:shadow-frame-hover"
+          : "shadow-soft",
+      ].join(" ")}
+    >
+      <div className={PANTALLA}>
+        <BarraNavegador dominio={p.dominio} grande={grande} />
+        <Captura p={p} sizes={sizes} quality={85} />
+      </div>
+    </div>
+  );
+}
+
+/** Ficha del proyecto: nombre, categoría, qué es y la acción. */
+function Ficha({ p, grande = false }: { p: Proyecto; grande?: boolean }) {
+  return (
+    <div className={grande ? "mt-6 lg:mt-0" : "mt-5"}>
+      {/* h4 a propósito: la cadena es h2 sección -> h3 grupo -> h4 proyecto,
+          para que un lector de pantalla oiga las tarjetas COMO HIJAS del
+          grupo y no como sus hermanas. */}
+      <h4
+        className={
+          grande
+            ? "font-display text-2xl/[1.15] text-ink sm:text-3xl/[1.1]"
+            : "font-display text-xl/[1.2] text-ink"
+        }
+      >
+        {p.nombre}
+      </h4>
+
+      <span
+        className={[
+          "mt-2.5 inline-flex w-fit rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em]",
+          p.propio
+            ? "bg-primary/12 text-primary-dark"
+            : "border border-line text-ink-soft",
+        ].join(" ")}
+      >
+        {p.categoria}
+      </span>
+
+      <p
+        className={
+          grande
+            ? "mt-4 max-w-[54ch] font-body text-base leading-relaxed text-ink-soft"
+            : "mt-3 max-w-[62ch] font-body text-sm leading-relaxed text-ink-soft"
+        }
+      >
+        {p.desc}
+      </p>
+
+      {p.url && (
+        /* En reposo la flecha suelta daba 1,74:1 y era el único aviso de que
+           la tarjeta abre un sitio externo. Una pastilla con texto lo dice
+           en vez de insinuarlo, y cumple contraste desde el primer fotograma. */
+        <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state group-hover:border-primary group-hover:bg-primary group-hover:text-surface group-focus-visible:border-primary group-focus-visible:bg-primary group-focus-visible:text-surface">
+          Abrir sitio
+          <ArrowUpRight
+            className="h-3.5 w-3.5 transition-transform duration-base ease-state group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            strokeWidth={2.25}
+          />
+        </span>
+      )}
+    </div>
+  );
+}
+
 /** Enlace solo si el proyecto se puede visitar; si no, un contenedor. */
 function Tarjeta({
   href,
@@ -111,101 +316,133 @@ function Tarjeta({
   return <div className={className}>{children}</div>;
 }
 
+/* Composición de la rejilla. En vez de dejar que el auto-flow reparta siete
+   piezas iguales, cada grupo tiene su propia partitura sobre 12 columnas:
+   - En producción: una placa a ancho completo (el trabajo que manda) y dos
+     debajo. La fila cierra exacta.
+   - Diseño y desarrollo: 7/5 y 5/7. Cuatro piezas, dos filas, cero huecos,
+     y ninguna del mismo ancho que su vecina. */
+const SPANS_PRODUCCION = ["md:col-span-12", "md:col-span-6", "md:col-span-6"];
+const SPANS_TALLER = [
+  "md:col-span-6 lg:col-span-7",
+  "md:col-span-6 lg:col-span-5",
+  "md:col-span-6 lg:col-span-5",
+  "md:col-span-6 lg:col-span-7",
+];
+
+const SIZES_ANCHA =
+  "(min-width:1280px) 42rem, (min-width:1024px) 54vw, (min-width:768px) 90vw, 86vw";
+const SIZES_NORMAL =
+  "(min-width:1280px) 34rem, (min-width:1024px) 44vw, (min-width:768px) 44vw, 86vw";
+
 export function Portfolio() {
+  const grupos = [
+    {
+      titulo: "En producción",
+      nota: "Con dominio propio y en línea. Toca cualquiera y compruébalo.",
+      items: PROYECTOS.filter((p) => p.url),
+      spans: SPANS_PRODUCCION,
+      taller: false,
+    },
+    {
+      titulo: "Diseño y desarrollo",
+      nota: "Construidos y entregados. Se publican cuando el cliente conecte su dominio.",
+      items: PROYECTOS.filter((p) => !p.url),
+      spans: SPANS_TALLER,
+      taller: true,
+    },
+  ];
+
   return (
-    <section id="proyectos" className="relative py-24 md:py-32">
+    /* Continúa el capítulo que abre MediaSection ("el trabajo"), así que no
+       vuelve a empezar de cero: entra pegada arriba y respira abajo. */
+    <section id="proyectos" className="relative pb-24 pt-10 md:pb-32 md:pt-14">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <Badge>Proyectos</Badge>
-          <h2 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl">
+        {/* Encabezado de continuación, no de capítulo: alineado a la izquierda,
+            sin píldora y un escalón por debajo del h2 del caso a fondo. Antes
+            los dos bloques eran la misma construcción centrada y se leían como
+            la misma sección repetida. */}
+        <Reveal className="max-w-3xl" stagger>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+            Proyectos
+          </p>
+          <h2 className="mt-4 font-display text-3xl/[1.15] text-ink sm:text-[2.5rem]/[1.08]">
             Páginas web que ya están
-            <span className="text-metal"> en línea, funcionando.</span>
+            <span className="text-primary-dark"> en línea, funcionando.</span>
           </h2>
-          <p className="mt-5 font-body text-lg text-ink-soft">
+          <p className="mt-4 max-w-2xl font-body text-lg text-ink-soft">
             No son maquetas ni plantillas de muestra. Cada una está publicada y se puede abrir:
             toca cualquiera y compruébalo.
           </p>
         </Reveal>
 
-        {[
-          {
-            titulo: "En producción",
-            nota: "Con dominio propio y en línea. Toca cualquiera y compruébalo.",
-            items: PROYECTOS.filter((p) => p.url),
-          },
-          {
-            titulo: "Diseño y desarrollo",
-            nota: "Construidos y entregados. Se publican cuando el cliente conecte su dominio.",
-            items: PROYECTOS.filter((p) => !p.url),
-          },
-        ].map((grupo) => (
-        <div key={grupo.titulo} className="mt-16">
-          <div className="mb-8 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-line pb-4">
-            <h3 className="font-display text-2xl text-ink">{grupo.titulo}</h3>
-            <p className="font-body text-sm text-ink-soft">{grupo.nota}</p>
-          </div>
+        {grupos.map((grupo) => (
+          <div key={grupo.titulo} className="mt-14 md:mt-16">
+            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-line pb-4">
+              <h3 className="font-display text-2xl text-ink">{grupo.titulo}</h3>
+              <p className="font-body text-sm text-ink-soft">{grupo.nota}</p>
+              <span className="ml-auto shrink-0 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft md:hidden">
+                Desliza →
+              </span>
+            </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {grupo.items.map((p, i) => (
-            <Reveal key={p.nombre} delay={(i % 3) * 90}>
-              <Tarjeta
-                href={p.url}
-                className={[
-                  "group flex h-full flex-col overflow-hidden rounded-2xl border bg-surface/70 transition-all duration-300",
-                  p.url
-                    ? "border-line hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift"
-                    : "border-line/70",
-                ].join(" ")}
+            {/* El segundo grupo vive en una bandeja hundida: se lee como taller
+                o mesa de entrega, no como un escalón peor. Las capturas siguen
+                a todo color y al mismo tamaño; lo que cambia es la superficie
+                que las sostiene, no su calidad. En móvil la bandeja se sangra
+                a borde de pantalla y actúa como banda tonal: el grupo se
+                distingue de un vistazo sin leer el encabezado. */}
+            <div
+              className={
+                grupo.taller
+                  ? "mt-8 -mx-5 bg-ink/[0.045] px-5 py-8 shadow-well md:mx-0 md:rounded-4xl md:p-8 lg:p-10"
+                  : "mt-8"
+              }
+            >
+              {/* Móvil: estante horizontal con arrastre y anclaje, para que la
+                  sección deje de ser una columna de siete rectángulos iguales.
+                  Los raíles se sangran hasta el borde de pantalla (px-5 exacto,
+                  como el resto de las secciones) para que la placa gane ancho
+                  y se asome la siguiente. El scroll vive DENTRO de este
+                  contenedor: el documento nunca desborda.
+                  A partir de md vuelve a ser rejilla de 12 columnas. */}
+              {/* El escalonado va en el CARRIL, no en cada tarjeta.
+                  Un IntersectionObserver se recorta contra el overflow de sus
+                  ancestros, así que las tarjetas que esperan a la derecha del
+                  estante nunca tocaban el viewport y se quedaban en opacity 0
+                  hasta que alguien deslizaba. Con `stagger` el observado es el
+                  carril —que sí está a la vista— y son sus hijos directos los
+                  que entran, uno detrás de otro. */}
+              <Reveal
+                variant="scale"
+                stagger
+                className="-mx-5 flex snap-x snap-mandatory scroll-pl-5 gap-4 overflow-x-auto px-5 pb-8 no-scrollbar [&>*:last-child]:snap-end md:mx-0 md:grid md:grid-cols-12 md:scroll-pl-0 md:gap-x-6 md:gap-y-12 md:overflow-visible md:px-0 md:pb-0"
               >
-                {/* Marco de navegador: enmarca la captura y deja claro que es
-                    un sitio real, con su dominio a la vista. */}
-                <div className="flex items-center gap-1.5 border-b border-line bg-background/60 px-4 py-2.5">
-                  <span className="h-2 w-2 rounded-full bg-danger/60" />
-                  <span className="h-2 w-2 rounded-full bg-warning/60" />
-                  <span className="h-2 w-2 rounded-full bg-success/60" />
-                  {p.dominio && (
-                    <span className="ml-2 truncate font-mono text-[10px] text-ink-soft">
-                      {p.dominio}
-                    </span>
-                  )}
-                </div>
-
-                <div className="relative overflow-hidden bg-background">
-                  <Image
-                    src={p.img}
-                    alt={`${p.nombre} — sitio diseñado y desarrollado por JV Agencia`}
-                    width={1600}
-                    height={1000}
-                    className="h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]"
-                    sizes="(min-width:1024px) 22rem, (min-width:768px) 44vw, 100vw"
-                  />
-                </div>
-
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-xl text-ink">{p.nombre}</h3>
-                    {p.url && (
-                      <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-ink-soft/40 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
-                    )}
-                  </div>
-
-                  <span
-                    className={
-                      p.propio
-                        ? "mt-2 w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-primary-dark"
-                        : "mt-2 w-fit rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink-soft"
-                    }
-                  >
-                    {p.categoria}
-                  </span>
-
-                  <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{p.desc}</p>
-                </div>
-              </Tarjeta>
-            </Reveal>
-          ))}
-        </div>
-        </div>
+                {grupo.items.map((p, i) => {
+                  const grande = !grupo.taller && i === 0;
+                  return (
+                    <Tarjeta
+                      key={p.nombre}
+                      href={p.url}
+                      className={[
+                        "group block rounded-3xl",
+                        "w-[86vw] max-w-[420px] shrink-0 snap-start md:w-auto md:max-w-none md:shrink",
+                        grupo.spans[i] ?? "md:col-span-6",
+                        grande ? "lg:grid lg:grid-cols-[1.32fr_1fr] lg:items-center lg:gap-10" : "",
+                      ].join(" ")}
+                    >
+                      <Placa
+                        p={p}
+                        grande={grande}
+                        sizes={grande ? SIZES_ANCHA : SIZES_NORMAL}
+                      />
+                      <Ficha p={p} grande={grande} />
+                    </Tarjeta>
+                  );
+                })}
+              </Reveal>
+            </div>
+          </div>
         ))}
       </div>
     </section>

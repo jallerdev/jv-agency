@@ -1,4 +1,4 @@
-import { Quote, ArrowUpRight } from "lucide-react";
+import { ChevronDown, ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,12 @@ import { TESTIMONIALS, initialsOf } from "@/lib/testimonials";
  * Sin datos estructurados de reseña a propósito: Google no muestra estrellas
  * cuando la empresa reseñada controla las reseñas en su propio sitio. Ver la
  * explicación larga en `lib/testimonials.ts`.
+ *
+ * La tarjeta ya NO es un enlace entero. Lo era, y dentro llevaba el <details>
+ * del original: abrir el original disparaba la navegación a LinkedIn, y un
+ * control interactivo dentro de un enlace no es marcado válido. Ahora la
+ * tarjeta es un documento y la verificación es un enlace con nombre propio,
+ * que además dice a dónde lleva.
  */
 export function Testimonials() {
   if (TESTIMONIALS.length === 0) return null;
@@ -21,21 +27,25 @@ export function Testimonials() {
     TESTIMONIALS.length === 1
       ? "max-w-2xl"
       : TESTIMONIALS.length === 2
-        ? "md:grid-cols-2 max-w-4xl"
+        ? "md:grid-cols-2 max-w-5xl"
         : "md:grid-cols-2 lg:grid-cols-3";
 
   return (
-    <section id="testimonios" className="relative py-24 md:py-32">
+    /* Fondo propio: es el respiro tonal entre el papel de Quién está detrás y
+       el papel del FAQ. Sin él, la sección era la séptima banda crema seguida. */
+    <section
+      id="testimonios"
+      className="relative border-y border-line bg-secondary/[0.09] py-24 md:py-32"
+    >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <Reveal>
+        <Reveal distance="lg">
           <div className="max-w-2xl">
             <Badge>Lo que dicen</Badge>
-            <h2 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl">
-              No lo decimos nosotros.
-              <br />
-              <span className="text-metal">Lo dicen ellos.</span>
+            <h2 className="mt-6 font-display text-3xl/[1.15] text-balance text-ink sm:text-[2.5rem]/[1.1]">
+              No lo decimos nosotros.{" "}
+              <span className="text-primary-dark">Lo dicen ellos.</span>
             </h2>
-            <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
+            <p className="mt-5 max-w-[48ch] font-body text-lg leading-relaxed text-ink-soft">
               Recomendaciones públicas de gente con la que he trabajado, escritas en sus perfiles
               de LinkedIn. Están enlazadas para que cualquiera las verifique.
             </p>
@@ -44,42 +54,61 @@ export function Testimonials() {
 
         <div className={`mt-14 grid gap-5 ${cols}`}>
           {TESTIMONIALS.map((t, i) => {
-            const Card = t.url ? "a" : "article";
+            /* Una recomendación corta al lado de una larga deja media tarjeta
+               vacía. En vez de estirar el hueco, la corta se compone más
+               grande: el texto llena la caja y de paso se lee como destacado,
+               que es lo que hace un editor con una cita breve y buena. */
+            const short = t.quote.length < 420;
             return (
-              <Reveal key={t.author + i} delay={i * 90}>
-                <Card
-                  {...(t.url
-                    ? { href: t.url, target: "_blank", rel: "noopener noreferrer nofollow" }
-                    : {})}
-                  className="group flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift"
+            <Reveal key={t.author + i} index={i} className="h-full">
+              <article className="relative flex h-full flex-col rounded-3xl border border-line bg-surface p-6 shadow-soft sm:p-8">
+                {/* La comilla es tipográfica, no un icono de librería: es el
+                    mismo serif del sitio a tamaño de titular. Como abre la
+                    cita, el texto ya no lleva comillas en línea. */}
+                <span
+                  aria-hidden="true"
+                  className="select-none font-display text-[3.5rem] leading-[0.5] text-accent/40"
                 >
-                  <Quote className="h-7 w-7 shrink-0 text-accent/50" aria-hidden="true" />
+                  &ldquo;
+                </span>
 
-                  <blockquote
-                    className="mt-5 flex-1 font-body leading-relaxed text-ink-soft"
-                    {...(t.original ? { cite: t.url } : {})}
-                  >
-                    “{t.quote}”
-                  </blockquote>
+                <blockquote
+                  className={`mt-6 font-body text-ink ${
+                    short ? "leading-[1.75] lg:text-[1.15rem] lg:leading-[1.6]" : "leading-[1.75]"
+                  }`}
+                  {...(t.url ? { cite: t.url } : {})}
+                >
+                  {t.quote}
+                </blockquote>
 
-                  {/* Si venia en otro idioma se dice, y el original queda a la
-                      mano: la traduccion sirve al lector, el original es la
-                      prueba y no se esconde. */}
-                  {t.original && (
-                    <details className="mt-3">
-                      <summary className="cursor-pointer list-none font-mono text-[10px] uppercase tracking-[.12em] text-ink-soft transition-colors hover:text-ink">
-                        Traducida del inglés · ver original
-                      </summary>
-                      <p className="mt-2 whitespace-pre-line font-body text-sm italic leading-relaxed text-ink-soft/80">
-                        “{t.original}”
-                      </p>
-                    </details>
-                  )}
+                {/* Si venía en otro idioma se dice, y el original queda a la
+                    mano: la traducción sirve al lector, el original es la
+                    prueba y no se esconde. */}
+                {t.original && (
+                  <details className="group/og mt-5">
+                    <summary className="tap-target -ml-2 inline-flex cursor-pointer list-none items-center gap-2 rounded-lg px-2 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft underline decoration-line decoration-dotted underline-offset-4 transition-surface duration-quick ease-state hover:text-primary-dark hover:decoration-primary/50 [&::-webkit-details-marker]:hidden">
+                      <ChevronDown
+                        className="h-3.5 w-3.5 shrink-0 transition-transform duration-base ease-state group-open/og:rotate-180"
+                        strokeWidth={2.25}
+                        aria-hidden="true"
+                      />
+                      Traducida del inglés · ver original
+                    </summary>
+                    <blockquote
+                      lang={t.originalLang}
+                      {...(t.url ? { cite: t.url } : {})}
+                      className="mt-3 whitespace-pre-line border-l-2 border-secondary/50 pl-4 font-body text-sm italic leading-relaxed text-ink-soft"
+                    >
+                      {t.original}
+                    </blockquote>
+                  </details>
+                )}
 
-                  <div className="mt-7 flex items-center gap-3 border-t border-line pt-5">
+                <footer className="mt-auto pt-7">
+                  <div className="flex items-center gap-3 border-t border-line pt-5">
                     <span
                       aria-hidden="true"
-                      className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-primary to-accent font-display text-sm text-surface"
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary-dark font-display text-sm tracking-wide text-surface ring-1 ring-inset ring-surface/15"
                     >
                       {initialsOf(t)}
                     </span>
@@ -91,18 +120,34 @@ export function Testimonials() {
                         {t.role}
                       </span>
                     </span>
-                    {/* De dónde salió. Sin la fuente, un testimonio es una frase
-                        que se pudo escribir solo: decir "vía LinkedIn" y enlazar
-                        al perfil es lo que lo vuelve verificable. */}
-                    <span className="flex shrink-0 items-center gap-1 font-mono text-[10px] uppercase tracking-[.12em] text-ink-soft">
-                      {t.source}
-                      {t.url && (
-                        <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                      )}
-                    </span>
                   </div>
-                </Card>
-              </Reveal>
+
+                  {/* De dónde salió. Sin la fuente, un testimonio es una frase
+                      que se pudo escribir solo: decir de dónde viene y enlazar
+                      al perfil es lo que lo vuelve verificable. El enlace dice
+                      a dónde lleva, en vez de una flecha suelta al 40%. */}
+                  {t.url ? (
+                    <a
+                      href={t.url}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      className="tap-target group/src mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-background/60 px-4 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state hover:border-primary/40 hover:bg-primary/10"
+                    >
+                      Verificar en {t.source}
+                      <ArrowUpRight
+                        className="h-3.5 w-3.5 transition-transform duration-base ease-state group-hover/src:-translate-y-0.5 group-hover/src:translate-x-0.5"
+                        strokeWidth={2.25}
+                        aria-hidden="true"
+                      />
+                    </a>
+                  ) : (
+                    <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft">
+                      Vía {t.source}
+                    </p>
+                  )}
+                </footer>
+              </article>
+            </Reveal>
             );
           })}
         </div>
