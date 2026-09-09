@@ -18,6 +18,7 @@ import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MetaTechProvider } from "@/components/MetaTechProvider";
+import { Faqs } from "@/components/Faqs";
 import { SITE_URL } from "@/lib/site";
 import { A_PRICES, A_TYPE_LABEL, A_TYPE_DESC, money } from "@/lib/quote";
 
@@ -358,16 +359,12 @@ export default function ChatbotWhatsappPage() {
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Lo que siempre preguntan</h2>
           </Reveal>
-          <div className="mt-10 grid gap-4">
-            {FAQS.map((f, i) => (
-              <Reveal key={f.q} delay={i * 60}>
-                <article className="rounded-2xl border border-line bg-surface/70 p-7">
-                  <h3 className="font-display text-xl text-ink">{f.q}</h3>
-                  <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={80} className="mt-10">
+            {/* Mismo acordeon que la portada. Antes eran tarjetas siempre
+                abiertas: seis respuestas largas seguidas que habia que
+                atravesar para llegar al cierre. */}
+            <Faqs items={FAQS} />
+          </Reveal>
         </section>
 
         {/* ── Cierre ─────────────────────────────────────────────────── */}

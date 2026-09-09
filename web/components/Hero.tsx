@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { MetaTechProvider } from "@/components/MetaTechProvider";
 
 /* ==========================================================================
    HERO
@@ -186,6 +187,20 @@ export function Hero() {
             </strong>
           </a>
         </p>
+      </div>
+
+      {/* La credencial de Meta es el argumento mas fuerte que hay y estaba
+          debajo del pliegue, en su propia seccion. Ahora vive dentro del hero.
+          Una sola instancia: en flujo debajo del pitch, y a partir de 1536px
+          anclada a la derecha, donde el hero tiene espacio muerto. El margen
+          derecho se calcula para que nunca invada la columna de texto. */}
+      <div
+        className="jv-hero-in relative mx-auto mt-14 w-full max-w-xs px-5 md:px-8 min-[1700px]:absolute min-[1700px]:inset-y-0 min-[1700px]:right-0 min-[1700px]:mt-0 min-[1700px]:flex min-[1700px]:max-w-none min-[1700px]:items-center min-[1700px]:justify-end min-[1700px]:px-0"
+        style={{ "--jv-delay": "860ms" } as React.CSSProperties}
+      >
+        <div className="min-[1700px]:mr-8 min-[1700px]:w-72">
+          <MetaTechProvider variant="rail" />
+        </div>
       </div>
     </section>
   );

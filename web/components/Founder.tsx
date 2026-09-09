@@ -51,9 +51,9 @@ type Stat = {
 const STATS: Stat[] = [
   { value: 3, suffix: "+", count: true, label: "años construyendo producto" },
   { value: 11, suffix: "+", count: true, label: "proyectos en producción" },
-  /* El sitio decía "<24 h". Ese número nunca se confirmó, así que no se
-     publica: queda el marcador hasta que haya un dato de verdad. */
-  { value: 0, pending: "[PENDIENTE: dato]", label: "tiempo de respuesta" },
+  /* Confirmado por Luis el 9 de septiembre de 2026. No lleva contador: no es
+     una cantidad que crezca, es un tope. */
+  { value: 0, pending: "<24 h", label: "tiempo de respuesta" },
 ];
 
 const COUNT_DURATION = 900;

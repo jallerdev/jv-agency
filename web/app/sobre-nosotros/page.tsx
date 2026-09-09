@@ -38,7 +38,7 @@ const STATS = [
   { value: "11+", label: "proyectos en producción" },
   // El sitio decía «<24h», pero ese dato no está confirmado: queda visible como
   // pendiente hasta que se confirme o se quite.
-  { value: "[PENDIENTE: dato]", label: "tiempo de respuesta" },
+  { value: "<24 h", label: "tiempo de respuesta" },
   { value: "1", label: "persona, de principio a fin" },
 ];
 

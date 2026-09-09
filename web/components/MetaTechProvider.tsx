@@ -87,12 +87,15 @@ function StatusChip({ className }: { className?: string }) {
 /**
  * `compact` → pastilla de una línea, para el pie o junto a otros sellos.
  * `card`    → credencial con detalle, para la franja de confianza de la home.
+ * `rail`    → columna estrecha, para el costado del hero. La de `card` es una
+ *             composicion horizontal: a 288px se le parte el titulo en seis
+ *             lineas y el texto se sale. Esta nace vertical.
  */
 export function MetaTechProvider({
   variant = "card",
   className,
 }: {
-  variant?: "compact" | "card";
+  variant?: "compact" | "card" | "rail";
   className?: string;
 }) {
   if (variant === "compact") {
@@ -108,6 +111,56 @@ export function MetaTechProvider({
           Proveedor de tecnología <strong className="font-semibold opacity-100">verificado por Meta</strong>
         </span>
       </span>
+    );
+  }
+
+  if (variant === "rail") {
+    return (
+      <div
+        className={cn(
+          "relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-surface via-surface to-secondary/12 p-6 pl-7 text-left shadow-soft",
+          className
+        )}
+      >
+        {/* El mismo lomo encuadernado de la variante ancha: son la misma
+            credencial en dos formatos, no dos piezas distintas. */}
+        <span
+          aria-hidden
+          className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-accent via-primary to-primary-dark"
+        />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(152,92,62,0.075)_0_1px,transparent_1px_10px)] [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
+        />
+
+        <div className="relative">
+          <div className="relative w-fit">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-primary/25 bg-gradient-to-br from-background to-surface shadow-soft">
+              <VerifiedShield className="h-8 w-8" />
+            </div>
+            <span
+              aria-hidden
+              className="absolute -inset-1.5 rounded-full border border-dashed border-primary/25"
+            />
+          </div>
+
+          <p className="mt-5 font-mono text-[10px] uppercase leading-relaxed tracking-[0.16em] text-accent-ink">
+            Verificado por Meta
+          </p>
+          <p className="mt-2 text-balance font-display text-xl leading-[1.2] text-ink">
+            Proveedor de tecnología
+          </p>
+          <p className="mt-3 text-pretty font-body text-[13px] leading-relaxed text-ink-soft">
+            Conecto tu WhatsApp Business y construyo las automatizaciones encima. La cuenta queda{" "}
+            <strong className="font-semibold text-ink">a tu nombre</strong> —no al mío.
+          </p>
+
+          <p className="mt-5 flex items-center gap-2 border-t border-line pt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
+            Verificado · jul 2026
+          </p>
+        </div>
+      </div>
     );
   }
 
