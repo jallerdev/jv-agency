@@ -143,6 +143,7 @@ const FORMATOS = [
     para: "Un producto, un servicio o una campaña con pauta detrás.",
     incluye: INCLUIDO_POR_TIPO.landing,
     paginas: PAGINAS_BASE.landing,
+    desde: 850000,
   },
   {
     icon: Building2,
@@ -151,6 +152,10 @@ const FORMATOS = [
     para: "El negocio completo: quién eres, qué vendes y cómo te contratan.",
     incluye: INCLUIDO_POR_TIPO.corp,
     paginas: PAGINAS_BASE.corp,
+    /* Del cotizador, no de aquí: `PRICES.base.corp`. Las tres tarjetas
+       imprimían el MISMO $850.000, que es el piso de la landing, así que la
+       corporativa se anunciaba a menos de la mitad de lo que cuesta. */
+    desde: PRICES.base.corp,
   },
   {
     icon: RefreshCw,
@@ -164,6 +169,12 @@ const FORMATOS = [
       "Comparación de velocidad antes y después, con los números a la vista",
     ],
     paginas: ["Las que tenga hoy tu sitio, revisadas una por una"],
+    /* Sin piso publicable: un rediseño cuesta lo que cueste el sitio que
+       queda debajo —no es lo mismo rehacer una página suelta que un
+       institucional de siete— más el traslado. Poner una cifra aquí sería
+       inventarla; el número sale de la revisión, que es justo lo primero que
+       promete la tarjeta. */
+    desde: null,
   },
 ];
 
@@ -469,7 +480,7 @@ export default function DisenoDePaginasWebPage() {
           <Reveal>
             <Badge>Precio y plazo</Badge>
             <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
-              Desde $850.000: la landing en 5 días, la corporativa en 1 a 2 semanas
+              Tres formatos, cada uno con su piso y su plazo
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
               Es un piso, no una tarifa cerrada. El número final depende de cuántas páginas lleve,
@@ -524,7 +535,7 @@ export default function DisenoDePaginasWebPage() {
                     </ul>
 
                     <p className="mt-5 border-t border-line pt-4 font-mono text-lg text-primary-dark">
-                      desde {pesos(850000)}
+                      {f.desde ? `desde ${pesos(f.desde)}` : "según lo que haya hoy"}
                     </p>
                   </article>
                 </Reveal>
