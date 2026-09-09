@@ -267,3 +267,25 @@ servidor de cualquier otra sesión. Guarda el PID al lanzar y mata ese PID.
 
 **Un 200 en el puerto no prueba que sea tu sitio.** Comprueba el `<title>`
 antes de sacar conclusiones de una captura.
+
+---
+
+## Cierre acordado — cuando el rediseño de las internas esté revisado
+
+En este orden, y solo después de que Luis revise:
+
+1. **Sitemap actualizado** con las once páginas internas y las cuatro de
+   servicio nuevas, con prioridades coherentes: las comerciales pesan más que
+   un artículo.
+2. **Lista de URLs a indexar**, para pegar en Search Console una por una. Va
+   ordenada por rentabilidad, no por orden alfabético: primero las que atacan
+   la intención de comprar.
+3. **Auditoría de palabras clave**: que ninguna página pelee contra otra por
+   la misma búsqueda. Con quince rutas publicadas el riesgo real ya no es
+   escribir poco, es canibalizarse.
+4. **Fusionar `trabajo-nocturno` en `main`** y empujar. Vercel despliega solo.
+   Después, pedir el rastreo en Search Console para acelerar.
+
+Ojo con el paso 4: es el que hace que todo esto exista para el mundo. Hoy
+producción sigue sirviendo el copy viejo en plural, que es lo que Google
+muestra.
