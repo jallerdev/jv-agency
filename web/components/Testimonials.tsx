@@ -52,7 +52,7 @@ export function Testimonials() {
           </div>
         </Reveal>
 
-        <div className={`mt-14 grid gap-5 ${cols}`}>
+        <div className={`mt-14 grid items-start gap-5 ${cols}`}>
           {TESTIMONIALS.map((t, i) => {
             /* Una recomendación corta al lado de una larga deja media tarjeta
                vacía. En vez de estirar el hueco, la corta se compone más
@@ -60,8 +60,8 @@ export function Testimonials() {
                que es lo que hace un editor con una cita breve y buena. */
             const short = t.quote.length < 420;
             return (
-            <Reveal key={t.author + i} index={i} className="h-full">
-              <article className="relative flex h-full flex-col rounded-3xl border border-line bg-surface p-6 shadow-soft sm:p-8">
+            <Reveal key={t.author + i} index={i}>
+              <article className="relative flex flex-col rounded-3xl border border-line bg-surface p-6 shadow-soft sm:p-8">
                 {/* La comilla es tipográfica, no un icono de librería: es el
                     mismo serif del sitio a tamaño de titular. Como abre la
                     cita, el texto ya no lleva comillas en línea. */}
@@ -104,7 +104,7 @@ export function Testimonials() {
                   </details>
                 )}
 
-                <footer className="mt-auto pt-7">
+                <footer className="pt-7">
                   <div className="flex items-center gap-3 border-t border-line pt-5">
                     <span
                       aria-hidden="true"
