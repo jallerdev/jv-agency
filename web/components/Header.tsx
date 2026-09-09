@@ -220,7 +220,10 @@ export function Header() {
         >
           <a
             href="/"
-            className="group flex items-center gap-2.5 rounded-lg animate-fade-in-down"
+            /* `py-2` y no una altura fija: el area tactil llega a 44 px sin
+               mover el logo ni el alto del encabezado, que se encoge al hacer
+               scroll. Medido: salia de 119x32 en movil. */
+            className="group -my-2 flex items-center gap-2.5 rounded-lg py-2 animate-fade-in-down"
             aria-label="JV Agencia — inicio"
           >
             <Logo

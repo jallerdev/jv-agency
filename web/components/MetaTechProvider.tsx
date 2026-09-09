@@ -144,7 +144,7 @@ export function MetaTechProvider({
             />
           </div>
 
-          <p className="mt-5 font-mono text-[10px] uppercase leading-relaxed tracking-[0.16em] text-accent-ink">
+          <p className="mt-5 font-mono text-[11px] uppercase leading-relaxed tracking-[0.16em] text-accent-ink">
             Verificado por Meta
           </p>
           <p className="mt-2 text-balance font-display text-xl leading-[1.2] text-ink">
@@ -155,7 +155,7 @@ export function MetaTechProvider({
             <strong className="font-semibold text-ink">a tu nombre</strong> —no al mío.
           </p>
 
-          <p className="mt-5 flex items-center gap-2 border-t border-line pt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">
+          <p className="mt-5 flex items-center gap-2 border-t border-line pt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
             Verificado · jul 2026
           </p>

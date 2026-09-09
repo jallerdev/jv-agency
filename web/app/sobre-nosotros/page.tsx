@@ -156,7 +156,7 @@ export default function SobreNosotrosPage() {
         </section>
 
         {/* Fundador */}
-        <section className="mx-auto max-w-5xl px-5 py-16 md:px-8">
+        <section className="banda mx-auto max-w-5xl px-5 py-16 md:px-8">
           <Reveal>
             <div className="grid gap-8 rounded-2xl border border-line bg-surface/80 p-8 shadow-soft md:grid-cols-[auto_1fr] md:items-center md:p-12">
               <div className="grid h-28 w-28 shrink-0 place-items-center rounded-2xl border border-line bg-background">
@@ -191,7 +191,7 @@ export default function SobreNosotrosPage() {
         </section>
 
         {/* Enfoque */}
-        <section className="mx-auto max-w-5xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo trabajo</h2>
           </Reveal>
@@ -238,7 +238,7 @@ export default function SobreNosotrosPage() {
         </section>
 
         {/* Proyectos */}
-        <section className="mx-auto max-w-5xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Algunos proyectos</h2>
             <p className="mt-4 font-body text-ink-soft">

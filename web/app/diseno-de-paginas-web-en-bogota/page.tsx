@@ -334,7 +334,7 @@ export default function DisenoPaginasWebBogotaPage() {
         </section>
 
         {/* ── La confesión. Va arriba a propósito ────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
@@ -360,7 +360,7 @@ export default function DisenoPaginasWebBogotaPage() {
         </section>
 
         {/* ── Para quién es, con los datos de la ciudad ──────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               En Bogotá el negocio promedio no está en el Chicó
@@ -497,7 +497,7 @@ export default function DisenoPaginasWebBogotaPage() {
         </section>
 
         {/* ── Qué incluye · cómo se trabaja a distancia ───────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -613,7 +613,7 @@ export default function DisenoPaginasWebBogotaPage() {
                     <h3 className="font-display text-xl text-ink">{p.nombre}</h3>
                     <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-ink-soft/40 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
                   </div>
-                  <span className="mt-2 w-fit break-all rounded-full border border-line px-3 py-1 font-mono text-[10px] text-ink-soft">
+                  <span className="mt-2 w-fit break-all rounded-full border border-line px-3 py-1 font-mono text-[11px] text-ink-soft">
                     {p.dominio}
                   </span>
                   <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{p.que}</p>
@@ -634,7 +634,7 @@ export default function DisenoPaginasWebBogotaPage() {
         </section>
 
         {/* ── Preguntas ──────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Lo que pregunta un cliente de Bogotá

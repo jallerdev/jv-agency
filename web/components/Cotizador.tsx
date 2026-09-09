@@ -351,7 +351,7 @@ function ToggleRow({
           <span className="flex flex-wrap items-center gap-2">
             <span className="font-body font-semibold text-ink">{def.label}</span>
             {recomendado && (
-              <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-primary-dark">
+              <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-primary-dark">
                 Recomendado
               </span>
             )}

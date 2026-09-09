@@ -380,7 +380,7 @@ export default function SoftwareALaMedidaPage() {
         {/* Va arriba a propósito. Es la confusión que más plata cuesta de los
             dos lados: el que quería una web y le venden un sistema, y el que
             necesitaba un sistema y se conforma con una web. */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -435,7 +435,7 @@ export default function SoftwareALaMedidaPage() {
         </section>
 
         {/* ── Para quién es ──────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Cuándo se contrata esto de verdad
@@ -458,7 +458,7 @@ export default function SoftwareALaMedidaPage() {
         </section>
 
         {/* ── Qué se construye ───────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Qué construyo, en concreto
@@ -593,7 +593,7 @@ export default function SoftwareALaMedidaPage() {
         </section>
 
         {/* ── Qué incluye / qué no ───────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué incluye siempre</h2>
@@ -633,7 +633,7 @@ export default function SoftwareALaMedidaPage() {
         </section>
 
         {/* ── Cómo se hace ───────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
           </Reveal>
@@ -695,7 +695,7 @@ export default function SoftwareALaMedidaPage() {
                   rel="noopener noreferrer"
                   className="group flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7 transition-card duration-slow ease-state hover:border-primary/40 hover:shadow-soft"
                 >
-                  <span className="inline-flex w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-primary-dark">
+                  <span className="inline-flex w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark">
                     Producto propio · En producción
                   </span>
                   <h3 className="mt-4 font-display text-2xl text-ink">{p.nombre}</h3>
@@ -767,7 +767,7 @@ export default function SoftwareALaMedidaPage() {
         </section>
 
         {/* ── Preguntas ──────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Las preguntas que hay que hacer antes de firmar

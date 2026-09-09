@@ -333,7 +333,7 @@ export default function TiendasVirtualesPage() {
         </section>
 
         {/* ── El diferenciador, arriba y no enterrado ─────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -357,7 +357,7 @@ export default function TiendasVirtualesPage() {
         </section>
 
         {/* ── Para quién es ──────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Esto te sirve si te pasa alguna de estas
@@ -376,7 +376,7 @@ export default function TiendasVirtualesPage() {
         </section>
 
         {/* ── Shopify vs WooCommerce vs a la medida ───────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               ¿Shopify, WooCommerce o a la medida?
@@ -489,7 +489,7 @@ export default function TiendasVirtualesPage() {
         </section>
 
         {/* ── Qué incluye y qué no ───────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -526,7 +526,7 @@ export default function TiendasVirtualesPage() {
         </section>
 
         {/* ── Cómo se hace ───────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
           </Reveal>
@@ -624,7 +624,7 @@ export default function TiendasVirtualesPage() {
         </section>
 
         {/* ── Preguntas ──────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Lo que siempre preguntan</h2>
           </Reveal>

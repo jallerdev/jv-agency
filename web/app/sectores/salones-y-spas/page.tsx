@@ -311,7 +311,7 @@ export default function SalonesYSpasPage() {
         </section>
 
         {/* ── Qué necesita la página de un salón ─────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Qué tiene que resolver la página de un salón o un spa
@@ -361,7 +361,7 @@ export default function SalonesYSpasPage() {
         </section>
 
         {/* ── El trabajo real de este sector ─────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <Badge>Lo que hay hecho</Badge>
             <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
@@ -378,7 +378,7 @@ export default function SalonesYSpasPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
               <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
+                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                   Proyecto de estudio · Barranquilla
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Peluquería Marcopolo</h3>
@@ -401,7 +401,7 @@ export default function SalonesYSpasPage() {
 
             <Reveal delay={80}>
               <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
+                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                   Proyecto de estudio · Cartagena
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
@@ -423,7 +423,7 @@ export default function SalonesYSpasPage() {
 
             <Reveal delay={160} className="md:col-span-2">
               <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-secondary/15 p-7">
-                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-primary-dark">
+                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
                   Producto propio · en línea
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Hummik</h3>
@@ -619,7 +619,7 @@ export default function SalonesYSpasPage() {
         </section>
 
         {/* ── Preguntas del oficio ───────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Lo que me preguntan los salones y los spas

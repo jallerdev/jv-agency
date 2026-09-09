@@ -147,7 +147,7 @@ function BarraNavegador({ dominio }: { dominio?: string }) {
           <span className="truncate font-mono text-xs text-ink-soft">{dominio}</span>
         </span>
       ) : (
-        <span className="ml-1 whitespace-nowrap rounded-full border border-dashed border-secondary px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-primary-dark">
+        <span className="ml-1 whitespace-nowrap rounded-full border border-dashed border-secondary px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark">
           En estudio
         </span>
       )}
@@ -328,7 +328,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
 
           <span
             className={cn(
-              "hidden shrink-0 items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] md:inline-flex",
+              "hidden shrink-0 items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] md:inline-flex",
               p.url
                 ? "bg-success/12 text-success-ink"
                 : "border border-dashed border-secondary text-ink-soft"

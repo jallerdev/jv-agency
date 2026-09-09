@@ -90,6 +90,12 @@
   }
 
   body {
+    /* `clip`, no `hidden`. Los dos cortan el desborde lateral que provoca la
+       banda a sangre de las internas (`.banda::before` mide 100vw, y 100vw
+       incluye la barra de scroll), pero `hidden` convierte al body en
+       contenedor de scroll y eso rompe todo `position: sticky` de dentro
+       —empezando por la ficha del portafolio—. `clip` no lo hace. */
+    overflow-x: clip;
     background-color: var(--color-background);
     color: var(--color-ink);
     font-family: var(--font-body), system-ui, sans-serif;
@@ -186,6 +192,54 @@
     padding-top: 0;
   }
 
+  /* La misma banda, para las internas.
+     ---------------------------------------------------------------------
+     La portada agrupa secciones metiendolas dentro de un <div class="bg-band
+     band-group">. En las internas eso obligaria a reestructurar el JSX de doce
+     archivos para envolver rangos de hermanas, asi que la banda se aplica a la
+     propia <section> y son las CONSECUTIVAS las que se funden: dos `.banda`
+     seguidas pierden la regla intermedia y el aire de apertura de la segunda,
+     y se leen como una sola banda —un capitulo— igual que en la portada.
+
+     Medido antes de tocar nada: las doce internas tenian UN solo fondo para
+     entre cuatro y once secciones seguidas. La pagina de software encadenaba
+     once bloques sobre el mismo papel, 19.000 px en movil sin un cambio de
+     tono. El visitante no sabia donde terminaba una idea y empezaba otra. */
+  .banda {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* La banda va a sangre aunque la seccion no lo este.
+     Las 49 secciones que la llevan traen el `max-w` encima —896 o 1152 px—,
+     asi que pintarles el fondo directamente dejaba una caja de color flotando
+     en medio del papel en vez de una banda. El pseudo-elemento se sale a
+     100vw desde el centro y se manda detras; ninguna de las 49 tiene dentro
+     un `sticky` ni un `fixed`, que es lo unico que el contexto de apilamiento
+     habria roto (comprobado antes de escribir esto). */
+  .banda::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: -1;
+    width: 100vw;
+    transform: translateX(-50%);
+    background-color: var(--color-band);
+    background-image: var(--paper-grain);
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .banda + .banda {
+    padding-top: 0;
+  }
+
+  .banda + .banda::before {
+    border-top: 0;
+  }
+
   /* El barrido metálico, con el brillo especular por fin dentro de AA.
      La parada clara era #e0a062: medida sobre los píxeles reales del h1 daba
      1,75:1 contra el papel del hero —y este degradado solo se usa en dos
@@ -237,6 +291,9 @@
     top: 0.75rem;
     display: inline-flex;
     align-items: center;
+    /* Medido: salia de 141x24. El primer control de la pagina, y el unico que
+       usa quien navega con teclado, era el mas pequeno de todo el sitio. */
+    min-height: 2.75rem;
     border-radius: 9999px;
     background-color: var(--color-primary);
     color: var(--color-surface);

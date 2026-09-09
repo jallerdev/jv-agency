@@ -322,7 +322,7 @@ export default function BarranquillaPage() {
         </section>
 
         {/* ── La confesión, arriba y no escondida ────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -346,7 +346,7 @@ export default function BarranquillaPage() {
         </section>
 
         {/* ── Para quién es ──────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Qué se está abriendo en Barranquilla ahora mismo
@@ -464,7 +464,7 @@ export default function BarranquillaPage() {
         </section>
 
         {/* ── Qué incluye · cómo se hace ─────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué incluye</h2>
@@ -562,7 +562,7 @@ export default function BarranquillaPage() {
         </section>
 
         {/* ── Preguntas ──────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Lo que me preguntan desde Barranquilla

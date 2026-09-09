@@ -367,7 +367,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         </section>
 
         {/* ── La ciudad, con cifras que se pueden comprobar ───────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Cómo es de verdad el comercio de esta ciudad
@@ -406,7 +406,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         </section>
 
         {/* ── Para quién es ──────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Los negocios de Cartagena a los que esto les sirve
@@ -525,7 +525,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         </section>
 
         {/* ── El trabajo propio de esta zona ──────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Lo que he hecho de este lado
@@ -540,7 +540,7 @@ export default function DisenoPaginasWebCartagenaPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
               <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-secondary/15 p-7">
-                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-primary-dark">
+                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
                   En línea · Cartagena
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Bloomrose</h3>
@@ -573,7 +573,7 @@ export default function DisenoPaginasWebCartagenaPage() {
 
             <Reveal delay={80}>
               <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
+                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                   Proyecto de estudio · Cartagena
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
@@ -588,7 +588,7 @@ export default function DisenoPaginasWebCartagenaPage() {
 
             <Reveal delay={160}>
               <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
+                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                   Proyecto de estudio · Turbaco
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Animal Expert</h3>
@@ -610,7 +610,7 @@ export default function DisenoPaginasWebCartagenaPage() {
 
               <Reveal delay={240}>
                 <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-ink-soft">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                     Trabajo con negocios cartageneros
                   </span>
                   <h3 className="mt-4 font-display text-2xl text-ink">
@@ -709,7 +709,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         </section>
 
         {/* ── Preguntas de acá ───────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Lo que me preguntan los negocios de Cartagena

@@ -416,7 +416,7 @@ export default function PosicionamientoSeoPage() {
         </section>
 
         {/* ── Lo que nadie pone en la portada ─────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -442,7 +442,7 @@ export default function PosicionamientoSeoPage() {
         </section>
 
         {/* ── El eje: SEO técnico ≠ posicionamiento ───────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Con las mismas tres letras te venden dos cosas distintas
@@ -507,7 +507,7 @@ export default function PosicionamientoSeoPage() {
         </section>
 
         {/* ── Para quién es ──────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Esto te sirve si te pasa alguna de estas
@@ -631,7 +631,7 @@ export default function PosicionamientoSeoPage() {
         </section>
 
         {/* ── Qué incluye · qué no ───────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué incluye</h2>
@@ -665,7 +665,7 @@ export default function PosicionamientoSeoPage() {
         </section>
 
         {/* ── Cómo se hace ───────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
           </Reveal>
@@ -813,7 +813,7 @@ export default function PosicionamientoSeoPage() {
         </section>
 
         {/* ── Preguntas ──────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Lo que siempre preguntan

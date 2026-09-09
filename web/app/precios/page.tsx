@@ -291,7 +291,7 @@ export default function PreciosPage() {
         </section>
 
         {/* ── Dónde ver el detalle ───────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Dónde ver el detalle

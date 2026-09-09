@@ -118,7 +118,7 @@ export function Hero() {
           className="jv-hero-rule pointer-events-none absolute -right-6 inset-y-6 hidden w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent lg:block"
         />
 
-        <Badge className="jv-hero-in text-[10px] tracking-[0.14em] sm:text-xs sm:tracking-[0.18em]">
+        <Badge className="jv-hero-in text-[11px] tracking-[0.14em] sm:text-xs sm:tracking-[0.18em]">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
           Diseñador web y desarrollador · LATAM
         </Badge>
