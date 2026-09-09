@@ -44,6 +44,26 @@
         ],
         "createdAt": "2026-09-05T03:47:21.494Z",
         "reason": "Falso positivo de idioma, verificado corriendo la regex del detector sobre el archivo. NOT_A_RE (el patron ingles 'Not a X. Y.') da 0 coincidencias; las 7 que disparan vienen de SHORT_REBUTTAL_RE, que busca una frase seguida de 'No' o 'Just'. En ingles eso es una replica cortante; en espanol 'No' es el adverbio de negacion y abre cualquier imperativo: 'No la leas de corrido', 'No son sugerencias', 'No se comparte con clientes'. Los contrastes reales son 2, por debajo del umbral de 3 de la propia regla. Mismo caso: documento en espanol con imperativos que empiezan por No."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "public/guia-fotos-celular.html",
+          "web/public/guia-fotos-celular.html"
+        ],
+        "createdAt": "2026-09-09T04:26:38.818Z",
+        "reason": "Mismo patron heredado que en las otras guias: el border-left de 3px en .note es el estilo de aviso de los documentos de cliente de J&V, presente en los nueve HTML de web/public desde antes. No es tarjeta con pestana lateral. Se registran las dos formas de ruta porque el hook las reporta relativas a su cwd, que varia entre la raiz y web/."
+      },
+      {
+        "rule": "aphoristic-cadence",
+        "value": "*",
+        "files": [
+          "public/guia-fotos-celular.html",
+          "web/public/guia-fotos-celular.html"
+        ],
+        "createdAt": "2026-09-09T04:26:38.853Z",
+        "reason": "Falso positivo de idioma, verificado con la regex del detector sobre este archivo: NOT_A_RE (el patron ingles real) da 0; las 3 coincidencias vienen de SHORT_REBUTTAL_RE, que marca una frase seguida de 'No'. En espanol 'No' es el adverbio de negacion y abre imperativos normales: 'No las edites ni les pongas filtros', 'No cuesta nada'. Cadencia aforistica real: cero."
       }
     ]
   }
