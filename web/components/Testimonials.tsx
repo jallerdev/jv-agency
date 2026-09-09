@@ -35,7 +35,11 @@ export function Testimonials() {
        el papel del FAQ. Sin él, la sección era la séptima banda crema seguida. */
     <section
       id="testimonios"
-      className="relative border-y border-line bg-secondary/[0.09] py-24 md:py-32"
+      /* Sin tono ni filetes propios: esta seccion vive DENTRO de una banda
+         —comparte capitulo con «quien esta detras»— y la banda ya pone el
+         tono. Cuando traia los suyos se apilaban dos tintes y aparecia una
+         linea a media banda, justo donde el padding superior es cero. */
+      className="relative py-24 md:py-32"
     >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <Reveal distance="lg">
