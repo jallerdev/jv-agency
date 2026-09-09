@@ -249,8 +249,17 @@ export function Header() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "group relative whitespace-nowrap py-1 font-body text-sm font-medium transition-surface duration-quick ease-state",
-                    active ? "text-ink" : "text-ink-soft hover:text-ink focus-visible:text-ink"
+                    /* Los seis enlaces van en `ink`, no en `ink-soft`.
+                       Medido sobre el hero de la portada —la barra es
+                       transparente hasta que se hace scroll, asi que se leen
+                       directamente sobre el papel calido—: `ink-soft` daba
+                       entre 4,08:1 y 4,39:1 en cinco de los seis, por debajo
+                       del 4,5 que pide AA para texto de 14 px. No lo causaron
+                       las manchas: sale igual con ellas y sin ellas.
+                       La jerarquia no la llevaba el color de todas formas: la
+                       lleva el subrayado de cobre, que ya distingue la pagina
+                       actual. */
+                    "group relative whitespace-nowrap py-1 font-body text-sm font-medium text-ink transition-surface duration-quick ease-state"
                   )}
                 >
                   {item.label}

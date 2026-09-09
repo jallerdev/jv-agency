@@ -23,6 +23,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Faqs } from "@/components/Faqs";
 import { BotonCuentame } from "@/components/Cuentame";
+import { RailPlazo } from "@/components/visuales/RailPlazo";
+import { PanelRolesCrm } from "./PanelRolesCrm";
 import { SITE_URL } from "@/lib/site";
 import { money } from "@/lib/quote";
 
@@ -87,27 +89,27 @@ export const metadata: Metadata = {
 const PARA_QUIEN = [
   {
     titulo: "El Excel ya no da más",
-    desc: "Una hoja que solo entiende una persona, con fórmulas que nadie se atreve a tocar y una copia distinta en cada computador. Funciona hasta el día que esa persona sale a vacaciones.",
+    desc: "Fórmulas que nadie se atreve a tocar y una copia distinta en cada computador. Funciona hasta el día que esa persona sale a vacaciones.",
   },
   {
     titulo: "El inventario real no coincide con el del papel",
-    desc: "Vendes lo que no tienes o tienes parado lo que creías vendido. Un sistema de inventario que descuenta solo cuando se factura acaba con la discusión de quién anotó mal.",
+    desc: "Vendes lo que no tienes, o tienes parado lo que creías vendido. Un inventario que descuenta solo al facturar acaba con la discusión de quién anotó mal.",
   },
   {
     titulo: "Agendas a varias personas a la vez",
-    desc: "Consultorios, salones, talleres. Cuando son tres o cuatro profesionales con horarios distintos, la agenda deja de ser una libreta y pasa a ser un problema de software.",
+    desc: "Con tres o cuatro profesionales de horarios distintos, la agenda deja de ser una libreta y pasa a ser un problema de software.",
   },
   {
     titulo: "Tienes dos o tres sedes y ninguna ve lo mismo",
-    desc: "Cada punto lleva sus números como puede y consolidarlos se convierte en el trabajo del domingo. El control de sedes es de los procesos que más rápido se pagan solos.",
+    desc: "Cada punto lleva sus números como puede y consolidarlos es el trabajo del domingo. De los procesos que más rápido se pagan solos.",
   },
   {
     titulo: "Pagas cinco herramientas que no se hablan",
-    desc: "Una para facturar, otra para el chat, otra para la agenda, y el puente entre todas eres tú copiando y pegando. Ahí no falta otra herramienta: faltan integraciones.",
+    desc: "Una para facturar, otra para el chat, otra para la agenda, y el puente eres tú copiando y pegando. Ahí no falta otra herramienta: faltan integraciones.",
   },
   {
     titulo: "Tienes una idea de producto y quieres salir con lo mínimo",
-    desc: "No necesitas la plataforma completa para saber si alguien la usa. Necesitas la parte más chica que ya sirva —un MVP— puesta en línea, y decidir con datos y no con corazonadas.",
+    desc: "No necesitas la plataforma completa para saber si alguien la usa: necesitas la parte más chica que ya sirva —un MVP— en línea, y decidir con datos.",
   },
 ];
 
@@ -116,32 +118,32 @@ const QUE_CONSTRUYO = [
   {
     icon: Boxes,
     titulo: "Sistema de inventario y operación",
-    desc: "Entradas, salidas, existencias por bodega o por sede, y el histórico de quién movió qué. Lo que hoy es una hoja compartida, con reglas que no se pueden saltar.",
+    desc: "Entradas, salidas, existencias por bodega y el histórico de quién movió qué. La hoja compartida de hoy, con reglas que no se pueden saltar.",
   },
   {
     icon: CalendarClock,
     titulo: "Sistema de reservas y agenda",
-    desc: "Agenda de varios profesionales, servicios con duración distinta, bloqueos, cancelaciones y recordatorios. Si además tiene que agendar por chat, se junta con el chatbot.",
+    desc: "Varios profesionales, duraciones distintas, bloqueos, cancelaciones y recordatorios. Si además agenda por chat, se junta con el chatbot.",
   },
   {
     icon: LayoutDashboard,
     titulo: "Panel administrable y panel de control interno",
-    desc: "Para que cambies precios, productos, textos o usuarios sin escribirme. Un panel de control con roles: cada quien ve lo suyo y nadie ve la caja completa por accidente.",
+    desc: "Cambias precios, productos, textos o usuarios sin escribirme. Con roles: nadie ve la caja completa por accidente.",
   },
   {
     icon: Users,
     titulo: "CRM interno y seguimiento de clientes",
-    desc: "Dónde va cada negociación, quién la tiene, qué se prometió y cuándo hay que volver a llamar. Vendedores a comisión incluidos: cada uno ve sus clientes, no los del resto.",
+    desc: "Dónde va cada negociación, quién la tiene y cuándo hay que volver a llamar. Es el tablero de aquí arriba.",
   },
   {
     icon: Puzzle,
     titulo: "Integraciones con lo que ya usas",
-    desc: "Conectar tu sistema con WhatsApp, con tu contabilidad, con una pasarela de pagos o con el Excel que no piensas soltar. Siempre que el otro lado tenga por dónde conectarse.",
+    desc: "Con WhatsApp, con tu contabilidad, con una pasarela o con el Excel que no piensas soltar. Siempre que el otro lado tenga por dónde conectarse.",
   },
   {
     icon: Rocket,
     titulo: "Plataforma web a la medida, por etapas",
-    desc: "Cuando el proyecto es grande, no se construye entero de una: sale primero la parte que ya te sirve, se usa de verdad y de ahí crece. Aplicaciones a la medida, no una plantilla forzada.",
+    desc: "Si el proyecto es grande no se construye entero de una: sale primero la parte que ya te sirve y de ahí crece. Aplicaciones a la medida, no una plantilla forzada.",
   },
 ];
 
@@ -188,32 +190,23 @@ const NO_INCLUYE = [
   },
 ];
 
-/** Cómo se hace. */
+/** Cómo se hace, en la forma del rail: una línea por etapa. */
 const PROCESO = [
   {
-    n: "01",
-    t: "Diagnóstico: me cuentas el proceso, no el sistema",
-    d: "Veinte minutos. No quiero que me describas la pantalla que imaginaste: quiero ver el proceso que hoy te come el día y quién lo hace. Si lo que necesitas es una página web y no software, ahí te lo digo.",
+    etiqueta: "Etapa 01",
+    texto: "Alcance por escrito: qué se construye, qué no, en cuántas etapas y qué cuesta cada una.",
   },
   {
-    n: "02",
-    t: "Alcance y propuesta por escrito",
-    d: "Qué se construye, qué no, en cuántas etapas y qué cuesta cada una. Los anticipos, los hitos y el saldo van escritos ahí antes de empezar. Es el documento con el que después se reclama, de los dos lados.",
+    etiqueta: "Etapa 02",
+    texto: "Primera versión útil, en línea. La parte más chica que ya te sirve, con tus datos reales.",
   },
   {
-    n: "03",
-    t: "Primera versión útil, en línea",
-    d: "La parte más chica que ya te sirva, funcionando con tus datos reales y usada por tu equipo. No entrego un proyecto de meses donde lo primero que ves es el final.",
+    etiqueta: "Etapa 03",
+    texto: "Se ajusta con el uso. Cada etapa sale de lo que estorbó en la anterior, no de una lista vieja.",
   },
   {
-    n: "04",
-    t: "Se ajusta con el uso, por etapas",
-    d: "Lo que el equipo evita usar es lo que está mal hecho, y eso solo se sabe usándolo. Cada etapa sale de lo que estorbó en la anterior, no de una lista escrita hace tres meses.",
-  },
-  {
-    n: "05",
-    t: "Entrega: código, accesos, documentación y capacitación",
-    d: "Te siento a manejarlo, te entrego el manual de cómo se despliega y se restaura, y quedan 30 días de ajustes sin costo. De ahí en adelante, mantenimiento solo si lo quieres.",
+    etiqueta: "Etapa 04",
+    texto: "Entrega: código, accesos, documentación, capacitación y 30 días de ajustes sin costo.",
   },
 ];
 
@@ -355,10 +348,9 @@ export default function SoftwareALaMedidaPage() {
               <span className="block text-metal">para el proceso que te come el día</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Hay un momento en que el negocio deja de crecer por lo que vende y empieza a frenarse
-              por dentro: el Excel que solo entiende una persona, los pedidos anotados en un cuaderno,
-              tres conversaciones de WhatsApp que nadie sabe quién está atendiendo. Eso no se arregla
-              con otra herramienta más. Se arregla con un sistema hecho para cómo trabajas tú.
+              Hay un momento en que el negocio deja de crecer por lo que vende y se frena por
+              dentro: el Excel que solo entiende una persona, los pedidos en un cuaderno, tres
+              chats que nadie sabe quién atiende. Eso no se arregla con otra herramienta más.
             </p>
           </Reveal>
 
@@ -388,22 +380,21 @@ export default function SoftwareALaMedidaPage() {
                 <span className="text-metal"> ¿necesitas software o te sirve una página web?</span>
               </h2>
               <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Mucha gente escribe «software» cuando lo que quiere es una página web, y contratar lo
-                equivocado cuesta caro en las dos direcciones. La regla que uso para decidirlo, en la
-                misma llamada, es esta:
+                Mucha gente escribe «software» cuando quiere una página web, y contratar lo
+                equivocado cuesta caro en las dos direcciones. La regla que uso es esta:
               </p>
               <div className="mt-7 grid gap-5 md:grid-cols-2">
                 <div className="rounded-2xl border border-line bg-surface/80 p-6">
                   <h3 className="font-display text-xl text-ink">Si el problema está afuera</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">
-                    No te conocen, no te encuentran en Google, no te escriben, o lo que hay de ti en
-                    internet no está a la altura de lo que vendes. Eso es una{" "}
-                    <strong className="text-ink">página web</strong>: desde {money(850000)} y lista en
-                    5 días. Cuesta menos y se entrega antes.
+                    No te conocen, no te encuentran en Google, o lo que hay de ti en internet no
+                    está a la altura de lo que vendes. Eso es una{" "}
+                    <strong className="text-ink">página web</strong>: desde {money(850000)} y lista
+                    en 5 días.
                   </p>
                   <Link
                     href="/precios"
-                    className="mt-4 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                    className="mt-2 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                   >
                     Ver precios de páginas web <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -411,24 +402,23 @@ export default function SoftwareALaMedidaPage() {
                 <div className="rounded-2xl border border-line bg-surface/80 p-6">
                   <h3 className="font-display text-xl text-ink">Si el problema está adentro</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">
-                    Te escriben, vendes, y por dentro el proceso no da abasto: inventario que no
-                    cuadra, agenda que se choca, sedes que no ven lo mismo, gente copiando datos de
-                    una herramienta a otra. Eso sí es{" "}
+                    Te escriben y vendes, pero por dentro el proceso no da abasto: inventario que
+                    no cuadra, agenda que se choca, sedes que no ven lo mismo. Eso sí es{" "}
                     <strong className="text-ink">software a la medida</strong>.
                   </p>
                 </div>
               </div>
               <p className="mt-6 font-body leading-relaxed text-ink-soft">
-                Y si lo que quieres es que WhatsApp conteste, agende y filtre solo, eso tiene su
-                propio camino y es más barato que un sistema:{" "}
+                Y si lo que quieres es que WhatsApp conteste y agende solo, eso es más barato que
+                un sistema:{" "}
                 <Link
                   href="/servicios/chatbot-whatsapp"
                   className="text-primary-dark underline underline-offset-4"
                 >
                   chatbot de WhatsApp
                 </Link>
-                . Muchos negocios necesitan primero la web, después el chatbot y solo entonces el
-                sistema. En ese orden sale más barato, y así lo recomiendo.
+                . Primero la web, después el chatbot y solo entonces el sistema: en ese orden sale
+                más barato, y así lo recomiendo.
               </p>
             </div>
           </Reveal>
@@ -441,8 +431,8 @@ export default function SoftwareALaMedidaPage() {
               Cuándo se contrata esto de verdad
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Nadie se levanta queriendo comprar software. Se llega acá por una de estas seis
-              situaciones, y casi siempre después de aguantarla más tiempo del necesario.
+              Nadie se levanta queriendo comprar software. Se llega por una de estas seis, y casi
+              siempre después de aguantarla de más.
             </p>
           </Reveal>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -464,12 +454,24 @@ export default function SoftwareALaMedidaPage() {
               Qué construyo, en concreto
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              No son productos de catálogo: son las formas que más se repiten. Casi todos los
-              proyectos son dos o tres de estas juntas. Da igual si lo buscaste como software a
-              medida, como software personalizado o como «un programa para mi negocio»: es esto, y
-              es hecho a la medida de cómo trabaja tu equipo.
+              No son productos de catálogo: son las formas que más se repiten, y casi todo proyecto
+              es dos o tres de estas juntas. Lo busques como software a medida o como «un programa
+              para mi negocio», es esto.
             </p>
           </Reveal>
+
+          {/* «Cada vendedor ve sus clientes, no los del resto» era una
+              subordinada dentro de un párrafo. Conmutado, se demuestra. */}
+          <Reveal delay={90} className="mt-10 block">
+            <h3 className="font-display text-2xl text-ink sm:text-3xl">
+              Un panel con roles, en dos clics
+            </h3>
+            <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-soft">
+              Cambia la vista y mira qué desaparece. Eso es lo que ve un vendedor a comisión.
+            </p>
+            <PanelRolesCrm className="mt-6" />
+          </Reveal>
+
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {QUE_CONSTRUYO.map((q, i) => {
               const Icon = q.icon;
@@ -490,12 +492,11 @@ export default function SoftwareALaMedidaPage() {
           </div>
 
           <Reveal>
-            <div className="mt-6 rounded-2xl border border-line bg-background/40 p-7">
-              <p className="font-body leading-relaxed text-ink-soft">
-                <strong className="text-ink">Un caso que se repite mucho en salud:</strong> agenda de
-                varios profesionales, control de sedes e historia clínica. Ahí la página web y el
-                sistema son dos proyectos distintos y conviene no mezclarlos —está explicado con
-                ejemplos en{" "}
+            <div className="mt-6">
+              <p className="max-w-3xl font-body leading-relaxed text-ink-soft">
+                <strong className="text-ink">Un caso que se repite en salud:</strong> agenda de
+                varios profesionales, control de sedes e historia clínica. Ahí la web y el sistema
+                son dos proyectos distintos y conviene no mezclarlos —con ejemplos, en{" "}
                 <Link
                   href="/sectores/clinicas-y-consultorios"
                   className="text-primary-dark underline underline-offset-4"
@@ -516,17 +517,13 @@ export default function SoftwareALaMedidaPage() {
               Cuánto cuesta: según el alcance, y así se calcula
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Publico el precio de todo lo que tiene una forma conocida —una{" "}
+              Publico el precio de lo que tiene forma conocida —una{" "}
               <Link href="/precios" className="text-primary-dark underline underline-offset-4">
                 página web desde {money(850000)}, una tienda online desde {money(2500000)}
               </Link>
-              —. El software no tiene esa forma: dos proyectos que se cuentan igual en una frase
-              pueden costar tres veces distinto. Publicar un número bonito acá sería el «desde» que
-              después crece cuando ya no te puedes devolver, y eso no lo hago.
-            </p>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Lo que sí puedo darte es la lista completa de lo que mueve la aguja, para que llegues a
-              la llamada sabiendo qué te van a preguntar.
+              —. El software no la tiene: dos proyectos que se cuentan igual pueden costar tres
+              veces distinto, y un «desde» bonito acá es el que después crece cuando ya no te
+              puedes devolver. Lo que sí te doy es la lista de lo que mueve la aguja.
             </p>
           </Reveal>
 
@@ -638,19 +635,14 @@ export default function SoftwareALaMedidaPage() {
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
           </Reveal>
           <Reveal delay={80}>
-            <ol className="mt-10 grid gap-6">
-              {PROCESO.map((p) => (
-                <li key={p.n} className="flex gap-4">
-                  <span className="font-mono text-sm text-accent">{p.n}</span>
-                  <span>
-                    <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                    <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                      {p.d}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ol>
+            <RailPlazo
+              className="mt-10"
+              previo={{
+                etiqueta: "Antes de la etapa 01",
+                texto: "Diagnóstico de 20 minutos. Si te sirve una página web y no software, ahí te lo digo.",
+              }}
+              hitos={PROCESO}
+            />
           </Reveal>
           <Reveal delay={140}>
             <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
@@ -671,18 +663,18 @@ export default function SoftwareALaMedidaPage() {
               Lo que puedes abrir ahora mismo
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              La pregunta que deberías hacerle a cualquiera que te ofrezca desarrollo de software es
-              esta: <em>enséñeme algo suyo que siga funcionando en producción</em>. No una maqueta, no
-              una captura: una dirección que yo pueda abrir. Acá van dos, con dominio propio.
+              La pregunta que hay que hacerle a cualquiera que ofrezca desarrollo de software es
+              esta: <em>enséñeme algo suyo que siga funcionando en producción</em>. No una maqueta:
+              una dirección que yo pueda abrir. Acá van dos, con dominio propio.
             </p>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Y digo lo que son, para que nadie tenga que adivinarlo:{" "}
+              Y digo lo que son:{" "}
               <strong className="text-ink">
                 son producto propio, no encargos de cliente. Los construí yo, por mi cuenta y con mi
                 plata.
               </strong>{" "}
-              Lo que prueban no es que alguien me pagó por hacerlos: prueban que sé construir y
-              sostener un sistema completo, que es justamente lo que vas a comprar.
+              No prueban que alguien me pagó por hacerlos: prueban que sé construir y sostener un
+              sistema completo, que es lo que vas a comprar.
             </p>
           </Reveal>
 
@@ -710,9 +702,9 @@ export default function SoftwareALaMedidaPage() {
           </div>
 
           <Reveal>
-            <p className="mt-6 font-body leading-relaxed text-ink-soft">
-              El resto del trabajo —tiendas online y páginas web en línea, y proyectos de estudio que
-              construí por iniciativa propia— está en{" "}
+            <p className="mt-6 max-w-3xl font-body leading-relaxed text-ink-soft">
+              El resto —tiendas online y páginas web en línea, y proyectos de estudio hechos por
+              iniciativa propia— está en{" "}
               <Link href="/#proyectos" className="text-primary-dark underline underline-offset-4">
                 los proyectos
               </Link>
@@ -722,13 +714,13 @@ export default function SoftwareALaMedidaPage() {
         </section>
 
         {/* ── Con qué está construido ────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Con qué lo construyo</h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Nada exótico, y es a propósito. Todo lo que uso lo lee cualquier desarrollador del
-              mercado, así que el día que quieras cambiar de manos no te vas a encontrar con un
-              sistema escrito en un idioma que solo yo hablo.
+              Nada exótico, a propósito: todo esto lo lee cualquier desarrollador del mercado, así
+              que el día que cambies de manos no te encuentras un sistema escrito en un idioma que
+              solo yo hablo.
             </p>
           </Reveal>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -753,7 +745,7 @@ export default function SoftwareALaMedidaPage() {
             ))}
           </div>
           <Reveal>
-            <p className="mt-6 font-body leading-relaxed text-ink-soft">
+            <p className="mt-6 max-w-3xl font-body leading-relaxed text-ink-soft">
               Quién escribe el código, con nombre y perfiles públicos:{" "}
               <Link
                 href="/sobre-nosotros"
@@ -773,8 +765,8 @@ export default function SoftwareALaMedidaPage() {
               Las preguntas que hay que hacer antes de firmar
             </h2>
             <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-              Estas son las que separan a quien va a entregar de quien va a improvisar. Hazlas
-              también en las otras cotizaciones que pidas.
+              Separan a quien va a entregar de quien va a improvisar. Hazlas también en las otras
+              cotizaciones que pidas.
             </p>
           </Reveal>
           <Reveal delay={80} className="mt-10">
@@ -789,8 +781,8 @@ export default function SoftwareALaMedidaPage() {
               Cuéntame el proceso que te come el día
             </h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              Veinte minutos alcanzan para saber si esto se resuelve con software, con una página web
-              o con nada. Si te sirve más barato de otra manera, te lo digo en esa misma llamada.
+              Veinte minutos alcanzan para saber si esto se resuelve con software, con una página
+              web o con nada. Si te sirve más barato de otra manera, te lo digo ahí mismo.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
@@ -801,26 +793,26 @@ export default function SoftwareALaMedidaPage() {
               <BotonCuentame />
             </div>
             <p className="mx-auto mt-8 max-w-xl font-body text-base leading-relaxed text-ink-soft">
-              ¿Todavía no sabes si es software o página web? Empieza por{" "}
+              ¿Todavía no sabes si es software o página web? Los{" "}
               <Link href="/precios" className="text-primary-dark underline underline-offset-4">
-                los precios publicados
-              </Link>
-              . Si lo que necesitas es que te encuentren y que te crean, eso es{" "}
+                precios publicados
+              </Link>{" "}
+              lo aclaran. Que te encuentren y que te crean es{" "}
               <Link
                 href="/servicios/diseno-de-paginas-web"
                 className="text-primary-dark underline underline-offset-4"
               >
                 diseño de páginas web
               </Link>
-              ; si es vender un catálogo con carrito y pagos,{" "}
+              ; vender un catálogo con carrito y pagos,{" "}
               <Link
                 href="/servicios/tiendas-virtuales"
                 className="text-primary-dark underline underline-offset-4"
               >
                 creación de tiendas virtuales
               </Link>
-              . Los dos son proyectos más cortos y más baratos que este, y te lo digo antes de
-              cobrarte el equivocado.
+              . Los dos son más cortos y más baratos que este, y te lo digo antes de cobrarte el
+              equivocado.
             </p>
           </Reveal>
         </section>

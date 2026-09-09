@@ -9,6 +9,7 @@ import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BotonCuentame } from "@/components/Cuentame";
+import { Pendiente } from "@/components/Pendiente";
 import { SITE_URL } from "@/lib/site";
 
 /**
@@ -34,6 +35,18 @@ import { SITE_URL } from "@/lib/site";
  * carácter con COPY-PRIMERA-PERSONA.md. El valor numérico limpio vive abajo,
  * en `montoCop`, y de ahí sale el JSON-LD: el dato estructurado no repite el
  * string formateado, lee el número.
+ *
+ * ── RONDA DE MÓVIL Y RECORTE ──────────────────────────────────────────────
+ * Esta es la página que más se comparte por WhatsApp, así que se rehízo
+ * empezando por 390 px. Tres cosas cambiaron:
+ *
+ *   1. La tabla es el héroe y se le quitó todo lo que la empujaba hacia
+ *      abajo. La entradilla pasó de cinco líneas a tres.
+ *   2. La nota de cuatro líneas bajo la tabla —que explicaba en prosa cómo
+ *      llega el número— se convirtió en un objeto: `PropuestaPorEscrito`.
+ *      Lo que se puede mostrar no se cuenta.
+ *   3. Las dos condiciones honestas de esa nota NO se perdieron: siguen
+ *      escritas, en el pie del visual. Son lo que hace creíble lo de arriba.
  */
 
 export const metadata: Metadata = {
@@ -65,7 +78,7 @@ type Linea = {
   mensual?: boolean;
   /** Descripción para el dato estructurado, no para la página. */
   schemaDesc: string;
-  /** Dato por comprobar. Se pinta a la vista, no se esconde. */
+  /** Dato por comprobar. Se pinta a la vista EN DESARROLLO, nunca en producción. */
   verify?: string;
 };
 
@@ -119,6 +132,15 @@ const LINEAS: Linea[] = [
   },
 ];
 
+/* Los tres renglones del documento. Son CONCEPTOS, no importes: describen de
+   qué se compone cualquier propuesta mía y son verdaderos por construcción
+   —ninguno afirma un número, un plazo ni un cliente. */
+const RENGLONES = [
+  { concepto: "El formato", detalle: "Landing, corporativa, tienda o software." },
+  { concepto: "Lo que le sumes", detalle: "Páginas, idiomas, pasarela, reservas." },
+  { concepto: "Puesta en marcha", detalle: "Dominio, correo y salida al aire." },
+];
+
 /* Enlaces internos. No son relleno: son los destinos a los que se va alguien
    que ya vio un número —el detalle del servicio o la página de su ciudad.
    NO se enlaza /cotizador: es la herramienta interna de venta, va detrás de
@@ -141,6 +163,135 @@ const DETALLE = [
   },
   { label: "Páginas web en Bogotá", href: "/diseno-de-paginas-web-en-bogota" },
 ];
+
+/**
+ * LA PROPUESTA POR ESCRITO
+ * ------------------------
+ * Esta página sostiene la promesa más grande del sitio —«el número te llega
+ * por escrito antes de que pagues nada»— y hasta hoy la sostenía en prosa,
+ * dentro de una nota de cuatro líneas bajo la tabla. Una promesa contada es
+ * una promesa que hay que creer; una promesa que se ve es un objeto.
+ *
+ * Se compone con el lenguaje de credencial que `MetaTechProvider` ya inventó
+ * para esta marca: lomo de bronce encuadernado, guilloché grabado en la
+ * esquina y pie con regla. Extender un estilo propio vale más que estrenar
+ * otro, y aquí encaja solo: una cotización y un certificado son el mismo
+ * género de papel.
+ *
+ * NO LLEVA UN SOLO NÚMERO, Y ESA ES LA PIEZA.
+ * Los importes son ranuras con «$ —». Un total verosímil dentro de algo que
+ * parece una cotización sería exactamente el dato inventado que este proyecto
+ * se prohíbe; y además la ranura vacía dice mejor lo que se quiere decir: ese
+ * renglón se llena contigo, no antes de conocerte.
+ *
+ * DECISIONES DE 390 px
+ *   · Sin relación de aspecto de hoja carta. Una tarjeta de TEXTO con
+ *     `aspect-ratio` fija o se corta el contenido o deja un hueco enorme en
+ *     móvil. Crece con lo que tiene dentro.
+ *   · El concepto y su ranura van en la MISMA línea (flex, con la guía de
+ *     puntos en medio) y el detalle debajo, a ancho completo. Si el concepto y
+ *     el detalle compartieran línea, a 390 la guía de puntos quedaría partida
+ *     y el importe huérfano al fondo.
+ *   · `p-6` en móvil y `p-8` de sm en adelante, como el resto de las tarjetas
+ *     grandes del sitio.
+ *   · Las guías de puntos y las ranuras «$ —» van `aria-hidden`: son dibujo.
+ *     Un lector de pantalla oye los conceptos y luego el pie, que es donde
+ *     está la frase entera.
+ */
+function PropuestaPorEscrito() {
+  return (
+    <figure className="mx-auto mt-8 max-w-2xl">
+      <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-surface via-surface to-secondary/12 shadow-soft">
+        {/* Lomo: el canto encuadernado de un documento, no un borde de tarjeta. */}
+        <span
+          aria-hidden
+          className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-accent via-primary to-primary-dark"
+        />
+        {/* Guilloché: el grabado concéntrico de los títulos impresos. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(152,92,62,0.075)_0_1px,transparent_1px_10px)] sm:-right-20 sm:-top-20 sm:h-64 sm:w-64 [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
+        />
+
+        <div className="relative p-6 pl-7 sm:p-8 sm:pl-10">
+          {/* Cabecera del documento */}
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line pb-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+              Tu propuesta
+            </p>
+            {/* Pastilla y no texto suelto: a 390 este rótulo quedaba pegado
+                al de la izquierda y los dos se leían como una sola línea. */}
+            <p className="rounded-full border border-line px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+              Ejemplo
+            </p>
+          </div>
+
+          {/* Renglones de concepto */}
+          <ul>
+            {RENGLONES.map((r) => (
+              <li
+                key={r.concepto}
+                className="border-b border-dashed border-line py-4"
+              >
+                <span className="flex items-baseline gap-3">
+                  <span className="font-body text-[15px] font-semibold text-ink">
+                    {r.concepto}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="min-w-4 flex-1 border-b border-dotted border-line"
+                  />
+                  <span
+                    aria-hidden
+                    className="shrink-0 font-mono text-sm tabular-nums text-ink-soft"
+                  >
+                    $ —
+                  </span>
+                </span>
+                <span className="mt-1 block max-w-[42ch] font-body text-[13px] leading-relaxed text-ink-soft">
+                  {r.detalle}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Línea de total. La ranura es más marcada que las de arriba: es
+              el renglón que el visitante vino a buscar, y sigue vacío. */}
+          <div className="mt-5 flex items-baseline gap-3">
+            <span className="font-display text-xl text-ink">Total</span>
+            <span
+              aria-hidden
+              className="min-w-4 flex-1 border-b border-dotted border-line"
+            />
+            <span
+              aria-hidden
+              className="shrink-0 rounded-lg border border-dashed border-primary/45 bg-primary/[0.05] px-3 py-1.5 font-mono text-sm text-primary-dark"
+            >
+              $ —
+            </span>
+          </div>
+
+          {/* Pie con regla: la firma y el compromiso. */}
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line pt-4">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+              Luis Jaller · Turbaco, Bolívar
+            </span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary-dark">
+              Por escrito, antes de pagar nada
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Las dos condiciones honestas de la nota vieja, íntegras. No se
+          recortan: son lo que hace creíble la tabla de arriba. */}
+      <figcaption className="mt-5 max-w-[62ch] text-pretty font-body leading-relaxed text-ink-soft">
+        Son precios de arranque: el final depende del alcance. El tuyo sale así
+        —no al final de un embudo de tres reuniones.
+      </figcaption>
+    </figure>
+  );
+}
 
 /** Especificación de precio de una línea, o nada si no hay número. */
 function priceSpec(l: Linea) {
@@ -221,43 +372,51 @@ export default function PreciosPage() {
       <Header />
       <main>
         {/* ── Encabezado ─────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 pb-10 pt-32 text-center md:px-8 md:pt-40">
+        <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
           <Reveal>
             <Badge>Precios</Badge>
             <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
               Los precios,
               <span className="text-metal text-metal-block"> publicados.</span>
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Casi nadie los pone. Yo sí: así sabes desde el primer minuto si te
-              sirvo o no, sin gastar una llamada para averiguar un número.
+            {/* Tres líneas a 390, no cinco: la tabla es la respuesta de esta
+                página y cada línea de entradilla la empuja hacia abajo. */}
+            <p className="mx-auto mt-6 max-w-2xl text-pretty font-body text-lg leading-relaxed text-ink-soft">
+              Casi nadie los pone. Yo sí: miras el número y sabes si te sirvo,
+              sin gastar una llamada.
             </p>
           </Reveal>
         </section>
 
-        {/* ── La tabla ───────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-10 md:px-8">
+        {/* ── La tabla y cómo llega tu número ────────────────────────── */}
+        <section className="mx-auto max-w-4xl px-5 pb-14 pt-6 md:px-8 md:pb-16">
           {/* Encabezado solo para lectores de pantalla: la sección necesita
               nombre en el árbol de accesibilidad, pero el copy no le puso
               título visible y no se inventa uno. */}
           <h2 className="sr-only">Precios y plazos</h2>
 
           <Reveal>
-            <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface/70 shadow-soft">
+            {/* `bg-surface` a plena opacidad, no /70: sobre el canvas la
+                tarjeta apenas se despegaba (1,08:1) y esta es LA pieza de la
+                página. */}
+            <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
               {LINEAS.map((l) => (
-                <li key={l.servicio} className="px-6 py-6 md:px-8">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                <li key={l.servicio} className="px-5 py-5 sm:px-6 sm:py-6 md:px-8">
+                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
                     <span className="font-display text-xl text-ink">
                       {l.servicio}
                     </span>
                     <span className="flex flex-col gap-1 sm:items-end">
-                      <span className="font-mono text-lg text-primary-dark">
+                      <span className="font-mono text-lg tabular-nums text-primary-dark">
                         {l.precio}
                       </span>
                       {l.plazo && (
-                        <span className="inline-flex items-center gap-2 font-body text-sm text-ink-soft">
+                        // `items-start` y no `items-center`: el plazo de la
+                        // primera línea ocupa dos renglones a 390 y con el
+                        // reloj centrado la segunda línea quedaba colgada.
+                        <span className="inline-flex items-start gap-2 font-body text-sm leading-relaxed text-ink-soft">
                           <Clock
-                            className="h-4 w-4 shrink-0 text-accent"
+                            className="mt-0.5 h-4 w-4 shrink-0 text-accent"
                             aria-hidden="true"
                           />
                           {l.plazo}
@@ -266,43 +425,35 @@ export default function PreciosPage() {
                     </span>
                   </div>
 
-                  {/* Dato por comprobar, a la vista y pegado al plazo que
-                      contradice. Si molesta verlo aquí, esa es justamente la
-                      idea: se va cuando se resuelve. El FAQ no se toca. */}
-                  {l.verify && (
-                    <p className="mt-4 max-w-[52ch] rounded-xl border border-dashed border-accent/60 bg-accent/[0.07] px-4 py-3 font-mono text-xs leading-relaxed text-accent-ink">
-                      {l.verify}
-                    </p>
-                  )}
+                  {/* Dato por comprobar. Va envuelto en <Pendiente>: se ve
+                      mientras se trabaja y no existe en producción. Un cliente
+                      no tiene por qué leer un marcador debajo de un precio. */}
+                  {l.verify && <Pendiente>{l.verify}</Pendiente>}
                 </li>
               ))}
             </ul>
           </Reveal>
 
-          {/* Nota bajo la tabla */}
+          {/* El documento sustituye a la nota de cuatro líneas que explicaba
+              en prosa cómo llega el número. */}
           <Reveal>
-            <p className="mt-6 rounded-2xl border border-line bg-background/40 p-7 font-body leading-relaxed text-ink-soft">
-              Son precios de arranque, no tarifas cerradas: el número final
-              depende del alcance, y te lo doy por escrito antes de que pagues
-              nada. Lo que no va a pasar es que el precio aparezca al final de
-              un embudo de tres reuniones.
-            </p>
+            <PropuestaPorEscrito />
           </Reveal>
         </section>
 
         {/* ── Dónde ver el detalle ───────────────────────────────────── */}
-        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8 md:py-14">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Dónde ver el detalle
             </h2>
           </Reveal>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {DETALLE.map((d, i) => (
               <Reveal key={d.href} index={i}>
                 <Link
                   href={d.href}
-                  className="flex h-full items-center justify-between gap-3 rounded-2xl border border-line bg-surface/60 px-6 py-5 font-body text-sm font-semibold text-primary-dark transition-surface duration-quick ease-state hover:border-primary/40 hover:bg-surface"
+                  className="flex h-full min-h-11 items-center justify-between gap-3 rounded-2xl border border-line bg-surface/60 px-5 py-4 font-body text-sm font-semibold text-primary-dark transition-surface duration-quick ease-state hover:border-primary/40 hover:bg-surface sm:px-6"
                 >
                   {d.label}
                   <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -313,20 +464,28 @@ export default function PreciosPage() {
         </section>
 
         {/* ── Cierre ─────────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-3xl px-5 py-20 text-center md:px-8">
+        <section className="mx-auto max-w-3xl px-5 py-16 text-center md:px-8 md:py-20">
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="text-balance font-display text-3xl text-ink sm:text-4xl">
               ¿Tu proyecto no encaja en ninguna línea?
             </h2>
-            <p className="mx-auto mt-4 max-w-xl font-body text-ink-soft">
+            <p className="mx-auto mt-4 max-w-xl text-pretty font-body text-ink-soft">
               Cuéntame qué necesitas y te digo en qué rango cae. Si no te puedo
               ayudar, te lo digo también.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button asChild size="lg">
+            {/* En móvil los dos botones se apilan y se igualan a 280 px: antes
+                medían 245 y 272 y centrados se veían desalineados.
+                EL TOPE NO ES ESTÉTICO. A 390 el botón flotante de WhatsApp
+                ocupa x=318..374; un botón a ancho completo (350 px, x=20..370)
+                se le mete 52 px debajo en cuanto el scroll lo deja abajo a la
+                derecha. Con 280 px centrados el borde queda en 335 y el solape
+                cae a 17 px —el mismo que ya tenía el botón ancho de antes—,
+                sin sacrificar objetivo táctil: 280x56. */}
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
+              <Button asChild size="lg" className="w-full max-w-[17.5rem] sm:w-auto sm:max-w-none">
                 <a href="/#contacto">Agenda una llamada</a>
               </Button>
-              <BotonCuentame />
+              <BotonCuentame className="w-full max-w-[17.5rem] sm:w-auto sm:max-w-none" />
             </div>
           </Reveal>
         </section>

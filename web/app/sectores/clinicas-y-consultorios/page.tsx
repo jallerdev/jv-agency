@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   CalendarClock,
   Check,
   ClipboardList,
-  Clock,
   ExternalLink,
   Lock,
   MapPin,
   Stethoscope,
   UserRound,
+  X,
 } from "lucide-react";
 
 import { Header } from "@/components/Header";
@@ -19,6 +20,11 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BloqueLocalGoogle } from "@/components/visuales/BloqueLocalGoogle";
+import { CasillaVacia } from "@/components/visuales/CasillaVacia";
+import { FichaGoogle } from "@/components/visuales/FichaGoogle";
+import { ListaAcopio } from "@/components/visuales/ListaAcopio";
+import { RailPlazo } from "@/components/visuales/RailPlazo";
 import { SITE_URL } from "@/lib/site";
 import { A_PRICES, money } from "@/lib/quote";
 
@@ -37,10 +43,11 @@ import { A_PRICES, money } from "@/lib/quote";
  *     Sitio completo, construido por iniciativa propia.
  *   · Hummik — producto propio, en línea: agenda de citas por WhatsApp.
  *
- * Es material honesto pero MODESTO, y la página lo dice en voz alta en el
- * bloque «Lo que no tengo». No hay ninguna clínica de especialidades con
- * varias sedes en el inventario, y fingirla sería exactamente lo que este
- * proyecto se prohíbe.
+ * Es material honesto pero MODESTO, y la página lo dice en voz alta. Desde la
+ * fase de visuales ese «lo que no tengo» ya no es una tarjeta con tinte de
+ * aviso: es una <CasillaVacia>, un hueco declarado en la propia vitrina, del
+ * mismo alto que sus hermanas. Nadie diseña un hueco en su portafolio, y por
+ * eso es lo más creíble de la sección. NO SE QUITA.
  *
  * ─────────────────────────────────────────────────────────────────────────
  *  NÜVA PLASTIC SURGERY NO SE NOMBRA ACÁ
@@ -61,10 +68,20 @@ import { A_PRICES, money } from "@/lib/quote";
  *   existencia del REPS. Ninguna resolución de publicidad sanitaria: no está
  *   verificada y la regla 3 del proyecto prohíbe citar lo que no se puede
  *   comprobar.
+ * · El bloque local NO promete el primer puesto: promete entrar en la lista, y
+ *   el visual lo dibuja así.
  *
  * Una sola página cubre la intención completa: clínica, consultorio, centro
  * médico, odontología, fisioterapia, veterinaria. Son el mismo trabajo de
  * página web y una por sinónimo sería una doorway page.
+ *
+ * ─────────────────────────────────────────────────────────────────────────
+ *  RITMO DE FONDOS
+ * ─────────────────────────────────────────────────────────────────────────
+ * banda: «qué resuelve» + «lo que no escribo» (dos seguidas = un capítulo).
+ * Canvas: hero, LA PRUEBA DE TRABAJO y los precios. banda para la ficha de
+ * Google, canvas para el arranque, banda para las preguntas y canvas para el
+ * cierre. Ninguna sección dentro de una banda lleva fondo ni borde propios.
  */
 export const metadata: Metadata = {
   title: "Páginas web para clínicas y consultorios | JV Agencia",
@@ -85,34 +102,46 @@ const NECESITA = [
   {
     icon: UserRound,
     titulo: "El nombre del profesional, no solo el de la clínica",
-    desc: "Acá el paciente averigua con quién lo van a atender antes de pedir la cita. Nombre completo, especialidad, dónde estudió, cuántos años lleva y el número de registro profesional. Si lo que encuentra es un logo bonito sin una sola persona detrás, duda y sigue buscando.",
+    desc: "Nombre completo, especialidad, años de ejercicio y registro profesional. Un logo bonito sin una sola persona detrás manda al paciente a seguir buscando.",
   },
   {
     icon: ClipboardList,
     titulo: "Los servicios dichos como los dice el paciente",
-    desc: "Nadie busca «terapia física de miembro inferior»: busca «dolor de rodilla». La página se escribe en el idioma del que tiene el problema y trae el nombre técnico detrás, no al revés. Es el mismo trabajo de palabras de búsqueda que hago en cualquier proyecto, aplicado a tu consulta.",
+    desc: "Nadie busca «terapia física de miembro inferior»: busca «dolor de rodilla». La página se escribe en el idioma del que tiene el problema, con el nombre técnico detrás y no al revés.",
   },
   {
     icon: CalendarClock,
     titulo: "Pedir la cita sin tener que llamar",
-    desc: "El que a las once de la noche está buscando quién le vea un dolor no va a esperar a mañana para llamar: le escribe al que le contestó. Que la página diga qué se agenda, cuánto dura y con quién, y que mande al chat con eso ya escogido. Cuando el volumen lo pide, un chatbot agenda y confirma solo.",
+    desc: "El que a las once de la noche busca quién le vea un dolor no espera a mañana: le escribe al que le contestó. Que la página diga qué se agenda, cuánto dura y con quién.",
     link: { href: "/servicios/chatbot-whatsapp", label: "Chatbot que agenda citas" },
   },
   {
     icon: Check,
     titulo: "Cómo se prepara la cita",
-    desc: "En ayunas o no, traer exámenes anteriores, venir acompañado, cuánto antes llegar, qué documento se necesita. Cada llamada que recibes para preguntar eso es una llamada que la página podía haber contestado, y una interrupción menos para quien esté en consulta.",
+    desc: "En ayunas o no, traer exámenes, venir acompañado, qué documento. Cada llamada que recibes por eso es una interrupción que la página podía evitar.",
   },
   {
     icon: MapPin,
     titulo: "Sedes, horario y si atiendes particular o por convenio",
-    desc: "El paciente quiere saber si le sirves antes de escribirte. Dirección con mapa y punto de referencia, horario de verdad —sábados incluidos si abres— y si atiendes particular, prepagada o convenio. Lo que no digas te lo van a preguntar por chat, y esa conversación no la cobras.",
+    desc: "Dirección con punto de referencia, horario real —sábados incluidos— y si atiendes particular, prepagada o convenio. Lo que no digas te lo preguntan por chat, y esa conversación no la cobras.",
   },
   {
     icon: Lock,
     titulo: "Los datos de un paciente no son datos cualquiera",
-    desc: "La Ley 1581 de 2012 trata los datos de salud como datos sensibles: tienen protección reforzada y no se recogen sin autorización. En la práctica, en tu página eso significa un formulario que pide lo mínimo para poder llamarte —no el motivo de consulta— y una política de tratamiento de datos que existe de verdad y no es un enlace muerto en el pie.",
+    desc: "La Ley 1581 de 2012 trata los datos de salud como sensibles: no se recogen sin autorización. En tu página eso es un formulario que pide lo mínimo para llamarte —no el motivo de consulta— y una política de datos que existe de verdad.",
   },
+];
+
+/**
+ * La columna de honestidad de esta página. NO SE RECORTA de contenido: solo se
+ * apretó la redacción. Va con la X, no con el check: son cosas que NO hago, y
+ * el check al lado las leía al revés.
+ */
+const NO_ESCRIBO = [
+  "Promesas de resultado. Ni «resultados garantizados», ni «sin dolor», ni «recuperación en X días».",
+  "Servicios que no correspondan a lo que tienes habilitado. Si no está a tu nombre en el REPS, no va en la página.",
+  "Fotos ni testimonios de pacientes sin su autorización escrita. Son datos sensibles y se tratan como tales.",
+  "Comparaciones con otros profesionales o clínicas. No hace falta bajar a nadie para explicar por qué te buscan a ti.",
 ];
 
 /** Precios autorizados; el del chatbot sale del cotizador, que es la fuente única. */
@@ -121,35 +150,35 @@ const PRECIOS = [
     q: "Página web del consultorio",
     desde: money(850000),
     plazo: "5 días",
-    d: "Quién eres y qué atiendes, servicios explicados, preparación de la cita, sede con mapa, horario y el botón de WhatsApp visible desde el primer segundo.",
+    d: "Quién eres y qué atiendes, preparación de la cita, sede con mapa, horario y WhatsApp a la vista.",
     href: "/servicios/diseno-de-paginas-web",
   },
   {
     q: "Chatbot que agenda citas",
     desde: money(A_PRICES.base.citas),
     plazo: "de 2 a 5 semanas",
-    d: "Tu número muestra disponibilidad, agenda, confirma y recuerda la cita el día anterior. El recordatorio es lo que le baja el filo al paciente que no llega.",
+    d: "Tu número muestra disponibilidad, agenda, confirma y recuerda la cita el día anterior. El recordatorio es lo que le baja el filo al que no llega.",
     href: "/servicios/chatbot-whatsapp",
   },
   {
     q: "Software a la medida",
     desde: "Según el alcance",
     plazo: "se define al cotizar",
-    d: "Cuando el problema ya no es la página sino el proceso: agenda propia con varios profesionales, control de sedes, historias clínicas. Se cotiza mirando el proceso, no adivinando.",
+    d: "Cuando el problema ya no es la página sino el proceso: agenda con varios profesionales, sedes, historias clínicas.",
     href: "/servicios/software-a-la-medida",
   },
   {
     q: "Auditoría SEO",
     desde: money(390000),
     plazo: "5 días",
-    d: "Ya tienes página y no apareces cuando buscan tu especialidad más tu ciudad. Te digo por qué, qué se arregla primero y qué se puede medir.",
+    d: "Ya tienes página y no apareces por tu especialidad más tu ciudad. Te digo por qué y qué se arregla primero.",
     href: "/servicios/posicionamiento-seo",
   },
   {
     q: "SEO local, mensual",
     desde: `${money(650000)}/mes`,
     plazo: "trabajo continuo",
-    d: "El trabajo continuo de aparecer en «odontólogo en Cartagena», «fisioterapia en Turbaco» o lo que sea que atiendas, con el nombre de tu ciudad al lado.",
+    d: "Aparecer en «odontólogo en Cartagena» o «fisioterapia en Turbaco»: tu especialidad con el nombre de tu ciudad al lado.",
     href: "/servicios/posicionamiento-seo",
   },
 ];
@@ -157,11 +186,11 @@ const PRECIOS = [
 const FAQS = [
   {
     q: "¿Puedo poner fotos de antes y después de mis pacientes?",
-    a: "Solo con la autorización escrita de esa persona, y no la doy por supuesta: la cara y el cuerpo de un paciente en un procedimiento son datos sensibles bajo la Ley 1581 de 2012. Si no tienes la autorización firmada, la foto no entra en la página. Y aunque la tengas, la foto no se acompaña de una promesa de resultado.",
+    a: "Solo con la autorización escrita de esa persona: la cara y el cuerpo de un paciente en un procedimiento son datos sensibles bajo la Ley 1581 de 2012. Sin autorización firmada, la foto no entra. Y aunque la tengas, no se acompaña de una promesa de resultado.",
   },
   {
     q: "¿La página puede guardar la historia clínica?",
-    a: "No, y no debería. Una página web pública no es el lugar de una historia clínica. Si de verdad necesitas manejar historias, agenda de varios profesionales o control de sedes, eso es software a la medida: otro proyecto, otro alcance y otra conversación. Te digo cuál de los dos necesitas antes de cobrarte el equivocado.",
+    a: "No, y no debería: una página pública no es el lugar de una historia clínica. Si necesitas historias, agenda de varios profesionales o sedes, eso es software a la medida. Te digo cuál de los dos necesitas antes de cobrarte el equivocado.",
   },
   {
     q: "¿Agenda en línea de verdad o mejor WhatsApp?",
@@ -169,19 +198,19 @@ const FAQS = [
   },
   {
     q: "Soy un solo profesional, con consultorio alquilado. ¿Me sirve?",
-    a: "Sí, y suele ser donde más se nota. Cuando no tienes una clínica con letrero, la página es lo que le confirma al paciente que existes, que estás donde dices y que te puede escribir. Una página web desde " + money(850000) + " y en 5 días es de las inversiones más pequeñas que vas a hacer en tu consulta.",
+    a: "Sí, y suele ser donde más se nota: cuando no tienes clínica con letrero, la página es lo que le confirma al paciente que existes y dónde estás. Desde " + money(850000) + " y en 5 días.",
   },
   {
     q: "Soy odontólogo, veterinaria o fisioterapeuta. ¿Esta página es para mí?",
-    a: "Sí. Cambia la especialidad, no el trabajo de la página: quién atiende, qué se atiende, cómo se pide la cita, cómo se prepara, dónde queda y cómo se tratan los datos. Los dos trabajos que tengo hechos en este sector son justamente un centro médico veterinario y un consultorio de fisioterapia.",
+    a: "Sí. Cambia la especialidad, no el trabajo: quién atiende, qué se atiende, cómo se pide la cita, cómo se prepara y cómo se tratan los datos. Los dos que tengo hechos son un centro médico veterinario y un consultorio de fisioterapia.",
   },
   {
     q: "¿Me pones de primero en Google cuando busquen mi especialidad en mi ciudad?",
-    a: "No te lo prometo, y desconfía del que te lo prometa. Los primeros movimientos se ven entre el mes 3 y el mes 6. Y antes de gastar en posicionamiento hay algo gratis que pesa más: la ficha de Google Business con la dirección, el horario y reseñas reales de pacientes.",
+    a: "No te lo prometo, y desconfía del que te lo prometa. Los primeros movimientos se ven entre el mes 3 y el mes 6. El trabajo es entrar en la lista, como lo dibuja el bloque de arriba.",
   },
   {
     q: "Ya me hicieron una página y no aparece por ningún lado. ¿La rehacemos?",
-    a: "Primero la reviso. Muchas veces no hay que rehacer nada: es que en ninguna parte de la página dice la ciudad, nunca se le avisó a Google que existe y no hay una sola reseña. La auditoría cuesta desde " + money(390000) + " y en 5 días te digo qué tiene. Si lo que conviene es rehacerla, te lo digo; y si no, también.",
+    a: "Primero la reviso. Muchas veces no hay que rehacer nada: en ninguna parte dice la ciudad, nunca se le avisó a Google y no hay una sola reseña. La auditoría cuesta desde " + money(390000) + " y en 5 días te digo qué tiene. Si conviene rehacerla te lo digo, y si no, también.",
   },
 ];
 
@@ -286,9 +315,8 @@ export default function ClinicasYConsultoriosPage() {
               <span className="block text-metal">donde el paciente decide antes de llamar</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Al paciente le da pereza llamar y le da desconfianza un consultorio del que no
-              encuentra nada. Busca tu nombre, quiere ver qué atiendes, cuánto se demora la cita y
-              dónde quedas. Si eso no está en ninguna parte, escribe al que sí lo puso.
+              Busca tu nombre y quiere ver qué atiendes, cuánto dura la cita y dónde quedas. Si eso
+              no está en ninguna parte, le escribe al que sí lo puso.
             </p>
             <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
               La diseño y la programo yo, desde Turbaco, Bolívar. Una página web desde{" "}
@@ -328,7 +356,7 @@ export default function ClinicasYConsultoriosPage() {
               const Icon = n.icon;
               return (
                 <Reveal key={n.titulo} index={i}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
                       <Icon className="h-6 w-6" />
                     </span>
@@ -337,7 +365,7 @@ export default function ClinicasYConsultoriosPage() {
                     {n.link && (
                       <Link
                         href={n.link.href}
-                        className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                        className="mt-5 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                       >
                         {n.link.label} <ArrowRight className="h-4 w-4" />
                       </Link>
@@ -349,130 +377,155 @@ export default function ClinicasYConsultoriosPage() {
           </div>
         </section>
 
-        {/* ── Lo que no escribo en una página de salud ───────────────── */}
+        {/* ── Lo que no escribo en una página de salud ────────────────
+            Segunda `.banda` seguida: se funde con la anterior. SIN tarjeta ni
+            degradado propios — antes traía un tinte encima de la banda y se
+            veían dos tonos apilados con una línea dura a media banda. */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Lo que no voy a escribir en tu página,
-                <span className="text-metal"> aunque me lo pidas</span>
-              </h2>
-              <ul className="mt-7 grid gap-4">
-                {[
-                  "Promesas de resultado. Ni «resultados garantizados», ni «sin dolor», ni «recuperación en X días». Ni te conviene tenerlo escrito ni yo lo escribo.",
-                  "Servicios que no correspondan a lo que tienes habilitado. Si el servicio no está a tu nombre en el REPS, no va en la página.",
-                  "Fotos ni testimonios de pacientes sin su autorización escrita. Son datos sensibles y se tratan como tales.",
-                  "Comparaciones con otros profesionales o clínicas. No hace falta bajar a nadie para explicar por qué te buscan a ti.",
-                ].map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-lg leading-relaxed text-ink-soft">
-                    <Check className="mt-1.5 h-5 w-5 shrink-0 text-primary" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-7 font-body leading-relaxed text-ink-soft">
-                Y lo aplico conmigo mismo: tengo un sitio de salud terminado que{" "}
-                <strong className="text-ink">no está publicado en mi portafolio</strong> porque
-                todavía falta verificar la habilitación. Es incómodo tener una vitrina con un hueco,
-                pero es peor mostrar algo que no se puede sostener.
-              </p>
-            </div>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Lo que no voy a escribir en tu página,
+              <span className="text-metal"> aunque me lo pidas</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={80}>
+            <ul className="mt-8 grid gap-4">
+              {NO_ESCRIBO.map((x) => (
+                <li
+                  key={x}
+                  className="flex items-start gap-3 font-body text-lg leading-relaxed text-ink-soft"
+                >
+                  <X aria-hidden className="mt-1.5 h-5 w-5 shrink-0 text-danger" />
+                  <span>{x}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-7 font-body leading-relaxed text-ink-soft">
+              Y lo aplico conmigo mismo: tengo un sitio de salud terminado que{" "}
+              <strong className="text-ink">no está publicado en mi portafolio</strong> porque falta
+              verificar la habilitación. Es incómodo tener una vitrina con un hueco; es peor mostrar
+              algo que no se puede sostener.
+            </p>
           </Reveal>
         </section>
 
-        {/* ── El trabajo real de este sector ─────────────────────────── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+        {/* ── El trabajo real de este sector (canvas: es la prueba) ──── */}
+        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <Badge>Lo que hay hecho</Badge>
             <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
               El trabajo de este sector que tengo, dicho como es
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Los dos primeros son proyectos de estudio: los diseñé y los construí completos por
-              iniciativa propia, para negocios reales de la región, y nadie me los encargó. No son
-              clientes y no te los vendo como tales.
+              Los dos primeros son proyectos de estudio: los construí completos por iniciativa
+              propia y nadie me los encargó. No son clientes y no te los vendo como tales.
             </p>
           </Reveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
-                  Proyecto de estudio · Turbaco
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Animal Expert</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Centro médico veterinario de Turbaco: consulta especializada, cirugía, rayos X,
-                  fisioterapia y vacunación, con agenda en línea. Es una clínica con todos sus
-                  problemas de página —los servicios, las urgencias, el horario, quién atiende y
-                  cómo se pide la cita—, solo que con pacientes de cuatro patas. Lo construí{" "}
-                  <strong className="text-ink">por iniciativa propia</strong> y todavía no tiene
-                  dominio conectado, así que no hay enlace que abrir.
-                </p>
+              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+                <div className="aspect-[16/10] overflow-hidden border-b border-line bg-ink">
+                  <Image
+                    src="/work/animal-expert.webp"
+                    alt="Animal Expert: captura del sitio que diseñé y construí"
+                    width={1600}
+                    height={1000}
+                    quality={82}
+                    sizes="(min-width:768px) 34rem, 92vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6 md:p-7">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+                    Proyecto de estudio · Turbaco
+                  </span>
+                  <h3 className="mt-3 font-display text-2xl text-ink">Animal Expert</h3>
+                  <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">
+                    Consulta especializada, cirugía, rayos X, fisioterapia y vacunación, con
+                    agenda en línea. Una clínica con todos sus problemas de página, con pacientes
+                    de cuatro patas. Sin dominio conectado todavía.
+                  </p>
+                </div>
               </article>
             </Reveal>
 
             <Reveal delay={80}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
-                  Proyecto de estudio · Cartagena
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y
-                  experiencias de spa. Un consultorio y un spa en el mismo negocio, que es más común
-                  de lo que parece y obliga a separar dos públicos en una sola página: el que llega
-                  con una lesión y el que llega a desconectarse. Mismo caso que el anterior:
-                  construido por iniciativa propia y sin dominio conectado.
-                </p>
-                <Link
-                  href="/sectores/salones-y-spas"
-                  className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-                >
-                  El lado de spa, en su propia página <ArrowRight className="h-4 w-4" />
-                </Link>
+              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+                <div className="aspect-[16/10] overflow-hidden border-b border-line bg-ink">
+                  <Image
+                    src="/work/elka-spa.webp"
+                    alt="Fta. Elka Gómez: captura del sitio que diseñé y construí"
+                    width={1600}
+                    height={1000}
+                    quality={82}
+                    sizes="(min-width:768px) 34rem, 92vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6 md:p-7">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+                    Proyecto de estudio · Cartagena
+                  </span>
+                  <h3 className="mt-3 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
+                  <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">
+                    Más de 30 años tratando el dolor: rehabilitación, masaje y spa. Un
+                    consultorio y un spa en el mismo negocio obligan a separar dos públicos: el que
+                    llega con una lesión y el que llega a desconectarse.
+                  </p>
+                  <Link
+                    href="/sectores/salones-y-spas"
+                    className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  >
+                    El lado de spa, en su propia página <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
               </article>
             </Reveal>
 
             <Reveal delay={160}>
-              <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-secondary/15 p-7">
-                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
-                  Producto propio · en línea
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Hummik</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Agenda de citas por WhatsApp: el paciente reserva desde el chat o desde un enlace,
-                  la cita cae sola en el calendario y salen recordatorios contra los que no llegan.
-                  Es un producto mío, no un encargo, y está publicado: lo puedes abrir y probarlo sin
-                  pedirme permiso.
-                </p>
-                <a
-                  href="https://www.hummik.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-                >
-                  hummik.com <ExternalLink className="h-4 w-4" />
-                </a>
+              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-primary/25 bg-surface">
+                <div className="aspect-[16/10] overflow-hidden border-b border-primary/25 bg-ink">
+                  <Image
+                    src="/work/hummik.webp"
+                    alt="Hummik: captura del producto de agenda de citas que construí"
+                    width={1600}
+                    height={1000}
+                    quality={82}
+                    sizes="(min-width:768px) 34rem, 92vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6 md:p-7">
+                  <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
+                    Producto propio · en línea
+                  </span>
+                  <h3 className="mt-3 font-display text-2xl text-ink">Hummik</h3>
+                  <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">
+                    Agenda de citas por WhatsApp: el paciente reserva desde el chat, la cita cae
+                    sola en el calendario y salen recordatorios contra los que no llegan. Es mío y
+                    está publicado: lo puedes abrir y probarlo.
+                  </p>
+                  <a
+                    href="https://www.hummik.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  >
+                    hummik.com <ExternalLink className="h-4 w-4" />
+                  </a>
+                </div>
               </article>
             </Reveal>
 
+            {/* El hueco declarado. Va acá, del mismo alto que las otras tres:
+                es lo más creíble de la sección y no se quita. */}
             <Reveal delay={240}>
-              <article className="flex h-full flex-col rounded-2xl border border-warning/40 bg-warning/10 p-7">
-                <span className="w-fit rounded-full border border-warning/50 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
-                  Lo que no tengo
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">
-                  No tengo todavía una clínica grande
-                </h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Ni una clínica de especialidades con varias sedes, ni un consultorio con historia
-                  clínica conectada. Lo que hay es lo de arriba: un centro médico veterinario y un
-                  consultorio de fisioterapia, los dos construidos completos. Si tu proyecto es más
-                  grande que eso, dímelo en la llamada y te digo de frente si te sirvo o no.
-                  Prefiero perder el trabajo a inventarme un caso.
-                </p>
-              </article>
+              <CasillaVacia className="h-full bg-surface/50" rotulo="Lo que no tengo">
+                Todavía no tengo una clínica de varias sedes ni una historia clínica conectada. Si
+                tu proyecto es más grande, te lo digo de frente en la llamada: prefiero perder el
+                trabajo a inventarme un caso.
+              </CasillaVacia>
             </Reveal>
           </div>
 
@@ -485,8 +538,7 @@ export default function ClinicasYConsultoriosPage() {
               >
                 el portafolio completo
               </Link>
-              , separado igual: lo que está en producción con dominio propio y lo que construí por
-              mi cuenta.
+              , separado igual: producción con dominio propio y lo que construí por mi cuenta.
             </p>
           </Reveal>
         </section>
@@ -507,7 +559,7 @@ export default function ClinicasYConsultoriosPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
                   <h3 className="font-display text-xl text-ink">{p.q}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.d}
@@ -515,19 +567,16 @@ export default function ClinicasYConsultoriosPage() {
                   {p.href && (
                     <Link
                       href={p.href}
-                      className="mt-4 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                      className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                     >
                       Ver el detalle <ArrowRight className="h-4 w-4" />
                     </Link>
                   )}
-                  <div className="mt-5 border-t border-line pt-4">
+                  <div className="mt-4 border-t border-line pt-4">
                     <p className="font-mono text-lg text-primary-dark">
                       {p.desde === "Según el alcance" ? p.desde : `desde ${p.desde}`}
                     </p>
-                    <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
-                      <Clock className="h-4 w-4 text-accent" />
-                      {p.plazo}
-                    </p>
+                    <p className="mt-1 font-body text-sm text-ink-soft">{p.plazo}</p>
                   </div>
                 </article>
               </Reveal>
@@ -535,44 +584,36 @@ export default function ClinicasYConsultoriosPage() {
           </div>
 
           <Reveal>
-            <div className="mt-6 grid gap-4 rounded-2xl border border-line bg-background/40 p-7 font-body leading-relaxed text-ink-soft">
+            <div className="mt-6 rounded-2xl border border-line bg-surface p-6 font-body leading-relaxed text-ink-soft md:p-7">
               <p>
                 <strong className="text-ink">La renovación anual cuesta {money(290000)}</strong> y
-                cubre el dominio, el alojamiento y que la página siga en pie y actualizada. Va dicho
-                acá y no en una nota al pie, porque es el costo que a todo el mundo le aparece de
-                sorpresa al año siguiente.
+                cubre el dominio, el alojamiento y que la página siga en pie. Va acá y no en una
+                nota al pie, porque es el costo que a todo el mundo le aparece de sorpresa al año
+                siguiente.
               </p>
-              <p>
-                Sobre el posicionamiento: los primeros movimientos se ven{" "}
+              <p className="mt-4">
+                Y en posicionamiento, los primeros movimientos se ven{" "}
                 <strong className="text-ink">entre el mes 3 y el mes 6</strong>. Nadie te puede
-                prometer el primer puesto en Google, ni yo tampoco. Si quieres el desglose largo,
-                está en{" "}
+                prometer el primer puesto en Google, ni yo tampoco. Los desgloses largos:{" "}
                 <Link
                   href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
-                  cuánto cuesta una página web en Colombia
-                </Link>{" "}
-                y{" "}
-                <Link
-                  href="/blog/mi-negocio-necesita-pagina-web"
-                  className="font-semibold text-primary-dark underline-offset-4 hover:underline"
-                >
-                  si tu negocio necesita página web
+                  cuánto cuesta una página web
                 </Link>
-                . El trabajo mensual se cotiza aparte:{" "}
+                ,{" "}
                 <Link
                   href="/blog/cuanto-cuesta-el-seo-en-colombia"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
-                  cuánto cuesta el SEO en Colombia
-                </Link>
-                , y si además quieres que el WhatsApp confirme citas solo,{" "}
+                  cuánto cuesta el SEO
+                </Link>{" "}
+                y{" "}
                 <Link
                   href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
-                  cuánto cuesta un chatbot de WhatsApp
+                  cuánto cuesta un chatbot
                 </Link>
                 .
               </p>
@@ -580,76 +621,101 @@ export default function ClinicasYConsultoriosPage() {
           </Reveal>
         </section>
 
-        {/* ── Lo que necesito para arrancar ──────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Lo que necesito de ti para arrancar
-              </h2>
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Los proyectos rara vez se demoran por el código: se demoran esperando el contenido.
-                Te lo pido de una y en lista.
-              </p>
-              <ul className="mt-8 grid gap-3">
-                {[
-                  "Tu nombre completo, especialidad y número de registro profesional",
-                  "Los servicios que atiendes, con el nombre técnico y el nombre común",
-                  "Qué debe hacer el paciente antes de la cita, servicio por servicio",
-                  "Dirección de cada sede, punto de referencia y horario real",
-                  "Si atiendes particular, prepagada o por convenio",
-                  "Tu política de tratamiento de datos, si ya la tienes escrita",
-                ].map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+        {/* ── La ficha y el bloque local ─────────────────────────────── */}
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+          <Reveal>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Antes de pagar posicionamiento: la ficha
+            </h2>
+            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+              El bloque de tres que sale arriba del mapa se alimenta de una ficha bien llena, y
+              llenarla es gratis.
+            </p>
+          </Reveal>
 
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo trabajo</h2>
-              <ol className="mt-8 grid gap-6">
-                {[
-                  {
-                    n: "01",
-                    t: "Hablamos por WhatsApp",
-                    d: "Me cuentas qué atiendes, cómo llevas la agenda hoy y qué te preguntan siempre antes de una cita. En veinte minutos sé si esto te sirve.",
-                  },
-                  {
-                    n: "02",
-                    t: "Te mando la propuesta con el precio adentro",
-                    d: "Escrita, con lo que incluye y lo que no. Nada de un «desde» que crece cuando ya no te puedes devolver.",
-                  },
-                  {
-                    n: "03",
-                    t: "La construyo yo",
-                    d: "No hay ejecutivo de cuentas ni un equipo al que le pasan tu proyecto. Hablas con el mismo que escribe el código.",
-                  },
-                  {
-                    n: "04",
-                    t: "Te la entrego y te enseño a moverla",
-                    d: "Cambiar un horario, agregar un servicio, actualizar la preparación de un examen. Eso lo haces tú, sin llamarme.",
-                  },
-                ].map((p) => (
-                  <li key={p.n} className="flex gap-4">
-                    <span className="font-mono text-sm text-accent">{p.n}</span>
-                    <span>
-                      <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                      <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                        {p.d}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
-                <Clock className="h-4 w-4 text-accent" />
-                Una página web, en 5 días
-              </p>
+          <div className="mt-10 grid gap-6 lg:grid-cols-2 lg:items-start">
+            <Reveal>
+              <FichaGoogle
+                campos={[
+                  { etiqueta: "Nombre", valor: "El nombre con el que te buscan" },
+                  { etiqueta: "Categoría", valor: "Tu especialidad, y las secundarias" },
+                  { etiqueta: "Dirección", valor: "La sede, con punto de referencia" },
+                  { etiqueta: "Horario", valor: "Tu horario real, sábados incluidos" },
+                  { etiqueta: "Teléfono", valor: "El WhatsApp por el que sí contestas" },
+                  { etiqueta: "Servicios", valor: "Lo que atiendes, uno por uno" },
+                  { etiqueta: "Fotos", valor: "Fachada, sala de espera y consultorio" },
+                  { etiqueta: "Reseñas" },
+                  { etiqueta: "Preguntas frecuentes" },
+                ]}
+              />
+            </Reveal>
+            <Reveal delay={80}>
+              <BloqueLocalGoogle consulta="odontólogo en Cartagena" tuNegocio="Tu consultorio" />
             </Reveal>
           </div>
+        </section>
+
+        {/* ── Arranque: la lista y el plazo ──────────────────────────── */}
+        <section className="mx-auto max-w-5xl px-5 py-12 md:px-8">
+          <Reveal>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Lo que necesito de ti para arrancar
+            </h2>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <ListaAcopio
+              className="mt-8"
+              titulo="Marca lo que ya tienes"
+              almacen="acopio-clinicas"
+              items={[
+                "Tu nombre completo, especialidad y número de registro profesional",
+                "Los servicios que atiendes, con el nombre técnico y el nombre común",
+                "Qué debe hacer el paciente antes de la cita, servicio por servicio",
+                "Dirección de cada sede, punto de referencia y horario real",
+                "Si atiendes particular, prepagada o por convenio",
+                "Tu política de tratamiento de datos, si ya la tienes escrita",
+                "Accesos al dominio y al correo, si ya los tienes",
+              ]}
+            />
+          </Reveal>
+
+          <Reveal>
+            <h2 className="mt-14 font-display text-3xl text-ink sm:text-4xl">Cómo trabajo</h2>
+          </Reveal>
+          <Reveal delay={80}>
+            <RailPlazo
+              className="mt-8"
+              previo={{
+                etiqueta: "Antes de empezar",
+                texto: "Reúnes el material de la lista de arriba. El reloj todavía no ha arrancado.",
+              }}
+              hitos={[
+                {
+                  etiqueta: "Paso 01",
+                  texto: "Hablamos por WhatsApp: qué atiendes, cómo llevas la agenda y qué te preguntan siempre.",
+                },
+                {
+                  etiqueta: "Paso 02",
+                  texto: "Te mando la propuesta escrita, con lo que incluye y lo que no.",
+                },
+                {
+                  etiqueta: "Paso 03",
+                  texto: "La construyo yo. Hablas con el mismo que escribe el código.",
+                },
+                {
+                  etiqueta: "Paso 04",
+                  texto: "Te la entrego y te enseño a moverla: un horario, un servicio, una preparación.",
+                },
+              ]}
+            />
+          </Reveal>
+
+          <Reveal>
+            <p className="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-body text-sm text-ink-soft">
+              Una página web, en 5 días desde que llega el material.
+            </p>
+          </Reveal>
         </section>
 
         {/* ── Preguntas del sector ───────────────────────────────────── */}
@@ -662,7 +728,7 @@ export default function ClinicasYConsultoriosPage() {
           <div className="mt-10 grid gap-4">
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
-                <article className="rounded-2xl border border-line bg-surface/70 p-7">
+                <article className="rounded-2xl border border-line bg-surface p-6 md:p-7">
                   <h3 className="font-display text-xl text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                 </article>

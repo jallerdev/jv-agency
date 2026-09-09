@@ -9,7 +9,6 @@ import {
   Sparkles,
   ArrowRight,
   Check,
-  X,
   Clock,
 } from "lucide-react";
 
@@ -22,6 +21,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Faqs } from "@/components/Faqs";
 import { BotonCuentame } from "@/components/Cuentame";
+import { Comparador, type ItemNoIncluye } from "@/components/visuales/Comparador";
+import { SumadorSeo } from "@/components/visuales/SumadorSeo";
+import { FichaGoogle } from "@/components/visuales/FichaGoogle";
+import { BloqueLocalGoogle } from "@/components/visuales/BloqueLocalGoogle";
+import { RailPlazo } from "@/components/visuales/RailPlazo";
 import { SITE_URL } from "@/lib/site";
 import {
   SEO_DETALLE,
@@ -70,22 +74,22 @@ const PARA_QUIEN = [
   {
     icon: Search,
     titulo: "Te buscan por tu nombre y sí sales; por lo que vendes, no",
-    desc: "Escribe tu negocio en Google y aparece. Escribe «lo que haces + tu ciudad» y aparecen otros seis. Ese es el hueco que se trabaja.",
+    desc: "Escribe «lo que haces + tu ciudad» y salen otros seis. Ese es el hueco que se trabaja.",
   },
   {
     icon: MapPin,
     titulo: "No sales en el mapa",
-    desc: "Arriba de todo salen tres negocios con estrellas y un botón de «Cómo llegar». Ahí se van la mitad de los clics, y sin ficha de Google Business no entras a esa lista.",
+    desc: "Arriba de todo salen tres negocios con estrellas y un botón de «Cómo llegar». Sin ficha de Google Business no entras a esa lista.",
   },
   {
     icon: LineChart,
     titulo: "Vives de la pauta y el día que la apagas desapareces",
-    desc: "Pagar por cada clic funciona mientras estés pagando. El posicionamiento es lento, pero lo que ganas no se apaga cuando se acaba el presupuesto del mes.",
+    desc: "Pagar por clic funciona mientras estés pagando. Esto es lento, pero no se apaga cuando se acaba el presupuesto del mes.",
   },
   {
     icon: Wrench,
     titulo: "Tienes página hace años y nunca te trajo un cliente",
-    desc: "Casi siempre no es la página: es que Google no la puede leer bien, o nadie escribió nunca las palabras con las que te buscan.",
+    desc: "Casi siempre no es la página: es que Google no la puede leer, o nadie escribió las palabras con las que te buscan.",
   },
 ];
 
@@ -101,13 +105,13 @@ const INCLUYE = [
   "Sin cláusula de permanencia. Se paga mes a mes",
 ];
 
-const NO_INCLUYE = [
-  "Garantía de primer puesto, ni «top 3 en 60 días». Eso no se puede vender",
-  "Enlaces comprados. Google los nombra como spam y es lo que critico en mi propio cotizador",
-  "Pauta ni Google Ads. Esto no es publicidad pagada: son cosas distintas",
-  "Veinte artículos al mes hechos por una máquina y publicados sin leerlos",
-  "Manejo de redes sociales",
-  "Rediseño de la página. Si hay que rehacerla, te lo digo y se cotiza aparte",
+const NO_INCLUYE: ItemNoIncluye[] = [
+  { texto: "Garantía de primer puesto, ni «top 3 en 60 días».", quien: "nadie puede darla" },
+  { texto: "Enlaces comprados, que Google nombra como spam.", quien: "no se compran" },
+  { texto: "Pauta ni Google Ads. Esto no es publicidad pagada.", quien: "otro servicio" },
+  { texto: "Veinte artículos al mes hechos por una máquina y publicados sin leerlos.", quien: "los escribo yo" },
+  { texto: "Manejo de redes sociales.", quien: "otro proveedor" },
+  { texto: "Rediseño de la página. Si hay que rehacerla, te lo digo.", quien: "se cotiza aparte" },
 ];
 
 const PROCESO = [
@@ -119,22 +123,22 @@ const PROCESO = [
   {
     n: "02",
     t: "Arreglo lo que te está frenando",
-    d: "Páginas lentas, enlaces rotos, textos repetidos, páginas que Google no puede leer. Va una sola vez, el primer mes.",
+    d: "Páginas lentas, enlaces rotos, textos repetidos. Va una sola vez, el primer mes.",
   },
   {
     n: "03",
     t: "Averiguo con qué palabras te buscan",
-    d: "Las de tu sector y las de tu ciudad, y le asigno una página a cada búsqueda. Una por intención, nunca una por sinónimo.",
+    d: "Una página por intención de búsqueda, nunca una por sinónimo.",
   },
   {
     n: "04",
     t: "Trabajo el mapa y el contenido, cada mes",
-    d: "Ficha de Google Business, páginas nuevas cuando la investigación las pida, y los contenidos del mes escritos y publicados.",
+    d: "Ficha de Google Business, páginas nuevas cuando la investigación las pida, y los contenidos del mes publicados.",
   },
   {
     n: "05",
     t: "Te mando el informe y hablamos",
-    d: "Qué hice, qué se movió y qué sigue. Con tus propios datos, no con una captura de una herramienta mía.",
+    d: "Qué hice, qué se movió y qué sigue. Con tus datos, no con la captura de una herramienta mía.",
   },
 ];
 
@@ -394,10 +398,9 @@ export default function PosicionamientoSeoPage() {
               <span className="block text-metal">sin pagar por cada clic</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Tu cliente ya está buscando lo que vendes. Escribe «funeraria en Cartagena» o
-              «salón de belleza cerca de mí», mira los primeros que salen y llama a uno. Si tu
-              negocio no está ahí, no es que no te quieran: es que no te ven. Posicionar es el
-              trabajo de meterte en esa lista y quedarte.
+              Tu cliente ya está buscando lo que vendes: escribe «funeraria en Cartagena»,
+              mira los primeros que salen y llama a uno. Si no estás ahí, no es que no te
+              quieran: es que no te ven. Posicionar es meterte en esa lista y quedarte.
             </p>
           </Reveal>
 
@@ -427,15 +430,13 @@ export default function PosicionamientoSeoPage() {
                 {SEO_HONESTY_NOTE}
               </p>
               <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-                Lo pongo en la primera pantalla y no en la letra pequeña, porque el cliente que
-                llega quemado del SEO casi siempre llega por lo mismo: le prometieron una
-                posición y le cobraron seis meses.
+                Va en la primera pantalla y no en la letra pequeña: el cliente que llega quemado
+                del SEO llega por lo mismo, le prometieron una posición y le cobraron seis meses.
               </p>
               <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
                 <strong className="text-ink">Y no soy una agencia SEO.</strong> No hay ejecutivo
-                de cuentas en la mitad ni un equipo al que le pasan tu proyecto: el que investiga,
-                el que escribe y el que te contesta el WhatsApp somos la misma persona. Si lo que
-                buscas es un consultor SEO que te dé la cara todos los meses, es esto.
+                de cuentas en la mitad: el que investiga, el que escribe y el que te contesta el
+                WhatsApp somos la misma persona.
               </p>
             </div>
           </Reveal>
@@ -448,9 +449,8 @@ export default function PosicionamientoSeoPage() {
               Con las mismas tres letras te venden dos cosas distintas
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Casi toda pelea de precio de SEO es, en el fondo, una confusión de producto. Estas
-              dos no se parecen en nada, y saber cuál estás comprando te ahorra la decepción del
-              mes dos.
+              Casi toda pelea de precio de SEO es, en el fondo, una confusión de producto. Saber
+              cuál de las dos estás comprando te ahorra la decepción del mes dos.
             </p>
           </Reveal>
 
@@ -497,11 +497,11 @@ export default function PosicionamientoSeoPage() {
           </div>
 
           <Reveal>
-            <p className="mt-6 rounded-2xl border border-line bg-background/40 p-7 font-body leading-relaxed text-ink-soft">
+            <p className="mt-6 max-w-3xl font-body leading-relaxed text-ink-soft">
               <strong className="text-ink">Dicho de una vez:</strong> el técnico es que Google
-              pueda leerte. Posicionar es ganarle terreno a otros que también están trabajando.
-              Vender los dos con el mismo nombre y el mismo precio es lo que hace creer que por
-              una sola factura se queda uno primero en Google.
+              pueda leerte; posicionar es ganarle terreno a quien también está trabajando.
+              Venderlos con el mismo nombre es lo que hace creer que por una sola factura se
+              queda uno primero.
             </p>
           </Reveal>
         </section>
@@ -590,25 +590,22 @@ export default function PosicionamientoSeoPage() {
           </div>
 
 
+          <Reveal className="mt-10 block">
+            <h3 className="font-display text-2xl text-ink sm:text-3xl">Cómo se arma tu número</h3>
+            <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-soft">
+              Lo que sube la mensualidad es el alcance, no una tabla de planes. Márcalo y mira la
+              suma.
+            </p>
+            <SumadorSeo className="mt-6 max-w-2xl" />
+          </Reveal>
+
           <Reveal>
-            <div className="mt-6 grid gap-4 rounded-2xl border border-line bg-background/40 p-7 font-body leading-relaxed text-ink-soft">
-              <p>
-                <strong className="text-ink">Dos trabajos de una sola vez, al arrancar.</strong>{" "}
-                La revisión y arreglo del sitio cuesta{" "}
-                <strong className="text-ink">{money(SEO_PRICES.extras.puestaApunto)}</strong> y{" "}
-                <strong className="text-ink">no se cobra si la página web la hice yo</strong> con
-                SEO técnico incluido. La ficha de Google Business, si todavía no la tienes,{" "}
-                <strong className="text-ink">{money(SEO_PRICES.extras.ficha)}</strong>.
+            <div className="mt-6 grid gap-4 font-body leading-relaxed text-ink-soft">
+              <p className="max-w-3xl">
+                Los sectores caros —salud, legal, inmobiliario, seguros— pesan más, porque hay más
+                gente peleando la misma búsqueda.
               </p>
-              <p>
-                <strong className="text-ink">Y lo que hace subir la mensualidad</strong> es el
-                alcance, no una tabla de planes: cada ciudad adicional suma{" "}
-                {money(SEO_PRICES.ciudadExtra)} al mes y cada contenido adicional{" "}
-                {money(SEO_PRICES.contenidoExtraUnidad)} al mes. Sectores caros —salud, legal,
-                inmobiliario, seguros— pesan más porque hay más gente peleando la misma búsqueda.
-                El número final te lo doy por escrito antes de que pagues nada.
-              </p>
-              <p>
+              <p className="max-w-3xl">
                 El resto de precios están publicados en{" "}
                 <Link
                   href="/precios"
@@ -632,47 +629,27 @@ export default function PosicionamientoSeoPage() {
 
         {/* ── Qué incluye · qué no ───────────────────────────────────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué incluye</h2>
-              <ul className="mt-8 grid gap-3">
-                {INCLUYE.map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Qué no incluye
-                <span className="mt-2 block font-body text-base font-normal text-ink-soft">
-                  Esta lista vale más que la de arriba. Es la que evita el problema del mes dos.
-                </span>
-              </h2>
-              <ul className="mt-8 grid gap-3">
-                {NO_INCLUYE.map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <X className="mt-1 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
+          <Reveal>
+            <Comparador
+              tituloComo="h2"
+              tituloIncluye="Qué incluye"
+              tituloNoIncluye={<>Qué <span className="text-metal">no</span> incluye</>}
+              nota="Esta lista vale más que la de arriba. Es la que evita el problema del mes dos."
+              incluye={INCLUYE}
+              noIncluye={NO_INCLUYE}
+            />
+          </Reveal>
         </section>
 
         {/* ── Cómo se hace ───────────────────────────────────────────── */}
-        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
+        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
           </Reveal>
           <ol className="mt-10 grid gap-6">
             {PROCESO.map((p, i) => (
               <Reveal key={p.n} as="li" index={i} className="flex gap-4">
-                <span className="font-mono text-sm text-accent">{p.n}</span>
+                <span className="font-mono text-sm text-accent-ink">{p.n}</span>
                 <span>
                   <strong className="block font-body font-semibold text-ink">{p.t}</strong>
                   <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
@@ -682,38 +659,73 @@ export default function PosicionamientoSeoPage() {
               </Reveal>
             ))}
           </ol>
-          <Reveal>
-            <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
-              <Clock className="h-4 w-4 text-accent" aria-hidden="true" />
-              Los primeros movimientos, entre el mes 3 y el 6
-            </p>
+          <Reveal className="mt-12 block">
+            <h3 className="font-display text-2xl text-ink sm:text-3xl">
+              Y cuándo se ve algo, dicho antes de empezar
+            </h3>
+            <RailPlazo
+              className="mt-8"
+              previo={{
+                etiqueta: "Mes 0",
+                texto: "Auditoría y arreglo del sitio. Todavía no se está posicionando nada.",
+              }}
+              hitos={[
+                {
+                  etiqueta: "Mes 1 y 2",
+                  texto: "Ficha, páginas y los primeros contenidos. Hay datos, todavía no posiciones.",
+                },
+                {
+                  etiqueta: `Mes 3 a ${SEO_PRICES.mesesParaResultados}`,
+                  texto: "Empiezan a moverse las primeras búsquedas. Es el tramo que hay que esperar.",
+                },
+                {
+                  etiqueta: "Cada mes",
+                  texto: "Contenido, ficha, ajustes e informe. Esto no se termina: se sostiene.",
+                },
+              ]}
+            />
           </Reveal>
         </section>
 
         {/* ── SEO local, que es lo que de verdad se vende ─────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+          <Reveal>
+            <Badge>SEO local</Badge>
+            <h2 className="mt-6 max-w-3xl font-display text-3xl text-ink sm:text-4xl">
+              Donde de verdad se gana: las búsquedas con ciudad
+            </h2>
+            <p className="mt-5 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              Pelear «diseño web» a secas contra medio país es caro y lento. Pelear «lo que
+              vendes + tu ciudad» es otra cosa: menos gente buscando, pero gente que compra hoy
+              y cerca. Ahí es donde trabajo, desde Turbaco, Bolívar.
+            </p>
+          </Reveal>
+
+          {/* Insumo → resultado. A 390 se apilan en ese orden, que además es
+              el orden en que se cuenta. */}
+          <div className="mt-10 grid gap-6 lg:grid-cols-2 lg:items-start">
             <Reveal>
-              <Badge>SEO local</Badge>
-              <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
-                Donde de verdad se gana: las búsquedas con ciudad
-              </h2>
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Pelear «diseño web» a secas contra medio país es caro y lento. Pelear «lo que
-                vendes + tu ciudad» es otra cosa: menos gente buscando, pero gente que va a
-                comprar hoy y cerca. Ahí es donde trabajo, desde Turbaco, Bolívar.
-              </p>
-              <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-                El SEO local se juega en tres tableros: la ficha de Google Business —la que pone
-                tu negocio en Google Maps y en el bloque de tres resultados de arriba—, las
-                reseñas, y las páginas de tu sitio escritas para esa ciudad y ese servicio.
+              <FichaGoogle />
+            </Reveal>
+            <Reveal delay={90}>
+              <BloqueLocalGoogle consulta="funeraria en Cartagena" />
+            </Reveal>
+          </div>
+
+          <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:items-start">
+            <Reveal>
+              <h3 className="font-display text-2xl text-ink sm:text-3xl">
+                Y por ciudad, si es lo tuyo
+              </h3>
+              <p className="mt-3 font-body leading-relaxed text-ink-soft">
+                Cada ciudad se trabaja aparte, con sus propias páginas y sus propias búsquedas.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 {CIUDADES.map((c) => (
                   <Link
                     key={c.href}
                     href={c.href}
-                    className="inline-flex items-center gap-2 rounded-full border border-primary/35 bg-surface/70 px-4 py-2 font-body text-sm font-semibold text-primary-dark transition-surface duration-quick ease-state hover:border-primary hover:bg-surface"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/35 bg-surface/70 px-4 py-2 font-body text-sm font-semibold text-primary-dark transition-surface duration-quick ease-state hover:border-primary hover:bg-surface"
                   >
                     <MapPin className="h-4 w-4" aria-hidden="true" />
                     {c.label}
@@ -723,7 +735,7 @@ export default function PosicionamientoSeoPage() {
             </Reveal>
 
             <Reveal delay={120}>
-              <div className="rounded-2xl border border-line bg-surface/70 p-7">
+              <div className="rounded-2xl border border-line bg-surface p-7">
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
                   <Sparkles className="h-6 w-6" aria-hidden="true" />
                 </span>
@@ -731,14 +743,13 @@ export default function PosicionamientoSeoPage() {
                   Y lo que ya se está moviendo: que te nombre la IA
                 </h3>
                 <p className="mt-3 font-body leading-relaxed text-ink-soft">
-                  Cada vez más gente pregunta en ChatGPT o lee el resumen con IA de Google en vez
-                  de bajar a los diez resultados azules. La buena noticia es que la base es la
-                  misma que llevo años haciendo: páginas que se pueden leer, datos estructurados
-                  correctos e información concreta y verificable —precios, plazos, quién responde.
+                  Cada vez más gente pregunta en ChatGPT en vez de bajar a los diez resultados
+                  azules, y la base es la misma de siempre: páginas legibles, datos estructurados
+                  correctos e información verificable —precios, plazos, quién responde.
                 </p>
                 <p className="mt-4 font-body leading-relaxed text-ink-soft">
-                  Lo que no te voy a vender es una garantía de que un modelo te mencione. Eso no
-                  lo controla nadie.
+                  Lo que no te vendo es una garantía de que un modelo te mencione. Eso no lo
+                  controla nadie.
                 </p>
                 <p className="mt-5 border-t border-line pt-5 font-body text-sm leading-relaxed text-ink-soft">
                   Si tu negocio es{" "}
@@ -770,11 +781,10 @@ export default function PosicionamientoSeoPage() {
             </h2>
             <div className="mt-8 grid gap-4 font-body leading-relaxed text-ink-soft">
               <p>
-                <strong className="text-ink">Este mismo sitio.</strong> Ábrele el código a
-                cualquier página: los datos estructurados están puestos, el sitemap y los
-                canónicos existen, hay una sola página por intención de búsqueda y los precios
-                están publicados en vez de escondidos detrás de una llamada. Es exactamente el
-                trabajo que te vendo, hecho sobre mí mismo.
+                <strong className="text-ink">Este mismo sitio.</strong> Ábrele el código: datos
+                estructurados puestos, sitemap y canónicos, una sola página por intención de
+                búsqueda y los precios publicados en vez de escondidos detrás de una llamada. Es
+                el trabajo que te vendo, hecho sobre mí mismo.
               </p>
               <p>
                 <strong className="text-ink">El artículo del mercado.</strong>{" "}
@@ -784,13 +794,12 @@ export default function PosicionamientoSeoPage() {
                 >
                   ¿Cuánto cuesta el SEO en Colombia?
                 </Link>{" "}
-                está escrito con los rangos publicados por las agencias, los precios de lista de
-                las herramientas y la cuenta de la nómina, todo con fuente y fecha. Puedes ir a
-                comprobar cada dato.
+                lleva los rangos de las agencias, los precios de lista de las herramientas y la
+                cuenta de la nómina, con fuente y fecha. Puedes comprobar cada dato.
               </p>
               <p>
-                <strong className="text-ink">Las páginas que están en línea.</strong> Las que
-                construí salieron con el SEO técnico incluido desde el primer día. Están{" "}
+                <strong className="text-ink">Las páginas que están en línea.</strong> Salieron con
+                el SEO técnico incluido desde el primer día. Están{" "}
                 <Link
                   href="/#trabajo"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
@@ -844,15 +853,14 @@ export default function PosicionamientoSeoPage() {
               <BotonCuentame />
             </div>
             <p className="mx-auto mt-8 max-w-xl font-body text-base leading-relaxed text-ink-soft">
-              ¿Todavía comparando propuestas? Lee{" "}
+              ¿Comparando propuestas? Está la cuenta en{" "}
               <Link
                 href="/blog/cuanto-cuesta-el-seo-en-colombia"
                 className="text-primary-dark underline underline-offset-4"
               >
                 cuánto cuesta el SEO en Colombia
               </Link>
-              . Y si además de que te encuentren quieres que te contesten a cualquier hora, mira
-              el{" "}
+              . Y si además quieres que te contesten a cualquier hora, el{" "}
               <Link
                 href="/servicios/chatbot-whatsapp"
                 className="text-primary-dark underline underline-offset-4"
@@ -862,15 +870,14 @@ export default function PosicionamientoSeoPage() {
               .
             </p>
             <p className="mx-auto mt-5 max-w-xl font-body text-base leading-relaxed text-ink-soft">
-              Si todavía no tienes sitio, esto no empieza acá: empieza en{" "}
+              ¿Todavía no tienes sitio? Esto empieza en{" "}
               <Link
                 href="/servicios/diseno-de-paginas-web"
                 className="text-primary-dark underline underline-offset-4"
               >
                 diseño de páginas web
               </Link>
-              , que ya trae el SEO técnico de entrega. Y si lo tuyo es aparecer con el nombre de
-              tu ciudad al lado, lo trabajo en{" "}
+              , que ya trae el SEO técnico. Y con el nombre de tu ciudad al lado, en{" "}
               <Link
                 href="/diseno-de-paginas-web-en-cartagena"
                 className="text-primary-dark underline underline-offset-4"

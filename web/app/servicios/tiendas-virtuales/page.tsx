@@ -4,16 +4,11 @@ import Link from "next/link";
 import {
   ArrowRight,
   Boxes,
-  Check,
   Clock,
   CreditCard,
   ExternalLink,
-  LayoutDashboard,
-  ShoppingCart,
   Smartphone,
-  Store,
   Truck,
-  X,
 } from "lucide-react";
 
 import { Header } from "@/components/Header";
@@ -25,6 +20,10 @@ import { Button } from "@/components/ui/button";
 import { Faqs } from "@/components/Faqs";
 import { sinPendientes } from "@/components/Pendiente";
 import { BotonCuentame } from "@/components/Cuentame";
+import { Comparador } from "@/components/visuales/Comparador";
+import { ListaAcopio } from "@/components/visuales/ListaAcopio";
+import { PanelAutonomia } from "@/components/visuales/PanelAutonomia";
+import { RailPlazo } from "@/components/visuales/RailPlazo";
 import { SITE_URL } from "@/lib/site";
 import { PRICES, money } from "@/lib/quote";
 
@@ -59,14 +58,23 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Los dos números publicados de esta página. No salen de `PRICES.base.ecom`:
+ * esa es la base del cotizador antes de sumar pasarela, catálogo y envíos, y
+ * no coincide con el piso que anuncia el sitio. Estaban escritos a mano en
+ * cuatro sitios distintos de este mismo archivo.
+ */
+const PISO_TIENDA = 2500000;
+const RENOVACION_ANUAL = 290000;
+
 const PARA_QUIEN = [
   {
     titulo: "Vendes por Instagram y anotas los pedidos a mano",
-    desc: "El DM, el estado, la foto que mandas otra vez, el número de Nequi, el comprobante y una libreta. Funciona hasta el día que se te cruzan tres pedidos.",
+    desc: "El DM, la foto otra vez, el número de Nequi, el comprobante y una libreta. Funciona hasta el día que se te cruzan tres pedidos.",
   },
   {
     titulo: "No sabes con certeza qué te queda",
-    desc: "Vendiste la última talla M ayer y hoy la volviste a vender. A alguien le toca esperar, o devolverle la plata, y esa persona no vuelve.",
+    desc: "Vendiste la última talla M ayer y hoy la volviste a vender. A alguien le toca esperar o le devuelves la plata, y esa persona no vuelve.",
   },
   {
     titulo: "Te compran de otras ciudades y el envío lo calculas a ojo",
@@ -74,7 +82,7 @@ const PARA_QUIEN = [
   },
   {
     titulo: "Quieres que te compren a las 11 de la noche",
-    desc: "El que decide comprar un domingo no espera a que le contesten el lunes. O paga ahí mismo, o no paga.",
+    desc: "El que decide comprar un domingo no espera al lunes. O paga ahí mismo, o no paga.",
   },
 ];
 
@@ -86,52 +94,97 @@ const PARA_QUIEN = [
  */
 const PLATAFORMAS = [
   {
-    icon: Store,
     t: "Shopify o Tiendanube",
-    d: "Alquilas la tienda. Sale en dos días y funciona. A cambio pagas una mensualidad todos los meses, una comisión por venta si no usas la pasarela de ellos, y cada cosa que quieras cambiar depende de que exista una app que la haga.",
+    d: "Alquilas la tienda. Cada cosa que quieras cambiar depende de que exista una app que la haga.",
+    filas: {
+      dia1: "Sale en dos días",
+      despues: "Mensualidad de plataforma",
+      venta: "Comisión, si no usas su pasarela",
+    },
     veredicto:
       "Si vas a probar si vendes en línea y todavía no quieres invertir, esto es lo correcto. Te lo digo aunque no me convenga.",
   },
   {
-    icon: LayoutDashboard,
     t: "WooCommerce sobre WordPress",
-    d: "Es tuyo y es barato de empezar. Lo que casi nadie te cuenta al venderlo es lo de después: plugins que se pisan entre sí, actualizaciones que rompen el pago y una tienda que se pone lenta justo cuando le entra gente.",
+    d: "Es tuyo. Lo caro es después: plugins que se pisan entre sí y actualizaciones que rompen el pago.",
+    filas: {
+      dia1: "Barato de arrancar",
+      despues: "Alojamiento, plugins y mantenimiento",
+      venta: "—",
+    },
     veredicto:
       "Se puede sostener bien, pero hay que sostenerlo. Sin mantenimiento, es la que más se cae.",
   },
   {
-    icon: ShoppingCart,
     t: "A la medida — lo que yo hago",
-    d: "Se programa lo que tu negocio necesita y nada más. Sin plugins ajenos en el camino del pago y sin plataforma que alquilar. Es lo que está corriendo hoy en Bloomrose.",
+    d: "Se programa lo que tu negocio necesita y nada más. Es lo que está corriendo hoy en Bloomrose.",
+    destacada: true,
+    filas: {
+      dia1: "Cuesta más y no sale en dos días",
+      despues: `Renovación anual de ${money(RENOVACION_ANUAL)}`,
+      venta: "—",
+    },
     veredicto:
-      "Cuesta más el primer día y no sale en dos. A cambio no hay mensualidad de plataforma ni comisión por vender.",
+      "A cambio de ese primer día, no hay mensualidad de plataforma ni comisión por vender.",
   },
 ];
 
+/**
+ * Las tres filas de la matriz. Son CUALITATIVAS a propósito: esta página se
+ * niega —con razón escrita en el código— a publicar tarifas de terceros que no
+ * puede verificar, y una cifra desactualizada en una tabla de precios es una
+ * mentira con fecha. El único número que aparece es el propio.
+ */
+const FILAS_PLATAFORMA = [
+  { clave: "dia1", etiqueta: "El día 1" },
+  { clave: "despues", etiqueta: "Después" },
+  { clave: "venta", etiqueta: "Por venta" },
+] as const;
+
 /** Lo que entra por el precio base publicado. Sale de `lib/quote.ts`. */
 const INCLUYE = [
-  "Seis páginas: inicio, catálogo, ficha de producto, carrito y pago, contacto, y aviso de privacidad y términos",
-  "Panel de administración de productos, precios e inventario, para que lo manejes tú",
-  "Carrito, cálculo de totales y proceso de compra completo",
+  "Seis páginas: inicio, catálogo, ficha de producto, carrito y pago, contacto, y privacidad y términos",
+  "Panel de productos, precios e inventario, para que lo manejes tú",
+  "Catálogo, fichas con galería y proceso de compra completo",
   "Panel de pedidos con estados y aviso al cliente cuando cambian",
-  "Cobro en línea con pasarela: PSE, Nequi, Bancolombia y tarjeta",
-  "Cotización de envío por ciudad o por peso, y opción de recoger en tienda",
-  "Fichas de producto con galería, descripción y disponibilidad",
+  "Cobro en línea: PSE, Nequi, Bancolombia y tarjeta",
+  "Envío cotizado por ciudad o por peso, y opción de recoger en tienda",
   "Datos estructurados de producto, para que Google muestre precio y existencias",
   "Diseño propio, sin plantilla comprada, armado desde la pantalla del teléfono",
-  "Certificado de seguridad (HTTPS), respaldo, y velocidad revisada antes de entregar",
+  "Certificado de seguridad (HTTPS), respaldo y velocidad revisada antes de entregar",
   "Capacitación de entrega y 30 días de ajustes sin costo",
 ];
 
 /** Lo que NO entra. Es la mitad que decide si el proyecto sale bien o mal. */
 const NO_INCLUYE = [
-  "La habilitación de tu empresa ante la DIAN. Ese trámite lo haces tú o tu contador; sin él no hay conexión de facturación que valga.",
-  "La cuenta en la pasarela ni sus comisiones. La abres tú, a tu nombre, y la plata te llega a ti directo. Yo no me meto en el medio.",
-  "La logística. No empaco, no despacho y no negocio tarifas con Servientrega ni con Interrapidísimo por ti.",
-  "La fotografía de producto. Si no la tienes, se contrata aparte y te digo con quién.",
-  "El tráfico. Una tienda no trae gente sola: eso es posicionamiento o publicidad, y es otro trabajo.",
-  "Dropshipping, marketplaces ni montarte en Mercado Libre o Amazon. No lo vendo.",
-  "Ventas garantizadas. Nadie te las puede prometer, y el que te las prometa te está mintiendo.",
+  {
+    texto: "La habilitación de tu empresa ante la DIAN. Sin ella no hay conexión de facturación que valga.",
+    quien: "tu contador",
+  },
+  {
+    texto: "La cuenta en la pasarela ni sus comisiones. La abres tú, a tu nombre, y la plata te llega directo.",
+    quien: "la pasarela",
+  },
+  {
+    texto: "La logística: no empaco, no despacho y no negocio tarifas por ti.",
+    quien: "la transportadora",
+  },
+  {
+    texto: "La fotografía de producto. Si no la tienes, te digo con quién.",
+    quien: "un fotógrafo",
+  },
+  {
+    texto: "El tráfico. Una tienda no trae gente sola.",
+    quien: "SEO o publicidad",
+  },
+  {
+    texto: "Dropshipping, marketplaces ni montarte en Mercado Libre o Amazon.",
+    quien: "no lo vendo",
+  },
+  {
+    texto: "Ventas garantizadas. El que te las prometa te está mintiendo.",
+    quien: "nadie",
+  },
 ];
 
 /** Lo que se cobra aparte. Los números salen de `lib/quote.ts`, no de mi cabeza. */
@@ -163,27 +216,41 @@ const EXTRAS = [
   },
 ];
 
-const PROCESO = [
+/**
+ * Las tres semanas, dibujadas. El tramo previo del rail es la condición que
+ * más discusiones ahorra después: el reloj arranca con el catálogo completo,
+ * no con la firma.
+ */
+const PREVIO_PLAZO = {
+  etiqueta: "Antes de la semana 1",
+  texto: "Tu catálogo completo: fotos, precios, pesos y existencias. El reloj no ha arrancado.",
+};
+
+const HITOS_PLAZO = [
   {
-    n: "01",
-    t: "Antes de cotizar, la lista de productos",
-    d: "Cuántos son, si tienen tallas o colores, cuánto pesan y a dónde despachas. De ahí sale el precio y el plazo de verdad. Sin eso, cualquier número que te dé —yo o el que sea— es adivinanza.",
+    etiqueta: "Semana 1",
+    texto: "Diseño y catálogo: categorías, fichas, fotos, precios e inventario inicial.",
   },
   {
-    n: "02",
-    t: "Semana 1 · diseño y catálogo",
-    d: "Armo la tienda y cargo el catálogo con su estructura definitiva: categorías, fichas, fotos, precios e inventario inicial.",
+    etiqueta: "Semana 2",
+    texto: "Pagos y envíos: la pasarela conectada a tu cuenta y compras de prueba con plata real.",
   },
   {
-    n: "03",
-    t: "Semana 2 · pagos y envíos",
-    d: "Conecto la pasarela a tu cuenta, configuro las tarifas de envío y hacemos compras de prueba de punta a punta, con plata real y su devolución.",
+    etiqueta: "Semana 3",
+    texto: "Sale al aire con tu dominio y te siento a subir un producto y a despachar un pedido.",
   },
-  {
-    n: "04",
-    t: "Semana 3 · sale al aire y te la entrego manejándola",
-    d: "Publicamos con tu dominio. Te siento a subir un producto, cambiar un precio y despachar un pedido, hasta que lo hagas sin preguntarme nada.",
-  },
+];
+
+/** Lo que hace falta para cotizar y para que arranque el reloj. */
+const MATERIAL = [
+  "Cuántos productos son, contados",
+  "Si tienen tallas, colores o presentaciones",
+  "Fotos de cada producto",
+  "Precios y existencias de arranque",
+  "Cuánto pesa y cuánto mide lo que despachas",
+  "A qué ciudades despachas",
+  "Tu cuenta en la pasarela, abierta a tu nombre",
+  "Tu logo, en el mejor archivo que tengas",
 ];
 
 const FAQS = [
@@ -204,7 +271,7 @@ const FAQS = [
   },
   {
     q: "¿Voy a pagar mensualidad y además comisión por venta?",
-    a: `Mensualidad de plataforma, no: la tienda es tuya y no le alquilas nada a nadie. Comisión por venta a mí, tampoco. Lo que sí hay es la renovación anual de ${money(290000)}, que cubre dominio, alojamiento y que la tienda siga en pie; y la comisión de la pasarela, que la cobra la pasarela y le llega a todo el mundo por igual.`,
+    a: `Mensualidad de plataforma, no: la tienda es tuya y no le alquilas nada a nadie. Comisión por venta a mí, tampoco. Lo que sí hay es la renovación anual de ${money(RENOVACION_ANUAL)}, que cubre dominio, alojamiento y que la tienda siga en pie; y la comisión de la pasarela, que la cobra la pasarela y le llega a todo el mundo por igual.`,
   },
   {
     q: "¿Y la facturación electrónica de la DIAN? ¿Se conecta?",
@@ -216,7 +283,7 @@ const FAQS = [
   },
   {
     q: "¿Yo puedo subir productos y cambiar precios sin llamarte?",
-    a: "Sí, y esa es exactamente la idea. El panel es tuyo: subes productos, cambias precios, ajustas inventario, ves los pedidos y los marcas como despachados. En la entrega te siento a hacerlo hasta que te salga sin ayuda. Una tienda que depende de que yo conteste es una tienda mal entregada.",
+    a: "Sí, y esa es la idea. El panel es tuyo: productos, precios, inventario y pedidos. En la entrega te siento a hacerlo hasta que te salga sin ayuda. Una tienda que depende de que yo conteste es una tienda mal entregada.",
   },
   {
     q: "¿Cuántos productos aguanta?",
@@ -254,6 +321,157 @@ const FAQS = [
   },
 ];
 
+/**
+ * Los tres pasos de la compra, maquetados.
+ *
+ * Cuatro de los renglones de INCLUYE eran la descripción de estas tres
+ * pantallas. Enseñar la casilla «M · agotada» dice más sobre control de
+ * inventario que cualquier bullet, y la duda que frena una tienda de dos
+ * millones y medio no es qué trae, es si de verdad va a cobrar sola.
+ *
+ * REGLAS QUE SE RESPETAN ACÁ:
+ *  · Es DECORADO: los controles son <span>/<div> con aria-hidden. Un botón de
+ *    verdad que no hace nada es una trampa para quien navega con teclado.
+ *    Este bloque no aporta ni un enfocable a la página.
+ *  · Los nombres de las pasarelas van como TEXTO, nunca su logotipo.
+ *  · Producto y precios son de ejemplo y lo dice el rótulo. No se usan los de
+ *    Bloomrose: inventar precios sobre el catálogo de una clienta real sería
+ *    inventar datos sobre un tercero.
+ *  · A 390 es un carril con arrastre y anclaje —asoma el borde del siguiente,
+ *    así el gesto se entiende sin instrucciones—; scrollea la caja, nunca el
+ *    documento. De sm en adelante, el MISMO DOM es una rejilla de tres.
+ */
+const TALLAS = [
+  { t: "S", agotada: false },
+  { t: "M", agotada: true },
+  { t: "L", agotada: false },
+];
+
+const PAGOS = ["PSE", "Nequi", "Bancolombia", "Tarjeta débito o crédito"];
+
+function PasosCompra() {
+  return (
+    <div className="-mx-5 flex w-[calc(100%+2.5rem)] snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-1 no-scrollbar sm:mx-0 sm:grid sm:w-full sm:grid-cols-3 sm:gap-5 sm:overflow-visible sm:px-0">
+      {/* 1 · Ficha con variantes */}
+      <article className="flex w-[86%] shrink-0 snap-center flex-col rounded-2xl border border-line bg-surface p-5 sm:w-auto">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+          1 · Ficha
+        </p>
+        <h3 className="mt-2 font-display text-lg text-ink">La talla que se acabó, marcada</h3>
+        <p className="mt-1.5 font-body text-[13px] leading-snug text-ink-soft">
+          Talla, color o presentación, cada una con su propio inventario.
+        </p>
+
+        <div aria-hidden className="mt-4 flex flex-1 flex-col">
+          <div className="grid aspect-[5/3] shrink-0 place-items-center rounded-lg bg-gradient-to-br from-band to-line">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+              Tu foto
+            </span>
+          </div>
+          <p className="mt-3 font-body text-sm font-semibold text-ink">Producto de ejemplo</p>
+          <p className="font-mono text-[15px] tabular-nums text-primary-dark">$ 89.000</p>
+          <div className="mb-4 mt-3 flex flex-wrap items-center gap-2">
+            {TALLAS.map((x) => (
+              <span
+                key={x.t}
+                className={
+                  x.agotada
+                    ? "rounded-md border border-dashed border-line px-3 py-1.5 font-mono text-[13px] text-ink-soft line-through"
+                    : "rounded-md border border-line px-3 py-1.5 font-mono text-[13px] text-ink"
+                }
+              >
+                {x.t}
+              </span>
+            ))}
+            {/* `basis-full` la baja a su propio renglón: pegada a la L se leía
+                como una cuarta talla. */}
+            <span className="basis-full font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+              M · agotada
+            </span>
+          </div>
+          <span className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-surface">
+            Agregar al carrito
+          </span>
+        </div>
+      </article>
+
+      {/* 2 · Carrito y envío */}
+      <article className="flex w-[86%] shrink-0 snap-center flex-col rounded-2xl border border-line bg-surface p-5 sm:w-auto">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+          2 · Carrito
+        </p>
+        <h3 className="mt-2 font-display text-lg text-ink">El envío, cotizado antes de pagar</h3>
+        <p className="mt-1.5 font-body text-[13px] leading-snug text-ink-soft">
+          Por ciudad o por peso, con las tarifas que cambias tú.
+        </p>
+
+        <dl aria-hidden className="mb-4 mt-4 divide-y divide-line">
+          {[
+            ["Subtotal", "$ 178.000"],
+            ["Envío a Cartagena", "$ 12.000"],
+          ].map(([k, v]) => (
+            <div key={k} className="flex items-baseline justify-between gap-3 py-2.5">
+              <dt className="font-body text-[13px] text-ink-soft">{k}</dt>
+              <dd className="shrink-0 font-mono text-[13px] tabular-nums text-ink">{v}</dd>
+            </div>
+          ))}
+          <div className="flex items-baseline justify-between gap-3 py-2.5">
+            <dt className="font-body text-sm font-semibold text-ink">Total</dt>
+            <dd className="shrink-0 font-mono text-[15px] tabular-nums text-primary-dark">
+              $ 190.000
+            </dd>
+          </div>
+        </dl>
+        <span
+          aria-hidden
+          className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-surface"
+        >
+          Ir a pagar
+        </span>
+      </article>
+
+      {/* 3 · Pago */}
+      <article className="flex w-[86%] shrink-0 snap-center flex-col rounded-2xl border border-line bg-surface p-5 sm:w-auto">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+          3 · Pago
+        </p>
+        <h3 className="mt-2 font-display text-lg text-ink">Cobra a las once de la noche</h3>
+        <p className="mt-1.5 font-body text-[13px] leading-snug text-ink-soft">
+          La plata cae en tu cuenta. La pasarela es tuya y va a tu nombre.
+        </p>
+
+        <ul aria-hidden className="mb-4 mt-4 grid gap-2">
+          {PAGOS.map((m, i) => (
+            <li
+              key={m}
+              className={
+                i === 0
+                  ? "flex min-h-11 items-center gap-3 rounded-lg border border-primary/40 bg-primary/[0.06] px-3"
+                  : "flex min-h-11 items-center gap-3 rounded-lg border border-line px-3"
+              }
+            >
+              <span
+                className={
+                  i === 0
+                    ? "h-3 w-3 shrink-0 rounded-full border-[3px] border-primary"
+                    : "h-3 w-3 shrink-0 rounded-full border border-line"
+                }
+              />
+              <span className="min-w-0 font-body text-[13px] text-ink">{m}</span>
+            </li>
+          ))}
+        </ul>
+        <span
+          aria-hidden
+          className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-surface"
+        >
+          Pagar $ 190.000
+        </span>
+      </article>
+    </div>
+  );
+}
+
 export default function TiendasVirtualesPage() {
   // Datos estructurados de Service. Sin FAQPage a propósito: desde 2023 Google
   // lo restringió a sitios de gobierno y salud, y aquí no da resultado
@@ -287,7 +505,7 @@ export default function TiendasVirtualesPage() {
         "@type": "PriceSpecification",
         priceCurrency: "COP",
         // «desde» es un piso, no una tarifa cerrada: minPrice, no price.
-        minPrice: 2500000,
+        minPrice: PISO_TIENDA,
       },
       availability: "https://schema.org/InStock",
       seller: { "@id": `${SITE_URL}/#organization` },
@@ -311,10 +529,9 @@ export default function TiendasVirtualesPage() {
               <span className="block text-metal">sin el caos del DM</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Hoy vendes contestando. «¿Cuánto vale?», mandas la foto otra vez, pasas el número
-              de Nequi, esperas el comprobante y anotas el pedido donde puedas. Vendes, claro.
-              Pero vendes tú, uno por uno, y solo mientras estés despierto. Una tienda virtual
-              hace esa parte sola: muestra, cobra y deja el pedido listo para despachar.
+              Hoy vendes contestando: mandas la foto otra vez, pasas el número de Nequi, esperas
+              el comprobante y anotas el pedido donde puedas. Vendes tú, uno por uno, y solo
+              mientras estés despierto. Una tienda muestra, cobra y deja el pedido listo.
             </p>
           </Reveal>
 
@@ -333,26 +550,25 @@ export default function TiendasVirtualesPage() {
         </section>
 
         {/* ── El diferenciador, arriba y no enterrado ─────────────────── */}
+        {/* Sin tarjeta propia: la sección va DENTRO de una banda y el tono lo
+            pone la banda. El degradado y el borde apilaban dos tonos. */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Casi todos te alquilan una plantilla.
-                <span className="text-metal"> Yo te construyo la tienda.</span>
-              </h2>
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Lo común es que te monten en una plataforma alquilada. Pagas una mensualidad que
-                sube justo cuando te empieza a ir bien, te descuentan una comisión por venta
-                encima de la de la pasarela, y el día que te quieras ir, el catálogo, el diseño y
-                las cuentas de tus clientes se quedan del lado de ellos.
-              </p>
-              <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-                <strong className="text-ink">Yo te programo la tienda, no te la arriendo.</strong>{" "}
-                Corre en tu dominio, el catálogo y los datos son tuyos, y no le pagas comisión a
-                nadie por vender. Lo único que se descuenta de cada venta es lo de la pasarela,
-                que le cobra a todo el mundo.
-              </p>
-            </div>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Casi todos te alquilan una plantilla.
+              <span className="text-metal"> Yo te construyo la tienda.</span>
+            </h2>
+            <p className="mt-5 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              Lo común es que te monten en una plataforma alquilada: mensualidad que sube justo
+              cuando te empieza a ir bien, comisión por venta encima de la de la pasarela, y el
+              día que te vayas, el catálogo y las cuentas de tus clientes se quedan del lado de
+              ellos.
+            </p>
+            <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              <strong className="text-ink">Yo te programo la tienda, no te la arriendo.</strong>{" "}
+              Corre en tu dominio, el catálogo y los datos son tuyos, y no le pagas comisión a
+              nadie por vender. De cada venta solo se descuenta lo de la pasarela.
+            </p>
           </Reveal>
         </section>
 
@@ -382,30 +598,46 @@ export default function TiendasVirtualesPage() {
               ¿Shopify, WooCommerce o a la medida?
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Es la primera pregunta que me hacen, y la contesto sin defender la mía a la fuerza.
-              Hay casos en los que no me necesitas.
+              El eje real es qué pagas y cuándo. Lo contesto sin defender la mía a la fuerza: hay
+              casos en los que no me necesitas.
             </p>
           </Reveal>
+
+          {/* Tres tarjetas con las MISMAS tres filas en el mismo orden. Es una
+              matriz que se lee en paralelo en escritorio y en secuencia a 390,
+              sin tabla que desborde ni transposición que mantener. */}
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {PLATAFORMAS.map((p, i) => {
-              const Icon = p.icon;
-              return (
-                <Reveal key={p.t} delay={i * 70}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
-                      <Icon className="h-6 w-6" />
-                    </span>
-                    <h3 className="mt-5 font-display text-xl text-ink">{p.t}</h3>
-                    <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
-                      {p.d}
-                    </p>
-                    <p className="mt-5 border-t border-line pt-4 font-body text-sm leading-relaxed text-ink">
-                      {p.veredicto}
-                    </p>
-                  </article>
-                </Reveal>
-              );
-            })}
+            {PLATAFORMAS.map((p, i) => (
+              <Reveal key={p.t} delay={i * 70}>
+                <article
+                  className={
+                    p.destacada
+                      ? "flex h-full flex-col rounded-2xl border border-primary/25 bg-surface p-6 shadow-soft"
+                      : "flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-6"
+                  }
+                >
+                  <h3 className="font-display text-xl leading-tight text-ink">{p.t}</h3>
+                  <p className="mt-2 font-body text-[13px] leading-snug text-ink-soft">{p.d}</p>
+
+                  <dl className="mt-5 divide-y divide-line border-y border-line">
+                    {FILAS_PLATAFORMA.map((f) => (
+                      <div key={f.clave} className="grid grid-cols-[5.5rem_1fr] items-baseline gap-3 py-3">
+                        <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+                          {f.etiqueta}
+                        </dt>
+                        <dd className="min-w-0 font-body text-[13px] leading-snug text-ink">
+                          {p.filas[f.clave]}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+
+                  <p className="mt-5 flex-1 font-body text-sm leading-relaxed text-ink">
+                    {p.veredicto}
+                  </p>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </section>
 
@@ -417,12 +649,11 @@ export default function TiendasVirtualesPage() {
               Cuánto cuesta una tienda virtual en Colombia
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Este es el precio publicado, el mismo que está en{" "}
+              El mismo que está en{" "}
               <Link href="/precios" className="text-primary-dark underline underline-offset-4">
                 la página de precios
               </Link>
-              . Sin cotización a puerta cerrada y sin que tengas que dejar el correo para
-              enterarte.
+              . Sin cotización a puerta cerrada y sin dejar el correo para enterarte.
             </p>
           </Reveal>
 
@@ -432,16 +663,15 @@ export default function TiendasVirtualesPage() {
                 <h3 className="font-display text-2xl text-ink sm:text-3xl">
                   Tienda online completa
                 </h3>
-                <p className="font-mono text-2xl text-primary-dark">desde {money(2500000)}</p>
+                <p className="font-mono text-2xl text-primary-dark">desde {money(PISO_TIENDA)}</p>
               </div>
               <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-line bg-background/50 px-4 py-2 font-body text-sm text-ink-soft">
                 <Clock className="h-4 w-4 text-accent" />3 a 5 semanas desde que el catálogo está
                 completo
               </p>
               <p className="mt-5 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-                Catálogo con inventario, carrito, cuentas de cliente, cobro en línea y cotización
-                de envíos. Lo mismo que está corriendo hoy en Bloomrose, no una versión recortada
-                para la foto.
+                Catálogo con inventario, carrito, cuentas, cobro en línea y envíos. Lo mismo que
+                corre hoy en Bloomrose, no una versión recortada para la foto.
               </p>
             </div>
           </Reveal>
@@ -450,8 +680,7 @@ export default function TiendasVirtualesPage() {
             <Reveal>
               <h3 className="font-display text-2xl text-ink">Lo que se cobra aparte</h3>
               <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink-soft">
-                No todas las tiendas lo necesitan, así que no se lo cobro a todas. Escoges lo que
-                de verdad usas.
+                No todas las tiendas lo necesitan, así que no se lo cobro a todas.
               </p>
             </Reveal>
             <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -474,15 +703,18 @@ export default function TiendasVirtualesPage() {
           <Reveal>
             <div className="mt-6 rounded-2xl border border-line bg-background/40 p-7">
               <p className="font-body leading-relaxed text-ink-soft">
-                <strong className="text-ink">Dos cosas que aclaro siempre, de entrada:</strong> la{" "}
+                <strong className="text-ink">Dos cosas que aclaro de entrada.</strong> La{" "}
                 <strong className="text-ink">comisión de la pasarela</strong> —ePayco, Wompi, PayU
                 o Mercado Pago— la cobra la pasarela sobre cada venta, con tu cuenta y a tu
-                nombre. No la facturo yo y no está en estos precios.
+                nombre: no la facturo yo y no está en estos precios.
               </p>
               <p className="mt-4 font-body leading-relaxed text-ink-soft">
-                Y la <strong className="text-ink">renovación anual es de {money(290000)}</strong>:
-                cubre el dominio, el alojamiento y que la tienda siga en pie. No es una
-                mensualidad de plataforma, porque la tienda no se le alquila a nadie.
+                Y la{" "}
+                <strong className="text-ink">
+                  renovación anual es de {money(RENOVACION_ANUAL)}
+                </strong>
+                : cubre dominio, alojamiento y que la tienda siga en pie. No es mensualidad de
+                plataforma, porque la tienda no se le alquila a nadie.
               </p>
             </div>
           </Reveal>
@@ -490,66 +722,73 @@ export default function TiendasVirtualesPage() {
 
         {/* ── Qué incluye y qué no ───────────────────────────────────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Qué entra por ese precio
-              </h2>
-              <ul className="mt-8 grid gap-3">
-                {INCLUYE.map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+          <Reveal>
+            <Comparador
+              tituloComo="h2"
+              tituloIncluye="Qué entra por ese precio"
+              tituloNoIncluye={
+                <>
+                  Qué <span className="text-metal">no</span> entra
+                </>
+              }
+              nota="Esta lista vale más que la de arriba. Los proyectos no se dañan por lo que se prometió: se dañan por lo que cada uno dio por hecho."
+              incluye={INCLUYE}
+              noIncluye={NO_INCLUYE}
+            />
+          </Reveal>
+        </section>
 
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Qué <span className="text-metal">no</span> entra
-              </h2>
-              <p className="mt-4 font-body leading-relaxed text-ink-soft">
-                Esta lista vale más que la de arriba. Los proyectos no se dañan por lo que se
-                prometió: se dañan por lo que cada uno dio por hecho.
-              </p>
-              <ul className="mt-8 grid gap-3">
-                {NO_INCLUYE.map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <X className="mt-1 h-5 w-5 shrink-0 text-accent" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
+        {/* ── Así compra tu cliente, así lo manejas tú ────────────────── */}
+        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+          <Reveal>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">Así compra tu cliente</h2>
+            <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              Tres pantallas, y en ese orden. La duda que frena una tienda no es qué trae: es si
+              de verdad va a cobrar sola.
+            </p>
+          </Reveal>
+
+          <Reveal delay={80} className="mt-10">
+            <PasosCompra />
+          </Reveal>
+
+          <Reveal delay={140}>
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+              Ejemplo · pantallas de muestra, producto y precios inventados
+            </p>
+          </Reveal>
+
+          <Reveal delay={200}>
+            <PanelAutonomia
+              className="mx-auto mt-12 max-w-md"
+              titulo="Y esto lo haces tú, sin escribirme"
+            />
+          </Reveal>
         </section>
 
         {/* ── Cómo se hace ───────────────────────────────────────────── */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
-          </Reveal>
-          <ol className="mt-10 grid gap-6">
-            {PROCESO.map((p, i) => (
-              <Reveal key={p.n} delay={i * 70} as="li">
-                <div className="flex gap-4">
-                  <span className="font-mono text-sm text-accent">{p.n}</span>
-                  <span>
-                    <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                    <span className="mt-1 block font-body leading-relaxed text-ink-soft">
-                      {p.d}
-                    </span>
-                  </span>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
-          <Reveal>
-            <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
-              <Clock className="h-4 w-4 text-accent" />
-              Tres semanas de trabajo, contadas desde que el catálogo está completo
+            <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              Antes de cotizar necesito tu lista de productos. De ahí sale el precio y el plazo de
+              verdad: sin eso, cualquier número que te dé —yo o el que sea— es adivinanza.
             </p>
+          </Reveal>
+
+          {/* El tramo punteado es la condición que más discusiones ahorra
+              después: el reloj arranca con el catálogo, no con la firma. */}
+          <Reveal delay={80}>
+            <RailPlazo className="mt-10" previo={PREVIO_PLAZO} hitos={HITOS_PLAZO} />
+          </Reveal>
+
+          <Reveal delay={140}>
+            <ListaAcopio
+              className="mt-12 max-w-2xl"
+              titulo="Qué necesito de ti para cotizar y arrancar"
+              almacen="acopio-tienda-virtual"
+              items={MATERIAL}
+            />
           </Reveal>
         </section>
 
@@ -560,9 +799,8 @@ export default function TiendasVirtualesPage() {
               Una tienda que ya está vendiendo
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              No es una maqueta ni un proyecto de estudio: es una tienda de una clienta, en
-              producción y con dominio propio. Ábrela desde el celular y mira cuánto tarda en
-              cargar.
+              No es una maqueta ni un proyecto de estudio: es la tienda de una clienta, en
+              producción y con dominio propio. Ábrela desde el celular.
             </p>
           </Reveal>
 
@@ -589,9 +827,9 @@ export default function TiendasVirtualesPage() {
                 </p>
                 <h3 className="mt-4 font-display text-2xl text-ink sm:text-3xl">Bloomrose</h3>
                 <p className="mt-4 font-body leading-relaxed text-ink-soft">
-                  Tienda de bisutería y accesorios para el mercado colombiano. Catálogo con
-                  inventario, carrito, cuentas de cliente, pagos en línea y cotización de envíos.
-                  Programada a la medida, no montada sobre una plantilla.
+                  Bisutería y accesorios para el mercado colombiano. Catálogo con inventario,
+                  carrito, cuentas, pagos en línea y envíos. Programada a la medida, no montada
+                  sobre una plantilla.
                 </p>
                 <ul className="mt-6 grid gap-2.5">
                   {[
@@ -613,7 +851,7 @@ export default function TiendasVirtualesPage() {
                   href="https://www.bloomroseaccesorios.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-7 inline-flex items-center gap-2 font-body text-primary-dark underline underline-offset-4"
+                  className="mt-6 inline-flex min-h-11 items-center gap-2 font-body text-primary-dark underline underline-offset-4"
                 >
                   bloomroseaccesorios.com
                   <ExternalLink className="h-4 w-4" />
@@ -640,9 +878,9 @@ export default function TiendasVirtualesPage() {
               Mándame tu lista de productos
             </h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              Con cuántos productos son, si tienen tallas o colores y a dónde despachas, te digo
-              en la misma llamada cuánto cuesta y en cuánto queda. Y si lo que te sirve es
-              Shopify y no yo, también te lo digo.
+              Con cuántos son, si tienen tallas o colores y a dónde despachas, te digo en la
+              misma llamada cuánto cuesta y en cuánto queda. Y si lo que te sirve es Shopify y no
+              yo, también te lo digo.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
@@ -653,39 +891,39 @@ export default function TiendasVirtualesPage() {
               <BotonCuentame />
             </div>
             <p className="mx-auto mt-8 max-w-xl font-body text-base leading-relaxed text-ink-soft">
-              ¿Todavía no sabes si te conviene una tienda o basta con{" "}
+              ¿Tienda, o basta con{" "}
               <Link
                 href="/servicios/diseno-de-paginas-web"
                 className="text-primary-dark underline underline-offset-4"
               >
                 una página web
               </Link>
-              ? Están{" "}
+              ?{" "}
               <Link href="/precios" className="text-primary-dark underline underline-offset-4">
-                los dos precios publicados
-              </Link>
-              , y el caso está contado en{" "}
+                Los dos precios están publicados
+              </Link>{" "}
+              y el caso está contado en{" "}
               <Link
                 href="/blog/pagina-web-o-solo-instagram"
                 className="text-primary-dark underline underline-offset-4"
               >
                 página web o solo Instagram
               </Link>
-              . Si además quieres que el WhatsApp conteste solo mientras la tienda cobra, eso es{" "}
+              . Que el WhatsApp conteste solo es{" "}
               <Link
                 href="/servicios/chatbot-whatsapp"
                 className="text-primary-dark underline underline-offset-4"
               >
-                el chatbot de WhatsApp
+                el chatbot
               </Link>
-              ; y traer a la gente que compra es el trabajo mensual de{" "}
+              ; traer a la gente que compra es{" "}
               <Link
                 href="/servicios/posicionamiento-seo"
                 className="text-primary-dark underline underline-offset-4"
               >
                 posicionamiento SEO
               </Link>
-              , que se cobra aparte.
+              , y se cobra aparte.
             </p>
           </Reveal>
         </section>

@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   CalendarCheck,
   Camera,
-  Check,
-  Clock,
   ExternalLink,
   Scissors,
   ShieldCheck,
@@ -20,6 +19,9 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { HiloWhatsApp, type MensajeHilo } from "@/components/visuales/HiloWhatsApp";
+import { ListaAcopio } from "@/components/visuales/ListaAcopio";
+import { RailPlazo } from "@/components/visuales/RailPlazo";
 import { SITE_URL } from "@/lib/site";
 import { A_PRICES, money } from "@/lib/quote";
 
@@ -60,6 +62,15 @@ import { A_PRICES, money } from "@/lib/quote";
  * Una sola página cubre toda la intención: salón de belleza, peluquería,
  * barbería, spa, uñas, estética. Son sinónimos del mismo oficio para el que
  * busca, y una página por sinónimo es exactamente lo que Google castiga.
+ *
+ * ─────────────────────────────────────────────────────────────────────────
+ *  RITMO DE FONDOS (fase «menos texto, más visual»)
+ * ─────────────────────────────────────────────────────────────────────────
+ * banda: «qué resuelve» + «la reserva, mostrada» —dos `.banda` seguidas se
+ * funden en un solo capítulo, que es justo lo que son: el argumento y su
+ * demostración—. Canvas: hero, LA PRUEBA DE TRABAJO, precios y arranque.
+ * banda otra vez para las preguntas, canvas para el cierre. Ninguna sección
+ * dentro de una banda lleva fondo propio: el tono lo pone la banda.
  */
 export const metadata: Metadata = {
   title: "Páginas web para salones de belleza y spas | JV Agencia",
@@ -78,38 +89,70 @@ export const metadata: Metadata = {
 /**
  * Lo que necesita la página de un salón o un spa. Cada punto es del OFICIO: si
  * alguno sirviera igual para una ferretería, está mal escrito y se bota.
+ *
+ * Las descripciones se recortaron a dos frases: lo que se puede MOSTRAR ya no
+ * se cuenta. La reserva, en particular, la enseña <HiloWhatsApp> en la sección
+ * siguiente, así que acá quedó en una línea.
  */
 const NECESITA = [
   {
     icon: Tags,
     titulo: "La carta de servicios, con el precio adentro",
-    desc: "Lo primero que te preguntan por mensaje es cuánto vale. Si el precio está en la página, la conversación empieza en «¿tienes cupo el sábado?» y no en «¿cuánto?». Si te varía por largo de pelo o por técnica, se pone el rango y se dice de qué depende: un rango honesto espanta mucho menos que un precio escondido.",
+    desc: "Lo primero que te preguntan por mensaje es cuánto vale. Con el precio publicado, la conversación empieza en «¿tienes cupo el sábado?». Si te varía por largo o por técnica, va el rango y de qué depende.",
   },
   {
     icon: CalendarCheck,
     titulo: "Reservar sin veinte mensajes",
-    desc: "«¿A qué hora tienes?» «A las 3.» «¿Y el sábado?» Ese ida y vuelta se lo come quien esté atendiendo, con las manos llenas de tinte. La página muestra cada servicio con su duración y manda al chat con el servicio ya escogido. Si el volumen lo pide, el paso siguiente es un chatbot que agenda y confirma solo.",
+    desc: "Ese ida y vuelta se lo come quien esté atendiendo, con las manos llenas de tinte. Cada servicio con su duración, y al chat con el que escogió.",
     link: { href: "/servicios/chatbot-whatsapp", label: "Chatbot que agenda las citas" },
   },
   {
     icon: Camera,
     titulo: "El trabajo a la vista, con fotos tuyas",
-    desc: "En este oficio el catálogo son las fotos: el color, el corte, las uñas, la piel. Sirve la foto del celular bien tomada, con buena luz; no sirve el banco de imágenes con una modelo que jamás pisó tu silla. Te dejo la galería para que la subas tú desde el teléfono, sin llamarme.",
+    desc: "Acá el catálogo son las fotos: el color, el corte, las uñas. Sirve la del celular con buena luz; no sirve la modelo de banco de imágenes que jamás pisó tu silla. La galería la subes tú.",
   },
   {
     icon: Users,
     titulo: "Quién atiende, con nombre y cara",
-    desc: "La gente no pide cita en el salón: pide cita con alguien. Si cada estilista, barbero o terapeuta tiene nombre, foto y lo que hace mejor, el que llega nuevo ya sabe con quién quiere ir, y al que le hablaron de una persona en particular la encuentra.",
+    desc: "La gente no pide cita en el salón: pide cita con alguien. Cada estilista o terapeuta con nombre, foto y en qué es mejor.",
   },
   {
     icon: ShieldCheck,
     titulo: "Las reglas de la casa, escritas",
-    desc: "Anticipo, cancelación, cuánto se espera al que llega tarde, qué pasa si no llegó. Tenerlo escrito en la página no te hace antipático: te ahorra la discusión en la puerta y hace que el plantón cueste algo. Y cuando lo reclamas, no estás improvisando una regla: estás mostrando la que ya estaba publicada.",
+    desc: "Anticipo, cancelación, retardo y plantón. Publicadas no te hacen antipático: te ahorran la discusión en la puerta, y cuando las reclamas no estás improvisando.",
   },
   {
     icon: Sparkles,
-    titulo: "En spa: qué incluye, cuánto dura y qué no aplica",
-    desc: "Un ritual no se vende con una foto de piedras calientes: se vende explicado. Qué incluye, cuánto dura, qué te pones, si hay ducha, qué llevar. Y las contraindicaciones que tú ya adviertes por chat —embarazo, una lesión reciente, alguna condición— dichas antes de reservar y no en la camilla.",
+    titulo: "En spa: qué incluye, cuánto dura, qué no aplica",
+    desc: "Un ritual no se vende con una foto de piedras calientes: se vende explicado. Y las contraindicaciones que hoy adviertes por chat, dichas antes de reservar y no en la camilla.",
+  },
+];
+
+/**
+ * El hilo de esta página: reserva de color un sábado, de noche y con el salón
+ * cerrado. Sin cifras: acá no se inventa el precio de un color ajeno. La
+ * última burbuja no es del bot, es el traspaso a una persona — que es el
+ * argumento entero.
+ */
+const HILO_SALON: MensajeHilo[] = [
+  { de: "cliente", texto: "Buenas, ¿tienen cupo el sábado para color?", hora: "9:41 p.m." },
+  { de: "bot", escribiendo: true },
+  {
+    de: "bot",
+    texto: "¡Hola! El sábado me quedan tres horas: 9:00 a.m., 11:30 a.m. y 3:00 p.m. El color toma unas tres horas.",
+    hora: "9:41 p.m.",
+  },
+  { de: "cliente", texto: "La de 11:30", hora: "9:42 p.m." },
+  {
+    de: "bot",
+    texto: "Listo, quedaste el sábado a las 11:30 a.m. Te llega un recordatorio el día antes.",
+    hora: "9:42 p.m.",
+  },
+  {
+    de: "bot",
+    traspaso: true,
+    texto: "Si quieres cambiar la hora o preguntar por un precio puntual, mañana te contesta una persona del salón.",
+    hora: "9:42 p.m.",
   },
 ];
 
@@ -119,35 +162,35 @@ const PRECIOS = [
     q: "Página web del salón",
     desde: money(850000),
     plazo: "5 días",
-    d: "Carta de servicios con precios, galería que actualizas tú, tu equipo con nombre, horario, cómo llegar y botón de WhatsApp que se ve desde el primer segundo.",
+    d: "Carta con precios, galería que actualizas tú, tu equipo, horario, cómo llegar y WhatsApp a la vista.",
     href: "/servicios/diseno-de-paginas-web",
   },
   {
     q: "Chatbot que agenda citas",
     desde: money(A_PRICES.base.citas),
     plazo: "de 2 a 5 semanas",
-    d: "Tu número muestra la disponibilidad, agenda, confirma y recuerda la cita el día antes. El recordatorio es lo que de verdad muerde el plantón.",
+    d: "Tu número muestra la disponibilidad, agenda, confirma y recuerda la cita el día antes. El recordatorio es lo que muerde el plantón.",
     href: "/servicios/chatbot-whatsapp",
   },
   {
     q: "SEO local, mensual",
     desde: `${money(650000)}/mes`,
     plazo: "trabajo continuo",
-    d: "El trabajo de aparecer cuando escriben «peluquería» o «spa» más el nombre de tu ciudad o de tu barrio. Es mensual porque es continuo, y lo digo claro.",
+    d: "Aparecer cuando escriben «peluquería» o «spa» más tu ciudad o tu barrio. Es mensual porque es continuo.",
     href: "/servicios/posicionamiento-seo",
   },
   {
     q: "Auditoría SEO",
     desde: money(390000),
     plazo: "5 días",
-    d: "Ya tienes página y no aparece cuando te buscan. Te digo por qué, qué se arregla primero y qué se puede medir. Sirve igual si te la hizo otro.",
+    d: "Ya tienes página y no aparece. Te digo por qué y qué se arregla primero. Sirve igual si te la hizo otro.",
     href: "/servicios/posicionamiento-seo",
   },
   {
     q: "Tienda online",
     desde: money(2500000),
     plazo: "3 semanas",
-    d: "Si además vendes producto —shampoo, esmaltes, línea propia—: catálogo con inventario, carrito, pagos en línea y cotización de envíos.",
+    d: "Si además vendes producto: catálogo con inventario, carrito, pagos en línea y envíos.",
     href: "/servicios/tiendas-virtuales",
   },
 ];
@@ -155,32 +198,32 @@ const PRECIOS = [
 const FAQS = [
   {
     q: "¿Pongo los precios en la página o mejor no?",
-    a: "Ponlos. El que pregunta el precio por mensaje y no lo recibe, se va. Si tu precio depende del largo del pelo o de la técnica, pones el rango y explicas de qué depende: «color desde X, según largo y si hay decoloración». Lo que espanta no es el precio, es tener que pedirlo.",
+    a: "Ponlos. El que pregunta el precio por mensaje y no lo recibe, se va. Si depende del largo o de la técnica, va el rango: «color desde X, según largo y si hay decoloración». Lo que espanta no es el precio, es tener que pedirlo.",
   },
   {
     q: "Vivo del Instagram y me va bien. ¿Para qué quiero página?",
-    a: "No compiten, hacen cosas distintas. Instagram te muestra a quien no te conocía; la página te encuentra el que ya te está buscando por el nombre, el que te recomendaron y el que a las once de la noche está averiguando dónde le hacen las uñas mañana. Lo escribí largo acá: página web o solo Instagram.",
+    a: "No compiten. Instagram te muestra a quien no te conocía; la página te encuentra el que ya te está buscando por el nombre, el que te recomendaron y el que a las once de la noche averigua dónde le hacen las uñas mañana.",
     link: { href: "/blog/pagina-web-o-solo-instagram", label: "¿Página web o solo Instagram?" },
   },
   {
     q: "¿Puedo tener reserva en línea de verdad, conectada a la agenda?",
-    a: "Se puede, pero antes te pregunto cómo llevas la agenda hoy. Si la llevan cuatro personas en un cuaderno, meterle un sistema en línea no arregla el desorden: lo publica. En la mayoría de los salones lo que funciona primero es la página que manda al WhatsApp con el servicio ya escogido; y cuando el volumen lo pide, un chatbot que agenda y recuerda, desde " + money(A_PRICES.base.citas) + ".",
+    a: "Se puede, pero antes te pregunto cómo llevas la agenda hoy: si la llevan cuatro personas en un cuaderno, un sistema en línea no arregla el desorden, lo publica. Casi siempre funciona primero la página que manda al chat con el servicio escogido; y cuando el volumen lo pide, un chatbot que agenda y recuerda, desde " + money(A_PRICES.base.citas) + ".",
   },
   {
     q: "Me cambian los precios cada tanto. ¿Toca llamarte cada vez?",
-    a: "No. La carta de servicios te queda editable y te enseño a moverla el día de la entrega. Cobrarte por cada cambio de precio sería un mal negocio para los dos: tú terminas con la carta desactualizada y yo con un cliente bravo.",
+    a: "No. La carta de servicios te queda editable y te enseño a moverla el día de la entrega. Cobrarte por cada cambio de precio sería un mal negocio para los dos.",
   },
   {
     q: "¿La página me quita los plantones?",
-    a: "Ella sola, no. Lo que muerde el plantón son tres cosas juntas: las reglas escritas donde el cliente las vea, el recordatorio el día antes y un anticipo cuando el servicio es largo. La página pone lo primero; el recordatorio automático lo hace el chatbot de citas.",
+    a: "Ella sola, no. Lo muerden tres cosas juntas: las reglas escritas donde el cliente las vea, el recordatorio el día antes y un anticipo cuando el servicio es largo. La página pone lo primero; el recordatorio lo hace el chatbot de citas.",
   },
   {
     q: "Trabajo sola, alquilo silla o atiendo en casa. ¿Igual me sirve?",
-    a: "Igual, y a veces más: cuando no tienes local con letrero, la página es tu fachada. Es donde alguien comprueba que existes, ve tu trabajo y sabe cuánto vale antes de escribirte. No hay que tener quince sillas para merecer una página seria.",
+    a: "Igual, y a veces más: cuando no tienes local con letrero, la página es tu fachada. No hay que tener quince sillas para merecer una página seria.",
   },
   {
     q: "¿Me pones de primero en Google cuando busquen «peluquería en Barranquilla»?",
-    a: "No te lo prometo, y desconfía del que te lo prometa. Los primeros movimientos se ven entre el mes 3 y el mes 6. Y antes de gastar en eso hay algo gratis que pesa más en este oficio: la ficha de Google Business, con fotos de verdad y reseñas de tus clientas.",
+    a: "No te lo prometo, y desconfía del que te lo prometa. Los primeros movimientos se ven entre el mes 3 y el mes 6. Y antes de gastar en eso hay algo gratis que pesa más: la ficha de Google Business, con fotos de verdad y reseñas de tus clientas.",
   },
 ];
 
@@ -285,9 +328,8 @@ export default function SalonesYSpasPage() {
               <span className="block text-metal">que viven de la agenda llena</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Un salón no se vende con un logo bonito. Se vende con la carta de servicios a la
-              vista, con el trabajo que sale de tus manos y con una forma de reservar que no sea un
-              chat de veinte mensajes mientras tienes a alguien en el lavacabezas.
+              Tu clienta no busca un logo bonito: busca cuánto vale, cómo se ve tu trabajo y si
+              tienes cupo el sábado.
             </p>
             <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
               La diseño y la programo yo, desde Turbaco, Bolívar. Una página web desde{" "}
@@ -316,11 +358,6 @@ export default function SalonesYSpasPage() {
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Qué tiene que resolver la página de un salón o un spa
             </h2>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              No es una plantilla con fotos de stock y la palabra «belleza» repetida. Son seis cosas
-              concretas, y todas salen del mismo sitio: lo que tus clientes preguntan antes de
-              reservar.
-            </p>
           </Reveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2">
@@ -328,7 +365,7 @@ export default function SalonesYSpasPage() {
               const Icon = n.icon;
               return (
                 <Reveal key={n.titulo} index={i}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
                       <Icon className="h-6 w-6" />
                     </span>
@@ -337,7 +374,7 @@ export default function SalonesYSpasPage() {
                     {n.link && (
                       <Link
                         href={n.link.href}
-                        className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                        className="mt-5 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                       >
                         {n.link.label} <ArrowRight className="h-4 w-4" />
                       </Link>
@@ -349,99 +386,154 @@ export default function SalonesYSpasPage() {
           </div>
 
           <Reveal>
-            <div className="mt-6 rounded-2xl border border-line bg-background/40 p-7">
-              <p className="font-body text-lg leading-relaxed text-ink-soft">
-                <strong className="text-ink">Y una que no voy a escribir en tu página:</strong>{" "}
-                promesas de resultado. Ni «bajas tres tallas», ni «te quita las estrías», ni «te
-                rejuvenece diez años». No lo escribo, y no te conviene tenerlo escrito. Lo que sí
-                convence es lo de arriba: el trabajo real, dicho con precisión y con precio.
-              </p>
-            </div>
+            <p className="mt-6 font-body text-lg leading-relaxed text-ink-soft">
+              <strong className="text-ink">Y una que no voy a escribir:</strong> promesas de
+              resultado. Ni «bajas tres tallas», ni «te quita las estrías», ni «te rejuvenece diez
+              años». No lo escribo, y no te conviene tenerlo escrito.
+            </p>
           </Reveal>
         </section>
 
-        {/* ── El trabajo real de este sector ─────────────────────────── */}
+        {/* ── La reserva, mostrada ───────────────────────────────────────
+            Segunda `.banda` seguida: se funde con la anterior y las dos leen
+            como un solo capítulo —el argumento y su demostración—. */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <Reveal>
+              <h2 className="font-display text-3xl text-ink sm:text-4xl">
+                Así se ve una reserva que no te interrumpe
+              </h2>
+              <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
+                Esto contesta tu número a las nueve y media de la noche, con el salón cerrado. La
+                última burbuja no es del bot: es el traspaso a una persona.
+              </p>
+              <Link
+                href="/servicios/chatbot-whatsapp"
+                className="mt-6 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+              >
+                Ver el chatbot que agenda citas <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Reveal>
+
+            {/* HiloWhatsApp ya trae escalonado propio: no se envuelve en otro Reveal. */}
+            <HiloWhatsApp
+              className="mx-auto w-full max-w-md"
+              negocio="Salón de ejemplo"
+              iniciales="SE"
+              mensajes={HILO_SALON}
+            />
+          </div>
+        </section>
+
+        {/* ── El trabajo real de este sector (canvas: es la prueba) ──── */}
+        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <Badge>Lo que hay hecho</Badge>
             <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
               El trabajo de este sector que tengo, dicho como es
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Dos de estos tres son proyectos de estudio: los diseñé y los construí completos por
-              iniciativa propia, para negocios reales de la región, y nadie me los encargó. No te
-              los vendo como clientes, porque no lo son. Prefiero decírtelo a colgar una captura y
-              llamarla caso de éxito.
+              Dos de los tres son proyectos de estudio: los construí completos por iniciativa
+              propia y nadie me los encargó. No te los vendo como clientes, porque no lo son.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             <Reveal>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
-                  Proyecto de estudio · Barranquilla
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Peluquería Marcopolo</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Un salón de Barranquilla con cuatro décadas de oficio: corte de autor, color
-                  editorial y tratamientos. Diseñé y construí el sitio completo{" "}
-                  <strong className="text-ink">por iniciativa propia</strong>, porque quería resolver
-                  el problema de un salón cuya reputación vive en el boca a boca del barrio y en
-                  ninguna otra parte. Todavía no tiene dominio conectado, así que no hay enlace que
-                  abrir; la captura está en el portafolio.
-                </p>
-                <Link
-                  href="/diseno-de-paginas-web-en-barranquilla"
-                  className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-                >
-                  Diseño de páginas web en Barranquilla <ArrowRight className="h-4 w-4" />
-                </Link>
+              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+                <div className="aspect-[16/10] overflow-hidden border-b border-line bg-ink">
+                  <Image
+                    src="/work/marcopolo.webp"
+                    alt="Peluquería Marcopolo: captura del sitio que diseñé y construí"
+                    width={1600}
+                    height={1000}
+                    quality={82}
+                    sizes="(min-width:1024px) 22rem, (min-width:768px) 45vw, 92vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+                    Proyecto de estudio · Barranquilla
+                  </span>
+                  <h3 className="mt-3 font-display text-xl text-ink">Peluquería Marcopolo</h3>
+                  <p className="mt-2 flex-1 font-body text-[15px] leading-relaxed text-ink-soft">
+                    Salón de Barranquilla con cuatro décadas: corte de autor, color editorial y
+                    tratamientos. Sin dominio conectado todavía.
+                  </p>
+                  <Link
+                    href="/diseno-de-paginas-web-en-barranquilla"
+                    className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  >
+                    Páginas web en Barranquilla <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
               </article>
             </Reveal>
 
             <Reveal delay={80}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
-                  Proyecto de estudio · Cartagena
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y
-                  experiencias de spa. Es el caso de un negocio que es dos cosas a la vez, y la
-                  página tiene que separarlas: quien busca un masaje para desconectarse y quien
-                  llega con una lesión no leen igual ni deciden igual. Mismo caso que el anterior:
-                  construido por iniciativa propia y sin dominio conectado.
-                </p>
-                <Link
-                  href="/sectores/clinicas-y-consultorios"
-                  className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-                >
-                  El lado de consultorio, en su propia página <ArrowRight className="h-4 w-4" />
-                </Link>
+              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+                <div className="aspect-[16/10] overflow-hidden border-b border-line bg-ink">
+                  <Image
+                    src="/work/elka-spa.webp"
+                    alt="Fta. Elka Gómez: captura del sitio que diseñé y construí"
+                    width={1600}
+                    height={1000}
+                    quality={82}
+                    sizes="(min-width:1024px) 22rem, (min-width:768px) 45vw, 92vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+                    Proyecto de estudio · Cartagena
+                  </span>
+                  <h3 className="mt-3 font-display text-xl text-ink">Fta. Elka Gómez</h3>
+                  <p className="mt-2 flex-1 font-body text-[15px] leading-relaxed text-ink-soft">
+                    Rehabilitación, masaje y spa en Cartagena. Un negocio que es dos cosas a la vez,
+                    y la página tiene que separarlas. También sin dominio conectado.
+                  </p>
+                  <Link
+                    href="/sectores/clinicas-y-consultorios"
+                    className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  >
+                    El lado de consultorio <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
               </article>
             </Reveal>
 
-            <Reveal delay={160} className="md:col-span-2">
-              <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-secondary/15 p-7">
-                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
-                  Producto propio · en línea
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Hummik</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Agenda de citas por WhatsApp: el cliente reserva desde el chat o desde un enlace,
-                  la cita cae sola en el calendario y salen recordatorios contra los plantones. Es un
-                  producto mío, no un encargo, y por eso lo puedes abrir ahora mismo y probarlo. Lo
-                  pongo en esta página porque el problema que resuelve es literalmente el de un
-                  salón: la agenda y el que no llegó.
-                </p>
-                <a
-                  href="https://www.hummik.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-                >
-                  hummik.com <ExternalLink className="h-4 w-4" />
-                </a>
+            <Reveal delay={160}>
+              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-primary/25 bg-surface">
+                <div className="aspect-[16/10] overflow-hidden border-b border-primary/25 bg-ink">
+                  <Image
+                    src="/work/hummik.webp"
+                    alt="Hummik: captura del producto de agenda de citas que construí"
+                    width={1600}
+                    height={1000}
+                    quality={82}
+                    sizes="(min-width:1024px) 22rem, (min-width:768px) 45vw, 92vw"
+                    className="h-auto w-full"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
+                    Producto propio · en línea
+                  </span>
+                  <h3 className="mt-3 font-display text-xl text-ink">Hummik</h3>
+                  <p className="mt-2 flex-1 font-body text-[15px] leading-relaxed text-ink-soft">
+                    Agenda de citas por WhatsApp, con recordatorios contra los plantones. Es mío, no
+                    un encargo: lo puedes abrir ahora mismo y probarlo.
+                  </p>
+                  <a
+                    href="https://www.hummik.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  >
+                    hummik.com <ExternalLink className="h-4 w-4" />
+                  </a>
+                </div>
               </article>
             </Reveal>
           </div>
@@ -455,8 +547,8 @@ export default function SalonesYSpasPage() {
               >
                 el portafolio completo
               </Link>
-              , con la misma separación de siempre: lo que está en producción con dominio propio y
-              lo que construí por mi cuenta.
+              , con la misma separación: producción con dominio propio y lo que construí por mi
+              cuenta.
             </p>
           </Reveal>
         </section>
@@ -469,16 +561,15 @@ export default function SalonesYSpasPage() {
               Lo que cuesta, sin que tengas que escribir para preguntar
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Publico los precios por la misma razón por la que te digo que publiques los tuyos:
-              tener que pedir un valor por mensaje es lo que hace que la gente se vaya. Son precios
-              de partida reales, y lo que suba de ahí te lo digo antes de empezar.
+              Publico los míos por la misma razón por la que te digo que publiques los tuyos. Son
+              precios de partida reales, y lo que suba de ahí te lo digo antes de empezar.
             </p>
           </Reveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
                   <h3 className="font-display text-xl text-ink">{p.q}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.d}
@@ -486,17 +577,14 @@ export default function SalonesYSpasPage() {
                   {p.href && (
                     <Link
                       href={p.href}
-                      className="mt-4 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                      className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                     >
                       Ver el detalle <ArrowRight className="h-4 w-4" />
                     </Link>
                   )}
-                  <div className="mt-5 border-t border-line pt-4">
+                  <div className="mt-4 border-t border-line pt-4">
                     <p className="font-mono text-lg text-primary-dark">desde {p.desde}</p>
-                    <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
-                      <Clock className="h-4 w-4 text-accent" />
-                      {p.plazo}
-                    </p>
+                    <p className="mt-1 font-body text-sm text-ink-soft">{p.plazo}</p>
                   </div>
                 </article>
               </Reveal>
@@ -504,41 +592,41 @@ export default function SalonesYSpasPage() {
           </div>
 
           <Reveal>
-            <div className="mt-6 grid gap-4 rounded-2xl border border-line bg-background/40 p-7 font-body leading-relaxed text-ink-soft">
+            <div className="mt-6 rounded-2xl border border-line bg-surface p-6 font-body leading-relaxed text-ink-soft md:p-7">
               <p>
                 <strong className="text-ink">La renovación anual cuesta {money(290000)}</strong> y
-                cubre el dominio, el alojamiento y que la página siga en pie y actualizada. Lo digo
-                acá arriba y no en una nota al pie, porque es el costo que a todo el mundo se le
-                aparece de sorpresa al año siguiente.
+                cubre el dominio, el alojamiento y que la página siga en pie. Va acá arriba y no en
+                una nota al pie, porque es el costo que a todo el mundo se le aparece de sorpresa al
+                año siguiente.
               </p>
-              <p>
-                Si quieres el desglose completo de precios y plazos, lo escribí largo:{" "}
+              <p className="mt-4">
+                Los desgloses largos:{" "}
                 <Link
                   href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
-                  cuánto cuesta una página web en Colombia
-                </Link>{" "}
-                y{" "}
+                  cuánto cuesta una página web
+                </Link>
+                ,{" "}
                 <Link
                   href="/blog/cuanto-se-demora-hacer-una-pagina-web"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
-                  cuánto se demora hacerla
+                  cuánto se demora
                 </Link>
-                . El SEO local mensual va aparte y tiene lo suyo en{" "}
+                ,{" "}
                 <Link
                   href="/blog/cuanto-cuesta-el-seo-en-colombia"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
-                  cuánto cuesta el SEO en Colombia
-                </Link>
-                , y si lo que quieres es que el WhatsApp agende solo, los números están en{" "}
+                  cuánto cuesta el SEO
+                </Link>{" "}
+                y{" "}
                 <Link
                   href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
-                  cuánto cuesta un chatbot de WhatsApp
+                  cuánto cuesta un chatbot
                 </Link>
                 .
               </p>
@@ -546,76 +634,66 @@ export default function SalonesYSpasPage() {
           </Reveal>
         </section>
 
-        {/* ── Cómo se hace ───────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Lo que necesito de ti para arrancar
-              </h2>
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Casi todos los proyectos que se demoran no se demoran por el código: se demoran
-                esperando el contenido. Así que te lo pido de una y en lista, para que sepas en qué
-                te vas a meter.
-              </p>
-              <ul className="mt-8 grid gap-3">
-                {[
-                  "Tu lista de servicios con precio o rango, y cuánto dura cada uno",
-                  "De 10 a 20 fotos de trabajos tuyos, tomadas con buena luz",
-                  "Los nombres de quienes atienden y en qué es bueno cada uno",
-                  "Horario real, incluidos domingos y festivos si abres",
-                  "Tus reglas de anticipo, cancelación y retardo, como las manejas hoy",
-                ].map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+        {/* ── Arranque: la lista y el plazo ──────────────────────────── */}
+        <section className="mx-auto max-w-5xl px-5 py-12 md:px-8">
+          <Reveal>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Lo que necesito de ti para arrancar
+            </h2>
+          </Reveal>
 
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo trabajo</h2>
-              <ol className="mt-8 grid gap-6">
-                {[
-                  {
-                    n: "01",
-                    t: "Hablamos por WhatsApp",
-                    d: "Me cuentas qué servicios vendes, cómo llevas la agenda hoy y qué es lo que más te preguntan. En veinte minutos sé si esto te sirve, y si no te sirve te lo digo.",
-                  },
-                  {
-                    n: "02",
-                    t: "Te mando la propuesta con el precio adentro",
-                    d: "Escrita, con lo que incluye y lo que no. Nada de un «desde» que crece cuando ya no te puedes devolver.",
-                  },
-                  {
-                    n: "03",
-                    t: "La construyo yo",
-                    d: "No hay ejecutivo de cuentas ni un equipo al que le pasan tu proyecto. Hablas con el mismo que escribe el código.",
-                  },
-                  {
-                    n: "04",
-                    t: "Te la entrego y te enseño a moverla",
-                    d: "Subir una foto del trabajo de ayer, cambiar el precio del color, agregar un servicio nuevo. Eso lo haces tú, desde el teléfono.",
-                  },
-                ].map((p) => (
-                  <li key={p.n} className="flex gap-4">
-                    <span className="font-mono text-sm text-accent">{p.n}</span>
-                    <span>
-                      <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                      <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                        {p.d}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
-                <Clock className="h-4 w-4 text-accent" />
-                Una página web, en 5 días
-              </p>
-            </Reveal>
-          </div>
+          <Reveal delay={80}>
+            <ListaAcopio
+              className="mt-8"
+              titulo="Marca lo que ya tienes"
+              almacen="acopio-salones"
+              items={[
+                "Tu lista de servicios con precio o rango, y cuánto dura cada uno",
+                "De 10 a 20 fotos de trabajos tuyos, con buena luz",
+                "Los nombres de quienes atienden y en qué es bueno cada uno",
+                "Horario real, incluidos domingos y festivos si abres",
+                "Tus reglas de anticipo, cancelación y retardo, como las manejas hoy",
+                "Accesos al dominio y al correo, si ya los tienes",
+              ]}
+            />
+          </Reveal>
+
+          <Reveal>
+            <h2 className="mt-14 font-display text-3xl text-ink sm:text-4xl">Cómo trabajo</h2>
+          </Reveal>
+          <Reveal delay={80}>
+            <RailPlazo
+              className="mt-8"
+              previo={{
+                etiqueta: "Antes de empezar",
+                texto: "Reúnes el material de la lista de arriba. El reloj todavía no ha arrancado.",
+              }}
+              hitos={[
+                {
+                  etiqueta: "Paso 01",
+                  texto: "Hablamos por WhatsApp: qué vendes, cómo llevas la agenda y qué te preguntan siempre.",
+                },
+                {
+                  etiqueta: "Paso 02",
+                  texto: "Te mando la propuesta escrita, con lo que incluye y lo que no.",
+                },
+                {
+                  etiqueta: "Paso 03",
+                  texto: "La construyo yo. Hablas con el mismo que escribe el código.",
+                },
+                {
+                  etiqueta: "Paso 04",
+                  texto: "Te la entrego y te enseño a moverla: subir una foto, cambiar un precio.",
+                },
+              ]}
+            />
+          </Reveal>
+
+          <Reveal>
+            <p className="mt-8 inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-body text-sm text-ink-soft">
+              Una página web, en 5 días desde que llega el material.
+            </p>
+          </Reveal>
         </section>
 
         {/* ── Preguntas del oficio ───────────────────────────────────── */}
@@ -628,13 +706,13 @@ export default function SalonesYSpasPage() {
           <div className="mt-10 grid gap-4">
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
-                <article className="rounded-2xl border border-line bg-surface/70 p-7">
+                <article className="rounded-2xl border border-line bg-surface p-6 md:p-7">
                   <h3 className="font-display text-xl text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                   {f.link && (
                     <Link
                       href={f.link.href}
-                      className="mt-4 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                      className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                     >
                       {f.link.label} <ArrowRight className="h-4 w-4" />
                     </Link>
@@ -652,8 +730,8 @@ export default function SalonesYSpasPage() {
               Cuéntame cómo llevas la agenda hoy
             </h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              Con eso ya sé si lo que necesitas es una página, un chatbot que agende, o nada de
-              esto todavía. Si es lo último, te lo digo igual: no vendo lo que no te sirve.
+              Con eso ya sé si necesitas una página, un chatbot que agende, o nada de esto todavía.
+              Si es lo último, te lo digo igual.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>

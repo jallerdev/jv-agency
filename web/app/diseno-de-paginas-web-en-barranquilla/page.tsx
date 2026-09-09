@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   Building2,
-  Check,
   Clock,
   MapPin,
-  MessageCircle,
   PartyPopper,
   Scissors,
   UtensilsCrossed,
@@ -19,6 +18,10 @@ import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BotonCuentame } from "@/components/Cuentame";
+import { Comparador } from "@/components/visuales/Comparador";
+import { HiloWhatsApp } from "@/components/visuales/HiloWhatsApp";
+import { CasillaVacia } from "@/components/visuales/CasillaVacia";
+import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
 
 /**
@@ -39,6 +42,11 @@ import { SITE_URL } from "@/lib/site";
  * que todo lo que quede sea verdad y sea de Barranquilla. Está escogido el
  * segundo. Si mañana aparece un cliente barranquillero real, la página crece.
  *
+ * Por eso el portafolio de esta página es una rejilla de dos: la captura real
+ * de Marcopolo y una CASILLA VACÍA rotulada. El hueco dice lo mismo que decía
+ * el párrafo que había ahí —«ninguno es de Barranquilla»— pero es imposible de
+ * ignorar y es imposible de fingir.
+ *
  * OJO CON UNA PREMISA FALSA QUE CIRCULA EN EL PROYECTO: «publicar precios es
  * el diferenciador porque ninguna agencia local lo hace». Eso es cierto en
  * Cartagena y NO lo es en Barranquilla — allá varias publican sus tarifas. Por
@@ -50,6 +58,9 @@ import { SITE_URL } from "@/lib/site";
  * fingir una dirección es exactamente lo que Google castiga. El schema es un
  * Service con `areaServed` en Barranquilla y el `provider` apuntando a la
  * Organization, que sí declara su domicilio real en Turbaco.
+ *
+ * ESQUELETO COMPARTIDO con Cartagena y Bogotá: mismo orden de secciones y
+ * mismo ritmo de bandas. Lo que cambia entre hermanas es el material.
  */
 export const metadata: Metadata = {
   title: "Diseño de páginas web en Barranquilla | JV Agencia",
@@ -104,7 +115,7 @@ const PRECIOS: {
     servicio: "SEO local mensual",
     desde: "desde $650.000/mes",
     plazo: "trabajo continuo",
-    desc: "Aparecer cuando alguien de Barranquilla busca lo que vendes. Es mensual porque es trabajo, no un botón.",
+    desc: "Aparecer cuando alguien de Barranquilla busca lo que vendes. Es trabajo, no un botón.",
     href: "/servicios/posicionamiento-seo",
   },
   {
@@ -117,7 +128,7 @@ const PRECIOS: {
     servicio: "Software a la medida",
     desde: "según alcance",
     plazo: "se estima contigo",
-    desc: "Cuando lo que necesitas no es una página sino un sistema que te resuelva un proceso.",
+    desc: "Cuando no necesitas una página sino un sistema que te resuelva un proceso.",
     href: "/servicios/software-a-la-medida",
   },
 ];
@@ -126,40 +137,55 @@ const PARA_QUIEN = [
   {
     icon: Building2,
     titulo: "Inmobiliarias y arriendo",
-    desc: "Es el sector donde más empresas nuevas se registraron en 2025 en la jurisdicción de la Cámara de Comercio. Un inventario de inmuebles no cabe en un carrusel: necesita ficha por propiedad, filtro por barrio —El Prado, Riomar, Villa Country, Alto Prado— y un formulario que te diga quién preguntó por cuál.",
+    desc: "El sector con más empresas nuevas en 2025 en la jurisdicción de la Cámara. Un inventario no cabe en un carrusel: ficha por propiedad, filtro por barrio —El Prado, Riomar, Villa Country— y un formulario que diga quién preguntó por cuál.",
   },
   {
     icon: Scissors,
     titulo: "Salones, barberías y estética",
-    desc: "Es el único rubro de Barranquilla donde ya construí algo completo, y está más abajo. Lo que resuelve una página acá es la agenda: qué servicios hay, cuánto vale cada uno y cómo se pide el turno sin diez mensajes de ida y vuelta.",
+    desc: "El único rubro donde ya construí algo completo, y está más abajo. Acá la página resuelve la agenda: qué servicios hay, cuánto vale cada uno y cómo se pide el turno sin diez mensajes.",
   },
   {
     icon: UtensilsCrossed,
     titulo: "Restaurantes y hoteles",
-    desc: "Hoteles y restaurantes fueron el tercer sector con más empresas creadas en 2025 en esa misma jurisdicción. Lo que busca el que entra es siempre lo mismo: carta al día, horario, dónde queda y cómo reservar. No un PDF de 2022 que hay que descargar.",
+    desc: "Tercer sector con más empresas creadas en 2025 en esa misma jurisdicción. El que entra busca siempre lo mismo: carta al día, horario, dónde queda y cómo reservar. No un PDF de 2022.",
   },
   {
     icon: PartyPopper,
     titulo: "Lo que vive del Carnaval",
-    desc: "Alquiler de trajes, maquillaje, palcos, transporte, catering, alojamiento. Es el negocio más barranquillero que hay y el que peor se prepara: la página se pide en octubre, no en enero, porque construirla toma 5 días pero que Google la lea toma meses.",
+    desc: "Trajes, maquillaje, palcos, transporte, catering. El negocio más barranquillero que hay y el que peor se prepara: la página se pide en octubre, no en enero. Construirla toma 5 días; que Google la lea, meses.",
   },
 ];
 
 const INCLUYE = [
   "Diseño hecho para tu negocio, no una plantilla comprada con tu logo encima",
-  "Pensada primero para el teléfono, que es desde donde te van a entrar casi todos",
+  "Pensada primero para el teléfono, que es de donde te entran casi todos",
   "Tus textos ordenados contigo, en el idioma en que hablan tus clientes",
   "Formulario y botón de WhatsApp que caen donde de verdad los revisas",
   "SEO técnico de base: títulos, descripciones, velocidad y datos estructurados",
-  "Google Analytics y Search Console conectados, para saber quién entró y buscando qué",
+  "Google Analytics y Search Console conectados",
   "Capacitación de entrega y 30 días de ajustes sin costo",
+];
+
+/**
+ * Lo que NO entra, con QUIÉN lo hace entonces. Esa segunda columna es la que
+ * evita la pelea: la mitad de los conflictos de un proyecto no son por lo que
+ * se prometió, son por lo que cada uno dio por hecho.
+ */
+const NO_INCLUYE = [
+  { texto: "El presupuesto de pauta en Meta o en Google Ads.", quien: "lo pones tú" },
+  { texto: "El posicionamiento de todos los meses; el SEO técnico de entrega sí va.", quien: "se cotiza aparte" },
+  { texto: "Carrito, inventario y pagos en línea: eso ya es una tienda virtual.", quien: "otro precio y otro plazo" },
+  { texto: "La sesión de fotos y de video.", quien: "se cotiza aparte" },
+  { texto: "El logo y la marca desde cero, si no tienes nada.", quien: "se cotiza aparte" },
+  { texto: "El manejo de redes y el contenido de cada mes.", quien: "no es lo mío" },
+  { texto: "Visitas presenciales cada semana en Barranquilla.", quien: "no vivo allá" },
 ];
 
 const PROCESO = [
   {
     n: "01",
     t: "Una llamada de veinte minutos",
-    d: "Sin formulario de doce páginas. Me cuentas qué vendes y a quién, y te digo de una si esto te sirve o no.",
+    d: "Sin formulario de doce páginas. Me cuentas qué vendes y a quién, y te digo de una si esto te sirve.",
   },
   {
     n: "02",
@@ -169,25 +195,35 @@ const PROCESO = [
   {
     n: "03",
     t: "Construyo y te paso un enlace de prueba",
-    d: "Lo abres desde tu teléfono, en la 53 o donde estés, y me dices qué se ve torcido mientras todavía se puede cambiar.",
+    d: "Lo abres desde tu teléfono, en la 53 o donde estés, y me dices qué se ve torcido mientras se puede cambiar.",
   },
   {
     n: "04",
     t: "Sale al aire y quedan 30 días de ajustes",
-    d: "Y te enseño a editar lo que se edita solo, para que no tengas que escribirme por cambiar un horario.",
+    d: "Y te enseño a editar lo que se edita solo, para que no me escribas por cambiar un horario.",
   },
+];
+
+/** Enlaces del cierre. Fila de destinos tocables, no prosa con subrayados. */
+const OTRAS_PAGINAS = [
+  { href: "/diseno-de-paginas-web-en-cartagena", label: "Diseño web en Cartagena" },
+  { href: "/diseno-de-paginas-web-en-bogota", label: "Diseño web en Bogotá" },
+  { href: "/sectores/salones-y-spas", label: "Salones y spas" },
+  { href: "/sectores/clinicas-y-consultorios", label: "Clínicas y consultorios" },
+  { href: "/servicios/chatbot-whatsapp", label: "Chatbot de WhatsApp" },
+  { href: "/blog", label: "Artículos" },
 ];
 
 const FAQS = [
   {
     q: "¿Tienes oficina en Barranquilla?",
-    a: "No, y por eso está en el título de esta página. Vivo en Turbaco, Bolívar. Todo el trabajo se hace a distancia, por WhatsApp, correo y videollamada. Si lo que necesitas es alguien que se te siente al frente cada semana, contrata a alguien de Barranquilla — te lo digo yo, que estoy tratando de venderte.",
+    a: "No, y por eso está en el título de esta página. Vivo en Turbaco, Bolívar, y todo se hace por WhatsApp, correo y videollamada. Si necesitas a alguien que se te siente al frente cada semana, contrata a alguien de Barranquilla — te lo digo yo, que estoy tratando de venderte.",
   },
   {
     // [VERIFICAR] tiempo de viaje Turbaco → Barranquilla por la Vía al Mar.
     // No se publica un dato sin confirmar; la respuesta funciona sin el.
     q: "¿Y si necesito una reunión presencial?",
-    a: "Si el proyecto lo justifica, se coordina el viaje y se acuerda antes cuántas visitas entran, para que no aparezca como sorpresa en la factura. Lo normal, igual, es que todo se resuelva por videollamada.",
+    a: "Si el proyecto lo justifica, se coordina el viaje y se acuerda antes cuántas visitas entran, para que no aparezca de sorpresa en la factura. Lo normal es que todo se resuelva por videollamada.",
   },
   {
     q: "¿Voy a salir de primero en Google buscando mi servicio en Barranquilla?",
@@ -195,15 +231,15 @@ const FAQS = [
   },
   {
     q: "Quiero la página lista para el Carnaval. ¿Cuándo la pido?",
-    a: "Construirla toma 5 días, así que en enero llegas. Pero si además quieres que te encuentren buscando, eso no son días sino meses: pídela en octubre o noviembre y llegas con el sitio ya leído por Google.",
+    a: "Construirla toma 5 días, así que en enero llegas. Pero si además quieres que te encuentren buscando, eso no son días sino meses: pídela en octubre o noviembre.",
   },
   {
     q: "Mi competencia en Barranquilla solo tiene Instagram. ¿De verdad necesito página?",
-    a: "Depende de cómo te compran. Instagram te da alcance; la página te hace encontrable por quien ya te está buscando con la intención de comprar. Lo desarmé completo en un artículo, con los casos en los que conviene NO hacerla todavía.",
+    a: "Depende de cómo te compran. Instagram te da alcance; la página te hace encontrable por quien ya te está buscando. Lo desarmé completo en un artículo, con los casos en que conviene NO hacerla todavía.",
   },
   {
     q: "Yo cierro todo por WhatsApp. ¿La página me sirve para algo?",
-    a: "Sí, y las dos cosas se conectan. La página es lo que Google puede leer; WhatsApp es donde cierras. Un chatbot recoge lo que la página te manda a las nueve de la noche y los domingos, que es cuando el que escribe y no recibe respuesta le escribe al de al lado.",
+    a: "Sí, y las dos cosas se conectan. La página es lo que Google puede leer; WhatsApp es donde cierras. Acá arriba está la conversación de ejemplo.",
   },
   {
     q: "¿Cómo se paga si no estamos en la misma ciudad?",
@@ -290,7 +326,7 @@ export default function BarranquillaPage() {
       />
       <Header />
       <main>
-        {/* ── Encabezado ─────────────────────────────────────────────── */}
+        {/* ── Encabezado · canvas ────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
           <Reveal>
             <Badge>
@@ -303,16 +339,18 @@ export default function BarranquillaPage() {
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
               Te lo digo antes de que preguntes: no tengo local en la 53 ni en Villa Country. Vivo
-              en Turbaco, Bolívar, y tu proyecto lo trabajo a distancia. Lo que sí tengo es el
-              precio publicado más abajo, cinco días de plazo y una sola persona contestándote —
-              yo, que soy el mismo que diseña y el mismo que programa.
+              en Turbaco, Bolívar, y tu proyecto lo trabajo a distancia.
+            </p>
+            <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              Lo que sí tengo: el precio publicado más abajo, cinco días de plazo y una sola persona
+              contestándote — yo, que diseño y programo.
             </p>
           </Reveal>
 
           <Reveal delay={120}>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <BotonCuentame variant="primary">
-                Cuéntame tu proyecto <ArrowRight className="h-5 w-5" />
+                Cuéntame tu proyecto <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </BotonCuentame>
               <Button size="lg" variant="outline" asChild>
                 <a href="#precios">Ver precios</a>
@@ -321,41 +359,46 @@ export default function BarranquillaPage() {
           </Reveal>
         </section>
 
-        {/* ── La confesión, arriba y no escondida ────────────────────── */}
-        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
+        {/* ── La confesión, arriba y no escondida · banda ────────────── */}
+        <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
+            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-7 sm:p-9 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Búscale la dirección a cada uno.
                 <span className="text-metal"> Yo te ahorro el minuto.</span>
               </h2>
               <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Cuando compares proveedores para tu página, bájate hasta el pie de cada sitio y
-                mira dónde dice que quedan. Es un minuto por página y te va a decir bastante.
-              </p>
-              <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-                <strong className="text-ink">
-                  El mío dice Turbaco, Bolívar, y lo puse también en el título de esta página.
-                </strong>{" "}
-                Estoy en el mismo Caribe, en la costa de al lado, pero no en el Atlántico. Si lo
-                que necesitas es alguien que pase por tu oficina el martes, no soy yo y prefiero
-                que lo sepas ahora y no en la tercera reunión.
+                Cuando compares proveedores, bájate al pie de cada sitio y mira dónde dice que
+                quedan. <strong className="text-ink">El mío dice Turbaco, Bolívar</strong>, y lo
+                puse también en el título de esta página. Mismo Caribe, costa de al lado, pero no el
+                Atlántico.
               </p>
             </div>
           </Reveal>
+
+          <Reveal>
+            <RailDistancia
+              className="mt-10"
+              paradas={[
+                { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "Aquí vivo y aquí trabajo." },
+                { lugar: "Cartagena", distancia: "≈ 20 km", nota: "Nos vemos si el proyecto lo pide." },
+                { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "El viaje se acuerda antes, no aparece en la factura." },
+                { lugar: "Soledad, Malambo, Galapa, Puerto Colombia", distancia: "mismas condiciones", nota: "Desde acá da lo mismo, y esa es una ventaja tuya." },
+              ]}
+            />
+          </Reveal>
         </section>
 
-        {/* ── Para quién es ──────────────────────────────────────────── */}
+        {/* ── Para quién es · banda (mismo capítulo que la confesión) ── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Qué se está abriendo en Barranquilla ahora mismo
             </h2>
             <p className="mt-5 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              La Cámara de Comercio de Barranquilla reportó que los sectores donde más empresas se
-              crearon en 2025 fueron actividades inmobiliarias (34,9%), servicios (24,6%) y
-              hoteles y restaurantes (12,1%), con 11.391 unidades productivas nuevas en los
-              primeros nueve meses del año.
+              La Cámara de Comercio de Barranquilla reportó que en 2025 los sectores con más
+              empresas creadas fueron inmobiliarias (34,9%), servicios (24,6%) y hoteles y
+              restaurantes (12,1%), con 11.391 unidades nuevas en los primeros nueve meses.
             </p>
             <p className="mt-3 max-w-3xl font-body text-sm leading-relaxed text-ink-soft">
               Dos precisiones, porque ese dato se cita mal muy seguido: son empresas{" "}
@@ -369,8 +412,8 @@ export default function BarranquillaPage() {
             {PARA_QUIEN.map((p, i) => {
               const Icon = p.icon;
               return (
-                <Reveal key={p.titulo} delay={i * 80}>
-                  <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
+                <Reveal key={p.titulo} index={i}>
+                  <article className="h-full rounded-2xl border border-line bg-surface p-6 sm:p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
@@ -381,17 +424,9 @@ export default function BarranquillaPage() {
               );
             })}
           </div>
-
-          <Reveal>
-            <p className="mt-6 font-body leading-relaxed text-ink-soft">
-              Y el área metropolitana cuenta igual: Soledad, Malambo, Galapa y Puerto Colombia se
-              atienden en las mismas condiciones que la ciudad. Desde donde yo trabajo da lo mismo,
-              y esa es una ventaja tuya, no mía.
-            </p>
-          </Reveal>
         </section>
 
-        {/* ── Precios ────────────────────────────────────────────────── */}
+        {/* ── Precios · CANVAS a propósito: son la respuesta ─────────── */}
         <section id="precios" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-12 md:px-8">
           <Reveal>
             <Badge>Precios</Badge>
@@ -399,16 +434,15 @@ export default function BarranquillaPage() {
               Lo que cobro, escrito acá
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              No hace falta que pidas una cotización para saber si te alcanza. Estos son precios
-              de arranque: suben con lo que el proyecto pida, y eso te lo digo por escrito antes
-              de empezar, no después.
+              Precios de arranque: suben con lo que el proyecto pida, y eso te lo digo por escrito
+              antes de empezar, no después.
             </p>
           </Reveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
-              <Reveal key={p.servicio} delay={i * 70}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+              <Reveal key={p.servicio} index={i}>
+                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
                   <h3 className="font-display text-xl text-ink">{p.servicio}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.desc}
@@ -416,17 +450,17 @@ export default function BarranquillaPage() {
                   {p.href && (
                     <Link
                       href={p.href}
-                      className="mt-3 inline-flex w-fit items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                      className="mt-3 inline-flex min-h-11 w-fit items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                     >
-                      Ver el detalle del servicio
-                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      Ver el detalle
+                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                     </Link>
                   )}
-                  <p className="mt-5 border-t border-line pt-4 font-mono text-lg text-primary-dark">
+                  <p className="mt-4 border-t border-line pt-4 font-mono text-lg text-primary-dark">
                     {p.desde}
                   </p>
                   <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
-                    <Clock className="h-4 w-4 text-accent" aria-hidden="true" />
+                    <Clock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                     {p.plazo}
                   </p>
                 </article>
@@ -435,57 +469,67 @@ export default function BarranquillaPage() {
           </div>
 
           <Reveal>
-            <p className="mt-6 font-body leading-relaxed text-ink-soft">
-              Si quieres el desglose completo de en qué se va la plata de una página web en
-              Colombia, lo escribí acá:{" "}
+            <p className="mt-6 max-w-3xl font-body text-sm leading-relaxed text-ink-soft">
+              El desglose largo:{" "}
               <Link
                 href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
-                className="text-primary-dark underline underline-offset-4 hover:text-accent"
+                className="font-semibold text-primary-dark underline underline-offset-4"
               >
-                ¿Cuánto cuesta una página web en Colombia?
-              </Link>{" "}
-              Y si lo que te preocupa es el plazo,{" "}
+                cuánto cuesta una página web
+              </Link>
+              ,{" "}
               <Link
                 href="/blog/cuanto-se-demora-hacer-una-pagina-web"
-                className="text-primary-dark underline underline-offset-4 hover:text-accent"
+                className="font-semibold text-primary-dark underline underline-offset-4"
               >
-                acá está en qué se va el tiempo de verdad
-              </Link>
-              . El trabajo mensual de posicionamiento se cotiza aparte y tiene su propio artículo:{" "}
+                en qué se va el tiempo
+              </Link>{" "}
+              y{" "}
               <Link
                 href="/blog/cuanto-cuesta-el-seo-en-colombia"
-                className="text-primary-dark underline underline-offset-4 hover:text-accent"
+                className="font-semibold text-primary-dark underline underline-offset-4"
               >
-                cuánto cuesta el SEO en Colombia
+                cuánto cuesta el SEO
               </Link>
               .
             </p>
           </Reveal>
         </section>
 
-        {/* ── Qué incluye · cómo se hace ─────────────────────────────── */}
+        {/* ── Qué entra y qué no · banda. Las dos listas enteras: son la
+             columna vertebral de honestidad y no se recortan. La micro-
+             etiqueta dice QUIÉN lo hace entonces. ────────────────────── */}
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+          <Reveal>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué entra y qué no entra</h2>
+          </Reveal>
+          <Reveal>
+            <Comparador
+              className="mt-10"
+              tituloIncluye="Entra por ese precio"
+              tituloNoIncluye={
+                <>
+                  <span className="text-metal">No</span> entra
+                </>
+              }
+              nota="Esta lista vale más que la otra. Los proyectos no se dañan por lo que se prometió: se dañan por lo que cada uno dio por hecho."
+              incluye={INCLUYE}
+              noIncluye={NO_INCLUYE}
+            />
+          </Reveal>
+        </section>
+
+        {/* ── Cómo trabajo desde acá + el chat · banda (mismo capítulo) ─ */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué incluye</h2>
-              <ul className="mt-8 grid gap-3">
-                {INCLUYE.map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-
-            <Reveal delay={120}>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Cómo trabajo contigo desde acá
               </h2>
               <ol className="mt-8 grid gap-6">
                 {PROCESO.map((p) => (
                   <li key={p.n} className="flex gap-4">
-                    <span className="font-mono text-sm text-accent">{p.n}</span>
+                    <span className="font-mono text-sm text-primary-dark">{p.n}</span>
                     <span>
                       <strong className="block font-body font-semibold text-ink">{p.t}</strong>
                       <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
@@ -496,72 +540,109 @@ export default function BarranquillaPage() {
                 ))}
               </ol>
             </Reveal>
+
+            <Reveal delay={120}>
+              <h2 className="font-display text-3xl text-ink sm:text-4xl">
+                La página trae; WhatsApp cierra
+              </h2>
+              <p className="mt-4 font-body leading-relaxed text-ink-soft">
+                Acá casi nadie cierra por correo: cierra por chat, y a las horas en que ya nadie
+                está en el mostrador. Por eso también monto{" "}
+                <Link
+                  href="/servicios/chatbot-whatsapp"
+                  className="font-semibold text-primary-dark underline underline-offset-4"
+                >
+                  chatbots de WhatsApp
+                </Link>
+                .
+              </p>
+              <HiloWhatsApp
+                className="mt-8"
+                negocio="Salón de ejemplo"
+                iniciales="SE"
+                mensajes={[
+                  { de: "cliente", texto: "Buenas, ¿tienen turno mañana para color?", hora: "9:41 p.m." },
+                  { de: "bot", escribiendo: true },
+                  { de: "bot", texto: "Sí. Mañana quedan 10:30 a.m. y 3:00 p.m. ¿Cuál te sirve?", hora: "9:41 p.m." },
+                  { de: "cliente", texto: "El de las 3", hora: "9:42 p.m." },
+                  {
+                    de: "bot",
+                    traspaso: true,
+                    texto: "Listo, quedó apartado. Mañana a primera hora te lo confirma alguien del salón.",
+                    hora: "9:42 p.m.",
+                  },
+                ]}
+              />
+            </Reveal>
           </div>
         </section>
 
-        {/* ── El único trabajo propio de Barranquilla ────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
+        {/* ── El único trabajo propio de Barranquilla · canvas.
+             La casilla vacía dice lo que decía un párrafo entero. ────── */}
+        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <Badge>Trabajo propio de la ciudad</Badge>
             <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
               Peluquería Marcopolo, y no me la encargaron
             </h2>
-            <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-              Es lo único que tengo de Barranquilla, así que no voy a estirarlo. Es un salón de la
-              ciudad con cuatro décadas de oficio: corte de autor, color editorial y tratamientos.
-              Diseñé y construí el sitio completo <strong className="text-ink">por iniciativa
-              propia</strong>, porque quería resolver el problema de un salón que lleva cuarenta
-              años y cuya reputación vive en el boca a boca del barrio y en ninguna otra parte.
+            <p className="mt-5 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+              Es lo único que tengo de Barranquilla, así que no voy a estirarlo. Un salón con
+              cuatro décadas de oficio que diseñé y construí{" "}
+              <strong className="text-ink">por iniciativa propia</strong>. Todavía no está publicado
+              con dominio propio: por eso hay captura y no enlace.
             </p>
-            <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-              No te lo vendo como caso de cliente, porque no lo es. Y no te paso un enlace, porque
-              todavía no está publicado con dominio propio: está en{" "}
+          </Reveal>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2 md:items-stretch">
+            <Reveal>
+              <figure className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+                <Image
+                  src="/work/marcopolo.webp"
+                  alt="Captura de la página que construí para Peluquería Marcopolo, un salón de Barranquilla: portada con los servicios de corte y color."
+                  width={1600}
+                  height={1000}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="h-auto w-full border-b border-line"
+                />
+                <figcaption className="p-5 font-body text-sm leading-relaxed text-ink-soft sm:p-6">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+                    Proyecto de estudio · Barranquilla
+                  </span>
+                  <span className="mt-2 block">
+                    Corte de autor, color editorial y tratamientos. Si quieres verlo funcionando te
+                    lo abro en la llamada compartiendo pantalla.
+                  </span>
+                </figcaption>
+              </figure>
+            </Reveal>
+
+            <Reveal delay={80}>
+              <CasillaVacia
+                className="h-full bg-surface/50"
+                rotulo="Sin cliente de Barranquilla"
+              >
+                Todavía no hay un proyecto entregado a un cliente barranquillero. Cuando lo haya, va
+                aquí, con nombre y con enlace.
+              </CasillaVacia>
+            </Reveal>
+          </div>
+
+          <Reveal>
+            <p className="mt-8 font-body leading-relaxed text-ink-soft">
+              Lo que sí puedes abrir hoy son los proyectos en producción con dominio propio: están
+              en{" "}
               <Link
                 href="/#proyectos"
-                className="text-primary-dark underline underline-offset-4 hover:text-accent"
+                className="font-semibold text-primary-dark underline underline-offset-4"
               >
-                la rejilla de proyectos de la portada
-              </Link>{" "}
-              con su captura, y si quieres verlo funcionando te lo abro en la llamada compartiendo
-              pantalla.
-            </p>
-            <p className="mt-4 font-body leading-relaxed text-ink-soft">
-              Lo que sí puedes abrir y comprobar hoy son los proyectos que están en producción con
-              su propio dominio. Ninguno es de Barranquilla y por eso no los pongo acá como si lo
-              fueran: están en la portada, con el enlace de cada uno.
+                el portafolio de la portada
+              </Link>
+              .
             </p>
           </Reveal>
         </section>
 
-        {/* ── WhatsApp, que es donde de verdad se cierra ─────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
-          <Reveal>
-            <div className="rounded-2xl border border-line bg-background/40 p-7 md:p-9">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
-                <MessageCircle className="h-6 w-6" aria-hidden="true" />
-              </span>
-              <h2 className="mt-5 font-display text-2xl text-ink sm:text-3xl">
-                La página trae; WhatsApp cierra
-              </h2>
-              <p className="mt-4 font-body leading-relaxed text-ink-soft">
-                Casi ningún negocio de la costa cierra por correo. Cierra por chat, y a las horas
-                en que ya nadie está en el mostrador. La página es lo que Google puede leer y lo
-                que te encuentra el que ya decidió comprar; el chat es donde se termina. Por eso
-                las dos cosas se conectan y por eso vendo también{" "}
-                <Link
-                  href="/servicios/chatbot-whatsapp"
-                  className="text-primary-dark underline underline-offset-4 hover:text-accent"
-                >
-                  chatbots de WhatsApp
-                </Link>
-                : para que el que te escribe un domingo reciba respuesta antes de escribirle al de
-                al lado.
-              </p>
-            </div>
-          </Reveal>
-        </section>
-
-        {/* ── Preguntas ──────────────────────────────────────────────── */}
+        {/* ── Preguntas · banda ──────────────────────────────────────── */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -570,22 +651,21 @@ export default function BarranquillaPage() {
           </Reveal>
           <div className="mt-10 grid gap-4">
             {FAQS.map((f, i) => (
-              <Reveal key={f.q} delay={i * 60}>
-                <article className="rounded-2xl border border-line bg-surface/70 p-7">
+              <Reveal key={f.q} index={i}>
+                <article className="rounded-2xl border border-line bg-surface p-6 sm:p-7">
                   <h3 className="font-display text-xl text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                   {f.q.startsWith("Mi competencia") && (
-                    <p className="mt-3 font-body leading-relaxed">
+                    <p className="mt-2 flex flex-wrap gap-x-4">
                       <Link
                         href="/blog/pagina-web-o-solo-instagram"
-                        className="text-primary-dark underline underline-offset-4 hover:text-accent"
+                        className="inline-flex min-h-11 items-center py-2.5 font-body text-sm font-semibold text-primary-dark underline underline-offset-4"
                       >
-                        ¿Página web o solo Instagram para tu negocio?
-                      </Link>{" "}
-                      ·{" "}
+                        ¿Página web o solo Instagram?
+                      </Link>
                       <Link
                         href="/blog/mi-negocio-necesita-pagina-web"
-                        className="text-primary-dark underline underline-offset-4 hover:text-accent"
+                        className="inline-flex min-h-11 items-center py-2.5 font-body text-sm font-semibold text-primary-dark underline underline-offset-4"
                       >
                         ¿Mi negocio necesita página web?
                       </Link>
@@ -597,71 +677,42 @@ export default function BarranquillaPage() {
           </div>
         </section>
 
-        {/* ── Cierre ─────────────────────────────────────────────────── */}
+        {/* ── Cierre · canvas ────────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 py-16 text-center md:px-8 md:py-24">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Cuéntame qué vendes en Barranquilla
             </h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              Veinte minutos alcanzan para saber si esto te sirve, cuánto te costaría y qué día lo
-              tendrías. Si no te sirve, te lo digo y no te hago perder el resto de la tarde.
+              Veinte minutos alcanzan para saber si esto te sirve, cuánto costaría y qué día lo
+              tendrías. Si no te sirve, te lo digo y no te hago perder la tarde.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
                 <Link href="/#contacto">
-                  Agenda una llamada <ArrowRight className="h-5 w-5" />
+                  Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
               <BotonCuentame />
             </div>
-            <p className="mt-8 font-body text-sm text-ink-soft">
-              <Link href="/" className="underline underline-offset-4 hover:text-ink">
-                Volver a la portada
-              </Link>{" "}
-              ·{" "}
-              <Link
-                href="/servicios/chatbot-whatsapp"
-                className="underline underline-offset-4 hover:text-ink"
-              >
-                Chatbot de WhatsApp
-              </Link>{" "}
-              ·{" "}
-              <Link href="/blog" className="underline underline-offset-4 hover:text-ink">
-                Artículos
-              </Link>
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-relaxed text-ink-soft">
-              También trabajo{" "}
-              <Link
-                href="/diseno-de-paginas-web-en-cartagena"
-                className="text-primary-dark underline underline-offset-4 hover:text-accent"
-              >
-                diseño de páginas web en Cartagena
-              </Link>{" "}
-              y{" "}
-              <Link
-                href="/diseno-de-paginas-web-en-bogota"
-                className="text-primary-dark underline underline-offset-4 hover:text-accent"
-              >
-                en Bogotá
-              </Link>
-              . Y si lo tuyo es{" "}
-              <Link
-                href="/sectores/salones-y-spas"
-                className="text-primary-dark underline underline-offset-4 hover:text-accent"
-              >
-                un salón o un spa
-              </Link>{" "}
-              o{" "}
-              <Link
-                href="/sectores/clinicas-y-consultorios"
-                className="text-primary-dark underline underline-offset-4 hover:text-accent"
-              >
-                una clínica o un consultorio
-              </Link>
-              , cada uno tiene su página.
-            </p>
+
+            <nav aria-label="Otras páginas del sitio" className="mt-12">
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+                También trabajo
+              </p>
+              <ul className="mt-4 flex flex-wrap justify-center gap-2">
+                {OTRAS_PAGINAS.map((o) => (
+                  <li key={o.href}>
+                    <Link
+                      href={o.href}
+                      className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 py-2.5 font-body text-sm text-ink-soft transition-colors hover:border-primary/40 hover:text-ink"
+                    >
+                      {o.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </Reveal>
         </section>
       </main>

@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Blobs } from "@/components/Blobs";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { MetaTechProvider } from "@/components/MetaTechProvider";
@@ -99,7 +100,14 @@ export function Hero() {
       {/* ── Fondo: mesa de trabajo ─────────────────────────────────────── */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="jv-hero-decor absolute inset-0">
-          <div className="jv-hero-wash absolute inset-0 animate-ambient-glow" />
+          {/* La luz rasante sigue siendo la base: da la dirección —arriba a la
+              izquierda— y las manchas se mueven DENTRO de esa dirección. Sin
+              ella el campo flotaría sin fuente. */}
+          <div className="jv-hero-wash absolute inset-0" />
+          {/* El pigmento encima. Ya no hace falta `animate-ambient-glow` en la
+              capa de abajo: la respiración la lleva el campo, y dos cosas
+              latiendo a destiempo se leen como un parpadeo. */}
+          <Blobs />
         </div>
       </div>
 
@@ -149,7 +157,12 @@ export function Hero() {
         </h1>
 
         <p
-          className="jv-hero-in mt-6 max-w-[46ch] text-pretty font-body text-base leading-relaxed text-ink-soft sm:mt-7 sm:max-w-2xl sm:text-lg"
+          /* `ink`, no `ink-soft`. Es el único párrafo del sitio que se lee
+             sobre un fondo que SE MUEVE, y medido a lo largo del ciclo el gris
+             medio bajaba a 3,82:1 cuando el pigmento cruzaba por debajo. Sobre
+             una superficie viva el texto de apoyo no puede ser un tono medio:
+             el contraste tiene que aguantar el peor fotograma, no el mejor. */
+          className="jv-hero-in mt-6 max-w-[46ch] text-pretty font-body text-base leading-relaxed text-ink sm:mt-7 sm:max-w-2xl sm:text-lg"
           style={{ "--jv-delay": "520ms" } as React.CSSProperties}
         >
           Diseño y programo yo mismo. Tu web o tu software con el acabado de una marca

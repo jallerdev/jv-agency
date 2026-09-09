@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import { MetaTechProvider } from "@/components/MetaTechProvider";
 import { Faqs } from "@/components/Faqs";
 import { sinPendientes } from "@/components/Pendiente";
+import { HiloWhatsApp } from "@/components/visuales/HiloWhatsApp";
+import { RailPlazo } from "@/components/visuales/RailPlazo";
 import { SITE_URL } from "@/lib/site";
 import { A_PRICES, A_TYPE_LABEL, A_TYPE_DESC, money } from "@/lib/quote";
 
@@ -67,11 +69,11 @@ const PARA_QUIEN = [
   },
   {
     titulo: "Agendas citas por chat",
-    desc: "Clínicas, salones, talleres, consultorios. El ida y vuelta de «¿a qué hora tiene?» se come la mañana.",
+    desc: "El ida y vuelta de «¿a qué hora tiene?» se come la mañana.",
   },
   {
     titulo: "Tomas pedidos por WhatsApp",
-    desc: "Y los vas anotando en una libreta o en las notas del teléfono, con el riesgo que eso tiene.",
+    desc: "Y los anotas en una libreta o en las notas del teléfono, con el riesgo que eso tiene.",
   },
 ];
 
@@ -84,28 +86,116 @@ const INCLUYE = [
   "Capacitación de entrega y 30 días de ajustes sin costo",
 ];
 
+/* El proceso, en la forma del rail: una línea por paso. Antes eran cuatro
+   títulos con su párrafo debajo; el paso 03 lo enseña ahora el hilo de
+   WhatsApp de más arriba, así que contarlo otra vez sobraba. */
 const PROCESO = [
+  { etiqueta: "Paso 01", texto: "Leo una semana de tus chats. No invento preguntas: miro lo que te escriben." },
+  { etiqueta: "Paso 02", texto: "Conecto tu número con Meta. Sigue siendo tuyo y no cambia." },
+  { etiqueta: "Paso 03", texto: "Escribo el flujo y lo pruebas conmigo, antes de que lo vea un cliente." },
+  { etiqueta: "Paso 04", texto: "Sale al aire. Lo que el bot no supo contestar se revisa y se le enseña." },
+];
+
+/* El hilo que se pinta en la sección de precios. El guion es el de esta
+   página —cita pedida de noche— y la última burbuja es el traspaso, que es
+   la objeción real: «¿va a sonar como un robot y espantarme al cliente?». */
+const HILO = [
+  { de: "cliente" as const, texto: "Buenas, ¿tienen cita para mañana?", hora: "9:41 p. m." },
+  { de: "bot" as const, escribiendo: true },
   {
-    n: "01",
-    t: "Escucho una semana de tus chats",
-    d: "No invento preguntas. Miro lo que de verdad te escriben y qué contestas hoy.",
+    de: "bot" as const,
+    texto: "¡Hola! Sí. Mañana me quedan 9:00 a. m., 11:30 a. m. y 4:00 p. m. ¿Cuál te sirve?",
+    hora: "9:41 p. m.",
+  },
+  { de: "cliente" as const, texto: "La de 11:30", hora: "9:42 p. m." },
+  {
+    de: "bot" as const,
+    texto: "Listo, te aparté mañana 11:30 a. m. Te llega un recordatorio dos horas antes.",
+    hora: "9:42 p. m.",
   },
   {
-    n: "02",
-    t: "Conecto tu número",
-    d: "La conexión con Meta la hago yo. Tu número sigue siendo tuyo y no cambia.",
-  },
-  {
-    n: "03",
-    t: "Escribo el flujo y lo pruebas conmigo",
-    d: "Lo ves funcionando y me dices qué suena raro, antes de que lo vea un cliente.",
-  },
-  {
-    n: "04",
-    t: "Sale al aire y lo voy ajustando",
-    d: "Las preguntas que el bot no supo contestar se revisan y se le enseñan.",
+    de: "bot" as const,
+    traspaso: true,
+    texto: "Si necesitas otra cosa, mañana a primera hora te escribe una persona del equipo.",
+    hora: "9:42 p. m.",
   },
 ];
+
+/**
+ * EL RELOJ DEL DOMINGO — dos anillos de 24 horas.
+ *
+ * «El que escribe a las 9 p. m. y no recibe respuesta, a las 9:05 ya le
+ * escribió a otro» es la mejor línea de la página y hasta hoy iba sola. El
+ * hueco del anillo ES el argumento: se entiende en medio segundo y no inventa
+ * ni una cifra —el horario de mostrador va rotulado como supuesto—.
+ *
+ * SVG puro, sin estado y sin keyframes: nada que apagar bajo movimiento
+ * reducido. NO se apila a 390: la comparación es el contenido y una dona
+ * encima de otra la destruye. A 390 quedan ~139 px por anillo, de sobra.
+ */
+const R = 40;
+const CIRC = 2 * Math.PI * R;
+const ANILLOS = [
+  { id: "hoy", titulo: "Hoy", horas: 10 },
+  { id: "bot", titulo: "Con el bot", horas: 24 },
+];
+
+function RelojDelDomingo() {
+  return (
+    <div className="rounded-2xl border border-line bg-surface/70 p-7">
+      <h3 className="font-display text-xl text-ink">Las horas en que tu WhatsApp contesta</h3>
+      <div className="mt-6 grid grid-cols-2 gap-4">
+        {ANILLOS.map((a) => {
+          const arco = (a.horas / 24) * CIRC;
+          return (
+            <div key={a.id}>
+              <svg
+                viewBox="0 0 100 100"
+                className="w-full"
+                role="img"
+                aria-label={`${a.titulo}: contesta ${a.horas} de 24 horas`}
+              >
+                <defs>
+                  <linearGradient id={`reloj-${a.id}`} x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#985C3E" />
+                    <stop offset="100%" stopColor="#C0763B" />
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r={R} fill="none" stroke="#E4D8CB" strokeWidth="11" />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r={R}
+                  fill="none"
+                  stroke={`url(#reloj-${a.id})`}
+                  strokeWidth="11"
+                  strokeDasharray={`${arco} ${CIRC - arco}`}
+                  transform="rotate(-90 50 50)"
+                />
+                <text
+                  x="50"
+                  y="50"
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fontSize="19"
+                  className="fill-ink font-mono"
+                >
+                  {a.horas} h
+                </text>
+              </svg>
+              <p className="mt-2 text-center font-mono text-[11px] uppercase tracking-[0.12em] text-accent-ink">
+                {a.titulo}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+        Ejemplo · mostrador de 8 a 6
+      </p>
+    </div>
+  );
+}
 
 const FAQS = [
   {
@@ -114,11 +204,11 @@ const FAQS = [
   },
   {
     q: "¿Tengo que cambiar de número?",
-    a: "No. Se conecta tu número actual de WhatsApp Business. Sigue siendo tuyo y sigues pudiendo escribir desde el teléfono.",
+    a: "No. Se conecta tu número actual de WhatsApp Business: sigue siendo tuyo y sigues escribiendo desde el teléfono.",
   },
   {
     q: "¿Cuánto cuestan las conversaciones?",
-    a: "Eso lo cobra Meta directamente a tu cuenta, con tu propio medio de pago. Yo cobro por construirlo y mantenerlo, no por las conversaciones. Te lo digo desde el principio para que no aparezca como sorpresa después.",
+    a: "Eso lo cobra Meta directamente a tu cuenta, con tu propio medio de pago. Yo cobro por construirlo y mantenerlo, no por las conversaciones.",
   },
   {
     q: "¿En cuánto tiempo queda funcionando?",
@@ -183,9 +273,9 @@ export default function ChatbotWhatsappPage() {
               <span className="block text-metal">responde, agenda y vende</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Colombia es el país que más usa WhatsApp en el mundo, y aquí la gente prefiere
-              escribirle a un negocio antes que llamar o llenar un formulario. El que contesta
-              primero, vende. Un chatbot hace que ese primero seas tú, a cualquier hora.
+              Aquí la gente le escribe a un negocio antes que llamarlo o llenarle un
+              formulario. El que contesta primero, vende: un chatbot hace que ese primero seas
+              tú, a cualquier hora.
             </p>
           </Reveal>
 
@@ -218,9 +308,9 @@ export default function ChatbotWhatsappPage() {
                 <span className="text-metal"> Yo conecto directo.</span>
               </h2>
               <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                La mayoría de agencias en Colombia no está conectada a Meta: te revenden el
-                servicio de un tercero. Si ese tercero sube el precio, cambia las reglas o cierra,
-                tú quedas colgado y ellos no pueden hacer nada.
+                La mayoría de agencias en Colombia no está conectada a Meta: te revende el
+                servicio de un tercero. Si ese tercero sube el precio o cierra, quedas colgado y
+                ellos no pueden hacer nada.
               </p>
               <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
                 <strong className="text-ink">
@@ -250,6 +340,9 @@ export default function ChatbotWhatsappPage() {
               </Reveal>
             ))}
           </div>
+          <Reveal delay={160} className="mx-auto mt-5 block max-w-lg">
+            <RelojDelDomingo />
+          </Reveal>
         </section>
 
         {/* ── Qué se puede automatizar · precios ──────────────────────── */}
@@ -260,21 +353,20 @@ export default function ChatbotWhatsappPage() {
               Qué se puede automatizar
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Precios de referencia del proyecto. Puedes empezar por lo más simple y crecer
-              después, sin rehacer lo hecho.
-            </p>
-            <p className="mt-3 max-w-2xl font-body text-base leading-relaxed text-ink-soft">
-              Aparte de esto, Meta cobra por su cuenta cada conversación de la API. Ese cobro no
-              entra acá y conviene tenerlo claro antes de firmar: está desglosado en{" "}
-              <Link
-                href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia"
-                className="text-primary-dark underline underline-offset-4"
-              >
-                cuánto cuesta un chatbot de WhatsApp en Colombia
-              </Link>
-              .
+              Precios de referencia. Puedes empezar por lo más simple y crecer después, sin
+              rehacer lo hecho.
             </p>
           </Reveal>
+
+          {/* Así suena, con las palabras exactas. La última burbuja no es del
+              bot: es el traspaso a una persona, que es lo que quita el miedo
+              a comprar. Trae escalonado propio; no va dentro de otro Reveal. */}
+          <HiloWhatsApp
+            className="mx-auto mt-10 max-w-md"
+            negocio="Salón de ejemplo"
+            iniciales="SE"
+            mensajes={HILO}
+          />
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {TIPOS.map((t, i) => {
@@ -301,14 +393,14 @@ export default function ChatbotWhatsappPage() {
           <Reveal>
             <div className="mt-6 rounded-2xl border border-line bg-background/40 p-7">
               <p className="font-body leading-relaxed text-ink-soft">
-                <strong className="text-ink">Una aclaración que hago siempre, de entrada:</strong>{" "}
-                el consumo de la API de WhatsApp lo cobra <strong className="text-ink">Meta</strong>{" "}
-                directamente a tu cuenta, con tu propio medio de pago. No está en estos precios
-                porque no lo facturo yo — depende de cuántas conversaciones tengas.
+                <strong className="text-ink">Una aclaración de entrada:</strong> el consumo de la
+                API lo cobra <strong className="text-ink">Meta</strong> directamente a tu cuenta,
+                con tu propio medio de pago. No está en estos precios porque no lo facturo yo:
+                depende de cuántas conversaciones tengas.
               </p>
               <p className="mt-4 font-body leading-relaxed text-ink-soft">
                 Y el plan de mantenimiento va aparte, desde{" "}
-                <strong className="text-ink">${money(A_PRICES.mantenimiento.basico)} al mes</strong>.
+                <strong className="text-ink">{money(A_PRICES.mantenimiento.basico)} al mes</strong>.
                 Sin plan, si expira el token de Meta o rechazan una plantilla, la automatización
                 deja de responder y nadie se entera.
               </p>
@@ -316,44 +408,39 @@ export default function ChatbotWhatsappPage() {
           </Reveal>
         </section>
 
-        {/* ── Qué incluye ────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Qué incluye, en cualquiera de los cinco
-              </h2>
-              <ul className="mt-8 grid gap-3">
-                {INCLUYE.map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+        {/* ── Qué incluye · cómo se hace ─────────────────────────────── */}
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+          <Reveal>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Qué incluye, en cualquiera de los cinco
+            </h2>
+            <ul className="mt-8 grid gap-3 md:grid-cols-2 md:gap-x-8">
+              {INCLUYE.map((x) => (
+                <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
+                  <Check className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                  <span>{x}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
-              <ol className="mt-8 grid gap-6">
-                {PROCESO.map((p) => (
-                  <li key={p.n} className="flex gap-4">
-                    <span className="font-mono text-sm text-accent">{p.n}</span>
-                    <span>
-                      <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                      <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                        {p.d}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
-                <Clock className="h-4 w-4 text-accent" />
-                De 1 a 5 semanas, según lo que necesites
-              </p>
-            </Reveal>
-          </div>
+          <Reveal delay={120}>
+            <h2 className="mt-14 font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
+            {/* El tramo punteado dice lo que nadie pregunta y todo el mundo
+                asume: el reloj no arranca al aceptar la propuesta. */}
+            <RailPlazo
+              className="mt-8"
+              previo={{
+                etiqueta: "Antes del paso 01",
+                texto: "Tu número de WhatsApp Business y una semana de chats. El reloj no ha arrancado.",
+              }}
+              hitos={PROCESO}
+            />
+            <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
+              <Clock className="h-4 w-4 text-accent" aria-hidden="true" />
+              De 1 a 5 semanas, según lo que necesites
+            </p>
+          </Reveal>
         </section>
 
         {/* ── Preguntas ──────────────────────────────────────────────── */}
@@ -376,8 +463,8 @@ export default function ChatbotWhatsappPage() {
               Cuéntame qué te preguntan todo el día
             </h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              Veinte minutos bastan para saber si esto te sirve, cuánto costaría y en cuánto
-              quedaría funcionando. Si no te sirve, te lo digo.
+              Veinte minutos bastan para saber si te sirve, cuánto costaría y en cuánto quedaría
+              funcionando. Si no te sirve, te lo digo.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
@@ -390,32 +477,21 @@ export default function ChatbotWhatsappPage() {
               </Button>
             </div>
             <p className="mx-auto mt-8 max-w-xl font-body text-base leading-relaxed text-ink-soft">
-              ¿Todavía comparando presupuestos? Lee{" "}
+              ¿Comparando presupuestos? Está la cuenta en{" "}
               <Link
                 href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia"
                 className="text-primary-dark underline underline-offset-4"
               >
                 cuánto cuesta un chatbot de WhatsApp en Colombia
-              </Link>{" "}
-              y, si el chatbot va junto con la página,{" "}
-              <Link
-                href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
-                className="text-primary-dark underline underline-offset-4"
-              >
-                cuánto cuesta una página web en Colombia
               </Link>
-              .
-            </p>
-            <p className="mx-auto mt-5 max-w-xl font-body text-base leading-relaxed text-ink-soft">
-              El chatbot contesta; lo que le da algo que mostrar es la página. Si te falta,
-              está en{" "}
+              . El chatbot contesta; lo que le da algo que mostrar es la página, y eso es{" "}
               <Link
                 href="/servicios/diseno-de-paginas-web"
                 className="text-primary-dark underline underline-offset-4"
               >
                 diseño de páginas web
-              </Link>
-              , y si además vendes producto, en{" "}
+              </Link>{" "}
+              o, si vendes producto,{" "}
               <Link
                 href="/servicios/tiendas-virtuales"
                 className="text-primary-dark underline underline-offset-4"

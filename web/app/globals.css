@@ -514,3 +514,23 @@
     animation: spin 1.2s linear infinite !important;
   }
 }
+
+/* ==========================================================================
+   4. BIBLIOTECA DE VISUALES (components/visuales/)
+   El ÚNICO fotograma que necesitó la biblioteca entera. Todo lo demás se
+   resuelve con <Reveal> o con transiciones de estado, que ya están guardadas
+   bajo movimiento reducido más arriba.
+   ========================================================================== */
+
+/* Los tres puntos de «escribiendo…» del hilo de WhatsApp. El retardo de cada
+   punto lo pone el componente (0 / 150 / 300 ms).
+   Movimiento reducido: el indicador completo lleva `motion-reduce:hidden`, así
+   que no queda un punto congelado a media opacidad — no queda nada. */
+@keyframes punto-escribe {
+  0%, 60%, 100% { opacity: 0.3; }
+  30% { opacity: 1; }
+}
+
+.punto-escribe {
+  animation: punto-escribe 1.2s ease-in-out infinite;
+}

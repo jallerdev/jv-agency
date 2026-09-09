@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   ArrowRight,
   Building2,
-  Check,
   Clock,
   ExternalLink,
   Hotel,
@@ -22,6 +21,10 @@ import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BotonCuentame } from "@/components/Cuentame";
+import { RailPlazo } from "@/components/visuales/RailPlazo";
+import { ListaAcopio } from "@/components/visuales/ListaAcopio";
+import { PanelAutonomia } from "@/components/visuales/PanelAutonomia";
+import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
 import { A_PRICES, money } from "@/lib/quote";
 
@@ -53,6 +56,12 @@ import { A_PRICES, money } from "@/lib/quote";
  * porque es lo que la gente escribe; «Cartagena de Indias», «Bolívar» y
  * «Colombia» viven en el cuerpo y en el schema para desambiguar de Cartagena,
  * Región de Murcia, que pelea la misma cadena.
+ *
+ * ESQUELETO COMPARTIDO con Barranquilla y Bogotá. Las tres van en el mismo
+ * orden y con el mismo ritmo de bandas —hero canvas · contexto y para-quién en
+ * banda · PRECIOS en canvas para que destaquen · cómo se hace y desde dónde en
+ * banda · prueba de trabajo en canvas · preguntas en banda · cierre en
+ * canvas—. Lo que cambia entre hermanas es el material, no la estructura.
  */
 export const metadata: Metadata = {
   title: "Diseño de páginas web en Cartagena de Indias | JV Agencia",
@@ -76,17 +85,17 @@ export const metadata: Metadata = {
 const CIFRAS = [
   {
     dato: "43.044",
-    de: "negocios censados en Cartagena, y 4.813 más en Turbaco",
+    de: "negocios censados en Cartagena, más 4.813 en Turbaco",
     fuente: "Censo empresarial de la Cámara de Comercio de Cartagena, abril de 2026",
   },
   {
     dato: "34.531",
-    de: "empresas activas en la ciudad, contra 32.702 el año anterior. Cerca de nueve de cada diez son microempresas",
+    de: "empresas activas, contra 32.702 el año anterior. Casi nueve de cada diez son microempresas",
     fuente: "Cartagena Cómo Vamos, con corte del Registro Mercantil al 31 de diciembre de 2025",
   },
   {
     dato: "13%",
-    de: "del tejido empresarial vive de alojamiento y comida. El comercio, que es el más grande, reúne 10.878 empresas: el 32%",
+    de: "del tejido vive de alojamiento y comida. El comercio, el más grande, reúne 10.878 empresas: el 32%",
     fuente: "Cartagena Cómo Vamos, misma medición",
   },
 ];
@@ -100,35 +109,35 @@ const PARA_QUIEN = [
   {
     icon: Hotel,
     titulo: "Hoteles pequeños y hostales del Centro y Getsemaní",
-    desc: "Vives de Booking y de Airbnb, y les pagas comisión por cada noche. Una página propia no te saca de esas plataformas: te deja una puerta más, la que te busca por tu nombre y no cobra comisión.",
+    desc: "Vives de Booking y de Airbnb, y les pagas comisión por cada noche. Una página propia no te saca de ahí: te deja una puerta más, la que no cobra comisión.",
   },
   {
     icon: UtensilsCrossed,
     titulo: "Restaurantes y bares",
-    desc: "El que va caminando por la Calle del Arsenal busca tres cosas en el teléfono: carta, horario y cómo llegar. Si tu menú es la foto de una foto, se va al de al lado.",
+    desc: "El que va por la Calle del Arsenal busca tres cosas en el teléfono: carta, horario y cómo llegar. Si tu menú es la foto de una foto, se va al de al lado.",
     link: { href: "/blog/que-debe-tener-la-pagina-web-de-un-restaurante", label: "Qué debe tener la web de un restaurante" },
   },
   {
     icon: Ship,
     titulo: "Agencias de turismo y operadores de plan",
-    desc: "Islas del Rosario, Playa Blanca, city tour, chiva. Te escriben una semana antes desde Bogotá o desde Buenos Aires y comparan tres números de WhatsApp a la vez. Gana el que contesta con precio, foto y qué pasa si llueve.",
+    desc: "Islas del Rosario, Playa Blanca, chiva. Te escriben una semana antes y comparan tres números de WhatsApp a la vez. Gana el que contesta con precio, foto y qué pasa si llueve.",
     link: { href: "/servicios/chatbot-whatsapp", label: "Chatbot de WhatsApp que contesta solo" },
   },
   {
     icon: Building2,
     titulo: "Inmobiliarias y arriendo por días",
-    desc: "Bocagrande, Castillogrande, Manga, Pie de la Popa. El que va a girar un depósito por un apartamento que no ha visto necesita comprobar que existes en algo más que un perfil con quince fotos.",
+    desc: "Bocagrande, Castillogrande, Manga, Pie de la Popa. El que gira un depósito por un apartamento que no ha visto necesita comprobar que existes en algo más que un perfil con quince fotos.",
     link: { href: "/blog/pagina-web-o-solo-instagram", label: "¿Página web o solo Instagram?" },
   },
   {
     icon: Stethoscope,
     titulo: "Consultorios, odontología y estética",
-    desc: "Acá el paciente averigua el nombre del profesional antes de pedir la cita. Si lo que encuentra es un perfil sin horarios, sin dirección y sin una línea que diga quién eres, duda y sigue buscando.",
+    desc: "El paciente averigua el nombre del profesional antes de pedir la cita. Si encuentra un perfil sin horarios y sin dirección, duda y sigue buscando.",
   },
   {
     icon: Store,
     titulo: "Negocios de Turbaco, Arjona y la zona",
-    desc: "Los 4.813 negocios que el censo contó en Turbaco no dejan de competir por estar fuera del distrito. Ferreterías, veterinarias, colegios, talleres, salones. A esos les queda más cerca que a nadie.",
+    desc: "Los 4.813 negocios que el censo contó en Turbaco compiten igual: ferreterías, veterinarias, colegios, talleres, salones. A esos les queda más cerca que a nadie.",
   },
 ];
 
@@ -142,14 +151,14 @@ const PRECIOS = [
     q: "Página web",
     desde: money(850000),
     plazo: "5 días",
-    d: "Una página que carga rápido, se ve seria en el teléfono y dice en diez segundos qué haces y cómo te contactan. Con tu dominio y tu correo propio.",
+    d: "Carga rápido, se ve seria en el teléfono y dice en diez segundos qué haces. Con tu dominio y tu correo.",
     href: "/servicios/diseno-de-paginas-web",
   },
   {
     q: "Tienda online",
     desde: money(2500000),
     plazo: "3 semanas",
-    d: "La tienda virtual completa: catálogo con inventario, carrito, cuentas de cliente, pagos en línea y cotización de envíos. Lo mismo que hice en Bloomrose.",
+    d: "Catálogo con inventario, carrito, cuentas de cliente, pagos en línea y cotización de envíos. Como Bloomrose.",
     href: "/servicios/tiendas-virtuales",
   },
   {
@@ -163,76 +172,70 @@ const PRECIOS = [
     q: "Auditoría SEO",
     desde: money(390000),
     plazo: "5 días",
-    d: "Por qué no apareces cuando te buscan, qué se arregla primero y qué se puede medir. Sirve igual si la página te la hizo otro.",
+    d: "Por qué no apareces y qué se arregla primero. Sirve igual si la página te la hizo otro.",
     href: "/servicios/posicionamiento-seo",
   },
   {
     q: "SEO local, mensual",
     desde: `${money(650000)}/mes`,
     plazo: "trabajo continuo",
-    d: "El trabajo de aparecer en búsquedas con ciudad: «funeraria en Cartagena», «avisos publicitarios en Cartagena», lo que sea que vendas.",
+    d: "Aparecer en búsquedas con ciudad: «funeraria en Cartagena», «avisos publicitarios en Cartagena».",
     href: "/servicios/posicionamiento-seo",
   },
   {
     q: "Software a la medida",
     desde: "Según el alcance",
     plazo: "se define al cotizar",
-    d: "Cuando el problema no es una página sino un proceso: reservas, inventario, historia clínica, lo que te come el día.",
+    d: "Cuando el problema no es una página sino un proceso: reservas, inventario, historia clínica.",
     href: "/servicios/software-a-la-medida",
   },
 ];
 
-const COMO_TRABAJO = [
-  {
-    n: "01",
-    t: "Hablamos por WhatsApp",
-    d: "Me cuentas qué vendes y a quién. En veinte minutos sé si esto te sirve, y si no te sirve te lo digo.",
-  },
-  {
-    n: "02",
-    t: "Te mando la propuesta con el precio adentro",
-    d: "Escrita, con lo que incluye y lo que no. No hay «desde» que después crece cuando ya no te puedes devolver.",
-  },
-  {
-    n: "03",
-    t: "La construyo yo",
-    d: "No hay ejecutivo de cuentas ni un equipo al que le pasan tu proyecto. Hablas con la misma persona que escribe el código.",
-  },
-  {
-    n: "04",
-    t: "Te la entrego y te enseño a moverla",
-    d: "Cambiar la carta, subir una foto, agregar un servicio. Lo que el dueño sí quiere poder hacer sin llamar a nadie.",
-  },
+/** Los cinco días. El tramo previo lo dibuja el rail, no lo cuenta el texto. */
+const DIAS = [
+  { etiqueta: "Día 1", texto: "Estructura: qué ve tu cliente y en qué orden." },
+  { etiqueta: "Día 2 y 3", texto: "Diseño y programación, al mismo tiempo." },
+  { etiqueta: "Día 4", texto: "La revisas conmigo, en vivo, y ajustamos." },
+  { etiqueta: "Día 5", texto: "Sale al aire y te enseño a manejarla." },
+];
+
+/** Enlaces del cierre. Fila de destinos tocables, no prosa con subrayados. */
+const OTRAS_PAGINAS = [
+  { href: "/diseno-de-paginas-web-en-barranquilla", label: "Diseño web en Barranquilla" },
+  { href: "/diseno-de-paginas-web-en-bogota", label: "Diseño web en Bogotá" },
+  { href: "/sectores/salones-y-spas", label: "Salones y spas" },
+  { href: "/sectores/clinicas-y-consultorios", label: "Clínicas y consultorios" },
+  { href: "/servicios/chatbot-whatsapp", label: "Chatbot de WhatsApp" },
 ];
 
 const FAQS = [
   {
     q: "¿Tienes oficina en Cartagena?",
-    a: "No, y no la voy a inventar. Vivo en Turbaco, a 20 kilómetros. Casi todo se hace por WhatsApp y llamada; si necesitas que nos veamos la cara, nos vemos, porque es un viaje corto y no un vuelo.",
+    a: "No, y no la voy a inventar. Vivo en Turbaco, a 20 kilómetros. Casi todo se hace por WhatsApp y llamada; si necesitas que nos veamos la cara, nos vemos: es un viaje corto, no un vuelo.",
   },
   {
     q: "Mi negocio está en Turbaco, Arjona o Santa Rosa, no en Cartagena. ¿Igual me sirve?",
-    a: "Igual, y es donde vivo. El censo de la Cámara de Comercio cuenta a Cartagena y a Turbaco en la misma medición, y a Google le da lo mismo el límite del distrito: tu cliente busca «lo que vendes» más el nombre del pueblo, y ahí es donde hay que aparecer.",
+    a: "Igual, y es donde vivo. A Google le da lo mismo el límite del distrito: tu cliente busca «lo que vendes» más el nombre del pueblo, y ahí es donde hay que aparecer.",
   },
   {
     q: "Vivo de Booking y de Airbnb. ¿Para qué quiero página propia?",
-    a: "Para tener una puerta que no cobre comisión. La plataforma te trae al que no te conocía y te cobra por cada noche; tu página es para el que te recomendaron, para el que se quiere volver a hospedar y para el que te buscó por el nombre. No compiten, hacen cosas distintas.",
+    a: "Para tener una puerta que no cobre comisión. La plataforma te trae al que no te conocía; tu página es para el que te recomendaron y para el que te buscó por el nombre. No compiten.",
   },
   {
     q: "¿Me pones de primero en Google cuando busquen «páginas web en Cartagena»?",
-    a: "No te lo prometo, y desconfía del que te lo prometa. Lo que sí te digo es cuándo se empieza a ver: los primeros movimientos, entre el mes 3 y el 6. Y antes de gastar en eso, hay algo gratis que pesa más: tener la ficha de Google Business con reseñas de verdad.",
+    a: "No te lo prometo, y desconfía del que te lo prometa. Lo que sí te digo es cuándo se empieza a ver: los primeros movimientos, entre el mes 3 y el 6. Y antes de gastar en eso hay algo gratis que pesa más: la ficha de Google Business con reseñas de verdad.",
   },
   {
     q: "Ya me hicieron una página y no aparece por ningún lado. ¿La rehacemos?",
-    a: "Primero la reviso. Muchas veces no es la página: es que en ninguna parte de ella dice «Cartagena», nunca se le avisó a Google que existe y no hay una sola reseña. La auditoría cuesta desde " + money(390000) + " y en 5 días te digo qué tiene. Si lo que conviene es rehacerla, te lo digo, y si no, también.",
+    a: "Primero la reviso. Muchas veces no es la página: es que en ninguna parte dice «Cartagena», nunca se le avisó a Google que existe y no hay una sola reseña. La auditoría cuesta desde " + money(390000) + " y en 5 días te digo qué tiene. Si conviene rehacerla te lo digo, y si no, también.",
   },
   {
     q: "La carta me cambia según lo que llegue de Bazurto. ¿Toca llamarte cada vez?",
-    a: "No. Te dejo la carta editable para que la cambies tú desde el teléfono y te enseño cómo el día de la entrega. Es de las poquísimas cosas que el dueño sí quiere tocar, y cobrarte por cada cambio de precio sería un mal negocio para los dos.",
+    a: "No. La carta queda editable y te enseño a cambiarla el día de la entrega, desde el teléfono. Cobrarte por cada cambio de precio sería un mal negocio para los dos.",
   },
   {
     q: "Solo contesto por WhatsApp. ¿La página me sirve de algo?",
-    a: "Sí, y no pelea con el WhatsApp: lo alimenta. La página trabaja de noche y los domingos, contesta las tres preguntas de siempre y te manda al chat gente que ya sabe qué vendes y cuánto vale. Si te escriben tanto que no alcanzas, el paso siguiente es un chatbot.",
+    a: "Sí, y no pelea con el WhatsApp: lo alimenta. La página trabaja de noche y los domingos, contesta las tres preguntas de siempre y te manda al chat gente que ya sabe qué vendes y cuánto vale.",
   },
 ];
 
@@ -329,11 +332,11 @@ export default function DisenoPaginasWebCartagenaPage() {
       />
       <Header />
       <main>
-        {/* ── Encabezado ─────────────────────────────────────────────── */}
+        {/* ── Encabezado · canvas ────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
           <Reveal>
             <Badge>
-              <MapPin className="h-3.5 w-3.5" />
+              <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
               Cartagena de Indias · Bolívar
             </Badge>
             <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
@@ -341,13 +344,12 @@ export default function DisenoPaginasWebCartagenaPage() {
               <span className="block text-metal">y vivo a 20 kilómetros de allí</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Turbaco queda a 20 kilómetros de Cartagena, subiendo. Ahí vivo, ahí trabajo y de ahí
-              salgo cuando toca vernos. No vengo de otra ciudad a entender el mercado de Cartagena:
-              es donde compro el pan.
+              Vivo y trabajo en Turbaco, subiendo. No vengo de otra ciudad a entender el mercado de
+              Cartagena: es donde compro el pan.
             </p>
             <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Diseño y programo yo mismo, sin equipo intermedio. Una página web desde{" "}
-              <strong className="text-ink">{money(850000)}</strong>, entregada en{" "}
+              Diseño y programo yo mismo, sin equipo intermedio. Desde{" "}
+              <strong className="text-ink">{money(850000)}</strong>, en{" "}
               <strong className="text-ink">5 días</strong>.
             </p>
           </Reveal>
@@ -356,7 +358,7 @@ export default function DisenoPaginasWebCartagenaPage() {
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
                 <Link href="/#contacto">
-                  Agenda una llamada <ArrowRight className="h-5 w-5" />
+                  Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
@@ -366,25 +368,25 @@ export default function DisenoPaginasWebCartagenaPage() {
           </Reveal>
         </section>
 
-        {/* ── La ciudad, con cifras que se pueden comprobar ───────────── */}
+        {/* ── La ciudad, con cifras comprobables · banda ─────────────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Cómo es de verdad el comercio de esta ciudad
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              No son cifras de relleno: son las mediciones públicas de la Cámara de Comercio y del
-              Registro Mercantil, y explican a quién le hablo.
+              Mediciones públicas de la Cámara de Comercio y del Registro Mercantil. Explican a
+              quién le hablo.
             </p>
           </Reveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {CIFRAS.map((c, i) => (
-              <Reveal key={c.dato} delay={i * 80}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+              <Reveal key={c.dato} index={i}>
+                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
                   <p className="font-display text-4xl text-primary-dark">{c.dato}</p>
                   <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">{c.de}</p>
-                  <p className="mt-5 border-t border-line pt-4 font-mono text-[11px] leading-relaxed text-ink-soft/80">
+                  <p className="mt-5 border-t border-line pt-4 font-mono text-[11px] leading-relaxed text-ink-soft">
                     {c.fuente}
                   </p>
                 </article>
@@ -393,19 +395,15 @@ export default function DisenoPaginasWebCartagenaPage() {
           </div>
 
           <Reveal>
-            <div className="mt-6 rounded-2xl border border-line bg-background/40 p-7">
-              <p className="font-body text-lg leading-relaxed text-ink-soft">
-                Ese 13% son los hoteles chiquitos de San Diego, los hostales de Getsemaní y los
-                restaurantes de barrio. Casi ninguno tiene página propia: viven de un perfil de
-                Instagram y de un DM que a las nueve de la noche nadie alcanza a contestar. Y de
-                cada diez empresas de Cartagena, casi nueve son microempresas —es decir, casi todas
-                son negocios donde el dueño también atiende—.
-              </p>
-            </div>
+            <p className="mt-6 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+              Ese 13% son los hoteles chiquitos de San Diego, los hostales de Getsemaní y los
+              restaurantes de barrio. Casi ninguno tiene página propia: viven de un perfil de
+              Instagram y de un mensaje que a las nueve de la noche nadie alcanza a contestar.
+            </p>
           </Reveal>
         </section>
 
-        {/* ── Para quién es ──────────────────────────────────────────── */}
+        {/* ── Para quién es · banda (mismo capítulo que las cifras) ──── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -416,19 +414,20 @@ export default function DisenoPaginasWebCartagenaPage() {
             {PARA_QUIEN.map((p, i) => {
               const Icon = p.icon;
               return (
-                <Reveal key={p.titulo} delay={i * 70}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                <Reveal key={p.titulo} index={i}>
+                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
-                      <Icon className="h-6 w-6" />
+                      <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
                     <h3 className="mt-5 font-display text-xl text-ink">{p.titulo}</h3>
                     <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                     {p.link && (
                       <Link
                         href={p.link.href}
-                        className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                        className="mt-4 inline-flex min-h-11 items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                       >
-                        {p.link.label} <ArrowRight className="h-4 w-4" />
+                        {p.link.label}{" "}
+                        <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                       </Link>
                     )}
                   </article>
@@ -438,7 +437,7 @@ export default function DisenoPaginasWebCartagenaPage() {
           </div>
         </section>
 
-        {/* ── Precios ────────────────────────────────────────────────── */}
+        {/* ── Precios · CANVAS a propósito: son la respuesta ─────────── */}
         <section id="precios" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-12 md:px-8">
           <Reveal>
             <Badge>Precios</Badge>
@@ -446,16 +445,15 @@ export default function DisenoPaginasWebCartagenaPage() {
               Lo que cuesta, sin que tengas que escribir para preguntar
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Publico mis precios porque me parece raro tener que mandar un correo para saber
-              cuánto vale algo. Son precios de partida reales: de ahí para arriba según lo que
-              necesites, y te lo digo antes de empezar, no en la factura.
+              Precios de partida reales. De ahí para arriba según lo que necesites, y te lo digo
+              antes de empezar, no en la factura.
             </p>
           </Reveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
-              <Reveal key={p.q} delay={i * 70}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+              <Reveal key={p.q} index={i}>
+                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
                   <h3 className="font-display text-xl text-ink">{p.q}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.d}
@@ -463,17 +461,18 @@ export default function DisenoPaginasWebCartagenaPage() {
                   {p.href && (
                     <Link
                       href={p.href}
-                      className="mt-4 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                      className="mt-3 inline-flex min-h-11 w-fit items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                     >
-                      Ver el detalle <ArrowRight className="h-4 w-4" />
+                      Ver el detalle{" "}
+                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                     </Link>
                   )}
-                  <div className="mt-5 border-t border-line pt-4">
+                  <div className="mt-4 border-t border-line pt-4">
                     <p className="font-mono text-lg text-primary-dark">
                       {p.desde === "Según el alcance" ? p.desde : `desde ${p.desde}`}
                     </p>
                     <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
-                      <Clock className="h-4 w-4 text-accent" />
+                      <Clock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                       {p.plazo}
                     </p>
                   </div>
@@ -483,86 +482,162 @@ export default function DisenoPaginasWebCartagenaPage() {
           </div>
 
           <Reveal>
-            <div className="mt-6 grid gap-4 rounded-2xl border border-line bg-background/40 p-7 font-body leading-relaxed text-ink-soft">
+            <div className="mt-6 grid gap-4 rounded-2xl border border-line bg-band/60 p-6 font-body leading-relaxed text-ink-soft sm:p-7">
               <p>
                 <strong className="text-ink">La renovación anual cuesta {money(290000)}</strong> y
-                cubre el dominio, el alojamiento y que la página siga actualizada y en pie. Lo digo
-                acá arriba y no en una nota al pie, porque es el costo que a todo el mundo se le
-                aparece de sorpresa al año siguiente.
+                cubre dominio, alojamiento y que la página siga actualizada y en pie. Lo digo acá
+                arriba y no en una nota al pie: es el costo que a todo el mundo se le aparece de
+                sorpresa al año siguiente.
               </p>
               <p>
-                Sobre el posicionamiento: los primeros movimientos se ven{" "}
+                Los primeros movimientos de posicionamiento se ven{" "}
                 <strong className="text-ink">entre el mes 3 y el mes 6</strong>. Nadie te puede
-                prometer el primer puesto en Google, ni yo tampoco, y el que te lo prometa te está
-                vendiendo otra cosa.
+                prometer el primer puesto en Google, ni yo tampoco.
               </p>
-              <p>
-                Si quieres el desglose completo, lo escribí largo:{" "}
+              <p className="text-sm">
+                El desglose largo:{" "}
                 <Link
                   href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
-                  className="font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  className="font-semibold text-primary-dark underline underline-offset-4"
                 >
-                  cuánto cuesta una página web en Colombia
+                  cuánto cuesta una página web
+                </Link>
+                ,{" "}
+                <Link
+                  href="/blog/cuanto-se-demora-hacer-una-pagina-web"
+                  className="font-semibold text-primary-dark underline underline-offset-4"
+                >
+                  cuánto se demora
                 </Link>{" "}
                 y{" "}
                 <Link
-                  href="/blog/cuanto-se-demora-hacer-una-pagina-web"
-                  className="font-semibold text-primary-dark underline-offset-4 hover:underline"
-                >
-                  cuánto se demora hacerla
-                </Link>
-                . Y si lo que estás mirando es el trabajo mensual de posicionamiento,{" "}
-                <Link
                   href="/blog/cuanto-cuesta-el-seo-en-colombia"
-                  className="font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  className="font-semibold text-primary-dark underline underline-offset-4"
                 >
-                  cuánto cuesta el SEO en Colombia
-                </Link>{" "}
-                explica por qué existe un piso de precio.
+                  cuánto cuesta el SEO
+                </Link>
+                .
               </p>
             </div>
           </Reveal>
         </section>
 
-        {/* ── El trabajo propio de esta zona ──────────────────────────── */}
+        {/* ── Cómo se hace · banda. El rail cuenta los días y el tramo
+             punteado dice que el reloj arranca con TU material, que es la
+             condición que más discusiones ahorra después. ─────────────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+          <Reveal>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Cómo se hace, y cuándo arranca el reloj
+            </h2>
+            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+              Antes del día 1 hablamos veinte minutos y te mando la propuesta escrita, con el
+              precio adentro. No hay ejecutivo de cuentas: hablas con el que escribe el código.
+            </p>
+          </Reveal>
+
+          <Reveal>
+            <RailPlazo
+              className="mt-10"
+              previo={{
+                etiqueta: "Antes del día 1",
+                texto: "Tus textos, tus fotos y tus precios. El reloj no ha arrancado.",
+              }}
+              hitos={DIAS}
+            />
+          </Reveal>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-2 lg:items-start">
+            <Reveal>
+              <ListaAcopio
+                almacen="acopio-cartagena"
+                titulo="Lo que tienes que mandarme para que arranque"
+                items={[
+                  "Tu logo, en el mejor archivo que tengas",
+                  "Los textos, o el visto bueno para que los escriba yo",
+                  "Fotos del sitio, del equipo y del trabajo hecho",
+                  "Precios o carta, si los vas a publicar",
+                  "Horarios reales, sábados y festivos incluidos",
+                  "Accesos al dominio y al correo, si ya los tienes",
+                ]}
+              />
+            </Reveal>
+
+            <Reveal delay={120}>
+              <PanelAutonomia
+                titulo="Y esto lo cambias tú, sin escribirme"
+                precio={{ etiqueta: "Cambiar un precio de la carta", campo: "$ 38.000", boton: "Guardar" }}
+                archivo={{ etiqueta: "Subir la foto del plato", nombre: "cazuela-de-mariscos.jpg", nota: "Listo" }}
+                estado={{ etiqueta: "Marcar una reserva", elegida: "Confirmada", nota: "El cliente recibe el aviso" }}
+              />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── Desde dónde · banda (mismo capítulo que «cómo se hace») ── */}
+        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+          <Reveal>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Qué significa que esté en Turbaco y no en Bocagrande
+            </h2>
+            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+              Cubro Cartagena de Indias, Turbaco, Arjona, Turbaná y el resto de Bolívar. Hablas
+              siempre conmigo, de la primera llamada a la entrega, y cuando escribas para reclamar
+              va a contestar el que hizo el trabajo.
+            </p>
+          </Reveal>
+
+          <Reveal>
+            <RailDistancia
+              className="mt-10"
+              paradas={[
+                { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "Aquí vivo y aquí trabajo." },
+                { lugar: "Cartagena de Indias", distancia: "≈ 20 km", nota: "Nos vemos si el proyecto lo pide." },
+                { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "También trabajo allá, a distancia." },
+                { lugar: "El resto del país", distancia: "a distancia", nota: "Y lo digo yo primero." },
+              ]}
+            />
+          </Reveal>
+        </section>
+
+        {/* ── El trabajo propio de esta zona · canvas ────────────────── */}
+        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Lo que he hecho de este lado
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
               Acá no hay logos de relleno. Digo cuál está en línea y se puede abrir, y cuál lo
-              construí por iniciativa propia y todavía no tiene dominio conectado. Es la misma
-              diferencia que le exijo a cualquier portafolio antes de creerle.
+              construí por iniciativa propia.
             </p>
           </Reveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
-              <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-secondary/15 p-7">
+              <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-secondary/15 p-6 sm:p-7">
                 <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
                   En línea · Cartagena
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Bloomrose</h3>
                 <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
                   Tienda de bisutería y accesorios de Cartagena. La diseñé y la programé completa:
-                  catálogo con control de inventario, carrito, cuentas de cliente, pagos en línea y
-                  cotización de envíos. Es la que puedes abrir ahora mismo y comprobar sin
-                  pedirme permiso.
+                  catálogo con inventario, carrito, cuentas de cliente, pagos en línea y cotización
+                  de envíos. Es la que puedes abrir ahora mismo y comprobar.
                 </p>
                 <a
                   href="https://www.bloomroseaccesorios.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  className="mt-4 inline-flex min-h-11 w-fit items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
-                  bloomroseaccesorios.com <ExternalLink className="h-4 w-4" />
+                  bloomroseaccesorios.com{" "}
+                  <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
                 </a>
-                <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">
-                  Cómo se arma una así, qué trae por dentro y cuánto cuesta está en{" "}
+                <p className="mt-1 font-body text-sm leading-relaxed text-ink-soft">
+                  Cómo se arma una así está en{" "}
                   <Link
                     href="/servicios/tiendas-virtuales"
-                    className="font-semibold text-primary-dark underline-offset-4 hover:underline"
+                    className="font-semibold text-primary-dark underline underline-offset-4"
                   >
                     creación de tiendas virtuales
                   </Link>
@@ -572,44 +647,40 @@ export default function DisenoPaginasWebCartagenaPage() {
             </Reveal>
 
             <Reveal delay={80}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
                 <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                   Proyecto de estudio · Cartagena
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
                 <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
                   Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y
-                  experiencias de spa. Diseñé y construí la página completa por iniciativa propia,
-                  no me lo encargaron, y todavía no tiene dominio conectado. Por eso no hay enlace
-                  que abrir, y prefiero decírtelo a colgar una captura y llamarlo cliente.
+                  experiencias de spa. La construí por iniciativa propia, no me la encargaron, y
+                  todavía no tiene dominio conectado. Por eso no hay enlace que abrir: prefiero
+                  decírtelo a colgar una captura y llamarlo cliente.
                 </p>
               </article>
             </Reveal>
 
             <Reveal delay={160}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
                 <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                   Proyecto de estudio · Turbaco
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Animal Expert</h3>
                 <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Centro médico veterinario de Turbaco: consulta especializada, cirugía, rayos X,
-                  fisioterapia y vacunación, con agenda en línea. Mismo caso que el anterior:
-                  construido por iniciativa propia, en el pueblo donde vivo.
+                  Centro médico veterinario de Turbaco: consulta especializada, cirugía, rayos X y
+                  agenda en línea. Mismo caso que el anterior: por iniciativa propia, en el pueblo
+                  donde vivo.
                 </p>
               </article>
             </Reveal>
 
             {/* Nombra a Pixels Maker y a la Funeraria San Francisco de Asis con el
-
                 detalle del trabajo. Sin su autorizacion escrita eso no puede estar en
-
                 una pagina publica, asi que el bloque entero solo existe en desarrollo. */}
-
             {MOSTRAR_PENDIENTES && (
-
               <Reveal delay={240}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
                   <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                     Trabajo con negocios cartageneros
                   </span>
@@ -621,15 +692,12 @@ export default function DisenoPaginasWebCartagenaPage() {
                     búsqueda local pura: hacen letreros y avisos publicitarios, y cuando alguien
                     escribe «avisos publicitarios en Cartagena» no aparecen. A la funeraria le
                     entregué la página y el trabajo mensual para aparecer en «funeraria en Cartagena».
-                    Es exactamente el mismo trabajo que hace falta acá: decirle a Google de qué es tu
-                    negocio y en qué ciudad queda.
                   </p>
                   <Pendiente>[PENDIENTE: autorización de Pixels Maker y de la Funeraria San Francisco de Asís
                     para nombrarlos y mostrar el detalle del trabajo en una página pública. Hasta que
                     Luis la confirme, este bloque no se publica.]</Pendiente>
                 </article>
               </Reveal>
-
             )}
           </div>
 
@@ -638,7 +706,7 @@ export default function DisenoPaginasWebCartagenaPage() {
               Lo demás está en{" "}
               <Link
                 href="/#proyectos"
-                className="font-semibold text-primary-dark underline-offset-4 hover:underline"
+                className="font-semibold text-primary-dark underline underline-offset-4"
               >
                 el portafolio completo
               </Link>
@@ -647,68 +715,7 @@ export default function DisenoPaginasWebCartagenaPage() {
           </Reveal>
         </section>
 
-        {/* ── Cómo se trabaja desde Bolívar ──────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Qué significa que esté en Turbaco y no en Bocagrande
-              </h2>
-              <div className="mt-6 grid gap-4 font-body text-lg leading-relaxed text-ink-soft">
-                <p>
-                  No tengo local en Cartagena y no lo voy a fingir. El sitio lo dice desde el pie de
-                  página: Turbaco, Bolívar, Colombia.
-                </p>
-                <p>
-                  En la práctica cambia poco y cambia bien. Casi todo se hace por WhatsApp, que es
-                  como ya trabajas: me mandas las fotos, los precios y lo que quieres decir, y te
-                  voy mostrando avances. Pero si necesitas que nos sentemos con el papel encima,{" "}
-                  <strong className="text-ink">son 20 kilómetros</strong>, no un tiquete de avión.
-                </p>
-                <p>
-                  Y hay algo que ninguna agencia de otra ciudad te puede dar: cuando escribas para
-                  reclamar, va a contestar el que hizo el trabajo.
-                </p>
-              </div>
-              <ul className="mt-8 grid gap-3">
-                {[
-                  "Hablas siempre conmigo, de la primera llamada a la entrega",
-                  "Página web entregada en 5 días, con el precio dicho antes de empezar",
-                  "Nos vemos en persona en Cartagena o en Turbaco si el proyecto lo pide",
-                  "Cubro Cartagena de Indias, Turbaco, Arjona, Turbaná y el resto de Bolívar",
-                ].map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
-              <ol className="mt-8 grid gap-6">
-                {COMO_TRABAJO.map((p) => (
-                  <li key={p.n} className="flex gap-4">
-                    <span className="font-mono text-sm text-accent">{p.n}</span>
-                    <span>
-                      <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                      <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                        {p.d}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
-                <Clock className="h-4 w-4 text-accent" />
-                Una página web, en 5 días
-              </p>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ── Preguntas de acá ───────────────────────────────────────── */}
+        {/* ── Preguntas de acá · banda ───────────────────────────────── */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -717,8 +724,8 @@ export default function DisenoPaginasWebCartagenaPage() {
           </Reveal>
           <div className="mt-10 grid gap-4">
             {FAQS.map((f, i) => (
-              <Reveal key={f.q} delay={i * 60}>
-                <article className="rounded-2xl border border-line bg-surface/70 p-7">
+              <Reveal key={f.q} index={i}>
+                <article className="rounded-2xl border border-line bg-surface p-6 sm:p-7">
                   <h3 className="font-display text-xl text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                 </article>
@@ -727,70 +734,42 @@ export default function DisenoPaginasWebCartagenaPage() {
           </div>
         </section>
 
-        {/* ── Cierre ─────────────────────────────────────────────────── */}
+        {/* ── Cierre · canvas ────────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 py-16 text-center md:px-8 md:py-24">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Cuéntame qué vendes y en qué parte de Cartagena
             </h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              En veinte minutos sabemos si te sirve, cuánto costaría y en cuánto la tendrías. Si lo
-              que necesitas no es una página web, te lo digo y no te cobro por decírtelo.
+              En veinte minutos sabemos si te sirve, cuánto costaría y en cuánto la tendrías. Si no
+              es una página lo que necesitas, te lo digo y no te cobro por decírtelo.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
                 <Link href="/#contacto">
-                  Agenda una llamada <ArrowRight className="h-5 w-5" />
+                  Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
               <BotonCuentame />
             </div>
-            <p className="mx-auto mt-8 max-w-2xl font-body text-sm leading-relaxed text-ink-soft">
-              También te puede servir:{" "}
-              <Link href="/servicios/chatbot-whatsapp" className="text-primary-dark underline-offset-4 hover:underline">
-                el chatbot de WhatsApp
-              </Link>
-              ,{" "}
-              <Link href="/blog/mi-negocio-necesita-pagina-web" className="text-primary-dark underline-offset-4 hover:underline">
-                si tu negocio necesita página web
-              </Link>{" "}
-              o{" "}
-              <Link href="/" className="text-primary-dark underline-offset-4 hover:underline">
-                todo lo que hago
-              </Link>
-              .
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-relaxed text-ink-soft">
-              También trabajo{" "}
-              <Link
-                href="/diseno-de-paginas-web-en-barranquilla"
-                className="text-primary-dark underline-offset-4 hover:underline"
-              >
-                diseño de páginas web en Barranquilla
-              </Link>{" "}
-              y{" "}
-              <Link
-                href="/diseno-de-paginas-web-en-bogota"
-                className="text-primary-dark underline-offset-4 hover:underline"
-              >
-                en Bogotá
-              </Link>
-              . Y si tu negocio es{" "}
-              <Link
-                href="/sectores/salones-y-spas"
-                className="text-primary-dark underline-offset-4 hover:underline"
-              >
-                un salón o un spa
-              </Link>{" "}
-              o{" "}
-              <Link
-                href="/sectores/clinicas-y-consultorios"
-                className="text-primary-dark underline-offset-4 hover:underline"
-              >
-                una clínica o un consultorio
-              </Link>
-              , ahí está lo que cambia en cada caso.
-            </p>
+
+            <nav aria-label="Otras páginas del sitio" className="mt-12">
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+                También trabajo
+              </p>
+              <ul className="mt-4 flex flex-wrap justify-center gap-2">
+                {OTRAS_PAGINAS.map((o) => (
+                  <li key={o.href}>
+                    <Link
+                      href={o.href}
+                      className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 py-2.5 font-body text-sm text-ink-soft transition-colors hover:border-primary/40 hover:text-ink"
+                    >
+                      {o.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </Reveal>
         </section>
       </main>

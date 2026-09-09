@@ -4,7 +4,6 @@ import {
   ArrowRight,
   Building2,
   Check,
-  Clock,
   ExternalLink,
   KeyRound,
   LayoutTemplate,
@@ -12,7 +11,6 @@ import {
   RefreshCw,
   Search,
   Smartphone,
-  X,
 } from "lucide-react";
 
 import { Header } from "@/components/Header";
@@ -24,6 +22,11 @@ import { Button } from "@/components/ui/button";
 import { Faqs } from "@/components/Faqs";
 import { sinPendientes } from "@/components/Pendiente";
 import { BotonCuentame } from "@/components/Cuentame";
+import { ArbolDecision, type NodoArbol } from "@/components/visuales/ArbolDecision";
+import { Comparador } from "@/components/visuales/Comparador";
+import { ListaAcopio } from "@/components/visuales/ListaAcopio";
+import { RailDistancia } from "@/components/visuales/RailDistancia";
+import { RailPlazo } from "@/components/visuales/RailPlazo";
 import { SITE_URL } from "@/lib/site";
 import {
   INCLUIDO_SIEMPRE,
@@ -92,7 +95,16 @@ export const metadata: Metadata = {
  */
 const pesos = (n: number) => money(n).replace(/\s/g, "");
 
-/** El plazo está en disputa dentro del propio sitio. Se dice a la vista. */
+/**
+ * Los pisos PUBLICADOS. Ojo: no son `PRICES.base`. Esa es la base con la que
+ * arranca el cotizador antes de sumar nada, y para landing y tienda no coincide
+ * con el número que el sitio anuncia. Se declaran acá una sola vez y de acá los
+ * leen la tarjeta, el árbol de decisión y la lista de lo que no entra: antes el
+ * 2.500.000 estaba escrito a mano en dos sitios de esta misma página.
+ */
+const PISO_LANDING = 850000;
+const PISO_ECOM = 2500000;
+
 /**
  * Las situaciones en que alguien contrata esto. No son perfiles de cliente:
  * son momentos. Quien se reconoce en uno ya sabe que necesita el servicio.
@@ -101,33 +113,33 @@ const PARA_QUIEN = [
   {
     icon: Smartphone,
     titulo: "Todo tu negocio vive en Instagram",
-    desc: "Funciona hasta que alguien te busca por tu nombre en Google y no encuentra nada. Un perfil te da alcance; una página es la que aparece cuando ya te están buscando.",
+    desc: "Un perfil te da alcance. Pero el que te busca por tu nombre en Google no encuentra nada.",
     link: { href: "/blog/pagina-web-o-solo-instagram", label: "¿Página web o solo Instagram?" },
   },
   {
     icon: RefreshCw,
     titulo: "Tienes página, pero te da pena mandarla",
-    desc: "Se hizo hace cinco años, en el celular se ve corrida y tarda una eternidad en cargar. Más del 70% de las búsquedas en Colombia son desde el teléfono: ahí se pierde el cliente.",
+    desc: "Se hizo hace cinco años y en el celular se ve corrida. Más del 70% de las búsquedas en Colombia salen del teléfono: ahí se pierde el cliente.",
   },
   {
     icon: KeyRound,
     titulo: "No la puedes tocar sin llamar a alguien",
-    desc: "Cambiar un precio o subir una foto se volvió un favor que hay que pedir. Es la queja número uno que escucho, y por eso la palabra «autoadministrable» está en todos lados.",
+    desc: "Cambiar un precio o subir una foto se volvió un favor que hay que pedir. Es la queja número uno que escucho.",
   },
   {
     icon: LayoutTemplate,
     titulo: "Vas a pautar y no tienes a dónde mandar el clic",
-    desc: "Pagar anuncios que caen en un perfil de Instagram es botar plata. Para eso está la landing page: una sola página, un solo objetivo, y la conversión medida.",
+    desc: "Mandar la pauta a un perfil de Instagram es botar plata. Para eso está la landing: una página, un objetivo y la conversión medida.",
   },
   {
     icon: Building2,
     titulo: "El negocio creció y la página quedó chiquita",
-    desc: "Ya no son dos servicios, son ocho. Ya no eres tú solo, hay equipo. Eso es una web corporativa, con su sección de servicios y su panel para que la mantengas al día.",
+    desc: "Ya no son dos servicios, son ocho, y ya no eres tú solo. Eso es una web corporativa, con panel para mantenerla al día tú.",
   },
   {
     icon: Search,
     titulo: "Quieres rehacerla, pero te da miedo perder lo posicionado",
-    desc: "Es un miedo con fundamento y tiene solución conocida: se traen los textos, se redirigen las direcciones viejas y se conserva lo que ya estaba rankeando. No se empieza de cero a ciegas.",
+    desc: "Miedo con fundamento y con solución: se traen los textos, se redirigen las direcciones viejas y se conserva lo que ya rankea.",
   },
 ];
 
@@ -140,16 +152,14 @@ const FORMATOS = [
     icon: LayoutTemplate,
     nombre: "Landing page",
     tambien: "página de aterrizaje",
-    para: "Un producto, un servicio o una campaña con pauta detrás.",
     incluye: INCLUIDO_POR_TIPO.landing,
     paginas: PAGINAS_BASE.landing,
-    desde: 850000,
+    desde: PISO_LANDING,
   },
   {
     icon: Building2,
     nombre: "Página web corporativa",
     tambien: "web corporativa, sitio institucional",
-    para: "El negocio completo: quién eres, qué vendes y cómo te contratan.",
     incluye: INCLUIDO_POR_TIPO.corp,
     paginas: PAGINAS_BASE.corp,
     /* Del cotizador, no de aquí: `PRICES.base.corp`. Las tres tarjetas
@@ -161,7 +171,6 @@ const FORMATOS = [
     icon: RefreshCw,
     nombre: "Rediseño de la que ya tienes",
     tambien: "migración",
-    para: "La página existe, pero está vieja, lenta o no se puede editar.",
     incluye: [
       "Revisión de lo que hay: qué se salva y qué se bota, dicho antes de empezar",
       "Traslado de textos, fotos, productos y artículos",
@@ -178,72 +187,154 @@ const FORMATOS = [
   },
 ];
 
+
+/**
+ * El árbol que encabeza los precios. Contesta la pregunta que de verdad trae
+ * el visitante —«¿cuál de los tres pido?»— y su primera rama lo saca honesto
+ * hacia tiendas virtuales, que era un párrafo entero de desvío.
+ * Los pisos salen de PISO_LANDING, PISO_ECOM y PRICES.base.corp: ni un número
+ * escrito a mano.
+ */
+const ARBOL: NodoArbol = {
+  tipo: "pregunta",
+  pregunta: "¿Vas a cobrar en línea, con carrito y pago?",
+  opciones: [
+    {
+      etiqueta: "Sí, quiero vender",
+      siguiente: {
+        tipo: "resultado",
+        titulo: "Eso ya es una tienda virtual",
+        detalle:
+          "Carrito, inventario y pagos dejan de ser una página web. Va por otro lado, con otro precio y otro plazo.",
+        pie: `Desde ${pesos(PISO_ECOM)} · 3 a 5 semanas`,
+        enlace: { texto: "Ver tiendas virtuales", href: "/servicios/tiendas-virtuales" },
+      },
+    },
+    {
+      etiqueta: "No por ahora",
+      siguiente: {
+        tipo: "pregunta",
+        pregunta: "¿La página ya existe?",
+        opciones: [
+          {
+            etiqueta: "Sí, hay una",
+            siguiente: {
+              tipo: "resultado",
+              titulo: "Rediseño de la que ya tienes",
+              detalle:
+                "Primero la reviso y te digo qué se salva. El precio sale de esa revisión, no de un tarifario.",
+              pie: "Sin piso publicable · sale de la revisión",
+            },
+          },
+          {
+            etiqueta: "No, de cero",
+            siguiente: {
+              tipo: "pregunta",
+              pregunta: "¿Un solo servicio o el negocio completo?",
+              opciones: [
+                {
+                  etiqueta: "Un servicio o una campaña",
+                  siguiente: {
+                    tipo: "resultado",
+                    titulo: "Landing page",
+                    detalle: "Una sola página, un solo objetivo y la conversión medida.",
+                    pie: `Desde ${pesos(PISO_LANDING)} · 5 días`,
+                  },
+                },
+                {
+                  etiqueta: "El negocio completo",
+                  siguiente: {
+                    tipo: "resultado",
+                    titulo: "Página web corporativa",
+                    detalle:
+                      "Varias páginas —servicios, quiénes somos, contacto— y panel para mantenerla al día tú.",
+                    pie: `Desde ${pesos(PRICES.base.corp)} · 1 a 2 semanas`,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+};
+
 /** Lo que NO entra. Vale más que la lista de lo que sí: evita la pelea. */
 const NO_INCLUYE = [
   {
-    t: "El presupuesto de pauta",
-    d: "Dejo la landing y la medición funcionando. Lo que le pagas a Meta o a Google Ads lo pones tú, con tu propia tarjeta.",
+    texto: "El presupuesto de pauta. Dejo la landing y la medición funcionando; lo que le pagas a Meta o a Google Ads lo pones tú.",
+    quien: "tu tarjeta",
   },
   {
-    t: "El posicionamiento mensual",
-    d: `El SEO técnico de entrega sí va (títulos, datos estructurados, sitemap, velocidad). Posicionar es trabajo de todos los meses y se cobra aparte: auditoría desde ${pesos(390000)} y plan local desde ${pesos(650000)} al mes.`,
+    texto: `El posicionamiento mensual. El SEO técnico de entrega sí va; posicionar es trabajo de todos los meses: auditoría desde ${pesos(390000)} y plan local desde ${pesos(650000)} al mes.`,
+    quien: "se cotiza aparte",
   },
   {
-    t: "Carrito, inventario y pagos en línea",
-    d: "Eso deja de ser una página web y pasa a ser una tienda virtual: otro precio y otro plazo. Desde $2.500.000, 3 semanas.",
+    texto: `Carrito, inventario y pagos en línea. Eso ya es una tienda virtual: desde ${pesos(PISO_ECOM)} y de 3 a 5 semanas.`,
+    quien: "otra página, otro precio",
   },
   {
-    t: "Sesión de fotos y video",
-    d: "Puedo usar imágenes de banco con licencia y arreglarte las que tomes con el celular. Contratar fotógrafo y producir la sesión no lo hago yo.",
+    texto: "Sesión de fotos y video. Uso banco de imágenes con licencia y te arreglo las que tomes con el celular.",
+    quien: "un fotógrafo",
   },
   {
-    t: "Logo y marca desde cero",
-    d: `Si ya tienes logo, lo aplicamos. Si no tienes nada, crear la identidad —logo, paleta, tipografías y manual básico— se cotiza aparte, desde ${pesos(PRICES.marca.nada)}.`,
+    texto: `Logo y marca desde cero. Si ya tienes logo, lo aplicamos; crear la identidad se cotiza desde ${pesos(PRICES.marca.nada)}.`,
+    quien: "se cotiza aparte",
   },
   {
-    t: "Redes sociales y contenido de todos los meses",
-    d: "No manejo cuentas ni programo publicaciones. Te digo de una vez que no es lo mío, en vez de venderlo mal.",
+    texto: "Redes sociales y contenido de todos los meses. No manejo cuentas ni programo publicaciones, y te lo digo de una vez en vez de venderlo mal.",
+    quien: "no es lo mío",
   },
 ];
 
-/** Los cinco días, contados. La pregunta real es desde cuándo se cuentan. */
-const PROCESO = [
+/**
+ * Lo que entra siempre. Los dos últimos no están en `INCLUIDO_SIEMPRE` porque
+ * son de esta página: el dominio a nombre del cliente y el SEO de entrega.
+ */
+const INCLUYE_SIEMPRE = [
+  ...INCLUIDO_SIEMPRE,
+  "Dominio a tu nombre y correo con tu dirección: hola@tumarca.com, no @gmail.com",
+  "SEO técnico de entrega: título y descripción por página, datos estructurados, sitemap y alta en Google Search Console",
+];
+
+/**
+ * Los cinco días, dibujados. El tramo previo del rail es la condición honesta
+ * más cara de explicar del sitio —«el reloj arranca cuando llega el material»—
+ * y como tramo punteado se entiende antes de leerla.
+ */
+const PREVIO_PLAZO = {
+  etiqueta: "Antes del día 1",
+  texto: "Tu contenido y tu marca, en mi mano. El reloj todavía no ha arrancado.",
+};
+
+const HITOS_PLAZO = [
+  { etiqueta: "Día 1", texto: "Estructura: qué ve tu cliente, en qué orden y qué quieres que haga." },
   {
-    n: "00",
-    t: "Llamada de 20 minutos y precio por escrito",
-    d: "Me cuentas qué vendes y a quién. Te digo si esto te sirve, cuánto cuesta y qué formato te conviene. Si no te sirve, te lo digo. El día cero no cuenta como día de trabajo.",
+    etiqueta: "Día 2 y 3",
+    texto: "Diseño y programación, al mismo tiempo. Lo que apruebas es lo que se publica.",
   },
+  { etiqueta: "Día 4", texto: "La revisas conmigo en vivo, en tu teléfono y en tu computador." },
   {
-    n: "01",
-    t: "Arranca el reloj cuando tengo con qué trabajar",
-    d: "Los cinco días empiezan a contar el día que tengo el contenido y la marca en la mano. Si los textos los escribo yo, ese tiempo ya está contado adentro. Es la letra que casi nadie te dice y la que estira los proyectos al doble.",
+    etiqueta: "Día 5",
+    texto: "Sale al aire con dominio, certificado, correo y medición. Y te enseño a manejarla.",
   },
-  {
-    n: "02",
-    t: "Estructura antes que colores",
-    d: "Primero decidimos qué ve tu cliente, en qué orden y qué queremos que haga. El diseño bonito sobre una estructura mala no vende nada.",
-  },
-  {
-    n: "03",
-    t: "Diseño y programación, al mismo tiempo",
-    d: "No hay entrega a otro equipo ni traducción de un archivo de diseño a código: lo diseño y lo programo yo, así que lo que apruebas es lo que se publica.",
-  },
-  {
-    n: "04",
-    t: "La revisas conmigo, en vivo",
-    d: "La abres en tu teléfono y en tu computador y me dices qué cambiar. Los ajustes se hacen mientras hablamos, no en una lista para dentro de dos semanas.",
-  },
-  {
-    n: "05",
-    t: "Sale al aire y te enseño a manejarla",
-    d: "Dominio apuntado, certificado activo, correo configurado, medición prendida y capacitación de entrega. De ahí en adelante quedan 30 días de ajustes sin costo.",
-  },
+];
+
+/** El material que hace arrancar el reloj, como lista de embarque. */
+const MATERIAL = [
+  "Tu logo, en el mejor archivo que tengas",
+  "Los textos, o el visto bueno para que los escriba yo",
+  "Fotos del negocio, del equipo y del trabajo hecho",
+  "Precios o tarifas, si los vas a publicar",
+  "Horarios reales, sábados incluidos",
+  "Accesos al dominio y al correo, si ya los tienes",
 ];
 
 const FAQS = [
   {
     q: "¿Cuánto me cuesta y qué entra exactamente por ese precio?",
-    a: "Desde $850.000. Por ese piso entra el diseño propio —sin plantilla comprada—, la programación, que se vea bien en teléfono, tableta y computador, el formulario que te llega al correo y al WhatsApp, el certificado de seguridad, la capacitación de entrega y 30 días de ajustes sin costo. Es un piso, no una tarifa cerrada: el número final depende de cuántas páginas, si escribo yo los textos y qué funciones lleve, y te lo doy por escrito antes de que pagues nada.",
+    a: `Desde ${pesos(PISO_LANDING)}, y lo que entra por ese piso está en la lista de «lo que entra siempre»: diseño propio sin plantilla, programación, que se vea bien en teléfono y computador, el formulario que te llega al correo y al WhatsApp, certificado de seguridad, capacitación y 30 días de ajustes sin costo. Es un piso, no una tarifa cerrada: el número final depende de cuántas páginas, de quién escriba los textos y de qué funciones lleve, y te lo doy por escrito antes de que pagues nada.`,
   },
   {
     q: "¿En cuánto me la entregas de verdad, y desde cuándo se cuentan los días?",
@@ -385,10 +476,9 @@ export default function DisenoDePaginasWebPage() {
               <span className="block text-metal">para negocios que quieren vender más</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Tu próximo cliente te está buscando en el celular ahora mismo. Si lo que encuentra
-              es un perfil sin precios, sin horario y sin forma clara de escribirte, se va al de
-              al lado y tú nunca te enteras de que existió. Una página web es la que contesta esas
-              tres cosas mientras tú estás trabajando.
+              Tu próximo cliente te busca en el celular ahora mismo. Si encuentra un perfil sin
+              precios, sin horario y sin forma clara de escribirte, se va al de al lado. Una
+              página web contesta esas tres cosas mientras tú trabajas.
             </p>
           </Reveal>
 
@@ -414,27 +504,23 @@ export default function DisenoDePaginasWebPage() {
         </section>
 
         {/* ── El diferenciador, arriba y no enterrado ─────────────────── */}
+        {/* Sin tarjeta propia: la sección va DENTRO de una banda y el tono lo
+            pone la banda. El degradado y el borde apilaban dos tonos. */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Casi nadie publica precio y plazo juntos.
-                <span className="text-metal"> Y ninguno dice quién escribe el código.</span>
-              </h2>
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Revisa las páginas de las agencias colombianas de diseño web: unas ponen precio y
-                no dicen cuánto tardan; otras dicen «de 4 a 8 semanas» y te mandan a un formulario
-                de presupuesto. Averiguar cuánto te va a costar te toma tres llamadas.
-              </p>
-              <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-                <strong className="text-ink">
-                  Acá está el número, está el plazo y está el nombre.
-                </strong>{" "}
-                Me llamo Luis Jaller, vivo en Turbaco, Bolívar, y soy el que diseña y el que
-                programa. No hay un vendedor que promete una cosa y un equipo rotando que entrega
-                otra: hablas con la misma persona de la primera llamada a la entrega.
-              </p>
-            </div>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+              Casi nadie publica precio y plazo juntos.
+              <span className="text-metal"> Y ninguno dice quién escribe el código.</span>
+            </h2>
+            <p className="mt-5 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              Unas agencias ponen precio y no dicen cuánto tardan; otras dicen «de 4 a 8 semanas»
+              y te mandan a un formulario. Saber cuánto te cuesta te toma tres llamadas.
+            </p>
+            <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              <strong className="text-ink">Acá está el número, el plazo y el nombre.</strong> Me
+              llamo Luis Jaller, vivo en Turbaco, Bolívar, y soy el que diseña y el que programa.
+              Hablas con la misma persona de la primera llamada a la entrega.
+            </p>
           </Reveal>
         </section>
 
@@ -442,11 +528,10 @@ export default function DisenoDePaginasWebPage() {
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Esto te sirve si estás en alguna de estas
+              Nadie se levanta queriendo «una página web»
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Nadie se levanta queriendo «una página web». Se levanta con uno de estos seis
-              problemas.
+              Se levanta con uno de estos seis problemas.
             </p>
           </Reveal>
           <div className="mt-10 grid gap-5 md:grid-cols-2">
@@ -463,7 +548,7 @@ export default function DisenoDePaginasWebPage() {
                     {p.link && (
                       <Link
                         href={p.link.href}
-                        className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                        className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                       >
                         {p.link.label} <ArrowRight className="h-4 w-4" aria-hidden="true" />
                       </Link>
@@ -483,10 +568,9 @@ export default function DisenoDePaginasWebPage() {
               Tres formatos, cada uno con su piso y su plazo
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Es un piso, no una tarifa cerrada. El número final depende de cuántas páginas lleve,
-              de si los textos los escribes tú o los escribo yo y de qué funciones necesites —y te
-              lo doy por escrito antes de que pagues nada. La tabla completa, con tienda online y
-              SEO, está en{" "}
+              Es un piso, no una tarifa cerrada: el número final depende de cuántas páginas, de
+              quién escriba los textos y de qué funciones lleve, y te lo doy por escrito antes de
+              que pagues nada. La tabla completa está en{" "}
               <Link href="/precios" className="text-primary-dark underline underline-offset-4">
                 precios
               </Link>
@@ -494,6 +578,11 @@ export default function DisenoDePaginasWebPage() {
             </p>
           </Reveal>
 
+          {/* Antes de las tres tarjetas, la pregunta que trae el visitante:
+              cuál de los tres pedir. La primera rama lo manda a tiendas. */}
+          <Reveal delay={80}>
+            <ArbolDecision raiz={ARBOL} className="mt-10" />
+          </Reveal>
 
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {FORMATOS.map((f, i) => {
@@ -508,7 +597,6 @@ export default function DisenoDePaginasWebPage() {
                     <p className="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                       también: {f.tambien}
                     </p>
-                    <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.para}</p>
 
                     <p className="mt-5 font-body text-sm font-semibold text-ink">Qué páginas trae</p>
                     <ul className="mt-2 flex flex-wrap gap-2">
@@ -523,7 +611,7 @@ export default function DisenoDePaginasWebPage() {
                     </ul>
 
                     <p className="mt-5 font-body text-sm font-semibold text-ink">
-                      Y además de lo de siempre
+                      Además de lo de siempre
                     </p>
                     <ul className="mt-2 flex-1 grid gap-2">
                       {f.incluye.map((x) => (
@@ -544,32 +632,15 @@ export default function DisenoDePaginasWebPage() {
           </div>
 
           <Reveal>
-            <p className="mt-6 rounded-2xl border border-line bg-background/40 p-7 font-body leading-relaxed text-ink-soft">
-              <strong className="text-ink">¿Vas a vender en línea?</strong> Carrito, inventario y
-              pagos ya no son una página web: son una{" "}
-              <strong className="text-ink">tienda virtual</strong>, y va por otro lado: desde
-              $2.500.000 y de 3 a 5 semanas. Está en{" "}
-              <Link
-                href="/servicios/tiendas-virtuales"
-                className="text-primary-dark underline underline-offset-4"
-              >
-                tiendas virtuales
-              </Link>
-              , que es su propia página.
-            </p>
-          </Reveal>
-
-          <Reveal>
-            <p className="mt-6 max-w-2xl font-body text-base leading-relaxed text-ink-soft">
-              Si todavía estás comparando presupuestos, el desglose largo —qué cobra cada tipo de
-              proveedor en Colombia y las cinco cosas que disparan el precio— está en{" "}
+            <p className="mt-8 max-w-2xl font-body text-base leading-relaxed text-ink-soft">
+              ¿Comparando presupuestos? El desglose largo está en{" "}
               <Link
                 href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
                 className="text-primary-dark underline underline-offset-4"
               >
                 cuánto cuesta una página web en Colombia
               </Link>{" "}
-              y los plazos, en{" "}
+              y en{" "}
               <Link
                 href="/blog/cuanto-se-demora-hacer-una-pagina-web"
                 className="text-primary-dark underline underline-offset-4"
@@ -583,88 +654,40 @@ export default function DisenoDePaginasWebPage() {
 
         {/* ── Qué incluye y qué NO ───────────────────────────────────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Lo que entra siempre, sea cual sea el formato
-              </h2>
-              <ul className="mt-8 grid gap-3">
-                {INCLUIDO_SIEMPRE.map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-                <li className="flex items-start gap-3 font-body text-ink-soft">
-                  <Check className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                  <span>
-                    Dominio a tu nombre y correo con tu dirección —{" "}
-                    <span className="text-ink">hola@tumarca.com</span>, no @gmail.com
-                  </span>
-                </li>
-                <li className="flex items-start gap-3 font-body text-ink-soft">
-                  <Check className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                  <span>
-                    SEO técnico de entrega: título y descripción por página, datos estructurados,
-                    sitemap y alta en Google Search Console
-                  </span>
-                </li>
-              </ul>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Y lo que NO entra, dicho antes y no después
-              </h2>
-              <p className="mt-4 font-body leading-relaxed text-ink-soft">
-                Esta lista vale más que la de arriba. Todo pleito que he visto entre un negocio y
-                su proveedor web empezó por algo que nadie dijo al principio.
-              </p>
-              <ul className="mt-8 grid gap-5">
-                {NO_INCLUYE.map((x) => (
-                  <li key={x.t} className="flex items-start gap-3">
-                    <X className="mt-1 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
-                    <span>
-                      <strong className="block font-body font-semibold text-ink">{x.t}</strong>
-                      <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                        {x.d}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
+          <Reveal>
+            <Comparador
+              tituloComo="h2"
+              tituloIncluye="Lo que entra siempre, sea cual sea el formato"
+              tituloNoIncluye={
+                <>
+                  Y lo que <span className="text-metal">no</span> entra
+                </>
+              }
+              nota="Esta lista vale más que la de arriba. Todo pleito que he visto entre un negocio y su proveedor web empezó por algo que nadie dijo al principio."
+              incluye={INCLUYE_SIEMPRE}
+              noIncluye={NO_INCLUYE}
+            />
+          </Reveal>
         </section>
 
         {/* ── Cómo se hace ───────────────────────────────────────────── */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo se hace</h2>
-            <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-              Seis pasos, y el primero no cuesta nada.
+            <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+              Antes del día 1 hay una llamada de veinte minutos con el precio por escrito. Esa no
+              cuesta nada y no cuenta como día de trabajo.
             </p>
           </Reveal>
-          <ol className="mt-10 grid gap-6">
-            {PROCESO.map((p, i) => (
-              <Reveal key={p.n} delay={i * 60}>
-                <li className="flex gap-4">
-                  <span className="font-mono text-sm text-accent">{p.n}</span>
-                  <span>
-                    <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                    <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                      {p.d}
-                    </span>
-                  </span>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-          <Reveal>
-            <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-4 py-2 font-body text-sm text-ink-soft">
-              <Clock className="h-4 w-4 text-accent" aria-hidden="true" />
-              Cinco días de trabajo, contados desde que tengo el contenido y la marca
-            </p>
+
+          {/* El tramo punteado es el argumento: el reloj arranca con el
+              material, no con la firma. Dicho como dibujo y no como excusa. */}
+          <Reveal delay={80}>
+            <RailPlazo className="mt-10" previo={PREVIO_PLAZO} hitos={HITOS_PLAZO} />
+          </Reveal>
+
+          <Reveal delay={140}>
+            <ListaAcopio className="mt-12 max-w-2xl" almacen="acopio-paginas-web" items={MATERIAL} />
           </Reveal>
         </section>
 
@@ -675,9 +698,8 @@ export default function DisenoDePaginasWebPage() {
               El trabajo que respalda esto
             </h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Con la misma separación de siempre, porque mezclar las dos cosas es lo que hace que
-              nadie crea un portafolio: lo que está en producción con dominio propio, y lo que
-              construí por iniciativa propia.
+              Con la separación de siempre: lo que está en producción con dominio propio, y lo
+              que construí por iniciativa propia.
             </p>
           </Reveal>
 
@@ -689,16 +711,15 @@ export default function DisenoDePaginasWebPage() {
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Bloomrose</h3>
                 <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Tienda de bisutería y accesorios para el mercado colombiano. La diseñé y la
-                  programé completa: catálogo con inventario, carrito, cuentas de cliente, pagos en
-                  línea y cotización de envíos. La puedes abrir ahora mismo y revisarla sin
-                  pedirme permiso.
+                  Tienda de bisutería para el mercado colombiano, diseñada y programada
+                  completa: catálogo con inventario, carrito, cuentas, pagos en línea y envíos.
+                  Ábrela y revísala sin pedirme permiso.
                 </p>
                 <a
                   href="https://www.bloomroseaccesorios.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
                   bloomroseaccesorios.com <ExternalLink className="h-4 w-4" aria-hidden="true" />
                 </a>
@@ -712,22 +733,21 @@ export default function DisenoDePaginasWebPage() {
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">HalcónOS y Hummik</h3>
                 <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Un CRM de ventas y una agenda de citas por WhatsApp, los dos míos y los dos en
-                  línea. No son páginas web, son{" "}
+                  Un CRM de ventas y una agenda de citas por WhatsApp, míos y en línea. No son
+                  páginas web, son{" "}
                   <Link
                     href="/servicios/software-a-la-medida"
                     className="text-primary-dark underline underline-offset-4 hover:text-accent"
                   >
                     software a la medida
                   </Link>
-                  , y están acá por una sola razón: si puedo construir y sostener eso, la página
-                  de tu negocio no es el reto.
+                  , y están acá por una razón: si puedo sostener eso, tu página no es el reto.
                 </p>
                 <a
                   href="https://halcon.jvagencia.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  className="mt-4 inline-flex min-h-11 items-center gap-2 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
                   halcon.jvagencia.com <ExternalLink className="h-4 w-4" aria-hidden="true" />
                 </a>
@@ -743,11 +763,10 @@ export default function DisenoDePaginasWebPage() {
                   Animal Expert, Elka Gómez y Marcopolo
                 </h3>
                 <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Una veterinaria de Turbaco, un centro de fisioterapia y spa de Cartagena y un
-                  salón de belleza de Barranquilla. Están diseñados y construidos completos, pero
-                  los hice{" "}
+                  Una veterinaria de Turbaco, un centro de fisioterapia de Cartagena y un salón
+                  de Barranquilla. Construidos completos, pero{" "}
                   <strong className="text-ink">por iniciativa propia y nadie me los encargó</strong>
-                  : no son clientes que pagaron y no te los voy a presentar como si lo fueran.
+                  : no son clientes que pagaron.
                 </p>
               </article>
             </Reveal>
@@ -762,7 +781,7 @@ export default function DisenoDePaginasWebPage() {
               >
                 en la portada
               </Link>
-              . Y si quieres saber con quién estás hablando antes de escribir,{" "}
+              , y{" "}
               <Link
                 href="/sobre-nosotros"
                 className="font-semibold text-primary-dark underline-offset-4 hover:underline"
@@ -777,17 +796,20 @@ export default function DisenoDePaginasWebPage() {
         {/* ── Dónde estoy y a dónde llego ────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-line bg-surface/70 p-8 md:p-10">
+            <div className="rounded-[1.75rem] border border-line bg-surface/70 p-7 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 ¿Buscabas un diseñador de páginas web cerca de ti?
               </h2>
               <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Vivo en <strong className="text-ink">Turbaco, Bolívar</strong>, a 20 kilómetros de
-                Cartagena de Indias. No tengo oficina en el Centro y no la voy a fingir. Trabajo
-                con negocios de toda Colombia por WhatsApp y videollamada, y si estás en Cartagena
-                o en Bolívar y el proyecto lo pide, nos vemos en persona.
+                Vivo en <strong className="text-ink">Turbaco, Bolívar</strong>. No tengo oficina en
+                el Centro de Cartagena y no la voy a fingir.
               </p>
-              <div className="mt-7 flex flex-wrap gap-3">
+
+              {/* La ventaja y la limitación en el mismo dibujo. No es un mapa a
+                  propósito: un mapa insinúa cobertura que no existe. */}
+              <RailDistancia className="mt-8" />
+
+              <div className="mt-8 flex flex-wrap gap-3">
                 {[
                   { href: "/diseno-de-paginas-web-en-cartagena", label: "Páginas web en Cartagena" },
                   {
@@ -799,15 +821,16 @@ export default function DisenoDePaginasWebPage() {
                   <Link
                     key={c.href}
                     href={c.href}
-                    className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-background/50 px-4 py-2 font-body text-sm text-primary-dark transition-colors hover:border-primary hover:bg-primary/5"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/25 bg-background/50 px-4 py-2 font-body text-sm text-primary-dark transition-colors hover:border-primary hover:bg-primary/5"
                   >
                     <MapPin className="h-4 w-4" aria-hidden="true" />
                     {c.label}
                   </Link>
                 ))}
               </div>
+
               <p className="mt-7 font-body leading-relaxed text-ink-soft">
-                ¿Tu negocio es de un sector con reglas propias? Hay páginas escritas para{" "}
+                ¿Tu sector tiene reglas propias? Hay páginas para{" "}
                 <Link
                   href="/sectores/clinicas-y-consultorios"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
@@ -821,21 +844,21 @@ export default function DisenoDePaginasWebPage() {
                 >
                   salones y spas
                 </Link>{" "}
-                y para{" "}
+                y{" "}
                 <Link
                   href="/blog/que-debe-tener-la-pagina-web-de-un-restaurante"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
                   restaurantes
                 </Link>
-                . Y si tu problema no es la página sino contestar los mensajes, eso es un{" "}
+                . Si el problema no es la página sino contestar los mensajes, eso es un{" "}
                 <Link
                   href="/servicios/chatbot-whatsapp"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
                 >
                   chatbot de WhatsApp
                 </Link>
-                ; si la página ya existe y lo que falta es que la encuentren, eso es{" "}
+                ; si ya existe y falta que la encuentren, eso es{" "}
                 <Link
                   href="/servicios/posicionamiento-seo"
                   className="font-semibold text-primary-dark underline-offset-4 hover:underline"
@@ -871,8 +894,7 @@ export default function DisenoDePaginasWebPage() {
             </h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
               Veinte minutos bastan para saber qué formato te conviene, cuánto costaría y en
-              cuánto quedaría lista. Si lo que necesitas no es una página web, te lo digo y no te
-              cobro la llamada.
+              cuánto queda lista. Si no necesitas una página web, te lo digo.
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
