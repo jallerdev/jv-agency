@@ -140,7 +140,7 @@ export const SERVICIOS: Servicios = {
     botones: [
       {
         texto: { es: "Agenda una llamada", en: "Book a call" },
-        href: { es: "/#contacto", en: "/en#contact" },
+        href: { es: "/#agenda", en: "/en#agenda" },
       },
       {
         texto: { es: "Ver precios", en: "See pricing" },

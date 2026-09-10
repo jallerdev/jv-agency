@@ -44,7 +44,7 @@ export function Footer({ idioma }: { idioma: Idioma }) {
           <div className="lg:pr-8">
             <Link
               href={idioma === "es" ? "/" : "/en"}
-              className="inline-flex text-ink transition-colors duration-base ease-ps hover:text-brand"
+              className="-ml-2 inline-flex h-11 min-w-11 items-center justify-center px-2 text-ink transition-colors duration-base ease-ps hover:text-brand"
               aria-label="JV Agencia"
             >
               <Logo className="h-8 w-auto" />

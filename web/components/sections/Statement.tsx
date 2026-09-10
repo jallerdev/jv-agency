@@ -27,7 +27,7 @@ export function Statement({ idioma }: { idioma: Idioma }) {
           hover del sistema, y otro de los cinco sitios del naranja. */}
       <Link
         href={STATEMENT.enlace.href[idioma]}
-        className="group mt-10 inline-flex items-center gap-2 text-brand"
+        className="group mt-8 inline-flex min-h-11 items-center gap-2 text-brand"
       >
         <span className="relative">
           {STATEMENT.enlace.texto[idioma]}

@@ -97,7 +97,7 @@ export const FAQ: Faq = {
     texto: { es: "¿Tienes otra duda?", en: "Another question?" },
     enlace: {
       texto: { es: "Escríbeme", en: "Write to me" },
-      href: { es: "/#contacto", en: "/en#contact" },
+      href: { es: "/#agenda", en: "/en#agenda" },
     },
   },
 };

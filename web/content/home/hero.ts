@@ -34,11 +34,11 @@ export const HERO: Hero = {
   botones: [
     {
       texto: { es: "Agenda una llamada", en: "Book a call" },
-      href: { es: "/#contacto", en: "/en#contact" },
+      href: { es: "/#agenda", en: "/en#agenda" },
     },
     {
       texto: { es: "Ver mi trabajo", en: "See my work" },
-      href: { es: "/#trabajo", en: "/en#work" },
+      href: { es: "/#trabajo", en: "/en#trabajo" },
     },
   ],
   precio: {

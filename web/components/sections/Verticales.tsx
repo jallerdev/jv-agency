@@ -63,7 +63,7 @@ export function Verticales({ idioma }: { idioma: Idioma }) {
 
               <Link
                 href={v.enlace.href[idioma]}
-                className="mt-6 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps group-hover:text-brand"
+                className="mt-4 inline-flex min-h-11 items-center gap-1.5 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps group-hover:text-brand"
               >
                 {v.enlace.texto[idioma]}
                 <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />

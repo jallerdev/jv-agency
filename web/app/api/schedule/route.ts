@@ -4,6 +4,14 @@ import { DateTime } from "luxon";
 import { isValidDate, slotDateTime } from "@/lib/booking";
 import { freeSlots } from "@/lib/availability";
 import { createMeetEvent, isGoogleConfigured } from "@/lib/google";
+import {
+  correoValido,
+  excedido,
+  ipDe,
+  recortar,
+  respuesta429,
+  telefonoValido,
+} from "@/lib/limite";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,7 +30,18 @@ type Payload = {
   note?: string;
 };
 
+/* Seis reservas por hora y por IP. Es holgado para quien reserva de verdad
+   —nadie agenda seis llamadas seguidas— y corta en seco al que quiera llenar
+   el calendario de citas falsas, que aquí cuesta caro: cada una crea un evento
+   real en Google Calendar y manda un correo. */
+const CUPO = { intentos: 6, ventanaMs: 60 * 60 * 1000 };
+
 export async function POST(req: Request) {
+  const espera = excedido(`schedule:${ipDe(req)}`, CUPO);
+  if (espera !== null) {
+    return respuesta429(espera, "Demasiadas reservas seguidas. Intenta más tarde.");
+  }
+
   let body: Payload;
   try {
     body = await req.json();
@@ -30,7 +49,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Cuerpo inválido." }, { status: 400 });
   }
 
-  const name = body.name?.trim();
+  const name = recortar(body.name, 120);
   const date = body.date?.trim();
   const time = body.time?.trim();
   if (!name || !date || !time || !isValidDate(date)) {
@@ -42,10 +61,24 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Ese horario ya no es válido." }, { status: 400 });
   }
 
-  const serviceLabel = body.service?.trim() || "Consulta";
-  const email = body.email?.trim() || undefined;
-  const phone = body.phone?.trim() || undefined;
-  const userNote = body.note?.trim();
+  /* El correo y el teléfono se validan AQUÍ, no solo en el formulario: el
+     cliente puede saltarse su propia validación con un `curl`, y un correo
+     inválido no es un dato feo en una hoja, es una invitación de Google
+     Calendar que no llega y una cita que nadie atiende. */
+  const email = body.email?.trim();
+  const phone = body.phone?.trim();
+  if (!correoValido(email)) {
+    return NextResponse.json({ ok: false, error: "Correo inválido." }, { status: 400 });
+  }
+  if (!telefonoValido(phone)) {
+    return NextResponse.json({ ok: false, error: "Teléfono inválido." }, { status: 400 });
+  }
+
+  /* Los textos libres se recortan antes de tocar nada: el nombre acaba en el
+     título de un evento y la nota en su descripción, y ninguno de los dos
+     debería poder traer un megabyte. */
+  const serviceLabel = recortar(body.service, 80) || "Consulta";
+  const userNote = recortar(body.note, 2000);
 
   // 1. Crear el evento con Meet (si Google está configurado).
   //    Si el calendario falla (token caído, API caída), NO abortamos la reserva:

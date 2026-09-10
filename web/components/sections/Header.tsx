@@ -233,7 +233,9 @@ export function Header({ idioma }: { idioma: Idioma }) {
         <div className="mx-auto flex h-[var(--header-h)] max-w-[1280px] items-center gap-8 px-6 md:px-12">
           <Link
             href={idioma === "es" ? "/" : "/en"}
-            className="shrink-0 text-ink transition-colors duration-base ease-ps hover:text-brand"
+            /* `-mx-2 px-2` lleva el área táctil a 44 de ancho sin mover el logotipo:
+               el relleno crece hacia fuera y el margen negativo lo devuelve. */
+            className="-mx-2 flex h-11 min-w-11 shrink-0 items-center justify-center px-2 text-ink transition-colors duration-base ease-ps hover:text-brand"
             aria-label="JV Agencia"
           >
             <Logo className="h-7 w-auto" />
