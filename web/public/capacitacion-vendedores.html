@@ -148,6 +148,23 @@
   [class*="tag"][style*="--primary"]{ color:#080808; }
 
 @media print{
+    /* EL PAPEL, A LA FUERZA.
+       El primer barrido de color entro tambien aqui y convirtio el
+       `background:#fff` de esta misma hoja en #111111: la regla que existe
+       para devolver el papel se habia oscurecido a si misma, y el PDF salia
+       con fondo negro y casi todo el texto invisible.
+       Va con !important y cubriendo TODA superficie, porque el documento pinta
+       fondos oscuros en muchas piezas y en papel ninguno debe sobrevivir. */
+    html, body{ background:#FFFFFF !important; background-image:none !important; color:#111111 !important; }
+    .doc, .sec, .card, .note, .change, .calc, .plan, .offerbox, .cfg, .sheet,
+    .fig, .pill, .partlabel, table, thead, tbody, tr, td, th, blockquote,
+    [style*="background"]{ background-color:transparent !important; }
+    /* lo que iba en tinta clara sobre oscuro vuelve a tinta oscura */
+    body *{ color:#111111 !important; }
+    .eyebrow, .lbl, h2 > .num, [class*="tag"]{ color:#B0431F !important; }
+    /* y las piezas que de verdad son un bloque de color se marcan con filete */
+    .offerbox, .plan--pick, .card{ border:1px solid #D9D9D9 !important; }
+
 
     /* AL IMPRIMIR SE VUELVE AL PAPEL. El documento en pantalla va en el casi
        negro del sistema; en papel eso seria un pliego entero de tinta y una
@@ -160,7 +177,7 @@
     body{ color:#111111 !important; }
     *{ box-shadow:none !important; }
     @page{ size:A4; margin:14mm 12mm; }
-    body{ background:#111111; font-size:10.5pt; line-height:1.45; }
+    body{ background:#FFFFFF; font-size:10.5pt; line-height:1.45; }
     .bar,.toc{ display:none !important; }
     .doc{ max-width:none; padding:0; }
     .sec{ margin-top:24px; break-before:auto; }
