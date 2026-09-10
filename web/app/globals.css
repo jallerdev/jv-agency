@@ -60,7 +60,21 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* SIN scroll suave en la raíz.
+       Next desplaza al principio en cada cambio de página, y con `smooth` eso
+       deja de ser un salto y pasa a ser una ANIMACIÓN: sobre una portada de
+       trece mil píxeles son uno o dos segundos de página volando, y cualquier
+       cosa que el visitante haga mientras —rodar la rueda, un gesto del
+       trackpad todavía con inercia— la cancela a medio camino y lo deja
+       tirado en mitad de la página nueva. Es el único mecanismo del código
+       que puede dejarte lejos del principio después de navegar.
+
+       El bloque de `prefers-reduced-motion` ya lo forzaba a `auto`, así que
+       este comportamiento no es nuevo: es el que ya tenía media base de
+       usuarios. Los anclajes de la propia página siguen funcionando; llegan
+       de golpe en vez de deslizándose, que en una página de este alto se lee
+       mejor de todos modos. */
+    scroll-behavior: auto;
     /* Ningún ancla vuelve a quedar debajo del header fijo. */
     scroll-padding-top: calc(var(--header-h) + 1.5rem);
   }

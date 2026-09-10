@@ -7,6 +7,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { CuentameProvider } from "@/components/Cuentame";
 import { Blobs } from "@/components/Blobs";
 import { Cookies } from "@/components/Cookies";
+import { AlCambiarDeRuta } from "@/components/AlCambiarDeRuta";
 import type { Idioma } from "@/content/types";
 
 /**
@@ -40,6 +41,7 @@ export function Documento({
             Una sola instancia fija cubre las quince mil filas de scroll de
             cualquier página; poner una por sección multiplicaría por seis el
             coste sin que se vea más. */}
+        <AlCambiarDeRuta />
         <Blobs fijo />
         <StructuredData />
         {/* El diálogo de contacto vive en el layout, no en cada página: hay un
