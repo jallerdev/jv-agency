@@ -43,9 +43,13 @@ export type NodoArbol =
 
 export function ArbolDecision({
   raiz,
+  reiniciar = "Empezar de nuevo",
   className,
 }: {
   raiz: NodoArbol;
+  /** «Empezar de nuevo», ya traducido. Es el único texto que pone el
+   *  componente por su cuenta; todo lo demás viene del árbol. */
+  reiniciar?: string;
   className?: string;
 }) {
   const [ruta, setRuta] = useState<number[]>([]);
@@ -142,7 +146,7 @@ export function ArbolDecision({
           onClick={() => setRuta([])}
           className="mt-3 inline-flex min-h-11 items-center jv-eyebrow text-ink-soft underline underline-offset-4 hover:text-ink"
         >
-          Empezar de nuevo
+          {reiniciar}
         </button>
       )}
     </div>

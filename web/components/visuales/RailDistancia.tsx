@@ -38,12 +38,15 @@ export const PARADAS_POR_DEFECTO: ParadaDistancia[] = [
   { lugar: "Bogotá", distancia: "≈ 1.000 km", nota: "A distancia, y lo digo yo primero." },
 ];
 
-/* Paradas de color del carril: primary → secondary → line. Los tres son de la
-   paleta; lo que se interpola es la mezcla entre ellos, no un color nuevo. */
+/* Paradas de color del carril, dentro de la rampa de marca: 600 → 500 → 300.
+   Estaban en violeta y azul cielo —#7C6CF5, #9D92F8, #38BDF8— de la marca
+   anterior. Van escritas como tripletas porque el carril INTERPOLA entre
+   ellas para dibujar el degradado, y `var(--brand-500)` no se puede
+   interpolar en JavaScript. Si cambia la rampa, cambian aquí. */
 const PARADAS_COLOR = [
-  [124, 108, 245], /* violeta-500  #7C6CF5 */
-  [157, 146, 248], /* violeta-400  #9D92F8 */
-  [ 56, 189, 248], /* cielo-400    #38BDF8 */
+  [182,  58,  36], /* brand-700  #B63A24 */
+  [232,  98,  63], /* brand-500  #E8623F */
+  [240, 153, 125], /* brand-300  #F0997D */
 ] as const;
 
 function colorEn(t: number) {

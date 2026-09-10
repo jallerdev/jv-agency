@@ -21,6 +21,7 @@ export const RUTAS: Readonly<Record<string, string>> = {
   "/sobre-nosotros": "/en/about",
   "/contacto": "/en/contact",
   "/servicios/chatbot-whatsapp": "/en/services/whatsapp-chatbot",
+  "/servicios/diseno-de-paginas-web": "/en/services/web-design",
 };
 
 /**
@@ -33,7 +34,6 @@ export const RUTAS: Readonly<Record<string, string>> = {
  * conmutador— se entera solo.
  */
 export const PENDIENTES: Readonly<Record<string, string>> = {
-  "/servicios/diseno-de-paginas-web": "/en/services/web-design",
   "/servicios/tiendas-virtuales": "/en/services/online-stores",
   "/servicios/posicionamiento-seo": "/en/services/seo",
   "/servicios/software-a-la-medida": "/en/services/custom-software",

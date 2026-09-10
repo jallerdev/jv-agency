@@ -34,11 +34,18 @@ export function ListaAcopio({
   titulo = "Qué necesito de ti para arrancar",
   nota = "El reloj arranca cuando llega el material, no al aceptar la propuesta.",
   almacen,
+  contador,
   className,
 }: {
   items: string[];
   titulo?: string;
   nota?: string;
+  /** La plantilla del renglón «3 de 6 listos», con `{listos}` y `{total}`.
+   *  Es una CADENA y no una función porque este componente es de cliente y
+   *  una función no puede cruzar la frontera desde un componente de servidor
+   *  —React lo rechaza en tiempo de ejecución—. Y va entera, no por piezas,
+   *  porque en inglés el orden es otro: «3 of 6 ready». */
+  contador?: string;
   /** Clave de localStorage. Sin ella la lista no se guarda, y no pasa nada. */
   almacen?: string;
   className?: string;
@@ -80,7 +87,9 @@ export function ListaAcopio({
           aria-live="polite"
           className="shrink-0 jv-eyebrow tabular-nums text-accent-ink"
         >
-          {listos} de {items.length} listos
+          {(contador ?? "{listos} de {total} listos")
+            .replace("{listos}", String(listos))
+            .replace("{total}", String(items.length))}
         </p>
       </div>
 
