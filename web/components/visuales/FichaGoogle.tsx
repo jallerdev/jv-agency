@@ -40,11 +40,15 @@ export function FichaGoogle({
   campos = CAMPOS_FICHA,
   titulo = "Ficha de Google Business",
   rotulo = "Ejemplo · campos genéricos, no los de ningún negocio",
+  /* «Por llenar» es lo que dice cada casilla sin valor, y es la mitad del
+     argumento del visual: se pasa traducido desde fuera. */
+  porLlenar = "Por llenar",
   className,
 }: {
   campos?: CampoFicha[];
   titulo?: string;
   rotulo?: string;
+  porLlenar?: string;
   className?: string;
 }) {
   const llenos = campos.filter((c) => Boolean(c.valor)).length;
@@ -92,7 +96,7 @@ export function FichaGoogle({
                   className="block h-6 rounded-md border border-dashed border-line"
                 />
               )}
-              {!c.valor && <span className="sr-only">Por llenar</span>}
+              {!c.valor && <span className="sr-only">{porLlenar}</span>}
             </dd>
           </div>
         ))}

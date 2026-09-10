@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
+import type { Idioma } from "@/content/types";
 
 /**
  * EL BLOQUE LOCAL: SIN FICHA / CON FICHA
@@ -27,9 +28,11 @@ import { cn } from "@/lib/utils";
 
 type Ficha = { nombre: string; categoria: string; distancia: string; estrellas: number };
 
-const COMPETIDORES: Ficha[] = [
-  { nombre: "Competidor", categoria: "Mismo servicio", distancia: "0,8 km", estrellas: 4 },
-  { nombre: "Competidor", categoria: "Mismo servicio", distancia: "1,4 km", estrellas: 4 },
+/* Solo la distancia y las estrellas: el nombre y la categoría los pone el
+   componente, ya traducidos. */
+const COMPETIDORES: Pick<Ficha, "distancia" | "estrellas">[] = [
+  { distancia: "0,8 km", estrellas: 4 },
+  { distancia: "1,4 km", estrellas: 4 },
 ];
 
 function Estrellas({ n }: { n: number }) {
@@ -88,16 +91,49 @@ function FilaBloque({ ficha, tuyo }: { ficha: Ficha; tuyo?: boolean }) {
   );
 }
 
+/**
+ * Los rótulos del visual, en las dos lenguas. Van aquí y no como seis props
+ * sueltas: quien usa el componente pasa `idioma` y ya, y no puede olvidarse
+ * de traducir la mitad.
+ */
+const T = {
+  es: {
+    sinFicha: "Sin ficha",
+    conFicha: "Con ficha",
+    losTres: "Los tres del mapa",
+    noApareces: "Aquí no apareces.",
+    debajo: "Debajo, los resultados de siempre",
+    tuServicio: "Tu servicio principal",
+    competidor: "Competidor",
+    otroNegocio: "Otro negocio de la zona",
+    mismoServicio: "Mismo servicio",
+  },
+  en: {
+    sinFicha: "No profile",
+    conFicha: "With a profile",
+    losTres: "The three on the map",
+    noApareces: "You don't show up here.",
+    debajo: "Below, the usual results",
+    tuServicio: "Your main service",
+    competidor: "Competitor",
+    otroNegocio: "Another business in the area",
+    mismoServicio: "Same service",
+  },
+} as const;
+
 export function BloqueLocalGoogle({
   consulta = "peluquería en Turbaco",
   tuNegocio = "Tu negocio",
+  idioma = "es",
   className,
 }: {
   /** La búsqueda escrita en la barra. Cámbiala por la del sector de la página. */
   consulta?: string;
   tuNegocio?: string;
+  idioma?: Idioma;
   className?: string;
 }) {
+  const t = T[idioma];
   const [conFicha, setConFicha] = useState(false);
 
   return (
@@ -106,8 +142,8 @@ export function BloqueLocalGoogle({
           ancho completo y gordo. Dos botones con aria-pressed, no un slider. */}
       <div className="grid grid-cols-2 gap-2">
         {[
-          { v: false, t: "Sin ficha" },
-          { v: true, t: "Con ficha" },
+          { v: false, t: t.sinFicha },
+          { v: true, t: t.conFicha },
         ].map((o) => (
           <button
             key={o.t}
@@ -136,7 +172,7 @@ export function BloqueLocalGoogle({
       </div>
 
       <p className="mt-5 jv-eyebrow text-accent-ink">
-        Los tres del mapa
+        {t.losTres}
       </p>
 
       <div
@@ -148,7 +184,7 @@ export function BloqueLocalGoogle({
             tuyo
             ficha={{
               nombre: tuNegocio,
-              categoria: "Tu servicio principal",
+              categoria: t.tuServicio,
               distancia: "0,3 km",
               estrellas: 5,
             }}
@@ -157,38 +193,42 @@ export function BloqueLocalGoogle({
           <div className="grid min-h-[4.5rem] place-items-center rounded-xl border border-dashed border-line px-4 py-4 text-center">
             <div>
               <p className="jv-eyebrow text-accent-ink">
-                Sin ficha
+                {t.sinFicha}
               </p>
               <p className="mt-1.5 text-balance font-body text-[15px] leading-snug text-ink-soft">
-                Aquí no apareces.
+                {t.noApareces}
               </p>
             </div>
           </div>
         )}
 
         {COMPETIDORES.map((c, i) => (
-          <FilaBloque key={i} ficha={c} />
+          <FilaBloque
+            key={i}
+            ficha={{ ...c, nombre: t.competidor, categoria: t.mismoServicio }}
+          />
         ))}
       </div>
 
       {/* Dos resultados orgánicos, para que se entienda dónde queda el bloque. */}
       <p className="mt-5 jv-eyebrow text-accent-ink">
-        Debajo, los resultados de siempre
+        {t.debajo}
       </p>
       <ul className="mt-2.5 grid gap-3">
-        {["Un directorio del sector", "Otro negocio de la zona"].map((t) => (
-          <li key={t} className="min-w-0">
-            <span className="block truncate font-body text-[15px] text-primary-dark underline underline-offset-2">
-              {t}
+        {[idioma === "es" ? "Un directorio del sector" : "A sector directory", t.otroNegocio].map((linea) => (
+          <li key={linea} className="min-w-0">
+            <span className="block truncate font-body text-[15px] text-accent-ink underline underline-offset-2">
+              {linea}
             </span>
             <span className="mt-1 block h-2 w-full max-w-[22rem] rounded-full bg-line" aria-hidden />
           </li>
         ))}
       </ul>
 
-      <p className="mt-5 jv-rule pt-4 font-mono text-[11px] leading-relaxed text-accent-ink">
-        Ejemplo · no es un resultado real. El trabajo es entrar en la lista, no
-        prometer el primer puesto.
+      <p className="jv-rule mt-5 pt-4 font-mono text-[11px] leading-relaxed text-accent-ink">
+        {idioma === "es"
+          ? "Ejemplo · no es un resultado real. El trabajo es entrar en la lista, no prometer el primer puesto."
+          : "Example · not a real result. The work is getting into the list, not promising first place."}
       </p>
     </div>
   );
