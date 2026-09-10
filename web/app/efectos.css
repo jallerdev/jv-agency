@@ -122,3 +122,99 @@
   .jv-lift { opacity: 1 !important; transform: none !important; transition: none !important; clip-path: none !important; }
   .jv-marquee { animation: none; }
 }
+
+/* ===========================================================================
+   El degradado de HalcónOS
+   ---------------------------------------------------------------------------
+   En el producto, una palabra suelta y las cifras grandes van en un degradado
+   violeta → azul cielo: «ventas con IA», «60», «Segundos», «CSV·XLSX». Es el
+   gesto que hace que HalcónOS se reconozca de un vistazo, y por eso baja al
+   sitio.
+
+   DÓNDE SÍ Y DÓNDE NO. Solo CIFRAS y PALABRAS SUELTAS —nunca una frase, nunca
+   un párrafo—. La frase operativa de cada titular ya tiene su marca: itálica y
+   violeta, que es lo que manda el design system. Si además fuera degradada,
+   habría dos formas de enfatizar compitiendo en la misma línea, y el texto en
+   degradado repetido es exactamente lo que hace que una página se lea como
+   generada. Uno por sección, como mucho.
+
+   Los dos topes pasan AA sobre el canvas por separado —violeta-500 da 5,04:1 y
+   cielo-400 da 9,28:1— así que el recorte no esconde un fallo de contraste en
+   la mitad del recorrido, que es el defecto habitual de este recurso.
+
+   `inline-block` no es cosmético: sin él, un texto en degradado que se parta
+   en dos líneas recorta el degradado por caja de línea y la segunda arranca
+   otra vez desde el violeta. */
+.text-halcon {
+  display: inline-block;
+  background-image: linear-gradient(100deg, var(--violeta-500) 0%, var(--violeta-400) 38%, var(--cielo-400) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* La barra corta que HalcónOS pone encima de cada cifra: cuatro píxeles de
+   violeta que rematan la columna por arriba. Marca sin gastar una caja. */
+/* Solo de 640 px en adelante: por debajo la cifra y su etiqueta van en una
+   fila —etiqueta a la izquierda, cifra a la derecha— y una barra encima no
+   remataría ninguna columna, solo añadiría una línea suelta. */
+@media (min-width: 640px) {
+.jv-cap::before {
+  content: "";
+  display: block;
+  width: 2.25rem;
+  height: 3px;
+  margin-bottom: 0.875rem;
+  border-radius: var(--radius-pill);
+  background-image: linear-gradient(90deg, var(--violeta-500), var(--cielo-400));
+}
+}
+
+/* ===========================================================================
+   Las superficies que no dibujé
+   ---------------------------------------------------------------------------
+   Selección, cursor de texto, barra de scroll, viñetas y los numerales de una
+   tabla vienen con los valores por defecto del navegador, que no pertenecen a
+   ningún sistema de diseño. Sobre un fondo claro casi no se notan; sobre casi
+   negro cantan: la selección azul de Chrome y una barra de scroll gris claro
+   son lo primero que delata una página oscura montada sobre estilos claros.
+   =========================================================================== */
+
+::selection {
+  background: var(--violeta-500);
+  color: #fff;
+}
+
+/* El cursor de texto en violeta: se ve dónde estás escribiendo sin tener que
+   mirar el borde del campo. */
+input,
+textarea,
+[contenteditable] {
+  caret-color: var(--accent-hover);
+}
+
+/* La barra de scroll, en los dos motores. `--track` y `--line-strong` salen de
+   la misma paleta que el resto, así que la barra pertenece a la página en vez
+   de flotar encima de ella. */
+html {
+  scrollbar-color: var(--line-strong) var(--canvas);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--canvas); }
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border: 2px solid var(--canvas);
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--zinc-700); }
+
+/* La viñeta de una lista es el único glifo que el navegador dibuja por ti.
+   En violeta deja de ser un punto gris de sistema. */
+li::marker { color: var(--accent-hover); }
+
+/* Cifras de ancho fijo en todo lo que se lee como dato: precios, plazos,
+   porcentajes. Sin esto una columna de números baila al cambiar un dígito. */
+.font-mono,
+[class*="tabular"] { font-variant-numeric: tabular-nums; }

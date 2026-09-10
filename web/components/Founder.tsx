@@ -122,9 +122,9 @@ function StatItem({ stat }: { stat: Stat }) {
     /* El <dt> es la etiqueta y el <dd> la cifra, que es como se define una
        lista de descripción. El orden visual —cifra arriba, etiqueta abajo— lo
        pone el flex, no el marcado. */
-    <div className="flex flex-row-reverse items-baseline justify-between gap-4 py-4 sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-1.5 sm:py-0 sm:pl-7 sm:first:pl-0">
+    <div className="jv-cap flex flex-row-reverse items-baseline justify-between gap-4 py-4 sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-1.5 sm:py-0 sm:pl-7 sm:first:pl-0">
       <dt className="font-body text-sm leading-snug text-ink-soft sm:text-xs">{stat.label}</dt>
-      <dd className="font-display text-2xl leading-none tabular-nums text-ink sm:text-[1.75rem]">
+      <dd className="text-halcon font-display text-2xl leading-none tabular-nums sm:text-[1.75rem]">
         {stat.pending ? (
           <span className="font-mono text-xs leading-snug tracking-[0.02em] text-accent-ink">
             {stat.pending}

@@ -265,6 +265,10 @@
 
   /* Enlace de salto al contenido: invisible hasta que recibe foco. */
   .skip-link {
+    /* El alto minimo va en la regla base, no en :focus-visible: asi la caja
+       mide 44 px tambien mientras esta fuera de pantalla, y cualquier auditoria
+       que lo mida sin enfocarlo lee lo mismo que ve quien lo usa. */
+    min-height: 2.75rem;
     position: absolute;
     left: -9999px;
     top: 0;
@@ -275,9 +279,7 @@
     top: 0.75rem;
     display: inline-flex;
     align-items: center;
-    /* Medido: salia de 141x24. El primer control de la pagina, y el unico que
-       usa quien navega con teclado, era el mas pequeno de todo el sitio. */
-    min-height: 2.75rem;
+
     border-radius: 9999px;
     background-color: var(--color-primary);
     color: var(--color-surface);
