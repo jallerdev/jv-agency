@@ -2,8 +2,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/sections/Header";
+import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import type { BlogPost as Post } from "@/lib/blog";
 
@@ -19,7 +19,7 @@ const FECHA = new Intl.DateTimeFormat("es-CO", {
 export function BlogPost({ post, children }: { post: Post; children: ReactNode }) {
   return (
     <>
-      <Header />
+      <Header idioma="es" />
       <main className="mx-auto max-w-3xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
         <Link
           href="/blog"
@@ -69,7 +69,7 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
           </div>
         </aside>
       </main>
-      <Footer />
+      <Footer idioma="es" />
       <WhatsAppButton />
     </>
   );

@@ -13,8 +13,8 @@ import {
   Users,
 } from "lucide-react";
 
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/sections/Header";
+import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
@@ -314,7 +314,7 @@ export default function SalonesYSpasPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header />
+      <Header idioma="es" />
       <main>
         {/* ── Encabezado ─────────────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
@@ -777,7 +777,7 @@ export default function SalonesYSpasPage() {
           </Reveal>
         </section>
       </main>
-      <Footer />
+      <Footer idioma="es" />
       <WhatsAppButton />
     </>
   );

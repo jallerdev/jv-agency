@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Github, Linkedin, ArrowUpRight } from "lucide-react";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/sections/Header";
 import { Pendiente } from "@/components/Pendiente";
-import { Footer } from "@/components/Footer";
+import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
@@ -105,7 +105,7 @@ export default function SobreNosotrosPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header />
+      <Header idioma="es" />
       <main>
         {/* Hero */}
         <section className="mx-auto max-w-4xl px-5 pb-10 pt-32 text-center md:px-8 md:pt-40">
@@ -280,7 +280,7 @@ export default function SobreNosotrosPage() {
           </Reveal>
         </section>
       </main>
-      <Footer />
+      <Footer idioma="es" />
       <WhatsAppButton />
     </>
   );

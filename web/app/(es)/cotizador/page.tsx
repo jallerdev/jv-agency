@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/sections/Header";
+import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CotizadorSwitch } from "@/components/CotizadorSwitch";
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function CotizadorPage() {
   return (
     <>
-      <Header />
+      <Header idioma="es" />
       <main className="px-5 pb-24 pt-28 md:px-8 md:pt-36">
         <section className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
@@ -34,7 +34,7 @@ export default function CotizadorPage() {
           <CotizadorSwitch />
         </section>
       </main>
-      <Footer />
+      <Footer idioma="es" />
       <WhatsAppButton />
     </>
   );

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/sections/Header";
+import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { AUTHOR, POSTS } from "@/lib/blog";
 import { SITE_NAME, SITE_URL } from "@/lib/business";
@@ -58,7 +58,7 @@ export default function BlogIndexPage() {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
       />
-      <Header />
+      <Header idioma="es" />
       <main className="mx-auto max-w-4xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
         <p className="font-mono text-xs uppercase tracking-widest text-accent-ink">Blog</p>
         <h1 className="mt-3 font-display text-4xl text-ink md:text-5xl">
@@ -97,7 +97,7 @@ export default function BlogIndexPage() {
           ))}
         </div>
       </main>
-      <Footer />
+      <Footer idioma="es" />
       <WhatsAppButton />
     </>
   );
