@@ -17,6 +17,18 @@ import { IDIOMA_POR_DEFECTO, type Idioma } from "@/content/types";
  */
 export const RUTAS: Readonly<Record<string, string>> = {
   "/": "/en",
+};
+
+/**
+ * Lo que todavía NO está traducido, con el slug que le toca cuando lo esté.
+ *
+ * Vive aquí y no en `RUTAS` a propósito: si estuviera arriba, el conmutador de
+ * idioma de la cabecera pintaría un enlace a una página que devuelve 404 y el
+ * `sitemap` le ofrecería a Google URLs que no existen. Traducir una página es
+ * moverla de esta lista a la de arriba, y todo lo demás —`hreflang`, sitemap,
+ * conmutador— se entera solo.
+ */
+export const PENDIENTES: Readonly<Record<string, string>> = {
   "/precios": "/en/pricing",
   "/servicios/diseno-de-paginas-web": "/en/services/web-design",
   "/servicios/tiendas-virtuales": "/en/services/online-stores",
@@ -61,15 +73,10 @@ export function rutaEnOtroIdioma(ruta: string): string | null {
   const limpia = ruta.split("#")[0].split("?")[0].replace(/\/+$/, "") || "/";
 
   if (idiomaDeRuta(limpia) === "en") {
-    if (INVERSO[limpia]) return INVERSO[limpia];
-    /* Las entradas del blog comparten slug: solo cambia el prefijo. */
-    if (limpia.startsWith("/en/blog/")) return limpia.replace("/en/blog/", "/blog/");
-    return null;
+    return INVERSO[limpia] ?? null;
   }
 
-  if (RUTAS[limpia]) return RUTAS[limpia];
-  if (limpia.startsWith("/blog/")) return limpia.replace("/blog/", "/en/blog/");
-  return null;
+  return RUTAS[limpia] ?? null;
 }
 
 /** Las dos versiones de una ruta, para `hreflang` y para el sitemap. */

@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { POSTS } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
+import { RUTAS } from "@/lib/rutas";
 
 // Páginas de ciudad: intención de DECISIÓN ("diseño de páginas web en X").
 // Son las que traen a alguien que ya quiere contratar, así que pesan igual
@@ -27,9 +28,26 @@ const SERVICIOS = [
 // que la de ciudad. Quedan justo debajo.
 const SECTORES = ["sectores/salones-y-spas", "sectores/clinicas-y-consultorios"] as const;
 
+/**
+ * Las alternativas de idioma de una URL, si están construidas.
+ *
+ * Sale de `lib/rutas.ts`, que es el único sitio donde se declara qué páginas
+ * existen en inglés. Así el sitemap no puede prometerle a Google una versión
+ * traducida que todavía no está: traducir una página es mover una línea allá.
+ */
+function idiomas(ruta: string) {
+  const en = RUTAS[ruta];
+  if (!en) return undefined;
+  return { languages: { "es-CO": `${SITE_URL}${ruta}`, en: `${SITE_URL}${en}` } };
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: SITE_URL, changeFrequency: "monthly", priority: 1 },
+    { url: SITE_URL, changeFrequency: "monthly", priority: 1, alternates: idiomas("/") },
+    /* La portada en inglés entra como URL propia: `alternates` le dice a
+       Google que son la misma página en dos lenguas, pero cada una tiene que
+       estar listada para que la rastree. */
+    { url: `${SITE_URL}/en`, changeFrequency: "monthly", priority: 0.9 },
     ...CIUDADES.map((ruta) => ({
       url: `${SITE_URL}/${ruta}`,
       changeFrequency: "monthly" as const,
