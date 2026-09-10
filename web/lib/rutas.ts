@@ -20,6 +20,7 @@ export const RUTAS: Readonly<Record<string, string>> = {
   "/precios": "/en/pricing",
   "/sobre-nosotros": "/en/about",
   "/contacto": "/en/contact",
+  "/servicios/chatbot-whatsapp": "/en/services/whatsapp-chatbot",
 };
 
 /**
@@ -34,7 +35,6 @@ export const RUTAS: Readonly<Record<string, string>> = {
 export const PENDIENTES: Readonly<Record<string, string>> = {
   "/servicios/diseno-de-paginas-web": "/en/services/web-design",
   "/servicios/tiendas-virtuales": "/en/services/online-stores",
-  "/servicios/chatbot-whatsapp": "/en/services/whatsapp-chatbot",
   "/servicios/posicionamiento-seo": "/en/services/seo",
   "/servicios/software-a-la-medida": "/en/services/custom-software",
   "/sectores/salones-y-spas": "/en/industries/salons-and-spas",

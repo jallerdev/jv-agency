@@ -1,6 +1,45 @@
 import { cn } from "@/lib/utils";
 import { LuzPuntero } from "@/components/LuzPuntero";
 import { SelloVerificado } from "@/components/SelloVerificado";
+import type { Idioma } from "@/content/types";
+
+/**
+ * Los textos, en las dos lenguas. La frase es DESCRIPTIVA y factual en las
+ * dos: declara una verificación que existe y no insinúa respaldo, que es
+ * justo lo que las reglas de marca de Meta prohíben.
+ */
+const T = {
+  es: {
+    compactoAntes: "Proveedor de tecnología ",
+    compactoFuerte: "verificado por Meta",
+    sello: "Verificado por Meta",
+    tituloRail: "Proveedor de tecnología",
+    cuerpoRail: "Conecto tu WhatsApp Business y construyo las automatizaciones encima. La cuenta queda ",
+    cuerpoRailFuerte: "a tu nombre",
+    cuerpoRailFin: " —no al mío.",
+    fecha: "Verificado · jul 2026",
+    eyebrow: "Automatizaciones sobre WhatsApp",
+    titulo: "Proveedor de tecnología verificado por Meta",
+    cuerpo: "Conecto la cuenta de WhatsApp Business de tu negocio y construyo las automatizaciones sobre ella. Tu número, tus plantillas y la cuenta ",
+    cuerpoFuerte: "a tu nombre",
+    cuerpoFin: " —no al mío.",
+  },
+  en: {
+    compactoAntes: "Technology provider ",
+    compactoFuerte: "verified by Meta",
+    sello: "Verified by Meta",
+    tituloRail: "Technology provider",
+    cuerpoRail: "I connect your WhatsApp Business and build the automations on top. The account stays ",
+    cuerpoRailFuerte: "in your name",
+    cuerpoRailFin: " —not mine.",
+    fecha: "Verified · Jul 2026",
+    eyebrow: "Automations over WhatsApp",
+    titulo: "Technology provider verified by Meta",
+    cuerpo: "I connect your business's WhatsApp Business account and build the automations on top of it. Your number, your templates and the account ",
+    cuerpoFuerte: "in your name",
+    cuerpoFin: " —not mine.",
+  },
+} as const;
 
 // Insignia de "Proveedor de tecnología verificado por Meta".
 //
@@ -40,7 +79,7 @@ import { SelloVerificado } from "@/components/SelloVerificado";
 //     llevan a algún sitio.
 
 /** Estado de la credencial. Vive en el pie para que se lea en todos los anchos. */
-function StatusChip({ className }: { className?: string }) {
+function StatusChip({ texto, className }: { texto: string; className?: string }) {
   return (
     <span
       className={cn(
@@ -51,7 +90,7 @@ function StatusChip({ className }: { className?: string }) {
       <span aria-hidden className="relative flex h-1.5 w-1.5 shrink-0">
         <span className="jv-latido relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
       </span>
-      Verificado · jul 2026
+      {texto}
     </span>
   );
 }
@@ -65,11 +104,14 @@ function StatusChip({ className }: { className?: string }) {
  */
 export function MetaTechProvider({
   variant = "card",
+  idioma = "es",
   className,
 }: {
   variant?: "compact" | "card" | "rail";
+  idioma?: Idioma;
   className?: string;
 }) {
+  const t = T[idioma];
   if (variant === "compact") {
     return (
       <span
@@ -80,7 +122,8 @@ export function MetaTechProvider({
       >
         <SelloVerificado className="h-4 w-4 shrink-0" />
         <span className="font-body text-sm text-current opacity-80">
-          Proveedor de tecnología <strong className="font-semibold opacity-100">verificado por Meta</strong>
+          {t.compactoAntes}
+          <strong className="font-semibold opacity-100">{t.compactoFuerte}</strong>
         </span>
       </span>
     );
@@ -126,21 +169,22 @@ export function MetaTechProvider({
           </div>
 
           <p className="mt-5 font-mono text-[11px] uppercase leading-relaxed tracking-[0.16em] text-accent-ink">
-            Verificado por Meta
+            {t.sello}
           </p>
           <p className="mt-2 text-balance font-body text-xl font-semibold leading-[1.2] text-ink">
-            Proveedor de tecnología
+            {t.tituloRail}
           </p>
           <p className="mt-3 text-pretty font-body text-[13px] leading-relaxed text-ink-soft">
-            Conecto tu WhatsApp Business y construyo las automatizaciones encima. La cuenta queda{" "}
-            <strong className="font-semibold text-ink">a tu nombre</strong> —no al mío.
+            {t.cuerpoRail}
+            <strong className="font-semibold text-ink">{t.cuerpoRailFuerte}</strong>
+            {t.cuerpoRailFin}
           </p>
 
           <p className="jv-rule jv-eyebrow mt-5 flex items-center gap-2 pt-4 text-ink-soft">
             {/* El punto late: dice que la verificacion sigue vigente hoy, no
                 que existio en julio. */}
             <span aria-hidden className="jv-latido h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
-            Verificado · jul 2026
+            {t.fecha}
           </p>
         </div>
       </div>
@@ -185,22 +229,22 @@ export function MetaTechProvider({
 
           <div className="min-w-0 sm:pt-1">
             <p className="jv-eyebrow text-accent-ink">
-              Automatizaciones sobre WhatsApp
+              {t.eyebrow}
             </p>
             <p className="mt-2.5 text-balance font-display text-2xl leading-[1.15] text-ink sm:text-[1.75rem]">
-              Proveedor de tecnología verificado por Meta
+              {t.titulo}
             </p>
             <p className="mt-3 max-w-[58ch] text-pretty font-body text-sm leading-relaxed text-ink-soft">
-              Conecto la cuenta de WhatsApp Business de tu negocio y construyo las
-              automatizaciones sobre ella. Tu número, tus plantillas y la cuenta{" "}
-              <strong className="font-semibold text-ink">a tu nombre</strong> —no al mío.
+              {t.cuerpo}
+              <strong className="font-semibold text-ink">{t.cuerpoFuerte}</strong>
+              {t.cuerpoFin}
             </p>
           </div>
         </div>
 
         {/* Pie de credencial: la regla y la prueba. */}
         <div className="mt-6 flex items-center gap-4 jv-rule pt-4">
-          <StatusChip />
+          <StatusChip texto={t.fecha} />
         </div>
       </div>
     </div>

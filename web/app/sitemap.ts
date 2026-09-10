@@ -57,7 +57,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}/${ruta}`,
       changeFrequency: "monthly" as const,
       priority: 0.9,
+      alternates: idiomas(`/${ruta}`),
     })),
+    /* Las traducidas entran como URL propia: `alternates` dice que son la
+       misma página en dos lenguas, pero cada una tiene que estar listada para
+       que Google la rastree. Salen de `RUTAS`, así que aparecen solas en
+       cuanto una traducción existe. */
+    ...Object.values(RUTAS)
+      .filter((en) => en.startsWith("/en/services/"))
+      .map((en) => ({
+        url: `${SITE_URL}${en}`,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      })),
     // Precios es pagina comercial, no articulo: la busca quien ya quiere
     // contratar y la enlazan el Header, el Hero, el pie y cada articulo.
     {
