@@ -51,7 +51,7 @@ export const CLINICAS = {
   },
   necesitaEntradilla: {
     es: "Seis cosas concretas, y ninguna es «transmitir confianza». La confianza es el resultado de que estén las seis.",
-    en: "Six concrete things, and none of them is «conveying trust». Trust is the result of the six being there.",
+    en: "Six concrete things, and none of them is “conveying trust”. Trust is the result of the six being there.",
   },
   necesita: [
     {
@@ -73,7 +73,7 @@ export const CLINICAS = {
       },
       cuerpo: {
         es: "Nadie busca «terapia física de miembro inferior»: busca «dolor de rodilla». La página se escribe en el idioma del que tiene el problema, con el nombre técnico detrás y no al revés.",
-        en: "Nobody searches for «lower-limb physical therapy»: they search for «knee pain». The page is written in the language of whoever has the problem, with the technical name behind it and not the other way round.",
+        en: "Nobody searches for “lower-limb physical therapy”: they search for “knee pain”. The page is written in the language of whoever has the problem, with the technical name behind it and not the other way round.",
       },
     },
     {
@@ -138,7 +138,7 @@ export const CLINICAS = {
       "Comparaciones con otros profesionales o clínicas. No hace falta bajar a nadie para explicar por qué te buscan a ti.",
     ],
     en: [
-      "Promises of results. Not «guaranteed results», not «pain-free», not «recovery in X days».",
+      "Promises of results. Not “guaranteed results”, not “pain-free”, not “recovery in X days”.",
       "Services that don't match what you're licensed for. If it isn't in your name on the REPS register, it doesn't go on the site.",
       "Photos or testimonials from patients without their written consent. That's sensitive data and it gets treated as such.",
       "Comparisons with other professionals or clinics. You don't need to put anyone down to explain why people come to you.",
@@ -299,7 +299,7 @@ export const CLINICAS = {
       plazo: { es: "trabajo continuo", en: "ongoing work" },
       cuerpo: {
         es: "Aparecer en «odontólogo en Cartagena» o «fisioterapia en Turbaco»: tu especialidad con el nombre de tu ciudad al lado.",
-        en: "Showing up for «dentist in Cartagena» or «physiotherapy in Turbaco»: your specialty with your city's name next to it.",
+        en: "Showing up for “dentist in Cartagena” or “physiotherapy in Turbaco”: your specialty with your city's name next to it.",
       },
       href: { es: "/servicios/posicionamiento-seo", en: "/en/services/seo" },
     },

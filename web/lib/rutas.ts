@@ -26,6 +26,7 @@ export const RUTAS: Readonly<Record<string, string>> = {
   "/servicios/software-a-la-medida": "/en/services/custom-software",
   "/sectores/salones-y-spas": "/en/industries/salons-and-spas",
   "/sectores/clinicas-y-consultorios": "/en/industries/clinics",
+  "/servicios/posicionamiento-seo": "/en/services/seo",
 };
 
 /**
@@ -38,7 +39,6 @@ export const RUTAS: Readonly<Record<string, string>> = {
  * conmutador— se entera solo.
  */
 export const PENDIENTES: Readonly<Record<string, string>> = {
-  "/servicios/posicionamiento-seo": "/en/services/seo",
   "/blog": "/en/blog",
 };
 

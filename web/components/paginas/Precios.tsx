@@ -314,7 +314,7 @@ export function PaginaPrecios({
         </section>
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
   );

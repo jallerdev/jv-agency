@@ -44,7 +44,7 @@ export function Documento({
         <StructuredData />
         {/* El diálogo de contacto vive en el layout, no en cada página: hay un
             solo panel montado para todo el sitio y cualquier botón lo abre. */}
-        <CuentameProvider>{children}</CuentameProvider>
+        <CuentameProvider idioma={lang}>{children}</CuentameProvider>
         <Cookies idioma={lang} />
 
         {/* Google Analytics 4.

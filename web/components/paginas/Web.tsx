@@ -45,11 +45,14 @@ import { RailPlazo } from "@/components/visuales/RailPlazo";
  * el 2.500.000 estaba escrito a mano en dos sitios de esta misma página.
  *
  * El formateador de `es-CO` mete un espacio duro después del signo
- * («$ 850.000») y el precio autorizado se escribe «$850.000». `pesos()` lo
- * quita: el número sigue saliendo del cotizador, lo único que cambia es el
- * espacio.
+ * («$ 850.000») y el precio autorizado se escribe «$850.000». `pesos()` quita
+ * ESE espacio y solo ese: el número sigue saliendo del cotizador.
+ *
+ * En inglés no se toca nada. Ahí la cadena es «$390,000 COP» y el espacio que
+ * lleva separa el importe de la sigla —quitarlo daría «$390,000COP»—, así que
+ * el recorte se aplica únicamente entre el signo y el primer dígito.
  */
-const pesos = (n: number) => money(n).replace(/\s/g, "");
+const pesos = (n: number, idioma: Idioma) => money(n, idioma).replace(/^(\$)\s+/, "$1");
 
 /**
  * Los pisos PUBLICADOS. Ojo: no son `PRICES.base`. Esa es la base con la que
@@ -72,15 +75,15 @@ const GLIFOS = {
 } as const;
 
 /** Sustituye los marcadores de precio del contenido por el número de verdad. */
-function conPrecios(texto: string) {
+function conPrecios(texto: string, idioma: Idioma) {
   return texto
-    .replaceAll("{piso}", pesos(PISO_LANDING))
-    .replaceAll("{ecom}", pesos(PISO_ECOM))
-    .replaceAll("{auditoria}", pesos(PISO_AUDITORIA))
-    .replaceAll("{seoMes}", pesos(PISO_SEO_MES))
-    .replaceAll("{marca}", pesos(PRICES.marca.nada))
-    .replaceAll("{mantenimiento}", pesos(PRICES.mantenimiento.basico))
-    .replaceAll("{renovacion}", pesos(RENOVACION));
+    .replaceAll("{piso}", pesos(PISO_LANDING, idioma))
+    .replaceAll("{ecom}", pesos(PISO_ECOM, idioma))
+    .replaceAll("{auditoria}", pesos(PISO_AUDITORIA, idioma))
+    .replaceAll("{seoMes}", pesos(PISO_SEO_MES, idioma))
+    .replaceAll("{marca}", pesos(PRICES.marca.nada, idioma))
+    .replaceAll("{mantenimiento}", pesos(PRICES.mantenimiento.basico, idioma))
+    .replaceAll("{renovacion}", pesos(RENOVACION, idioma));
 }
 
 /**
@@ -100,7 +103,7 @@ function arbolDe(idioma: Idioma): NodoArbol {
           tipo: "resultado",
           titulo: a.tienda.titulo[idioma],
           detalle: a.tienda.detalle[idioma],
-          pie: `${WEB.desde[idioma]} ${pesos(PISO_ECOM)} · ${a.tienda.semanas[idioma]}`,
+          pie: `${WEB.desde[idioma]} ${pesos(PISO_ECOM, idioma)} · ${a.tienda.semanas[idioma]}`,
           enlace: {
             texto: a.tienda.enlace[idioma],
             href: enlaceReal(a.tienda.href[idioma]),
@@ -134,7 +137,7 @@ function arbolDe(idioma: Idioma): NodoArbol {
                       tipo: "resultado",
                       titulo: a.landing.titulo[idioma],
                       detalle: a.landing.detalle[idioma],
-                      pie: `${WEB.desde[idioma]} ${pesos(PISO_LANDING)} · ${a.landing.dias[idioma]}`,
+                      pie: `${WEB.desde[idioma]} ${pesos(PISO_LANDING, idioma)} · ${a.landing.dias[idioma]}`,
                     },
                   },
                   {
@@ -143,7 +146,7 @@ function arbolDe(idioma: Idioma): NodoArbol {
                       tipo: "resultado",
                       titulo: a.corporativa.titulo[idioma],
                       detalle: a.corporativa.detalle[idioma],
-                      pie: `${WEB.desde[idioma]} ${pesos(PRICES.base.corp)} · ${a.corporativa.semanas[idioma]}`,
+                      pie: `${WEB.desde[idioma]} ${pesos(PRICES.base.corp, idioma)} · ${a.corporativa.semanas[idioma]}`,
                     },
                   },
                 ],
@@ -215,7 +218,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
 
   const faqs = WEB_FAQ.map((f) => ({
     q: f.q[idioma],
-    a: conPrecios(f.a[idioma]),
+    a: conPrecios(f.a[idioma], idioma),
     verify: f.verify,
   }));
 
@@ -337,11 +340,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
           {/* Antes de las tres tarjetas, la pregunta que trae el visitante:
               cuál de los tres pedir. La primera rama lo manda a tiendas. */}
           <Reveal delay={80}>
-            <ArbolDecision
-              raiz={arbolDe(idioma)}
-              reiniciar={es ? "Empezar de nuevo" : "Start over"}
-              className="mt-10"
-            />
+            <ArbolDecision raiz={arbolDe(idioma)} idioma={idioma} className="mt-10" />
           </Reveal>
 
           <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-3">
@@ -386,7 +385,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
 
                     <p className="jv-rule mt-5 pt-4 font-mono text-lg text-brand">
                       {piso
-                        ? `${WEB.desde[idioma]} ${pesos(piso)}`
+                        ? `${WEB.desde[idioma]} ${pesos(piso, idioma)}`
                         : WEB.segunLoQueHaya[idioma]}
                     </p>
                   </article>
@@ -412,7 +411,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
               nota={WEB.comparador.nota[idioma]}
               incluye={[...WEB.incluyeSiempre[idioma]]}
               noIncluye={WEB.noIncluye.map((n) => ({
-                texto: conPrecios(n.texto[idioma]),
+                texto: conPrecios(n.texto[idioma], idioma),
                 quien: n.quien[idioma],
               }))}
             />
@@ -467,11 +466,11 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
 
           <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {WEB_PRUEBAS.fichas.map((f, i) => (
-              <Reveal key={f.nombre} delay={i * 80}>
+              <Reveal key={f.nombre.es} delay={i * 80}>
                 <article className="jv-card jv-card-int flex h-full flex-col p-7">
                   <span className="jv-chip jv-chip-off w-fit text-xs">{f.etiqueta[idioma]}</span>
                   <h3 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em] text-ink">
-                    {f.nombre}
+                    {f.nombre[idioma]}
                   </h3>
                   <p className="mt-3 flex-1 leading-relaxed text-ink-soft">{f.cuerpo[idioma]}</p>
                   {f.url && (
@@ -554,7 +553,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
         </section>
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
   );

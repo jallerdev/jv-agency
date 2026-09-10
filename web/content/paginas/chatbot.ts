@@ -117,7 +117,7 @@ export const CHATBOT = {
       titulo: { es: "Agendas citas por chat", en: "You book appointments over chat" },
       cuerpo: {
         es: "El ida y vuelta de «¿a qué hora tiene?» se come la mañana.",
-        en: "The back and forth of «what time do you have?» eats up the morning.",
+        en: "The back and forth of “what time do you have?” eats up the morning.",
       },
     },
     {
@@ -180,7 +180,14 @@ export const CHATBOT = {
         "If you need anything else, someone from the team will write to you first thing tomorrow.",
       ],
     } as Traducido<readonly string[]>,
-    horas: ["9:41 p. m.", "9:41 p. m.", "9:42 p. m.", "9:42 p. m.", "9:42 p. m."],
+    /* La hora se escribe distinto en cada lengua: en castellano «9:41 p. m.»
+       con espacio duro y punto tras cada letra, en inglés «9:41 p.m.». Es de
+       esas cosas que no se leen mal pero delatan que el texto viene traducido,
+       así que va en la tabla como cualquier otra frase. */
+    horas: {
+      es: ["9:41 p. m.", "9:41 p. m.", "9:42 p. m.", "9:42 p. m.", "9:42 p. m."],
+      en: ["9:41 p.m.", "9:41 p.m.", "9:42 p.m.", "9:42 p.m.", "9:42 p.m."],
+    } as Traducido<readonly string[]>,
   },
 
   incluyeTitulo: {

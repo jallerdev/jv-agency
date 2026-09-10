@@ -148,7 +148,7 @@
   --shadow-md: none;
   --shadow-pop: none;
   --shadow-accent: none;
-  --inset-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --inset-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
   --blur-glass: saturate(150%) blur(14px);
   /* El resplandor del hero: naranja al 8% sobre negro, como pide la
@@ -222,14 +222,14 @@
   --radius-xl: 24px;
   --radius-pill: 999px;
 
-  /* Sobre oscuro la elevación la da el escalón de superficie más el filete de
-     1px. La sombra queda para lo que de verdad flota. */
-  --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / 0.24);
-  --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.24), 0 2px 8px hsl(var(--shadow-color) / 0.16);
-  --shadow-md: 0 6px 18px -4px hsl(var(--shadow-color) / 0.34);
-  --shadow-pop: 0 8px 30px hsl(var(--shadow-color) / 0.45);
-  --shadow-accent: 0 10px 28px -10px rgba(232, 98, 63, 0.5);
-  --inset-hairline: inset 0 1px 0 hsl(0 0% 100% / 0.06);
+  /* La escala de sombra se declara UNA vez, arriba, y vale `none`. Aquí había
+     una segunda tanda que ganaba por orden y la resucitaba —el mismo fallo que
+     dejó el florón morado—. Encima venía rota: las cinco pedían
+     `hsl(var(--shadow-color) / …)` y `--shadow-color` no está definida en
+     ninguna parte, así que la sustitución era inválida y `box-shadow` caía a
+     su valor inicial. O sea: el archivo decía «sin sombras», luego se
+     contradecía, y el navegador acababa en «sin sombras» por accidente y no
+     por decisión. Ahora lo dice una sola vez y en serio. */
 
   --blur-glass: saturate(150%) blur(14px);
   /* El florón se define UNA vez, arriba, en --bloom-brand. Aquí había una

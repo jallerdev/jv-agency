@@ -173,7 +173,7 @@ export function PaginaContacto({ idioma, ruta }: { idioma: Idioma; ruta: string 
         </section>
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
     </>
   );
 }

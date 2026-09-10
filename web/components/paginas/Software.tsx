@@ -57,9 +57,9 @@ const GLIFOS = {
 export function PaginaSoftware({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
   const url = `${SITE_URL}${ruta}`;
   const es = idioma === "es";
-  const pesos = (n: number) => money(n).replace(/\s/g, "");
+  const pesos = (n: number, idioma: Idioma) => money(n, idioma).replace(/^(\$)\s+/, "$1");
   const conPrecios = (t: string) =>
-    t.replaceAll("{piso}", pesos(PISO_WEB)).replaceAll("{ecom}", pesos(PISO_ECOM));
+    t.replaceAll("{piso}", pesos(PISO_WEB, idioma)).replaceAll("{ecom}", pesos(PISO_ECOM, idioma));
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -497,7 +497,7 @@ export function PaginaSoftware({ idioma, ruta }: { idioma: Idioma; ruta: string 
         </section>
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
   );

@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/Reveal";
+import type { Idioma } from "@/content/types";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,6 +18,27 @@ import { cn } from "@/lib/utils";
  *   · El negocio del ejemplo es evidentemente ficticio y va rotulado como
  *     ejemplo DENTRO del propio visual, no en un comentario.
  */
+
+/**
+ * Lo que dice el propio armazón —el punto de «en línea», el rótulo del
+ * traspaso y el pie de ejemplo—. Va aquí y no en `content/` porque son del
+ * componente y no de la página: si viviera fuera, cada página que lo usa
+ * tendría que repetir las mismas tres frases y una acabaría desfasada.
+ */
+const T = {
+  es: {
+    enLinea: "En línea",
+    traspaso: "Te paso con una persona",
+    negocio: "Negocio de ejemplo",
+    rotulo: "Ejemplo · conversación de muestra",
+  },
+  en: {
+    enLinea: "Online",
+    traspaso: "Handing you to a person",
+    negocio: "Example business",
+    rotulo: "Example · sample conversation",
+  },
+} as const;
 
 export type MensajeHilo = {
   /** Quién habla. `cliente` va a la izquierda, `bot` a la derecha. */
@@ -78,18 +100,21 @@ function PuntosEscribiendo() {
 }
 
 export function HiloWhatsApp({
+  idioma = "es",
   mensajes = HILO_CITAS,
-  negocio = "Negocio de ejemplo",
+  negocio,
   iniciales = "NE",
-  rotulo = "Ejemplo · conversación de muestra",
+  rotulo,
   className,
 }: {
+  idioma?: Idioma;
   mensajes?: MensajeHilo[];
   negocio?: string;
   iniciales?: string;
   rotulo?: string;
   className?: string;
 }) {
+  const t = T[idioma];
   return (
     <div
       className={cn(
@@ -112,10 +137,10 @@ export function HiloWhatsApp({
           {iniciales}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block truncate font-body text-sm font-semibold text-ink">{negocio}</span>
+          <span className="block truncate font-body text-sm font-semibold text-ink">{negocio ?? t.negocio}</span>
           <span className="flex items-center gap-1.5 jv-eyebrow text-ink-soft">
             <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
-            En línea
+            {t.enLinea}
           </span>
         </span>
       </div>
@@ -138,7 +163,7 @@ export function HiloWhatsApp({
               >
                 {m.traspaso && (
                   <span className="mb-1.5 block jv-eyebrow text-accent-ink">
-                    Te paso con una persona
+                    {t.traspaso}
                   </span>
                 )}
 
@@ -162,7 +187,7 @@ export function HiloWhatsApp({
       </Reveal>
 
       <p className="border-t border-line px-4 py-3 jv-eyebrow text-accent-ink">
-        {rotulo}
+        {rotulo ?? t.rotulo}
       </p>
     </div>
   );

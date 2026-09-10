@@ -45,7 +45,7 @@ export const SOFTWARE = {
     },
     entradilla: {
       es: "Mucha gente escribe «software» cuando quiere una página web, y contratar lo equivocado cuesta caro en las dos direcciones. La regla que uso es esta:",
-      en: "Plenty of people write «software» when they want a website, and hiring the wrong one is expensive in both directions. The rule I use is this:",
+      en: "Plenty of people write “software” when they want a website, and hiring the wrong one is expensive in both directions. The rule I use is this:",
     },
     afueraTitulo: { es: "Si el problema está afuera", en: "If the problem is outside" },
     afueraAntes: {
@@ -147,7 +147,7 @@ export const SOFTWARE = {
   construyoTitulo: { es: "Qué construyo, en concreto", en: "What I build, concretely" },
   construyoEntradilla: {
     es: "No son productos de catálogo: son las formas que más se repiten, y casi todo proyecto es dos o tres de estas juntas. Lo busques como software a medida o como «un programa para mi negocio», es esto.",
-    en: "They aren't catalogue products: they're the shapes that repeat most, and almost every project is two or three of them together. Whether you look for it as custom software or as «a program for my business», this is it.",
+    en: "They aren't catalogue products: they're the shapes that repeat most, and almost every project is two or three of them together. Whether you look for it as custom software or as “a program for my business”, this is it.",
   },
   panelTitulo: { es: "Un panel con roles, en dos clics", en: "A panel with roles, in two clicks" },
   panelEntradilla: {
@@ -242,7 +242,7 @@ export const SOFTWARE = {
     },
     entradillaDespues: {
       es: "—. El software no la tiene: dos proyectos que se cuentan igual pueden costar tres veces distinto, y un «desde» bonito acá es el que después crece cuando ya no te puedes devolver. Lo que sí te doy es la lista de lo que mueve la aguja.",
-      en: "—. Software doesn't: two projects described the same way can cost three times as much, and a pretty «from» here is the one that grows later, when you can't turn back. What I do give you is the list of what moves the needle.",
+      en: "—. Software doesn't: two projects described the same way can cost three times as much, and a pretty “from” here is the one that grows later, when you can't turn back. What I do give you is the list of what moves the needle.",
     },
     subeTitulo: { es: "Lo que sube el precio", en: "What pushes the price up" },
     sube: {
@@ -276,7 +276,7 @@ export const SOFTWARE = {
         "Starting with a single stage, the one that's already useful on its own",
         "Having the process clear before the call, even if it's on one sheet",
         "Accepting that the first version is ugly inside and correct outside",
-        "Leaving out what isn't used today, even if «some day it might be handy»",
+        "Leaving out what isn't used today, even if “some day it might be handy”",
         "Using what already exists where it exists: not everything has to be built",
       ],
     } as Traducido<readonly string[]>,
@@ -354,7 +354,7 @@ export const SOFTWARE = {
     {
       titulo: {
         es: "Alcance abierto de «lo vamos viendo»",
-        en: "Open-ended «we'll see as we go» scope",
+        en: "Open-ended “we'll see as we go” scope",
       },
       cuerpo: {
         es: "Los cambios que aparecen a mitad de camino se anotan, se estiman y entran en una etapa siguiente. No se meten calladamente en la actual: así es como un proyecto se dobla de plazo sin que nadie sepa cuándo pasó.",

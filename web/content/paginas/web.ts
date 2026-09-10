@@ -46,7 +46,7 @@ export const WEB = {
     },
     parrafo1: {
       es: "Unas agencias ponen precio y no dicen cuánto tardan; otras dicen «de 4 a 8 semanas» y te mandan a un formulario. Saber cuánto te cuesta te toma tres llamadas.",
-      en: "Some agencies give a price and don't say how long they take; others say «4 to 8 weeks» and send you to a form. Finding out what it costs you takes three calls.",
+      en: "Some agencies give a price and don't say how long they take; others say “4 to 8 weeks” and send you to a form. Finding out what it costs you takes three calls.",
     },
     fuerte: {
       es: "Acá está el número, el plazo y el nombre.",
@@ -60,7 +60,7 @@ export const WEB = {
 
   paraQuienTitulo: {
     es: "Nadie se levanta queriendo «una página web»",
-    en: "Nobody wakes up wanting «a website»",
+    en: "Nobody wakes up wanting “a website”",
   },
   paraQuienEntradilla: {
     es: "Se levanta con uno de estos seis problemas.",
@@ -496,7 +496,7 @@ export const WEB_FAQ: readonly {
     },
     a: {
       es: "Desde {piso}, y lo que entra por ese piso está en la lista de «lo que entra siempre»: diseño propio sin plantilla, programación, que se vea bien en teléfono y computador, el formulario que te llega al correo y al WhatsApp, certificado de seguridad, capacitación y 30 días de ajustes sin costo. Es un piso, no una tarifa cerrada: el número final depende de cuántas páginas, de quién escriba los textos y de qué funciones lleve, y te lo doy por escrito antes de que pagues nada.",
-      en: "From {piso}, and what that floor buys is in the «what's always included» list: original design with no template, the code, working properly on phone and desktop, the form that reaches your inbox and your WhatsApp, the security certificate, training and 30 days of adjustments at no cost. It's a floor, not a fixed rate: the final number depends on how many pages, who writes the copy and what features it carries, and I give it to you in writing before you pay anything.",
+      en: "From {piso}, and what that floor buys is in the “what's always included” list: original design with no template, the code, working properly on phone and desktop, the form that reaches your inbox and your WhatsApp, the security certificate, training and 30 days of adjustments at no cost. It's a floor, not a fixed rate: the final number depends on how many pages, who writes the copy and what features it carries, and I give it to you in writing before you pay anything.",
     },
   },
   {
@@ -516,7 +516,7 @@ export const WEB_FAQ: readonly {
     },
     a: {
       es: "En la web corporativa, sí: entra el panel para que cambies textos e imágenes sin tocar código, y te enseño a usarlo el día de la entrega. En una landing de una sola página los cambios son tan pocos que normalmente los hago yo dentro de los 30 días, y si la quieres autoadministrable igual, se agrega. Prefiero decirte esto a venderte «autoadministrable» a secas y que después descubras qué se podía tocar y qué no.",
-      en: "On a corporate site, yes: the panel is included so you change text and images without touching code, and I teach you to use it on handover day. On a single-page landing there are so few changes that I usually make them myself within the 30 days, and if you want it self-managed anyway, it gets added. I'd rather tell you this than sell you «self-managed» flat and have you find out later what could be touched and what couldn't.",
+      en: "On a corporate site, yes: the panel is included so you change text and images without touching code, and I teach you to use it on handover day. On a single-page landing there are so few changes that I usually make them myself within the 30 days, and if you want it self-managed anyway, it gets added. I'd rather tell you this than sell you “self-managed” flat and have you find out later what could be touched and what couldn't.",
     },
   },
   {
@@ -659,7 +659,7 @@ export const WEB_PRUEBAS = {
   fichas: [
     {
       etiqueta: { es: "En producción · Cartagena", en: "In production · Cartagena" },
-      nombre: "Bloomrose",
+      nombre: { es: "Bloomrose", en: "Bloomrose" },
       cuerpo: {
         es: "Tienda de bisutería para el mercado colombiano, diseñada y programada completa: catálogo con inventario, carrito, cuentas, pagos en línea y envíos. Ábrela y revísala sin pedirme permiso.",
         en: "A jewellery store for the Colombian market, designed and coded end to end: catalogue with inventory, cart, accounts, online payments and shipping. Open it and check it without asking me.",
@@ -669,7 +669,7 @@ export const WEB_PRUEBAS = {
     },
     {
       etiqueta: { es: "En producción · producto propio", en: "In production · own product" },
-      nombre: "HalcónOS y Hummik",
+      nombre: { es: "HalcónOS y Hummik", en: "HalcónOS and Hummik" },
       cuerpo: {
         es: "Un CRM de ventas y una agenda de citas por WhatsApp, míos y en línea. No son páginas web, son software a la medida, y están acá por una razón: si puedo sostener eso, tu página no es el reto.",
         en: "A sales CRM and a WhatsApp appointment book, mine and online. They aren't websites, they're custom software, and they're here for a reason: if I can keep those standing, your site isn't the hard part.",
@@ -679,7 +679,10 @@ export const WEB_PRUEBAS = {
     },
     {
       etiqueta: { es: "Proyectos de estudio", en: "Studio projects" },
-      nombre: "Animal Expert, Elka Gómez y Marcopolo",
+      nombre: {
+        es: "Animal Expert, Elka Gómez y Marcopolo",
+        en: "Animal Expert, Elka Gómez and Marcopolo",
+      },
       cuerpo: {
         es: "Una veterinaria de Turbaco, un centro de fisioterapia de Cartagena y un salón de Barranquilla. Construidos completos, pero por iniciativa propia y nadie me los encargó: no son clientes que pagaron.",
         en: "A veterinary clinic in Turbaco, a physiotherapy centre in Cartagena and a salon in Barranquilla. Built in full, but on my own initiative and nobody commissioned them: they aren't paying clients.",
@@ -687,7 +690,11 @@ export const WEB_PRUEBAS = {
     },
   ] as readonly {
     etiqueta: Texto;
-    nombre: string;
+    /* `nombre` es Texto y no string aunque dos de los tres sean nombres
+       propios: el tercero es una LISTA de nombres, y la «y» que los une es
+       castellano. Un `string` obligaba a leer «Animal Expert, Elka Gómez y
+       Marcopolo» dentro de una página en inglés. */
+    nombre: Texto;
     cuerpo: Texto;
     url?: string;
     dominio?: string;

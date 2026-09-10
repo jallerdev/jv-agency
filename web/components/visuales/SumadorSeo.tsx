@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { SEO_PRICES, money } from "@/lib/quote";
 import { cn } from "@/lib/utils";
+import type { Idioma } from "@/content/types";
 
 /**
  * EL SUMADOR: CÓMO SE ARMA TU NÚMERO
@@ -29,55 +30,91 @@ import { cn } from "@/lib/utils";
 
 type Fila = {
   id: string;
-  concepto: string;
-  detalle: string;
   importe: number;
   grupo: "mes" | "unaVez";
 };
 
+/**
+ * Los rótulos, en las dos lenguas. Las CIFRAS no están aquí: salen de
+ * `SEO_PRICES` y no se copian, para que un cambio de precio no deje una
+ * lengua con el número viejo.
+ */
+const T = {
+  es: {
+    titulo: "Cómo se arma tu número",
+    alMes: "Al mes",
+    unaVez: "Una sola vez, al arrancar",
+    porMes: "/mes",
+    nota: "Es una aproximación, para que llegues a la llamada con tu número en la cabeza. El número final va por escrito antes de que pagues nada.",
+    filas: {
+      plan: {
+        concepto: "Plan Local",
+        detalle: "Un negocio, una ciudad, un servicio principal.",
+      },
+      ciudad: {
+        concepto: "Una ciudad más",
+        detalle: "Cada ciudad adicional se trabaja aparte.",
+      },
+      contenido: {
+        concepto: "Un contenido más al mes",
+        detalle: "Además de los que ya trae el plan.",
+      },
+      puestaApunto: {
+        concepto: "Revisión y arreglo del sitio",
+        detalle: "Va una sola vez, al arrancar. Si el sitio lo hice yo, ya está hecho.",
+      },
+      ficha: {
+        concepto: "Ficha de Google Business",
+        detalle: "Creación y verificación. Es lo que te pone en el mapa.",
+      },
+    },
+  },
+  en: {
+    titulo: "How your number adds up",
+    alMes: "Per month",
+    unaVez: "One-off, at the start",
+    porMes: "/month",
+    nota: "It's an approximation, so you arrive at the call with your number already in your head. The final number goes in writing before you pay anything.",
+    filas: {
+      plan: {
+        concepto: "Local plan",
+        detalle: "One business, one city, one main service.",
+      },
+      ciudad: {
+        concepto: "One more city",
+        detalle: "Each additional city is worked on separately.",
+      },
+      contenido: {
+        concepto: "One more piece of content a month",
+        detalle: "On top of what the plan already brings.",
+      },
+      puestaApunto: {
+        concepto: "Site review and fixes",
+        detalle: "One-off, at the start. If I built the site, it's already done.",
+      },
+      ficha: {
+        concepto: "Google Business profile",
+        detalle: "Creation and verification. It's what puts you on the map.",
+      },
+    },
+  },
+} as const;
+
 const OPCIONALES: Fila[] = [
-  {
-    id: "ciudad",
-    concepto: "Una ciudad más",
-    detalle: "Cada ciudad adicional se trabaja aparte.",
-    importe: SEO_PRICES.ciudadExtra,
-    grupo: "mes",
-  },
-  {
-    id: "contenido",
-    concepto: "Un contenido más al mes",
-    detalle: "Además de los que ya trae el plan.",
-    importe: SEO_PRICES.contenidoExtraUnidad,
-    grupo: "mes",
-  },
-  {
-    id: "puestaApunto",
-    concepto: "Revisión y arreglo del sitio",
-    detalle: "Va una sola vez, al arrancar. Si el sitio lo hice yo, ya está hecho.",
-    importe: SEO_PRICES.extras.puestaApunto,
-    grupo: "unaVez",
-  },
-  {
-    id: "ficha",
-    concepto: "Ficha de Google Business",
-    detalle: "Creación y verificación. Es lo que te pone en el mapa.",
-    importe: SEO_PRICES.extras.ficha,
-    grupo: "unaVez",
-  },
+  { id: "ciudad", importe: SEO_PRICES.ciudadExtra, grupo: "mes" },
+  { id: "contenido", importe: SEO_PRICES.contenidoExtraUnidad, grupo: "mes" },
+  { id: "puestaApunto", importe: SEO_PRICES.extras.puestaApunto, grupo: "unaVez" },
+  { id: "ficha", importe: SEO_PRICES.extras.ficha, grupo: "unaVez" },
 ];
 
-const BASE: Fila = {
-  id: "plan",
-  concepto: "Plan Local",
-  detalle: "Un negocio, una ciudad, un servicio principal.",
-  importe: SEO_PRICES.plan.local,
-  grupo: "mes",
-};
+const BASE: Fila = { id: "plan", importe: SEO_PRICES.plan.local, grupo: "mes" };
 
 export function SumadorSeo({
   enlace,
+  idioma = "es",
   className,
 }: {
+  idioma?: Idioma;
   /**
    * Enlace opcional al detalle. OJO: `/cotizador` es una ruta PRIVADA —vive en
    * lib/private-docs.ts y responde 307 hacia /acceso—, así que no se enlaza
@@ -87,6 +124,9 @@ export function SumadorSeo({
   enlace?: { texto: string; href: string };
   className?: string;
 }) {
+  const t = T[idioma];
+  const rotulo = (id: string) => t.filas[id as keyof typeof t.filas];
+
   const [activas, setActivas] = useState<Record<string, boolean>>({});
 
   const alternar = (id: string) => setActivas((p) => ({ ...p, [id]: !p[id] }));
@@ -108,7 +148,7 @@ export function SumadorSeo({
   return (
     <div className={cn("jv-card p-5 sm:p-6", className)}>
       <p className="jv-eyebrow text-accent-ink">
-        Cómo se arma tu número
+        {t.titulo}
       </p>
 
       <ul className="mt-4 divide-y divide-line">
@@ -121,15 +161,15 @@ export function SumadorSeo({
             <span className="min-w-0 flex-1">
               <span className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
                 <span className="font-body text-[15px] font-semibold leading-snug text-ink">
-                  {BASE.concepto}
+                  {rotulo(BASE.id).concepto}
                 </span>
                 <span className="whitespace-nowrap font-mono text-sm tabular-nums text-primary-dark">
-                  {money(BASE.importe)}
-                  <span className="text-ink-soft">/mes</span>
+                  {money(BASE.importe, idioma)}
+                  <span className="text-ink-soft">{t.porMes}</span>
                 </span>
               </span>
               <span className="mt-0.5 block font-body text-[13px] leading-snug text-ink-soft">
-                {BASE.detalle}
+                {rotulo(BASE.id).detalle}
               </span>
             </span>
           </div>
@@ -162,7 +202,7 @@ export function SumadorSeo({
                         activa ? "font-semibold text-ink" : "text-ink"
                       )}
                     >
-                      {f.concepto}
+                      {rotulo(f.id).concepto}
                     </span>
                     <span
                       className={cn(
@@ -170,12 +210,12 @@ export function SumadorSeo({
                         activa ? "text-primary-dark" : "text-ink-soft"
                       )}
                     >
-                      + {money(f.importe)}
-                      <span className="text-ink-soft">{f.grupo === "mes" ? "/mes" : ""}</span>
+                      + {money(f.importe, idioma)}
+                      <span className="text-ink-soft">{f.grupo === "mes" ? t.porMes : ""}</span>
                     </span>
                   </span>
                   <span className="mt-0.5 block font-body text-[13px] leading-snug text-ink-soft">
-                    {f.detalle}
+                    {rotulo(f.id).detalle}
                   </span>
                 </span>
               </label>
@@ -193,23 +233,22 @@ export function SumadorSeo({
       {/* Los dos totales, separados a propósito. */}
       <dl className="mt-4 grid gap-2 jv-rule pt-4" aria-live="polite">
         <div className="flex items-baseline justify-between gap-3">
-          <dt className="font-body text-[15px] text-ink">Al mes</dt>
+          <dt className="font-body text-[15px] text-ink">{t.alMes}</dt>
           <dd className="font-mono text-lg tabular-nums text-primary-dark">
-            {money(totalMes)}
-            <span className="text-sm text-ink-soft">/mes</span>
+            {money(totalMes, idioma)}
+            <span className="text-sm text-ink-soft">{t.porMes}</span>
           </dd>
         </div>
         <div className="flex items-baseline justify-between gap-3">
-          <dt className="min-w-0 font-body text-[15px] text-ink-soft">Una sola vez, al arrancar</dt>
+          <dt className="min-w-0 font-body text-[15px] text-ink-soft">{t.unaVez}</dt>
           <dd className="shrink-0 font-mono text-[15px] tabular-nums text-ink-soft">
-            {totalUnaVez === 0 ? "—" : money(totalUnaVez)}
+            {totalUnaVez === 0 ? "—" : money(totalUnaVez, idioma)}
           </dd>
         </div>
       </dl>
 
       <p className="mt-4 text-pretty font-body text-[13px] leading-relaxed text-ink-soft">
-        Es una aproximación, para que llegues a la llamada con tu número en la
-        cabeza. El número final va por escrito antes de que pagues nada.
+        {t.nota}
         {enlace && (
           <>
             {" "}

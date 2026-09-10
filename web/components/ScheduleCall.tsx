@@ -592,7 +592,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
             rows={2}
             disabled={submitting}
             placeholder={T.notaPlaceholder}
-            className="w-full rounded-xl border border-line bg-background/40 px-4 py-3 font-body text-base text-ink placeholder:text-ink-muted transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60"
+            className="w-full rounded-xl border border-line bg-background/40 px-4 py-3 font-body text-base text-ink placeholder:text-ink-muted transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/25 disabled:opacity-60"
           />
         </div>
       </div>
@@ -728,7 +728,7 @@ function Field({
            distingan de un vistazo, y el anillo de foco usa el bronce de la
            casa en vez del cobre, que sobre el papel se queda en 3,07:1. */
         className: cn(
-          "rounded-xl bg-background/40 px-4 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:ring-primary/25 disabled:opacity-60",
+          "rounded-xl bg-background/40 px-4 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:ring-brand/25 disabled:opacity-60",
           error && "border-danger bg-danger/[0.04] focus-visible:border-danger focus-visible:ring-danger/25"
         ),
       })}

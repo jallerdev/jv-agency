@@ -59,7 +59,7 @@ export function Portada({ idioma }: { idioma: Idioma }) {
         <Agenda idioma={idioma} />
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
   );

@@ -71,10 +71,10 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
 
   const conPrecios = (t: string) =>
     t
-      .replaceAll("{citas}", money(A_PRICES.base.citas))
-      .replaceAll("{web}", money(PISO_WEB))
-      .replaceAll("{auditoria}", money(PISO_AUDITORIA))
-      .replaceAll("{renovacion}", money(RENOVACION));
+      .replaceAll("{citas}", money(A_PRICES.base.citas, idioma))
+      .replaceAll("{web}", money(PISO_WEB, idioma))
+      .replaceAll("{auditoria}", money(PISO_AUDITORIA, idioma))
+      .replaceAll("{renovacion}", money(RENOVACION, idioma));
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -152,7 +152,7 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-pretty text-lg leading-relaxed text-ink-soft">
               {CLINICAS.entradilla2Antes[idioma]}
-              <strong className="text-ink">{money(PISO_WEB)}</strong>
+              <strong className="text-ink">{money(PISO_WEB, idioma)}</strong>
               {CLINICAS.entradilla2Medio[idioma]}
               <strong className="text-ink">{CLINICAS.entradilla2Dias[idioma]}</strong>.
             </p>
@@ -349,7 +349,7 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
                       <p className="font-mono text-lg text-brand">
                         {piso === null
                           ? CLINICAS.segunAlcance[idioma]
-                          : `${CLINICAS.desde[idioma]} ${money(piso)}${
+                          : `${CLINICAS.desde[idioma]} ${money(piso, idioma)}${
                               p.clave === "seoMes" ? (es ? "/mes" : "/month") : ""
                             }`}
                       </p>
@@ -496,7 +496,7 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
         </section>
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
   );

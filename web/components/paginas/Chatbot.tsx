@@ -123,7 +123,7 @@ function RelojDelDomingo({ idioma }: { idioma: Idioma }) {
 export function PaginaChatbot({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
   const url = `${SITE_URL}${ruta}`;
   const mensajes = CHATBOT.hilo.mensajes[idioma];
-  const horas = CHATBOT.hilo.horas;
+  const horas = CHATBOT.hilo.horas[idioma];
 
   /* El guion del hilo: pregunta de noche, «escribiendo…», disponibilidad, el
      cliente escoge, confirmación y el traspaso a una persona. La última
@@ -140,7 +140,7 @@ export function PaginaChatbot({ idioma, ruta }: { idioma: Idioma; ruta: string }
 
   const faqs = CHATBOT.faq.map((f) => ({
     q: f.q[idioma],
-    a: f.a[idioma].replace("{precio}", money(A_PRICES.mantenimiento.basico)),
+    a: f.a[idioma].replace("{precio}", money(A_PRICES.mantenimiento.basico, idioma)),
   }));
 
   /* Datos estructurados de servicio. Sin FAQPage aquí a propósito: desde 2023
@@ -269,6 +269,7 @@ export function PaginaChatbot({ idioma, ruta }: { idioma: Idioma; ruta: string }
           {/* Así suena, con las palabras exactas. Trae escalonado propio; no va
               dentro de otro Reveal. */}
           <HiloWhatsApp
+            idioma={idioma}
             className="mx-auto mt-10 max-w-md"
             negocio={CHATBOT.hilo.negocio[idioma]}
             iniciales={CHATBOT.hilo.iniciales}
@@ -289,7 +290,7 @@ export function PaginaChatbot({ idioma, ruta }: { idioma: Idioma; ruta: string }
                       {t.cuerpo[idioma]}
                     </p>
                     <p className="jv-rule mt-5 pt-4 font-mono text-lg text-brand">
-                      {CHATBOT.precios.desde[idioma]} {money(A_PRICES.base[t.key])}
+                      {CHATBOT.precios.desde[idioma]} {money(A_PRICES.base[t.key], idioma)}
                     </p>
                   </article>
                 </Reveal>
@@ -306,7 +307,7 @@ export function PaginaChatbot({ idioma, ruta }: { idioma: Idioma; ruta: string }
               <p className="mt-4 leading-relaxed text-ink-soft">
                 {CHATBOT.precios.aclaracion2Antes[idioma]}
                 <strong className="text-ink">
-                  {money(A_PRICES.mantenimiento.basico)}
+                  {money(A_PRICES.mantenimiento.basico, idioma)}
                   {CHATBOT.precios.alMes[idioma]}
                 </strong>
                 {CHATBOT.precios.aclaracion2Despues[idioma]}
@@ -386,7 +387,7 @@ export function PaginaChatbot({ idioma, ruta }: { idioma: Idioma; ruta: string }
         </section>
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
   );

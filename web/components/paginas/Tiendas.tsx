@@ -187,14 +187,14 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
   const es = idioma === "es";
 
   const franjas = PRICES.productsTier
-    .map((t) => (es ? `${t.label} suma ${money(t.add)}` : `${t.label} adds ${money(t.add)}`))
+    .map((t) => (es ? `${t.label} suma ${money(t.add, idioma)}` : `${t.label} adds ${money(t.add, idioma)}`))
     .join("; ");
 
   const conPrecios = (texto: string) =>
     texto
-      .replaceAll("{renovacion}", money(RENOVACION_ANUAL))
-      .replaceAll("{facturacion}", money(PRICES.toggles.invoicing))
-      .replaceAll("{carrito}", money(PRICES.toggles.cartrecovery))
+      .replaceAll("{renovacion}", money(RENOVACION_ANUAL, idioma))
+      .replaceAll("{facturacion}", money(PRICES.toggles.invoicing, idioma))
+      .replaceAll("{carrito}", money(PRICES.toggles.cartrecovery, idioma))
       .replaceAll("{franjas}", franjas);
 
   /* Datos estructurados de Service. Sin FAQPage a propósito: desde 2023 Google
@@ -381,7 +381,7 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
                   {TIENDAS.precios.tarjetaTitulo[idioma]}
                 </h3>
                 <p className="font-mono text-2xl text-brand">
-                  {TIENDAS.precios.desde[idioma]} {money(PISO_TIENDA)}
+                  {TIENDAS.precios.desde[idioma]} {money(PISO_TIENDA, idioma)}
                 </p>
               </div>
               <p className="jv-chip jv-chip-off mt-3 gap-2 text-sm">
@@ -412,7 +412,7 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
                       {e.cuerpo[idioma]}
                     </p>
                     <p className="jv-rule mt-5 pt-4 font-mono text-base text-brand">
-                      {TIENDAS.precios.desde[idioma]} {money(PRECIO_EXTRA[e.clave])}
+                      {TIENDAS.precios.desde[idioma]} {money(PRECIO_EXTRA[e.clave], idioma)}
                     </p>
                   </article>
                 </Reveal>
@@ -480,7 +480,11 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
           </Reveal>
 
           <Reveal delay={200}>
-            <PanelAutonomia className="mx-auto mt-12 max-w-md" titulo={TIENDAS.panelTitulo[idioma]} />
+            <PanelAutonomia
+              idioma={idioma}
+              className="mx-auto mt-12 max-w-md"
+              titulo={TIENDAS.panelTitulo[idioma]}
+            />
           </Reveal>
         </section>
 
@@ -611,7 +615,7 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
         </section>
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
   );

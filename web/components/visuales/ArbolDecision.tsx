@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import type { Idioma } from "@/content/types";
 import { cn } from "@/lib/utils";
 
 /**
@@ -41,17 +42,33 @@ export type NodoArbol =
       enlace?: { texto: string; href: string };
     };
 
+/**
+ * Los dos únicos textos que pone el componente por su cuenta; todo lo demás
+ * viene del árbol. Estaban a medias: `reiniciar` llegaba traducido por prop y
+ * la pista de abajo era un literal en castellano, así que en /en se leía media
+ * pieza en cada idioma.
+ */
+const T = {
+  es: {
+    reiniciar: "Empezar de nuevo",
+    pista: "Contesta y te digo cuál de los formatos te sirve.",
+  },
+  en: {
+    reiniciar: "Start over",
+    pista: "Answer and I'll tell you which of the formats suits you.",
+  },
+} as const;
+
 export function ArbolDecision({
   raiz,
-  reiniciar = "Empezar de nuevo",
+  idioma = "es",
   className,
 }: {
   raiz: NodoArbol;
-  /** «Empezar de nuevo», ya traducido. Es el único texto que pone el
-   *  componente por su cuenta; todo lo demás viene del árbol. */
-  reiniciar?: string;
+  idioma?: Idioma;
   className?: string;
 }) {
+  const t = T[idioma];
   const [ruta, setRuta] = useState<number[]>([]);
 
   /* Se recorre el árbol siguiendo la ruta y se va guardando cada pregunta que
@@ -135,7 +152,7 @@ export function ArbolDecision({
           </div>
         ) : (
           <p className="text-balance text-center font-body text-[15px] leading-snug text-ink-soft">
-            Contesta y te digo cuál de los formatos te sirve.
+            {t.pista}
           </p>
         )}
       </div>
@@ -146,7 +163,7 @@ export function ArbolDecision({
           onClick={() => setRuta([])}
           className="mt-3 inline-flex min-h-11 items-center jv-eyebrow text-ink-soft underline underline-offset-4 hover:text-ink"
         >
-          {reiniciar}
+          {t.reiniciar}
         </button>
       )}
     </div>

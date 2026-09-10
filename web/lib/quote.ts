@@ -722,13 +722,30 @@ export function computeTotals(a: Answers): Totals {
   };
 }
 
-const copFormatter = new Intl.NumberFormat("es-CO", {
-  style: "currency",
-  currency: "COP",
-  maximumFractionDigits: 0,
-});
+/**
+ * EL PRECIO, EN EL IDIOMA DE QUIEN LO LEE
+ * ──────────────────────────────────────────────────────────────────────────
+ * Esto no es cosmética. En castellano el punto separa miles —$ 390.000 son
+ * trescientos noventa mil— y en inglés el punto separa DECIMALES: un lector
+ * angloparlante lee «$390.000» como trescientos noventa dólares con cero
+ * centavos. La página en inglés estaba diciendo un precio mil veces menor que
+ * el real, y encima en la moneda equivocada.
+ *
+ * Por eso el inglés lleva coma de miles y la sigla COP detrás: sin la sigla,
+ * «$390,000» sobre un sitio que también vende fuera del país se lee en
+ * dólares, que es el otro lado del mismo error.
+ */
+const FORMATO = {
+  es: new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  }),
+  en: new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }),
+} as const;
 
-export const money = (n: number) => copFormatter.format(n);
+export const money = (n: number, idioma: "es" | "en" = "es") =>
+  idioma === "en" ? `$${FORMATO.en.format(n)} COP` : FORMATO.es.format(n);
 
 /** Semanas de entrega para un tipo de proyecto y plazo (default landing si no hay tipo). */
 export function deliveryWeeksFor(type: SiteType | null, delivery: Delivery): number {

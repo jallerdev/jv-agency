@@ -66,7 +66,7 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
   const url = `${SITE_URL}${ruta}`;
   const es = idioma === "es";
   const mensajes = SALONES.hilo.mensajes[idioma];
-  const horas = SALONES.hilo.horas;
+  const horas = SALONES.hilo.horas[idioma];
 
   /* El hilo: reserva de color un sábado, de noche y con el salón cerrado. Sin
      cifras —aquí no se inventa el precio de un color ajeno— y la última
@@ -82,7 +82,7 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
   ];
 
   const conPrecios = (t: string) =>
-    t.replaceAll("{citas}", money(A_PRICES.base.citas)).replaceAll("{renovacion}", money(RENOVACION));
+    t.replaceAll("{citas}", money(A_PRICES.base.citas, idioma)).replaceAll("{renovacion}", money(RENOVACION, idioma));
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -155,7 +155,7 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-pretty text-lg leading-relaxed text-ink-soft">
               {SALONES.entradilla2Antes[idioma]}
-              <strong className="text-ink">{money(PISO_WEB)}</strong>
+              <strong className="text-ink">{money(PISO_WEB, idioma)}</strong>
               {SALONES.entradilla2Medio[idioma]}
               <strong className="text-ink">{SALONES.entradilla2Dias[idioma]}</strong>
               {SALONES.entradilla2Fin[idioma]}
@@ -235,6 +235,7 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
 
             {/* HiloWhatsApp trae escalonado propio: no se envuelve en Reveal. */}
             <HiloWhatsApp
+              idioma={idioma}
               className="mx-auto w-full max-w-md"
               negocio={SALONES.hilo.negocio[idioma]}
               iniciales={SALONES.hilo.iniciales}
@@ -348,7 +349,7 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
                   </Link>
                   <div className="jv-rule mt-4 pt-4">
                     <p className="font-mono text-lg text-brand">
-                      {SALONES.desde[idioma]} {money(PISOS[p.clave])}
+                      {SALONES.desde[idioma]} {money(PISOS[p.clave], idioma)}
                       {p.clave === "seoMes" && (es ? "/mes" : "/month")}
                     </p>
                     <p className="mt-1 text-sm text-ink-soft">{p.plazo[idioma]}</p>
@@ -465,7 +466,7 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
         </section>
       </main>
       <Footer idioma={idioma} />
-      <WhatsAppButton />
+      <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
   );

@@ -58,7 +58,7 @@ export const SALONES = {
       },
       cuerpo: {
         es: "Lo primero que te preguntan por mensaje es cuánto vale. Con el precio publicado, la conversación empieza en «¿tienes cupo el sábado?». Si te varía por largo o por técnica, va el rango y de qué depende.",
-        en: "The first thing people ask by message is what it costs. With the price published, the conversation starts at «do you have a slot on Saturday?». If it varies by length or technique, the range goes in and what it depends on.",
+        en: "The first thing people ask by message is what it costs. With the price published, the conversation starts at “do you have a slot on Saturday?”. If it varies by length or technique, the range goes in and what it depends on.",
       },
     },
     {
@@ -121,7 +121,7 @@ export const SALONES = {
     fuerte: { es: "Y una que no voy a escribir:", en: "And one I won't write:" },
     resto: {
       es: " promesas de resultado. Ni «bajas tres tallas», ni «te quita las estrías», ni «te rejuvenece diez años». No lo escribo, y no te conviene tenerlo escrito.",
-      en: " promises of results. Not «drop three sizes», not «removes stretch marks», not «takes ten years off you». I don't write it, and it isn't in your interest to have it written.",
+      en: " promises of results. Not “drop three sizes”, not “removes stretch marks”, not “takes ten years off you”. I don't write it, and it isn't in your interest to have it written.",
     },
   },
 
@@ -156,7 +156,14 @@ export const SALONES = {
         "If you want to change the time or ask about a specific price, someone from the salon will answer tomorrow.",
       ],
     } as Traducido<readonly string[]>,
-    horas: ["9:41 p. m.", "9:41 p. m.", "9:42 p. m.", "9:42 p. m.", "9:42 p. m."],
+    /* La hora se escribe distinto en cada lengua: en castellano «9:41 p. m.»
+       con espacio duro y punto tras cada letra, en inglés «9:41 p.m.». Es de
+       esas cosas que no se leen mal pero delatan que el texto viene traducido,
+       así que va en la tabla como cualquier otra frase. */
+    horas: {
+      es: ["9:41 p. m.", "9:41 p. m.", "9:42 p. m.", "9:42 p. m.", "9:42 p. m."],
+      en: ["9:41 p.m.", "9:41 p.m.", "9:42 p.m.", "9:42 p.m.", "9:42 p.m."],
+    } as Traducido<readonly string[]>,
   },
 
   trabajoBadge: { es: "Lo que hay hecho", en: "What's been built" },
@@ -278,7 +285,7 @@ export const SALONES = {
       plazo: { es: "trabajo continuo", en: "ongoing work" },
       cuerpo: {
         es: "Aparecer cuando escriben «peluquería» o «spa» más tu ciudad o tu barrio. Es mensual porque es continuo.",
-        en: "Showing up when people type «hairdresser» or «spa» plus your city or your neighbourhood. It's monthly because it's continuous.",
+        en: "Showing up when people type “hairdresser” or “spa” plus your city or your neighbourhood. It's monthly because it's continuous.",
       },
       href: { es: "/servicios/posicionamiento-seo", en: "/en/services/seo" },
     },
@@ -423,7 +430,7 @@ export const SALONES_FAQ: readonly {
     },
     a: {
       es: "Ponlos. El que pregunta el precio por mensaje y no lo recibe, se va. Si depende del largo o de la técnica, va el rango: «color desde X, según largo y si hay decoloración». Lo que espanta no es el precio, es tener que pedirlo.",
-      en: "Put them. Whoever asks the price by message and doesn't get it, leaves. If it depends on length or technique, the range goes in: «colour from X, depending on length and whether there's bleaching». What scares people off isn't the price, it's having to ask for it.",
+      en: "Put them. Whoever asks the price by message and doesn't get it, leaves. If it depends on length or technique, the range goes in: “colour from X, depending on length and whether there's bleaching”. What scares people off isn't the price, it's having to ask for it.",
     },
   },
   {
@@ -480,7 +487,7 @@ export const SALONES_FAQ: readonly {
   {
     q: {
       es: "¿Me pones de primero en Google cuando busquen «peluquería en Barranquilla»?",
-      en: "Will you put me first on Google when they search «hairdresser in Barranquilla»?",
+      en: "Will you put me first on Google when they search “hairdresser in Barranquilla”?",
     },
     a: {
       es: "No te lo prometo, y desconfía del que te lo prometa. Los primeros movimientos se ven entre el mes 3 y el mes 6. Y antes de gastar en eso hay algo gratis que pesa más: la ficha de Google Business, con fotos de verdad y reseñas de tus clientas.",
