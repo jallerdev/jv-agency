@@ -228,7 +228,14 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
     setMeetLink(null);
   };
 
-  const serviceLabel = SERVICES.find((s) => s.id === service)?.label ?? "";
+  /* El nombre del servicio, en el idioma de quien reserva.
+     `SERVICES` viene de `lib/services.ts` y solo tiene nombres en castellano,
+     así que en /en/book-a-call las pastillas salían traducidas —usan `CORTO`—
+     pero el acuse y el mensaje de WhatsApp decían «Servicio: Diseño de páginas
+     web» dentro de un formulario en inglés. `CORTO` ya tiene las etiquetas de
+     los dos idiomas; se usa la misma aquí. */
+  const serviceLabel =
+    CORTO[service] ?? SERVICES.find((s) => s.id === service)?.label ?? "";
 
   const waHref = (() => {
     const msg =

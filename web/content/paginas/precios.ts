@@ -1,4 +1,5 @@
-import type { Texto, Traducido } from "@/content/types";
+import type { Idioma, Texto, Traducido } from "@/content/types";
+import { money, PISOS } from "@/lib/quote";
 
 /**
  * LOS PRECIOS, EN LAS DOS LENGUAS
@@ -17,8 +18,18 @@ import type { Texto, Traducido } from "@/content/types";
  */
 export type LineaPrecio = {
   servicio: Texto;
-  /** El precio tal cual va impreso. */
-  precio: Texto;
+  /**
+   * El precio impreso, SOLO para las líneas que no tienen un número que dar
+   * («según alcance»). Cuando hay `montoCop`, el texto se compone con él y
+   * este campo se deja fuera.
+   *
+   * Estaba escrito a mano en las seis líneas —«desde $850.000» / «from
+   * $850,000 COP»— y al lado, en el mismo registro, `montoCop: 850000` para
+   * el dato estructurado. El mismo número dos veces, en tres sitios contando
+   * los dos idiomas, en la página que existe precisamente para ser la fuente
+   * del precio. Subirlo pedía acertar en todos.
+   */
+  precio?: Texto;
   /** El plazo de entrega, si la línea tiene uno. */
   plazo?: Texto;
   /** El monto en pesos para el JSON-LD. Falta cuando no hay número que dar. */
@@ -31,15 +42,34 @@ export type LineaPrecio = {
   schemaDesc: Texto;
 };
 
+/**
+ * El precio tal y como se imprime, compuesto a partir del número.
+ *
+ * Una sola función para las dos lenguas: el «desde» y el «al mes» son las dos
+ * únicas palabras que cambian, y tenerlas aquí evita que una línea diga «al
+ * mes» en castellano y se olvide del «a month» en inglés, que es exactamente
+ * el tipo de fallo que deja media tabla a medio traducir.
+ */
+const DESDE: Record<Idioma, string> = { es: "desde ", en: "from " };
+const AL_MES: Record<Idioma, string> = { es: " al mes", en: " a month" };
+
+export function precioImpreso(l: LineaPrecio, idioma: Idioma): string {
+  if (l.montoCop === undefined) return l.precio?.[idioma] ?? "";
+  return (
+    (l.esDesde ? DESDE[idioma] : "") +
+    money(l.montoCop, idioma) +
+    (l.mensual ? AL_MES[idioma] : "")
+  );
+}
+
 export const LINEAS: readonly LineaPrecio[] = [
   {
     servicio: { es: "Página web", en: "Website" },
-    precio: { es: "desde $850.000", en: "from $850,000 COP" },
     plazo: {
       es: "5 días la landing · 1 a 2 semanas la corporativa",
       en: "5 days for a landing page · 1 to 2 weeks for a corporate site",
     },
-    montoCop: 850000,
+    montoCop: PISOS.landing,
     esDesde: true,
     schemaDesc: {
       es: "Página web a la medida, con dominio y correo propio.",
@@ -48,9 +78,8 @@ export const LINEAS: readonly LineaPrecio[] = [
   },
   {
     servicio: { es: "Tienda online", en: "Online store" },
-    precio: { es: "desde $2.500.000", en: "from $2,500,000 COP" },
     plazo: { es: "3 a 5 semanas", en: "3 to 5 weeks" },
-    montoCop: 2500000,
+    montoCop: PISOS.tienda,
     esDesde: true,
     schemaDesc: {
       es: "Tienda en línea con catálogo, carrito, cuentas, pagos y envíos.",
@@ -59,9 +88,8 @@ export const LINEAS: readonly LineaPrecio[] = [
   },
   {
     servicio: { es: "Auditoría SEO", en: "SEO audit" },
-    precio: { es: "desde $390.000", en: "from $390,000 COP" },
     plazo: { es: "5 días", en: "5 days" },
-    montoCop: 390000,
+    montoCop: PISOS.auditoria,
     esDesde: true,
     schemaDesc: {
       es: "Diagnóstico de por qué un sitio no aparece cuando lo buscan, y qué se arregla primero.",
@@ -70,8 +98,7 @@ export const LINEAS: readonly LineaPrecio[] = [
   },
   {
     servicio: { es: "SEO local mensual", en: "Monthly local SEO" },
-    precio: { es: "desde $650.000 al mes", en: "from $650,000 COP a month" },
-    montoCop: 650000,
+    montoCop: PISOS.seoMes,
     esDesde: true,
     mensual: true,
     schemaDesc: {
@@ -81,8 +108,7 @@ export const LINEAS: readonly LineaPrecio[] = [
   },
   {
     servicio: { es: "Renovación anual", en: "Yearly renewal" },
-    precio: { es: "$290.000", en: "$290,000 COP" },
-    montoCop: 290000,
+    montoCop: PISOS.renovacion,
     schemaDesc: {
       es: "Renovación anual del dominio, el alojamiento y el mantenimiento del sitio en pie.",
       en: "Yearly renewal of the domain, the hosting and keeping the site standing.",

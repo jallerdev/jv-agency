@@ -115,9 +115,22 @@ const config: Config = {
            usa violeta-400 y el relleno violeta-500 —por eso `accent.ink` no
            es el mismo valor que `accent`—. Y el hover sobre oscuro aclara, no
            oscurece: `primary.dark` apunta al paso de PULSACIÓN, no al hover. */
+        /* LOS TRES SE PUBLICAN COMO TRIPLETA RGB, no como `var(--accent)`.
+           Es el mismo fallo que este archivo ya documenta para `--negro` unas
+           líneas más arriba: Tailwind no sabe meterle un alfa a un hex
+           escondido en una custom property, así que descarta la utilidad
+           ENTERA y sin avisar. La corrección se aplicó a negro, canvas,
+           surface, ink, success, danger y warning, y se saltó justo estos.
+
+           Medido en el navegador antes de tocarlo: `bg-brand/60` pintaba
+           `rgba(232,98,63,.6)` y `bg-primary/10` no pintaba nada. Eran 81
+           utilidades muertas —`border-primary/40` dieciocho veces,
+           `bg-accent/10` ocho, los degradados de `via-` y `to-`— repartidas
+           por toda la portada y las internas: bordes de hover que nunca
+           cambiaban, fondos teñidos que salían transparentes. */
         primary: {
-          DEFAULT: "var(--accent)",
-          hover: "var(--accent-hover)",
+          DEFAULT: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          hover: "rgb(var(--brand-600-rgb) / <alpha-value>)",
           /* `primary.dark` apunta a violeta-400, NO al paso de pulsacion.
              Medido sobre el sitio ya portado: `text-primary-dark` aparece 182
              veces —era el color del texto en bronce, 7,38:1 sobre el papel— y
@@ -129,11 +142,13 @@ const config: Config = {
              es justo lo que pide el sistema sobre fondo oscuro. El nombre
              «dark» queda heredado del sistema anterior y ya no describe nada;
              renombrarlo serian 182 ediciones para no cambiar un pixel. */
-          dark: "var(--accent-ink)",
+          dark: "rgb(var(--brand-500-rgb) / <alpha-value>)",
         },
         accent: {
-          DEFAULT: "var(--accent)",
-          ink: "var(--accent-ink)",
+          DEFAULT: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          ink: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          /* `quiet` NO lleva alfa: ya ES el naranja al 12 %. Ponerle un
+             modificador encima sería multiplicar dos transparencias. */
           quiet: "var(--accent-quiet)",
         },
         /* Teal: reservado a verificado / en línea / ok. NUNCA acento general. */

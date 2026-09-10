@@ -38,8 +38,51 @@ const SECTORES = ["sectores/salones-y-spas", "sectores/clinicas-y-consultorios"]
 function idiomas(ruta: string) {
   const en = RUTAS[ruta];
   if (!en) return undefined;
-  return { languages: { "es-CO": `${SITE_URL}${ruta}`, en: `${SITE_URL}${en}` } };
+  return { languages: pareja(ruta, en) };
 }
+
+/**
+ * El mismo bloque de `languages` para las DOS URL del par, más `x-default`.
+ *
+ * Antes solo lo declaraba la castellana y la inglesa entraba pelada: Google
+ * descarta un `hreflang` que no es recíproco, así que las anotaciones no
+ * hacían nada. El bloque de los posts sí lo hacía bien —las dos entradas
+ * comparten el mismo objeto— y es la forma que se generaliza aquí.
+ *
+ * `x-default` va también, porque los `metadata` de cada página lo declaran y
+ * dos fuentes de `hreflang` que no dicen lo mismo son peor que una sola.
+ */
+function pareja(ruta: string, en: string) {
+  /* La portada se lista como `<loc>https://www.jvagencia.com</loc>`, sin barra
+     final, pero `SITE_URL + "/"` la añade: el `hreflang` apuntaba a una URL
+     que no era, letra por letra, la que declara el sitemap, y una anotación
+     que no coincide con su `<loc>` no es recíproca para Google. */
+  const url = (r: string) => `${SITE_URL}${r === "/" ? "" : r}`;
+  return {
+    "es-CO": url(ruta),
+    en: url(en),
+    "x-default": url(ruta),
+  };
+}
+
+/** La entrada de la URL inglesa, con el mismo par que su castellana. */
+function enConPar(rutaEs: string, prioridad: number) {
+  const en = RUTAS[rutaEs];
+  if (!en) return [];
+  return [
+    {
+      url: `${SITE_URL}${en}`,
+      changeFrequency: "monthly" as const,
+      priority: prioridad,
+      alternates: { languages: pareja(rutaEs, en) },
+    },
+  ];
+}
+
+/** El inverso de `RUTAS`, para ir del slug inglés al castellano. */
+const ES_DE: Readonly<Record<string, string>> = Object.fromEntries(
+  Object.entries(RUTAS).map(([es, en]) => [en, es])
+);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -47,7 +90,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     /* La portada en inglés entra como URL propia: `alternates` le dice a
        Google que son la misma página en dos lenguas, pero cada una tiene que
        estar listada para que la rastree. */
-    { url: `${SITE_URL}/en`, changeFrequency: "monthly", priority: 0.9 },
+    ...enConPar("/", 0.9),
     ...CIUDADES.map((ruta) => ({
       url: `${SITE_URL}/${ruta}`,
       changeFrequency: "monthly" as const,
@@ -69,6 +112,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: `${SITE_URL}${en}`,
         changeFrequency: "monthly" as const,
         priority: 0.8,
+        alternates: { languages: pareja(ES_DE[en], en) },
       })),
     // Precios es pagina comercial, no articulo: la busca quien ya quiere
     // contratar y la enlazan el Header, el Hero, el pie y cada articulo.
@@ -78,7 +122,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
       alternates: idiomas("/precios"),
     },
-    { url: `${SITE_URL}/en/pricing`, changeFrequency: "monthly", priority: 0.8 },
+    ...enConPar("/precios", 0.8),
     ...SECTORES.map((ruta) => ({
       url: `${SITE_URL}/${ruta}`,
       changeFrequency: "monthly" as const,
@@ -91,6 +135,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: `${SITE_URL}${en}`,
         changeFrequency: "monthly" as const,
         priority: 0.75,
+        alternates: { languages: pareja(ES_DE[en], en) },
       })),
     {
       url: `${SITE_URL}/blog`,
@@ -98,7 +143,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
       alternates: idiomas("/blog"),
     },
-    { url: `${SITE_URL}/en/blog`, changeFrequency: "weekly", priority: 0.8 },
+    ...enConPar("/blog", 0.8),
     // Los posts salen del manifest de lib/blog.ts: al agregar uno allí entra
     // solo acá, sin tener que acordarse de tocar este archivo.
     //
@@ -110,6 +155,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       const languages = {
         "es-CO": `${SITE_URL}/blog/${p.slug.es}`,
         en: `${SITE_URL}/en/blog/${p.slug.en}`,
+        "x-default": `${SITE_URL}/blog/${p.slug.es}`,
       };
       return [
         {
@@ -134,21 +180,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
       alternates: idiomas("/sobre-nosotros"),
     },
-    { url: `${SITE_URL}/en/about`, changeFrequency: "monthly", priority: 0.6 },
+    ...enConPar("/sobre-nosotros", 0.6),
     {
       url: `${SITE_URL}/contacto`,
       changeFrequency: "monthly",
       priority: 0.8,
       alternates: idiomas("/contacto"),
     },
-    { url: `${SITE_URL}/en/contact`, changeFrequency: "monthly", priority: 0.7 },
+    ...enConPar("/contacto", 0.7),
     {
       url: `${SITE_URL}/agendar`,
       changeFrequency: "monthly",
       priority: 0.8,
       alternates: idiomas("/agendar"),
     },
-    { url: `${SITE_URL}/en/book-a-call`, changeFrequency: "monthly", priority: 0.7 },
+    ...enConPar("/agendar", 0.7),
     { url: `${SITE_URL}/privacidad`, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/terminos`, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/cookies`, changeFrequency: "yearly", priority: 0.3 },

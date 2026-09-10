@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 
-import { DETALLE, LINEAS, PRECIOS, RENGLONES, type LineaPrecio } from "@/content/paginas/precios";
+import { DETALLE, LINEAS, PRECIOS, RENGLONES, type LineaPrecio, precioImpreso } from "@/content/paginas/precios";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
@@ -246,7 +246,7 @@ export function PaginaPrecios({
                     <span className="text-xl font-semibold text-ink">{l.servicio[idioma]}</span>
                     <span className="flex flex-col gap-1 sm:items-end">
                       <span className="font-mono text-lg tabular-nums text-brand">
-                        {l.precio[idioma]}
+                        {precioImpreso(l, idioma)}
                       </span>
                       {l.plazo && (
                         /* `items-start` y no `items-center`: el plazo de la

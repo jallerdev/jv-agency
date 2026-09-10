@@ -489,7 +489,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
 
               {/* La ventaja y la limitación en el mismo dibujo. No es un mapa a
                   propósito: un mapa insinúa cobertura que no existe. */}
-              <RailDistancia className="mt-8" />
+              <RailDistancia idioma={idioma} className="mt-8" />
 
               <ul className="mt-8 flex flex-wrap gap-3">
                 {WEB_CERCA.ciudades.map((c) => (

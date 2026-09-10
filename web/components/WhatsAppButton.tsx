@@ -104,8 +104,15 @@ export function WhatsAppButton({ idioma = "es" }: { idioma?: Idioma } = {}) {
     /* Medido antes de esto: el FAB se sentaba encima del CTA del hero, de los
        disparadores del FAQ y de los 17 enlaces del pie. Mientras el formulario
        de agendamiento o el pie estén en pantalla, se retira. */
+    /* `#agenda`, no `#contacto`. El rediseño renombró esa sección y el
+       `getElementById` se quedó apuntando al id viejo, que hoy solo existe en
+       `components/FinalCTA.tsx` —código muerto sin ningún importador—. Con el
+       selector devolviendo null, el conjunto de bloqueadores solo tenía el
+       pie y el comportamiento que describe el comentario de arriba no ocurría:
+       el flotante se quedaba encima de la tarjeta de agendamiento justo
+       mientras el visitante la estaba rellenando. */
     const targets = [
-      document.getElementById("contacto"),
+      document.getElementById("agenda"),
       document.querySelector("body > footer"),
     ].filter((el): el is Element => Boolean(el));
 
@@ -158,7 +165,12 @@ export function WhatsAppButton({ idioma = "es" }: { idioma?: Idioma } = {}) {
       tabIndex={visible ? undefined : -1}
       data-visible={visible ? "" : undefined}
       className={[
-        "group fixed bottom-5 right-4 z-50 flex items-center gap-3 sm:bottom-6 sm:right-6",
+        /* Se sube por encima de la barra de acción móvil. Sin esto el
+           flotante —bottom-5, 56 px de alto, z-50— caía sobre la barra
+           —bottom-0, 69 px, z-40— y le tapaba justo su propio botón de
+           WhatsApp: dos botones del mismo canal, uno encima del otro.
+           `Cookies.tsx` ya se aparta por lo mismo. */
+        "group fixed bottom-[calc(var(--barra-movil-h)+0.75rem)] right-4 z-50 flex items-center gap-3 lg:bottom-6 lg:right-6",
         "transition-[opacity,transform] duration-slow ease-state",
         visible
           ? "translate-y-0 opacity-100"

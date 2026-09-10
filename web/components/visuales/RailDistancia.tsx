@@ -1,3 +1,4 @@
+import type { Idioma } from "@/content/types";
 import { cn } from "@/lib/utils";
 
 /**
@@ -31,12 +32,34 @@ export type ParadaDistancia = {
   nota: string;
 };
 
-export const PARADAS_POR_DEFECTO: ParadaDistancia[] = [
-  { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "Aquí vivo y aquí trabajo." },
-  { lugar: "Cartagena", distancia: "≈ 20 km", nota: "Nos vemos si el proyecto lo pide." },
-  { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "Nos vemos si el proyecto lo pide." },
-  { lugar: "Bogotá", distancia: "≈ 1.000 km", nota: "A distancia, y lo digo yo primero." },
-];
+/**
+ * Las paradas por defecto, en los dos idiomas.
+ *
+ * Estaban solo en castellano y el componente se monta sin props desde
+ * `components/paginas/Web.tsx`, que sirve tanto
+ * `/servicios/diseno-de-paginas-web` como `/en/services/web-design`: la página
+ * en inglés pintaba un bloque entero de prosa castellana. El lugar y el
+ * kilometraje no se traducen —son nombres propios y números—, la nota sí.
+ */
+export const PARADAS_POR_DEFECTO: Record<Idioma, ParadaDistancia[]> = {
+  es: [
+    { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "Aquí vivo y aquí trabajo." },
+    { lugar: "Cartagena", distancia: "≈ 20 km", nota: "Nos vemos si el proyecto lo pide." },
+    { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "Nos vemos si el proyecto lo pide." },
+    { lugar: "Bogotá", distancia: "≈ 1.000 km", nota: "A distancia, y lo digo yo primero." },
+  ],
+  en: [
+    { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "This is where I live and work." },
+    { lugar: "Cartagena", distancia: "≈ 20 km", nota: "We meet in person if the project calls for it." },
+    { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "We meet in person if the project calls for it." },
+    { lugar: "Bogotá", distancia: "≈ 1,000 km", nota: "Remote, and I say so first." },
+  ],
+};
+
+const NOTA_PIE: Record<Idioma, string> = {
+  es: "Distancias por carretera, aproximadas. Las paradas van equiespaciadas: esto no es un mapa a escala.",
+  en: "Road distances, approximate. The stops are evenly spaced: this isn't a map to scale.",
+};
 
 /* Paradas de color del carril, dentro de la rampa de marca: 600 → 500 → 300.
    Estaban en violeta y azul cielo —#7C6CF5, #9D92F8, #38BDF8— de la marca
@@ -60,20 +83,24 @@ function colorEn(t: number) {
 }
 
 export function RailDistancia({
-  paradas = PARADAS_POR_DEFECTO,
-  nota = "Distancias por carretera, aproximadas. Las paradas van equiespaciadas: esto no es un mapa a escala.",
+  idioma = "es",
+  paradas,
+  nota,
   className,
 }: {
+  idioma?: Idioma;
   paradas?: ParadaDistancia[];
   nota?: string;
   className?: string;
 }) {
-  const ultimo = paradas.length - 1;
+  const lista = paradas ?? PARADAS_POR_DEFECTO[idioma];
+  const pie = nota ?? NOTA_PIE[idioma];
+  const ultimo = lista.length - 1;
 
   return (
     <div className={className}>
       <ol className="flex flex-col sm:flex-row sm:items-stretch">
-        {paradas.map((p, i) => {
+        {lista.map((p, i) => {
           const esUltimo = i === ultimo;
           const desde = colorEn(ultimo === 0 ? 0 : i / ultimo);
           const hasta = colorEn(ultimo === 0 ? 1 : Math.min(i + 1, ultimo) / ultimo);
@@ -120,7 +147,7 @@ export function RailDistancia({
 
       {nota && (
         <p className="mt-6 max-w-[56ch] font-mono text-[11px] leading-relaxed text-ink-soft">
-          {nota}
+          {pie}
         </p>
       )}
     </div>

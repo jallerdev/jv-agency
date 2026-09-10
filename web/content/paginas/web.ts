@@ -84,7 +84,7 @@ export const WEB = {
         },
         href: {
           es: "/blog/pagina-web-o-solo-instagram",
-          en: "/blog/pagina-web-o-solo-instagram",
+          en: "/en/blog/website-or-just-instagram",
         },
       },
     },

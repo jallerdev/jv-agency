@@ -2,8 +2,11 @@
  * CAPTURAS DEL AUDIT
  * ---------------------------------------------------------------------------
  * Una imagen de pagina completa por ruta y por ancho: `-d` es 1440 px y `-m`
- * es 390 px. Salen a notas/capturas/, que esta en .gitignore: son 17 MB de PNG
- * y no tienen por que vivir en el historial de git.
+ * es 390 px. Salen a notas/capturas/, que esta en .gitignore Y sin seguimiento:
+ * son ~10 MB de PNG y no tienen por que vivir en el historial de git. Estuvieron
+ * seguidas un tiempo —la regla de .gitignore llego despues de committearlas, y
+ * .gitignore no desindexa nada—, asi que sus blobs siguen en los commits
+ * viejos de esta rama; lo que ya no pasa es que se sumen mas.
  *
  * Antes de correrlo: `pnpm dev` en otra terminal.
  *
@@ -13,9 +16,32 @@
  * inferior izquierda en las once capturas.
  */
 import { createRequire } from 'node:module';
-const require = createRequire('/home/jallerangel/Documents/JALLER.DEV/pixels-maker/package.json');
-const { chromium } = require('playwright');
-const fs = require('fs');
+
+/**
+ * Playwright no es dependencia de este proyecto —no se usa en el build ni en
+ * ninguna prueba— y aqui hace falta solo para regenerar las capturas. Se busca
+ * primero donde node lo encuentre normalmente y, si no esta, se dice como
+ * instalarlo.
+ *
+ * Antes esto era `createRequire` con una ruta absoluta al checkout de otro
+ * proyecto en una maquina concreta: reventaba con MODULE_NOT_FOUND para
+ * cualquier otra persona, en CI, o en cuanto ese checkout cambiara de sitio.
+ * O sea: el camino documentado para regenerar las capturas no se podia correr.
+ */
+const require = createRequire(import.meta.url);
+let chromium;
+try {
+  ({ chromium } = require('playwright'));
+} catch {
+  console.error(
+    'Falta playwright, que no es dependencia de este proyecto porque solo\n' +
+    'sirve para esto. Instalalo suelto y vuelve a correr:\n\n' +
+    '    pnpm dlx playwright install chromium\n' +
+    '    pnpm add -D playwright\n'
+  );
+  process.exit(1);
+}
+import fs from 'node:fs';
 const OUT = new URL('../notas/capturas/', import.meta.url).pathname;
 fs.mkdirSync(OUT, { recursive: true });
 const RUTAS = [

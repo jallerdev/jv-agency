@@ -30,9 +30,31 @@ const registros = new Map<string, Marca>();
 const LIMPIAR_CADA = 500;
 let cuenta = 0;
 
-function limpiar(ahora: number, ventanaMs: number) {
+/**
+ * La ventana más larga que ha pedido alguna ruta, para poder barrer sin
+ * borrar lo que otra todavía cuenta.
+ *
+ * EL FALLO QUE ARREGLA. `limpiar` recibía la ventana de QUIEN LLAMA y la
+ * aplicaba a TODAS las claves del mapa, que es compartido por las tres rutas.
+ * `/api/acceso` cuenta en ventanas de 15 minutos y `/api/schedule` en ventanas
+ * de una hora con un cupo de seis reservas: cada 500 llamadas, si la que
+ * tocaba el barrido venía de `acceso`, se borraban todas las marcas de
+ * `schedule` de más de quince minutos y el cupo de la hora se reseteaba solo.
+ *
+ * No es teórico ni es solo memoria: alternando peticiones baratas a
+ * `/api/acceso` con reservas se pasa del tope, y cada reserva de más crea un
+ * evento real en Google Calendar y manda un correo real. Es exactamente lo
+ * que el cupo existe para impedir.
+ *
+ * Barriendo con el máximo, una marca solo se borra cuando ya no le sirve a
+ * ninguna ruta. Es una limpieza más floja y eso está bien: el propósito del
+ * barrido es que el mapa no crezca sin fin, no ser exacto.
+ */
+let ventanaMaxima = 0;
+
+function limpiar(ahora: number) {
   for (const [clave, marcas] of registros) {
-    const vivas = marcas.filter((t) => ahora - t < ventanaMs);
+    const vivas = marcas.filter((t) => ahora - t < ventanaMaxima);
     if (vivas.length === 0) registros.delete(clave);
     else registros.set(clave, vivas);
   }
@@ -66,7 +88,8 @@ export function excedido(
 ): number | null {
   const ahora = Date.now();
 
-  if (++cuenta % LIMPIAR_CADA === 0) limpiar(ahora, ventanaMs);
+  if (ventanaMs > ventanaMaxima) ventanaMaxima = ventanaMs;
+  if (++cuenta % LIMPIAR_CADA === 0) limpiar(ahora);
 
   const previas = (registros.get(clave) ?? []).filter((t) => ahora - t < ventanaMs);
 

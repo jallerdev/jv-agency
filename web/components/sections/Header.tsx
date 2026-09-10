@@ -312,7 +312,14 @@ export function Header({ idioma }: { idioma: Idioma }) {
           role="dialog"
           aria-modal="true"
           aria-label={CABECERA.menu[idioma]}
-          className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-negro lg:hidden"
+          /* z-[55], no z-50: es un `aria-modal` a pantalla completa y con 50
+             empataba con el flotante de WhatsApp y con el aviso de cookies,
+             que se pintan DESPUÉS en el documento y por tanto ganaban. Abrir
+             el menú a media página dejaba el botón naranja flotando encima del
+             modal, enfocable y pulsable. Queda por encima de esos dos (50) y
+             por debajo del diálogo de contacto (60), que sí debe tapar al
+             menú. */
+          className="fixed inset-0 z-[55] flex flex-col overflow-y-auto bg-negro lg:hidden"
         >
           <div className="flex h-[var(--header-h)] shrink-0 items-center justify-between px-6">
             <Logo className="h-7 w-auto text-ink" />

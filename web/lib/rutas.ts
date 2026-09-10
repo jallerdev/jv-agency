@@ -1,5 +1,5 @@
 import { IDIOMA_POR_DEFECTO, type Idioma } from "@/content/types";
-import { slugEmparejado } from "@/lib/blog";
+import { slugEmparejado } from "@/lib/blog-slugs";
 
 /**
  * EL MAPA DE RUTAS ENTRE LOS DOS IDIOMAS

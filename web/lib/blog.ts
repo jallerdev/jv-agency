@@ -1,4 +1,5 @@
 import type { Idioma, Traducido } from "@/content/types";
+import { SLUGS } from "@/lib/blog-slugs";
 
 // Manifest de posts del blog. Fuente única para el índice, el sitemap, el
 // JSON-LD y la metadata de cada página.
@@ -52,10 +53,7 @@ export const AUTHOR = {
 
 export const POSTS: BlogPost[] = [
   {
-    slug: {
-      es: "cuanto-cuesta-una-pagina-web-en-colombia",
-      en: "how-much-does-a-website-cost-in-colombia",
-    },
+    slug: SLUGS.cuestaWeb,
     title: {
       es: "¿Cuánto cuesta una página web en Colombia? (2026)",
       en: "How much does a website cost in Colombia? (2026)",
@@ -89,10 +87,7 @@ export const POSTS: BlogPost[] = [
     category: { es: "Precios", en: "Pricing" },
   },
   {
-    slug: {
-      es: "cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia",
-      en: "how-much-does-a-whatsapp-chatbot-cost-in-colombia",
-    },
+    slug: SLUGS.cuestaChatbot,
     title: {
       es: "¿Cuánto cuesta un chatbot de WhatsApp en Colombia? (2026)",
       en: "How much does a WhatsApp chatbot cost in Colombia? (2026)",
@@ -126,10 +121,7 @@ export const POSTS: BlogPost[] = [
     category: { es: "Precios", en: "Pricing" },
   },
   {
-    slug: {
-      es: "cuanto-cuesta-el-seo-en-colombia",
-      en: "how-much-does-seo-cost-in-colombia",
-    },
+    slug: SLUGS.cuestaSeo,
     title: {
       es: "¿Cuánto cuesta el SEO en Colombia? Precios reales 2026",
       en: "How much does SEO cost in Colombia? Real 2026 prices",
@@ -163,10 +155,7 @@ export const POSTS: BlogPost[] = [
     category: { es: "Precios", en: "Pricing" },
   },
   {
-    slug: {
-      es: "mi-negocio-necesita-pagina-web",
-      en: "does-my-business-need-a-website",
-    },
+    slug: SLUGS.necesitaWeb,
     title: {
       es: "¿Mi negocio necesita página web en 2026?",
       en: "Does my business need a website in 2026?",
@@ -198,10 +187,7 @@ export const POSTS: BlogPost[] = [
     category: { es: "Decisión", en: "Deciding" },
   },
   {
-    slug: {
-      es: "pagina-web-o-solo-instagram",
-      en: "website-or-just-instagram",
-    },
+    slug: SLUGS.webOInstagram,
     title: {
       es: "¿Página web o solo Instagram para tu negocio?",
       en: "A website, or just Instagram for your business?",
@@ -233,10 +219,7 @@ export const POSTS: BlogPost[] = [
     category: { es: "Decisión", en: "Deciding" },
   },
   {
-    slug: {
-      es: "que-debe-tener-la-pagina-web-de-un-restaurante",
-      en: "what-a-restaurant-website-needs",
-    },
+    slug: SLUGS.restaurante,
     title: {
       es: "Qué debe tener la página web de un restaurante",
       en: "What a restaurant website needs",
@@ -268,10 +251,7 @@ export const POSTS: BlogPost[] = [
     category: { es: "Guías", en: "Guides" },
   },
   {
-    slug: {
-      es: "cuanto-se-demora-hacer-una-pagina-web",
-      en: "how-long-does-it-take-to-build-a-website",
-    },
+    slug: SLUGS.cuantoDemora,
     title: {
       es: "¿Cuánto se demora hacer una página web?",
       en: "How long does it take to build a website?",
@@ -309,14 +289,7 @@ export function findPost(slug: string, idioma: Idioma = "es"): BlogPost | undefi
   return POSTS.find((p) => p.slug[idioma] === slug);
 }
 
-/**
- * El slug del mismo post en el otro idioma, o `null` si no es un post.
- *
- * Lo usa `lib/rutas.ts` para el conmutador de idioma: el mapa estático de
- * rutas no puede listar los posts uno a uno sin quedarse desfasado la próxima
- * vez que se escriba uno.
- */
-export function slugEmparejado(slug: string, de: Idioma): string | null {
-  const otro: Idioma = de === "es" ? "en" : "es";
-  return POSTS.find((p) => p.slug[de] === slug)?.slug[otro] ?? null;
-}
+/* `slugEmparejado` vive ahora en `lib/blog-slugs.ts` y se reexporta desde
+   aquí por comodidad. Quien lo necesite desde un componente de CLIENTE debe
+   importarlo del módulo ligero, no de este: este arrastra el manifiesto. */
+export { slugEmparejado, SLUGS } from "@/lib/blog-slugs";
