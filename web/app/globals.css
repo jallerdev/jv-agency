@@ -41,7 +41,6 @@
   --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);   /* llega rápido y se asienta */
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);          /* acelera y desaparece */
   --ease-state: cubic-bezier(0.2, 0, 0, 1);         /* cambia, sin llegar ni irse */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* sobreimpulso: solo momentos con carácter */
 
   /* Alias de compatibilidad: el CSS viejo y las auditorías nombran así.
      Apuntan al mismo sistema, no son valores independientes. */
