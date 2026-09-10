@@ -157,16 +157,18 @@
    degradado repetido es exactamente lo que hace que una página se lea como
    generada. Uno por sección, como mucho.
 
-   Los dos topes pasan AA sobre el canvas por separado —violeta-500 da 5,04:1 y
-   cielo-400 da 9,28:1— así que el recorte no esconde un fallo de contraste en
-   la mitad del recorrido, que es el defecto habitual de este recurso.
+   El degradado recorre la rampa de MARCA de punta a punta —del 300 al 700—,
+   no dos colores distintos: la regla del sistema es un solo acento. Los tres
+   topes pasan AA sobre el canvas por separado, así que el recorte no esconde
+   un fallo de contraste en la mitad del recorrido, que es el defecto habitual
+   de este recurso.
 
    `inline-block` no es cosmético: sin él, un texto en degradado que se parta
    en dos líneas recorta el degradado por caja de línea y la segunda arranca
    otra vez desde el violeta. */
 .text-halcon {
   display: inline-block;
-  background-image: linear-gradient(100deg, var(--violeta-500) 0%, var(--violeta-400) 38%, var(--cielo-400) 100%);
+  background-image: linear-gradient(100deg, var(--brand-600) 0%, var(--brand-500) 38%, var(--brand-300) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -174,8 +176,9 @@
 }
 
 /* El rail del canto superior. En HalcónOS cada tarjeta de cifra lleva un
-   degradado violeta→teal que recorre TODO su borde de arriba: es lo que hace
-   que cuatro cajas iguales se lean como un tablero y no como cuatro cajas.
+   degradado que recorre TODO su borde de arriba: es lo que hace que cuatro
+   cajas iguales se lean como un tablero y no como cuatro cajas. Aquí el
+   degradado va dentro de la rampa naranja, no entre dos colores.
    Va en el ::after para no gastar un elemento, y sigue el radio de la tarjeta. */
 .jv-rail { position: relative; }
 .jv-rail::after {
@@ -186,13 +189,13 @@
   border-radius: inherit;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  background-image: linear-gradient(90deg, var(--violeta-500), var(--cielo-400) 55%, var(--teal-500));
+  background-image: linear-gradient(90deg, var(--brand-700), var(--brand-500) 55%, var(--brand-300));
   opacity: 0.85;
   pointer-events: none;
 }
 
-/* La barra corta que HalcónOS pone encima de cada cifra: cuatro píxeles de
-   violeta que rematan la columna por arriba. Marca sin gastar una caja. */
+/* La barra corta que HalcónOS pone encima de cada cifra: tres píxeles de
+   marca que rematan la columna por arriba. Marca sin gastar una caja. */
 /* Solo de 640 px en adelante: por debajo la cifra y su etiqueta van en una
    fila —etiqueta a la izquierda, cifra a la derecha— y una barra encima no
    remataría ninguna columna, solo añadiría una línea suelta. */
@@ -204,7 +207,7 @@
   height: 3px;
   margin-bottom: 0.875rem;
   border-radius: var(--radius-pill);
-  background-image: linear-gradient(90deg, var(--violeta-500), var(--cielo-400));
+  background-image: linear-gradient(90deg, var(--brand-600), var(--brand-400));
 }
 }
 
@@ -219,12 +222,14 @@
    =========================================================================== */
 
 ::selection {
-  background: var(--violeta-500);
-  color: #fff;
+  background: var(--accent);
+  /* Casi negro sobre el naranja, no blanco: 5,96:1 contra 3,36:1. Es la misma
+     regla que rige el texto de cualquier relleno de marca. */
+  color: var(--text-on-accent);
 }
 
-/* El cursor de texto en violeta: se ve dónde estás escribiendo sin tener que
-   mirar el borde del campo. */
+/* El cursor de texto en el color de marca: se ve dónde estás escribiendo sin
+   tener que mirar el borde del campo. */
 input,
 textarea,
 [contenteditable] {
@@ -245,10 +250,12 @@ html {
   border: 2px solid var(--canvas);
   border-radius: var(--radius-pill);
 }
-::-webkit-scrollbar-thumb:hover { background: var(--zinc-700); }
+/* `--zinc-700` no existe desde el cambio de marca: el hover no cambiaba
+   nada. Sube un escalón dentro de la misma escala de filetes. */
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.28); }
 
 /* La viñeta de una lista es el único glifo que el navegador dibuja por ti.
-   En violeta deja de ser un punto gris de sistema. */
+   En el color de marca deja de ser un punto gris de sistema. */
 li::marker { color: var(--accent-hover); }
 
 /* Cifras de ancho fijo en todo lo que se lee como dato: precios, plazos,

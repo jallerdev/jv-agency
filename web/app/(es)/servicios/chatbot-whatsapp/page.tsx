@@ -157,8 +157,11 @@ function RelojDelDomingo() {
               >
                 <defs>
                   <linearGradient id={`reloj-${a.id}`} x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="var(--violeta-500)" />
-                    <stop offset="100%" stopColor="var(--violeta-400)" />
+                    {/* La rampa naranja. Apuntaba a `--violeta-500` y
+                        `--violeta-400`, que dejaron de existir con el cambio
+                        de marca: el arco del reloj salía sin pintar. */}
+                    <stop offset="0%" stopColor="var(--brand-600)" />
+                    <stop offset="100%" stopColor="var(--brand-400)" />
                   </linearGradient>
                 </defs>
                 <circle cx="50" cy="50" r={R} fill="none" stroke="var(--line)" strokeWidth="11" />
