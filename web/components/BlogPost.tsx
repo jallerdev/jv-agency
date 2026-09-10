@@ -47,8 +47,8 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
 
         <div className="legal mt-10">{children}</div>
 
-        <aside className="mt-16 rounded-2xl border border-ink/10 bg-ink/[0.03] p-7">
-          <h2 className="font-display text-xl text-ink">¿Necesitas una web para tu negocio?</h2>
+        <aside className="mt-16 rounded-2xl border border-line bg-ink/[0.03] p-7">
+          <h2 className="font-body text-xl font-semibold text-ink">¿Necesitas una web para tu negocio?</h2>
           <p className="mt-2 font-body text-sm leading-relaxed text-ink-soft">
             Diseño y programo sitios para PYMEs de LATAM. Una página web arranca en $850.000 y
             queda lista en 5 días; los demás precios están publicados.
@@ -62,7 +62,7 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
             </Link>
             <Link
               href="/#contacto"
-              className="inline-flex min-h-11 items-center rounded-full border border-ink/15 px-5 py-2.5 font-body text-sm font-medium text-ink transition-colors hover:bg-ink/5"
+              className="inline-flex min-h-11 items-center rounded-full border border-line px-5 py-2.5 font-body text-sm font-medium text-ink transition-colors hover:bg-ink/5"
             >
               Hablar conmigo
             </Link>

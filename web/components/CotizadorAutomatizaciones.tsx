@@ -245,7 +245,7 @@ function Panel({ a, sticky }: { a: AutomationAnswers; sticky?: boolean }) {
       <p className="font-body text-xs text-ink-soft">pago único</p>
       {t.monthly > 0 && (
         <>
-          <p className="mt-4 font-display text-xl text-ink">{money(t.monthly)}<span className="font-body text-sm text-ink-soft">/mes</span></p>
+          <p className="mt-4 font-body text-xl font-semibold text-ink">{money(t.monthly)}<span className="font-body text-sm text-ink-soft">/mes</span></p>
           <p className="font-body text-xs text-ink-soft">mantenimiento</p>
         </>
       )}

@@ -369,7 +369,7 @@ export default function SalonesYSpasPage() {
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                       <Icon className="h-6 w-6" />
                     </span>
-                    <h3 className="mt-5 font-display text-xl text-ink">{n.titulo}</h3>
+                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{n.titulo}</h3>
                     <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">{n.desc}</p>
                     {n.link && (
                       <Link
@@ -456,7 +456,7 @@ export default function SalonesYSpasPage() {
                   <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                     Proyecto de estudio · Barranquilla
                   </span>
-                  <h3 className="mt-3 font-display text-xl text-ink">Peluquería Marcopolo</h3>
+                  <h3 className="mt-3 font-body text-xl font-semibold text-ink">Peluquería Marcopolo</h3>
                   <p className="mt-2 flex-1 font-body text-[15px] leading-relaxed text-ink-soft">
                     Salón de Barranquilla con cuatro décadas: corte de autor, color editorial y
                     tratamientos. Sin dominio conectado todavía.
@@ -488,7 +488,7 @@ export default function SalonesYSpasPage() {
                   <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                     Proyecto de estudio · Cartagena
                   </span>
-                  <h3 className="mt-3 font-display text-xl text-ink">Fta. Elka Gómez</h3>
+                  <h3 className="mt-3 font-body text-xl font-semibold text-ink">Fta. Elka Gómez</h3>
                   <p className="mt-2 flex-1 font-body text-[15px] leading-relaxed text-ink-soft">
                     Rehabilitación, masaje y spa en Cartagena. Un negocio que es dos cosas a la vez,
                     y la página tiene que separarlas. También sin dominio conectado.
@@ -520,7 +520,7 @@ export default function SalonesYSpasPage() {
                   <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
                     Producto propio · en línea
                   </span>
-                  <h3 className="mt-3 font-display text-xl text-ink">Hummik</h3>
+                  <h3 className="mt-3 font-body text-xl font-semibold text-ink">Hummik</h3>
                   <p className="mt-2 flex-1 font-body text-[15px] leading-relaxed text-ink-soft">
                     Agenda de citas por WhatsApp, con recordatorios contra los plantones. Es mío, no
                     un encargo: lo puedes abrir ahora mismo y probarlo.
@@ -570,7 +570,7 @@ export default function SalonesYSpasPage() {
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
                 <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
-                  <h3 className="font-display text-xl text-ink">{p.q}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{p.q}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.d}
                   </p>
@@ -707,7 +707,7 @@ export default function SalonesYSpasPage() {
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
                 <article className="rounded-2xl border border-line bg-surface p-6 md:p-7">
-                  <h3 className="font-display text-xl text-ink">{f.q}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                   {f.link && (
                     <Link

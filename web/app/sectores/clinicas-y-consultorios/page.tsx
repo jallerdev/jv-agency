@@ -360,7 +360,7 @@ export default function ClinicasYConsultoriosPage() {
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                       <Icon className="h-6 w-6" />
                     </span>
-                    <h3 className="mt-5 font-display text-xl text-ink">{n.titulo}</h3>
+                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{n.titulo}</h3>
                     <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">{n.desc}</p>
                     {n.link && (
                       <Link
@@ -560,7 +560,7 @@ export default function ClinicasYConsultoriosPage() {
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
                 <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
-                  <h3 className="font-display text-xl text-ink">{p.q}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{p.q}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.d}
                   </p>
@@ -729,7 +729,7 @@ export default function ClinicasYConsultoriosPage() {
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
                 <article className="rounded-2xl border border-line bg-surface p-6 md:p-7">
-                  <h3 className="font-display text-xl text-ink">{f.q}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                 </article>
               </Reveal>

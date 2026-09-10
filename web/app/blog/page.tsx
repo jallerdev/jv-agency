@@ -74,7 +74,7 @@ export default function BlogIndexPage() {
             <Link
               key={p.slug}
               href={`/blog/${p.slug}`}
-              className="group rounded-2xl border border-ink/10 p-7 transition-colors hover:border-accent/40 hover:bg-ink/[0.02]"
+              className="group rounded-2xl border border-line p-7 transition-colors hover:border-accent/40 hover:bg-ink/[0.02]"
             >
               <p className="font-mono text-[11px] uppercase tracking-widest text-accent-ink">
                 {p.category}

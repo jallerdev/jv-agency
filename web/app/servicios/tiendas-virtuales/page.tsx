@@ -357,7 +357,7 @@ function PasosCompra() {
         <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
           1 · Ficha
         </p>
-        <h3 className="mt-2 font-display text-lg text-ink">La talla que se acabó, marcada</h3>
+        <h3 className="mt-2 font-body text-lg font-semibold text-ink">La talla que se acabó, marcada</h3>
         <p className="mt-1.5 font-body text-[13px] leading-snug text-ink-soft">
           Talla, color o presentación, cada una con su propio inventario.
         </p>
@@ -400,7 +400,7 @@ function PasosCompra() {
         <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
           2 · Carrito
         </p>
-        <h3 className="mt-2 font-display text-lg text-ink">El envío, cotizado antes de pagar</h3>
+        <h3 className="mt-2 font-body text-lg font-semibold text-ink">El envío, cotizado antes de pagar</h3>
         <p className="mt-1.5 font-body text-[13px] leading-snug text-ink-soft">
           Por ciudad o por peso, con las tarifas que cambias tú.
         </p>
@@ -435,7 +435,7 @@ function PasosCompra() {
         <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
           3 · Pago
         </p>
-        <h3 className="mt-2 font-display text-lg text-ink">Cobra a las once de la noche</h3>
+        <h3 className="mt-2 font-body text-lg font-semibold text-ink">Cobra a las once de la noche</h3>
         <p className="mt-1.5 font-body text-[13px] leading-snug text-ink-soft">
           La plata cae en tu cuenta. La pasarela es tuya y va a tu nombre.
         </p>
@@ -583,7 +583,7 @@ export default function TiendasVirtualesPage() {
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} delay={i * 80}>
                 <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
-                  <h3 className="font-display text-xl text-ink">{p.titulo}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                 </article>
               </Reveal>
@@ -616,7 +616,7 @@ export default function TiendasVirtualesPage() {
                       : "flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-6"
                   }
                 >
-                  <h3 className="font-display text-xl leading-tight text-ink">{p.t}</h3>
+                  <h3 className="font-body text-xl font-semibold leading-tight text-ink">{p.t}</h3>
                   <p className="mt-2 font-body text-[13px] leading-snug text-ink-soft">{p.d}</p>
 
                   <dl className="mt-5 divide-y divide-line border-y border-line">
@@ -687,7 +687,7 @@ export default function TiendasVirtualesPage() {
               {EXTRAS.map((e, i) => (
                 <Reveal key={e.t} delay={i * 60}>
                   <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                    <h4 className="font-display text-lg text-ink">{e.t}</h4>
+                    <h4 className="font-body text-lg font-semibold text-ink">{e.t}</h4>
                     <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                       {e.d}
                     </p>

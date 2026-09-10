@@ -20,7 +20,7 @@ const cop = (n: number) => `$${n.toLocaleString("es-CO")}`;
 function Tabla({ children }: { children: React.ReactNode }) {
   return (
     <div className="my-6 overflow-x-auto">
-      <table className="w-full min-w-[34rem] border-collapse text-left align-top font-body text-sm [&_td]:border-t [&_td]:border-ink/10 [&_td]:py-3 [&_td]:pr-4 [&_td]:align-top [&_th]:pb-2 [&_th]:pr-4 [&_th]:font-semibold [&_th]:text-ink">
+      <table className="w-full min-w-[34rem] border-collapse text-left align-top font-body text-sm [&_td]:border-t [&_td]:border-line [&_td]:py-3 [&_td]:pr-4 [&_td]:align-top [&_th]:pb-2 [&_th]:pr-4 [&_th]:font-semibold [&_th]:text-ink">
         {children}
       </table>
     </div>
@@ -94,7 +94,7 @@ export function CuantoCuestaSeoPost() {
         </tbody>
       </Tabla>
 
-      <blockquote className="my-7 border-l-2 border-ink/25 pl-5 text-ink">
+      <blockquote className="my-7 border-l-2 border-line pl-5 text-ink">
         El SEO técnico es que Google <em>pueda</em> entender tu página web. El posicionamiento es
         que tu página <em>merezca</em> salir. Lo primero se entrega; lo segundo se gana, mes a
         mes.

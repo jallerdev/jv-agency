@@ -981,7 +981,7 @@ function SummaryPanel({ answers, sticky }: { answers: Answers; sticky?: boolean 
     >
       <div className="flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-accent" />
-        <h3 className="font-display text-xl text-ink">Tu cotización</h3>
+        <h3 className="font-body text-xl font-semibold text-ink">Tu cotización</h3>
       </div>
 
       <dl className="mt-5 space-y-2.5">
@@ -1106,7 +1106,7 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
           <p className="font-body text-sm text-ink/80">Total del proyecto</p>
           <p className="mt-1 font-display text-4xl">{money(t.total)}</p>
           {t.monthly > 0 && (
-            <p className="mt-3 border-t border-surface/20 pt-3 font-body text-sm text-ink/80">
+            <p className="mt-3 border-t border-line pt-3 font-body text-sm text-ink/80">
               Más {money(t.monthly)} al mes de {t.monthlyLabel.toLowerCase()}, desde el mes
               siguiente a la entrega.
             </p>

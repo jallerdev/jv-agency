@@ -111,7 +111,7 @@ export function ArbolDecision({
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
               Lo que te sirve
             </p>
-            <p className="mt-2 font-display text-xl leading-tight text-ink">{actual.titulo}</p>
+            <p className="mt-2 font-body text-xl font-semibold leading-tight text-ink">{actual.titulo}</p>
             <p className="mt-2 text-pretty font-body text-[15px] leading-snug text-ink-soft">
               {actual.detalle}
             </p>

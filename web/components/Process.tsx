@@ -122,7 +122,7 @@ export function Process() {
                 </div>
 
                 <div className="col-start-2 row-start-1 pt-3 md:col-start-1 md:pt-0">
-                  <h3 className="font-display text-xl/[1.3] text-ink">{s.title}</h3>
+                  <h3 className="font-body text-xl/[1.3] font-semibold text-ink">{s.title}</h3>
                   {/* 16px, no 14: en escritorio estos parrafos corrian a 29
                       caracteres por linea, la medida mas estrecha de la portada. */}
                   <p className="mt-3 max-w-[46ch] font-body leading-relaxed text-ink-soft">

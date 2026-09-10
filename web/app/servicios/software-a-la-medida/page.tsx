@@ -385,7 +385,7 @@ export default function SoftwareALaMedidaPage() {
               </p>
               <div className="mt-7 grid gap-5 md:grid-cols-2">
                 <div className="rounded-2xl border border-line bg-surface/80 p-6">
-                  <h3 className="font-display text-xl text-ink">Si el problema está afuera</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">Si el problema está afuera</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">
                     No te conocen, no te encuentran en Google, o lo que hay de ti en internet no
                     está a la altura de lo que vendes. Eso es una{" "}
@@ -400,7 +400,7 @@ export default function SoftwareALaMedidaPage() {
                   </Link>
                 </div>
                 <div className="rounded-2xl border border-line bg-surface/80 p-6">
-                  <h3 className="font-display text-xl text-ink">Si el problema está adentro</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">Si el problema está adentro</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">
                     Te escriben y vendes, pero por dentro el proceso no da abasto: inventario que
                     no cuadra, agenda que se choca, sedes que no ven lo mismo. Eso sí es{" "}
@@ -439,7 +439,7 @@ export default function SoftwareALaMedidaPage() {
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} index={i}>
                 <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
-                  <h3 className="font-display text-xl text-ink">{p.titulo}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                 </article>
               </Reveal>
@@ -481,7 +481,7 @@ export default function SoftwareALaMedidaPage() {
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                       <Icon className="h-6 w-6" />
                     </span>
-                    <h3 className="mt-5 font-display text-xl text-ink">{q.titulo}</h3>
+                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{q.titulo}</h3>
                     <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                       {q.desc}
                     </p>
@@ -530,7 +530,7 @@ export default function SoftwareALaMedidaPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
               <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
-                <h3 className="font-display text-xl text-ink">Lo que sube el precio</h3>
+                <h3 className="font-body text-xl font-semibold text-ink">Lo que sube el precio</h3>
                 <ul className="mt-4 grid gap-3">
                   {[
                     "Cuántos roles distintos hay y qué puede ver cada uno",
@@ -551,7 +551,7 @@ export default function SoftwareALaMedidaPage() {
 
             <Reveal delay={100}>
               <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
-                <h3 className="font-display text-xl text-ink">Lo que lo baja</h3>
+                <h3 className="font-body text-xl font-semibold text-ink">Lo que lo baja</h3>
                 <ul className="mt-4 grid gap-3">
                   {[
                     "Arrancar por una sola etapa, la que ya te sirve sola",

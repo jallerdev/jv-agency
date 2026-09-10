@@ -150,7 +150,7 @@ export function MetaTechProvider({
           <p className="mt-5 font-mono text-[11px] uppercase leading-relaxed tracking-[0.16em] text-accent-ink">
             Verificado por Meta
           </p>
-          <p className="mt-2 text-balance font-display text-xl leading-[1.2] text-ink">
+          <p className="mt-2 text-balance font-body text-xl font-semibold leading-[1.2] text-ink">
             Proveedor de tecnología
           </p>
           <p className="mt-3 text-pretty font-body text-[13px] leading-relaxed text-ink-soft">

@@ -76,7 +76,7 @@ export function MediaSection() {
                 ].join(" ")}
               >
                 <div className={PANTALLA}>
-                  <div className="flex items-center gap-2 border-b border-ink/10 bg-surface px-5 py-3">
+                  <div className="flex items-center gap-2 border-b border-line bg-surface px-5 py-3">
                     <span className="flex shrink-0 items-center gap-1.5">
                       <span className="h-2.5 w-2.5 rounded-full bg-danger/55" />
                       <span className="h-2.5 w-2.5 rounded-full bg-warning/55" />

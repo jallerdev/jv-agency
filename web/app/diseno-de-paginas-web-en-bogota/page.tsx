@@ -438,7 +438,7 @@ export default function DisenoPaginasWebBogotaPage() {
                       </span>
                       <span className="font-mono text-2xl text-primary-dark">{p.dato}</span>
                     </div>
-                    <h3 className="mt-5 font-display text-xl text-ink">{p.titulo}</h3>
+                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                     <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                   </article>
                 </Reveal>
@@ -481,7 +481,7 @@ export default function DisenoPaginasWebBogotaPage() {
             {PRECIOS.map((p, i) => (
               <Reveal key={p.nombre} index={i}>
                 <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
-                  <h3 className="font-display text-xl text-ink">{p.nombre}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{p.nombre}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.desc}
                   </p>
@@ -649,7 +649,7 @@ export default function DisenoPaginasWebBogotaPage() {
                   className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift sm:p-7"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-xl text-ink">{p.nombre}</h3>
+                    <h3 className="font-body text-xl font-semibold text-ink">{p.nombre}</h3>
                     <ArrowUpRight
                       className="mt-1 h-4 w-4 shrink-0 text-ink-soft transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
                       aria-hidden="true"
@@ -696,7 +696,7 @@ export default function DisenoPaginasWebBogotaPage() {
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
                 <article className="rounded-2xl border border-line bg-surface p-6 sm:p-7">
-                  <h3 className="font-display text-xl text-ink">{f.q}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                   {f.href && (
                     <Link

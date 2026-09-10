@@ -45,7 +45,7 @@ export function PanelAutonomia({
 }: Props) {
   return (
     <div className={cn("rounded-2xl border border-line bg-surface p-5 sm:p-6", className)}>
-      <p className="font-display text-xl text-ink">{titulo}</p>
+      <p className="font-body text-xl font-semibold text-ink">{titulo}</p>
 
       <ul className="mt-5 divide-y divide-line">
         {/* 1 · Cambiar un precio */}

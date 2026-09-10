@@ -113,13 +113,13 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5">
               <Logo className="h-9 w-auto text-primary" />
-              <span className="font-display text-xl text-ink">Agencia</span>
+              <span className="font-body text-xl font-semibold text-ink">Agencia</span>
             </div>
             <p className="mt-5 max-w-xs text-pretty font-body text-sm leading-relaxed text-ink/70">
               Diseño que enamora, código que aguanta. Webs y software a la medida para PYMEs de
               LATAM, hechos por una sola persona de principio a fin.
             </p>
-            <MetaTechProvider variant="compact" className="mt-6 border-surface/15 bg-surface/5" />
+            <MetaTechProvider variant="compact" className="mt-6 border-line bg-surface/5" />
 
             <div className="mt-6 flex gap-2.5">
               {SOCIAL.map(({ Icon, url, label }) => (
@@ -129,7 +129,7 @@ export function Footer() {
                   aria-label={label}
                   target={url.startsWith("http") ? "_blank" : undefined}
                   rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="tap-target grid h-11 w-11 place-items-center rounded-full border border-surface/15 text-ink/75 transition-card duration-quick ease-state hover:-translate-y-0.5 hover:border-accent hover:bg-surface/5 hover:text-accent active:translate-y-0 active:scale-[0.96]"
+                  className="tap-target grid h-11 w-11 place-items-center rounded-full border border-line text-ink/75 transition-card duration-quick ease-state hover:-translate-y-0.5 hover:border-accent hover:bg-surface/5 hover:text-accent active:translate-y-0 active:scale-[0.96]"
                 >
                   <Icon className="h-4 w-4" strokeWidth={1.75} />
                 </a>
@@ -172,7 +172,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 border-t border-surface/12 pt-6 font-body text-sm text-ink/70">
+        <div className="mt-14 border-t border-line pt-6 font-body text-sm text-ink/70">
           <div className="flex flex-col gap-x-7 gap-y-1 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href={`mailto:${BUSINESS.email}`}
@@ -203,7 +203,7 @@ export function Footer() {
             </span>
           </div>
 
-          <div className="mt-5 flex flex-col gap-1 border-t border-surface/10 pt-5 font-mono text-xs tabular-nums text-ink/60 md:flex-row md:items-center md:justify-between">
+          <div className="mt-5 flex flex-col gap-1 border-t border-line pt-5 font-mono text-xs tabular-nums text-ink/60 md:flex-row md:items-center md:justify-between">
             <span>
               {BUSINESS.legalNameOfficial} · NIT {BUSINESS.taxId}
             </span>

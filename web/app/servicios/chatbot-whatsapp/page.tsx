@@ -143,7 +143,7 @@ const ANILLOS = [
 function RelojDelDomingo() {
   return (
     <div className="rounded-2xl border border-line bg-surface/70 p-7">
-      <h3 className="font-display text-xl text-ink">Las horas en que tu WhatsApp contesta</h3>
+      <h3 className="font-body text-xl font-semibold text-ink">Las horas en que tu WhatsApp contesta</h3>
       <div className="mt-6 grid grid-cols-2 gap-4">
         {ANILLOS.map((a) => {
           const arco = (a.horas / 24) * CIRC;
@@ -334,7 +334,7 @@ export default function ChatbotWhatsappPage() {
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} delay={i * 80}>
                 <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
-                  <h3 className="font-display text-xl text-ink">{p.titulo}</h3>
+                  <h3 className="font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                 </article>
               </Reveal>
@@ -377,7 +377,7 @@ export default function ChatbotWhatsappPage() {
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                       <Icon className="h-6 w-6" />
                     </span>
-                    <h3 className="mt-5 font-display text-xl text-ink">{A_TYPE_LABEL[t.key]}</h3>
+                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{A_TYPE_LABEL[t.key]}</h3>
                     <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                       {A_TYPE_DESC[t.key]}
                     </p>

@@ -43,7 +43,7 @@ export default async function AccesoPage({
         aria-label="Ir a la portada de JV Agencia"
       >
         <Logo className="h-9 w-9 text-primary" />
-        <span className="font-display text-xl text-ink">JV Agencia</span>
+        <span className="font-body text-xl font-semibold text-ink">JV Agencia</span>
       </Link>
 
       {doc ? (

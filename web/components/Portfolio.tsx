@@ -134,7 +134,7 @@ const SIZES_PLACA = "(min-width:1024px) 46rem, (min-width:768px) 88vw, 92vw";
  */
 function BarraNavegador({ dominio }: { dominio?: string }) {
   return (
-    <div className="flex items-center gap-2 border-b border-ink/10 bg-surface px-5 py-3">
+    <div className="flex items-center gap-2 border-b border-line bg-surface px-5 py-3">
       <span className="flex shrink-0 items-center gap-1.5">
         <span className="h-2.5 w-2.5 rounded-full bg-danger/55" />
         <span className="h-2.5 w-2.5 rounded-full bg-warning/55" />
@@ -318,7 +318,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
           </span>
 
           <span className="min-w-0 flex-1">
-            <span className="block truncate font-display text-lg/[1.25] text-ink transition-colors duration-quick ease-state group-hover/trigger:text-primary-dark md:text-xl">
+            <span className="block truncate font-body text-lg/[1.25] font-semibold text-ink transition-colors duration-quick ease-state group-hover/trigger:text-primary-dark md:text-xl">
               {p.nombre}
             </span>
             <span className="mt-0.5 block truncate font-body text-sm text-ink-soft">

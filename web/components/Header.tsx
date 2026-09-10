@@ -233,7 +233,7 @@ export function Header() {
                 solid ? "h-8" : "h-9"
               )}
             />
-            <span className="font-display text-xl tracking-tight text-ink">Agencia</span>
+            <span className="font-body text-xl font-semibold tracking-tight text-ink">Agencia</span>
           </a>
 
           {/* Entre 768 y 1023 el menu cabe justo: seis destinos, el logo y el boton

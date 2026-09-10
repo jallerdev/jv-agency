@@ -51,7 +51,7 @@ export function Faqs({
 
               <AccordionPrimitive.Header className="flex">
                 <AccordionPrimitive.Trigger className="group/trigger flex flex-1 items-start justify-between gap-5 rounded-2xl px-6 py-5 text-left focus-visible:transition-none">
-                  <span className="font-display text-[1.15rem] leading-snug text-ink transition-colors duration-quick ease-state group-hover/trigger:text-primary-dark sm:text-xl">
+                  <span className="font-body text-[1.15rem] font-semibold leading-snug text-ink transition-colors duration-quick ease-state group-hover/trigger:text-primary-dark sm:text-xl">
                     {item.q}
                   </span>
                   <span

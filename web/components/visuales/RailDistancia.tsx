@@ -95,7 +95,7 @@ export function RailDistancia({
                 <span
                   aria-hidden
                   style={{ backgroundColor: desde }}
-                  className="relative h-[10px] w-[10px] shrink-0 rounded-full border-2 border-surface"
+                  className="relative h-[10px] w-[10px] shrink-0 rounded-full border-2 border-line"
                 />
               </div>
 

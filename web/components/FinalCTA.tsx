@@ -62,13 +62,13 @@ export function FinalCTA() {
 
           {/* Las tres garantías dejan de ser viñetas y pasan a ser filas con
               regla: se leen como condiciones de un acuerdo, que es lo que son. */}
-          <ul className="mt-10 border-t border-surface/15">
+          <ul className="mt-10 border-t border-line">
             {PERKS.map((p) => (
               <li
                 key={p}
-                className="flex items-center gap-3.5 border-b border-surface/15 py-4 font-body text-ink"
+                className="flex items-center gap-3.5 border-b border-line py-4 font-body text-ink"
               >
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-surface/15 ring-1 ring-surface/20">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-surface/15 ring-1 ring-line">
                   <Check className="h-3.5 w-3.5 text-ink" strokeWidth={2.5} />
                 </span>
                 <span className="text-pretty">{p}</span>

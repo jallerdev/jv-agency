@@ -418,7 +418,7 @@ function SeoSummary({ answers, sticky }: { answers: SeoAnswers; sticky?: boolean
     >
       <div className="flex items-center gap-2">
         <Search className="h-4 w-4 text-accent" />
-        <h3 className="font-display text-xl text-ink">Tu plan de SEO</h3>
+        <h3 className="font-body text-xl font-semibold text-ink">Tu plan de SEO</h3>
       </div>
 
       {!answers.plan && (
@@ -545,7 +545,7 @@ function SeoFinal({ answers, onRestart }: { answers: SeoAnswers; onRestart: () =
             <span className="font-body text-lg text-ink/70"> /mes</span>
           </p>
           {t.setupTotal > 0 && (
-            <p className="mt-3 border-t border-surface/20 pt-3 font-body text-sm text-ink/80">
+            <p className="mt-3 border-t border-line pt-3 font-body text-sm text-ink/80">
               Más {money(t.setupTotal)} de arranque, una sola vez. Primer pago:{" "}
               {money(t.primerPago)}.
             </p>

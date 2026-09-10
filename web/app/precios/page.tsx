@@ -258,7 +258,7 @@ function PropuestaPorEscrito() {
           {/* Línea de total. La ranura es más marcada que las de arriba: es
               el renglón que el visitante vino a buscar, y sigue vacío. */}
           <div className="mt-5 flex items-baseline gap-3">
-            <span className="font-display text-xl text-ink">Total</span>
+            <span className="font-body text-xl font-semibold text-ink">Total</span>
             <span
               aria-hidden
               className="min-w-4 flex-1 border-b border-dotted border-line"
@@ -403,7 +403,7 @@ export default function PreciosPage() {
               {LINEAS.map((l) => (
                 <li key={l.servicio} className="px-5 py-5 sm:px-6 sm:py-6 md:px-8">
                   <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                    <span className="font-display text-xl text-ink">
+                    <span className="font-body text-xl font-semibold text-ink">
                       {l.servicio}
                     </span>
                     <span className="flex flex-col gap-1 sm:items-end">

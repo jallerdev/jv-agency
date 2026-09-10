@@ -95,9 +95,9 @@
      reintroduce el fallo. */
   --text-on-accent: var(--zinc-950);
 
-  --line: var(--zinc-800);
+  --line: rgba(var(--hs-border), 0.7);
   --line-soft: var(--alpha-line-soft);
-  --line-strong: var(--zinc-750);
+  --line-strong: rgb(var(--hs-border));
 
   --accent: var(--violeta-500);
   --accent-hover: var(--violeta-400);
@@ -138,6 +138,14 @@
      flota sobre todo lo demás y por eso se hunde en tono. */
   --hs-popover: hsl(240 8% 6%);
   --hs-input: hsl(240 4% 16%);
+  /* EL BORDE, medido en el producto: #27272A, y casi siempre al 70%.
+     Ese 30% de transparencia es la mitad del truco. Un filete opaco sobre una
+     tarjeta casi negra sigue siendo una LINEA; al 70% se funde con el fondo
+     que tiene detras y se lee como el canto de la tarjeta, no como un trazo
+     dibujado encima. Es la diferencia entre las capturas de HalconOS y las
+     mias, y no estaba en el valor del color: los dos son practicamente el
+     mismo gris. */
+  --hs-border: 39, 39, 42;
   --hs-track: hsl(240 6% 16%);
 
   /* LA SOMBRA NO ES NEGRA. HalcónOS la tiñe de violeta-gris frío
@@ -168,25 +176,32 @@
   --text-h3: 1.5rem;
   --text-h4: 1.1875rem;
   --text-lead: clamp(1.0625rem, 1.35vw, 1.25rem);
-  /* 17 px, no los 15 del sistema.
-     El design system fija 15 px y lo dice claro: «viene del lado de producto».
-     En una tabla densa de HalcónOS eso es correcto; en una página que se lee
-     de corrido y se abre desde un teléfono, es pequeño. Se sube a 17 px, que
-     con Figtree y una medida de 66ch da una línea cómoda sin llegar a
-     tamaño de blog. La escala de titulares no se toca: ya está en clamp(). */
-  --text-body-size: 1.0625rem;
+  /* 18 px con interlínea de 28, que es EXACTAMENTE lo que corre en HalcónOS.
+     El design system fijaba 15 y lo decía claro: «viene del lado de producto».
+     Pero fui a medirlo y el producto no usa 15 en su página: usa 18/28 para
+     el cuerpo y deja los 14 para la interfaz densa. La página estaba tomando
+     el tamaño de la tabla, no el del texto. */
+  --text-body-size: 1.125rem;
   --text-eyebrow: 0.6875rem;
 
   --lh-tight: 1;
   --lh-display: 1.06;
   --lh-snug: 1.25;
-  --lh-body: 1.6;
+  --lh-body: 1.5556;   /* 28px sobre 18px, como el producto */
 
   --ls-hero: -0.022em;
   --ls-display: -0.018em;
   --ls-heading: -0.012em;
   --ls-body: -0.002em;
   --ls-eyebrow: 0.16em;
+
+  /* Los pesos con los que corre HalcónOS: 800 en el titular de portada, 700 en
+     los de sección, 600 en los de tarjeta. Instrument Serif solo tiene 400, así
+     que estos pesos los lleva Figtree —que es variable 300-900— en todo lo que
+     está a escala de interfaz. */
+  --weight-display: 400;
+  --weight-titulo: 600;
+  --weight-fuerte: 700;
 
   /* ── Espacio y ritmo ─────────────────────────────────────────────────── */
   --maxw: 1200px;

@@ -543,7 +543,7 @@ export default function DisenoDePaginasWebPage() {
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
-                    <h3 className="mt-5 font-display text-xl text-ink">{p.titulo}</h3>
+                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                     <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                     {p.link && (
                       <Link
@@ -593,7 +593,7 @@ export default function DisenoDePaginasWebPage() {
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
-                    <h3 className="mt-5 font-display text-xl text-ink">{f.nombre}</h3>
+                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{f.nombre}</h3>
                     <p className="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
                       también: {f.tambien}
                     </p>

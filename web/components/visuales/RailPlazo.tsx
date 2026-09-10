@@ -77,7 +77,7 @@ export function RailPlazo({
               <span
                 aria-hidden
                 className={cn(
-                  "relative mt-1 h-[10px] w-[10px] shrink-0 rounded-full border-2 border-surface sm:mt-0",
+                  "relative mt-1 h-[10px] w-[10px] shrink-0 rounded-full border-2 border-line sm:mt-0",
                   t.esPrevio ? "bg-line" : esUltimo ? "bg-primary-dark" : "bg-primary"
                 )}
               />

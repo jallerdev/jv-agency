@@ -460,7 +460,7 @@ export default function PosicionamientoSeoPage() {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <Wrench className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 font-display text-xl text-ink">SEO técnico</h3>
+                <h3 className="mt-5 font-body text-xl font-semibold text-ink">SEO técnico</h3>
                 <p className="mt-2 font-body text-sm leading-relaxed text-ink-soft">
                   Se hace una sola vez y se acaba. Va incluido cuando la página web la hago yo.
                 </p>
@@ -480,7 +480,7 @@ export default function PosicionamientoSeoPage() {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <LineChart className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 font-display text-xl text-ink">Posicionamiento</h3>
+                <h3 className="mt-5 font-body text-xl font-semibold text-ink">Posicionamiento</h3>
                 <p className="mt-2 font-body text-sm leading-relaxed text-ink-soft">
                   Trabajo mensual y continuo. Es esto lo que se contrata en esta página.
                 </p>
@@ -522,7 +522,7 @@ export default function PosicionamientoSeoPage() {
                     <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-line bg-background/60 text-primary-dark">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <h3 className="mt-5 font-display text-xl text-ink">{p.titulo}</h3>
+                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                     <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                   </article>
                 </Reveal>
@@ -550,7 +550,7 @@ export default function PosicionamientoSeoPage() {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <FileSearch className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 font-display text-xl text-ink">Auditoría SEO</h3>
+                <h3 className="mt-5 font-body text-xl font-semibold text-ink">Auditoría SEO</h3>
                 <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                   El diagnóstico: por qué no apareces cuando te buscan, qué te está frenando y en
                   qué orden se arregla. Sale de tus datos —tu sitio rastreado, tu Search Console,
@@ -570,7 +570,7 @@ export default function PosicionamientoSeoPage() {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <LineChart className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 font-display text-xl text-ink">
+                <h3 className="mt-5 font-body text-xl font-semibold text-ink">
                   Plan mensual de posicionamiento
                 </h3>
                 <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
@@ -739,7 +739,7 @@ export default function PosicionamientoSeoPage() {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <Sparkles className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 font-display text-xl text-ink">
+                <h3 className="mt-5 font-body text-xl font-semibold text-ink">
                   Y lo que ya se está moviendo: que te nombre la IA
                 </h3>
                 <p className="mt-3 font-body leading-relaxed text-ink-soft">

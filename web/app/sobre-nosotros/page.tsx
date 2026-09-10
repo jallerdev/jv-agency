@@ -200,7 +200,7 @@ export default function SobreNosotrosPage() {
               <Reveal key={a.title} delay={i * 100}>
                 <div className="h-full rounded-2xl border border-line bg-surface/60 p-7">
                   <span className="font-mono text-sm text-accent-ink">0{i + 1}</span>
-                  <h3 className="mt-3 font-display text-xl text-ink">{a.title}</h3>
+                  <h3 className="mt-3 font-body text-xl font-semibold text-ink">{a.title}</h3>
                   <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{a.desc}</p>
                 </div>
               </Reveal>
