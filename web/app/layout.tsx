@@ -21,17 +21,6 @@ import { Blobs } from "@/components/Blobs";
    salto de composición y con precarga. Los subconjuntos latin y latin-ext van
    por separado, así que un visitante que solo lee español no descarga los
    glifos que no usa. */
-const instrument = localFont({
-  display: "swap",
-  variable: "--font-instrument",
-  src: [
-    { path: "./fonts/instrument-normal-400-latin.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/instrument-normal-400-latin-ext.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/instrument-italic-400-latin.woff2", weight: "400", style: "italic" },
-    { path: "./fonts/instrument-italic-400-latin-ext.woff2", weight: "400", style: "italic" },
-  ],
-});
-
 const figtree = localFont({
   display: "swap",
   variable: "--font-figtree",
@@ -119,7 +108,7 @@ export default function RootLayout({
        abajo, esa referencia no las ve —una custom property se hereda hacia
        abajo, nunca hacia arriba— y las tres familias caian al system-ui sin
        avisar de nada. */
-    <html lang="es" className={`${instrument.variable} ${figtree.variable} ${jetbrains.variable}`}>
+    <html lang="es" className={`${figtree.variable} ${jetbrains.variable}`}>
       <body className="bg-canvas font-body text-ink-soft antialiased">
         {/* El campo de manchas detrás de TODO el sitio, no solo del hero.
             Una sola instancia fija cubre las quince mil filas de scroll de

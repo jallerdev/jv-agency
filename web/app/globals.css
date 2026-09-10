@@ -6,17 +6,26 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   1. TOKENS
-   Todo lo que se repite en el sitio vive aquí. Si un valor de movimiento,
-   foco o atmósfera aparece a mano en un componente, es que falta un token.
+   1. ALIAS
+   ---------------------------------------------------------------------------
+   Este bloque SOLO tiene alias. Los valores viven en tokens.css, que es el
+   port del design system, y no se repiten aquí.
+
+   Antes sí se repetían, y esa duplicación estaba pisando al sistema sin que
+   nada avisara: `--header-h` pasaba de 4rem a 4.5rem, `--gutter` de un clamp a
+   un fijo, el escalonado de 90 a 70 ms, la subida de 24 a 16 px y el anillo de
+   foco cambiaba de tono. Peor: al redeclarar las duraciones aquí, DESPUÉS del
+   bloque `prefers-reduced-motion` de tokens.css y sin media query, anulaba el
+   apagado de movimiento del sistema entero. Lo salvaba de milagro la regla
+   `*{}` del final de este archivo.
+
+   Regla: si un valor aparece en los dos archivos, se borra de este.
    ========================================================================== */
 :root {
-  /* --- Color -----------------------------------------------------------
-     Estos nombres se conservan porque media docena de reglas de este archivo
-     los usan; lo que cambia es a qué apuntan. La fuente de verdad es
-     tokens.css, que es el port del design system: aquí solo hay alias. */
+  /* Nombres que usan media docena de reglas de este archivo. Apuntan al
+     sistema; no son valores independientes. */
   --color-primary: var(--accent);
-  --color-primary-dark: var(--accent-press);
+  --color-primary-dark: var(--accent-ink);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-secondary: var(--line-strong);
@@ -27,24 +36,7 @@
   --color-ink-soft: var(--text-body);
   --color-band: var(--surface-band);
 
-  /* --- Movimiento: duraciones ------------------------------------------
-     Cinco escalones, cada uno con un trabajo. No inventar valores nuevos. */
-  --duration-instant: 0ms;    /* foco: aparece en el fotograma 0 */
-  --duration-quick: 120ms;    /* color, borde, opacidad, :active */
-  --duration-base: 200ms;     /* micro-gesto: flecha, chevron, subrayado, salidas */
-  --duration-slow: 320ms;     /* componente: tarjeta, header, acordeón que abre */
-  --duration-ambient: 560ms;  /* entrada en viewport y orquestación del hero */
-
-  /* --- Movimiento: curvas ----------------------------------------------
-     Cada curva es una frase: algo llega, algo se va, algo cambia,
-     algo tiene carácter. */
-  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);   /* llega rápido y se asienta */
-  --ease-exit: cubic-bezier(0.4, 0, 1, 1);          /* acelera y desaparece */
-  --ease-state: cubic-bezier(0.2, 0, 0, 1);         /* cambia, sin llegar ni irse */
-
-  /* Alias de compatibilidad: el CSS viejo y las auditorías nombran así.
-     Apuntan al mismo sistema, no son valores independientes. */
-  --easing: var(--ease-state);
+  /* Alias de compatibilidad que nombran las auditorías y el CSS antiguo. */
   --dur-1: var(--duration-quick);
   --dur-2: var(--duration-base);
   --dur-3: var(--duration-slow);
@@ -54,25 +46,16 @@
   --ease-salida: var(--ease-exit);
   --ease-estado: var(--ease-state);
 
-  /* --- Reveal ----------------------------------------------------------- */
+  /* Distancias de entrada por tamaño de pieza. La duración, la curva, el
+     escalonado y la subida por defecto los pone tokens.css. */
   --reveal-duration: var(--duration-ambient);
-  --reveal-stagger: 70ms;   /* un solo escalonado en todo el sitio */
-  --reveal-rise: 16px;      /* distancia por defecto (md) */
   --rise-sm: 8px;           /* badges, etiquetas, texto en línea */
   --rise-md: 16px;          /* párrafos y tarjetas */
   --rise-lg: 28px;          /* bloques de sección enteros */
   --reveal-shift: 24px;     /* desplazamiento lateral */
   --reveal-scale: 0.965;    /* punto de partida de la variante "scale" */
 
-  /* --- Layout ----------------------------------------------------------- */
-  --header-h: 4.5rem;       /* alto real del header fijo (~69-73px) */
-  --gutter: 1.25rem;        /* px-5: el margen lateral de todas las secciones */
   --fab-safe: 5.5rem;       /* alto del FAB de WhatsApp + su margen */
-
-  /* --- Foco ------------------------------------------------------------- */
-  --focus-ring-color: var(--color-primary-dark); /* 7,38:1 sobre el papel */
-  --focus-ring-width: 2px;
-  --focus-ring-offset: 3px;
 }
 
 @layer base {
@@ -115,13 +98,25 @@
   }
 
 
+  /* El peso y el tracking de los titulares viven aquí y no en cada JSX: la
+     especificación pide grotesk 500-600 con −0.03em y interlínea 1.05, y eso
+     es una decisión del sistema, no de cada componente.
+     Preflight de Tailwind pone `font-weight: inherit` en los encabezados, así
+     que sin esta regla heredaban el 400 del cuerpo y se veían sin fuerza. */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), Georgia, serif;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: var(--ls-display);
+    line-height: var(--lh-display);
+    text-wrap: pretty;
   }
+  h1 { letter-spacing: var(--ls-hero); }
 
+  /* La selección, en el naranja de marca. Estaba en bronce del sistema de
+     papel y ganaba por orden de capa a la regla de efectos.css. */
   ::selection {
-    background-color: rgba(192, 118, 59, 0.25);
-    color: var(--color-ink);
+    background-color: var(--brand-500);
+    color: var(--negro);
   }
 
   /* Foco de marca por defecto, para TODO lo enfocable.
@@ -238,7 +233,10 @@
      violeta. Así que la clase se queda donde está y cambia lo que hace.
      Cero ediciones en las páginas, y el gesto que marcaba sigue marcado. */
   .text-metal {
-    font-style: italic;
+    /* Sin `font-style: italic`. Figtree no trae itálica, así que pedirla
+       obliga al navegador a inclinar los trazos a la fuerza —el mismo defecto
+       que tenía el `font-light` sobre una fuente de un solo peso—. La frase
+       operativa se marca con el color de marca y ya. */
     color: var(--text-accent);
     background-image: none;
     -webkit-background-clip: initial;
@@ -634,8 +632,11 @@
 main p:not([class*="max-w"]) {
   max-width: var(--maxw-prose);
 }
-main p:not([class*="max-w"])[class*="text-center"],
-[class*="text-center"] > p:not([class*="max-w"]),
-[class*="items-center"] > p:not([class*="max-w"]) {
-  margin-inline: auto;
-}
+/* Aquí NO va ningún `margin-inline: auto`.
+   Lo intenté con `[class*="text-center"] > p` y falla por diseño: el hero lleva
+   `text-center lg:text-left` en el contenedor, así que el selector encaja
+   también en escritorio —donde el texto va a la izquierda— y empujaba la línea
+   de precio al medio. Un selector por NOMBRE DE CLASE no puede ver en qué
+   breakpoint está.
+   No hace falta: el tope de medida encoge la caja y quien la centra es la
+   alineación del contenedor, que sí es sensible al breakpoint. */

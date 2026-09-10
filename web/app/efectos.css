@@ -19,12 +19,15 @@
    =========================================================================== */
 
 .jv-gg {
-  --c1: 124, 108, 245;  /* violeta-500 */
-  --c2: 157, 146, 248;  /* violeta-400 */
-  --c3: 83, 65, 204;    /* violeta-700 */
-  --c4: 28, 207, 158;   /* teal-500 */
-  --c5: 56, 189, 248;   /* cielo-400 */
-  --cp: 157, 146, 248;  /* la que sigue al puntero */
+  /* La rampa de marca, y nada más. Antes había teal y azul cielo aquí: sobre
+     el naranja se leen como una fuga de otro sistema, que es justo lo que
+     eran. El brillo lo da el escalón 300, no un color distinto. */
+  --c1: 232, 98, 63;    /* brand-500 */
+  --c2: 240, 153, 125;  /* brand-300 */
+  --c3: 182, 58, 36;    /* brand-700 */
+  --c4: 236, 126, 94;   /* brand-400 */
+  --c5: 102, 31, 20;    /* brand-900, la sombra cálida del fondo */
+  --cp: 240, 153, 125;  /* la que sigue al puntero */
   --gg-size: 80%;
   --gg-blend: screen;
   --gg-blur: 60px;

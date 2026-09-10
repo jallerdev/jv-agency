@@ -144,7 +144,7 @@ export function Hero() {
           <span className="jv-hero-line">
             <span style={{ "--jv-delay": "260ms" } as React.CSSProperties}>
               que hacen que{" "}
-              <span className="text-metal jv-hero-sheen font-normal italic">
+              <span className="text-metal jv-hero-sheen ">
                 te tomen en serio.
               </span>
             </span>

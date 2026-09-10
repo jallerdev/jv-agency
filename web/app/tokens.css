@@ -18,158 +18,117 @@
    =========================================================================== */
 
 :root {
-  /* ── Rampas base ──────────────────────────────────────────────────────── */
-  --violeta-50: #f1efff;
-  --violeta-100: #e3dfff;
-  --violeta-200: #c9c1fc;
-  --violeta-300: #ada2fa;
-  --violeta-400: #9d92f8;   /* texto y glifos sobre oscuro */
-  --violeta-500: #7c6cf5;   /* PRIMARIO — el --primary de HalcónOS */
-  --violeta-600: #6553e8;
-  --violeta-700: #5341cc;
-  --violeta-800: #43359f;
-  --violeta-900: #2e2470;
-  --violeta-950: #1b1545;
+  /* ── La rampa de marca ────────────────────────────────────────────────
+     Naranja #E8623F. Es el `--brand-soft` de palo-seco.com, la referencia de
+     estructura del proyecto. El 600 es el hover, un 8% más oscuro.
 
-  --teal-300: #5fe3bd;
-  --teal-400: #2ddcaa;
-  --teal-500: #1ccf9e;      /* SECUNDARIO — solo verificado / en línea / ok */
-  --teal-600: #12ab81;
-  --teal-700: #0f8265;
-  --teal-900: #083f31;
+     UN SOLO ACENTO. El naranja se reparte entre CINCO sitios y ninguno más:
+       · el CTA primario
+       · la numeración de secciones y de pasos
+       · el subrayado que crece en el hover de un enlace
+       · el punto de «en línea»
+       · el logo
+     Repartirlo más lo apaga: si todo es acento, nada lo es.
 
-  --zinc-0: #ffffff;
-  --zinc-25: #fcfcfd;
-  --zinc-50: #f7f7f8;
-  --zinc-100: #f0f0f2;
-  --zinc-200: #e4e4e7;
-  --zinc-300: #d4d4d8;
-  --zinc-400: #a1a1aa;
-  --zinc-500: #71717a;
-  --zinc-600: #52525b;
-  --zinc-700: #3f3f46;
-  --zinc-750: #35353c;
-  --zinc-800: #26262b;
-  --zinc-850: #1d1d21;
-  --zinc-875: #15151a;
-  --zinc-900: #101012;
-  --zinc-950: #09090b;      /* el negro NUNCA es #000 y nunca es cálido */
-  --zinc-tint: #0a0810;     /* casi negro con sesgo violeta: hero y CTA */
+     Contrastes medidos sobre el canvas #080808:
+       #E8623F como texto ............. 5,5:1   AA en cualquier tamaño
+       #080808 sobre relleno #E8623F .. 5,96:1  por eso el texto sobre naranja
+                                                es CASI NEGRO, no blanco
+       blanco sobre relleno #E8623F ... 3,36:1  no pasa, y por eso no se usa   */
+  --brand-50: #fdf0ec;
+  --brand-100: #fadcd4;
+  --brand-200: #f5bba8;
+  --brand-300: #f0997d;
+  --brand-400: #ec7e5e;
+  --brand-500: #e8623f;   /* ACENTO */
+  --brand-600: #db482d;   /* hover, −8% */
+  --brand-700: #b63a24;
+  --brand-800: #8e2d1c;
+  --brand-900: #661f14;
+  --brand-950: #3d120c;
+
+  /* ── Neutros ──────────────────────────────────────────────────────────
+     El negro es #080808, no #000: un negro puro sobre una pantalla OLED
+     traga el borde de las superficies y la jerarquía se pierde. */
+  --negro: #080808;
+  --superficie: #111111;
+  --superficie-alta: #171717;
+  --blanco: #fafafa;
 
   --rojo-400: #f87171;
-  --rojo-500: #dc2626;
   --ambar-400: #fbbf24;
-  --ambar-500: #d97706;
-  --cielo-400: #38bdf8;
+  --verde-400: #4ade80;
 
-  --alpha-line: #fafafa1f;
-  --alpha-line-soft: #fafafa14;
-  --alpha-violeta-12: #7c6cf51f;
-  --alpha-violeta-30: #7c6cf54d;
-  --alpha-teal-12: #1ccf9e1f;
-  --alpha-teal-30: #1ccf9e4d;
+  /* ── Alias semánticos ─────────────────────────────────────────────────
+     Los componentes usan ESTOS, nunca los de arriba. Cambiar la marca es
+     mover cinco líneas de este bloque. */
+  --canvas: var(--negro);
+  --canvas-tint: #0d0908;         /* casi negro con sesgo cálido: hero y cierre */
+  --surface: var(--superficie);
+  --surface-raised: var(--superficie-alta);
+  --surface-band: var(--superficie);
+  --surface-inverse: var(--blanco);
 
-  /* ── Alias semánticos — OSCURO es el modo de marca ────────────────────── */
-  --canvas: var(--zinc-950);
-  --canvas-tint: var(--zinc-tint);
-  --surface: var(--hs-card);
-  --surface-raised: var(--hs-card-2);
-  --surface-band: var(--hs-card);
-  --surface-inverse: var(--zinc-25);
+  --text-strong: var(--blanco);
+  --text-body: rgba(250, 250, 250, 0.62);
+  --text-muted: rgba(250, 250, 250, 0.44);
+  --text-accent: var(--brand-500);
+  --text-inverse: var(--negro);
+  /* Casi negro sobre el relleno naranja: 5,96:1. El blanco daría 3,36:1. */
+  --text-on-accent: var(--negro);
 
-  --text-strong: #fafafa;
-  --text-body: var(--zinc-300);
-  --text-muted: var(--zinc-400);
-  --text-accent: var(--violeta-400);
-  --text-inverse: var(--zinc-950);
-  /* DESVIACIÓN DECLARADA del design system, que dice `#ffffff`.
-     Medido sobre el sitio ya portado, en 24 botones de las catorce rutas:
-       blanco sobre violeta-500 (#7C6CF5) .... 3,95:1   AA pide 4,5
-       blanco sobre violeta-400 (hover) ...... 2,66:1
-       casi negro sobre violeta-500 .......... 5,04:1
-       casi negro sobre violeta-400 .......... 7,48:1
-     El blanco no pasa ni en reposo ni en hover; el casi negro pasa en los dos,
-     y encima mejora al aclarar el relleno, que es la dirección de hover que
-     pide el sistema sobre fondo oscuro. Esto hay que corregirlo EN EL DESIGN
-     SYSTEM: mientras siga diciendo #ffffff, cualquiera que lo aplique de nuevo
-     reintroduce el fallo. */
-  --text-on-accent: var(--zinc-950);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-soft: rgba(255, 255, 255, 0.05);
+  --line-strong: rgba(255, 255, 255, 0.16);
 
-  --line: rgba(var(--hs-border), 0.7);
-  --line-soft: var(--alpha-line-soft);
-  --line-strong: rgb(var(--hs-border));
+  --accent: var(--brand-500);
+  --accent-hover: var(--brand-600);
+  --accent-press: var(--brand-700);
+  --accent-quiet: rgba(232, 98, 63, 0.12);
+  --accent-quiet-line: rgba(232, 98, 63, 0.32);
+  --accent-ink: var(--brand-500);
 
-  --accent: var(--violeta-500);
-  --accent-hover: var(--violeta-400);
-  --accent-press: var(--violeta-600);
-  --accent-quiet: var(--alpha-violeta-12);
-  --accent-quiet-line: var(--alpha-violeta-30);
-  --accent-ink: var(--violeta-400);
-
-  --accent-2: var(--teal-500);
-  --accent-2-quiet: var(--alpha-teal-12);
-  --accent-2-line: var(--alpha-teal-30);
-
-  --success: var(--teal-500);
-  --success-ink: var(--teal-400);
+  --success: var(--verde-400);
+  --success-ink: var(--verde-400);
   --danger: var(--rojo-400);
   --warning: var(--ambar-400);
-  --info: var(--cielo-400);
+  --info: var(--brand-400);
 
-
-  /* ── Los tokens de HalcónOS, replicados ──────────────────────────────────
-     Leídos de la hoja servida de halcon.jvagencia.com, en los mismos HSL en
-     que los declara el producto. No es una interpretación: es el mismo sistema
-     corriendo en dos superficies, que es lo que hace que el sitio y la app se
-     sientan la misma marca cuando alguien pasa de una a otra.
-
-     Lo que faltaba de la primera pasada y sí estaba en el producto:      */
-
-  /* El segundo escalón de superficie. HalcónOS tiene DOS: `card` para lo que
-     se apoya en el canvas y `card-2` para lo que se apoya sobre una card. Sin
-     el segundo, todo lo anidado queda al mismo tono y se aplana. */
-  --hs-card: hsl(240 6% 7%);
-  --hs-card-2: hsl(240 6% 9%);
-  /* El relleno neutro de hover y de los chips en reposo. En HalcónOS `--accent`
-     NO es el violeta: es este gris. El violeta es `--primary`. */
-  --hs-muted: hsl(240 4% 12%);
-  --hs-hover: hsl(240 4% 14%);
-  /* La superficie de un menú o un diálogo, un punto MÁS oscura que la card:
-     flota sobre todo lo demás y por eso se hunde en tono. */
-  --hs-popover: hsl(240 8% 6%);
-  --hs-input: hsl(240 4% 16%);
-  /* EL BORDE, medido en el producto: #27272A, y casi siempre al 70%.
-     Ese 30% de transparencia es la mitad del truco. Un filete opaco sobre una
-     tarjeta casi negra sigue siendo una LINEA; al 70% se funde con el fondo
-     que tiene detras y se lee como el canto de la tarjeta, no como un trazo
-     dibujado encima. Es la diferencia entre las capturas de HalconOS y las
-     mias, y no estaba en el valor del color: los dos son practicamente el
-     mismo gris. */
-  --hs-border: 39, 39, 42;
-  --hs-track: hsl(240 6% 16%);
-
-  /* LA SOMBRA NO ES NEGRA. HalcónOS la tiñe de violeta-gris frío
-     —`240 30% 20%`— y la usa a opacidades muy bajas. Una sombra negra pura
-     sobre un canvas azulado se lee como un agujero; teñida del mismo tono que
-     el fondo se lee como profundidad. Es de los detalles que más separan una
-     interfaz oscura cuidada de una que solo bajó el brillo. */
-  --shadow-color: 240 30% 20%;
-  --shadow-card: 0 1px 2px hsl(var(--shadow-color) / 0.06), 0 4px 16px hsl(var(--shadow-color) / 0.05);
-
-  --focus-ring-color: var(--violeta-400);
+  --focus-ring-color: var(--brand-500);
   --focus-ring-width: 2px;
   --focus-ring-offset: 3px;
-  --track: var(--hs-track);
+  --track: rgba(255, 255, 255, 0.12);
+
+  /* SIN SOMBRAS. La jerarquía la dan el escalón de superficie y el filete de
+     1px, que es lo que pide la especificación. Los nombres se quedan en la
+     escala de Tailwind apuntando a `none` para no romper los sitios de uso
+     mientras se limpian. */
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-pop: none;
+  --shadow-accent: none;
+  --inset-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  --blur-glass: saturate(150%) blur(14px);
+  /* El resplandor del hero: naranja al 8% sobre negro, como pide la
+     especificación. Plano y barato. */
+  --bloom-brand: radial-gradient(70% 60% at 50% 0%, rgba(232, 98, 63, 0.08) 0%, rgba(232, 98, 63, 0) 70%);
+  --bloom-violeta: var(--bloom-brand);   /* alias mientras se renombra */
+  --scrim-bottom: linear-gradient(to top, rgba(8, 8, 8, 0.94) 0%, rgba(8, 8, 8, 0.6) 40%, rgba(8, 8, 8, 0) 80%);
 
   /* ── Tipografía ──────────────────────────────────────────────────────────
      Instrument Serif para TODO titular y las cifras grandes. Ya es estrecha y
      de alto contraste, así que pide MENOS tracking negativo que una grotesca.
      Las familias las inyecta next/font desde app/layout.tsx. */
-  --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
+  /* El titular es GROTESK, no serif: lo pide la especificación. Lo cubre la
+     misma Figtree, que es variable 300-900, así que no entra ninguna familia
+     nueva y salen cuatro woff2 de Instrument Serif. */
+  --font-display: var(--font-figtree), system-ui, -apple-system, sans-serif;
   --font-sans: var(--font-figtree), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  --text-hero: clamp(2.75rem, 6.4vw, 5.5rem);
+  --text-hero: clamp(2rem, 5vw, 4.5rem);   /* el de la especificación */
   --text-display: clamp(2.25rem, 4.6vw, 3.875rem);
   --text-h1: clamp(2rem, 3.6vw, 3.125rem);
   --text-h2: clamp(1.625rem, 2.5vw, 2.375rem);
@@ -185,12 +144,12 @@
   --text-eyebrow: 0.6875rem;
 
   --lh-tight: 1;
-  --lh-display: 1.06;
+  --lh-display: 1.05;
   --lh-snug: 1.25;
   --lh-body: 1.5556;   /* 28px sobre 18px, como el producto */
 
-  --ls-hero: -0.022em;
-  --ls-display: -0.018em;
+  --ls-hero: -0.03em;
+  --ls-display: -0.03em;
   --ls-heading: -0.012em;
   --ls-body: -0.002em;
   --ls-eyebrow: 0.16em;
@@ -207,9 +166,9 @@
   --maxw: 1200px;
   --maxw-narrow: 900px;
   --maxw-prose: 68ch;
-  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --gutter: 1.25rem;    /* px-5: el margen lateral de todas las secciones */
   --section-y: clamp(4.5rem, 9vw, 8.5rem);
-  --header-h: 4rem;
+  --header-h: 4.5rem;   /* alto real del header fijo, medido */
 
   /* ── Forma ───────────────────────────────────────────────────────────── */
   --radius-xs: 4px;
@@ -253,7 +212,7 @@
   --dur-clip: 0.9s;
   --dur-lift: 0.28s;
   --dur-marquee: 45s;
-  --reveal-stagger: 90ms;
+  --reveal-stagger: 80ms;  /* el de la especificación */
   --reveal-rise: 24px;
 }
 

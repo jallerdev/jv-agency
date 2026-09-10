@@ -311,7 +311,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
               aria-hidden
               width={1600}
               height={1000}
-              quality={45}
+              quality={75}
               sizes="72px"
               className="absolute inset-x-0 top-0 h-auto w-full"
             />

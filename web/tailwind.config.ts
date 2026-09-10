@@ -54,6 +54,24 @@ const config: Config = {
         DEFAULT: "var(--line)",
       },
       colors: {
+        /* La rampa de marca, expuesta entera. La especificación la pide bajo
+           `brand` para que ningún componente escriba un hex suelto. */
+        brand: {
+          50: "var(--brand-50)",
+          100: "var(--brand-100)",
+          200: "var(--brand-200)",
+          300: "var(--brand-300)",
+          400: "var(--brand-400)",
+          DEFAULT: "var(--brand-500)",
+          500: "var(--brand-500)",
+          600: "var(--brand-600)",
+          700: "var(--brand-700)",
+          800: "var(--brand-800)",
+          900: "var(--brand-900)",
+          950: "var(--brand-950)",
+          quiet: "var(--accent-quiet)",
+          line: "var(--accent-quiet-line)",
+        },
         /* Fondo de página y superficies. `background` es el canvas casi negro
            —#09090B, nunca #000 y nunca gris cálido—; `surface` la tarjeta. */
         canvas: {
@@ -112,6 +130,8 @@ const config: Config = {
           quiet: "var(--accent-quiet)",
         },
         /* Teal: reservado a verificado / en línea / ok. NUNCA acento general. */
+        /* `secondary` es un GRIS, no un segundo acento: la regla es un solo
+           color de marca. El verde queda solo para el estado «en línea». */
         secondary: "var(--line-strong)",
         success: {
           DEFAULT: "var(--success)",
