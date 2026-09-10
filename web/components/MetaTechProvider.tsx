@@ -49,7 +49,7 @@ function StatusChip({ className }: { className?: string }) {
       )}
     >
       <span aria-hidden className="relative flex h-1.5 w-1.5 shrink-0">
-        <span className="jv-latido relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
+        <span className="jv-latido relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
       </span>
       Verificado · jul 2026
     </span>
@@ -139,7 +139,7 @@ export function MetaTechProvider({
           <p className="jv-rule jv-eyebrow mt-5 flex items-center gap-2 pt-4 text-ink-soft">
             {/* El punto late: dice que la verificacion sigue vigente hoy, no
                 que existio en julio. */}
-            <span aria-hidden className="jv-latido h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
+            <span aria-hidden className="jv-latido h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
             Verificado · jul 2026
           </p>
         </div>

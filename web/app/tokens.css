@@ -257,7 +257,10 @@
   --dur-reveal-y: 0.75s;
   --dur-clip: 0.9s;
   --dur-lift: 0.28s;
-  --dur-marquee: 45s;
+  /* 45 s era el valor de palo-seco para un carril de logos cortos. Con seis
+     copias de once frases el carril mide ~13.000 px, así que a 45 s pasaría a
+     290 px/s: ilegible. A 120 s va a ~110 px/s, que es velocidad de lectura. */
+  --dur-marquee: 120s;
   --reveal-stagger: 80ms;  /* el de la especificación */
   --reveal-rise: 24px;
 }

@@ -123,8 +123,15 @@ export function Hero({ idioma }: { idioma: Idioma }) {
           <div className="relative z-[3] pl-1">
             {/* El sello, montado sobre papel y con su anillo de troquel. */}
             <span className="relative inline-flex w-fit">
-              <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand/25 bg-gradient-to-br from-canvas to-surface">
-                <SelloVerificado className="h-8 w-8" />
+              <span className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-brand/30 bg-gradient-to-br from-brand/20 via-surface to-canvas">
+                {/* Luz de arriba dentro del troquel: es lo que hace que el
+                    sello se lea como metal grabado y no como un círculo de
+                    color. Un solo degradado, sin sombra. */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_0%,rgba(255,255,255,0.14),transparent_70%)]"
+                />
+                <SelloVerificado className="relative h-9 w-9" />
               </span>
               <span
                 aria-hidden
@@ -141,7 +148,7 @@ export function Hero({ idioma }: { idioma: Idioma }) {
             <p className="jv-rule mt-6 flex items-center gap-2 pt-5 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
               {/* El punto que late: dice que la verificación está vigente HOY,
                   no que existió en julio. */}
-              <span aria-hidden className="jv-latido h-1.5 w-1.5 rounded-full bg-success" />
+              <span aria-hidden className="jv-latido h-1.5 w-1.5 rounded-full bg-brand" />
               {HERO.credencial.fecha[idioma]}
             </p>
           </div>

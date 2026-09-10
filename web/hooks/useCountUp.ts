@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const DURACION = 900;
+/* 1,8 s, no 0,9. Con cifras de uno y dos dígitos —«3+», «11+»— novecientos
+   milisegundos son tres o cuatro fotogramas visibles: no se lee como una
+   cuenta, se lee como un parpadeo raro. Al doble de tiempo el número sube y
+   se ve subir, que es lo único que justifica animarlo. */
+const DURACION = 1800;
 
 /**
  * Cuenta desde cero hasta la cifra cuando entra en pantalla, una sola vez.

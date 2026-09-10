@@ -97,19 +97,29 @@ function Tarjeta({
         </button>
       )}
 
-      <figcaption className="jv-rule mt-8 flex items-center gap-4 pt-6">
-        {/* Iniciales sobre naranja al 12%: no hay foto de estas personas y
-            ponerles una de banco sería atribuirles una cara que no es suya. */}
-        <span
-          aria-hidden
-          className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-quiet font-mono text-sm text-brand"
-        >
-          {initialsOf(t)}
-        </span>
-
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-semibold text-ink">{t.author}</p>
-          <p className="truncate text-sm text-ink-muted">{t.role}</p>
+      {/* A 390 el nombre se quedaba en «Jus…» y el cargo en «Syst…»: el botón
+          de «Verificar en LinkedIn» mide 231 px y no encoge, así que a la
+          identidad le quedaban 60 px. En móvil el botón baja a su propia línea
+          y el nombre recupera el ancho entero; desde `sm` vuelven a compartir
+          fila, que es donde sí caben los dos. */}
+      <figcaption className="jv-rule mt-8 flex flex-col gap-4 pt-6 sm:flex-row sm:items-center">
+        {/* Las iniciales y la identidad SIEMPRE en la misma fila: son una sola
+            unidad. Lo que baja de línea en móvil es el botón. */}
+        <div className="flex min-w-0 flex-1 items-center gap-4">
+          {/* Iniciales sobre naranja al 12%: no hay foto de estas personas y
+              ponerles una de banco sería atribuirles una cara que no es suya. */}
+          <span
+            aria-hidden
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-quiet font-mono text-sm text-brand"
+          >
+            {initialsOf(t)}
+          </span>
+          <div className="min-w-0">
+            {/* Sin `truncate`: cortar un nombre propio con puntos suspensivos
+                es peor que dejarlo en dos renglones. */}
+            <p className="font-semibold leading-snug text-ink">{t.author}</p>
+            <p className="text-sm leading-snug text-ink-muted">{t.role}</p>
+          </div>
         </div>
 
         {t.url && (
@@ -118,7 +128,7 @@ function Tarjeta({
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              "tap-target inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line px-4 py-2",
+              "tap-target inline-flex shrink-0 items-center gap-1.5 self-start rounded-full border border-line px-4 py-2 sm:self-auto",
               "font-mono text-xs uppercase tracking-[0.12em] text-ink-muted",
               "transition-colors duration-base ease-ps hover:border-brand hover:text-brand"
             )}

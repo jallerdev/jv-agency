@@ -47,7 +47,7 @@ export function Portada({ idioma }: { idioma: Idioma }) {
       <main id="contenido">
         <Hero idioma={idioma} />
         <Statement idioma={idioma} />
-        <Marquee />
+        <Marquee idioma={idioma} />
         <Caso idioma={idioma} />
         <Servicios idioma={idioma} />
         <Portafolio idioma={idioma} />

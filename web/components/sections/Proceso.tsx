@@ -36,28 +36,47 @@ export function Proceso({ idioma }: { idioma: Idioma }) {
                 una caja enorme con una frase pequeña en el medio. Baja el
                 relleno y sube la letra: la misma altura de tarjeta dice el
                 doble. */}
-            <article className="jv-card relative overflow-hidden p-7 md:p-9">
-              {/* El numeral gigante en marca de agua, al 10%. Va detrás del
-                  texto y `aria-hidden`: el número ya lo dice el <ol>. */}
+            {/* LA ESCALA ES LA DE PALO-SECO, no la nuestra de antes.
+                Allí cada tarjeta del apilado es una PANTALLA: ~470 px de alto,
+                56 px de aire, titular de 40 px y el numeral gigante ocupando
+                el tercio derecho. Aquí medía la mitad y el resultado era una
+                caja con una frase pequeña en el medio, que es exactamente lo
+                que Luis señaló. Ahora la tarjeta tiene alto mínimo, el titular
+                sube a clamp(1.75rem, 3.6vw, 2.75rem) y el cuerpo a 1,25rem.
+
+                Las pastillas de abajo son nuevas y hacen el trabajo que el
+                párrafo no alcanza: dicen QUÉ SALE de cada paso. Sin ellas la
+                mitad inferior de la tarjeta quedaba vacía. */}
+            <article className="jv-card relative flex min-h-[22rem] flex-col justify-center overflow-hidden p-8 sm:p-12 md:min-h-[26rem] md:p-14">
+              {/* El numeral en marca de agua ocupa el tercio derecho, como en
+                  la referencia. Va detrás del texto y `aria-hidden`: el número
+                  ya lo dice el <ol> y la etiqueta de arriba. */}
               <span
                 aria-hidden
-                className="pointer-events-none absolute -right-3 -top-8 font-mono text-[8rem] font-semibold leading-none text-brand/10 md:text-[12rem]"
+                className="pointer-events-none absolute -right-4 top-1/2 -translate-y-1/2 font-mono text-[9rem] font-semibold leading-none text-brand/10 sm:text-[13rem] md:-right-6 md:text-[17rem]"
               >
                 {p.numero}
               </span>
 
-              <p className="font-mono text-sm tabular-nums text-brand">
-                {p.numero}
-              </p>
-              {/* La escala de palo-seco para un h3: clamp(1.35rem, 2.4vw,
-                  1.9rem). Aquí sube un escalón porque la tarjeta es el único
-                  elemento en pantalla mientras está clavada. */}
-              <h3 className="jv-titulo mt-4 text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.15]">
-                {p.titulo[idioma]}
-              </h3>
-              <p className="mt-4 max-w-[42rem] text-pretty text-[clamp(1.0625rem,1.5vw,1.25rem)] leading-relaxed text-ink-soft">
-                {p.cuerpo[idioma]}
-              </p>
+              <div className="relative max-w-[46rem]">
+                <p className="jv-eyebrow text-brand">
+                  {PROCESO.rotulo[idioma]} {p.numero}
+                </p>
+                <h3 className="jv-titulo mt-5 text-[clamp(1.75rem,3.6vw,2.75rem)] leading-[1.1]">
+                  {p.titulo[idioma]}
+                </h3>
+                <p className="mt-5 max-w-[42rem] text-pretty text-[clamp(1.0625rem,1.6vw,1.25rem)] leading-relaxed text-ink-soft">
+                  {p.cuerpo[idioma]}
+                </p>
+
+                <ul className="mt-8 flex flex-wrap gap-2">
+                  {p.chips[idioma].map((c) => (
+                    <li key={c} className="jv-chip jv-chip-off text-sm">
+                      {c}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </article>
           </li>
         ))}

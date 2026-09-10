@@ -29,10 +29,15 @@ export function SelloVerificado({ className }: { className?: string }) {
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
+      {/* EL VISTO VA EN BLANCO, NO EN VERDE. El verde de estado dentro de un
+          escudo naranja mete un segundo color de marca donde el sistema dice
+          que hay uno solo, y encima los dos se pelean: naranja y verde no
+          pegan. En blanco, el visto es el punto más claro de la pieza y lo
+          primero que ve el ojo, que es lo que tiene que pasar. */}
       <path
         className="jv-visto"
         d="M14.2 20.1l4.1 4.1 7.9-8.4"
-        stroke="var(--success)"
+        stroke="var(--blanco)"
         strokeWidth="2.6"
         strokeLinecap="round"
         strokeLinejoin="round"

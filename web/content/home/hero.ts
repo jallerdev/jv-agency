@@ -2,7 +2,9 @@ import type { Encabezado, Enlace, Texto } from "@/content/types";
 
 export type Hero = Encabezado & {
   botones: [Enlace, Enlace];
-  /** La línea de precio bajo los botones. Enlaza a /precios. */
+  /** La línea de precio bajo los botones. Enlaza a la agenda, no a /precios:
+   *  quien lee un precio y hace clic ya decidió, y mandarlo a una tabla de
+   *  tarifas le pone un paso más entre la decisión y la llamada. */
   precio: { texto: Texto; enlace: Enlace };
   credencial: {
     sello: Texto;
@@ -48,7 +50,7 @@ export const HERO: Hero = {
         es: "$850.000 · lista en 5 días",
         en: "$850,000 COP · live in 5 days",
       },
-      href: { es: "/precios", en: "/en/pricing" },
+      href: { es: "/#agenda", en: "/en#agenda" },
     },
   },
   credencial: {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, UserRound } from "lucide-react";
 
 import { FOUNDER } from "@/content/home/founder";
 import { enlaceReal } from "@/lib/rutas";
@@ -22,6 +22,8 @@ import { Logo } from "@/components/Logo";
  * el monograma sobre el florón naranja, que es honesto y además es de marca.
  * Cuando haya foto, se sustituye este bloque y ya.
  */
+const GLIFOS = { yo: UserRound, linkedin: Linkedin, github: Github } as const;
+
 export function Founder({ idioma }: { idioma: Idioma }) {
   const cuerpo = FOUNDER.cuerpo[idioma];
   const negrita = FOUNDER.negrita[idioma];
@@ -30,14 +32,23 @@ export function Founder({ idioma }: { idioma: Idioma }) {
   return (
     <Seccion id="quien" className="border-y border-line">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <div>
-          <div className="jv-bloom jv-card grid aspect-square w-full max-w-[18rem] place-items-center">
-            <Logo className="h-24 w-auto text-brand" />
+        {/* En móvil la ficha va CENTRADA y en horizontal: el monograma de
+            18 rem alineado a la izquierda dejaba media pantalla vacía a su
+            derecha y el nombre colgando debajo, descentrado respecto al
+            titular que viene después. En fila y centrado, la identidad se lee
+            como una unidad y ocupa 96 px de alto en vez de 300.
+            De `lg` en adelante recupera la columna vertical, que es donde sí
+            tiene sitio. */}
+        <div className="flex items-center gap-5 lg:block">
+          <div className="jv-bloom jv-card grid aspect-square w-20 shrink-0 place-items-center sm:w-24 lg:w-full lg:max-w-[18rem]">
+            <Logo className="h-10 w-auto text-brand sm:h-12 lg:h-24" />
           </div>
-          <p className="mt-6 font-semibold text-ink">{FOUNDER.nombre}</p>
-          <p className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
-            {FOUNDER.rol[idioma]}
-          </p>
+          <div className="min-w-0 lg:mt-6">
+            <p className="font-semibold text-ink">{FOUNDER.nombre}</p>
+            <p className="font-mono text-xs uppercase leading-relaxed tracking-[0.12em] text-ink-muted">
+              {FOUNDER.rol[idioma]}
+            </p>
+          </div>
         </div>
 
         <div>
@@ -61,27 +72,36 @@ export function Founder({ idioma }: { idioma: Idioma }) {
             ))}
           </dl>
 
-          <div className="jv-rule mt-12 flex flex-wrap gap-x-8 gap-y-3">
-            {FOUNDER.enlaces.map((e) => (
-              <Link
-                key={e.texto.es}
-                href={enlaceReal(e.href[idioma])}
-                {...(e.externo
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                className="group tap-row inline-flex items-center gap-1.5 py-2 text-sm text-ink-soft transition-colors duration-base ease-ps hover:text-brand"
-              >
-                <span className="relative">
-                  {e.texto[idioma]}
-                  <span
-                    aria-hidden
-                    className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-brand transition-transform duration-base ease-ps group-hover:scale-x-100 group-focus-visible:scale-x-100"
-                  />
-                </span>
-                {e.externo && <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />}
-              </Link>
-            ))}
-          </div>
+          {/* Los tres enlaces, como pastillas con icono.
+              Antes eran texto suelto con una flecha detrás, y la flecha se
+              caía sola al renglón de abajo en cuanto la columna se estrechaba:
+              tres etiquetas grises indistinguibles con un símbolo huérfano
+              debajo. Como pastilla, cada una tiene borde, área táctil de 44 px
+              y un glifo que dice de qué se trata antes de leer la palabra. */}
+          <ul className="jv-rule mt-12 flex flex-wrap gap-3">
+            {FOUNDER.enlaces.map((e) => {
+              const Glifo = GLIFOS[e.icono];
+              return (
+                <li key={e.texto.es}>
+                  <Link
+                    href={enlaceReal(e.href[idioma])}
+                    {...(e.externo
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="jv-chip jv-chip-off group min-h-11 gap-2.5 pr-4 text-[0.9375rem] hover:border-brand hover:text-brand"
+                  >
+                    <Glifo className="h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
+                    {e.texto[idioma]}
+                    <ArrowUpRight
+                      aria-hidden
+                      strokeWidth={2}
+                      className="h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity duration-base ease-ps group-hover:opacity-100"
+                    />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </Seccion>
@@ -103,8 +123,8 @@ function Cifra({
           descripción se define término→descripción, y el orden visual es cosa
           del diseño, no del HTML. */}
       <div className="flex flex-col-reverse gap-1">
-        <dt className="text-sm text-ink-soft">{cifra.etiqueta[idioma]}</dt>
-        <dd className="font-mono text-4xl tabular-nums text-ink">
+        <dt className="text-[0.9375rem] leading-snug text-ink-soft">{cifra.etiqueta[idioma]}</dt>
+        <dd className="font-mono text-[clamp(2.5rem,5vw,3.5rem)] leading-none tabular-nums text-ink">
           {cifra.prefijo && (
             <span className="text-ink-muted">{cifra.prefijo}</span>
           )}

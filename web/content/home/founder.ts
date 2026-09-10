@@ -18,7 +18,9 @@ export type Founder = Encabezado & {
   /** Va en negrita dentro de `cuerpo`. Tiene que aparecer literal. */
   negrita: Texto;
   cifras: readonly Cifra[];
-  enlaces: readonly Enlace[];
+  /** `icono` elige el glifo: sin él, los tres enlaces se veían iguales y el
+   *  único adorno era una flechita que además se caía a la línea de abajo. */
+  enlaces: readonly (Enlace & { icono: "yo" | "linkedin" | "github" })[];
 };
 
 export const FOUNDER: Founder = {
@@ -63,6 +65,7 @@ export const FOUNDER: Founder = {
     {
       texto: { es: "Más sobre mí", en: "More about me" },
       href: { es: "/sobre-nosotros", en: "/en/about" },
+      icono: "yo",
     },
     {
       texto: { es: "LinkedIn", en: "LinkedIn" },
@@ -71,11 +74,13 @@ export const FOUNDER: Founder = {
         en: "https://www.linkedin.com/in/jallerdev/",
       },
       externo: true,
+      icono: "linkedin",
     },
     {
       texto: { es: "GitHub", en: "GitHub" },
       href: { es: "https://github.com/jallerdev", en: "https://github.com/jallerdev" },
       externo: true,
+      icono: "github",
     },
   ],
 };
