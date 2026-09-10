@@ -17,6 +17,7 @@ import { IDIOMA_POR_DEFECTO, type Idioma } from "@/content/types";
  */
 export const RUTAS: Readonly<Record<string, string>> = {
   "/": "/en",
+  "/precios": "/en/pricing",
 };
 
 /**
@@ -29,7 +30,6 @@ export const RUTAS: Readonly<Record<string, string>> = {
  * conmutador— se entera solo.
  */
 export const PENDIENTES: Readonly<Record<string, string>> = {
-  "/precios": "/en/pricing",
   "/servicios/diseno-de-paginas-web": "/en/services/web-design",
   "/servicios/tiendas-virtuales": "/en/services/online-stores",
   "/servicios/chatbot-whatsapp": "/en/services/whatsapp-chatbot",

@@ -60,7 +60,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     // Precios es pagina comercial, no articulo: la busca quien ya quiere
     // contratar y la enlazan el Header, el Hero, el pie y cada articulo.
-    { url: `${SITE_URL}/precios`, changeFrequency: "monthly", priority: 0.9 },
+    {
+      url: `${SITE_URL}/precios`,
+      changeFrequency: "monthly",
+      priority: 0.9,
+      alternates: idiomas("/precios"),
+    },
+    { url: `${SITE_URL}/en/pricing`, changeFrequency: "monthly", priority: 0.8 },
     ...SECTORES.map((ruta) => ({
       url: `${SITE_URL}/${ruta}`,
       changeFrequency: "monthly" as const,
