@@ -100,6 +100,10 @@ export const NAV: readonly EntradaNav[] = [
     texto: { es: "Blog", en: "Blog" },
     href: { es: "/blog", en: "/en/blog" },
   },
+  {
+    texto: { es: "Contacto", en: "Contact" },
+    href: { es: "/contacto", en: "/en/contact" },
+  },
 ] as const;
 
 export const CABECERA = {

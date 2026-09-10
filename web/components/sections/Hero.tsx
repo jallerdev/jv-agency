@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { HERO } from "@/content/home/hero";
 import { enlaceReal } from "@/lib/rutas";
+import { LuzPuntero } from "@/components/LuzPuntero";
+import { SelloVerificado } from "@/components/SelloVerificado";
 import type { Idioma } from "@/content/types";
 import { Eyebrow, Titular } from "@/components/ui/seccion";
 import { Blobs } from "@/components/Blobs";
@@ -85,25 +87,64 @@ export function Hero({ idioma }: { idioma: Idioma }) {
           </p>
         </div>
 
-        {/* La credencial. Superficie elevada y filete, sin sombra. */}
-        <aside className="jv-card p-7 lg:col-span-5">
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-[--radius-md] bg-brand-quiet text-brand">
-            <ShieldCheck className="h-5 w-5" strokeWidth={2} />
-          </span>
+        {/* ── LA CREDENCIAL ───────────────────────────────────────────────
+            Es el activo más fuerte del sitio —una verificación de Meta que
+            existe de verdad— y estaba resuelto como una tarjeta cualquiera con
+            un icono de librería dentro. Ahora se compone como un documento
+            acreditativo y se mueve como algo vigente:
 
-          <p className="jv-eyebrow mt-6 text-brand">
-            {HERO.credencial.sello[idioma]}
-          </p>
-          <p className="jv-titulo mt-2">{HERO.credencial.titulo[idioma]}</p>
-          <p className="mt-4 text-pretty text-sm leading-relaxed text-ink-soft">
-            {HERO.credencial.cuerpo[idioma]}
-          </p>
+            · FILETE QUE GIRA alrededor del borde (el recurso de Linear).
+              Dice «esto sigue en vigor», que es lo único que una credencial
+              necesita decir además de lo que declara.
+            · DESTELLO QUE CRUZA cada siete segundos (Stripe, Lovable). Es el
+              reflejo del papel satinado de un título impreso.
+            · LUZ QUE SIGUE AL PUNTERO (Linear, Stripe). El único de los tres
+              que responde a la persona; es el que la vuelve un objeto.
+            · EL VISTO SE DIBUJA SOLO al entrar en pantalla.
 
-          <p className="jv-rule mt-6 flex items-center gap-2 pt-5 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
-            {/* El punto de «en línea»: el quinto y último sitio del naranja. */}
-            <span aria-hidden className="jv-latido h-1.5 w-1.5 rounded-full bg-brand" />
-            {HERO.credencial.fecha[idioma]}
-          </p>
+            Los cuatro se apagan enteros con `prefers-reduced-motion`, y lo que
+            queda no es una tarjeta rota: es la misma credencial, quieta. */}
+        <aside className="jv-cred jv-card overflow-hidden p-7 lg:col-span-5">
+          <LuzPuntero />
+
+          {/* El lomo encuadernado: el canto de un documento, no el borde de una
+              tarjeta. Es el mismo gesto de la variante ancha del sello. */}
+          <span
+            aria-hidden
+            className="absolute inset-y-0 left-0 z-[3] w-[3px] bg-gradient-to-b from-brand-300 via-brand to-brand-700"
+          />
+          {/* Guilloché: los anillos concéntricos grabados de los títulos y los
+              certificados. Al 7% es textura, no dibujo. */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(232,98,63,0.07)_0_1px,transparent_1px_10px)] [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
+          />
+
+          <div className="relative z-[3] pl-1">
+            {/* El sello, montado sobre papel y con su anillo de troquel. */}
+            <span className="relative inline-flex w-fit">
+              <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand/25 bg-gradient-to-br from-canvas to-surface">
+                <SelloVerificado className="h-8 w-8" />
+              </span>
+              <span
+                aria-hidden
+                className="absolute -inset-1.5 rounded-full border border-dashed border-brand/25"
+              />
+            </span>
+
+            <p className="jv-eyebrow mt-6 text-brand">{HERO.credencial.sello[idioma]}</p>
+            <p className="jv-titulo mt-2">{HERO.credencial.titulo[idioma]}</p>
+            <p className="mt-4 text-pretty text-sm leading-relaxed text-ink-soft">
+              {HERO.credencial.cuerpo[idioma]}
+            </p>
+
+            <p className="jv-rule mt-6 flex items-center gap-2 pt-5 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
+              {/* El punto que late: dice que la verificación está vigente HOY,
+                  no que existió en julio. */}
+              <span aria-hidden className="jv-latido h-1.5 w-1.5 rounded-full bg-success" />
+              {HERO.credencial.fecha[idioma]}
+            </p>
+          </div>
         </aside>
       </div>
     </section>

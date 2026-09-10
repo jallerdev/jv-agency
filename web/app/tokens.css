@@ -207,7 +207,12 @@
   --maxw-prose: 68ch;
   --gutter: 1.25rem;    /* px-5: el margen lateral de todas las secciones */
   --section-y: clamp(4.5rem, 9vw, 8.5rem);
-  --header-h: 4.5rem;   /* alto real del header fijo, medido */
+  /* 5,5rem = 88 px. Sube de 4,5rem porque a 72 px la barra desaparecía contra
+     el hero: en una portada de trece mil píxeles el encabezado es el único
+     elemento presente todo el rato y tiene que pesar como tal. Los enlaces
+     suben en la misma proporción (0,9375 → 1,0625rem) para que la barra no
+     quede alta y vacía, que es peor que baja. */
+  --header-h: 5.5rem;   /* alto real del header fijo, medido */
 
   /* ── Forma ───────────────────────────────────────────────────────────── */
   --radius-xs: 4px;

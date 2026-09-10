@@ -390,3 +390,137 @@ input[type="radio"] { accent-color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   .jv-enlace::after { transition: none; }
 }
+
+/* ===========================================================================
+   LA CREDENCIAL VIVA
+   ---------------------------------------------------------------------------
+   Es el activo más fuerte del sitio —una verificación real de Meta— y estaba
+   resuelto como una tarjeta quieta más. Aquí se le montan encima tres recursos
+   que se ven en las webs que el dueño puso de referencia, y cada uno hace un
+   trabajo distinto:
+
+   1. FILETE QUE GIRA (Linear). Un `conic-gradient` que da la vuelta al borde
+      cada seis segundos. Dice «esto está vivo y vigente», que es exactamente
+      lo que una credencial tiene que decir. Se hace con dos máscaras que se
+      excluyen: así el degradado solo pinta el filete de 1 px y no el relleno.
+      Necesita `@property` para poder animar un ángulo —una custom property sin
+      tipo declarado no se interpola, salta.
+
+   2. DESTELLO QUE CRUZA (Stripe · Lovable). Una banda de luz que barre la
+      tarjeta cada siete segundos. Es el gesto del papel satinado o del holograma
+      de un documento oficial: el material dice que es un original.
+
+   3. LUZ QUE SIGUE AL PUNTERO (Linear · Stripe). Un halo suave bajo el cursor.
+      Es el único de los tres que responde a la persona, y por eso es el que
+      convierte la tarjeta de imagen en objeto.
+
+   Los tres se apagan enteros con `prefers-reduced-motion`. Lo que queda
+   entonces no es una tarjeta rota: es la misma credencial, quieta.
+   =========================================================================== */
+@property --jv-giro {
+  syntax: "<angle>";
+  initial-value: 0turn;
+  inherits: false;
+}
+
+.jv-cred {
+  position: relative;
+  isolation: isolate;
+}
+
+/* El filete que gira. `inset: -1px` para que quede POR FUERA del borde de la
+   tarjeta y no se coma un píxel del contenido. */
+.jv-cred::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--jv-giro),
+    transparent 0turn,
+    var(--brand-400) 0.06turn,
+    var(--brand-500) 0.12turn,
+    transparent 0.24turn,
+    transparent 1turn
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: jv-girar 6s linear infinite;
+}
+@keyframes jv-girar {
+  to { --jv-giro: 1turn; }
+}
+
+/* El destello. Para en el 72% del ciclo: si barriera sin parar sería un
+   letrero de casino; con la pausa larga es un reflejo que pasa. */
+.jv-cred::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.05) 47%,
+    rgba(255, 255, 255, 0.11) 50%,
+    rgba(255, 255, 255, 0.05) 53%,
+    transparent 58%
+  );
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+  animation: jv-destello 7s var(--ease-ps) infinite;
+}
+@keyframes jv-destello {
+  0%, 72% { background-position: 160% 0; }
+  100%    { background-position: -60% 0; }
+}
+
+/* La luz que sigue al puntero. `--jv-x`/`--jv-y` las escribe el componente;
+   sin JavaScript se queda en el centro y no molesta. */
+.jv-cred__luz {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    18rem 18rem at var(--jv-x, 50%) var(--jv-y, 0%),
+    rgba(232, 98, 63, 0.16),
+    transparent 70%
+  );
+  transition: opacity var(--duration-slow) var(--ease-ps);
+}
+.jv-cred:hover .jv-cred__luz { opacity: 1; }
+
+/* El visto que se dibuja solo. Es la afirmación de la tarjeta hecha gesto:
+   no aparece verificado, se verifica delante de quien mira. */
+.jv-visto {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: jv-trazar 0.7s var(--ease-ps) 0.5s forwards;
+}
+@keyframes jv-trazar {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-cred::before {
+    animation: none;
+    background: linear-gradient(135deg, var(--brand-500), transparent 60%);
+  }
+  .jv-cred::after { animation: none; background: none; }
+  .jv-cred__luz { display: none; }
+  .jv-visto { animation: none; stroke-dashoffset: 0; }
+}

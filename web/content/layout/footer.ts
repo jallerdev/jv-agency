@@ -51,6 +51,10 @@ export const COLUMNAS: readonly ColumnaPie[] = [
       { texto: { es: "Proceso", en: "Process" }, href: { es: "/#proceso", en: "/en#proceso" } },
       { texto: { es: "Sobre mí", en: "About" }, href: { es: "/sobre-nosotros", en: "/en/about" } },
       { texto: { es: "Blog", en: "Blog" }, href: { es: "/blog", en: "/en/blog" } },
+      {
+        texto: { es: "Contacto", en: "Contact" },
+        href: { es: "/contacto", en: "/en/contact" },
+      },
     ],
   },
   {

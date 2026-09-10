@@ -658,7 +658,7 @@ main p:not([class*="max-w"]) {
      y en hover-only esa señal no existe. */
   .jv-navlink {
     position: relative;
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
     color: var(--text-body);
     transition: color var(--duration-base) var(--ease-ps);
   }

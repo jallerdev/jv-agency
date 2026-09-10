@@ -88,6 +88,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: idiomas("/sobre-nosotros"),
     },
     { url: `${SITE_URL}/en/about`, changeFrequency: "monthly", priority: 0.6 },
+    {
+      url: `${SITE_URL}/contacto`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+      alternates: idiomas("/contacto"),
+    },
+    { url: `${SITE_URL}/en/contact`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/privacidad`, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/terminos`, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/cookies`, changeFrequency: "yearly", priority: 0.3 },

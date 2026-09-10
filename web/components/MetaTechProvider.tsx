@@ -1,4 +1,6 @@
 import { cn } from "@/lib/utils";
+import { LuzPuntero } from "@/components/LuzPuntero";
+import { SelloVerificado } from "@/components/SelloVerificado";
 
 // Insignia de "Proveedor de tecnología verificado por Meta".
 //
@@ -37,47 +39,17 @@ import { cn } from "@/lib/utils";
 //     existe. Fuera; `shadow-lift` es solo para hover/foco de cosas que sí
 //     llevan a algún sitio.
 
-function VerifiedShield({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden className={className}>
-      <defs>
-        <linearGradient id="jv-shield" x1="8" y1="4" x2="32" y2="36" gradientUnits="userSpaceOnUse">
-          <stop stopColor="var(--violeta-400)" />
-          <stop offset="1" stopColor="var(--violeta-600)" />
-        </linearGradient>
-      </defs>
-      {/* Escudo propio: nada aquí imita un sello de Meta. */}
-      <path
-        d="M20 3.5l12.5 4.6v10.2c0 8.1-5.3 15.3-12.5 17.9C12.8 33.6 7.5 26.4 7.5 18.3V8.1L20 3.5z"
-        fill="url(#jv-shield)"
-        fillOpacity="0.12"
-        stroke="url(#jv-shield)"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M14.2 20.1l4.1 4.1 7.9-8.4"
-        stroke="var(--teal-500)"
-        strokeWidth="2.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 /** Estado de la credencial. Vive en el pie para que se lea en todos los anchos. */
 function StatusChip({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 jv-eyebrow tabular-nums text-primary-dark",
+        "jv-eyebrow inline-flex items-center gap-2 tabular-nums text-accent-ink",
         className
       )}
     >
       <span aria-hidden className="relative flex h-1.5 w-1.5 shrink-0">
-        <span className="absolute inline-flex h-full w-full animate-ping-thrice rounded-full bg-success opacity-60 motion-reduce:hidden" />
-        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
+        <span className="jv-latido relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
       </span>
       Verificado · jul 2026
     </span>
@@ -102,11 +74,11 @@ export function MetaTechProvider({
     return (
       <span
         className={cn(
-          "inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/80 px-4 py-2",
+          "inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2",
           className
         )}
       >
-        <VerifiedShield className="h-4 w-4 shrink-0" />
+        <SelloVerificado className="h-4 w-4 shrink-0" />
         <span className="font-body text-sm text-current opacity-80">
           Proveedor de tecnología <strong className="font-semibold opacity-100">verificado por Meta</strong>
         </span>
@@ -120,30 +92,36 @@ export function MetaTechProvider({
         className={cn(
           /* `bg-surface` opaco debajo del degradado: la tarjeta era translucida y el
              campo de manchas del hero se le colaba por detras, dejando «VERIFICADO ·
-             JUL 2026» en 4,44:1. Una credencial no puede transparentar. */
-          "relative overflow-hidden rounded-3xl border border-primary/20 bg-surface bg-gradient-to-br from-surface via-surface to-white/12 p-6 pl-7 text-left shadow-soft",
+             JUL 2026» en 4,44:1. Una credencial no puede transparentar.
+             `jv-cred` le monta encima el filete que gira, el destello que cruza
+             y la luz que sigue al puntero. */
+          "jv-cred relative overflow-hidden rounded-3xl border border-line bg-surface bg-gradient-to-br from-surface via-surface to-white/[0.06] p-6 pl-7 text-left",
           className
         )}
       >
+        <LuzPuntero />
+
         {/* El mismo lomo encuadernado de la variante ancha: son la misma
             credencial en dos formatos, no dos piezas distintas. */}
         <span
           aria-hidden
-          className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-accent via-primary to-primary-dark"
+          className="absolute inset-y-0 left-0 z-[3] w-[3px] bg-gradient-to-b from-brand-300 via-brand to-brand-700"
         />
+        {/* Guilloche: los anillos concentricos grabados de los titulos y los
+            certificados. Recoloreado a la marca; estaba en el bronce viejo. */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(152,92,62,0.075)_0_1px,transparent_1px_10px)] [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
+          className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(232,98,63,0.07)_0_1px,transparent_1px_10px)] [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
         />
 
-        <div className="relative">
+        <div className="relative z-[3]">
           <div className="relative w-fit">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-primary/25 bg-gradient-to-br from-background to-surface shadow-soft">
-              <VerifiedShield className="h-8 w-8" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-brand/25 bg-gradient-to-br from-canvas to-surface">
+              <SelloVerificado className="h-8 w-8" />
             </div>
             <span
               aria-hidden
-              className="absolute -inset-1.5 rounded-full border border-dashed border-primary/25"
+              className="absolute -inset-1.5 rounded-full border border-dashed border-brand/25"
             />
           </div>
 
@@ -158,8 +136,10 @@ export function MetaTechProvider({
             <strong className="font-semibold text-ink">a tu nombre</strong> —no al mío.
           </p>
 
-          <p className="mt-5 flex items-center gap-2 jv-rule pt-4 jv-eyebrow text-ink-soft">
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
+          <p className="jv-rule jv-eyebrow mt-5 flex items-center gap-2 pt-4 text-ink-soft">
+            {/* El punto late: dice que la verificacion sigue vigente hoy, no
+                que existio en julio. */}
+            <span aria-hidden className="jv-latido h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
             Verificado · jul 2026
           </p>
         </div>
@@ -170,14 +150,16 @@ export function MetaTechProvider({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-surface via-surface to-white/12 text-left shadow-soft",
+        "jv-cred relative overflow-hidden rounded-3xl border border-line bg-surface bg-gradient-to-br from-surface via-surface to-white/[0.06] text-left",
         className
       )}
     >
+      <LuzPuntero />
+
       {/* Lomo: el canto encuadernado de un documento, no un borde de tarjeta. */}
       <span
         aria-hidden
-        className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-accent via-primary to-primary-dark"
+        className="absolute inset-y-0 left-0 z-[3] w-[3px] bg-gradient-to-b from-brand-300 via-brand to-brand-700"
       />
 
       {/* Guilloché: anillos concéntricos grabados en la esquina, el recurso de
@@ -185,19 +167,19 @@ export function MetaTechProvider({
           este papel no producía ninguna diferencia perceptible. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(152,92,62,0.075)_0_1px,transparent_1px_10px)] sm:-right-20 sm:-top-20 sm:h-64 sm:w-64 [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
+        className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(232,98,63,0.07)_0_1px,transparent_1px_10px)] sm:-right-20 sm:-top-20 sm:h-64 sm:w-64 [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
       />
 
-      <div className="relative p-6 pl-7 sm:p-8 sm:pl-10">
+      <div className="relative z-[3] p-6 pl-7 sm:p-8 sm:pl-10">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
           {/* Sello: montado sobre papel, con su anillo de troquel. */}
           <div className="relative w-fit shrink-0 self-start">
-            <div className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full border border-primary/25 bg-gradient-to-br from-background to-surface shadow-soft">
-              <VerifiedShield className="h-10 w-10" />
+            <div className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full border border-brand/25 bg-gradient-to-br from-canvas to-surface">
+              <SelloVerificado className="h-10 w-10" />
             </div>
             <span
               aria-hidden
-              className="absolute -inset-1.5 rounded-full border border-dashed border-primary/25"
+              className="absolute -inset-1.5 rounded-full border border-dashed border-brand/25"
             />
           </div>
 

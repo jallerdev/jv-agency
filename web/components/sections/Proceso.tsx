@@ -30,12 +30,18 @@ export function Proceso({ idioma }: { idioma: Idioma }) {
             className="jv-pila__item"
             style={{ "--i": i } as React.CSSProperties}
           >
-            <article className="jv-card relative overflow-hidden p-8 md:p-12">
+            {/* Relleno de palo-seco, no el nuestro: allí las tarjetas del
+                apilado respiran con ~22 px y dejan que el texto sea el que
+                ocupa sitio. Aquí eran 48 px a partir de md, y el resultado era
+                una caja enorme con una frase pequeña en el medio. Baja el
+                relleno y sube la letra: la misma altura de tarjeta dice el
+                doble. */}
+            <article className="jv-card relative overflow-hidden p-7 md:p-9">
               {/* El numeral gigante en marca de agua, al 10%. Va detrás del
                   texto y `aria-hidden`: el número ya lo dice el <ol>. */}
               <span
                 aria-hidden
-                className="pointer-events-none absolute -right-2 -top-6 font-mono text-[7rem] font-semibold leading-none text-brand/10 md:text-[10rem]"
+                className="pointer-events-none absolute -right-3 -top-8 font-mono text-[8rem] font-semibold leading-none text-brand/10 md:text-[12rem]"
               >
                 {p.numero}
               </span>
@@ -43,10 +49,13 @@ export function Proceso({ idioma }: { idioma: Idioma }) {
               <p className="font-mono text-sm tabular-nums text-brand">
                 {p.numero}
               </p>
-              <h3 className="jv-titulo mt-4 text-2xl md:text-3xl">
+              {/* La escala de palo-seco para un h3: clamp(1.35rem, 2.4vw,
+                  1.9rem). Aquí sube un escalón porque la tarjeta es el único
+                  elemento en pantalla mientras está clavada. */}
+              <h3 className="jv-titulo mt-4 text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.15]">
                 {p.titulo[idioma]}
               </h3>
-              <p className="mt-4 max-w-[38rem] text-pretty text-ink-soft">
+              <p className="mt-4 max-w-[42rem] text-pretty text-[clamp(1.0625rem,1.5vw,1.25rem)] leading-relaxed text-ink-soft">
                 {p.cuerpo[idioma]}
               </p>
             </article>

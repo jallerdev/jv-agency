@@ -56,7 +56,7 @@ export const SOBRE = {
       },
       cuerpo: {
         es: "Traduzco lo que necesita tu negocio en decisiones de producto. El objetivo no es «una web», es credibilidad que vende y que no se rompe.",
-        en: "I turn what your business needs into product decisions. The goal isn't "a website", it's credibility that sells and doesn't break.",
+        en: "I turn what your business needs into product decisions. The goal isn’t “a website”, it’s credibility that sells and doesn’t break.",
       },
     },
     {

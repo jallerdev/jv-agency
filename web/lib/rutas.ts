@@ -19,6 +19,7 @@ export const RUTAS: Readonly<Record<string, string>> = {
   "/": "/en",
   "/precios": "/en/pricing",
   "/sobre-nosotros": "/en/about",
+  "/contacto": "/en/contact",
 };
 
 /**

@@ -73,17 +73,26 @@ export function Servicios({ idioma }: { idioma: Idioma }) {
           </article>
         ))}
 
-        {/* La séptima. Fondo naranja, texto casi negro: 5,96:1. */}
-        <article className="flex flex-col justify-between rounded-[--radius-lg] bg-brand p-7 text-on-accent sm:col-span-2 lg:col-span-1">
-          <div>
-            <h3 className="jv-titulo text-on-accent">
+        {/* La séptima. Fondo naranja, texto casi negro: 5,96:1.
+            OCUPA LA FILA ENTERA. Antes era una tarjeta de una columna al final
+            de 3+3+1, así que dejaba dos huecos vacíos a su derecha: la rejilla
+            terminaba con un agujero del tamaño de dos tarjetas y se leía como
+            un fallo de maquetación, no como un cierre. A ancho completo deja
+            de ser «la que sobró» y pasa a ser la banda de cierre de la
+            sección, que es lo que siempre quiso ser.
+            Y al ser ancha, el texto va a la izquierda y los botones a la
+            derecha: apilarlos en una caja de 1.230 px de ancho dejaría medio
+            bloque vacío otra vez. */}
+        <article className="flex flex-col justify-between gap-6 rounded-[--radius-lg] bg-brand p-7 text-on-accent sm:col-span-2 lg:col-span-3 lg:flex-row lg:items-center lg:p-9">
+          <div className="lg:max-w-[46ch]">
+            <h3 className="jv-titulo text-[clamp(1.375rem,2.4vw,1.75rem)] text-on-accent">
               {SERVICIOS.cta.titulo[idioma]}
             </h3>
-            <p className="mt-3 text-pretty text-on-accent/80">
+            <p className="mt-3 text-pretty text-[1.0625rem] leading-relaxed text-on-accent/80">
               {SERVICIOS.cta.cuerpo[idioma]}
             </p>
           </div>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="flex shrink-0 flex-wrap gap-3">
             {SERVICIOS.cta.botones.map((b, i) => (
               <Link
                 key={b.href[idioma]}

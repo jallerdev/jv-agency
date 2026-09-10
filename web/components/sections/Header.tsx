@@ -68,7 +68,7 @@ function Mega({
         type="button"
         aria-expanded={abierto}
         onClick={() => (abierto ? onCerrar() : onAbrir())}
-        className="jv-navlink flex items-center gap-1.5 py-2"
+        className="jv-navlink flex items-center gap-1.5 py-3"
         data-activo={abierto || undefined}
       >
         {entrada.texto[idioma]}
@@ -238,10 +238,10 @@ export function Header({ idioma }: { idioma: Idioma }) {
             className="-mx-2 flex h-11 min-w-11 shrink-0 items-center justify-center px-2 text-ink transition-colors duration-base ease-ps hover:text-brand"
             aria-label="JV Agencia"
           >
-            <Logo className="h-7 w-auto" />
+            <Logo className="h-8 w-auto" />
           </Link>
 
-          <nav aria-label="Principal" className="ml-auto hidden items-center gap-7 lg:flex">
+          <nav aria-label="Principal" className="ml-auto hidden items-center gap-8 lg:flex">
             {NAV.map((entrada) =>
               entrada.hijos ? (
                 <Mega
@@ -256,7 +256,7 @@ export function Header({ idioma }: { idioma: Idioma }) {
                 <Link
                   key={entrada.href.es}
                   href={enlaceReal(entrada.href[idioma])}
-                  className="jv-navlink py-2"
+                  className="jv-navlink py-3"
                   data-activo={ruta === entrada.href[idioma] || undefined}
                 >
                   {entrada.texto[idioma]}
@@ -274,7 +274,7 @@ export function Header({ idioma }: { idioma: Idioma }) {
                 href={otroIdioma}
                 hrefLang={idioma === "es" ? "en" : "es"}
                 aria-label={CABECERA.idioma[idioma]}
-                className="hidden items-center gap-1 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps hover:text-ink sm:flex"
+                className="hidden items-center gap-1 font-mono text-[0.8125rem] uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps hover:text-ink sm:flex"
               >
                 <span className={idioma === "es" ? "text-ink" : undefined}>ES</span>
                 <span aria-hidden className="text-line">/</span>
@@ -284,7 +284,7 @@ export function Header({ idioma }: { idioma: Idioma }) {
 
             <Link
               href={enlaceReal(CABECERA.cta.href[idioma])}
-              className="jv-boton hidden sm:inline-flex"
+              className="jv-boton hidden text-base sm:inline-flex"
             >
               {CABECERA.cta.texto[idioma]}
             </Link>
