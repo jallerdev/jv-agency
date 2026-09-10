@@ -18,6 +18,7 @@ import { IDIOMA_POR_DEFECTO, type Idioma } from "@/content/types";
 export const RUTAS: Readonly<Record<string, string>> = {
   "/": "/en",
   "/precios": "/en/pricing",
+  "/sobre-nosotros": "/en/about",
 };
 
 /**
@@ -37,7 +38,6 @@ export const PENDIENTES: Readonly<Record<string, string>> = {
   "/servicios/software-a-la-medida": "/en/services/custom-software",
   "/sectores/salones-y-spas": "/en/industries/salons-and-spas",
   "/sectores/clinicas-y-consultorios": "/en/industries/clinics",
-  "/sobre-nosotros": "/en/about",
   "/blog": "/en/blog",
 };
 
