@@ -1,5 +1,8 @@
 import { Hero } from "@/components/sections/Hero";
 import { Proceso } from "@/components/sections/Proceso";
+import { Verticales } from "@/components/sections/Verticales";
+import { Faq } from "@/components/sections/Faq";
+import { Founder } from "@/components/sections/Founder";
 import { Statement } from "@/components/sections/Statement";
 import { Marquee } from "@/components/sections/Marquee";
 import { Servicios } from "@/components/sections/Servicios";
@@ -19,6 +22,9 @@ export default function Nueva() {
       <Marquee />
       <Servicios idioma="es" />
       <Proceso idioma="es" />
+      <Verticales idioma="es" />
+      <Founder idioma="es" />
+      <Faq idioma="es" />
     </main>
   );
 }
