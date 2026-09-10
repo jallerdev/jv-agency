@@ -1,0 +1,235 @@
+"use client";
+
+import { useState } from "react";
+
+import { cn } from "@/lib/utils";
+import type { Idioma } from "@/content/types";
+
+/**
+ * EL BLOQUE LOCAL: SIN FICHA / CON FICHA
+ * ─────────────────────────────────────────────────────────────────────────
+ * El dueño de PYME no sabe qué es «el bloque local» hasta que lo ve. Y la
+ * promesa queda dicha en su forma honesta —el trabajo es ENTRAR en la lista,
+ * no ser el primero—, que es lo que ya dice el hero de la página y lo que
+ * ningún competidor se atreve a dibujar, porque todos venden el primer puesto.
+ *
+ * NADA DE LA MARCA GOOGLE: ni la G de cuatro colores, ni el azul #1a73e8, ni su
+ * tipografía. Es una maqueta en la paleta de la casa y lleva rotulado
+ * permanente «Ejemplo · no es un resultado real». Los tres del bloque se
+ * llaman «Tu negocio» y «Competidor»: cero nombres reales, cero posiciones
+ * afirmadas.
+ *
+ * EL ASESINO A 390 es el nombre largo dentro de la fila: lleva `truncate` el
+ * span del nombre Y `min-w-0` el flex que lo contiene. Sin el `min-w-0` el
+ * hijo de flex se niega a encogerse y saca la fila fuera del viewport.
+ *
+ * Lo conduce el visitante o no se mueve: jamás autoplay.
+ */
+
+type Ficha = { nombre: string; categoria: string; distancia: string; estrellas: number };
+
+/* Solo la distancia y las estrellas: el nombre y la categoría los pone el
+   componente, ya traducidos. */
+const COMPETIDORES: Pick<Ficha, "distancia" | "estrellas">[] = [
+  { distancia: "0,8 km", estrellas: 4 },
+  { distancia: "1,4 km", estrellas: 4 },
+];
+
+function Estrellas({ n }: { n: number }) {
+  return (
+    <span className="flex shrink-0 items-center gap-0.5" aria-hidden>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <svg key={i} viewBox="0 0 12 12" className="h-3 w-3" fill="none">
+          <path
+            d="M6 1l1.5 3.1 3.4.5-2.45 2.4.58 3.4L6 8.8 2.97 10.4l.58-3.4L1.1 4.6l3.4-.5L6 1z"
+            className={i < n ? "fill-accent" : "fill-line"}
+          />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
+function FilaBloque({ ficha, tuyo }: { ficha: Ficha; tuyo?: boolean }) {
+  return (
+    <div
+      className={cn(
+        "flex min-w-0 items-start gap-3 rounded-xl border p-3",
+        tuyo ? "border-primary/25 bg-primary/10" : "border-line bg-surface"
+      )}
+    >
+      <span
+        aria-hidden
+        className={cn(
+          "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-[11px] tabular-nums",
+          tuyo ? "bg-primary text-on-accent" : "bg-background text-ink-soft"
+        )}
+      >
+        {tuyo ? "✓" : "·"}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span
+          className={cn(
+            "block truncate font-body text-[15px] leading-snug",
+            tuyo ? "font-semibold text-ink" : "text-ink"
+          )}
+        >
+          {ficha.nombre}
+        </span>
+        {/* La categoría y la distancia bajan a su propio renglón: no compiten
+            por el ancho con el nombre. */}
+        <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-[13px] text-ink-soft">
+          <Estrellas n={ficha.estrellas} />
+          <span className="font-mono text-[11px] tabular-nums">{ficha.estrellas},0</span>
+          <span aria-hidden>·</span>
+          <span>{ficha.categoria}</span>
+          <span aria-hidden>·</span>
+          <span className="font-mono text-[11px] tabular-nums">{ficha.distancia}</span>
+        </span>
+      </span>
+    </div>
+  );
+}
+
+/**
+ * Los rótulos del visual, en las dos lenguas. Van aquí y no como seis props
+ * sueltas: quien usa el componente pasa `idioma` y ya, y no puede olvidarse
+ * de traducir la mitad.
+ */
+const T = {
+  es: {
+    sinFicha: "Sin ficha",
+    conFicha: "Con ficha",
+    losTres: "Los tres del mapa",
+    noApareces: "Aquí no apareces.",
+    debajo: "Debajo, los resultados de siempre",
+    tuServicio: "Tu servicio principal",
+    competidor: "Competidor",
+    otroNegocio: "Otro negocio de la zona",
+    mismoServicio: "Mismo servicio",
+  },
+  en: {
+    sinFicha: "No profile",
+    conFicha: "With a profile",
+    losTres: "The three on the map",
+    noApareces: "You don't show up here.",
+    debajo: "Below, the usual results",
+    tuServicio: "Your main service",
+    competidor: "Competitor",
+    otroNegocio: "Another business in the area",
+    mismoServicio: "Same service",
+  },
+} as const;
+
+export function BloqueLocalGoogle({
+  consulta = "peluquería en Turbaco",
+  tuNegocio = "Tu negocio",
+  idioma = "es",
+  className,
+}: {
+  /** La búsqueda escrita en la barra. Cámbiala por la del sector de la página. */
+  consulta?: string;
+  tuNegocio?: string;
+  idioma?: Idioma;
+  className?: string;
+}) {
+  const t = T[idioma];
+  const [conFicha, setConFicha] = useState(false);
+
+  return (
+    <div className={cn("rounded-2xl border border-line bg-background p-4 sm:p-5", className)}>
+      {/* Conmutador. A 390 es el control principal del visual, así que va a
+          ancho completo y gordo. Dos botones con aria-pressed, no un slider. */}
+      <div className="grid grid-cols-2 gap-2">
+        {[
+          { v: false, t: t.sinFicha },
+          { v: true, t: t.conFicha },
+        ].map((o) => (
+          <button
+            key={o.t}
+            type="button"
+            aria-pressed={conFicha === o.v}
+            onClick={() => setConFicha(o.v)}
+            className={cn(
+              "min-h-11 rounded-full border px-4 font-body text-sm font-semibold transition-surface duration-quick ease-state",
+              conFicha === o.v
+                ? "border-primary bg-primary text-on-accent"
+                : "border-line bg-surface text-ink-soft hover:border-primary/40 hover:text-ink"
+            )}
+          >
+            {o.t}
+          </button>
+        ))}
+      </div>
+
+      {/* Barra de búsqueda maquetada. */}
+      <div className="mt-4 flex min-w-0 items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-3">
+        <svg viewBox="0 0 16 16" className="h-4 w-4 shrink-0 text-ink-soft" fill="none" aria-hidden>
+          <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="2" />
+          <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+        <span className="min-w-0 flex-1 truncate font-mono text-[13px] text-ink">{consulta}</span>
+      </div>
+
+      <p className="mt-5 jv-eyebrow text-accent-ink">
+        {t.losTres}
+      </p>
+
+      <div
+        aria-live="polite"
+        className="mt-2.5 grid gap-2 transition-opacity duration-quick ease-state"
+      >
+        {conFicha ? (
+          <FilaBloque
+            tuyo
+            ficha={{
+              nombre: tuNegocio,
+              categoria: t.tuServicio,
+              distancia: "0,3 km",
+              estrellas: 5,
+            }}
+          />
+        ) : (
+          <div className="grid min-h-[4.5rem] place-items-center rounded-xl border border-dashed border-line px-4 py-4 text-center">
+            <div>
+              <p className="jv-eyebrow text-accent-ink">
+                {t.sinFicha}
+              </p>
+              <p className="mt-1.5 text-balance font-body text-[15px] leading-snug text-ink-soft">
+                {t.noApareces}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {COMPETIDORES.map((c, i) => (
+          <FilaBloque
+            key={i}
+            ficha={{ ...c, nombre: t.competidor, categoria: t.mismoServicio }}
+          />
+        ))}
+      </div>
+
+      {/* Dos resultados orgánicos, para que se entienda dónde queda el bloque. */}
+      <p className="mt-5 jv-eyebrow text-accent-ink">
+        {t.debajo}
+      </p>
+      <ul className="mt-2.5 grid gap-3">
+        {[idioma === "es" ? "Un directorio del sector" : "A sector directory", t.otroNegocio].map((linea) => (
+          <li key={linea} className="min-w-0">
+            <span className="block truncate font-body text-[15px] text-accent-ink underline underline-offset-2">
+              {linea}
+            </span>
+            <span className="mt-1 block h-2 w-full max-w-[22rem] rounded-full bg-line" aria-hidden />
+          </li>
+        ))}
+      </ul>
+
+      <p className="jv-rule mt-5 pt-4 font-mono text-[11px] leading-relaxed text-accent-ink">
+        {idioma === "es"
+          ? "Ejemplo · no es un resultado real. El trabajo es entrar en la lista, no prometer el primer puesto."
+          : "Example · not a real result. The work is getting into the list, not promising first place."}
+      </p>
+    </div>
+  );
+}

@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Estudio de diseño y código de Luis Jaller para PYMEs de LATAM. Webs y software a la medida que se ven de marca grande y funcionan de verdad.",
     start_url: "/",
     display: "standalone",
-    background_color: "#F4EDE4",
-    theme_color: "#985C3E",
+    background_color: "#09090B",
+    theme_color: "#7C6CF5",
     lang: "es",
     icons: [
       { src: "/icon.png", sizes: "256x256", type: "image/png" },

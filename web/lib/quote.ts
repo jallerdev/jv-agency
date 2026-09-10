@@ -722,13 +722,38 @@ export function computeTotals(a: Answers): Totals {
   };
 }
 
-const copFormatter = new Intl.NumberFormat("es-CO", {
-  style: "currency",
-  currency: "COP",
-  maximumFractionDigits: 0,
-});
+/**
+ * EL PRECIO, EN EL IDIOMA DE QUIEN LO LEE
+ * ──────────────────────────────────────────────────────────────────────────
+ * Esto no es cosmética. En castellano el punto separa miles —$ 390.000 son
+ * trescientos noventa mil— y en inglés el punto separa DECIMALES: un lector
+ * angloparlante lee «$390.000» como trescientos noventa dólares con cero
+ * centavos. La página en inglés estaba diciendo un precio mil veces menor que
+ * el real, y encima en la moneda equivocada.
+ *
+ * Por eso el inglés lleva coma de miles y la sigla COP detrás: sin la sigla,
+ * «$390,000» sobre un sitio que también vende fuera del país se lee en
+ * dólares, que es el otro lado del mismo error.
+ */
+const FORMATO = {
+  es: new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  }),
+  en: new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }),
+} as const;
 
-export const money = (n: number) => copFormatter.format(n);
+export const money = (n: number, idioma: "es" | "en" = "es") =>
+  idioma === "en"
+    ? `$${FORMATO.en.format(n)} COP`
+    : /* `es-CO` mete un espacio duro entre el signo y la cifra —«$ 850.000»— y
+         el precio autorizado se escribe «$850.000». Se quitaba en `Web.tsx` y
+         en `Software.tsx` con un ayudante copiado dos veces, así que la misma
+         cifra salía con espacio en la página de SEO y sin él en la de webs.
+         Se normaliza aquí, una vez, y las dos copias se van. */
+      FORMATO.es.format(n).replace(/^(\$)\s+/u, "$1");
+
 
 /** Semanas de entrega para un tipo de proyecto y plazo (default landing si no hay tipo). */
 export function deliveryWeeksFor(type: SiteType | null, delivery: Delivery): number {
@@ -923,6 +948,21 @@ export const META_BILLING_NOTE =
   "El consumo de la API de WhatsApp lo cobra Meta directamente a tu cuenta, con tu " +
   "propio medio de pago. No está incluido acá porque no lo facturo yo: " +
   "depende de cuántas conversaciones tengas.";
+
+/** La misma advertencia en inglés, para el blog y las páginas de /en. */
+export const META_BILLING_NOTE_EN =
+  "WhatsApp API usage is billed by Meta directly to your account, with your own " +
+  "payment method. It isn't included here because I don't invoice it: " +
+  "it depends on how many conversations you have.";
+
+/** Las cinco automatizaciones, con su nombre en inglés. */
+export const A_TYPE_LABEL_EN: Record<AutomationType, string> = {
+  faq: "Automatic replies",
+  leads: "Lead capture and qualification",
+  citas: "Appointment booking",
+  pedidos: "Orders and catalogue",
+  avisos: "Alerts and reminders",
+};
 
 export function computeAutomationTotals(a: AutomationAnswers): AutomationTotals {
   const items: LineItem[] = [];
@@ -1192,3 +1232,37 @@ export const SEO_HONESTY_NOTE =
   "por escrito te está mintiendo: las posiciones las decide Google, no la " +
   "agencia. Lo que sí te garantizo es el trabajo hecho, medido y visible en un " +
   "informe. Los primeros movimientos se ven entre el mes 3 y el 6.";
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  LOS PISOS PUBLICADOS
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// El «desde» que se enseña en la página, que NO es `PRICES.base`: esa es la
+// base con la que arranca el cotizador antes de sumar nada, y para landing y
+// tienda no coincide con lo que se anuncia.
+//
+// Vive aquí porque estaba copiado a mano en nueve componentes —850.000 cuatro
+// veces, 2.500.000 cuatro veces, 650.000 cuatro veces— y subir un precio
+// obligaba a acertar en los nueve. El primero que se olvidara dejaba dos
+// páginas del mismo sitio cobrando distinto por lo mismo, que es de las cosas
+// que un cliente sí nota y no perdona.
+export const PISOS = {
+  /** Landing de una página. */
+  landing: 850000,
+  /** Sitio corporativo de varias páginas. */
+  corporativa: PRICES.base.corp,
+  /** Tienda con pagos y envíos. */
+  tienda: 2500000,
+  /** Auditoría de SEO, pago único. */
+  auditoria: 390000,
+  /** Posicionamiento mensual. */
+  seoMes: 650000,
+  /** Renovación anual de dominio y alojamiento. */
+  renovacion: 290000,
+  /* El PISO de la línea de chatbots, que es el de preguntas frecuentes y no el
+     de citas. Se saca con Math.min de los cinco a propósito: escogerlo a mano
+     es cómo el carril de la portada llegó a anunciar «desde $1.600.000»
+     mientras la página de chatbots empezaba en 700.000, o sea un «desde» más
+     caro que el precio más barato del mismo servicio. */
+  chatbot: Math.min(...Object.values(A_PRICES.base)),
+} as const;

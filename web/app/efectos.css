@@ -1,0 +1,533 @@
+/* ===========================================================================
+   EFECTOS — el campo de manchas y el sistema de entrada
+   ---------------------------------------------------------------------------
+   Portado del design system, que a su vez lo porta de palo-seco.com. Verifiqué
+   el CSS servido de palo-seco antes de traerlo: los tres fotogramas
+   (ggVertical, ggCircle, ggHorizontal) y las duraciones (30/20/40/40/20 s) son
+   los suyos, carácter por carácter. Lo único que cambia es el color —de su
+   naranja a la rampa violeta, con una mancha teal y una azul cielo— y el
+   prefijo.
+
+   POR QUÉ AQUÍ SÍ HAY `filter: blur()` Y EN EL CAMPO ANTERIOR NO.
+   El campo que hice sobre papel evitaba el blur a propósito: sobre un fondo
+   claro la caída del radial ya basta y desenfocar una capa del tamaño de la
+   pantalla cuesta un repintado por fotograma. Sobre CASI NEGRO no basta: el
+   blur es lo que funde las cinco manchas en una sola masa de luz en vez de
+   cinco círculos identificables. El coste se acota metiendo el blur en UNA
+   capa —`__stage`— en lugar de en cada mancha, y limitando el campo a dos
+   secciones por página.
+   =========================================================================== */
+
+.jv-gg {
+  /* La rampa de marca, y nada más. Antes había teal y azul cielo aquí: sobre
+     el naranja se leen como una fuga de otro sistema, que es justo lo que
+     eran. El brillo lo da el escalón 300, no un color distinto. */
+  --c1: 232, 98, 63;    /* brand-500 */
+  --c2: 240, 153, 125;  /* brand-300 */
+  --c3: 182, 58, 36;    /* brand-700 */
+  --c4: 236, 126, 94;   /* brand-400 */
+  --c5: 102, 31, 20;    /* brand-900, la sombra cálida del fondo */
+  --cp: 240, 153, 125;  /* la que sigue al puntero */
+  --gg-size: 80%;
+  --gg-blend: screen;
+  --gg-blur: 60px;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.62;
+  -webkit-mask-image: linear-gradient(#0000 0%, #000 24% 76%, #0000 100%);
+  mask-image: linear-gradient(#0000 0%, #000 24% 76%, #0000 100%);
+}
+.jv-gg__stage { position: absolute; inset: 0; filter: blur(var(--gg-blur)); }
+
+/* Variante FIJA: un solo campo detrás del documento entero, de arriba abajo.
+   Va anclada al viewport y no al documento —igual que el florón— por la misma
+   razón: en una página de 15.000 px, un campo anclado al documento se
+   comprimiría en el primer 6% del scroll y el resto quedaría plano.
+   Anclado al viewport acompaña todo el recorrido y no cuesta un repintado
+   extra: no se mueve, solo está ahí, y las manchas siguen animando en el
+   compositor. Va a z-index -2 para quedar por DEBAJO del florón violeta del
+   body, que sigue siendo la capa que da la dirección de la luz. */
+.jv-gg--fijo {
+  position: fixed;
+  z-index: -2;
+  opacity: 0.5;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.jv-gg__blob {
+  position: absolute;
+  width: var(--gg-size);
+  height: var(--gg-size);
+  top: calc(50% - var(--gg-size) / 2);
+  left: calc(50% - var(--gg-size) / 2);
+  mix-blend-mode: var(--gg-blend);
+  will-change: transform;
+}
+.jv-gg__b1 { background: radial-gradient(circle at center, rgba(var(--c1), 0.6) 0, rgba(var(--c1), 0) 50%) no-repeat; transform-origin: 50%; animation: 30s infinite jv-ggVertical; }
+.jv-gg__b2 { background: radial-gradient(circle at center, rgba(var(--c2), 0.5) 0, rgba(var(--c2), 0) 50%) no-repeat; transform-origin: calc(50% - 400px); animation: 20s infinite reverse jv-ggCircle; }
+.jv-gg__b3 { background: radial-gradient(circle at center, rgba(var(--c3), 0.5) 0, rgba(var(--c3), 0) 50%) no-repeat; transform-origin: calc(50% + 400px); animation: 40s linear infinite jv-ggCircle; }
+.jv-gg__b4 { background: radial-gradient(circle at center, rgba(var(--c4), 0.5) 0, rgba(var(--c4), 0) 50%) no-repeat; transform-origin: calc(50% - 200px); opacity: 0.6; animation: 40s infinite jv-ggHorizontal; }
+.jv-gg__b5 { background: radial-gradient(circle at center, rgba(var(--c5), 0.5) 0, rgba(var(--c5), 0) 50%) no-repeat; transform-origin: calc(50% - 800px) calc(50% + 800px); animation: 20s infinite jv-ggCircle; }
+.jv-gg__pointer { width: 100%; height: 100%; top: -50%; left: -50%; opacity: 0.4; background: radial-gradient(circle at center, rgba(var(--cp), 0.7) 0, rgba(var(--cp), 0) 50%) no-repeat; }
+
+@keyframes jv-ggVertical   { 0% { transform: translateY(-50%); } 50% { transform: translateY(50%); } to { transform: translateY(-50%); } }
+@keyframes jv-ggHorizontal { 0% { transform: translate(-50%) translateY(-10%); } 50% { transform: translate(50%) translateY(10%); } to { transform: translate(-50%) translateY(-10%); } }
+@keyframes jv-ggCircle     { 0% { transform: rotate(0); } 50% { transform: rotate(180deg); } to { transform: rotate(360deg); } }
+
+/* La sección que aloja el campo. El resplandor sangra de lado a lado y el
+   canvas vuelve a entrar arriba y abajo, así que ninguna sección choca contra
+   un borde duro de luz. La máscara radial mantiene legible el centro. */
+.jv-glowsec { position: relative; background: var(--canvas); }
+/* `:not(.jv-gg)` no es cosmético. La regla sube el contenido por encima del
+   resplandor poniéndole `position: relative`, y el campo es un hijo directo
+   más: con la misma especificidad y viniendo después, le ganaba su propio
+   `position: absolute` y lo dejaba en 0×0 —presente en el DOM, con sus cinco
+   manchas animando, y sin un solo píxel pintado—. */
+.jv-glowsec > *:not(.jv-gg) { position: relative; z-index: 2; }
+.jv-glowsec::before,
+.jv-glowsec::after { content: ""; position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; height: clamp(90px, 14vh, 180px); }
+.jv-glowsec::before { top: 0; background: linear-gradient(180deg, var(--canvas) 0%, rgba(9, 9, 11, 0) 100%); }
+.jv-glowsec::after { bottom: 0; background: linear-gradient(0deg, var(--canvas) 0%, rgba(9, 9, 11, 0) 100%); }
+.jv-glowsec .jv-gg {
+  -webkit-mask-image: radial-gradient(125% 118% at 50% 45%, #000 48%, #0000 90%);
+  mask-image: radial-gradient(125% 118% at 50% 45%, #000 48%, #0000 90%);
+}
+.jv-gg--left  { opacity: 0.52; } .jv-gg--left .jv-gg__stage  { transform: translate(-16%); }
+.jv-gg--right { opacity: 0.46; } .jv-gg--right .jv-gg__stage { transform: translate(16%); }
+.jv-gg--top   { opacity: 0.5;  } .jv-gg--top .jv-gg__stage   { transform: translateY(-16%); }
+
+/* ── Antetítulo, entrada, marquesina y elevación ─────────────────────────── */
+
+.jv-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* El florón: el único degradado plano que el sistema permite detrás de un
+   titular. Barato; se puede usar sin pensarlo. */
+.jv-bloom { position: relative; }
+.jv-bloom::before { content: ""; position: absolute; inset: 0; background: var(--bloom-brand); pointer-events: none; }
+
+/* Entrada al hacer scroll. `data-armed` lo pone el JS: sin él, quien navegue
+   sin JavaScript vería la página en blanco esperando un observador que nunca
+   llega. La cascada sale de `--i` en cada hijo. */
+.jv-reveal { transition: opacity var(--dur-reveal) var(--ease-ps), transform var(--dur-reveal-y) var(--ease-ps); transition-delay: calc(var(--i, 0) * var(--reveal-stagger)); }
+.jv-reveal[data-armed]:not(.in) { opacity: 0; transform: translateY(var(--reveal-rise)); will-change: opacity, transform; }
+.jv-reveal.in { opacity: 1; transform: none; }
+/* Para media: en vez de subir, se descubre de abajo arriba. */
+.jv-reveal-img { transition: clip-path var(--dur-clip) var(--ease-ps); transition-delay: calc(var(--i, 0) * var(--reveal-stagger)); }
+.jv-reveal-img[data-armed]:not(.in) { clip-path: inset(0 0 100%); }
+.jv-reveal-img.in { clip-path: inset(0); }
+
+/* El único bucle infinito que permite el sistema. */
+@keyframes jv-marquee { to { transform: translate(-50%); } }
+.jv-marquee { display: flex; width: max-content; animation: var(--dur-marquee) linear infinite jv-marquee; }
+
+.jv-lift { transition: transform var(--dur-lift) var(--ease-ps), box-shadow 0.4s var(--ease-ps), border-color 0.18s var(--ease-ps), background 0.18s var(--ease-ps); }
+.jv-lift:hover { transform: translateY(-2px); }
+.jv-lift:active { transform: scale(0.985); }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-gg__blob { animation: none !important; }
+  .jv-reveal,
+  .jv-reveal-img,
+  .jv-lift { opacity: 1 !important; transform: none !important; transition: none !important; clip-path: none !important; }
+  .jv-marquee { animation: none; }
+}
+
+/* ===========================================================================
+   El degradado de HalcónOS
+   ---------------------------------------------------------------------------
+   En el producto, una palabra suelta y las cifras grandes van en un degradado
+   violeta → azul cielo: «ventas con IA», «60», «Segundos», «CSV·XLSX». Es el
+   gesto que hace que HalcónOS se reconozca de un vistazo, y por eso baja al
+   sitio.
+
+   DÓNDE SÍ Y DÓNDE NO. Solo CIFRAS y PALABRAS SUELTAS —nunca una frase, nunca
+   un párrafo—. La frase operativa de cada titular ya tiene su marca: itálica y
+   violeta, que es lo que manda el design system. Si además fuera degradada,
+   habría dos formas de enfatizar compitiendo en la misma línea, y el texto en
+   degradado repetido es exactamente lo que hace que una página se lea como
+   generada. Uno por sección, como mucho.
+
+   El degradado recorre la rampa de MARCA de punta a punta —del 300 al 700—,
+   no dos colores distintos: la regla del sistema es un solo acento. Los tres
+   topes pasan AA sobre el canvas por separado, así que el recorte no esconde
+   un fallo de contraste en la mitad del recorrido, que es el defecto habitual
+   de este recurso.
+
+   `inline-block` no es cosmético: sin él, un texto en degradado que se parta
+   en dos líneas recorta el degradado por caja de línea y la segunda arranca
+   otra vez desde el violeta. */
+.text-halcon {
+  display: inline-block;
+  background-image: linear-gradient(100deg, var(--brand-600) 0%, var(--brand-500) 38%, var(--brand-300) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* El rail del canto superior. En HalcónOS cada tarjeta de cifra lleva un
+   degradado que recorre TODO su borde de arriba: es lo que hace que cuatro
+   cajas iguales se lean como un tablero y no como cuatro cajas. Aquí el
+   degradado va dentro de la rampa naranja, no entre dos colores.
+   Va en el ::after para no gastar un elemento, y sigue el radio de la tarjeta. */
+.jv-rail { position: relative; }
+.jv-rail::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  border-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-image: linear-gradient(90deg, var(--brand-700), var(--brand-500) 55%, var(--brand-300));
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* La barra corta que HalcónOS pone encima de cada cifra: tres píxeles de
+   marca que rematan la columna por arriba. Marca sin gastar una caja. */
+/* Solo de 640 px en adelante: por debajo la cifra y su etiqueta van en una
+   fila —etiqueta a la izquierda, cifra a la derecha— y una barra encima no
+   remataría ninguna columna, solo añadiría una línea suelta. */
+@media (min-width: 640px) {
+.jv-cap::before {
+  content: "";
+  display: block;
+  width: 2.25rem;
+  height: 3px;
+  margin-bottom: 0.875rem;
+  border-radius: var(--radius-pill);
+  background-image: linear-gradient(90deg, var(--brand-600), var(--brand-400));
+}
+}
+
+/* ===========================================================================
+   Las superficies que no dibujé
+   ---------------------------------------------------------------------------
+   Selección, cursor de texto, barra de scroll, viñetas y los numerales de una
+   tabla vienen con los valores por defecto del navegador, que no pertenecen a
+   ningún sistema de diseño. Sobre un fondo claro casi no se notan; sobre casi
+   negro cantan: la selección azul de Chrome y una barra de scroll gris claro
+   son lo primero que delata una página oscura montada sobre estilos claros.
+   =========================================================================== */
+
+::selection {
+  background: var(--accent);
+  /* Casi negro sobre el naranja, no blanco: 5,96:1 contra 3,36:1. Es la misma
+     regla que rige el texto de cualquier relleno de marca. */
+  color: var(--text-on-accent);
+}
+
+/* El cursor de texto en el color de marca: se ve dónde estás escribiendo sin
+   tener que mirar el borde del campo. */
+input,
+textarea,
+[contenteditable] {
+  caret-color: var(--accent-hover);
+}
+
+/* La barra de scroll, en los dos motores. `--track` y `--line-strong` salen de
+   la misma paleta que el resto, así que la barra pertenece a la página en vez
+   de flotar encima de ella. */
+html {
+  scrollbar-color: var(--line-strong) var(--canvas);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--canvas); }
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border: 2px solid var(--canvas);
+  border-radius: var(--radius-pill);
+}
+/* `--zinc-700` no existe desde el cambio de marca: el hover no cambiaba
+   nada. Sube un escalón dentro de la misma escala de filetes. */
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.28); }
+
+/* La viñeta de una lista es el único glifo que el navegador dibuja por ti.
+   En el color de marca deja de ser un punto gris de sistema. */
+li::marker { color: var(--accent-hover); }
+
+/* Cifras de ancho fijo en todo lo que se lee como dato: precios, plazos,
+   porcentajes. Sin esto una columna de números baila al cambiar un dígito. */
+.font-mono,
+[class*="tabular"] { font-variant-numeric: tabular-nums; }
+
+/* ===========================================================================
+   Controles de formulario
+   ---------------------------------------------------------------------------
+   El fondo de un <input> lo pone el navegador —blanco— y Tailwind no lo
+   resetea. Sobre el papel claro anterior eso pasaba desapercibido porque
+   coincidia con la pagina, asi que doce campos del sitio se quedaron SIN clase
+   de fondo y nadie lo noto en dos años. Sobre casi negro son pastillas blancas
+   con el texto en #fafafa encima: ilegibles.
+
+   Se arregla en la base y no campo por campo, porque el fallo no es de un
+   componente: es que el valor por defecto del navegador no pertenece a ningun
+   sistema y hay que declararlo una vez.
+   =========================================================================== */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+textarea,
+select {
+  background-color: var(--surface);
+  color: var(--text-strong);
+  border-color: var(--line);
+}
+::placeholder { color: var(--text-muted); opacity: 1; }
+
+/* El icono del selector de fecha viene en negro sobre fondo oscuro y
+   desaparece. `invert` lo devuelve a blanco sin tener que dibujar uno propio. */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.55;
+  cursor: pointer;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+/* El autorrelleno de Chrome pinta un amarillo pálido que ignora el tema. No se
+   puede cambiar el fondo, pero sí taparlo con una sombra interior del color de
+   la superficie. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--text-strong);
+  -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+  caret-color: var(--accent-hover);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Los interruptores nativos toman el violeta de marca. */
+input[type="checkbox"],
+input[type="radio"] { accent-color: var(--accent); }
+
+/* El punto de «en línea» late. Es `pctaPulse` de palo-seco: un anillo que se
+   expande y se apaga, no un parpadeo de opacidad —parpadear se lee como error;
+   expandirse, como señal—. Se calla con movimiento reducido. */
+@keyframes jv-latido {
+  0%   { box-shadow: 0 0 0 0 rgba(232, 98, 63, 0.55); }
+  70%  { box-shadow: 0 0 0 6px rgba(232, 98, 63, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 98, 63, 0); }
+}
+.jv-latido { animation: jv-latido 2.4s var(--ease-ps) infinite; }
+@media (prefers-reduced-motion: reduce) { .jv-latido { animation: none; } }
+
+/* ===========================================================================
+   La pila apilada
+   ---------------------------------------------------------------------------
+   Portada de palo-seco: `top: calc(15vh + var(--i) * 14px)`. El escalón de
+   14 px por índice es lo que deja ver el canto de las tarjetas que ya pasaron;
+   sin él se taparían del todo y parecería que solo hay una.
+
+   Las cubiertas se encogen a .945 y bajan al 75%: se van al fondo sin
+   desaparecer, que es lo que hace legible el apilado.
+   =========================================================================== */
+.jv-pila { list-style: none; margin: 0; padding: 0; }
+.jv-pila__item {
+  position: sticky;
+  top: calc(15vh + var(--i, 0) * 14px);
+  padding-bottom: 1.5rem;
+}
+.jv-pila__item > * {
+  transition: transform var(--duration-slow) var(--ease-ps),
+    opacity var(--duration-slow) var(--ease-ps);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sin sticky no hay secuestro de scroll: queda una pila normal. */
+  .jv-pila__item { position: static; }
+  .jv-pila__item > * { transform: none !important; opacity: 1 !important; }
+}
+
+/* ===========================================================================
+   El barrido de imagen
+   ---------------------------------------------------------------------------
+   `clip-path: inset(0 0 100%)` → `inset(0)` en .9s, tal cual lo hace
+   palo-seco. La captura se descubre de arriba abajo en vez de aparecer.
+
+   No lleva IntersectionObserver a propósito: se usa dentro del acordeón, y
+   Radix desmonta el contenido cerrado, así que la animación arranca sola cada
+   vez que se abre un expediente. Un observador ahí no volvería a disparar.
+   =========================================================================== */
+@keyframes jv-barrido {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+.jv-barrido { animation: jv-barrido 0.9s var(--ease-ps) both; }
+@media (prefers-reduced-motion: reduce) {
+  .jv-barrido { animation: none; clip-path: none; }
+}
+
+/* ===========================================================================
+   El enlace de texto
+   ---------------------------------------------------------------------------
+   El subrayado crece desde la izquierda al pasar por encima. Estaba escrito a
+   mano con un <span> absoluto en tres sitios; aquí es una clase, que es lo que
+   pidió el encargo: que cambiar el estilo de un enlace sea cambiar una regla.
+
+   Va con `::after` en vez de `text-decoration` porque hay que animar el ancho,
+   y el subrayado nativo no se puede animar.
+   =========================================================================== */
+.jv-enlace { position: relative; }
+.jv-enlace::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.125rem;
+  height: 1px;
+  width: 100%;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-ps);
+}
+.jv-enlace:hover::after,
+.jv-enlace:focus-visible::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .jv-enlace::after { transition: none; }
+}
+
+/* ===========================================================================
+   LA CREDENCIAL VIVA
+   ---------------------------------------------------------------------------
+   Es el activo más fuerte del sitio —una verificación real de Meta— y estaba
+   resuelto como una tarjeta quieta más. Aquí se le montan encima tres recursos
+   que se ven en las webs que el dueño puso de referencia, y cada uno hace un
+   trabajo distinto:
+
+   1. FILETE QUE GIRA (Linear). Un `conic-gradient` que da la vuelta al borde
+      cada seis segundos. Dice «esto está vivo y vigente», que es exactamente
+      lo que una credencial tiene que decir. Se hace con dos máscaras que se
+      excluyen: así el degradado solo pinta el filete de 1 px y no el relleno.
+      Necesita `@property` para poder animar un ángulo —una custom property sin
+      tipo declarado no se interpola, salta.
+
+   2. DESTELLO QUE CRUZA (Stripe · Lovable). Una banda de luz que barre la
+      tarjeta cada siete segundos. Es el gesto del papel satinado o del holograma
+      de un documento oficial: el material dice que es un original.
+
+   3. LUZ QUE SIGUE AL PUNTERO (Linear · Stripe). Un halo suave bajo el cursor.
+      Es el único de los tres que responde a la persona, y por eso es el que
+      convierte la tarjeta de imagen en objeto.
+
+   Los tres se apagan enteros con `prefers-reduced-motion`. Lo que queda
+   entonces no es una tarjeta rota: es la misma credencial, quieta.
+   =========================================================================== */
+@property --jv-giro {
+  syntax: "<angle>";
+  initial-value: 0turn;
+  inherits: false;
+}
+
+.jv-cred {
+  position: relative;
+  isolation: isolate;
+}
+
+/* El filete que gira. `inset: -1px` para que quede POR FUERA del borde de la
+   tarjeta y no se coma un píxel del contenido. */
+.jv-cred::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--jv-giro),
+    transparent 0turn,
+    var(--brand-400) 0.06turn,
+    var(--brand-500) 0.12turn,
+    transparent 0.24turn,
+    transparent 1turn
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: jv-girar 6s linear infinite;
+}
+@keyframes jv-girar {
+  to { --jv-giro: 1turn; }
+}
+
+/* El destello. Para en el 72% del ciclo: si barriera sin parar sería un
+   letrero de casino; con la pausa larga es un reflejo que pasa. */
+.jv-cred::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.05) 47%,
+    rgba(255, 255, 255, 0.11) 50%,
+    rgba(255, 255, 255, 0.05) 53%,
+    transparent 58%
+  );
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+  animation: jv-destello 7s var(--ease-ps) infinite;
+}
+@keyframes jv-destello {
+  0%, 72% { background-position: 160% 0; }
+  100%    { background-position: -60% 0; }
+}
+
+/* La luz que sigue al puntero. `--jv-x`/`--jv-y` las escribe el componente;
+   sin JavaScript se queda en el centro y no molesta. */
+.jv-cred__luz {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    18rem 18rem at var(--jv-x, 50%) var(--jv-y, 0%),
+    rgba(232, 98, 63, 0.16),
+    transparent 70%
+  );
+  transition: opacity var(--duration-slow) var(--ease-ps);
+}
+.jv-cred:hover .jv-cred__luz { opacity: 1; }
+
+/* El visto que se dibuja solo. Es la afirmación de la tarjeta hecha gesto:
+   no aparece verificado, se verifica delante de quien mira. */
+.jv-visto {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: jv-trazar 0.7s var(--ease-ps) 0.5s forwards;
+}
+@keyframes jv-trazar {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-cred::before {
+    animation: none;
+    background: linear-gradient(135deg, var(--brand-500), transparent 60%);
+  }
+  .jv-cred::after { animation: none; background: none; }
+  .jv-cred__luz { display: none; }
+  .jv-visto { animation: none; stroke-dashoffset: 0; }
+}

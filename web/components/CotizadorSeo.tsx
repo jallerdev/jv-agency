@@ -77,8 +77,8 @@ export function CotizadorSeo() {
   if (done) return <SeoFinal answers={answers} onRestart={restart} />;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
-      <div className="rounded-[1.75rem] border border-line bg-surface p-6 shadow-lift md:p-9">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+      <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="mb-7">
           <div className="mb-2 flex items-center justify-between font-body text-sm text-ink-soft">
             <span>
@@ -216,8 +216,8 @@ function SeoToggle({
           <span className="block font-body text-[11px] text-ink-soft">una sola vez</span>
         </span>
       </button>
-      <details className="group border-t border-line/70 px-4 pb-3">
-        <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft transition-colors hover:text-ink">
+      <details className="group border-t border-line-soft px-4 pb-3">
+        <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 jv-eyebrow text-ink-soft transition-colors hover:text-ink">
           Qué incluye
           <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
         </summary>
@@ -347,7 +347,7 @@ function SeoStepBody({
 
         {plan && (
           <div className="mt-4 rounded-2xl border border-line bg-background/40 p-5">
-            <p className="font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+            <p className="jv-eyebrow text-ink-soft">
               Con lo que llevas
             </p>
             <p className="mt-2 font-body text-sm text-ink-soft">
@@ -412,13 +412,13 @@ function SeoSummary({ answers, sticky }: { answers: SeoAnswers; sticky?: boolean
   return (
     <aside
       className={cn(
-        "rounded-[1.75rem] border border-line bg-surface p-6 shadow-soft",
+        "rounded-[1.5rem] border border-line bg-surface p-6 shadow-soft",
         sticky && "lg:sticky lg:top-28",
       )}
     >
       <div className="flex items-center gap-2">
         <Search className="h-4 w-4 text-accent" />
-        <h3 className="font-display text-xl text-ink">Tu plan de SEO</h3>
+        <h3 className="font-body text-xl font-semibold text-ink">Tu plan de SEO</h3>
       </div>
 
       {!answers.plan && (
@@ -429,7 +429,7 @@ function SeoSummary({ answers, sticky }: { answers: SeoAnswers; sticky?: boolean
 
       {t.monthlyItems.length > 0 && (
         <>
-          <p className="mt-5 font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+          <p className="mt-5 jv-eyebrow text-ink-soft">
             Cada mes
           </p>
           <dl className="mt-2 space-y-2.5">
@@ -452,7 +452,7 @@ function SeoSummary({ answers, sticky }: { answers: SeoAnswers; sticky?: boolean
 
       {t.setupItems.length > 0 && (
         <>
-          <p className="mt-6 font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+          <p className="mt-6 jv-eyebrow text-ink-soft">
             Una sola vez, al arrancar
           </p>
           <dl className="mt-2 space-y-2.5">
@@ -524,10 +524,10 @@ function SeoFinal({ answers, onRestart }: { answers: SeoAnswers; onRestart: () =
   )}`;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
-      <div className="rounded-[1.75rem] border border-line bg-surface p-6 shadow-lift md:p-9">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+      <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-full bg-success/15 text-success">
+          <span className="grid h-12 w-12 place-items-center rounded-full bg-white/10 text-ink">
             <Check className="h-6 w-6" />
           </span>
           <div>
@@ -538,14 +538,14 @@ function SeoFinal({ answers, onRestart }: { answers: SeoAnswers; onRestart: () =
           </div>
         </div>
 
-        <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-surface shadow-soft">
-          <p className="font-body text-sm text-surface/80">Mensualidad</p>
+        <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-on-accent shadow-soft">
+          <p className="font-body text-sm text-ink/80">Mensualidad</p>
           <p className="mt-1 font-display text-4xl">
             {money(t.monthlyTotal)}
-            <span className="font-body text-lg text-surface/70"> /mes</span>
+            <span className="font-body text-lg text-ink/70"> /mes</span>
           </p>
           {t.setupTotal > 0 && (
-            <p className="mt-3 border-t border-surface/20 pt-3 font-body text-sm text-surface/80">
+            <p className="mt-3 border-t border-line pt-3 font-body text-sm text-ink/80">
               Más {money(t.setupTotal)} de arranque, una sola vez. Primer pago:{" "}
               {money(t.primerPago)}.
             </p>
@@ -585,7 +585,7 @@ function SeoFinal({ answers, onRestart }: { answers: SeoAnswers; onRestart: () =
             </a>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <a href="/#contacto">Agendar llamada</a>
+            <a href="/#agenda">Agendar llamada</a>
           </Button>
         </div>
         <button

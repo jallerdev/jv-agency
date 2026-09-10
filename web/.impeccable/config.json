@@ -1,0 +1,15 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "gradient-text"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "background-clip: text gradient",
+        "createdAt": "2026-09-10T02:28:07.129Z"
+      }
+    ]
+  }
+}

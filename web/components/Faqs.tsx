@@ -40,7 +40,7 @@ export function Faqs({
             <AccordionPrimitive.Item
               key={i}
               value={`faq-${i}`}
-              className="group/item relative rounded-2xl border border-line bg-surface/60 transition-card duration-slow ease-state hover:bg-surface/90 data-[state=open]:border-primary/30 data-[state=open]:bg-surface data-[state=open]:shadow-soft"
+              className="group/item relative jv-card/60 transition-card duration-slow ease-state hover:bg-surface/90 data-[state=open]:border-primary/30 data-[state=open]:bg-surface data-[state=open]:shadow-soft"
             >
               {/* Lomo de acento: crece cuando el ítem abre. Es lo que permite
                   ver de un vistazo, desde el margen, cuál está abierto. */}
@@ -51,16 +51,16 @@ export function Faqs({
 
               <AccordionPrimitive.Header className="flex">
                 <AccordionPrimitive.Trigger className="group/trigger flex flex-1 items-start justify-between gap-5 rounded-2xl px-6 py-5 text-left focus-visible:transition-none">
-                  <span className="font-display text-[1.15rem] leading-snug text-ink transition-colors duration-quick ease-state group-hover/trigger:text-primary-dark sm:text-xl">
+                  <span className="font-body text-[1.15rem] font-semibold leading-snug text-ink transition-colors duration-quick ease-state group-hover/trigger:text-primary-dark sm:text-xl">
                     {item.q}
                   </span>
                   <span
                     aria-hidden="true"
-                    className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line bg-background/60 text-accent-ink transition-surface duration-slow ease-state group-hover/trigger:border-primary/40 group-data-[state=open]/trigger:border-primary group-data-[state=open]/trigger:bg-primary group-data-[state=open]/trigger:text-surface"
+                    className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line bg-background/60 text-accent-ink transition-surface duration-slow ease-state group-hover/trigger:border-primary/40 group-data-[state=open]/trigger:border-primary group-data-[state=open]/trigger:bg-primary group-data-[state=open]/trigger:text-on-accent"
                   >
                     <Plus
-                      className="h-4 w-4 transition-transform duration-slow ease-spring group-data-[state=open]/trigger:rotate-45"
-                      strokeWidth={2.25}
+                      className="h-4 w-4 transition-transform duration-slow ease-ps group-data-[state=open]/trigger:rotate-45"
+                      strokeWidth={2}
                     />
                   </span>
                 </AccordionPrimitive.Trigger>

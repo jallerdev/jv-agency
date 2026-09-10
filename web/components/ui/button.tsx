@@ -17,13 +17,13 @@ const buttonVariants = cva(
            primary-dark sube a 7,97:1. De paso, el CTA del hero y el del
            encabezado dejan de ser dos botones distintos: son el mismo. */
         primary:
-          "rounded-full bg-primary text-surface shadow-soft hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lift",
+          "rounded-full bg-primary text-on-accent shadow-soft hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lift",
         outline:
           "rounded-full border border-primary/35 bg-transparent text-primary-dark hover:border-primary hover:bg-primary/5",
         ghost: "rounded-full text-ink-soft hover:text-ink hover:bg-ink/5",
       },
       size: {
-        sm: "h-10 px-5 text-sm",
+        sm: "h-11 px-5 text-sm",
         md: "h-12 px-7 text-base",
         lg: "h-14 px-9 text-lg",
         xl: "h-16 px-11 text-xl",

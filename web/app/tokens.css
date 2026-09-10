@@ -1,0 +1,300 @@
+/* ===========================================================================
+   TOKENS — JV Agencia
+   ---------------------------------------------------------------------------
+   Portados del design system del estudio (claude.ai/design · "Design System").
+   NO se editan a mano aquí: si un valor cambia, cambia allá y se vuelve a
+   traer. Lo único que se adapta al portar son las tres familias tipográficas,
+   que aquí las sirve `next/font/local` desde app/fonts y por eso apuntan a las
+   variables que genera el layout en vez de al nombre de la fuente.
+
+   La estructura es la de HalcónOS —superficies, filetes, escala tipográfica y
+   movimiento— con UN SOLO acento: naranja #E8623F. El violeta y el teal de
+   HalcónOS salieron a propósito: aquel es producto y puede permitirse dos
+   colores funcionales; una marca de estudio con dos acentos no tiene ninguno.
+   El sistema terracota-y-papel anterior también se descartó —queda escrito
+   para que nadie lo reintroduzca sin darse cuenta—: leía como artesanal, y lo
+   que vende el estudio es software.
+
+   OSCURO ES EL MODO POR DEFECTO. `:root` es oscuro; `[data-theme="claro"]`
+   cambia el sistema entero a claro para propuestas impresas y correo.
+   =========================================================================== */
+
+:root {
+  /* ── La rampa de marca ────────────────────────────────────────────────
+     Naranja #E8623F. Es el `--brand-soft` de palo-seco.com, la referencia de
+     estructura del proyecto. El 600 es el hover, un 8% más oscuro.
+
+     UN SOLO ACENTO. El naranja se reparte entre CINCO sitios y ninguno más:
+       · el CTA primario
+       · la numeración de secciones y de pasos
+       · el subrayado que crece en el hover de un enlace
+       · el punto de «en línea»
+       · el logo
+     Repartirlo más lo apaga: si todo es acento, nada lo es.
+
+     Contrastes medidos sobre el canvas #080808:
+       #E8623F como texto ............. 5,5:1   AA en cualquier tamaño
+       #080808 sobre relleno #E8623F .. 5,96:1  por eso el texto sobre naranja
+                                                es CASI NEGRO, no blanco
+       blanco sobre relleno #E8623F ... 3,36:1  no pasa, y por eso no se usa   */
+  /* La rampa va DOS veces: en hex, para usarla tal cual, y en tripletas RGB.
+     Sin las tripletas, Tailwind no puede generar `text-brand/10` ni
+     `border-brand/30`: no sabe meterle alfa a un `var()` que contiene un hex,
+     así que descarta la utilidad ENTERA sin avisar y el elemento se queda con
+     el color que herede. Es el mismo defecto que tenían los nueve `/12` y el
+     borde por defecto: la clase se escribe, no genera regla, y nadie lo nota
+     hasta que alguien mira el CSS servido. */
+  --brand-50: #fdf0ec;
+  --brand-100: #fadcd4;
+  --brand-200: #f5bba8;
+  --brand-300: #f0997d;
+  --brand-400: #ec7e5e;
+  --brand-500: #e8623f;   /* ACENTO */
+  --brand-600: #db482d;   /* hover, −8% */
+  --brand-700: #b63a24;
+  --brand-800: #8e2d1c;
+  --brand-900: #661f14;
+  --brand-950: #3d120c;
+
+  --brand-300-rgb: 240 153 125;
+  --brand-400-rgb: 236 126 94;
+  --brand-500-rgb: 232 98 63;
+  --brand-600-rgb: 219 72 45;
+  --brand-700-rgb: 182 58 36;
+  --blanco-rgb: 250 250 250;
+  --negro-rgb: 8 8 8;
+
+  /* ── Neutros ──────────────────────────────────────────────────────────
+     El negro es #080808, no #000: un negro puro sobre una pantalla OLED
+     traga el borde de las superficies y la jerarquía se pierde. */
+  --negro: #080808;
+  --superficie: #111111;
+  --superficie-alta: #171717;
+  --blanco: #fafafa;
+
+  --rojo-400: #f87171;
+  --ambar-400: #fbbf24;
+  --verde-400: #4ade80;
+
+  /* ── Alias semánticos ─────────────────────────────────────────────────
+     Los componentes usan ESTOS, nunca los de arriba. Cambiar la marca es
+     mover cinco líneas de este bloque. */
+  --canvas: var(--negro);
+  --canvas-tint: #0d0908;         /* casi negro con sesgo cálido: hero y cierre */
+  --surface: var(--superficie);
+  --surface-raised: var(--superficie-alta);
+  --surface-band: var(--superficie);
+  --surface-inverse: var(--blanco);
+
+  --text-strong: var(--blanco);
+  --text-body: rgba(250, 250, 250, 0.62);
+  --text-muted: rgba(250, 250, 250, 0.44);
+  --text-accent: var(--brand-500);
+  --text-inverse: var(--negro);
+  /* Casi negro sobre el relleno naranja: 5,96:1. El blanco daría 3,36:1. */
+  --text-on-accent: var(--negro);
+
+  --line: rgba(255, 255, 255, 0.08);
+  --line-soft: rgba(255, 255, 255, 0.05);
+  --line-strong: rgba(255, 255, 255, 0.16);
+
+  /* Las dos capas de estado sobre superficie. Existen para que un hover no
+     tenga que inventarse un gris cada vez: `-muted` es el fondo en reposo de
+     una pastilla, `-hover` el que gana al pasar por encima. Sobre casi negro
+     el escalón tiene que ser pequeño; un blanco al 8% ya se lee como caja. */
+  --hs-muted: rgba(255, 255, 255, 0.03);
+  --hs-hover: rgba(255, 255, 255, 0.06);
+
+  /* ── Tripletas RGB ─────────────────────────────────────────────────────
+     Existen SOLO para que Tailwind pueda aplicar opacidad. Un color guardado
+     como hex dentro de una custom property no admite modificador: Tailwind no
+     puede meterle un alfa a un valor que no conoce hasta que el navegador lo
+     resuelve, así que descarta la utilidad entera y NO avisa. Así se perdían
+     ochenta reglas —`bg-surface/70`, `bg-background/40`, `bg-negro/85`— que
+     parecían escritas y no existían en el CSS servido.
+     Si cambias el hex de arriba, cambia también la tripleta. */
+  --canvas-rgb: 8 8 8;
+  --surface-rgb: 17 17 17;
+  --surface-raised-rgb: 23 23 23;
+  --surface-band-rgb: 17 17 17;
+  --success-rgb: 74 222 128;
+  --danger-rgb: 248 113 113;
+  --warning-rgb: 251 191 36;
+
+  --accent: var(--brand-500);
+  --accent-hover: var(--brand-600);
+  --accent-press: var(--brand-700);
+  --accent-quiet: rgba(232, 98, 63, 0.12);
+  --accent-quiet-line: rgba(232, 98, 63, 0.32);
+  --accent-ink: var(--brand-500);
+
+  --success: var(--verde-400);
+  --success-ink: var(--verde-400);
+  --danger: var(--rojo-400);
+  --warning: var(--ambar-400);
+  --info: var(--brand-400);
+
+  --focus-ring-color: var(--brand-500);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+  --track: rgba(255, 255, 255, 0.12);
+
+  /* SIN SOMBRAS. La jerarquía la dan el escalón de superficie y el filete de
+     1px, que es lo que pide la especificación. Los nombres se quedan en la
+     escala de Tailwind apuntando a `none` para no romper los sitios de uso
+     mientras se limpian. */
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-pop: none;
+  --shadow-accent: none;
+  --inset-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  --blur-glass: saturate(150%) blur(14px);
+  /* El resplandor del hero: naranja al 8% sobre negro, como pide la
+     especificación. Plano y barato. */
+  --bloom-brand: radial-gradient(70% 60% at 50% 0%, rgba(232, 98, 63, 0.08) 0%, rgba(232, 98, 63, 0) 70%);
+  --scrim-bottom: linear-gradient(to top, rgba(8, 8, 8, 0.94) 0%, rgba(8, 8, 8, 0.6) 40%, rgba(8, 8, 8, 0) 80%);
+
+  /* ── Tipografía ──────────────────────────────────────────────────────────
+     Instrument Serif para TODO titular y las cifras grandes. Ya es estrecha y
+     de alto contraste, así que pide MENOS tracking negativo que una grotesca.
+     Las familias las inyecta next/font desde app/layout.tsx. */
+  /* El titular es GROTESK, no serif: lo pide la especificación. Lo cubre la
+     misma Figtree, que es variable 300-900, así que no entra ninguna familia
+     nueva y salen cuatro woff2 de Instrument Serif. */
+  --font-display: var(--font-figtree), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-figtree), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --text-hero: clamp(2rem, 5vw, 4.5rem);   /* el de la especificación */
+  --text-display: clamp(2.25rem, 4.6vw, 3.875rem);
+  --text-h1: clamp(2rem, 3.6vw, 3.125rem);
+  --text-h2: clamp(1.625rem, 2.5vw, 2.375rem);
+  --text-h3: 1.5rem;
+  --text-h4: 1.1875rem;
+  --text-lead: clamp(1.0625rem, 1.35vw, 1.25rem);
+  /* 18 px con interlínea de 28, que es EXACTAMENTE lo que corre en HalcónOS.
+     El design system fijaba 15 y lo decía claro: «viene del lado de producto».
+     Pero fui a medirlo y el producto no usa 15 en su página: usa 18/28 para
+     el cuerpo y deja los 14 para la interfaz densa. La página estaba tomando
+     el tamaño de la tabla, no el del texto. */
+  --text-body-size: 1.125rem;
+  --text-eyebrow: 0.6875rem;
+
+  --lh-tight: 1;
+  --lh-display: 1.05;
+  --lh-snug: 1.25;
+  --lh-body: 1.5556;   /* 28px sobre 18px, como el producto */
+
+  --ls-hero: -0.03em;
+  --ls-display: -0.03em;
+  --ls-heading: -0.012em;
+  --ls-body: -0.002em;
+  --ls-eyebrow: 0.16em;
+
+  /* Los pesos con los que corre HalcónOS: 800 en el titular de portada, 700 en
+     los de sección, 600 en los de tarjeta. Instrument Serif solo tiene 400, así
+     que estos pesos los lleva Figtree —que es variable 300-900— en todo lo que
+     está a escala de interfaz. */
+  --weight-display: 400;
+  --weight-titulo: 600;
+  --weight-fuerte: 700;
+
+  /* ── Espacio y ritmo ─────────────────────────────────────────────────── */
+  --maxw: 1200px;
+  --maxw-narrow: 900px;
+  --maxw-prose: 68ch;
+  --gutter: 1.25rem;    /* px-5: el margen lateral de todas las secciones */
+  --section-y: clamp(4.5rem, 9vw, 8.5rem);
+  /* 5,5rem = 88 px. Sube de 4,5rem porque a 72 px la barra desaparecía contra
+     el hero: en una portada de trece mil píxeles el encabezado es el único
+     elemento presente todo el rato y tiene que pesar como tal. Los enlaces
+     suben en la misma proporción (0,9375 → 1,0625rem) para que la barra no
+     quede alta y vacía, que es peor que baja. */
+  --header-h: 5.5rem;   /* alto real del header fijo, medido */
+
+  /* Alto de la barra de acción móvil (`components/BarraMovil.tsx`), medida:
+     44 px de botón + 12 px de aire arriba y abajo + el filete de 1 px. Va con
+     el borde seguro del teléfono sumado, porque en un iPhone la barra se
+     asienta por encima del indicador de inicio y sin eso el pie queda
+     tapado justo en los aparatos donde más se nota.
+
+     Existe porque la barra es `fixed` y no ocupa sitio en el flujo: sin
+     reservarlo, se sentaba encima de los últimos 76 px del pie —los iconos
+     sociales a medias y la marca de agua entera—. */
+  --barra-movil-h: calc(4.3125rem + env(safe-area-inset-bottom, 0px));
+
+  /* ── Forma ───────────────────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* La escala de sombra se declara UNA vez, arriba, y vale `none`. Aquí había
+     una segunda tanda que ganaba por orden y la resucitaba —el mismo fallo que
+     dejó el florón morado—. Encima venía rota: las cinco pedían
+     `hsl(var(--shadow-color) / …)` y `--shadow-color` no está definida en
+     ninguna parte, así que la sustitución era inválida y `box-shadow` caía a
+     su valor inicial. O sea: el archivo decía «sin sombras», luego se
+     contradecía, y el navegador acababa en «sin sombras» por accidente y no
+     por decisión. Ahora lo dice una sola vez y en serio. */
+
+  --blur-glass: saturate(150%) blur(14px);
+  /* El florón se define UNA vez, arriba, en --bloom-brand. Aquí había una
+     segunda declaración de --bloom-violeta en violeta que ganaba por orden y
+     dejaba el degradado del color viejo: por eso el florón seguía morado
+     después de portar la marca. */
+  --scrim-bottom: linear-gradient(to top, hsl(240 10% 3.9% / 0.94) 0%, hsl(240 10% 3.9% / 0.6) 40%, hsl(240 10% 3.9% / 0) 80%);
+
+  /* ── Movimiento ───────────────────────────────────────────────────────── */
+  --duration-instant: 0s;
+  --duration-quick: 0.12s;
+  --duration-base: 0.2s;
+  --duration-slow: 0.32s;
+  --duration-ambient: 0.56s;
+
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-state: cubic-bezier(0.2, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* La curva firma de palo-seco: la usan TODOS los reveal, lift y clip. */
+  --ease-ps: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --easing: var(--ease-state);
+
+  --dur-reveal: 0.7s;
+  --dur-reveal-y: 0.75s;
+  --dur-clip: 0.9s;
+  --dur-lift: 0.28s;
+  /* 45 s era el valor de palo-seco para un carril de logos cortos. Con seis
+     copias de once frases el carril mide ~13.000 px, así que a 45 s pasaría a
+     290 px/s: ilegible. A 120 s va a ~110 px/s, que es velocidad de lectura. */
+  --dur-marquee: 120s;
+  --reveal-stagger: 80ms;  /* el de la especificación */
+  --reveal-rise: 24px;
+}
+
+/* MODO CLARO: NO EXISTE, Y ES A PROPÓSITO.
+   Aquí hubo un bloque `[data-theme="claro"]` que se leía como una función del
+   sistema y no lo era: apuntaba a `--zinc-*`, `--rojo-500` y `--ambar-500`,
+   variables que no están definidas en ninguna parte, y nada del sitio pone
+   nunca ese atributo. Se quitó en vez de arreglarlo porque el encargo pide un
+   solo mundo visual, oscuro. Si algún día hace falta un tema claro para
+   propuestas impresas, se escribe entero y se prueba, que es lo que aquel
+   bloque no tuvo. */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-quick: 0s;
+    --duration-base: 0s;
+    --duration-slow: 0s;
+    --duration-ambient: 0s;
+    --dur-reveal: 0s;
+    --dur-reveal-y: 0s;
+    --dur-clip: 0s;
+    --dur-lift: 0s;
+    --reveal-rise: 0px;
+  }
+}

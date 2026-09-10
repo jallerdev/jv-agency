@@ -2,10 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 import { WhatsAppGlyph } from "@/components/WhatsAppGlyph";
+import type { Idioma } from "@/content/types";
 import { WHATSAPP_NUMBER } from "@/lib/contact";
 
-const PREFILL =
-  "Hola JV Agencia 👋 Me interesa hablar sobre un proyecto de diseño o desarrollo web.";
+/* El saludo va en el idioma de la página que lanzó el chat: quien entra por
+   /en escribe en inglés y recibir el mensaje ya redactado en castellano le
+   obliga a borrarlo antes de empezar. */
+const T = {
+  es: {
+    prefill: "Hola JV Agencia 👋 Me interesa hablar sobre un proyecto de diseño o desarrollo web.",
+    etiqueta: "Escríbeme por WhatsApp",
+  },
+  en: {
+    prefill: "Hi JV Agencia 👋 I'd like to talk about a web design or development project.",
+    etiqueta: "Message me on WhatsApp",
+  },
+} as const;
 
 /* Botón flotante de WhatsApp.
  *
@@ -29,8 +41,9 @@ const PREFILL =
  *    botón solo estorbaría. La transición usa el sistema de movimiento, así
  *    que con prefers-reduced-motion aparece y desaparece sin animación.
  */
-export function WhatsAppButton() {
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PREFILL)}`;
+export function WhatsAppButton({ idioma = "es" }: { idioma?: Idioma } = {}) {
+  const t = T[idioma];
+  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t.prefill)}`;
 
   const [visible, setVisible] = useState(false);
   /* El anillo se monta la primera vez que el botón entra en escena y se queda:
@@ -91,8 +104,15 @@ export function WhatsAppButton() {
     /* Medido antes de esto: el FAB se sentaba encima del CTA del hero, de los
        disparadores del FAQ y de los 17 enlaces del pie. Mientras el formulario
        de agendamiento o el pie estén en pantalla, se retira. */
+    /* `#agenda`, no `#contacto`. El rediseño renombró esa sección y el
+       `getElementById` se quedó apuntando al id viejo, que hoy solo existe en
+       `components/FinalCTA.tsx` —código muerto sin ningún importador—. Con el
+       selector devolviendo null, el conjunto de bloqueadores solo tenía el
+       pie y el comportamiento que describe el comentario de arriba no ocurría:
+       el flotante se quedaba encima de la tarjeta de agendamiento justo
+       mientras el visitante la estaba rellenando. */
     const targets = [
-      document.getElementById("contacto"),
+      document.getElementById("agenda"),
       document.querySelector("body > footer"),
     ].filter((el): el is Element => Boolean(el));
 
@@ -140,12 +160,17 @@ export function WhatsAppButton() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Escríbeme por WhatsApp"
+      aria-label={t.etiqueta}
       aria-hidden={!visible}
       tabIndex={visible ? undefined : -1}
       data-visible={visible ? "" : undefined}
       className={[
-        "group fixed bottom-5 right-4 z-50 flex items-center gap-3 sm:bottom-6 sm:right-6",
+        /* Se sube por encima de la barra de acción móvil. Sin esto el
+           flotante —bottom-5, 56 px de alto, z-50— caía sobre la barra
+           —bottom-0, 69 px, z-40— y le tapaba justo su propio botón de
+           WhatsApp: dos botones del mismo canal, uno encima del otro.
+           `Cookies.tsx` ya se aparta por lo mismo. */
+        "group fixed bottom-[calc(var(--barra-movil-h)+0.75rem)] right-4 z-50 flex items-center gap-3 lg:bottom-6 lg:right-6",
         "transition-[opacity,transform] duration-slow ease-state",
         visible
           ? "translate-y-0 opacity-100"
@@ -154,7 +179,7 @@ export function WhatsAppButton() {
     >
       {/* Etiqueta: aparece en hover y —esto faltaba— también con foco de teclado. */}
       <span className="pointer-events-none hidden max-w-0 overflow-hidden whitespace-nowrap rounded-full border border-line bg-surface px-0 py-2.5 font-body text-sm font-medium text-ink opacity-0 shadow-soft transition-all duration-slow ease-state group-hover:max-w-xs group-hover:px-5 group-hover:opacity-100 group-focus-visible:max-w-xs group-focus-visible:px-5 group-focus-visible:opacity-100 md:block">
-        Escríbeme por WhatsApp
+        {t.etiqueta}
       </span>
 
       <span className="relative flex h-14 w-14 items-center justify-center">
@@ -165,7 +190,7 @@ export function WhatsAppButton() {
             className="absolute inline-flex h-full w-full animate-ping-thrice rounded-full bg-primary opacity-30 motion-reduce:hidden"
           />
         )}
-        <span className="tap-target relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary-dark text-surface shadow-soft transition-card duration-slow ease-state group-hover:-translate-y-0.5 group-hover:bg-primary group-hover:shadow-lift group-focus-visible:-translate-y-0.5 group-focus-visible:shadow-lift group-active:translate-y-0 group-active:scale-[0.96] group-active:shadow-soft">
+        <span className="tap-target relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary-dark text-on-accent shadow-soft transition-card duration-slow ease-state group-hover:-translate-y-0.5 group-hover:bg-primary group-hover:shadow-lift group-focus-visible:-translate-y-0.5 group-focus-visible:shadow-lift group-active:translate-y-0 group-active:scale-[0.96] group-active:shadow-soft">
           <WhatsAppGlyph className="h-7 w-7" />
         </span>
       </span>

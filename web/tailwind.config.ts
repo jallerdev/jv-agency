@@ -13,8 +13,12 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        /* Los tres nombres se quedan —`font-display`, `font-body`,
+           `font-mono` están escritos en cientos de sitios— pero apuntan a las
+           familias nuevas. Renombrar las utilidades habría sido tocar todas
+           las páginas para no cambiar nada. */
         display: ["var(--font-display)", "Georgia", "serif"],
-        body: ["var(--font-body)", "system-ui", "sans-serif"],
+        body: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       /* La escala de opacidad de Tailwind va de cinco en cinco, y el
@@ -29,72 +33,173 @@ const config: Config = {
       opacity: {
         12: "0.12",
       },
-      colors: {
-        primary: {
-          DEFAULT: "#985C3E",
-          dark: "#6E4128",
-        },
-        secondary: "#B08968",
-        accent: {
-          /* Superficies, bordes, iconos >=20px y cifras grandes: ahí el
-             cobre solo necesita 3:1 y lo cumple. */
-          DEFAULT: "#C0763B",
-          /* El mismo cobre, oscurecido, para cuando hace de TEXTO.
-             #C0763B sobre el papel da 3,07:1 y falla AA en cualquier
-             antetítulo de 11px. Este da 5,56:1 sobre background y 6,00:1
-             sobre surface, y sigue leyéndose como cobre. */
-          ink: "#8C4F1F",
-        },
-        surface: "#FAF6F1",
-        background: "#F4EDE4",
-        /* Papel en un tono mas hondo, para las bandas de seccion. */
-        band: "#ECE1D5",
-        ink: {
-          DEFAULT: "#2B2420",
-          soft: "#6B5E54",
-        },
-        line: "#E4D8CB",
-        success: {
-          DEFAULT: "#4F7A52",
-          /* El mismo verde, oscurecido, para cuando hace de TEXTO —misma
-             regla que `accent.ink`. #4F7A52 da 3,98:1 sobre la pastilla de
-             `bg-success/12` y 4,35:1 sobre el papel: pasa para un icono de
-             24px, no para una etiqueta de 10px. Este da 5,23:1 y 6,06:1. */
-          ink: "#3F6642",
-        },
-        warning: "#B57E2C",
-        danger: "#B0453C",
+      /* ── La paleta del design system ────────────────────────────────────
+         Los nombres de token se conservan a propósito —`ink`, `surface`,
+         `line`, `primary`, `accent`— porque están escritos en las doce
+         páginas y en cincuenta componentes. Lo que cambia es a qué apuntan.
+         Así el sitio entero pasa a oscuro moviendo este bloque, y lo que hay
+         que revisar después son las excepciones, no cada archivo.
+
+         Todo sale de app/tokens.css, que es el port del design system. Aquí
+         solo se le pone nombre de Tailwind. Si un valor cambia, cambia allá.  */
+      /* EL BORDE POR DEFECTO.
+         Medido en las catorce rutas: 59 elementos pintaban su filete en
+         `rgb(229, 231, 235)` —el gris-200 con el que Tailwind rellena
+         cualquier `border` que no declare color—. Sobre el papel anterior
+         pasaba por un filete claro mas; sobre casi negro es un trazo BLANCO,
+         y es literalmente el borde del que se quejaba el dueno.
+         No se arregla escribiendo `border-line` en 59 sitios: se arregla
+         cambiando el relleno por defecto, que es donde estaba el error. */
+      borderColor: {
+        DEFAULT: "var(--line)",
       },
-      /* Escala de radios con lógica de anidación:
-         radio interior = radio exterior - padding.
-         sección/panel 3xl-4xl · tarjeta 2xl · sub-tarjeta xl ·
-         chip e icono lg · control de formulario md.
-         xl y 2xl conservan su valor de siempre: no mueven nada de lo hecho. */
+      colors: {
+        /* La rampa de marca, expuesta entera. La especificación la pide bajo
+           `brand` para que ningún componente escriba un hex suelto. */
+        brand: {
+          50: "var(--brand-50)",
+          100: "var(--brand-100)",
+          200: "var(--brand-200)",
+          300: "rgb(var(--brand-300-rgb) / <alpha-value>)",
+          400: "rgb(var(--brand-400-rgb) / <alpha-value>)",
+          DEFAULT: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          500: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          600: "rgb(var(--brand-600-rgb) / <alpha-value>)",
+          700: "rgb(var(--brand-700-rgb) / <alpha-value>)",
+          800: "var(--brand-800)",
+          900: "var(--brand-900)",
+          950: "var(--brand-950)",
+          quiet: "var(--accent-quiet)",
+          line: "var(--accent-quiet-line)",
+        },
+        /* Fondo de página y superficies. `background` es el canvas casi negro
+           —#09090B, nunca #000 y nunca gris cálido—; `surface` la tarjeta. */
+        canvas: {
+          DEFAULT: "rgb(var(--canvas-rgb) / <alpha-value>)",
+          /* Casi negro con sesgo violeta. El sistema lo reserva al hero y al
+             cierre: son las dos superficies donde el violeta tiene que
+             sentirse aunque no haya un solo elemento violeta encima. */
+          tint: "var(--canvas-tint)",
+        },
+        background: "rgb(var(--canvas-rgb) / <alpha-value>)",
+        /* El casi negro del fondo, en tripleta RGB para que ADMITA opacidad.
+           `var(--negro)` a secas no sirve: Tailwind no puede meter un alfa
+           dentro de un hex que solo conoce en tiempo de ejecución, así que
+           descarta la utilidad ENTERA sin avisar —`bg-negro/85` no generaba
+           ni una regla, y por eso la cabecera fija se veía transparente
+           encima de la tarjeta naranja. */
+        negro: "rgb(var(--negro-rgb) / <alpha-value>)",
+        surface: "rgb(var(--surface-rgb) / <alpha-value>)",
+        raised: "rgb(var(--surface-raised-rgb) / <alpha-value>)",
+        band: "rgb(var(--surface-band-rgb) / <alpha-value>)",
+
+        /* Texto. `ink` es el titular, `ink.soft` el cuerpo, `ink.muted` lo
+           terciario. `on-accent` es el blanco que va SOBRE un relleno de
+           color: antes ese papel lo hacía `surface`, que ahora es casi negro
+           y sobre violeta sería ilegible. */
+        ink: {
+          DEFAULT: "rgb(var(--blanco-rgb) / <alpha-value>)",
+          soft: "var(--text-body)",
+          muted: "var(--text-muted)",
+        },
+        "on-accent": "rgb(var(--negro-rgb) / <alpha-value>)",
+        inverse: "var(--text-inverse)",
+
+        line: {
+          DEFAULT: "var(--line)",
+          soft: "var(--line-soft)",
+          strong: "var(--line-strong)",
+        },
+
+        /* Violeta: el acento de marca, uno por vista. Sobre oscuro el TEXTO
+           usa violeta-400 y el relleno violeta-500 —por eso `accent.ink` no
+           es el mismo valor que `accent`—. Y el hover sobre oscuro aclara, no
+           oscurece: `primary.dark` apunta al paso de PULSACIÓN, no al hover. */
+        /* LOS TRES SE PUBLICAN COMO TRIPLETA RGB, no como `var(--accent)`.
+           Es el mismo fallo que este archivo ya documenta para `--negro` unas
+           líneas más arriba: Tailwind no sabe meterle un alfa a un hex
+           escondido en una custom property, así que descarta la utilidad
+           ENTERA y sin avisar. La corrección se aplicó a negro, canvas,
+           surface, ink, success, danger y warning, y se saltó justo estos.
+
+           Medido en el navegador antes de tocarlo: `bg-brand/60` pintaba
+           `rgba(232,98,63,.6)` y `bg-primary/10` no pintaba nada. Eran 81
+           utilidades muertas —`border-primary/40` dieciocho veces,
+           `bg-accent/10` ocho, los degradados de `via-` y `to-`— repartidas
+           por toda la portada y las internas: bordes de hover que nunca
+           cambiaban, fondos teñidos que salían transparentes. */
+        primary: {
+          DEFAULT: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          hover: "rgb(var(--brand-600-rgb) / <alpha-value>)",
+          /* `primary.dark` apunta a violeta-400, NO al paso de pulsacion.
+             Medido sobre el sitio ya portado: `text-primary-dark` aparece 182
+             veces —era el color del texto en bronce, 7,38:1 sobre el papel— y
+             apuntando al 600 daba 3,75:1 sobre el canvas y 3,58:1 sobre las
+             tarjetas. 141 textos por debajo de AA de un solo token mal
+             dirigido.
+             Apuntarlo al 400 arregla las dos caras a la vez: como TEXTO da
+             7,48:1, y como relleno de hover ACLARA en vez de oscurecer, que
+             es justo lo que pide el sistema sobre fondo oscuro. El nombre
+             «dark» queda heredado del sistema anterior y ya no describe nada;
+             renombrarlo serian 182 ediciones para no cambiar un pixel. */
+          dark: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+        },
+        accent: {
+          DEFAULT: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          ink: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          /* `quiet` NO lleva alfa: ya ES el naranja al 12 %. Ponerle un
+             modificador encima sería multiplicar dos transparencias. */
+          quiet: "var(--accent-quiet)",
+        },
+        /* Teal: reservado a verificado / en línea / ok. NUNCA acento general. */
+        /* `secondary` es un GRIS, no un segundo acento: la regla es un solo
+           color de marca. El verde queda solo para el estado «en línea». */
+        secondary: "var(--line-strong)",
+        success: {
+          DEFAULT: "rgb(var(--success-rgb) / <alpha-value>)",
+          ink: "var(--success-ink)",
+        },
+        danger: "rgb(var(--danger-rgb) / <alpha-value>)",
+        warning: "rgb(var(--warning-rgb) / <alpha-value>)",
+        info: "var(--info)",
+      },
+      /* ── Radios, en la escala de HalcónOS ───────────────────────────────
+         4 / 8 / 12 / 18 / 24 / pastilla, medidos en el producto. La escala
+         anterior tenía 1,75rem (28px) y 0,875rem (14px), que no están en
+         ninguna de las dos: eran del sistema de papel y sobrevivieron al port
+         en 22 elementos. Los nombres de utilidad se conservan —`rounded-3xl`
+         está escrito por todas partes— y lo que cambia es su valor. */
       borderRadius: {
-        sm: "0.375rem",
-        md: "0.625rem",
-        lg: "0.875rem",
-        xl: "1rem",
-        "2xl": "1.5rem",
-        "3xl": "1.75rem",
-        "4xl": "2rem",
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
+        xl: "var(--radius-md)",
+        "2xl": "var(--radius-lg)",
+        "3xl": "var(--radius-xl)",
+        "4xl": "var(--radius-xl)",
       },
       /* Tres niveles de elevación con función asignada, más un marco.
          soft = reposo · lift = SOLO hover/foco · glow = un elemento por
          página, el que debe dominar. */
+      /* ── Sombras ────────────────────────────────────────────────────────
+         La escala entera seguia en bronce: `rgba(110, 65, 40, .45)` y
+         `rgba(192, 118, 59, .45)`. Sobre papel calido eso era coherente; sobre
+         casi negro es una aureola MARRON alrededor de cada captura y de cada
+         tarjeta, y es exactamente el resplandor caliente que se veia en la
+         portada sin que nada pintara nada marron.
+
+         El sistema las quiere neutras-frias, de opacidad baja y con un trabajo
+         asignado: sobre oscuro la elevacion la da el escalon de superficie mas
+         el filete de 1px, y la sombra se reserva a lo que de verdad flota. */
       boxShadow: {
-        soft: "0 2px 8px -2px rgba(43, 36, 32, 0.08), 0 8px 24px -8px rgba(43, 36, 32, 0.12)",
-        lift: "0 12px 40px -12px rgba(110, 65, 40, 0.28)",
-        glow: "0 0 0 1px rgba(192, 118, 59, 0.25), 0 16px 48px -16px rgba(192, 118, 59, 0.45)",
-        /* Sombra de dos tiempos —contacto duro + difusa larga— para las
-           piezas que deben tener peso físico sobre el papel cálido: las
-           capturas del portafolio y el caso a fondo. */
-        frame:
-          "0 1px 2px rgba(43, 36, 32, 0.10), 0 18px 28px -14px rgba(110, 65, 40, 0.35), 0 46px 70px -40px rgba(110, 65, 40, 0.45)",
-        "frame-hover":
-          "0 2px 4px rgba(43, 36, 32, 0.12), 0 28px 44px -16px rgba(110, 65, 40, 0.40), 0 70px 100px -50px rgba(110, 65, 40, 0.50)",
-        /* Hundido: para bandejas o paneles que contienen, en vez de elevar. */
-        well: "inset 0 2px 14px rgba(43, 36, 32, 0.06)",
+        soft: "var(--shadow-sm)",
+        lift: "var(--shadow-md)",
+        /* El unico halo de color que queda, y solo bajo un CTA primario. */
+        glow: "var(--shadow-accent)",
+        frame: "var(--shadow-md)",
+        "frame-hover": "var(--shadow-pop)",
+        pop: "var(--shadow-pop)",
+        well: "var(--inset-hairline)",
       },
       transitionDuration: {
         instant: "var(--duration-instant)",
@@ -107,6 +212,12 @@ const config: Config = {
         entrance: "var(--ease-entrance)",
         exit: "var(--ease-exit)",
         state: "var(--ease-state)",
+        /* La curva firma de palo-seco, y la que el design system pone por
+           defecto para TODO en la parte de marketing: reveal, lift y clip. */
+        ps: "var(--ease-ps)",
+        /* `spring` se queda declarada para superficies de producto, pero en el
+           sitio ya no la usa nadie: el sistema dice «no bounce on UI» y sus
+           cinco micro-gestos pasaron a `ease-ps`. */
         spring: "var(--ease-spring)",
       },
       transitionDelay: {

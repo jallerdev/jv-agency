@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from "react";
 import {
   AlertCircle,
   ArrowRight,
+  ArrowLeft,
   Check,
   CalendarCheck,
   Clock,
@@ -16,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/contact";
 import { OPCIONES_SERVICIO } from "@/lib/services";
+import { FORM, SERVICIO_CORTO } from "@/content/home/agenda";
+import type { Idioma } from "@/content/types";
 
 // Las opciones salen de lib/services.ts, que es la fuente unica: antes esta
 // lista vivia aparte y se quedo atras cuando cambiaron los servicios.
@@ -25,10 +28,10 @@ type FieldKey = "service" | "name" | "email" | "phone" | "date" | "time";
 
 const todayISO = () => new Date().toISOString().split("T")[0];
 
-const prettyDate = (iso: string) => {
+const prettyDate = (iso: string, locale: string) => {
   if (!iso) return "";
   const d = new Date(`${iso}T00:00:00`);
-  return d.toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" });
+  return d.toLocaleDateString(locale, { weekday: "long", day: "numeric", month: "long" });
 };
 
 /* Píldora de selección (servicio y hora).
@@ -42,13 +45,28 @@ const prettyDate = (iso: string) => {
  *
  * Además `tap-target` (44x44 reales, antes 36 px de alto) y `:active`, que en
  * táctil es el único estado que confirma el toque. */
+/* Siete pastillas con el nombre completo ocupaban TRES filas —194 px, el
+   bloque mas alto del formulario— y empujaban el boton de enviar fuera de
+   pantalla. Con la etiqueta corta caben en dos. El nombre largo no se pierde:
+   sigue siendo el que viaja en el mensaje. */
+
 const chipBase =
-  "tap-target inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2.5 transition-surface duration-quick ease-state active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50";
-const chipOn = "border-primary bg-primary text-surface shadow-soft";
+  "tap-target inline-flex items-center justify-center gap-2 rounded-full border px-3.5 py-2 transition-surface duration-quick ease-state active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50";
+const chipOn = "border-primary bg-primary text-on-accent shadow-soft";
 const chipOff =
   "border-line bg-background/50 text-ink-soft hover:border-primary/45 hover:bg-background hover:text-ink";
 
-export function ScheduleCall() {
+export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
+  /* Todos los textos del formulario, en el idioma de la página. `T` es corto a
+     propósito: aparece cuarenta veces y `TEXTOS_DEL_FORMULARIO[idioma]` en
+     cada una escondería el marcado. */
+  const T = FORM[idioma];
+  const CORTO = SERVICIO_CORTO[idioma];
+  /* El eje de pasos. La máquina de estados del envío —idle, buscando horarios,
+     enviando, éxito, error— NO se toca: esto es una capa de presentación
+     encima, y por eso el paso no entra en `reset` como un estado más sino
+     volviendo al 1, que es donde empieza todo. */
+  const [paso, setPaso] = useState<1 | 2>(1);
   const [service, setService] = useState("");
   const [time, setTime] = useState("");
   const [values, setValues] = useState({ name: "", email: "", phone: "", date: "", note: "" });
@@ -98,34 +116,63 @@ export function ScheduleCall() {
     if (key in errors) setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
-  const validate = () => {
+  /* El paso 1 valida solo lo suyo. Si validara el formulario entero, el botón
+     «Continuar» pintaría en rojo campos que todavía no se han visto. */
+  const validarPaso1 = () => {
     const e: Partial<Record<FieldKey, string>> = {};
-    if (!service) e.service = "Elige una opción";
-    if (!values.name.trim()) e.name = "Escribe tu nombre";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = "Ingresa un correo válido";
-    if (values.phone.replace(/\D/g, "").length < 7) e.phone = "Ingresa un teléfono válido";
-    if (!values.date) e.date = "Elige una fecha";
-    if (!time) e.time = "Elige una hora";
+    if (!values.name.trim()) e.name = T.errores.nombre;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = T.errores.correo;
+    if (values.phone.replace(/\D/g, "").length < 7) e.phone = T.errores.telefono;
     setErrors(e);
     return Object.keys(e).length === 0;
+  };
+
+  const validate = () => {
+    const e: Partial<Record<FieldKey, string>> = {};
+    if (!service) e.service = T.errores.servicio;
+    if (!values.name.trim()) e.name = T.errores.nombre;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = T.errores.correo;
+    if (values.phone.replace(/\D/g, "").length < 7) e.phone = T.errores.telefono;
+    if (!values.date) e.date = T.errores.fecha;
+    if (!time) e.time = T.errores.hora;
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  /* Enviar el foco al primer campo en rojo. Va en el siguiente fotograma
+     porque `setErrors` es asíncrono: hasta que React no repinta, el DOM
+     todavía no tiene los `aria-invalid` que este selector busca. */
+  const irAlPrimerError = (form: HTMLFormElement) => {
+    requestAnimationFrame(() => {
+      const primero = form.querySelector<HTMLElement>(
+        '[aria-invalid="true"], [data-invalid="true"]'
+      );
+      primero?.focus({ preventScroll: true });
+      primero?.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
   };
 
   const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault();
     if (submitting) return;
+
+    /* Enter en un campo del paso 1 avanza, no envía a medias. Sin esto, la
+       tecla más usada de un formulario dispararía la validación completa y
+       pintaría en rojo tres campos del paso 2 que nadie ha visto todavía. */
+    if (paso === 1) {
+      const form = ev.currentTarget as HTMLFormElement;
+      if (!validarPaso1()) {
+        irAlPrimerError(form);
+        return;
+      }
+      setPaso(2);
+      return;
+    }
+
     if (!validate()) {
       /* Si algo falta, el foco va al primer campo con error en vez de dejar al
-         visitante buscando el mensaje rojo en un formulario de 1.000 px.
-         En el siguiente fotograma: `setErrors` es asincrono y hasta que React
-         no repinta, el DOM todavia no tiene los aria-invalid. */
-      const form = ev.currentTarget as HTMLFormElement;
-      requestAnimationFrame(() => {
-        const first = form.querySelector<HTMLElement>(
-          '[aria-invalid="true"], [data-invalid="true"]'
-        );
-        first?.focus({ preventScroll: true });
-        first?.scrollIntoView({ block: "center", behavior: "smooth" });
-      });
+         visitante buscando el mensaje rojo. */
+      irAlPrimerError(ev.currentTarget as HTMLFormElement);
       return;
     }
 
@@ -149,27 +196,28 @@ export function ScheduleCall() {
 
       if (res.status === 409) {
         // El slot se ocupó mientras tanto: refrescar horarios.
-        setSubmitError(data.error || "Ese horario se acaba de ocupar. Elige otro.");
+        setSubmitError(data.error || T.errores.ocupado);
         setTime("");
         const r = await fetch(`/api/availability?date=${values.date}`).then((x) => x.json());
         setSlots(Array.isArray(r.slots) ? r.slots : []);
         return;
       }
       if (!res.ok) {
-        setSubmitError(data.error || "No se pudo agendar. Intenta de nuevo o escríbeme por WhatsApp.");
+        setSubmitError(data.error || T.errores.envio);
         return;
       }
 
       setMeetLink(typeof data.meetLink === "string" ? data.meetLink : null);
       setSubmitted(true);
     } catch {
-      setSubmitError("No se pudo agendar. Intenta de nuevo o escríbeme por WhatsApp.");
+      setSubmitError(T.errores.envio);
     } finally {
       setSubmitting(false);
     }
   };
 
   const reset = () => {
+    setPaso(1);
     setService("");
     setTime("");
     setValues({ name: "", email: "", phone: "", date: "", note: "" });
@@ -180,18 +228,25 @@ export function ScheduleCall() {
     setMeetLink(null);
   };
 
-  const serviceLabel = SERVICES.find((s) => s.id === service)?.label ?? "";
+  /* El nombre del servicio, en el idioma de quien reserva.
+     `SERVICES` viene de `lib/services.ts` y solo tiene nombres en castellano,
+     así que en /en/book-a-call las pastillas salían traducidas —usan `CORTO`—
+     pero el acuse y el mensaje de WhatsApp decían «Servicio: Diseño de páginas
+     web» dentro de un formulario en inglés. `CORTO` ya tiene las etiquetas de
+     los dos idiomas; se usa la misma aquí. */
+  const serviceLabel =
+    CORTO[service] ?? SERVICES.find((s) => s.id === service)?.label ?? "";
 
   const waHref = (() => {
     const msg =
-      `Hola JV Agencia 👋 Quiero agendar una llamada.\n\n` +
-      `• Nombre: ${values.name}\n` +
-      `• Servicio: ${serviceLabel}\n` +
-      `• Fecha: ${prettyDate(values.date)}\n` +
-      `• Hora: ${time}\n` +
-      `• Email: ${values.email}\n` +
-      `• Teléfono: ${values.phone}` +
-      (values.note.trim() ? `\n• Nota: ${values.note.trim()}` : "");
+      `${T.wa.saludo}\n\n` +
+      `• ${T.wa.nombre}: ${values.name}\n` +
+      `• ${T.wa.servicio}: ${serviceLabel}\n` +
+      `• ${T.wa.fecha}: ${prettyDate(values.date, T.locale)}\n` +
+      `• ${T.wa.hora}: ${time}\n` +
+      `• ${T.wa.correo}: ${values.email}\n` +
+      `• ${T.wa.telefono}: ${values.phone}` +
+      (values.note.trim() ? `\n• ${T.wa.notaEtiqueta}: ${values.note.trim()}` : "");
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   })();
 
@@ -199,26 +254,26 @@ export function ScheduleCall() {
      que el marco vive en una constante y no se duplica. `shadow-glow` es el
      único de la página: es el elemento que debe dominar. */
   const cardClass =
-    "rounded-3xl border border-line bg-surface p-5 text-left shadow-glow sm:p-7 md:p-8";
+    "jv-card p-5 text-left shadow-glow sm:p-7 md:p-8";
 
   if (submitted) {
     const firstName = values.name.trim().split(" ")[0] || "";
     const rows: { k: string; v: string; caps?: boolean }[] = [
-      { k: "Servicio", v: serviceLabel },
-      { k: "Fecha", v: prettyDate(values.date), caps: true },
-      { k: "Hora", v: time },
-      { k: "Correo", v: values.email },
+      { k: T.exito.filas.servicio, v: serviceLabel },
+      { k: T.exito.filas.fecha, v: prettyDate(values.date, T.locale), caps: true },
+      { k: T.exito.filas.hora, v: time },
+      { k: T.exito.filas.correo, v: values.email },
     ];
     return (
       <div className={cardClass}>
         <div className="flex items-center gap-4">
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-success/12 text-success ring-1 ring-success/25 motion-safe:animate-[fade-in_var(--duration-slow)_var(--ease-spring)_both]">
-            <Check className="h-6 w-6" strokeWidth={2.25} />
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/10 text-ink ring-1 ring-white/20 motion-safe:animate-[fade-in_var(--duration-slow)_var(--ease-ps)_both]">
+            <Check className="h-6 w-6" strokeWidth={2} />
           </span>
           <div className="min-w-0">
-            <h3 className="font-display text-2xl leading-tight text-ink">¡Listo, {firstName}!</h3>
+            <h3 className="font-display text-2xl leading-tight text-ink">{T.exito.saludo(firstName)}</h3>
             <p className="font-body text-sm text-ink-soft">
-              {meetLink ? "Tu llamada quedó agendada." : "Recibí tu solicitud de llamada."}
+              {meetLink ? T.exito.agendada : T.exito.recibida}
             </p>
           </div>
         </div>
@@ -235,7 +290,7 @@ export function ScheduleCall() {
                 i > 0 && "border-t border-line"
               )}
             >
-              <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft">{k}</dt>
+              <dt className="jv-eyebrow text-ink-soft">{k}</dt>
               <dd
                 className={cn(
                   "min-w-0 break-words text-right font-body text-sm font-medium tabular-nums text-ink",
@@ -251,34 +306,34 @@ export function ScheduleCall() {
         {meetLink ? (
           <>
             <p className="mt-6 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-              Te envié la invitación a <span className="text-ink">{values.email}</span> con el
-              enlace de Google Meet. También puedes unirte desde aquí:
+              {T.exito.conMeet(values.email).antes}
+              <span className="text-ink">{values.email}</span>
+              {T.exito.conMeet(values.email).despues}
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="primary" size="md" className="flex-1">
                 <a href={meetLink} target="_blank" rel="noopener noreferrer">
-                  <Video className="h-5 w-5" strokeWidth={1.75} /> Unirse a Google Meet
+                  <Video className="h-5 w-5" strokeWidth={2} /> {T.exito.unirse}
                 </a>
               </Button>
               <Button onClick={reset} variant="ghost" size="md" type="button">
-                <RotateCcw className="h-4 w-4" strokeWidth={2} /> Agendar otra
+                <RotateCcw className="h-4 w-4" strokeWidth={2} /> {T.exito.otra}
               </Button>
             </div>
           </>
         ) : (
           <>
             <p className="mt-6 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-              Para confirmar la cita, envíame los datos por WhatsApp. Te respondo para cerrar el
-              horario.
+{T.exito.sinMeet}
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="primary" size="md" className="flex-1">
                 <a href={waHref} target="_blank" rel="noopener noreferrer">
-                  Confirmar por WhatsApp <ArrowRight className="h-5 w-5" strokeWidth={1.75} />
+                  {T.exito.confirmar} <ArrowRight className="h-5 w-5" strokeWidth={2} />
                 </a>
               </Button>
               <Button onClick={reset} variant="ghost" size="md" type="button">
-                <RotateCcw className="h-4 w-4" strokeWidth={2} /> Agendar otra
+                <RotateCcw className="h-4 w-4" strokeWidth={2} /> {T.exito.otra}
               </Button>
             </div>
           </>
@@ -291,209 +346,262 @@ export function ScheduleCall() {
     <form onSubmit={handleSubmit} noValidate aria-busy={submitting} className={cardClass}>
       <div className="flex items-center gap-3">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-background text-primary-dark">
-          <CalendarCheck className="h-5 w-5" strokeWidth={1.75} />
+          <CalendarCheck className="h-5 w-5" strokeWidth={2} />
         </span>
-        <h3 className="font-display text-2xl leading-tight text-ink">Agenda tu llamada</h3>
+        <h3 className="font-display text-2xl leading-tight text-ink">{T.titulo}</h3>
       </div>
       <p className="mt-3 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-        Diagnóstico sin costo de 20 minutos por Google Meet. Cuéntame qué necesitas.
+{T.intro}
       </p>
 
+      {/* El indicador de paso. No es adorno: un formulario partido sin decir en
+          cuántos trozos está partido se siente más largo que el mismo
+          formulario entero, porque quien lo llena no sabe si le quedan dos
+          pantallas o siete. La promesa de respuesta va aquí y no al final,
+          donde ya no cambia la decisión de empezar. */}
+      {/* Dos renglones, no uno que se parte.
+          En una sola fila envuelta, a 390 el separador «|» quedaba colgando al
+          final del primer renglón y la barra se iba sola al segundo. Con el
+          paso y la barra arriba, y la promesa debajo, se lee igual a cualquier
+          ancho y no hay nada que envolver. */}
+      <div className="mt-5 flex items-center gap-3">
+        <p
+          aria-live="polite"
+          className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-accent-ink"
+        >
+          {T.paso(paso)}
+        </p>
+        {/* La barra es `aria-hidden`: el texto de al lado ya dice el paso, y un
+            lector de pantalla anunciando «progreso 50 %» detrás de «paso 1 de
+            2» está diciendo lo mismo dos veces. */}
+        <span aria-hidden className="ml-auto flex w-16 shrink-0 gap-1">
+          <span className="h-0.5 flex-1 rounded-full bg-accent" />
+          <span
+            className={cn(
+              "h-0.5 flex-1 rounded-full transition-colors duration-slow ease-ps",
+              paso === 2 ? "bg-accent" : "bg-line"
+            )}
+          />
+        </span>
+      </div>
+      <p className="mt-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-soft">
+        {T.promesa}
+      </p>
+
+      {/* ── Paso 1 · Quién eres ─────────────────────────────────────────
+          Tres campos y a otra cosa. El orden importa: lo barato de dar va
+          primero. Pedir «¿en qué te ayudo?» de entrada obliga a decidir el
+          proyecto antes de haber escrito el nombre, y ahí es donde la gente
+          cierra la pestaña. */}
+      <div hidden={paso !== 1}>
+        <div className="mt-4 jv-rule pt-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label={T.nombre} error={errors.name}>
+              {(p) => (
+                <Input
+                  {...p}
+                  value={values.name}
+                  onChange={(e) => set("name", e.target.value)}
+                  placeholder={T.nombrePlaceholder}
+                  autoComplete="name"
+                  disabled={submitting}
+                />
+              )}
+            </Field>
+            <Field label={T.correo} error={errors.email}>
+              {(p) => (
+                <Input
+                  {...p}
+                  type="email"
+                  value={values.email}
+                  onChange={(e) => set("email", e.target.value)}
+                  placeholder={T.correoPlaceholder}
+                  autoComplete="email"
+                  inputMode="email"
+                  disabled={submitting}
+                />
+              )}
+            </Field>
+          </div>
+
+          <div className="mt-4 sm:max-w-[calc(50%-0.5rem)]">
+            <Field label={T.telefono} error={errors.phone}>
+              {(p) => (
+                <Input
+                  {...p}
+                  type="tel"
+                  value={values.phone}
+                  onChange={(e) => set("phone", e.target.value)}
+                  placeholder="+57 300 000 0000"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  disabled={submitting}
+                />
+              )}
+            </Field>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Paso 2 · Qué necesitas ──────────────────────────────────────
+          `hidden` en vez de desmontar: lo que se escribió en el paso 1 sigue
+          en el DOM, así que volver atrás no pierde nada y el autocompletado
+          del navegador no se reinicia. Y con `hidden` los campos ocultos
+          tampoco son paradas de tabulador. */}
+      <div hidden={paso !== 2}>
       {/* Servicio */}
-      {/* El borde va en el envoltorio, no en el <fieldset>: el navegador encaja
-          el <legend> DENTRO del borde del fieldset y la regla queda partiendo
-          el texto por la mitad. */}
-      <div className="mt-6 border-t border-line pt-6">
-      <fieldset>
-        <legend className="mb-3 font-body text-sm font-medium text-ink">
-          ¿En qué te ayudo?
-        </legend>
-        <div className="flex flex-wrap gap-2">
-          {SERVICES.map((s) => {
-            const on = service === s.id;
-            return (
-              <button
-                key={s.id}
-                type="button"
-                disabled={submitting}
-                data-invalid={errors.service ? "true" : undefined}
-                onClick={() => {
-                  setService(s.id);
-                  setErrors((e) => ({ ...e, service: undefined }));
-                }}
-                className={cn(chipBase, "font-body text-sm", on ? chipOn : chipOff)}
-                aria-pressed={on}
-                aria-describedby={errors.service ? serviceErrorId : undefined}
-              >
-                {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} />}
-                {s.label}
-              </button>
-            );
-          })}
-        </div>
-        <FieldError id={serviceErrorId} message={errors.service} />
-      </fieldset>
-      </div>
-
-      {/* Datos */}
-      <div className="mt-6 border-t border-line pt-6">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Nombre" error={errors.name}>
-            {(p) => (
-              <Input
-                {...p}
-                value={values.name}
-                onChange={(e) => set("name", e.target.value)}
-                placeholder="Tu nombre"
-                autoComplete="name"
-                disabled={submitting}
-              />
-            )}
-          </Field>
-          <Field label="Correo" error={errors.email}>
-            {(p) => (
-              <Input
-                {...p}
-                type="email"
-                value={values.email}
-                onChange={(e) => set("email", e.target.value)}
-                placeholder="tu@correo.com"
-                autoComplete="email"
-                inputMode="email"
-                disabled={submitting}
-              />
-            )}
-          </Field>
+        {/* El borde va en el envoltorio, no en el <fieldset>: el navegador encaja
+            el <legend> DENTRO del borde del fieldset y la regla queda partiendo
+            el texto por la mitad. */}
+        <div className="mt-4 jv-rule pt-4">
+        <fieldset>
+          <legend className="mb-3 font-body text-sm font-medium text-ink">
+  {T.servicio}
+          </legend>
+          <div className="flex flex-wrap gap-2">
+            {SERVICES.map((s) => {
+              const on = service === s.id;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  disabled={submitting}
+                  data-invalid={errors.service ? "true" : undefined}
+                  onClick={() => {
+                    setService(s.id);
+                    setErrors((e) => ({ ...e, service: undefined }));
+                  }}
+                  className={cn(chipBase, "font-body text-sm", on ? chipOn : chipOff)}
+                  aria-pressed={on}
+                  aria-describedby={errors.service ? serviceErrorId : undefined}
+                >
+                  {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
+                  {CORTO[s.id] ?? s.label}
+                </button>
+              );
+            })}
+          </div>
+          <FieldError id={serviceErrorId} message={errors.service} />
+        </fieldset>
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <Field label="WhatsApp / teléfono" error={errors.phone}>
-            {(p) => (
-              <Input
-                {...p}
-                type="tel"
-                value={values.phone}
-                onChange={(e) => set("phone", e.target.value)}
-                placeholder="+57 300 000 0000"
-                autoComplete="tel"
-                inputMode="tel"
-                disabled={submitting}
-              />
-            )}
-          </Field>
-          {/* El campo nativo pinta el marcador según el locale del NAVEGADOR,
-              no del documento: en un Chrome en inglés sale «mm/dd/yyyy» en un
-              sitio colombiano y no hay forma de cambiarlo. Anunciar un formato
-              fijo sería mentir la mitad de las veces, así que se confirma la
-              fecha elegida en palabras debajo del campo. */}
-          <Field
-            label="Fecha preferida"
-            error={errors.date}
-            note={values.date ? prettyDate(values.date) : undefined}
-          >
-            {(p) => (
-              <Input
-                {...p}
-                type="date"
-                min={todayISO()}
-                value={values.date}
-                onChange={(e) => set("date", e.target.value)}
-                disabled={submitting}
-                /* Tocar el campo abre el calendario, no solo el iconito de
-                   16 px de la derecha. */
-                onClick={(e) => {
-                  const el = e.currentTarget as HTMLInputElement & { showPicker?: () => void };
-                  try {
-                    el.showPicker?.();
-                  } catch {
-                    /* Navegador que no lo permite fuera de su propio gesto. */
-                  }
-                }}
-                className="[&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-55 [&::-webkit-calendar-picker-indicator]:transition-opacity hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
-              />
-            )}
-          </Field>
+      {/* Fecha */}
+        <div className="mt-4 jv-rule pt-4">
+          <div className="sm:max-w-[calc(50%-0.5rem)]">
+            {/* El campo nativo pinta el marcador según el locale del NAVEGADOR,
+                no del documento: en un Chrome en inglés sale «mm/dd/yyyy» en un
+                sitio colombiano y no hay forma de cambiarlo. Anunciar un formato
+                fijo sería mentir la mitad de las veces, así que se confirma la
+                fecha elegida en palabras debajo del campo. */}
+            <Field
+              label={T.fecha}
+              error={errors.date}
+              note={values.date ? prettyDate(values.date, T.locale) : undefined}
+            >
+              {(p) => (
+                <Input
+                  {...p}
+                  type="date"
+                  min={todayISO()}
+                  value={values.date}
+                  onChange={(e) => set("date", e.target.value)}
+                  disabled={submitting}
+                  /* Tocar el campo abre el calendario, no solo el iconito de
+                     16 px de la derecha. */
+                  onClick={(e) => {
+                    const el = e.currentTarget as HTMLInputElement & { showPicker?: () => void };
+                    try {
+                      el.showPicker?.();
+                    } catch {
+                      /* Navegador que no lo permite fuera de su propio gesto. */
+                    }
+                  }}
+                  className="[&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-55 [&::-webkit-calendar-picker-indicator]:transition-opacity hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
+                />
+              )}
+            </Field>
+          </div>
         </div>
-      </div>
 
       {/* Hora */}
-      <div className="mt-6 border-t border-line pt-6">
-      <fieldset>
-        <legend className="mb-3 flex items-center gap-2 font-body text-sm font-medium text-ink">
-          <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
-          Hora disponible
-          {values.date && !loadingSlots && slots && slots.length > 0 && (
-            <span className="font-mono text-[11px] font-normal tabular-nums text-ink-soft">
-              {slots.length} libres
-            </span>
-          )}
-        </legend>
+        <div className="mt-4 jv-rule pt-4">
+        <fieldset>
+          <legend className="mb-3 flex items-center gap-2 font-body text-sm font-medium text-ink">
+            <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
+{T.hora}
+            {values.date && !loadingSlots && slots && slots.length > 0 && (
+              <span className="font-mono text-[11px] font-normal tabular-nums text-ink-soft">
+                {T.libres(slots.length)}
+              </span>
+            )}
+          </legend>
 
-        <div aria-live="polite" aria-busy={loadingSlots}>
-          {!values.date ? (
-            <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
-              Elige una fecha para ver los horarios.
-            </p>
-          ) : loadingSlots ? (
-            /* Esqueleto en vez de una línea de texto: el bloque ya ocupa el
-               alto que va a ocupar y la tarjeta no da un salto al responder. */
-            <div className="flex flex-wrap gap-2" aria-label="Buscando horarios disponibles">
-              {[76, 76, 76, 76, 76, 76].map((w, i) => (
-                <span
-                  key={i}
-                  style={{ width: w }}
-                  className="h-11 animate-pulse rounded-full bg-line/60 motion-reduce:animate-none"
-                />
-              ))}
-            </div>
-          ) : slots && slots.length === 0 ? (
-            <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
-              No hay horarios disponibles ese día. Prueba con otra fecha.
-            </p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {(slots ?? []).map((t) => {
-                const on = time === t;
-                return (
-                  <button
-                    key={t}
-                    type="button"
-                    disabled={submitting}
-                    data-invalid={errors.time ? "true" : undefined}
-                    onClick={() => {
-                      setTime(t);
-                      setErrors((e) => ({ ...e, time: undefined }));
-                    }}
-                    className={cn(chipBase, "font-mono text-sm tabular-nums", on ? chipOn : chipOff)}
-                    aria-pressed={on}
-                    aria-describedby={errors.time ? timeErrorId : undefined}
-                  >
-                    {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} />}
-                    {t}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          <div aria-live="polite" aria-busy={loadingSlots}>
+            {!values.date ? (
+              <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
+  {T.sinFecha}
+              </p>
+            ) : loadingSlots ? (
+              /* Esqueleto en vez de una línea de texto: el bloque ya ocupa el
+                 alto que va a ocupar y la tarjeta no da un salto al responder. */
+              <div className="flex flex-wrap gap-2" aria-label={T.buscando}>
+                {[76, 76, 76, 76, 76, 76].map((w, i) => (
+                  <span
+                    key={i}
+                    style={{ width: w }}
+                    className="h-11 animate-pulse rounded-full bg-line-soft motion-reduce:animate-none"
+                  />
+                ))}
+              </div>
+            ) : slots && slots.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
+  {T.sinHoras}
+              </p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {(slots ?? []).map((t) => {
+                  const on = time === t;
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      disabled={submitting}
+                      data-invalid={errors.time ? "true" : undefined}
+                      onClick={() => {
+                        setTime(t);
+                        setErrors((e) => ({ ...e, time: undefined }));
+                      }}
+                      className={cn(chipBase, "font-mono text-sm tabular-nums", on ? chipOn : chipOff)}
+                      aria-pressed={on}
+                      aria-describedby={errors.time ? timeErrorId : undefined}
+                    >
+                      {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
+                      {t}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+          <FieldError id={timeErrorId} message={errors.time} />
+        </fieldset>
         </div>
-        <FieldError id={timeErrorId} message={errors.time} />
-      </fieldset>
-      </div>
 
       {/* Nota */}
-      <div className="mt-6 border-t border-line pt-6">
-        <label className="mb-2 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
-          Cuéntame brevemente <span className="font-normal text-ink-soft">(opcional)</span>
-        </label>
-        <textarea
-          id={noteId}
-          value={values.note}
-          onChange={(e) => set("note", e.target.value)}
-          rows={3}
-          disabled={submitting}
-          placeholder="¿Qué tienes en mente? Un sitio nuevo, un rediseño, una app…"
-          className="w-full rounded-xl border border-line bg-background/40 px-4 py-3 font-body text-base text-ink placeholder:text-ink-soft/60 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60"
-        />
+        <div className="mt-4 jv-rule pt-4">
+          <label className="mb-1.5 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
+            {T.nota} <span className="font-normal text-ink-soft">{T.notaOpcional}</span>
+          </label>
+          <textarea
+            id={noteId}
+            value={values.note}
+            onChange={(e) => set("note", e.target.value)}
+            rows={2}
+            disabled={submitting}
+            placeholder={T.notaPlaceholder}
+            className="w-full rounded-xl border border-line bg-background/40 px-4 py-3 font-body text-base text-ink placeholder:text-ink-muted transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/25 disabled:opacity-60"
+          />
+        </div>
       </div>
 
       {submitError && (
@@ -501,7 +609,7 @@ export function ScheduleCall() {
           role="alert"
           className="mt-6 flex gap-3 rounded-2xl border border-danger/35 bg-danger/[0.07] px-4 py-3.5"
         >
-          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" strokeWidth={2.25} />
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" strokeWidth={2} />
           <div className="min-w-0">
             <p className="font-body text-sm text-danger">{submitError}</p>
             <a
@@ -510,36 +618,61 @@ export function ScheduleCall() {
               rel="noopener noreferrer"
               className="mt-1 inline-block font-body text-xs font-semibold text-ink underline decoration-line underline-offset-4 transition-surface duration-quick ease-state hover:decoration-primary"
             >
-              O escríbeme por WhatsApp
+              {T.porWhatsApp}
             </a>
           </div>
         </div>
       )}
 
-      <Button
-        type="submit"
-        variant="primary"
-        size="lg"
-        /* `px-9` + `text-lg` fijaban un ancho mínimo de contenido de ~245 px:
-           a 360 px el botón empujaba el formulario fuera de su columna y el
-           contenedor lo recortaba 8 px. Encoge en móvil y recupera su tamaño
-           desde sm. `focus-visible:transition-none` para que el anillo aparezca
-           en el fotograma 0 y no con el fundido de 300 ms del botón. */
-        className="mt-7 w-full px-5 text-base focus-visible:transition-none sm:px-9 sm:text-lg"
-        disabled={submitting}
-      >
-        {submitting ? (
-          <>
-            <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} /> Agendando…
-          </>
-        ) : (
-          <>
-            Agendar llamada <ArrowRight className="h-5 w-5" strokeWidth={1.75} />
-          </>
-        )}
-      </Button>
+      {/* ── El pie del formulario ───────────────────────────────────────
+          «Continuar» en el paso 1 y «Agendar» en el 2. El botón de atrás es
+          secundario y va a la izquierda: retroceder tiene que ser posible y
+          barato —quien se equivocó de correo no puede quedar atrapado— pero no
+          debe competir con el que lleva hacia adelante. */}
+      {paso === 1 ? (
+        <Button
+          type="submit"
+          variant="primary"
+          size="lg"
+          className="mt-7 w-full px-5 text-base focus-visible:transition-none sm:px-9 sm:text-lg"
+        >
+          {T.continuar} <ArrowRight className="h-5 w-5" strokeWidth={2} />
+        </Button>
+      ) : (
+        <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
+          <button
+            type="button"
+            onClick={() => setPaso(1)}
+            disabled={submitting}
+            className="jv-boton-2 justify-center disabled:opacity-60 sm:w-auto"
+          >
+            <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden /> {T.atras}
+          </button>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            /* `px-9` + `text-lg` fijaban un ancho mínimo de contenido de ~245 px:
+               a 360 px el botón empujaba el formulario fuera de su columna.
+               `focus-visible:transition-none` para que el anillo aparezca en el
+               fotograma 0 y no con el fundido de 300 ms del botón. */
+            className="w-full px-5 text-base focus-visible:transition-none sm:flex-1 sm:px-9 sm:text-lg"
+            disabled={submitting}
+          >
+            {submitting ? (
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} /> {T.enviando}
+              </>
+            ) : (
+              <>
+                {T.enviar} <ArrowRight className="h-5 w-5" strokeWidth={2} />
+              </>
+            )}
+          </Button>
+        </div>
+      )}
       <p className="mt-3 text-center text-pretty font-body text-xs leading-relaxed text-ink-soft">
-        Sin compromiso. Recibirás la invitación de Google Meet en tu correo.
+{T.aviso}
       </p>
     </form>
   );
@@ -556,7 +689,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
       role="alert"
       className="mt-2 flex items-center gap-1.5 font-body text-xs font-medium text-danger"
     >
-      <AlertCircle className="h-3.5 w-3.5 shrink-0" strokeWidth={2.25} />
+      <AlertCircle className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
       {message}
     </p>
   );
@@ -590,7 +723,7 @@ function Field({
   const errorId = `${id}-error`;
   return (
     <div className="min-w-0">
-      <label htmlFor={id} className="mb-2 block font-body text-sm font-medium text-ink">
+      <label htmlFor={id} className="mb-1.5 block font-body text-sm font-medium text-ink">
         {label}
       </label>
       {children({
@@ -602,7 +735,7 @@ function Field({
            distingan de un vistazo, y el anillo de foco usa el bronce de la
            casa en vez del cobre, que sobre el papel se queda en 3,07:1. */
         className: cn(
-          "rounded-xl bg-background/40 px-4 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:ring-primary/25 disabled:opacity-60",
+          "rounded-xl bg-background/40 px-4 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:ring-brand/25 disabled:opacity-60",
           error && "border-danger bg-danger/[0.04] focus-visible:border-danger focus-visible:ring-danger/25"
         ),
       })}

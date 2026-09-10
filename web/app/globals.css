@@ -1,57 +1,42 @@
+@import "./tokens.css";
+@import "./efectos.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ==========================================================================
-   1. TOKENS
-   Todo lo que se repite en el sitio vive aquí. Si un valor de movimiento,
-   foco o atmósfera aparece a mano en un componente, es que falta un token.
+   1. ALIAS
+   ---------------------------------------------------------------------------
+   Este bloque SOLO tiene alias. Los valores viven en tokens.css, que es el
+   port del design system, y no se repiten aquí.
+
+   Antes sí se repetían, y esa duplicación estaba pisando al sistema sin que
+   nada avisara: `--header-h` pasaba de 4rem a 4.5rem, `--gutter` de un clamp a
+   un fijo, el escalonado de 90 a 70 ms, la subida de 24 a 16 px y el anillo de
+   foco cambiaba de tono. Peor: al redeclarar las duraciones aquí, DESPUÉS del
+   bloque `prefers-reduced-motion` de tokens.css y sin media query, anulaba el
+   apagado de movimiento del sistema entero. Lo salvaba de milagro la regla
+   `*{}` del final de este archivo.
+
+   Regla: si un valor aparece en los dos archivos, se borra de este.
    ========================================================================== */
 :root {
-  /* --- Color (espejo de tailwind.config.ts, para usar en CSS plano) ------ */
-  --color-primary: #985c3e;
-  --color-primary-dark: #6e4128;
-  --color-accent: #c0763b;
-  /* Cobre oscurecido para cuando el acento hace de TEXTO.
-     #C0763B sobre el papel da 3,07:1 (falla AA). Este da 5,56:1. */
-  --color-accent-ink: #8c4f1f;
-  --color-secondary: #b08968;
-  --color-surface: #faf6f1;
-  --color-background: #f4ede4;
-  --color-line: #e4d8cb;
-  --color-ink: #2b2420;
-  --color-ink-soft: #6b5e54;
+  /* Nombres que usan media docena de reglas de este archivo. Apuntan al
+     sistema; no son valores independientes. */
+  --color-primary: var(--accent);
+  --color-primary-dark: var(--accent-ink);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-secondary: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-background: var(--canvas);
+  --color-line: var(--line);
+  --color-ink: var(--text-strong);
+  --color-ink-soft: var(--text-body);
+  --color-band: var(--surface-band);
 
-  /* --- Textura de papel -------------------------------------------------
-     Antes: baseFrequency 0.85 al 4% de opacidad. A ese grano tan fino y tan
-     tenue no se le lee textura, solo un dither; y encima era la capa que
-     mataba los radiales del fondo. Ahora el ruido es un poco más grueso y
-     un poco más presente, y la atmósfera vive aparte (body::before). */
-  /* Papel en un tono mas hondo: el canvas con 12% del secundario de marca.
-     Ver .bg-band mas abajo para los contrastes medidos. */
-  --color-band: #ECE1D5;
-
-  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.062'/%3E%3C/svg%3E");
-
-  /* --- Movimiento: duraciones ------------------------------------------
-     Cinco escalones, cada uno con un trabajo. No inventar valores nuevos. */
-  --duration-instant: 0ms;    /* foco: aparece en el fotograma 0 */
-  --duration-quick: 120ms;    /* color, borde, opacidad, :active */
-  --duration-base: 200ms;     /* micro-gesto: flecha, chevron, subrayado, salidas */
-  --duration-slow: 320ms;     /* componente: tarjeta, header, acordeón que abre */
-  --duration-ambient: 560ms;  /* entrada en viewport y orquestación del hero */
-
-  /* --- Movimiento: curvas ----------------------------------------------
-     Cada curva es una frase: algo llega, algo se va, algo cambia,
-     algo tiene carácter. */
-  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);   /* llega rápido y se asienta */
-  --ease-exit: cubic-bezier(0.4, 0, 1, 1);          /* acelera y desaparece */
-  --ease-state: cubic-bezier(0.2, 0, 0, 1);         /* cambia, sin llegar ni irse */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* sobreimpulso: solo momentos con carácter */
-
-  /* Alias de compatibilidad: el CSS viejo y las auditorías nombran así.
-     Apuntan al mismo sistema, no son valores independientes. */
-  --easing: var(--ease-state);
+  /* Alias de compatibilidad que nombran las auditorías y el CSS antiguo. */
   --dur-1: var(--duration-quick);
   --dur-2: var(--duration-base);
   --dur-3: var(--duration-slow);
@@ -61,25 +46,16 @@
   --ease-salida: var(--ease-exit);
   --ease-estado: var(--ease-state);
 
-  /* --- Reveal ----------------------------------------------------------- */
+  /* Distancias de entrada por tamaño de pieza. La duración, la curva, el
+     escalonado y la subida por defecto los pone tokens.css. */
   --reveal-duration: var(--duration-ambient);
-  --reveal-stagger: 70ms;   /* un solo escalonado en todo el sitio */
-  --reveal-rise: 16px;      /* distancia por defecto (md) */
   --rise-sm: 8px;           /* badges, etiquetas, texto en línea */
   --rise-md: 16px;          /* párrafos y tarjetas */
   --rise-lg: 28px;          /* bloques de sección enteros */
   --reveal-shift: 24px;     /* desplazamiento lateral */
   --reveal-scale: 0.965;    /* punto de partida de la variante "scale" */
 
-  /* --- Layout ----------------------------------------------------------- */
-  --header-h: 4.5rem;       /* alto real del header fijo (~69-73px) */
-  --gutter: 1.25rem;        /* px-5: el margen lateral de todas las secciones */
   --fab-safe: 5.5rem;       /* alto del FAB de WhatsApp + su margen */
-
-  /* --- Foco ------------------------------------------------------------- */
-  --focus-ring-color: var(--color-primary-dark); /* 7,38:1 sobre el papel */
-  --focus-ring-width: 2px;
-  --focus-ring-offset: 3px;
 }
 
 @layer base {
@@ -90,6 +66,16 @@
   }
 
   body {
+    /* El tamaño de cuerpo sale del token, no del `text-base` de Tailwind: así
+       se cambia en un sitio y no en trescientas clases. */
+    font-size: var(--text-body-size);
+    line-height: var(--lh-body);
+    /* `clip`, no `hidden`. Los dos cortan el desborde lateral que provoca la
+       banda a sangre de las internas (`.banda::before` mide 100vw, y 100vw
+       incluye la barra de scroll), pero `hidden` convierte al body en
+       contenedor de scroll y eso rompe todo `position: sticky` de dentro
+       —empezando por la ficha del portafolio—. `clip` no lo hace. */
+    overflow-x: clip;
     background-color: var(--color-background);
     color: var(--color-ink);
     font-family: var(--font-body), system-ui, sans-serif;
@@ -98,32 +84,39 @@
   }
 
   /* Atmósfera anclada al viewport, no al documento.
-     Antes los dos radiales vivían en el background del <body>: en un
-     documento de 11.700 px se comprimían en el primer 8% del scroll y el
-     resto de la página quedaba crema plano. Como capa fija, la modulación
-     tonal acompaña todo el recorrido y no cuesta un solo repintado extra
-     (no se mueve: solo está ahí).
-     OJO: no hace falta añadir ningún <div> fijo en layout.tsx; esto ya lo
-     resuelve. Si además se agrega uno, la atmósfera queda al doble. */
+     Antes eran tres radiales cálidos; ahora es el florón violeta que define el
+     design system —el único degradado plano que permite detrás de un titular—,
+     al 18% y sin animación. El campo de manchas que SÍ se mueve es otra cosa
+     y vive por sección, no aquí: el sistema lo limita a dos por página. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image:
-      radial-gradient(55rem 40rem at 88% -8%, rgba(192, 118, 59, 0.16), transparent 62%),
-      radial-gradient(45rem 38rem at -8% 18%, rgba(176, 137, 104, 0.18), transparent 58%),
-      radial-gradient(40rem 32rem at 50% 108%, rgba(152, 92, 62, 0.10), transparent 60%);
+    background-image: var(--bloom-brand);
   }
 
+
+  /* El peso y el tracking de los titulares viven aquí y no en cada JSX: la
+     especificación pide grotesk 500-600 con −0.03em y interlínea 1.05, y eso
+     es una decisión del sistema, no de cada componente.
+     Preflight de Tailwind pone `font-weight: inherit` en los encabezados, así
+     que sin esta regla heredaban el 400 del cuerpo y se veían sin fuerza. */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), Georgia, serif;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: var(--ls-display);
+    line-height: var(--lh-display);
+    text-wrap: pretty;
   }
+  h1 { letter-spacing: var(--ls-hero); }
 
+  /* La selección, en el naranja de marca. Estaba en bronce del sistema de
+     papel y ganaba por orden de capa a la regla de efectos.css. */
   ::selection {
-    background-color: rgba(192, 118, 59, 0.25);
-    color: var(--color-ink);
+    background-color: var(--brand-500);
+    color: var(--negro);
   }
 
   /* Foco de marca por defecto, para TODO lo enfocable.
@@ -148,11 +141,10 @@
        que ya existe (p. ej. el bloque bronce del CTA final). */
   .bg-paper {
     background-color: var(--color-background);
-    background-image: var(--paper-grain);
   }
 
   .bg-grain {
-    background-image: var(--paper-grain);
+    background-image: none;
   }
 
   /* --- Bandas de seccion ------------------------------------------------
@@ -186,23 +178,70 @@
     padding-top: 0;
   }
 
-  /* El barrido metálico, con el brillo especular por fin dentro de AA.
-     La parada clara era #e0a062: medida sobre los píxeles reales del h1 daba
-     1,75:1 contra el papel del hero —y este degradado solo se usa en dos
-     titulares, los dos texto grande, que necesitan 3:1—. El problema no se
-     veía desde ningún componente: la receta vive aquí y cada quien la aplicó
-     a su titular dando por hecho que ya estaba comprobada.
-     Ahora la parada más clara es #b06a35 (3,32:1 sobre el papel cálido del
-     hero, 3,65:1 sobre el de Servicios) y las otras cuatro van de 4,18:1 a
-     6,71:1. Sigue leyéndose como metal: el recorrido de luz se conserva,
-     solo deja de blanquearse en la cresta. */
+  /* La misma banda, para las internas.
+     ---------------------------------------------------------------------
+     La portada agrupa secciones metiendolas dentro de un <div class="bg-band
+     band-group">. En las internas eso obligaria a reestructurar el JSX de doce
+     archivos para envolver rangos de hermanas, asi que la banda se aplica a la
+     propia <section> y son las CONSECUTIVAS las que se funden: dos `.banda`
+     seguidas pierden la regla intermedia y el aire de apertura de la segunda,
+     y se leen como una sola banda —un capitulo— igual que en la portada.
+
+     Medido antes de tocar nada: las doce internas tenian UN solo fondo para
+     entre cuatro y once secciones seguidas. La pagina de software encadenaba
+     once bloques sobre el mismo papel, 19.000 px en movil sin un cambio de
+     tono. El visitante no sabia donde terminaba una idea y empezaba otra. */
+  .banda {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* La banda va a sangre aunque la seccion no lo este.
+     Las 49 secciones que la llevan traen el `max-w` encima —896 o 1152 px—,
+     asi que pintarles el fondo directamente dejaba una caja de color flotando
+     en medio del papel en vez de una banda. El pseudo-elemento se sale a
+     100vw desde el centro y se manda detras; ninguna de las 49 tiene dentro
+     un `sticky` ni un `fixed`, que es lo unico que el contexto de apilamiento
+     habria roto (comprobado antes de escribir esto). */
+  .banda::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: -1;
+    width: 100vw;
+    transform: translateX(-50%);
+    background-color: var(--surface-band);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .banda + .banda {
+    padding-top: 0;
+  }
+
+  .banda + .banda::before {
+    border-top: 0;
+  }
+
+  /* `.text-metal` era el degradado de bronce sobre los titulares: cinco
+     paradas de marrón recortadas contra el texto. El design system lo deja
+     sin sitio —prohíbe el texto en degradado y cambia la paleta entera—, pero
+     la clase NO se borra: marca, en 33 titulares, exactamente lo que el
+     sistema llama «la afirmación operativa», la frase que va en itálica y en
+     violeta. Así que la clase se queda donde está y cambia lo que hace.
+     Cero ediciones en las páginas, y el gesto que marcaba sigue marcado. */
   .text-metal {
-    background-image: linear-gradient(100deg, #6e4128 0%, #985c3e 34%, #b06a35 52%, #8c4f1f 72%, #6e4128 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+    /* Sin `font-style: italic`. Figtree no trae itálica, así que pedirla
+       obliga al navegador a inclinar los trazos a la fuerza —el mismo defecto
+       que tenía el `font-light` sobre una fuente de un solo peso—. La frase
+       operativa se marca con el color de marca y ya. */
+    color: var(--text-accent);
+    background-image: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: currentColor;
   }
 
   /* Para titulares de dos o tres líneas: el degradado recorre el bloque
@@ -227,6 +266,10 @@
 
   /* Enlace de salto al contenido: invisible hasta que recibe foco. */
   .skip-link {
+    /* El alto minimo va en la regla base, no en :focus-visible: asi la caja
+       mide 44 px tambien mientras esta fuera de pantalla, y cualquier auditoria
+       que lo mida sin enfocarlo lee lo mismo que ve quien lo usa. */
+    min-height: 2.75rem;
     position: absolute;
     left: -9999px;
     top: 0;
@@ -237,6 +280,7 @@
     top: 0.75rem;
     display: inline-flex;
     align-items: center;
+
     border-radius: 9999px;
     background-color: var(--color-primary);
     color: var(--color-surface);
@@ -302,7 +346,15 @@
   }
   .legal p,
   .legal li {
-    color: #6b5e54;
+    /* Era `#6b5e54`, un marrón cálido del sistema anterior —bronce sobre
+       papel— escrito como hex suelto. Sobrevivió al port de marca justamente
+       por eso: el barrido buscaba variables muertas, y un literal no es una
+       variable muerta, es un color perfectamente válido que resulta ser el
+       equivocado. Medido sobre el canvas daba 3,2:1, por debajo de AA, en los
+       siete artículos del blog y en las cuatro páginas legales, en los dos
+       idiomas. `--color-ink-soft` es el mismo tono de cuerpo que usa el resto
+       del sitio y mide 9,4:1. */
+    color: var(--color-ink-soft);
     font-size: 0.975rem;
   }
   .legal p {
@@ -456,4 +508,240 @@
   .animate-spin {
     animation: spin 1.2s linear infinite !important;
   }
+}
+
+/* ==========================================================================
+   4. BIBLIOTECA DE VISUALES (components/visuales/)
+   El ÚNICO fotograma que necesitó la biblioteca entera. Todo lo demás se
+   resuelve con <Reveal> o con transiciones de estado, que ya están guardadas
+   bajo movimiento reducido más arriba.
+   ========================================================================== */
+
+/* Los tres puntos de «escribiendo…» del hilo de WhatsApp. El retardo de cada
+   punto lo pone el componente (0 / 150 / 300 ms).
+   Movimiento reducido: el indicador completo lleva `motion-reduce:hidden`, así
+   que no queda un punto congelado a media opacidad — no queda nada. */
+@keyframes punto-escribe {
+  0%, 60%, 100% { opacity: 0.3; }
+  30% { opacity: 1; }
+}
+
+.punto-escribe {
+  animation: punto-escribe 1.2s ease-in-out infinite;
+}
+
+/* ===========================================================================
+   CLASES DE COMPONENTE
+   ---------------------------------------------------------------------------
+   Medido antes de escribir esto, en los 78 archivos del sitio:
+
+     70x  rounded-2xl border border-line bg-surface     -> tarjeta
+     65x  font-mono text-[11px] uppercase tracking-...  -> antetítulo
+     46x  rounded-full border border-line               -> pastilla
+     42x  border-t border-line pt-...                   -> regla
+
+   223 repeticiones de cuatro formas. Eso no es un sistema: es la misma
+   decisión tomada 223 veces, y basta que una se escriba distinta para que la
+   pieza deje de pertenecer al conjunto —que es exactamente lo que pasó con los
+   bordes, los radios y los seis grosores de trazo.
+
+   Van en `@layer components` a propósito: así una utilidad de Tailwind escrita
+   en el sitio de uso sigue ganando —`jv-card bg-raised` cambia el fondo sin
+   pelear con la especificidad— y la clase da el valor por defecto, no la
+   última palabra.
+   =========================================================================== */
+
+@layer components {
+  /* ── Tarjeta ──────────────────────────────────────────────────────────
+     Superficie + filete de 1px + radio. SIN sombra: sobre oscuro la
+     elevación la da el escalón de superficie y el filete, y la sombra queda
+     para lo que de verdad flota —menús, diálogos, el encabezado fijo. */
+  .jv-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background-color: var(--surface);
+  }
+
+  /* Variante interactiva: sube el filete y se levanta 2px. Es el único
+     movimiento de hover del sistema, y va con la curva de palo-seco. */
+  .jv-card-int {
+    transition: transform var(--dur-lift) var(--ease-ps),
+      border-color var(--duration-base) var(--ease-ps),
+      background-color var(--duration-base) var(--ease-ps);
+  }
+  /* En hover el borde pasa a naranja y NO se mueve nada.
+     La especificación lo pide así, y tiene razón: una rejilla de siete
+     tarjetas donde cada una salta al pasar por encima convierte el recorrido
+     del ratón en un temblor. El color basta para decir «esto se puede tocar». */
+  .jv-card-int:hover {
+    border-color: var(--accent);
+    background-color: var(--surface-raised);
+  }
+
+  /* ── Pastilla ─────────────────────────────────────────────────────────
+     Un estado o una opción. `-on` es la elegida; `-off` la que espera. */
+  .jv-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--line);
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    transition: background-color var(--duration-quick) var(--ease-ps),
+      border-color var(--duration-quick) var(--ease-ps),
+      color var(--duration-quick) var(--ease-ps);
+  }
+  .jv-chip-off { background-color: var(--hs-muted); color: var(--text-body); }
+  .jv-chip-off:hover { border-color: var(--line-strong); background-color: var(--hs-hover); color: var(--text-strong); }
+  .jv-chip-on { border-color: var(--accent); background-color: var(--accent); color: var(--text-on-accent); }
+
+  /* ── Regla ────────────────────────────────────────────────────────────
+     El separador del sistema: un filete arriba y aire. Es la alternativa a
+     meter cada grupo en su propia caja, que es lo que aplana una página. */
+  .jv-rule { border-top: 1px solid var(--line); padding-top: var(--space-6, 1.5rem); }
+
+  /* ── Título de tarjeta ────────────────────────────────────────────────
+     Figtree 600, no el serif. Instrument Serif solo tiene un peso: a 20px
+     sobre casi negro se queda sin masa y la tarjeta se lee como texto
+     suelto. El serif se reserva a los titulares grandes. */
+  .jv-titulo {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    letter-spacing: -0.011em;
+    color: var(--text-strong);
+  }
+
+  /* ── Entradilla ───────────────────────────────────────────────────────
+     El párrafo que sigue a un titular de sección. Un escalón por encima del
+     cuerpo y con la medida corta: es para leer de una pasada, no de corrido. */
+  .jv-lead {
+    font-size: var(--text-lead);
+    line-height: 1.55;
+    color: var(--text-body);
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+}
+
+/* ===========================================================================
+   MEDIDA DE LÍNEA
+   ---------------------------------------------------------------------------
+   Medido con un patrón real renderizado en la misma fuente y tamaño —no con
+   `fontSize * 0.5`, que en un antetítulo de 11px con 0,16em de tracking daba
+   140ch y era falso—: siete rutas tenían párrafos de 86ch. La regla es 65-75.
+
+   El tope va a los que NO declaran el suyo: donde alguien escribió
+   `max-w-[46ch]` o `max-w-2xl` esa decisión manda, porque ahí se penso.
+   Y si el párrafo está centrado, los márgenes automáticos evitan que
+   estrechar la caja lo empuje a la izquierda.
+   =========================================================================== */
+main p:not([class*="max-w"]) {
+  max-width: var(--maxw-prose);
+}
+/* Aquí NO va ningún `margin-inline: auto`.
+   Lo intenté con `[class*="text-center"] > p` y falla por diseño: el hero lleva
+   `text-center lg:text-left` en el contenedor, así que el selector encaja
+   también en escritorio —donde el texto va a la izquierda— y empujaba la línea
+   de precio al medio. Un selector por NOMBRE DE CLASE no puede ver en qué
+   breakpoint está.
+   No hace falta: el tope de medida encoge la caja y quien la centra es la
+   alineación del contenedor, que sí es sensible al breakpoint. */
+
+/* ===========================================================================
+   NAVEGACIÓN Y BOTONES
+   ---------------------------------------------------------------------------
+   Estaban escritos a mano en cada sitio de uso: cuatro variantes de botón que
+   nadie eligió y que salieron de copiar y pegar. Aquí son clases, que es lo
+   que pidió el encargo: cambiar el CTA del sitio entero debe ser cambiar una
+   regla, no catorce archivos.
+   =========================================================================== */
+@layer components {
+  /* ── Enlace de la barra ───────────────────────────────────────────────
+     El filete crece desde la izquierda. `data-activo` lo deja fijo: quien
+     navega con teclado necesita ver dónde está sin tener que pasar el ratón,
+     y en hover-only esa señal no existe. */
+  .jv-navlink {
+    position: relative;
+    font-size: 1.0625rem;
+    color: var(--text-body);
+    transition: color var(--duration-base) var(--ease-ps);
+  }
+  .jv-navlink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.25rem;
+    height: 1px;
+    width: 100%;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-ps);
+  }
+  .jv-navlink:hover,
+  .jv-navlink[data-activo] { color: var(--text-strong); }
+  .jv-navlink:hover::after,
+  .jv-navlink:focus-visible::after,
+  .jv-navlink[data-activo]::after { transform: scaleX(1); }
+
+  /* ── Botón primario ───────────────────────────────────────────────────
+     Naranja con texto casi negro. El blanco sobre este naranja da 3,36:1 y no
+     pasa AA; el casi negro da 5,96:1. Es el motivo de que el texto del CTA
+     sea oscuro y no al revés, que es lo que uno esperaría.
+
+     Los 44px de alto no son estéticos: son el mínimo táctil. */
+  .jv-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    border-radius: var(--radius-pill);
+    padding: 0.6875rem 1.375rem;
+    background-color: var(--accent);
+    color: var(--text-on-accent);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    transition: background-color var(--duration-base) var(--ease-ps);
+  }
+  .jv-boton:hover { background-color: var(--accent-hover); }
+
+  /* ── Botón secundario ─────────────────────────────────────────────────
+     Filete, sin relleno. Nunca compite con el primario: una pantalla tiene un
+     solo CTA principal y el resto se subordina. */
+  .jv-boton-2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    border-radius: var(--radius-pill);
+    padding: 0.6875rem 1.375rem;
+    border: 1px solid var(--line-strong);
+    color: var(--text-strong);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    transition: border-color var(--duration-base) var(--ease-ps),
+      background-color var(--duration-base) var(--ease-ps);
+  }
+  .jv-boton-2:hover { border-color: var(--accent); background-color: var(--hs-hover); }
+
+  /* ── Botón de icono ───────────────────────────────────────────────────
+     44x44 exactos. El icono mide 20 y el resto es área táctil. */
+  .jv-icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    width: 2.75rem;
+    margin-right: -0.625rem;
+    border-radius: var(--radius-md);
+    color: var(--text-strong);
+    transition: background-color var(--duration-base) var(--ease-ps);
+  }
+  .jv-icono:hover { background-color: var(--hs-hover); }
 }

@@ -159,9 +159,9 @@ export function Cotizador() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
       {/* Wizard */}
-      <div className="rounded-[1.75rem] border border-line bg-surface p-6 shadow-lift md:p-9">
+      <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         {/* Progress */}
         <div className="mb-7">
           <div className="mb-2 flex items-center justify-between font-body text-sm text-ink-soft">
@@ -253,7 +253,7 @@ export function IncludeBox({
 }) {
   return (
     <div className={cn("rounded-2xl border border-line bg-background/40 p-5", className)}>
-      <p className="font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">{title}</p>
+      <p className="jv-eyebrow text-ink-soft">{title}</p>
       <IncludeList items={items} className="mt-3 sm:grid-cols-2" />
     </div>
   );
@@ -351,7 +351,7 @@ function ToggleRow({
           <span className="flex flex-wrap items-center gap-2">
             <span className="font-body font-semibold text-ink">{def.label}</span>
             {recomendado && (
-              <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-primary-dark">
+              <span className="rounded-full bg-primary/10 px-2 py-0.5 jv-eyebrowr text-primary-dark">
                 Recomendado
               </span>
             )}
@@ -363,8 +363,8 @@ function ToggleRow({
         </span>
       </button>
 
-      <details className="group border-t border-line/70 px-4 pb-3">
-        <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft transition-colors hover:text-ink">
+      <details className="group border-t border-line-soft px-4 pb-3">
+        <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 jv-eyebrow text-ink-soft transition-colors hover:text-ink">
           Qué incluye
           <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
         </summary>
@@ -626,7 +626,7 @@ function StepBody({
             sesion de fotos, y las imagenes de banco no muestran SU negocio. */}
         {answers.contenido === "todo" && (
           <div className="mt-4 rounded-2xl border border-line bg-background/40 p-5">
-            <p className="font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+            <p className="jv-eyebrow text-ink-soft">
               Lo que no incluye
             </p>
             <p className="mt-3 font-body text-sm text-ink-soft">
@@ -975,13 +975,13 @@ function SummaryPanel({ answers, sticky }: { answers: Answers; sticky?: boolean 
   return (
     <aside
       className={cn(
-        "rounded-[1.75rem] border border-line bg-surface p-6 shadow-soft",
+        "rounded-[1.5rem] border border-line bg-surface p-6 shadow-soft",
         sticky && "lg:sticky lg:top-28",
       )}
     >
       <div className="flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-accent" />
-        <h3 className="font-display text-xl text-ink">Tu cotización</h3>
+        <h3 className="font-body text-xl font-semibold text-ink">Tu cotización</h3>
       </div>
 
       <dl className="mt-5 space-y-2.5">
@@ -1015,7 +1015,7 @@ function SummaryPanel({ answers, sticky }: { answers: Answers; sticky?: boolean 
         )}
       </dl>
 
-      <div className="mt-5 space-y-2 border-t border-line pt-5">
+      <div className="mt-5 space-y-2 jv-rule pt-5">
         <div className="flex items-center justify-between font-body text-sm text-ink-soft">
           <span>Subtotal</span>
           <span className="font-mono text-ink">{money(t.subtotal)}</span>
@@ -1090,10 +1090,10 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
   )}`;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
-      <div className="rounded-[1.75rem] border border-line bg-surface p-6 shadow-lift md:p-9">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+      <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-full bg-success/15 text-success">
+          <span className="grid h-12 w-12 place-items-center rounded-full bg-white/10 text-ink">
             <Check className="h-6 w-6" />
           </span>
           <div>
@@ -1102,11 +1102,11 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
           </div>
         </div>
 
-        <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-surface shadow-soft">
-          <p className="font-body text-sm text-surface/80">Total del proyecto</p>
+        <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-on-accent shadow-soft">
+          <p className="font-body text-sm text-ink/80">Total del proyecto</p>
           <p className="mt-1 font-display text-4xl">{money(t.total)}</p>
           {t.monthly > 0 && (
-            <p className="mt-3 border-t border-surface/20 pt-3 font-body text-sm text-surface/80">
+            <p className="mt-3 border-t border-line pt-3 font-body text-sm text-ink/80">
               Más {money(t.monthly)} al mes de {t.monthlyLabel.toLowerCase()}, desde el mes
               siguiente a la entrega.
             </p>
@@ -1153,7 +1153,7 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
             </a>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <a href="/#contacto">Agendar llamada</a>
+            <a href="/#agenda">Agendar llamada</a>
           </Button>
         </div>
         <button
