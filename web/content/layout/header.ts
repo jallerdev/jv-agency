@@ -109,7 +109,13 @@ export const NAV: readonly EntradaNav[] = [
 export const CABECERA = {
   cta: {
     texto: { es: "Agenda tu llamada", en: "Book a call" },
-    href: { es: "/#agenda", en: "/en#agenda" },
+    /* A la PÁGINA y no al ancla de la portada. Este botón sale en las cuarenta
+       y pico rutas del sitio: en cualquiera que no sea la portada, «/#agenda»
+       quiere decir «vete a la portada y baja hasta el final», que es justo lo
+       que la página de agendar viene a arreglar. Los CTA que viven dentro de
+       la portada —el hero y la declaración— siguen siendo anclas, porque ahí
+       el destino está a un scroll y cargar una página sería peor. */
+    href: { es: "/agendar", en: "/en/book-a-call" },
   },
   menu: { es: "Menú", en: "Menu" },
   cerrar: { es: "Cerrar", en: "Close" },

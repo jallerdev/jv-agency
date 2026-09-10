@@ -135,7 +135,7 @@ export const SERVICIOS: Servicios = {
     },
     cuerpo: {
       es: "Diagnóstico sin costo de 20 minutos. Te digo con franqueza si te puedo ayudar —y cómo.",
-      en: "Free 20-minute diagnosis. I'll tell you straight whether I can help —and how.",
+      en: "A free 20-minute call. I'll tell you straight whether I can help —and how.",
     },
     botones: [
       {

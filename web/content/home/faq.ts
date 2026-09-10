@@ -89,7 +89,7 @@ export const FAQ: Faq = {
       q: { es: "¿Cómo empiezo?", en: "How do I start?" },
       a: {
         es: "Agenda una llamada de diagnóstico sin costo. Reviso tu situación, te digo con franqueza si te puedo ayudar y, si encajamos, te armo una propuesta a tu medida.",
-        en: "Book a free diagnosis call. I look at your situation, tell you straight whether I can help and, if we're a fit, put together a proposal for you.",
+        en: "Book a free intro call. I look at your situation, tell you straight whether I can help and, if we're a fit, put together a proposal for you.",
       },
     },
   ],

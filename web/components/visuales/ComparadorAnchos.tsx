@@ -59,8 +59,24 @@ export function ComparadorAnchos({
   const id = useId();
 
   /* Guardia dura: la misma imagen en los dos lados significa que alguien está
-     haciendo pasar una captura de escritorio por una de móvil. */
+     haciendo pasar una captura de escritorio por una de móvil.
+     ─────────────────────────────────────────────────────────────────────────
+     La salida en producción es `null` ANTES de nombrar el marcador, y no
+     `<Pendiente>` confiando en que él devuelva null. Los dos esconden lo
+     mismo en pantalla, pero no lo mismo en el bundle: este es un componente de
+     cliente, así que su JSX viaja entero al navegador y la nota se leía en las
+     herramientas de desarrollo aunque no se pintara. Medido en el build de
+     producción: era el único marcador de los seis que llegaba al bundle —los
+     demás los pintan componentes de servidor y no salen de ahí—.
+
+     Y la condición se escribe con `process.env.NODE_ENV` a pelo, no con
+     `MOSTRAR_PENDIENTES`. No es lo mismo: la constante llega como propiedad de
+     otro módulo —`i.MOSTRAR_PENDIENTES`— y el minificador no puede demostrar
+     que la rama es muerta, así que conserva la cadena. `process.env.NODE_ENV`
+     lo sustituye el empaquetador por el literal antes de minificar, y ahí sí
+     desaparece el texto entero. Comprobado en el bundle de las dos formas. */
   if (!movil?.src || movil.src === escritorio?.src) {
+    if (process.env.NODE_ENV === "production") return null;
     return (
       <Pendiente>
         [PENDIENTE: capturas móviles reales para el comparador de anchos]. No se

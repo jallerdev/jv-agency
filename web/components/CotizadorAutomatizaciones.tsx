@@ -288,7 +288,7 @@ function Resumen({ a, onRestart }: { a: AutomationAnswers; onRestart: () => void
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
       <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-full bg-success/15 text-success">
+          <span className="grid h-12 w-12 place-items-center rounded-full bg-white/10 text-ink">
             <Check className="h-6 w-6" />
           </span>
           <div>

@@ -44,7 +44,7 @@ export function PaginaContacto({ idioma, ruta }: { idioma: Idioma; ruta: string 
   };
 
   const destino: Record<string, string> = {
-    llamada: "#agenda",
+    llamada: "#agenda",  /* la propia página ya trae el formulario debajo */
     whatsapp: WHATSAPP_LINK,
     correo: `mailto:${BUSINESS.email}`,
   };

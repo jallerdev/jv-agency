@@ -260,7 +260,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
     return (
       <div className={cardClass}>
         <div className="flex items-center gap-4">
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-success/12 text-success ring-1 ring-success/25 motion-safe:animate-[fade-in_var(--duration-slow)_var(--ease-ps)_both]">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/10 text-ink ring-1 ring-white/20 motion-safe:animate-[fade-in_var(--duration-slow)_var(--ease-ps)_both]">
             <Check className="h-6 w-6" strokeWidth={2} />
           </span>
           <div className="min-w-0">

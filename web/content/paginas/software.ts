@@ -398,7 +398,7 @@ export const SOFTWARE = {
     etiqueta: { es: "Antes de la etapa 01", en: "Before stage 01" },
     texto: {
       es: "Diagnóstico de 20 minutos. Si te sirve una página web y no software, ahí te lo digo.",
-      en: "A 20-minute diagnosis. If a website suits you and not software, I'll say so right there.",
+      en: "A 20-minute call. If a website suits you and not software, I'll say so right there.",
     },
   },
   proceso: [

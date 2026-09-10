@@ -21,6 +21,7 @@ export const RUTAS: Readonly<Record<string, string>> = {
   "/precios": "/en/pricing",
   "/sobre-nosotros": "/en/about",
   "/contacto": "/en/contact",
+  "/agendar": "/en/book-a-call",
   "/servicios/chatbot-whatsapp": "/en/services/whatsapp-chatbot",
   "/servicios/diseno-de-paginas-web": "/en/services/web-design",
   "/servicios/tiendas-virtuales": "/en/services/online-stores",

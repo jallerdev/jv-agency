@@ -85,7 +85,7 @@ export function BlogPost({
               {BLOG.cierre.precios[idioma]}
             </Link>
             <Link
-              href={idioma === "es" ? "/#agenda" : "/en#agenda"}
+              href={enlaceReal(idioma === "es" ? "/agendar" : "/en/book-a-call")}
               className="inline-flex min-h-11 items-center rounded-full border border-line px-5 py-2.5 font-body text-sm font-medium text-ink transition-colors hover:bg-ink/5"
             >
               {BLOG.cierre.hablar[idioma]}

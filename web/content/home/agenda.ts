@@ -118,7 +118,7 @@ export const FORM = {
   },
   en: {
     titulo: "Book your call",
-    intro: "A free 20-minute diagnosis over Google Meet. Tell me what you need.",
+    intro: "A free 20-minute call over Google Meet. Tell me what you need.",
     paso: (n: number) => `Step ${n} of 2`,
     promesa: "I reply in under 24 h",
     servicio: "What can I help with?",
