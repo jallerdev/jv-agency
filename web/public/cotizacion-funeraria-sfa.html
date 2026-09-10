@@ -22,6 +22,10 @@
     --body:'Figtree', system-ui, sans-serif;
     --mono:'JetBrains Mono', Menlo, monospace;
   }
+  /* La seleccion, en el naranja de la casa. No estaba en ninguno de los nueve,
+     asi que al marcar texto salia el azul por defecto del navegador dentro de
+     un documento que no tiene ni una gota de azul. */
+  ::selection{ background:rgba(232,98,63,.28); color:#FAFAFA; }
   *{ box-sizing:border-box }
   html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; scroll-behavior:smooth; }
   body{
@@ -213,7 +217,29 @@
     tfoot td{ border:none; padding:0; }
   }
 
-  @media print{
+  
+  /* ─────────────────────────────────────────────────────────────────────────
+     RESTOS DEL SISTEMA CLARO.
+     Estos elementos llevaban tinta oscura porque vivian sobre superficies
+     claras; al invertir el suelo quedaron oscuro sobre oscuro. Van al final
+     para ganar por orden sin tener que perseguir cada regla original, que en
+     nueve documentos son demasiadas para acertar una a una.
+     ───────────────────────────────────────────────────────────────────────── */
+  .cfg__q i, .partlabel, kbd, .pill, .amt{ color:var(--ink); }
+  /* ...salvo cuando ese mismo elemento se apoya en el relleno naranja. La
+     regla de arriba los aclaraba a todos y dejaba blanco sobre naranja —3,2:1—
+     en los que llevan el fondo puesto por atributo. El par del sistema es
+     naranja con tinta casi negra, igual que el boton primario del sitio. */
+  [style*="background:var(--accent)"], [style*="background:var(--primary)"],
+  [style*="background:#E8623F"],
+  [style*="background:var(--accent)"] *, [style*="background:var(--primary)"] *,
+  [style*="background:#E8623F"] *{ color:#080808; }
+  /* y lo que se apoya en el relleno naranja lleva tinta casi negra, que es el
+     par que usa el boton primario del sitio: blanco sobre naranja da 3,2:1. */
+  .plan--pick .plan__tag, .seg input:checked + span,
+  [class*="tag"][style*="--primary"]{ color:#080808; }
+
+@media print{
 
     /* AL IMPRIMIR SE VUELVE AL PAPEL. El documento en pantalla va en el casi
        negro del sistema; en papel eso seria un pliego entero de tinta y una
