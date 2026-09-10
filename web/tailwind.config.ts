@@ -13,8 +13,12 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        /* Los tres nombres se quedan —`font-display`, `font-body`,
+           `font-mono` están escritos en cientos de sitios— pero apuntan a las
+           familias nuevas. Renombrar las utilidades habría sido tocar todas
+           las páginas para no cambiar nada. */
         display: ["var(--font-display)", "Georgia", "serif"],
-        body: ["var(--font-body)", "system-ui", "sans-serif"],
+        body: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       /* La escala de opacidad de Tailwind va de cinco en cinco, y el
@@ -29,41 +33,65 @@ const config: Config = {
       opacity: {
         12: "0.12",
       },
+      /* ── La paleta del design system ────────────────────────────────────
+         Los nombres de token se conservan a propósito —`ink`, `surface`,
+         `line`, `primary`, `accent`— porque están escritos en las doce
+         páginas y en cincuenta componentes. Lo que cambia es a qué apuntan.
+         Así el sitio entero pasa a oscuro moviendo este bloque, y lo que hay
+         que revisar después son las excepciones, no cada archivo.
+
+         Todo sale de app/tokens.css, que es el port del design system. Aquí
+         solo se le pone nombre de Tailwind. Si un valor cambia, cambia allá.  */
       colors: {
-        primary: {
-          DEFAULT: "#985C3E",
-          dark: "#6E4128",
-        },
-        secondary: "#B08968",
-        accent: {
-          /* Superficies, bordes, iconos >=20px y cifras grandes: ahí el
-             cobre solo necesita 3:1 y lo cumple. */
-          DEFAULT: "#C0763B",
-          /* El mismo cobre, oscurecido, para cuando hace de TEXTO.
-             #C0763B sobre el papel da 3,07:1 y falla AA en cualquier
-             antetítulo de 11px. Este da 5,56:1 sobre background y 6,00:1
-             sobre surface, y sigue leyéndose como cobre. */
-          ink: "#8C4F1F",
-        },
-        surface: "#FAF6F1",
-        background: "#F4EDE4",
-        /* Papel en un tono mas hondo, para las bandas de seccion. */
-        band: "#ECE1D5",
+        /* Fondo de página y superficies. `background` es el canvas casi negro
+           —#09090B, nunca #000 y nunca gris cálido—; `surface` la tarjeta. */
+        canvas: "var(--canvas)",
+        background: "var(--canvas)",
+        surface: "var(--surface)",
+        raised: "var(--surface-raised)",
+        band: "var(--surface-band)",
+
+        /* Texto. `ink` es el titular, `ink.soft` el cuerpo, `ink.muted` lo
+           terciario. `on-accent` es el blanco que va SOBRE un relleno de
+           color: antes ese papel lo hacía `surface`, que ahora es casi negro
+           y sobre violeta sería ilegible. */
         ink: {
-          DEFAULT: "#2B2420",
-          soft: "#6B5E54",
+          DEFAULT: "var(--text-strong)",
+          soft: "var(--text-body)",
+          muted: "var(--text-muted)",
         },
-        line: "#E4D8CB",
+        "on-accent": "var(--text-on-accent)",
+        inverse: "var(--text-inverse)",
+
+        line: {
+          DEFAULT: "var(--line)",
+          soft: "var(--line-soft)",
+          strong: "var(--line-strong)",
+        },
+
+        /* Violeta: el acento de marca, uno por vista. Sobre oscuro el TEXTO
+           usa violeta-400 y el relleno violeta-500 —por eso `accent.ink` no
+           es el mismo valor que `accent`—. Y el hover sobre oscuro aclara, no
+           oscurece: `primary.dark` apunta al paso de PULSACIÓN, no al hover. */
+        primary: {
+          DEFAULT: "var(--accent)",
+          hover: "var(--accent-hover)",
+          dark: "var(--accent-press)",
+        },
+        accent: {
+          DEFAULT: "var(--accent)",
+          ink: "var(--accent-ink)",
+          quiet: "var(--accent-quiet)",
+        },
+        /* Teal: reservado a verificado / en línea / ok. NUNCA acento general. */
+        secondary: "var(--line-strong)",
         success: {
-          DEFAULT: "#4F7A52",
-          /* El mismo verde, oscurecido, para cuando hace de TEXTO —misma
-             regla que `accent.ink`. #4F7A52 da 3,98:1 sobre la pastilla de
-             `bg-success/12` y 4,35:1 sobre el papel: pasa para un icono de
-             24px, no para una etiqueta de 10px. Este da 5,23:1 y 6,06:1. */
-          ink: "#3F6642",
+          DEFAULT: "var(--success)",
+          ink: "var(--success-ink)",
         },
-        warning: "#B57E2C",
-        danger: "#B0453C",
+        danger: "var(--danger)",
+        warning: "var(--warning)",
+        info: "var(--info)",
       },
       /* Escala de radios con lógica de anidación:
          radio interior = radio exterior - padding.

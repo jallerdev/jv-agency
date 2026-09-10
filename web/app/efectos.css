@@ -1,0 +1,124 @@
+/* ===========================================================================
+   EFECTOS — el campo de manchas y el sistema de entrada
+   ---------------------------------------------------------------------------
+   Portado del design system, que a su vez lo porta de palo-seco.com. Verifiqué
+   el CSS servido de palo-seco antes de traerlo: los tres fotogramas
+   (ggVertical, ggCircle, ggHorizontal) y las duraciones (30/20/40/40/20 s) son
+   los suyos, carácter por carácter. Lo único que cambia es el color —de su
+   naranja a la rampa violeta, con una mancha teal y una azul cielo— y el
+   prefijo.
+
+   POR QUÉ AQUÍ SÍ HAY `filter: blur()` Y EN EL CAMPO ANTERIOR NO.
+   El campo que hice sobre papel evitaba el blur a propósito: sobre un fondo
+   claro la caída del radial ya basta y desenfocar una capa del tamaño de la
+   pantalla cuesta un repintado por fotograma. Sobre CASI NEGRO no basta: el
+   blur es lo que funde las cinco manchas en una sola masa de luz en vez de
+   cinco círculos identificables. El coste se acota metiendo el blur en UNA
+   capa —`__stage`— en lugar de en cada mancha, y limitando el campo a dos
+   secciones por página.
+   =========================================================================== */
+
+.jv-gg {
+  --c1: 124, 108, 245;  /* violeta-500 */
+  --c2: 157, 146, 248;  /* violeta-400 */
+  --c3: 83, 65, 204;    /* violeta-700 */
+  --c4: 28, 207, 158;   /* teal-500 */
+  --c5: 56, 189, 248;   /* cielo-400 */
+  --cp: 157, 146, 248;  /* la que sigue al puntero */
+  --gg-size: 80%;
+  --gg-blend: screen;
+  --gg-blur: 60px;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.62;
+  -webkit-mask-image: linear-gradient(#0000 0%, #000 24% 76%, #0000 100%);
+  mask-image: linear-gradient(#0000 0%, #000 24% 76%, #0000 100%);
+}
+.jv-gg__stage { position: absolute; inset: 0; filter: blur(var(--gg-blur)); }
+.jv-gg__blob {
+  position: absolute;
+  width: var(--gg-size);
+  height: var(--gg-size);
+  top: calc(50% - var(--gg-size) / 2);
+  left: calc(50% - var(--gg-size) / 2);
+  mix-blend-mode: var(--gg-blend);
+  will-change: transform;
+}
+.jv-gg__b1 { background: radial-gradient(circle at center, rgba(var(--c1), 0.6) 0, rgba(var(--c1), 0) 50%) no-repeat; transform-origin: 50%; animation: 30s infinite jv-ggVertical; }
+.jv-gg__b2 { background: radial-gradient(circle at center, rgba(var(--c2), 0.5) 0, rgba(var(--c2), 0) 50%) no-repeat; transform-origin: calc(50% - 400px); animation: 20s infinite reverse jv-ggCircle; }
+.jv-gg__b3 { background: radial-gradient(circle at center, rgba(var(--c3), 0.5) 0, rgba(var(--c3), 0) 50%) no-repeat; transform-origin: calc(50% + 400px); animation: 40s linear infinite jv-ggCircle; }
+.jv-gg__b4 { background: radial-gradient(circle at center, rgba(var(--c4), 0.5) 0, rgba(var(--c4), 0) 50%) no-repeat; transform-origin: calc(50% - 200px); opacity: 0.6; animation: 40s infinite jv-ggHorizontal; }
+.jv-gg__b5 { background: radial-gradient(circle at center, rgba(var(--c5), 0.5) 0, rgba(var(--c5), 0) 50%) no-repeat; transform-origin: calc(50% - 800px) calc(50% + 800px); animation: 20s infinite jv-ggCircle; }
+.jv-gg__pointer { width: 100%; height: 100%; top: -50%; left: -50%; opacity: 0.4; background: radial-gradient(circle at center, rgba(var(--cp), 0.7) 0, rgba(var(--cp), 0) 50%) no-repeat; }
+
+@keyframes jv-ggVertical   { 0% { transform: translateY(-50%); } 50% { transform: translateY(50%); } to { transform: translateY(-50%); } }
+@keyframes jv-ggHorizontal { 0% { transform: translate(-50%) translateY(-10%); } 50% { transform: translate(50%) translateY(10%); } to { transform: translate(-50%) translateY(-10%); } }
+@keyframes jv-ggCircle     { 0% { transform: rotate(0); } 50% { transform: rotate(180deg); } to { transform: rotate(360deg); } }
+
+/* La sección que aloja el campo. El resplandor sangra de lado a lado y el
+   canvas vuelve a entrar arriba y abajo, así que ninguna sección choca contra
+   un borde duro de luz. La máscara radial mantiene legible el centro. */
+.jv-glowsec { position: relative; background: var(--canvas); }
+/* `:not(.jv-gg)` no es cosmético. La regla sube el contenido por encima del
+   resplandor poniéndole `position: relative`, y el campo es un hijo directo
+   más: con la misma especificidad y viniendo después, le ganaba su propio
+   `position: absolute` y lo dejaba en 0×0 —presente en el DOM, con sus cinco
+   manchas animando, y sin un solo píxel pintado—. */
+.jv-glowsec > *:not(.jv-gg) { position: relative; z-index: 2; }
+.jv-glowsec::before,
+.jv-glowsec::after { content: ""; position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; height: clamp(90px, 14vh, 180px); }
+.jv-glowsec::before { top: 0; background: linear-gradient(180deg, var(--canvas) 0%, rgba(9, 9, 11, 0) 100%); }
+.jv-glowsec::after { bottom: 0; background: linear-gradient(0deg, var(--canvas) 0%, rgba(9, 9, 11, 0) 100%); }
+.jv-glowsec .jv-gg {
+  -webkit-mask-image: radial-gradient(125% 118% at 50% 45%, #000 48%, #0000 90%);
+  mask-image: radial-gradient(125% 118% at 50% 45%, #000 48%, #0000 90%);
+}
+.jv-gg--left  { opacity: 0.52; } .jv-gg--left .jv-gg__stage  { transform: translate(-16%); }
+.jv-gg--right { opacity: 0.46; } .jv-gg--right .jv-gg__stage { transform: translate(16%); }
+.jv-gg--top   { opacity: 0.5;  } .jv-gg--top .jv-gg__stage   { transform: translateY(-16%); }
+
+/* ── Antetítulo, entrada, marquesina y elevación ─────────────────────────── */
+
+.jv-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* El florón: el único degradado plano que el sistema permite detrás de un
+   titular. Barato; se puede usar sin pensarlo. */
+.jv-bloom { position: relative; }
+.jv-bloom::before { content: ""; position: absolute; inset: 0; background: var(--bloom-violeta); pointer-events: none; }
+
+/* Entrada al hacer scroll. `data-armed` lo pone el JS: sin él, quien navegue
+   sin JavaScript vería la página en blanco esperando un observador que nunca
+   llega. La cascada sale de `--i` en cada hijo. */
+.jv-reveal { transition: opacity var(--dur-reveal) var(--ease-ps), transform var(--dur-reveal-y) var(--ease-ps); transition-delay: calc(var(--i, 0) * var(--reveal-stagger)); }
+.jv-reveal[data-armed]:not(.in) { opacity: 0; transform: translateY(var(--reveal-rise)); will-change: opacity, transform; }
+.jv-reveal.in { opacity: 1; transform: none; }
+/* Para media: en vez de subir, se descubre de abajo arriba. */
+.jv-reveal-img { transition: clip-path var(--dur-clip) var(--ease-ps); transition-delay: calc(var(--i, 0) * var(--reveal-stagger)); }
+.jv-reveal-img[data-armed]:not(.in) { clip-path: inset(0 0 100%); }
+.jv-reveal-img.in { clip-path: inset(0); }
+
+/* El único bucle infinito que permite el sistema. */
+@keyframes jv-marquee { to { transform: translate(-50%); } }
+.jv-marquee { display: flex; width: max-content; animation: var(--dur-marquee) linear infinite jv-marquee; }
+
+.jv-lift { transition: transform var(--dur-lift) var(--ease-ps), box-shadow 0.4s var(--ease-ps), border-color 0.18s var(--ease-ps), background 0.18s var(--ease-ps); }
+.jv-lift:hover { transform: translateY(-2px); }
+.jv-lift:active { transform: scale(0.985); }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-gg__blob { animation: none !important; }
+  .jv-reveal,
+  .jv-reveal-img,
+  .jv-lift { opacity: 1 !important; transform: none !important; transition: none !important; clip-path: none !important; }
+  .jv-marquee { animation: none; }
+}

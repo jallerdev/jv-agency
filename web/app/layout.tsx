@@ -7,38 +7,47 @@ import { SITE_NAME, SITE_URL, GA_MEASUREMENT_ID } from "@/lib/site";
 import { StructuredData } from "@/components/StructuredData";
 import { CuentameProvider } from "@/components/Cuentame";
 
-const fraunces = localFont({
+/* ── Las tres familias del sistema ────────────────────────────────────────
+   Instrument Serif para TODO titular y las cifras grandes; Figtree para
+   cuerpo, interfaz y botones; JetBrains Mono para antetítulos, numerales de
+   índice, precios y dominios. El sistema dice literal: nunca una cuarta.
+
+   Instrument Serif sustituye a Larken —la display de palo-seco, con licencia
+   comercial que el estudio no compró—; la sustitución está declarada en el
+   readme del design system, no es un descuido.
+
+   Se sirven desde app/fonts con `next/font/local`: sin petición a Google, sin
+   salto de composición y con precarga. Los subconjuntos latin y latin-ext van
+   por separado, así que un visitante que solo lee español no descarga los
+   glifos que no usa. */
+const instrument = localFont({
   display: "swap",
-  variable: "--font-display",
+  variable: "--font-instrument",
   src: [
-    { path: "./fonts/Fraunces-300.woff2", weight: "300", style: "normal" },
-    { path: "./fonts/Fraunces-400.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/Fraunces-500.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/Fraunces-600.woff2", weight: "600", style: "normal" },
-    { path: "./fonts/Fraunces-300-italic.woff2", weight: "300", style: "italic" },
-    { path: "./fonts/Fraunces-400-italic.woff2", weight: "400", style: "italic" },
-    { path: "./fonts/Fraunces-500-italic.woff2", weight: "500", style: "italic" },
-    { path: "./fonts/Fraunces-600-italic.woff2", weight: "600", style: "italic" },
+    { path: "./fonts/instrument-normal-400-latin.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/instrument-normal-400-latin-ext.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/instrument-italic-400-latin.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/instrument-italic-400-latin-ext.woff2", weight: "400", style: "italic" },
   ],
 });
 
-const jakarta = localFont({
+const figtree = localFont({
   display: "swap",
-  variable: "--font-body",
+  variable: "--font-figtree",
   src: [
-    { path: "./fonts/PlusJakartaSans-400.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/PlusJakartaSans-500.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/PlusJakartaSans-600.woff2", weight: "600", style: "normal" },
-    { path: "./fonts/PlusJakartaSans-700.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/figtree-normal-300_900-latin.woff2", weight: "300 900", style: "normal" },
+    { path: "./fonts/figtree-normal-300_900-latin-ext.woff2", weight: "300 900", style: "normal" },
   ],
 });
 
-const plexMono = localFont({
+const jetbrains = localFont({
   display: "swap",
-  variable: "--font-mono",
+  variable: "--font-jetbrains",
   src: [
-    { path: "./fonts/IBMPlexMono-400.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/IBMPlexMono-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/jetbrains-normal-400-latin.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/jetbrains-normal-400-latin-ext.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/jetbrains-normal-500-latin.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/jetbrains-normal-500-latin-ext.woff2", weight: "500", style: "normal" },
   ],
 });
 
@@ -103,10 +112,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <body
-        className={`${fraunces.variable} ${jakarta.variable} ${plexMono.variable} bg-paper bg-grain`}
-      >
+    /* Las variables de next/font van en <html>, no en <body>.
+       tokens.css define `--font-display: var(--font-instrument)` dentro de
+       `:root`, que ES el <html>: si las familias se declaran un nivel mas
+       abajo, esa referencia no las ve —una custom property se hereda hacia
+       abajo, nunca hacia arriba— y las tres familias caian al system-ui sin
+       avisar de nada. */
+    <html lang="es" className={`${instrument.variable} ${figtree.variable} ${jetbrains.variable}`}>
+      <body className="bg-canvas font-body text-ink-soft antialiased">
         <StructuredData />
         {/* El diálogo de contacto vive en el layout, no en cada página: hay un
             solo panel montado para todo el sitio y cualquier botón lo abre. */}

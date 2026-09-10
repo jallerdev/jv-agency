@@ -1,3 +1,6 @@
+@import "./tokens.css";
+@import "./efectos.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,30 +11,21 @@
    foco o atmósfera aparece a mano en un componente, es que falta un token.
    ========================================================================== */
 :root {
-  /* --- Color (espejo de tailwind.config.ts, para usar en CSS plano) ------ */
-  --color-primary: #985c3e;
-  --color-primary-dark: #6e4128;
-  --color-accent: #c0763b;
-  /* Cobre oscurecido para cuando el acento hace de TEXTO.
-     #C0763B sobre el papel da 3,07:1 (falla AA). Este da 5,56:1. */
-  --color-accent-ink: #8c4f1f;
-  --color-secondary: #b08968;
-  --color-surface: #faf6f1;
-  --color-background: #f4ede4;
-  --color-line: #e4d8cb;
-  --color-ink: #2b2420;
-  --color-ink-soft: #6b5e54;
-
-  /* --- Textura de papel -------------------------------------------------
-     Antes: baseFrequency 0.85 al 4% de opacidad. A ese grano tan fino y tan
-     tenue no se le lee textura, solo un dither; y encima era la capa que
-     mataba los radiales del fondo. Ahora el ruido es un poco más grueso y
-     un poco más presente, y la atmósfera vive aparte (body::before). */
-  /* Papel en un tono mas hondo: el canvas con 12% del secundario de marca.
-     Ver .bg-band mas abajo para los contrastes medidos. */
-  --color-band: #ECE1D5;
-
-  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.062'/%3E%3C/svg%3E");
+  /* --- Color -----------------------------------------------------------
+     Estos nombres se conservan porque media docena de reglas de este archivo
+     los usan; lo que cambia es a qué apuntan. La fuente de verdad es
+     tokens.css, que es el port del design system: aquí solo hay alias. */
+  --color-primary: var(--accent);
+  --color-primary-dark: var(--accent-press);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-secondary: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-background: var(--canvas);
+  --color-line: var(--line);
+  --color-ink: var(--text-strong);
+  --color-ink-soft: var(--text-body);
+  --color-band: var(--surface-band);
 
   /* --- Movimiento: duraciones ------------------------------------------
      Cinco escalones, cada uno con un trabajo. No inventar valores nuevos. */
@@ -104,24 +98,19 @@
   }
 
   /* Atmósfera anclada al viewport, no al documento.
-     Antes los dos radiales vivían en el background del <body>: en un
-     documento de 11.700 px se comprimían en el primer 8% del scroll y el
-     resto de la página quedaba crema plano. Como capa fija, la modulación
-     tonal acompaña todo el recorrido y no cuesta un solo repintado extra
-     (no se mueve: solo está ahí).
-     OJO: no hace falta añadir ningún <div> fijo en layout.tsx; esto ya lo
-     resuelve. Si además se agrega uno, la atmósfera queda al doble. */
+     Antes eran tres radiales cálidos; ahora es el florón violeta que define el
+     design system —el único degradado plano que permite detrás de un titular—,
+     al 18% y sin animación. El campo de manchas que SÍ se mueve es otra cosa
+     y vive por sección, no aquí: el sistema lo limita a dos por página. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image:
-      radial-gradient(55rem 40rem at 88% -8%, rgba(192, 118, 59, 0.16), transparent 62%),
-      radial-gradient(45rem 38rem at -8% 18%, rgba(176, 137, 104, 0.18), transparent 58%),
-      radial-gradient(40rem 32rem at 50% 108%, rgba(152, 92, 62, 0.10), transparent 60%);
+    background-image: var(--bloom-violeta);
   }
+
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display), Georgia, serif;
@@ -154,11 +143,10 @@
        que ya existe (p. ej. el bloque bronce del CTA final). */
   .bg-paper {
     background-color: var(--color-background);
-    background-image: var(--paper-grain);
   }
 
   .bg-grain {
-    background-image: var(--paper-grain);
+    background-image: none;
   }
 
   /* --- Bandas de seccion ------------------------------------------------
@@ -226,10 +214,9 @@
     z-index: -1;
     width: 100vw;
     transform: translateX(-50%);
-    background-color: var(--color-band);
-    background-image: var(--paper-grain);
-    border-top: 1px solid var(--color-line);
-    border-bottom: 1px solid var(--color-line);
+    background-color: var(--surface-band);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
 
   .banda + .banda {
@@ -240,23 +227,20 @@
     border-top: 0;
   }
 
-  /* El barrido metálico, con el brillo especular por fin dentro de AA.
-     La parada clara era #e0a062: medida sobre los píxeles reales del h1 daba
-     1,75:1 contra el papel del hero —y este degradado solo se usa en dos
-     titulares, los dos texto grande, que necesitan 3:1—. El problema no se
-     veía desde ningún componente: la receta vive aquí y cada quien la aplicó
-     a su titular dando por hecho que ya estaba comprobada.
-     Ahora la parada más clara es #b06a35 (3,32:1 sobre el papel cálido del
-     hero, 3,65:1 sobre el de Servicios) y las otras cuatro van de 4,18:1 a
-     6,71:1. Sigue leyéndose como metal: el recorrido de luz se conserva,
-     solo deja de blanquearse en la cresta. */
+  /* `.text-metal` era el degradado de bronce sobre los titulares: cinco
+     paradas de marrón recortadas contra el texto. El design system lo deja
+     sin sitio —prohíbe el texto en degradado y cambia la paleta entera—, pero
+     la clase NO se borra: marca, en 33 titulares, exactamente lo que el
+     sistema llama «la afirmación operativa», la frase que va en itálica y en
+     violeta. Así que la clase se queda donde está y cambia lo que hace.
+     Cero ediciones en las páginas, y el gesto que marcaba sigue marcado. */
   .text-metal {
-    background-image: linear-gradient(100deg, #6e4128 0%, #985c3e 34%, #b06a35 52%, #8c4f1f 72%, #6e4128 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    color: var(--text-accent);
+    background-image: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: currentColor;
   }
 
   /* Para titulares de dos o tres líneas: el degradado recorre el bloque

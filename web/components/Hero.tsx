@@ -57,12 +57,6 @@ const HERO_CSS = `
 .jv-hero-decor { animation: jv-hero-decor 1400ms var(--ease-entrance) both; }
 .jv-hero-rule  { transform-origin: top; animation: jv-hero-rule 1200ms var(--ease-entrance) 160ms both; }
 
-/* Luz rasante: una banda cálida que cruza el papel, no un orbe difuminado. */
-.jv-hero-wash {
-  background-image:
-    linear-gradient(112deg, transparent 20%, rgba(192, 118, 59, 0.15) 44%, rgba(224, 160, 98, 0.10) 58%, transparent 80%),
-    radial-gradient(58rem 26rem at 50% -14%, rgba(176, 137, 104, 0.20), transparent 70%);
-}
 
 @media (prefers-reduced-motion: reduce) {
   .jv-hero-line { clip-path: none !important; }
@@ -93,23 +87,16 @@ export function Hero() {
          navegador y el hero se pasa de largo. El mínimo solo entra en md+;
          abajo el contenido ya es más alto que la pantalla y forzarlo solo
          empujaría los botones fuera de vista. */
-      className="relative flex items-center overflow-hidden pt-28 pb-14 md:min-h-[calc(100svh-4.5rem)] md:pt-32 md:pb-20"
+      className="jv-glowsec relative flex items-center overflow-hidden pt-28 pb-14 md:min-h-[calc(100svh-4.5rem)] md:pt-32 md:pb-20"
     >
       <style href="jv-hero" precedence="default" dangerouslySetInnerHTML={{ __html: HERO_CSS }} />
 
-      {/* ── Fondo: mesa de trabajo ─────────────────────────────────────── */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="jv-hero-decor absolute inset-0">
-          {/* La luz rasante sigue siendo la base: da la dirección —arriba a la
-              izquierda— y las manchas se mueven DENTRO de esa dirección. Sin
-              ella el campo flotaría sin fuente. */}
-          <div className="jv-hero-wash absolute inset-0" />
-          {/* El pigmento encima. Ya no hace falta `animate-ambient-glow` en la
-              capa de abajo: la respiración la lleva el campo, y dos cosas
-              latiendo a destiempo se leen como un parpadeo. */}
-          <Blobs />
-        </div>
-      </div>
+      {/* ── Fondo: el campo de manchas ────────────────────────────────── */}
+      {/* `.jv-glowsec` es el envoltorio que pide el sistema: el resplandor
+          sangra de lado a lado y el canvas vuelve a entrar arriba y abajo, así
+          que la sección siguiente no choca contra un borde duro de luz. Va en
+          la <section> misma, no aquí dentro. */}
+      <Blobs />
 
       {/* Rejilla editorial. El hero era una columna centrada y simetrica, y al
           entrar la credencial a la derecha quedo desequilibrado: composicion

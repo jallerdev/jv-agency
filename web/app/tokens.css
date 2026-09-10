@@ -1,0 +1,242 @@
+/* ===========================================================================
+   TOKENS — JV Agencia
+   ---------------------------------------------------------------------------
+   Portados del design system del estudio (claude.ai/design · "Design System").
+   NO se editan a mano aquí: si un valor cambia, cambia allá y se vuelve a
+   traer. Lo único que se adapta al portar son las tres familias tipográficas,
+   que aquí las sirve `next/font/local` desde app/fonts y por eso apuntan a las
+   variables que genera el layout en vez de al nombre de la fuente.
+
+   La paleta es la de HalcónOS, promovida de producto a marca: violeta
+   #7C6CF5, teal #1CCF9E y una escala de grises FRÍA (tono 240). El sistema
+   terracota-y-papel anterior se descartó a propósito —el propio readme lo
+   deja escrito para que nadie lo reintroduzca sin darse cuenta—: leía como
+   artesanal, y lo que vende el estudio es software.
+
+   OSCURO ES EL MODO POR DEFECTO. `:root` es oscuro; `[data-theme="claro"]`
+   cambia el sistema entero a claro para propuestas impresas y correo.
+   =========================================================================== */
+
+:root {
+  /* ── Rampas base ──────────────────────────────────────────────────────── */
+  --violeta-50: #f1efff;
+  --violeta-100: #e3dfff;
+  --violeta-200: #c9c1fc;
+  --violeta-300: #ada2fa;
+  --violeta-400: #9d92f8;   /* texto y glifos sobre oscuro */
+  --violeta-500: #7c6cf5;   /* PRIMARIO — el --primary de HalcónOS */
+  --violeta-600: #6553e8;
+  --violeta-700: #5341cc;
+  --violeta-800: #43359f;
+  --violeta-900: #2e2470;
+  --violeta-950: #1b1545;
+
+  --teal-300: #5fe3bd;
+  --teal-400: #2ddcaa;
+  --teal-500: #1ccf9e;      /* SECUNDARIO — solo verificado / en línea / ok */
+  --teal-600: #12ab81;
+  --teal-700: #0f8265;
+  --teal-900: #083f31;
+
+  --zinc-0: #ffffff;
+  --zinc-25: #fcfcfd;
+  --zinc-50: #f7f7f8;
+  --zinc-100: #f0f0f2;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-750: #35353c;
+  --zinc-800: #26262b;
+  --zinc-850: #1d1d21;
+  --zinc-875: #15151a;
+  --zinc-900: #101012;
+  --zinc-950: #09090b;      /* el negro NUNCA es #000 y nunca es cálido */
+  --zinc-tint: #0a0810;     /* casi negro con sesgo violeta: hero y CTA */
+
+  --rojo-400: #f87171;
+  --rojo-500: #dc2626;
+  --ambar-400: #fbbf24;
+  --ambar-500: #d97706;
+  --cielo-400: #38bdf8;
+
+  --alpha-line: #fafafa1f;
+  --alpha-line-soft: #fafafa14;
+  --alpha-violeta-12: #7c6cf51f;
+  --alpha-violeta-30: #7c6cf54d;
+  --alpha-teal-12: #1ccf9e1f;
+  --alpha-teal-30: #1ccf9e4d;
+
+  /* ── Alias semánticos — OSCURO es el modo de marca ────────────────────── */
+  --canvas: var(--zinc-950);
+  --canvas-tint: var(--zinc-tint);
+  --surface: var(--zinc-900);
+  --surface-raised: var(--zinc-875);
+  --surface-band: var(--zinc-900);
+  --surface-inverse: var(--zinc-25);
+
+  --text-strong: #fafafa;
+  --text-body: var(--zinc-300);
+  --text-muted: var(--zinc-400);
+  --text-accent: var(--violeta-400);
+  --text-inverse: var(--zinc-950);
+  --text-on-accent: #ffffff;
+
+  --line: var(--zinc-800);
+  --line-soft: var(--alpha-line-soft);
+  --line-strong: var(--zinc-750);
+
+  --accent: var(--violeta-500);
+  --accent-hover: var(--violeta-400);
+  --accent-press: var(--violeta-600);
+  --accent-quiet: var(--alpha-violeta-12);
+  --accent-quiet-line: var(--alpha-violeta-30);
+  --accent-ink: var(--violeta-400);
+
+  --accent-2: var(--teal-500);
+  --accent-2-quiet: var(--alpha-teal-12);
+  --accent-2-line: var(--alpha-teal-30);
+
+  --success: var(--teal-500);
+  --success-ink: var(--teal-400);
+  --danger: var(--rojo-400);
+  --warning: var(--ambar-400);
+  --info: var(--cielo-400);
+
+  --focus-ring-color: var(--violeta-400);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+  --track: var(--zinc-750);
+
+  /* ── Tipografía ──────────────────────────────────────────────────────────
+     Instrument Serif para TODO titular y las cifras grandes. Ya es estrecha y
+     de alto contraste, así que pide MENOS tracking negativo que una grotesca.
+     Las familias las inyecta next/font desde app/layout.tsx. */
+  --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-figtree), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --text-hero: clamp(2.75rem, 6.4vw, 5.5rem);
+  --text-display: clamp(2.25rem, 4.6vw, 3.875rem);
+  --text-h1: clamp(2rem, 3.6vw, 3.125rem);
+  --text-h2: clamp(1.625rem, 2.5vw, 2.375rem);
+  --text-h3: 1.5rem;
+  --text-h4: 1.1875rem;
+  --text-lead: clamp(1.0625rem, 1.35vw, 1.25rem);
+  --text-body-size: 0.9375rem;
+  --text-eyebrow: 0.6875rem;
+
+  --lh-tight: 1;
+  --lh-display: 1.06;
+  --lh-snug: 1.25;
+  --lh-body: 1.6;
+
+  --ls-hero: -0.022em;
+  --ls-display: -0.018em;
+  --ls-heading: -0.012em;
+  --ls-body: -0.002em;
+  --ls-eyebrow: 0.16em;
+
+  /* ── Espacio y ritmo ─────────────────────────────────────────────────── */
+  --maxw: 1200px;
+  --maxw-narrow: 900px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-y: clamp(4.5rem, 9vw, 8.5rem);
+  --header-h: 4rem;
+
+  /* ── Forma ───────────────────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* Sobre oscuro la elevación la da el escalón de superficie más el filete de
+     1px. La sombra queda para lo que de verdad flota. */
+  --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.3);
+  --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.3), 0 2px 8px hsl(0 0% 0% / 0.18);
+  --shadow-md: 0 6px 18px -4px hsl(0 0% 0% / 0.4);
+  --shadow-pop: 0 12px 40px hsl(0 0% 0% / 0.55);
+  --shadow-accent: 0 10px 28px -10px hsl(252 100% 68% / 0.5);
+  --inset-hairline: inset 0 1px 0 hsl(0 0% 100% / 0.06);
+
+  --blur-glass: saturate(150%) blur(14px);
+  /* El único degradado decorativo plano que existe: el florón violeta. */
+  --bloom-violeta: radial-gradient(60% 55% at 50% 0%, hsl(252 100% 68% / 0.18) 0%, hsl(252 100% 68% / 0) 70%);
+  --scrim-bottom: linear-gradient(to top, hsl(240 10% 3.9% / 0.94) 0%, hsl(240 10% 3.9% / 0.6) 40%, hsl(240 10% 3.9% / 0) 80%);
+
+  /* ── Movimiento ───────────────────────────────────────────────────────── */
+  --duration-instant: 0s;
+  --duration-quick: 0.12s;
+  --duration-base: 0.2s;
+  --duration-slow: 0.32s;
+  --duration-ambient: 0.56s;
+
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-state: cubic-bezier(0.2, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* La curva firma de palo-seco: la usan TODOS los reveal, lift y clip. */
+  --ease-ps: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --easing: var(--ease-state);
+
+  --dur-reveal: 0.7s;
+  --dur-reveal-y: 0.75s;
+  --dur-clip: 0.9s;
+  --dur-lift: 0.28s;
+  --dur-marquee: 45s;
+  --reveal-stagger: 90ms;
+  --reveal-rise: 24px;
+}
+
+/* ── Modo claro — para propuestas impresas y correo ─────────────────────── */
+[data-theme="claro"] {
+  --canvas: var(--zinc-25);
+  --canvas-tint: #faf9ff;
+  --surface: var(--zinc-0);
+  --surface-raised: var(--zinc-50);
+  --surface-band: var(--zinc-50);
+  --surface-inverse: var(--zinc-950);
+
+  --text-strong: #131316;
+  --text-body: var(--zinc-600);
+  --text-muted: var(--zinc-500);
+  --text-accent: var(--violeta-600);
+  --text-inverse: #fafafa;
+
+  --line: var(--zinc-200);
+  --line-soft: var(--zinc-100);
+  --line-strong: var(--zinc-300);
+
+  --accent-hover: var(--violeta-600);
+  --accent-press: var(--violeta-700);
+  --accent-quiet: #7c6cf514;
+  --accent-quiet-line: #7c6cf533;
+  --accent-ink: var(--violeta-700);
+
+  --accent-2: var(--teal-600);
+  --success: var(--teal-700);
+  --success-ink: var(--teal-700);
+  --danger: var(--rojo-500);
+  --warning: var(--ambar-500);
+
+  --focus-ring-color: var(--violeta-500);
+  --track: var(--zinc-200);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-quick: 0s;
+    --duration-base: 0s;
+    --duration-slow: 0s;
+    --duration-ambient: 0s;
+    --dur-reveal: 0s;
+    --dur-reveal-y: 0s;
+    --dur-clip: 0s;
+    --dur-lift: 0s;
+    --reveal-rise: 0px;
+  }
+}
