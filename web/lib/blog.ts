@@ -1,3 +1,5 @@
+import type { Idioma, Traducido } from "@/content/types";
+
 // Manifest de posts del blog. Fuente única para el índice, el sitemap, el
 // JSON-LD y la metadata de cada página.
 //
@@ -20,16 +22,27 @@
 //   • `description` ≤ 155 chars.
 //   • `publishedAt` / `updatedAt` en ISO — Google los lee del schema.
 
+/**
+ * TODO LO QUE SE LEE VA EN LOS DOS IDIOMAS, EMPEZANDO POR EL SLUG.
+ *
+ * El slug es lo que más importa que esté traducido: `/en/blog/cuanto-cuesta-
+ * una-pagina-web-en-colombia` no posiciona en inglés por mucho que el texto
+ * de dentro sí lo esté. Es la misma regla que ya siguen las doce internas.
+ *
+ * `readingMinutes` NO se traduce y es a propósito: el inglés y el castellano
+ * miden parecido en estos textos —la diferencia queda por debajo del minuto—
+ * y dos cifras separadas serían dos cifras que se desincronizan.
+ */
 export type BlogPost = {
-  slug: string;
-  title: string;
-  description: string;
-  excerpt: string;
+  slug: Traducido<string>;
+  title: Traducido<string>;
+  description: Traducido<string>;
+  excerpt: Traducido<string>;
   publishedAt: string;
   updatedAt?: string;
   readingMinutes: number;
-  keywords: string[];
-  category: "Precios" | "Decisión" | "Guías";
+  keywords: Traducido<readonly string[]>;
+  category: Traducido<string>;
 };
 
 export const AUTHOR = {
@@ -39,129 +52,271 @@ export const AUTHOR = {
 
 export const POSTS: BlogPost[] = [
   {
-    slug: "cuanto-cuesta-una-pagina-web-en-colombia",
-    title: "¿Cuánto cuesta una página web en Colombia? (2026)",
-    description:
-      "Rangos reales en pesos por tipo de sitio, qué está incluido en cada uno y las cinco cosas que disparan el presupuesto sin que te las adviertan.",
-    excerpt:
-      "La respuesta honesta no es un número, es un rango con condiciones. Te muestro qué se cobra hoy en Colombia por cada tipo de sitio y en qué se te va la plata.",
+    slug: {
+      es: "cuanto-cuesta-una-pagina-web-en-colombia",
+      en: "how-much-does-a-website-cost-in-colombia",
+    },
+    title: {
+      es: "¿Cuánto cuesta una página web en Colombia? (2026)",
+      en: "How much does a website cost in Colombia? (2026)",
+    },
+    description: {
+      es: "Rangos reales en pesos por tipo de sitio, qué está incluido en cada uno y las cinco cosas que disparan el presupuesto sin que te las adviertan.",
+      en: "Real peso ranges by type of site, what each one includes, and the five things that blow up the budget without anyone warning you.",
+    },
+    excerpt: {
+      es: "La respuesta honesta no es un número, es un rango con condiciones. Te muestro qué se cobra hoy en Colombia por cada tipo de sitio y en qué se te va la plata.",
+      en: "The honest answer isn't a number, it's a range with conditions. Here's what each type of site is charged in Colombia today, and where the money actually goes.",
+    },
     publishedAt: "2026-08-13",
     readingMinutes: 8,
-    keywords: [
-      "cuánto cuesta una página web",
-      "precio página web Colombia",
-      "cuánto vale hacer una página web",
-      "presupuesto sitio web",
-      "cotizar página web",
-    ],
-    category: "Precios",
+    keywords: {
+      es: [
+        "cuánto cuesta una página web",
+        "precio página web Colombia",
+        "cuánto vale hacer una página web",
+        "presupuesto sitio web",
+        "cotizar página web",
+      ],
+      en: [
+        "how much does a website cost",
+        "website price Colombia",
+        "cost of building a website in Colombia",
+        "website budget",
+        "website quote Colombia",
+      ],
+    },
+    category: { es: "Precios", en: "Pricing" },
   },
   {
-    slug: "cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia",
-    title: "¿Cuánto cuesta un chatbot de WhatsApp en Colombia? (2026)",
-    description:
-      "Precios reales de montaje y mensualidad en pesos, lo que Meta te cobra aparte por mensaje y el cambio del 1 de octubre de 2026 que casi nadie avisa.",
-    excerpt:
-      "El montaje es la parte fácil de averiguar. Lo que casi nadie te explica es lo que Meta te cobra a ti, aparte, por cada mensaje — y eso cambia el 1 de octubre.",
+    slug: {
+      es: "cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia",
+      en: "how-much-does-a-whatsapp-chatbot-cost-in-colombia",
+    },
+    title: {
+      es: "¿Cuánto cuesta un chatbot de WhatsApp en Colombia? (2026)",
+      en: "How much does a WhatsApp chatbot cost in Colombia? (2026)",
+    },
+    description: {
+      es: "Precios reales de montaje y mensualidad en pesos, lo que Meta te cobra aparte por mensaje y el cambio del 1 de octubre de 2026 que casi nadie avisa.",
+      en: "Real setup and monthly prices in pesos, what Meta charges you separately per message, and the 1 October 2026 change almost nobody mentions.",
+    },
+    excerpt: {
+      es: "El montaje es la parte fácil de averiguar. Lo que casi nadie te explica es lo que Meta te cobra a ti, aparte, por cada mensaje — y eso cambia el 1 de octubre.",
+      en: "The setup fee is the easy part to find out. What almost nobody explains is what Meta charges you, separately, per message — and that changes on 1 October.",
+    },
     publishedAt: "2026-09-09",
     readingMinutes: 9,
-    keywords: [
-      "cuánto cuesta un chatbot de WhatsApp",
-      "precio chatbot WhatsApp Colombia",
-      "cuánto vale un bot de WhatsApp",
-      "costo WhatsApp Business API Colombia",
-      "chatbot WhatsApp precio",
-    ],
-    category: "Precios",
+    keywords: {
+      es: [
+        "cuánto cuesta un chatbot de WhatsApp",
+        "precio chatbot WhatsApp Colombia",
+        "cuánto vale un bot de WhatsApp",
+        "costo WhatsApp Business API Colombia",
+        "chatbot WhatsApp precio",
+      ],
+      en: [
+        "how much does a WhatsApp chatbot cost",
+        "WhatsApp chatbot price Colombia",
+        "WhatsApp Business API cost Colombia",
+        "WhatsApp bot pricing",
+        "WhatsApp automation cost",
+      ],
+    },
+    category: { es: "Precios", en: "Pricing" },
   },
   {
-    slug: "cuanto-cuesta-el-seo-en-colombia",
-    title: "¿Cuánto cuesta el SEO en Colombia? Precios reales 2026",
-    description:
-      "Rangos reales del posicionamiento mensual y de las auditorías en Colombia, por qué existe un piso de precio y cómo reconocer el humo.",
-    excerpt:
-      "El SEO técnico se paga una vez; posicionar es mensual. Con esa confusión se venden planes de $300.000 que no alcanzan ni para la herramienta.",
+    slug: {
+      es: "cuanto-cuesta-el-seo-en-colombia",
+      en: "how-much-does-seo-cost-in-colombia",
+    },
+    title: {
+      es: "¿Cuánto cuesta el SEO en Colombia? Precios reales 2026",
+      en: "How much does SEO cost in Colombia? Real 2026 prices",
+    },
+    description: {
+      es: "Rangos reales del posicionamiento mensual y de las auditorías en Colombia, por qué existe un piso de precio y cómo reconocer el humo.",
+      en: "Real ranges for monthly SEO work and audits in Colombia, why a price floor exists, and how to spot the sales pitch.",
+    },
+    excerpt: {
+      es: "El SEO técnico se paga una vez; posicionar es mensual. Con esa confusión se venden planes de $300.000 que no alcanzan ni para la herramienta.",
+      en: "Technical SEO is paid once; ranking is monthly. That confusion is how $300,000-peso plans get sold that don't even cover the tooling.",
+    },
     publishedAt: "2026-09-09",
     readingMinutes: 8,
-    keywords: [
-      "cuánto cuesta el SEO en Colombia",
-      "precio SEO mensual Colombia",
-      "cuánto cuesta una auditoría SEO",
-      "posicionamiento web precio Colombia",
-      "tarifas agencia SEO Colombia",
-    ],
-    category: "Precios",
+    keywords: {
+      es: [
+        "cuánto cuesta el SEO en Colombia",
+        "precio SEO mensual Colombia",
+        "cuánto cuesta una auditoría SEO",
+        "posicionamiento web precio Colombia",
+        "tarifas agencia SEO Colombia",
+      ],
+      en: [
+        "how much does SEO cost in Colombia",
+        "monthly SEO price Colombia",
+        "SEO audit cost",
+        "SEO agency rates Colombia",
+        "search engine optimisation pricing Colombia",
+      ],
+    },
+    category: { es: "Precios", en: "Pricing" },
   },
   {
-    slug: "mi-negocio-necesita-pagina-web",
-    title: "¿Mi negocio necesita página web en 2026?",
-    description:
-      "Cuándo una página web sí mueve la aguja y cuándo es plata botada. Cuatro casos donde conviene esperar y qué hacer en su lugar.",
-    excerpt:
-      "No todos los negocios necesitan una web hoy. Te doy los criterios concretos para decidir, incluidos los casos en los que te conviene NO hacerla todavía.",
+    slug: {
+      es: "mi-negocio-necesita-pagina-web",
+      en: "does-my-business-need-a-website",
+    },
+    title: {
+      es: "¿Mi negocio necesita página web en 2026?",
+      en: "Does my business need a website in 2026?",
+    },
+    description: {
+      es: "Cuándo una página web sí mueve la aguja y cuándo es plata botada. Cuatro casos donde conviene esperar y qué hacer en su lugar.",
+      en: "When a website actually moves the needle and when it's money thrown away. Four cases where waiting is the right call, and what to do instead.",
+    },
+    excerpt: {
+      es: "No todos los negocios necesitan una web hoy. Te doy los criterios concretos para decidir, incluidos los casos en los que te conviene NO hacerla todavía.",
+      en: "Not every business needs a website today. Here are the concrete criteria to decide, including the cases where you're better off NOT building one yet.",
+    },
     publishedAt: "2026-08-13",
     readingMinutes: 7,
-    keywords: [
-      "mi negocio necesita página web",
-      "para qué sirve una página web",
-      "beneficios de tener página web",
-      "negocio sin página web",
-    ],
-    category: "Decisión",
+    keywords: {
+      es: [
+        "mi negocio necesita página web",
+        "para qué sirve una página web",
+        "beneficios de tener página web",
+        "negocio sin página web",
+      ],
+      en: [
+        "does my business need a website",
+        "what is a website for",
+        "benefits of having a website",
+        "business without a website",
+      ],
+    },
+    category: { es: "Decisión", en: "Deciding" },
   },
   {
-    slug: "pagina-web-o-solo-instagram",
-    title: "¿Página web o solo Instagram para tu negocio?",
-    description:
-      "Qué gana y qué pierde un negocio que vive solo en redes, con el criterio para decidir según cómo te compran tus clientes.",
-    excerpt:
-      "Instagram te da alcance; la web te da algo que Instagram no puede: ser encontrado por quien ya te está buscando. No compiten, hacen cosas distintas.",
+    slug: {
+      es: "pagina-web-o-solo-instagram",
+      en: "website-or-just-instagram",
+    },
+    title: {
+      es: "¿Página web o solo Instagram para tu negocio?",
+      en: "A website, or just Instagram for your business?",
+    },
+    description: {
+      es: "Qué gana y qué pierde un negocio que vive solo en redes, con el criterio para decidir según cómo te compran tus clientes.",
+      en: "What a business gains and loses by living only on social, and how to decide based on the way your customers actually buy.",
+    },
+    excerpt: {
+      es: "Instagram te da alcance; la web te da algo que Instagram no puede: ser encontrado por quien ya te está buscando. No compiten, hacen cosas distintas.",
+      en: "Instagram gives you reach; a website gives you something Instagram can't: being found by someone already looking for you. They don't compete, they do different jobs.",
+    },
     publishedAt: "2026-08-13",
     readingMinutes: 7,
-    keywords: [
-      "página web o instagram",
-      "necesito web si tengo instagram",
-      "redes sociales vs página web",
-      "vender por instagram o web",
-    ],
-    category: "Decisión",
+    keywords: {
+      es: [
+        "página web o instagram",
+        "necesito web si tengo instagram",
+        "redes sociales vs página web",
+        "vender por instagram o web",
+      ],
+      en: [
+        "website or instagram",
+        "do I need a website if I have instagram",
+        "social media vs website",
+        "selling on instagram or a website",
+      ],
+    },
+    category: { es: "Decisión", en: "Deciding" },
   },
   {
-    slug: "que-debe-tener-la-pagina-web-de-un-restaurante",
-    title: "Qué debe tener la página web de un restaurante",
-    description:
-      "Las seis cosas que un comensal busca en el sitio de un restaurante, en qué orden ponerlas y los errores que hacen que se vaya al de al lado.",
-    excerpt:
-      "El 80% de quien entra a la web de un restaurante busca tres cosas: menú, horario y cómo llegar. Casi ningún sitio las pone primero.",
+    slug: {
+      es: "que-debe-tener-la-pagina-web-de-un-restaurante",
+      en: "what-a-restaurant-website-needs",
+    },
+    title: {
+      es: "Qué debe tener la página web de un restaurante",
+      en: "What a restaurant website needs",
+    },
+    description: {
+      es: "Las seis cosas que un comensal busca en el sitio de un restaurante, en qué orden ponerlas y los errores que hacen que se vaya al de al lado.",
+      en: "The six things a diner looks for on a restaurant site, the order to put them in, and the mistakes that send them to the place next door.",
+    },
+    excerpt: {
+      es: "El 80% de quien entra a la web de un restaurante busca tres cosas: menú, horario y cómo llegar. Casi ningún sitio las pone primero.",
+      en: "80% of people landing on a restaurant site want three things: the menu, the hours and how to get there. Almost no site puts them first.",
+    },
     publishedAt: "2026-08-13",
     readingMinutes: 7,
-    keywords: [
-      "página web para restaurante",
-      "qué debe tener la web de un restaurante",
-      "menú digital restaurante",
-      "web para restaurantes Colombia",
-    ],
-    category: "Guías",
+    keywords: {
+      es: [
+        "página web para restaurante",
+        "qué debe tener la web de un restaurante",
+        "menú digital restaurante",
+        "web para restaurantes Colombia",
+      ],
+      en: [
+        "restaurant website",
+        "what a restaurant website should have",
+        "digital menu for restaurants",
+        "restaurant web design Colombia",
+      ],
+    },
+    category: { es: "Guías", en: "Guides" },
   },
   {
-    slug: "cuanto-se-demora-hacer-una-pagina-web",
-    title: "¿Cuánto se demora hacer una página web?",
-    description:
-      "Plazos reales por tipo de proyecto, en qué se va el tiempo de verdad y qué depende de ti para que no se estire el doble.",
-    excerpt:
-      "El desarrollo casi nunca es lo que demora. Lo que estira los proyectos es el contenido, las aprobaciones y las decisiones que nadie toma.",
+    slug: {
+      es: "cuanto-se-demora-hacer-una-pagina-web",
+      en: "how-long-does-it-take-to-build-a-website",
+    },
+    title: {
+      es: "¿Cuánto se demora hacer una página web?",
+      en: "How long does it take to build a website?",
+    },
+    description: {
+      es: "Plazos reales por tipo de proyecto, en qué se va el tiempo de verdad y qué depende de ti para que no se estire el doble.",
+      en: "Real timelines by project type, where the time actually goes, and what depends on you to keep it from doubling.",
+    },
+    excerpt: {
+      es: "El desarrollo casi nunca es lo que demora. Lo que estira los proyectos es el contenido, las aprobaciones y las decisiones que nadie toma.",
+      en: "Development is almost never the slow part. What stretches projects is the content, the approvals and the decisions nobody makes.",
+    },
     publishedAt: "2026-08-13",
     readingMinutes: 6,
-    keywords: [
-      "cuánto se demora hacer una página web",
-      "tiempo desarrollo página web",
-      "cuánto tarda una web",
-      "plazos diseño web",
-    ],
-    category: "Guías",
+    keywords: {
+      es: [
+        "cuánto se demora hacer una página web",
+        "tiempo desarrollo página web",
+        "cuánto tarda una web",
+        "plazos diseño web",
+      ],
+      en: [
+        "how long does it take to build a website",
+        "website development time",
+        "web design timeline",
+        "how long does a website take",
+      ],
+    },
+    category: { es: "Guías", en: "Guides" },
   },
 ];
 
-export function findPost(slug: string): BlogPost | undefined {
-  return POSTS.find((p) => p.slug === slug);
+/** El post cuyo slug —en el idioma dado— coincide. */
+export function findPost(slug: string, idioma: Idioma = "es"): BlogPost | undefined {
+  return POSTS.find((p) => p.slug[idioma] === slug);
+}
+
+/**
+ * El slug del mismo post en el otro idioma, o `null` si no es un post.
+ *
+ * Lo usa `lib/rutas.ts` para el conmutador de idioma: el mapa estático de
+ * rutas no puede listar los posts uno a uno sin quedarse desfasado la próxima
+ * vez que se escriba uno.
+ */
+export function slugEmparejado(slug: string, de: Idioma): string | null {
+  const otro: Idioma = de === "es" ? "en" : "es";
+  return POSTS.find((p) => p.slug[de] === slug)?.slug[otro] ?? null;
 }

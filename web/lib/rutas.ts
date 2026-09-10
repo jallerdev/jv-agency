@@ -1,4 +1,5 @@
 import { IDIOMA_POR_DEFECTO, type Idioma } from "@/content/types";
+import { slugEmparejado } from "@/lib/blog";
 
 /**
  * EL MAPA DE RUTAS ENTRE LOS DOS IDIOMAS
@@ -27,6 +28,7 @@ export const RUTAS: Readonly<Record<string, string>> = {
   "/sectores/salones-y-spas": "/en/industries/salons-and-spas",
   "/sectores/clinicas-y-consultorios": "/en/industries/clinics",
   "/servicios/posicionamiento-seo": "/en/services/seo",
+  "/blog": "/en/blog",
 };
 
 /**
@@ -39,7 +41,10 @@ export const RUTAS: Readonly<Record<string, string>> = {
  * conmutador— se entera solo.
  */
 export const PENDIENTES: Readonly<Record<string, string>> = {
-  "/blog": "/en/blog",
+  /* Vacío: ya no queda ninguna página en castellano sin su equivalente en
+     inglés. Se deja el mapa, y `enlaceReal` con él, porque la siguiente
+     página que se escriba va a nacer en un idioma antes que en el otro y es
+     el único sitio donde eso se declara sin romper nada. */
 };
 
 /** El mismo mapa al revés, construido una vez. */
@@ -73,11 +78,29 @@ export function rutaEnOtroIdioma(ruta: string): string | null {
   /* El ancla y la query no viajan: son de la página, no de la ruta. */
   const limpia = ruta.split("#")[0].split("?")[0].replace(/\/+$/, "") || "/";
 
+  /* Los artículos del blog no están en el mapa y no pueden estarlo: se añaden
+     escribiendo un post, no editando este archivo, y listarlos aquí uno a uno
+     sería una lista que se queda vieja el día que se publique el siguiente.
+     El par sale del propio manifiesto. */
+  const post = paraBlog(limpia);
+  if (post) return post;
+
   if (idiomaDeRuta(limpia) === "en") {
     return INVERSO[limpia] ?? null;
   }
 
   return RUTAS[limpia] ?? null;
+}
+
+/** El par de un artículo del blog, o `null` si la ruta no es un artículo. */
+function paraBlog(ruta: string): string | null {
+  const es = ruta.startsWith("/blog/") ? ruta.slice("/blog/".length) : null;
+  const en = ruta.startsWith("/en/blog/") ? ruta.slice("/en/blog/".length) : null;
+  if (!es && !en) return null;
+
+  const otro = slugEmparejado((es ?? en) as string, es ? "es" : "en");
+  if (!otro) return null;
+  return es ? `/en/blog/${otro}` : `/blog/${otro}`;
 }
 
 /** Las dos versiones de una ruta, para `hreflang` y para el sitemap. */

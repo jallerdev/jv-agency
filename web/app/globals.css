@@ -346,7 +346,15 @@
   }
   .legal p,
   .legal li {
-    color: #6b5e54;
+    /* Era `#6b5e54`, un marrón cálido del sistema anterior —bronce sobre
+       papel— escrito como hex suelto. Sobrevivió al port de marca justamente
+       por eso: el barrido buscaba variables muertas, y un literal no es una
+       variable muerta, es un color perfectamente válido que resulta ser el
+       equivocado. Medido sobre el canvas daba 3,2:1, por debajo de AA, en los
+       siete artículos del blog y en las cuatro páginas legales, en los dos
+       idiomas. `--color-ink-soft` es el mismo tono de cuerpo que usa el resto
+       del sitio y mide 9,4:1. */
+    color: var(--color-ink-soft);
     font-size: 0.975rem;
   }
   .legal p {

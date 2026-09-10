@@ -949,6 +949,21 @@ export const META_BILLING_NOTE =
   "propio medio de pago. No está incluido acá porque no lo facturo yo: " +
   "depende de cuántas conversaciones tengas.";
 
+/** La misma advertencia en inglés, para el blog y las páginas de /en. */
+export const META_BILLING_NOTE_EN =
+  "WhatsApp API usage is billed by Meta directly to your account, with your own " +
+  "payment method. It isn't included here because I don't invoice it: " +
+  "it depends on how many conversations you have.";
+
+/** Las cinco automatizaciones, con su nombre en inglés. */
+export const A_TYPE_LABEL_EN: Record<AutomationType, string> = {
+  faq: "Automatic replies",
+  leads: "Lead capture and qualification",
+  citas: "Appointment booking",
+  pedidos: "Orders and catalogue",
+  avisos: "Alerts and reminders",
+};
+
 export function computeAutomationTotals(a: AutomationAnswers): AutomationTotals {
   const items: LineItem[] = [];
 

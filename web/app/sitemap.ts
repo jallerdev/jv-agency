@@ -92,15 +92,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: "monthly" as const,
         priority: 0.75,
       })),
-    { url: `${SITE_URL}/blog`, changeFrequency: "weekly", priority: 0.9 },
+    {
+      url: `${SITE_URL}/blog`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+      alternates: idiomas("/blog"),
+    },
+    { url: `${SITE_URL}/en/blog`, changeFrequency: "weekly", priority: 0.8 },
     // Los posts salen del manifest de lib/blog.ts: al agregar uno allí entra
     // solo acá, sin tener que acordarse de tocar este archivo.
-    ...POSTS.map((p) => ({
-      url: `${SITE_URL}/blog/${p.slug}`,
-      lastModified: new Date(p.updatedAt ?? p.publishedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
+    //
+    // Los pares del blog NO pueden salir de `idiomas()`, que lee el mapa
+    // estático de rutas: los slugs de los artículos viven en el manifiesto y
+    // se declaran ahí. Se arman a mano con los dos slugs del propio post.
+    ...POSTS.flatMap((p) => {
+      const lastModified = new Date(p.updatedAt ?? p.publishedAt);
+      const languages = {
+        "es-CO": `${SITE_URL}/blog/${p.slug.es}`,
+        en: `${SITE_URL}/en/blog/${p.slug.en}`,
+      };
+      return [
+        {
+          url: `${SITE_URL}/blog/${p.slug.es}`,
+          lastModified,
+          changeFrequency: "monthly" as const,
+          priority: 0.8,
+          alternates: { languages },
+        },
+        {
+          url: `${SITE_URL}/en/blog/${p.slug.en}`,
+          lastModified,
+          changeFrequency: "monthly" as const,
+          priority: 0.7,
+          alternates: { languages },
+        },
+      ];
+    }),
     {
       url: `${SITE_URL}/sobre-nosotros`,
       changeFrequency: "monthly",

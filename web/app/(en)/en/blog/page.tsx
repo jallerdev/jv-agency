@@ -5,21 +5,21 @@ import { BLOG_META } from "@/content/paginas/blog";
 import { SITE_NAME, SITE_URL } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: BLOG_META.title.es,
-  description: BLOG_META.description.es,
+  title: BLOG_META.title.en,
+  description: BLOG_META.description.en,
   alternates: {
-    canonical: "/blog",
+    canonical: "/en/blog",
     languages: { "es-CO": "/blog", en: "/en/blog", "x-default": "/blog" },
   },
   openGraph: {
     title: `Blog — ${SITE_NAME}`,
-    description: BLOG_META.ogDescription.es,
-    url: `${SITE_URL}/blog`,
+    description: BLOG_META.ogDescription.en,
+    url: `${SITE_URL}/en/blog`,
     type: "website",
-    locale: "es_LA",
+    locale: "en_US",
   },
 };
 
 export default function BlogIndexPage() {
-  return <BlogIndice idioma="es" />;
+  return <BlogIndice idioma="en" />;
 }
