@@ -6,6 +6,7 @@ import Script from "next/script";
 import { SITE_NAME, SITE_URL, GA_MEASUREMENT_ID } from "@/lib/site";
 import { StructuredData } from "@/components/StructuredData";
 import { CuentameProvider } from "@/components/Cuentame";
+import { Blobs } from "@/components/Blobs";
 
 /* ── Las tres familias del sistema ────────────────────────────────────────
    Instrument Serif para TODO titular y las cifras grandes; Figtree para
@@ -120,6 +121,11 @@ export default function RootLayout({
        avisar de nada. */
     <html lang="es" className={`${instrument.variable} ${figtree.variable} ${jetbrains.variable}`}>
       <body className="bg-canvas font-body text-ink-soft antialiased">
+        {/* El campo de manchas detrás de TODO el sitio, no solo del hero.
+            Una sola instancia fija cubre las quince mil filas de scroll de
+            cualquier página; poner una por sección multiplicaría por seis el
+            coste sin que se vea más. */}
+        <Blobs fijo />
         <StructuredData />
         {/* El diálogo de contacto vive en el layout, no en cada página: hay un
             solo panel montado para todo el sitio y cualquier botón lo abre. */}

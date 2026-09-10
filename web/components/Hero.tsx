@@ -1,6 +1,5 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Blobs } from "@/components/Blobs";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { MetaTechProvider } from "@/components/MetaTechProvider";
@@ -87,7 +86,7 @@ export function Hero() {
          navegador y el hero se pasa de largo. El mínimo solo entra en md+;
          abajo el contenido ya es más alto que la pantalla y forzarlo solo
          empujaría los botones fuera de vista. */
-      className="jv-glowsec relative flex items-center overflow-hidden pt-28 pb-14 md:min-h-[calc(100svh-4.5rem)] md:pt-32 md:pb-20"
+      className="relative flex items-center overflow-hidden pt-28 pb-14 md:min-h-[calc(100svh-4.5rem)] md:pt-32 md:pb-20"
     >
       <style href="jv-hero" precedence="default" dangerouslySetInnerHTML={{ __html: HERO_CSS }} />
 
@@ -96,7 +95,6 @@ export function Hero() {
           sangra de lado a lado y el canvas vuelve a entrar arriba y abajo, así
           que la sección siguiente no choca contra un borde duro de luz. Va en
           la <section> misma, no aquí dentro. */}
-      <Blobs />
 
       {/* Rejilla editorial. El hero era una columna centrada y simetrica, y al
           entrar la credencial a la derecha quedo desequilibrado: composicion
@@ -123,7 +121,17 @@ export function Hero() {
             `sm:text-6xl` traía su propio line-height 1 y pisaba a
             `leading-tight`, así que en escritorio el h1 renderizaba a
             ratio 1,0 y los descendentes casi tocaban la línea siguiente. */}
-        <h1 className="mt-7 text-balance font-display text-[2.85rem]/[1.06] font-light tracking-[-0.02em] text-ink sm:mt-8 sm:text-6xl/[1.04] lg:text-[3.5rem]/[1.05] xl:text-[4rem]/[1.03]">
+        {/* El tamaño sale del token `--text-hero` —clamp(2.75rem, 6.4vw, 5.5rem)—
+            y no de cuatro puntos de ruptura escritos a mano. Los que había
+            topaban en 4rem: 64 px en una pantalla de 1440, que sobre un canvas
+            casi negro y con la mitad del ancho vacío se lee pequeño. El token
+            llega a 88 px y escala con el viewport en vez de a saltos.
+
+            Y fuera `font-light`. Instrument Serif SOLO tiene 400: pedirle 300
+            no adelgaza la fuente, obliga al navegador a sintetizar una versión
+            más fina, que es exactamente por qué el titular se veía sin fuerza.
+            El peso correcto es el que la fuente trae. */}
+        <h1 className="mt-7 text-balance font-display leading-[1.04] tracking-[-0.022em] text-ink text-[length:var(--text-hero)] sm:mt-8">
           {/* El espacio explícito importa. Las dos líneas del titular son
               bloques distintos, así que la maqueta se ve bien igual; pero el
               textContent que lee un rastreador iba pegado —«páginas webque

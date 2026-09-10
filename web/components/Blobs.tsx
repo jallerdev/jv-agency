@@ -28,7 +28,7 @@ import { useEffect, useRef } from "react";
    sin puntero que seguir, sería una mancha fija en una esquina.
    =========================================================================== */
 
-export function Blobs({ variante }: { variante?: "left" | "right" | "top" }) {
+export function Blobs({ variante, fijo }: { variante?: "left" | "right" | "top"; fijo?: boolean }) {
   const puntero = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export function Blobs({ variante }: { variante?: "left" | "right" | "top" }) {
   return (
     <div
       aria-hidden
-      className={["jv-gg", variante ? `jv-gg--${variante}` : ""].join(" ")}
+      className={["jv-gg", fijo ? "jv-gg--fijo" : "", variante ? `jv-gg--${variante}` : ""].join(" ")}
     >
       <div className="jv-gg__stage">
         <div className="jv-blob jv-gg__blob jv-gg__b1" />

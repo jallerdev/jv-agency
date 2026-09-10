@@ -38,6 +38,22 @@
   mask-image: linear-gradient(#0000 0%, #000 24% 76%, #0000 100%);
 }
 .jv-gg__stage { position: absolute; inset: 0; filter: blur(var(--gg-blur)); }
+
+/* Variante FIJA: un solo campo detrás del documento entero, de arriba abajo.
+   Va anclada al viewport y no al documento —igual que el florón— por la misma
+   razón: en una página de 15.000 px, un campo anclado al documento se
+   comprimiría en el primer 6% del scroll y el resto quedaría plano.
+   Anclado al viewport acompaña todo el recorrido y no cuesta un repintado
+   extra: no se mueve, solo está ahí, y las manchas siguen animando en el
+   compositor. Va a z-index -2 para quedar por DEBAJO del florón violeta del
+   body, que sigue siendo la capa que da la dirección de la luz. */
+.jv-gg--fijo {
+  position: fixed;
+  z-index: -2;
+  opacity: 0.5;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
 .jv-gg__blob {
   position: absolute;
   width: var(--gg-size);
