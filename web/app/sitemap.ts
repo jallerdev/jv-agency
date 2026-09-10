@@ -83,7 +83,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}/${ruta}`,
       changeFrequency: "monthly" as const,
       priority: 0.85,
+      alternates: idiomas(`/${ruta}`),
     })),
+    ...Object.values(RUTAS)
+      .filter((en) => en.startsWith("/en/industries/"))
+      .map((en) => ({
+        url: `${SITE_URL}${en}`,
+        changeFrequency: "monthly" as const,
+        priority: 0.75,
+      })),
     { url: `${SITE_URL}/blog`, changeFrequency: "weekly", priority: 0.9 },
     // Los posts salen del manifest de lib/blog.ts: al agregar uno allí entra
     // solo acá, sin tener que acordarse de tocar este archivo.
