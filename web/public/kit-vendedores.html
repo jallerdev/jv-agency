@@ -7,23 +7,18 @@
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
 <style>
   :root{
-    --primary:#985C3E;        /* bronce cobrizo */
-    --primary-dark:#6E4128;   /* bronce profundo */
-    --secondary:#B08968;      /* taupe cálido */
-    --accent:#C0763B;         /* cobre vivo */
-    --surface:#FAF6F1;        /* crema */
-    --bg:#F4EDE4;             /* taupe muy claro */
-    --ink:#2B2420;            /* espresso */
-    --ink-soft:#6B5E54;       /* taupe oscuro */
-    --line:#E4D8CB;           /* arena */
-    --success:#4F7A52;
-    --error:#B0453C;
-    --display:'Fraunces', Georgia, 'Times New Roman', serif;
-    --body:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --mono:'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+    /* Sistema de JV Agencia: naranja #E8623F sobre casi negro. Antes esto era
+       bronce sobre crema, del sistema anterior. Las variables se llaman igual
+       para no tocar ni una regla del documento. */
+    --primary:#E8623F; --primary-dark:#EC7E5E; --secondary:rgba(255,255,255,.30); --accent:#E8623F;
+    --surface:#111111; --bg:#080808; --ink:#FAFAFA; --ink-soft:rgba(250,250,250,.72); --line:rgba(255,255,255,.08);
+    --success:#4ADE80; --warning:#FBBF24;
+    --display:'Figtree', system-ui, sans-serif;
+    --body:'Figtree', system-ui, sans-serif;
+    --mono:'JetBrains Mono', Menlo, monospace;
   }
 
   *{box-sizing:border-box}
@@ -70,8 +65,8 @@
     display:flex; flex-direction:column; justify-content:space-between;
     padding:64px 56px;
     background:
-      radial-gradient(1100px 460px at 78% -8%, rgba(192,118,59,.22), transparent 60%),
-      radial-gradient(720px 360px at -10% 108%, rgba(152,92,62,.16), transparent 60%),
+      radial-gradient(1100px 460px at 78% -8%, rgba(232,98,63,.22), transparent 60%),
+      radial-gradient(720px 360px at -10% 108%, rgba(232,98,63,.16), transparent 60%),
       var(--surface);
     border:1px solid var(--line);
     border-radius:18px;
@@ -90,7 +85,7 @@
     display:inline-block; margin-bottom:28px;
     font-family:var(--mono); font-size:12px; letter-spacing:.04em;
     color:var(--primary-dark);
-    border:1px solid var(--line); background:rgba(255,255,255,.5);
+    border:1px solid var(--line); background:rgba(255,255,255,.06);
     padding:7px 14px; border-radius:999px;
   }
   .cover .tagline{ font-family:var(--display); font-style:italic; font-size:22px; color:var(--ink-soft); margin-top:22px; }
@@ -114,13 +109,13 @@
     border-radius:14px; padding:20px 22px;
     break-inside:avoid;
   }
-  .card.featured{ border-color:rgba(152,92,62,.30); background:linear-gradient(135deg,var(--surface),rgba(176,137,104,.12)); }
+  .card.featured{ border-color:rgba(232,98,63,.30); background:linear-gradient(135deg,var(--surface),rgba(232,98,63,.12)); }
   .card h3{ font-size:21px; margin-bottom:6px; }
   .card .ico{
     display:inline-flex; align-items:center; justify-content:center;
     width:42px; height:42px; border-radius:11px;
     background:linear-gradient(135deg,var(--primary),var(--accent));
-    color:#fff; font-size:20px; margin-bottom:14px;
+    color:var(--ink); font-size:20px; margin-bottom:14px;
   }
   .card .price{ font-family:var(--mono); font-size:15px; color:var(--primary-dark); font-weight:500; }
 
@@ -136,10 +131,10 @@
   th,td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
   thead th{
     font-family:var(--body); font-size:11px; text-transform:uppercase; letter-spacing:.08em;
-    color:var(--ink-soft); background:rgba(176,137,104,.10); border-bottom:1px solid var(--line);
+    color:var(--ink-soft); background:rgba(232,98,63,.10); border-bottom:1px solid var(--line);
   }
   td.num, th.num{ text-align:right; font-family:var(--mono); white-space:nowrap; }
-  tbody tr:nth-child(even) td{ background:rgba(250,246,241,.6); }
+  tbody tr:nth-child(even) td{ background:rgba(17,17,17,.6); }
   .tablewrap{ border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--surface); break-inside:avoid; }
   .tablewrap table th:first-child, .tablewrap table td:first-child{ padding-left:18px; }
   .tablewrap table th:last-child, .tablewrap table td:last-child{ padding-right:18px; }
@@ -164,20 +159,20 @@
 
   /* ---------- Callout ---------- */
   .callout{
-    border:1px solid rgba(192,118,59,.35); background:rgba(192,118,59,.08);
+    border:1px solid rgba(232,98,63,.35); background:rgba(232,98,63,.08);
     border-radius:14px; padding:18px 22px; break-inside:avoid;
   }
   .callout.todo{ border-style:dashed; border-color:var(--error); background:rgba(176,69,60,.06); }
   .pill{
     display:inline-block; font-family:var(--mono); font-size:12px;
-    background:var(--primary); color:#fff; padding:4px 10px; border-radius:999px;
+    background:var(--primary); color:#080808; padding:4px 10px; border-radius:999px;
   }
 
   ul.clean{ margin:0 0 14px; padding-left:20px; }
   ul.clean li{ margin-bottom:7px; }
   ol.script{ padding-left:22px; }
   ol.script li{ margin-bottom:12px; }
-  .tag{ display:inline-block; font-size:12px; border:1px solid var(--line); background:rgba(255,255,255,.5); color:var(--ink-soft); padding:3px 10px; border-radius:999px; margin:0 6px 6px 0; }
+  .tag{ display:inline-block; font-size:12px; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--ink-soft); padding:3px 10px; border-radius:999px; margin:0 6px 6px 0; }
 
   .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 28px; font-size:14px; }
   .contact-grid b{ color:var(--ink); }
@@ -187,7 +182,18 @@
   /* ---------- Print ---------- */
   @page{ size:A4; margin:14mm; }
   @media print{
-    body{ background:#fff; }
+
+    /* AL IMPRIMIR SE VUELVE AL PAPEL. El documento en pantalla va en el casi
+       negro del sistema; en papel eso seria un pliego entero de tinta y una
+       lectura peor. Se reponen los tokens claros y el resto de reglas del
+       documento, que estan escritas contra las variables, siguen valiendo. */
+    :root{
+      --surface:#FFFFFF; --bg:#FFFFFF; --ink:#111111; --ink-soft:#4A4A4A;
+      --line:#E2E2E0; --secondary:#6B6B6B;
+    }
+    body{ color:#111111 !important; }
+    *{ box-shadow:none !important; }
+    body{ background:#111111; }
     .page{ padding:0; max-width:none; }
     .no-print{ display:none !important; }
     .pagebreak{ break-before:page; }
@@ -199,11 +205,11 @@
   /* ---------- Screen helper bar ---------- */
   .helper{
     position:sticky; top:0; z-index:10;
-    background:var(--ink); color:var(--surface);
+    background:#1c1c1c; color:var(--surface);
     font-size:13px; text-align:center; padding:10px 16px;
   }
-  .helper b{ color:#fff; }
-  .helper kbd{ font-family:var(--mono); background:rgba(255,255,255,.15); padding:1px 6px; border-radius:4px; }
+  .helper b{ color:var(--ink); }
+  .helper kbd{ font-family:var(--mono); background:rgba(255,255,255,.10); padding:1px 6px; border-radius:4px; }
 </style>
 </head>
 <body>
@@ -247,7 +253,7 @@
         <p class="muted" style="margin:0">Quiénes somos, qué hacemos, un caso real y cómo trabajamos. Puedes enseñar estas páginas en una reunión o enviarlas por WhatsApp/correo.</p>
       </div>
       <div class="card">
-        <span class="pill" style="background:var(--ink)">Parte 2</span>
+        <span class="pill" style="background:#1c1c1c">Parte 2</span>
         <h3 style="margin-top:12px">Solo para ti (vendedor)</h3>
         <p class="muted" style="margin:0">Precios, cómo cotizar, manejo de objeciones, guion de venta, cómo cerrar, tu comisión y cómo usar el CRM. <strong>No se la muestres al cliente tal cual.</strong></p>
       </div>
@@ -336,7 +342,7 @@
     <div class="card" style="margin-top:18px">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
         <h3 style="font-size:22px">Bloomrose</h3>
-        <span class="tag" style="border-color:rgba(192,118,59,.35); color:var(--primary-dark)">E-commerce</span>
+        <span class="tag" style="border-color:rgba(232,98,63,.35); color:var(--primary-dark)">E-commerce</span>
       </div>
       <p class="muted" style="margin:10px 0 14px">Catálogo, carrito, cuentas, pagos y envíos. Una marca pequeña con una tienda que se ve y funciona como una grande.</p>
       <div>
@@ -375,7 +381,7 @@
 
   <!-- ============ CLIENTE IDEAL ============ -->
   <section class="sheet pagebreak" style="padding-top:8px">
-    <span class="partlabel" style="background:var(--ink)">Parte 2 · Solo para ti, vendedor</span>
+    <span class="partlabel" style="background:#1c1c1c">Parte 2 · Solo para ti, vendedor</span>
     <p class="eyebrow">A quién le vendes</p>
     <h2 class="sec-h2">El cliente ideal</h2>
     <p class="lead">No le vendemos a todo el mundo. Mientras mejor califiques, más fácil cierras.</p>
@@ -910,7 +916,7 @@
 
   <!-- ============ EL CRM (HALCÓNOS) ============ -->
   <section class="sheet pagebreak" style="padding-top:8px">
-    <span class="partlabel" style="background:var(--ink)">Parte 2 · Tu herramienta de trabajo</span>
+    <span class="partlabel" style="background:#1c1c1c">Parte 2 · Tu herramienta de trabajo</span>
     <p class="eyebrow">El CRM</p>
     <h2 class="sec-h2">Dónde trabajas tus leads <span class="metal">cada día.</span></h2>
     <p class="lead">Te damos acceso a <strong>HalcónOS</strong>, nuestro CRM. Ahí ves tus leads, los contactas y registras todo. Cada venta que cierres queda con tu nombre.</p>

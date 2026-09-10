@@ -7,24 +7,18 @@
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
 <style>
   :root{
-    --primary:#985C3E;        /* bronce cobrizo */
-    --primary-dark:#6E4128;   /* bronce profundo */
-    --secondary:#B08968;      /* taupe cálido */
-    --accent:#C0763B;         /* cobre vivo */
-    --surface:#FAF6F1;        /* crema */
-    --bg:#F4EDE4;             /* taupe muy claro */
-    --ink:#2B2420;            /* espresso */
-    --ink-soft:#6B5E54;       /* taupe oscuro */
-    --line:#E4D8CB;           /* arena */
-    --success:#4F7A52;
-    --warning:#B57E2C;
-    --error:#B0453C;
-    --display:'Fraunces', Georgia, 'Times New Roman', serif;
-    --body:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --mono:'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+    /* Sistema de JV Agencia: naranja #E8623F sobre casi negro. Antes esto era
+       bronce sobre crema, del sistema anterior. Las variables se llaman igual
+       para no tocar ni una regla del documento. */
+    --primary:#E8623F; --primary-dark:#EC7E5E; --secondary:rgba(255,255,255,.30); --accent:#E8623F;
+    --surface:#111111; --bg:#080808; --ink:#FAFAFA; --ink-soft:rgba(250,250,250,.72); --line:rgba(255,255,255,.08);
+    --success:#4ADE80; --warning:#FBBF24;
+    --display:'Figtree', system-ui, sans-serif;
+    --body:'Figtree', system-ui, sans-serif;
+    --mono:'JetBrains Mono', Menlo, monospace;
   }
 
   *{ box-sizing:border-box }
@@ -35,8 +29,8 @@
     color:var(--ink);
     background:var(--bg);
     background-image:
-      radial-gradient(60rem 40rem at 88% -12%, rgba(192,118,59,.13), transparent 60%),
-      radial-gradient(50rem 40rem at -12% 18%, rgba(176,137,104,.15), transparent 55%);
+      radial-gradient(60rem 40rem at 88% -12%, rgba(232,98,63,.13), transparent 60%),
+      radial-gradient(50rem 40rem at -12% 18%, rgba(232,98,63,.15), transparent 55%);
     background-attachment:fixed;
     line-height:1.62;
     font-size:15px;
@@ -55,7 +49,7 @@
     position:sticky; top:0; z-index:20;
     display:flex; align-items:center; justify-content:space-between; gap:16px;
     padding:14px clamp(18px,5vw,56px);
-    background:rgba(244,237,228,.86);
+    background:rgba(17,17,17,.86);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
@@ -122,10 +116,10 @@
   ul.list li::marker{ color:var(--accent); }
 
   .note{
-    background:rgba(192,118,59,.075);
+    background:rgba(232,98,63,.075);
     border-left:3px solid var(--accent);
     padding:14px 18px; border-radius:0 4px 4px 0;
-    font-size:14.5px; color:#4a4038; margin:16px 0;
+    font-size:14.5px; color:#FAFAFA; margin:16px 0;
   }
   .note p:last-child{ margin-bottom:0; }
   .fine{ font-size:13px; color:var(--ink-soft); font-style:italic; }
@@ -139,7 +133,7 @@
     text-align:left; padding:10px 12px;
     border-bottom:1.5px solid var(--primary); white-space:nowrap;
   }
-  tbody td{ padding:12px; vertical-align:top; border-bottom:1px solid var(--line); line-height:1.5; color:#3d352f; }
+  tbody td{ padding:12px; vertical-align:top; border-bottom:1px solid var(--line); line-height:1.5; color:rgba(250,250,250,.62); }
   tbody tr:last-child td{ border-bottom:none; }
   td.name{ font-weight:600; color:var(--ink); width:27%; }
   td.num{ font-family:var(--mono); font-size:11px; color:var(--accent); width:34px; padding-right:0; }
@@ -153,21 +147,21 @@
   /* ---------- Bloque de oferta ---------- */
   .offer{
     margin:26px 0 6px; padding:26px clamp(20px,4vw,30px);
-    background:var(--ink); color:#F2E9E0; border-radius:6px;
+    background:#1c1c1c; color:var(--ink); border-radius:6px;
   }
-  .offer .eyebrow{ color:#E0A062; }
-  .offer h3{ color:#F2E9E0; font-family:var(--display); font-weight:400; font-size:21px; text-transform:none; letter-spacing:0; margin:0 0 4px; }
+  .offer .eyebrow{ color:#EC7E5E; }
+  .offer h3{ color:var(--ink); font-family:var(--display); font-weight:400; font-size:21px; text-transform:none; letter-spacing:0; margin:0 0 4px; }
   .offer__rows{ display:grid; gap:9px; margin-top:16px; }
   .offer__rows > div{ display:flex; justify-content:space-between; align-items:baseline; gap:18px; font-size:15px; }
-  .offer__rows > div > :first-child{ color:#B3A496; }
+  .offer__rows > div > :first-child{ color:rgba(250,250,250,.66); }
   .offer__rows s{ color:#8A7A6C; font-family:var(--mono); font-size:14px; }
-  .offer__rows .amt{ font-family:var(--mono); font-size:14px; color:#D9CBBD; }
+  .offer__rows .amt{ font-family:var(--mono); font-size:14px; color:rgba(255,255,255,.14); }
   .offer__final{
-    border-top:1px solid rgba(224,160,98,.34);
+    border-top:1px solid rgba(236,126,94,.34);
     padding-top:13px; margin-top:5px;
   }
-  .offer__final > :first-child{ color:#F2E9E0 !important; font-weight:600; }
-  .offer__final strong{ font-family:var(--display); font-size:27px; color:#E0A062; font-weight:600; letter-spacing:-.01em; }
+  .offer__final > :first-child{ color:var(--ink) !important; font-weight:600; }
+  .offer__final strong{ font-family:var(--display); font-size:27px; color:#EC7E5E; font-weight:600; letter-spacing:-.01em; }
   .offer__tag{ margin:16px 0 0; font-size:13px; color:#C9A882; }
 
   /* ---------- Dos opciones de compra ---------- */
@@ -182,7 +176,7 @@
     align-self:flex-start; font-family:var(--body); font-weight:600; font-size:10px;
     text-transform:uppercase; letter-spacing:.14em;
     padding:4px 10px; border-radius:999px; margin-bottom:12px;
-    background:rgba(192,118,59,.14); color:var(--primary-dark);
+    background:rgba(232,98,63,.14); color:var(--primary-dark);
   }
   .opt--pick .opt__tag{ background:var(--primary); color:var(--surface); }
   .opt h3{ font-family:var(--display); font-weight:400; font-size:21px; text-transform:none; letter-spacing:0; color:var(--ink); margin:0 0 6px; }
@@ -194,32 +188,32 @@
   .opt__split .k{ color:var(--ink-soft); }
   .opt__split .v{ font-family:var(--mono); font-size:13px; color:var(--primary-dark); white-space:nowrap; }
   .opt__foot{ margin-top:auto; padding-top:16px; font-size:12.5px; color:var(--ink-soft); font-style:italic; }
-  .opt--cuotas{ background:linear-gradient(180deg,rgba(192,118,59,.07),rgba(192,118,59,0) 60%),var(--surface); }
+  .opt--cuotas{ background:linear-gradient(180deg,rgba(232,98,63,.07),rgba(232,98,63,0) 60%),var(--surface); }
   .opt__nointeres{ align-self:flex-start; font-family:var(--body); font-weight:600; font-size:10px;
-    text-transform:uppercase; letter-spacing:.13em; color:#2f5c34;
-    background:rgba(79,122,82,.14); padding:3px 9px; border-radius:999px; margin-top:10px; }
+    text-transform:uppercase; letter-spacing:.13em; color:#4ADE80;
+    background:rgba(74,222,128,.14); padding:3px 9px; border-radius:999px; margin-top:10px; }
 
   /* ---------- Dos pilares de inversión ---------- */
   .pillars{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0 8px; }
   @media (max-width:760px){ .pillars{ grid-template-columns:1fr; } }
   .pillar{ border-radius:6px; padding:24px 22px; display:flex; flex-direction:column; }
-  .pillar--once{ background:var(--ink); color:#F2E9E0; }
+  .pillar--once{ background:#1c1c1c; color:var(--ink); }
   .pillar--month{ background:var(--surface); border:1px solid var(--primary); }
   .pillar .eyebrow{ margin-bottom:10px; }
-  .pillar--once .eyebrow{ color:#E0A062; }
+  .pillar--once .eyebrow{ color:#EC7E5E; }
   .pillar h3{ font-family:var(--display); font-weight:400; font-size:20px; text-transform:none; letter-spacing:0; margin:0 0 10px; }
-  .pillar--once h3{ color:#F2E9E0; }
+  .pillar--once h3{ color:var(--ink); }
   .pillar__amt{ font-family:var(--mono); font-size:30px; font-weight:500; letter-spacing:-.02em; line-height:1.1; }
-  .pillar--once .pillar__amt{ color:#E0A062; }
+  .pillar--once .pillar__amt{ color:#EC7E5E; }
   .pillar--month .pillar__amt{ color:var(--primary-dark); }
   .pillar__amt small{ display:block; font-family:var(--body); font-size:12.5px; font-weight:400; letter-spacing:0; margin-top:6px; }
-  .pillar--once .pillar__amt small{ color:#B3A496; }
+  .pillar--once .pillar__amt small{ color:rgba(250,250,250,.66); }
   .pillar--month .pillar__amt small{ color:var(--ink-soft); }
   .pillar ul{ margin:16px 0 0; padding-left:18px; font-size:13.5px; line-height:1.55; }
-  .pillar--once ul{ color:#D9CBBD; }
+  .pillar--once ul{ color:rgba(255,255,255,.14); }
   .pillar--month ul{ color:var(--ink-soft); }
   .pillar li{ margin-bottom:5px; }
-  .pillar--once li::marker{ color:#E0A062; }
+  .pillar--once li::marker{ color:#EC7E5E; }
   .pillar--month li::marker{ color:var(--accent); }
   .pillar__foot{ margin-top:auto; padding-top:16px; font-size:12.5px; font-style:italic; }
   .pillar--once .pillar__foot{ color:#9C8B7C; }
@@ -242,7 +236,7 @@
   .seg input{ position:absolute; opacity:0; width:100%; height:100%; left:0; top:0; margin:0; cursor:pointer; }
   .seg span{
     display:block; padding:9px 15px; border-radius:999px;
-    border:1px solid var(--line); background:#fff;
+    border:1px solid var(--line); background:#111111;
     font-size:13.5px; color:var(--ink-soft); line-height:1.3;
     transition:all .18s cubic-bezier(.4,0,.2,1); cursor:pointer; white-space:nowrap;
   }
@@ -250,34 +244,45 @@
   .seg span em{ font-style:normal; font-family:var(--mono); font-size:11.5px; opacity:.8; }
   .seg input:hover + span{ border-color:var(--secondary); }
   .seg input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:2px; }
-  .seg input:checked + span{ background:var(--primary); border-color:var(--primary); color:#F7EFE7; }
-  .seg input:checked + span b, .seg input:checked + span em{ color:#fff; }
+  .seg input:checked + span{ background:var(--primary); border-color:var(--primary); color:#171717; }
+  .seg input:checked + span b, .seg input:checked + span em{ color:var(--ink); }
   .cfg__sub{ margin-left:27px; }
   .cfg__sub[hidden]{ display:none; }
 
   .cfg__out{
-    margin-top:20px; background:var(--ink); color:#F2E9E0;
+    margin-top:20px; background:#1c1c1c; color:var(--ink);
     display:grid; grid-template-columns:repeat(3,1fr);
   }
   @media (max-width:700px){ .cfg__out{ grid-template-columns:1fr; } }
-  .cfg__cell{ padding:20px clamp(14px,2.6vw,22px); border-right:1px solid rgba(224,160,98,.22); }
+  .cfg__cell{ padding:20px clamp(14px,2.6vw,22px); border-right:1px solid rgba(236,126,94,.22); }
   .cfg__cell:last-child{ border-right:none; }
   @media (max-width:700px){
-    .cfg__cell{ border-right:none; border-bottom:1px solid rgba(224,160,98,.22); }
+    .cfg__cell{ border-right:none; border-bottom:1px solid rgba(236,126,94,.22); }
     .cfg__cell:last-child{ border-bottom:none; }
   }
-  .cfg__cell.is-hero{ background:rgba(224,160,98,.09); }
-  .cfg__k{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#E0A062; display:block; margin-bottom:7px; }
-  .cfg__v{ font-family:var(--mono); font-size:clamp(20px,3.1vw,26px); font-weight:500; letter-spacing:-.02em; color:#F2E9E0; line-height:1.1; }
-  .cfg__n{ display:block; margin-top:6px; font-size:12px; color:#B3A496; line-height:1.45; }
+  .cfg__cell.is-hero{ background:rgba(236,126,94,.09); }
+  .cfg__k{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#EC7E5E; display:block; margin-bottom:7px; }
+  .cfg__v{ font-family:var(--mono); font-size:clamp(20px,3.1vw,26px); font-weight:500; letter-spacing:-.02em; color:var(--ink); line-height:1.1; }
+  .cfg__n{ display:block; margin-top:6px; font-size:12px; color:rgba(250,250,250,.66); line-height:1.45; }
   .cfg__detail{
-    padding:16px clamp(16px,3vw,26px); background:rgba(184,137,90,.1);
-    border-top:1px solid var(--line); font-size:14px; color:#4a4038; margin:0;
+    padding:16px clamp(16px,3vw,26px); background:rgba(232,98,63,.1);
+    border-top:1px solid var(--line); font-size:14px; color:#FAFAFA; margin:0;
   }
   .cfg__detail strong{ color:var(--primary-dark); }
   .cfg__printsel{ display:none; }
 
   @media print{
+
+    /* AL IMPRIMIR SE VUELVE AL PAPEL. El documento en pantalla va en el casi
+       negro del sistema; en papel eso seria un pliego entero de tinta y una
+       lectura peor. Se reponen los tokens claros y el resto de reglas del
+       documento, que estan escritas contra las variables, siguen valiendo. */
+    :root{
+      --surface:#FFFFFF; --bg:#FFFFFF; --ink:#111111; --ink-soft:#4A4A4A;
+      --line:#E2E2E0; --secondary:#6B6B6B;
+    }
+    body{ color:#111111 !important; }
+    *{ box-shadow:none !important; }
     .cfg{ break-inside:avoid; }
     .cfg__steps{ display:none; }
     .cfg__out{ margin-top:0; }
@@ -287,10 +292,10 @@
   /* ---------- Franja de igualdad ---------- */
   .equal{
     margin:18px 0 0; padding:15px 20px; border-radius:6px;
-    background:rgba(79,122,82,.09); border-left:3px solid var(--success);
+    background:rgba(74,222,128,.09); border-left:3px solid var(--success);
     font-size:14.5px; color:#3d4a3e;
   }
-  .equal strong{ color:#2f5c34; }
+  .equal strong{ color:#4ADE80; }
 
   /* ---------- Tarjetas de protección ---------- */
   .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin:16px 0; }
@@ -308,7 +313,7 @@
     background:var(--surface); border:2px solid var(--accent);
   }
   .tl b{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:3px; }
-  .tl span{ font-size:14.5px; color:#3d352f; }
+  .tl span{ font-size:14.5px; color:rgba(250,250,250,.62); }
 
   /* ---------- Pasos ---------- */
   ol.steps{ counter-reset:s; list-style:none; margin:14px 0 0; padding:0; }
@@ -359,7 +364,7 @@
   /* ---------- Impresión ---------- */
   @media print{
     @page{ size:A4; margin:14mm 12mm; }
-    body{ background:#fff; background-image:none; font-size:10.5pt; line-height:1.48; }
+    body{ background:#111111; background-image:none; font-size:10.5pt; line-height:1.48; }
     .bar, .no-print{ display:none !important; }
     .quote{ max-width:none; padding:0; }
     .sec{ margin-top:22px; break-inside:auto; }
@@ -526,7 +531,7 @@
     <div class="offer">
       <span class="eyebrow">— Precio de familia</span>
       <h3>La mitad del valor de mercado</h3>
-      <p style="margin:0;font-size:14px;color:#B3A496">Pago único. Cubre construir la plataforma completa y entregársela funcionando.</p>
+      <p style="margin:0;font-size:14px;color:rgba(250,250,250,.66)">Pago único. Cubre construir la plataforma completa y entregársela funcionando.</p>
       <div class="offer__rows">
         <div><span>Valor total de mercado</span><s>$6.600.000 COP</s></div>
         <div><span>Descuento familiar (50%)</span><span class="amt">−$3.300.000 COP</span></div>
