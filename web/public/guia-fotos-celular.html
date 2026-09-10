@@ -38,7 +38,7 @@
   .bar span{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-left:8px; }
   .btn{ font-weight:600; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
         padding:11px 20px; border-radius:999px; border:1px solid var(--primary);
-        background:var(--primary); color:var(--surface); cursor:pointer; white-space:nowrap; }
+        background:var(--primary); color:#080808; cursor:pointer; white-space:nowrap; }
 
   .doc{ max-width:760px; margin:0 auto; padding:clamp(30px,6vw,58px) clamp(18px,5vw,56px) 90px; }
   .eyebrow{ font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.16em;
@@ -57,7 +57,7 @@
   .rules{ display:grid; gap:12px; margin:18px 0; }
   .rule{ display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:start;
          background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px 18px; }
-  .rule i{ font-family:var(--mono); font-style:normal; font-size:12px; color:var(--surface);
+  .rule i{ font-family:var(--mono); font-style:normal; font-size:12px; color:#080808;
            background:var(--primary); width:26px; height:26px; border-radius:50%;
            display:flex; align-items:center; justify-content:center; margin-top:2px; }
   .rule b{ display:block; font-family:var(--display); font-weight:600; font-size:18px; margin-bottom:4px; }
@@ -100,7 +100,7 @@
      para ganar por orden sin tener que perseguir cada regla original, que en
      nueve documentos son demasiadas para acertar una a una.
      ───────────────────────────────────────────────────────────────────────── */
-  .cfg__q i, .partlabel, kbd, .pill, .amt{ color:var(--ink); }
+  .cfg__q i, kbd, .amt{ color:var(--ink); }
   /* ...salvo cuando ese mismo elemento se apoya en el relleno naranja. La
      regla de arriba los aclaraba a todos y dejaba blanco sobre naranja —3,2:1—
      en los que llevan el fondo puesto por atributo. El par del sistema es

@@ -49,7 +49,7 @@
   .btn{
     font-weight:600; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
     padding:11px 20px; border-radius:999px; border:1px solid var(--primary);
-    background:var(--primary); color:var(--surface); cursor:pointer;
+    background:var(--primary); color:#080808; cursor:pointer;
     transition:all .22s cubic-bezier(.4,0,.2,1); white-space:nowrap;
   }
   .btn:hover{ background:var(--primary-dark); border-color:var(--primary-dark); }
@@ -102,7 +102,7 @@
   .plan__tag{ align-self:flex-start; font-weight:600; font-size:10px; text-transform:uppercase;
               letter-spacing:.14em; padding:4px 10px; border-radius:999px; margin-bottom:12px;
               background:rgba(232,98,63,.14); color:var(--primary-dark); }
-  .plan--pick .plan__tag{ background:var(--primary); color:var(--surface); }
+  .plan--pick .plan__tag{ background:var(--primary); color:#080808; }
   .plan h3{ font-family:var(--display); font-weight:400; font-size:21px; text-transform:none;
             letter-spacing:0; color:var(--ink); margin:0 0 8px; }
   .plan__amt{ font-family:var(--mono); font-size:26px; color:var(--primary-dark); font-weight:500; letter-spacing:-.02em; }
@@ -143,7 +143,7 @@
   .seg span em{ font-style:normal; font-family:var(--mono); font-size:11.5px; opacity:.8; }
   .seg input:hover + span{ border-color:var(--secondary); }
   .seg input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:2px; }
-  .seg input:checked + span{ background:var(--primary); border-color:var(--primary); color:#171717; }
+  .seg input:checked + span{ background:var(--primary); border-color:var(--primary); color:#080808; }
   .seg input:checked + span b, .seg input:checked + span em{ color:inherit; }
   .calc__out{ margin-top:18px; background:#1c1c1c; color:var(--ink); display:grid; grid-template-columns:repeat(3,1fr); }
   @media (max-width:700px){ .calc__out{ grid-template-columns:1fr; } }
@@ -225,7 +225,7 @@
      para ganar por orden sin tener que perseguir cada regla original, que en
      nueve documentos son demasiadas para acertar una a una.
      ───────────────────────────────────────────────────────────────────────── */
-  .cfg__q i, .partlabel, kbd, .pill, .amt{ color:var(--ink); }
+  .cfg__q i, kbd, .amt{ color:var(--ink); }
   /* ...salvo cuando ese mismo elemento se apoya en el relleno naranja. La
      regla de arriba los aclaraba a todos y dejaba blanco sobre naranja —3,2:1—
      en los que llevan el fondo puesto por atributo. El par del sistema es
@@ -239,6 +239,10 @@
   .plan--pick .plan__tag, .seg input:checked + span,
   [class*="tag"][style*="--primary"]{ color:#080808; }
 
+  /* Contenedores de acento que no declaraban tinta: heredaban el blanco
+     del body y daban 3,2:1 sobre el naranja. */
+  .rule b{ color:#080808; }
+  .rule b *{ color:inherit; }
 @media print{
     /* EL PAPEL, A LA FUERZA.
        El primer barrido de color entro tambien aqui y convirtio el
