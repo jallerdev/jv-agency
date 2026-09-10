@@ -161,7 +161,7 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
           <Reveal delay={120}>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
-                <Link href={enlaceReal(es ? "/#agenda" : "/en#agenda")}>
+                <Link href={enlaceReal(es ? "/agendar" : "/en/book-a-call")}>
                   {CLINICAS.ctaPrincipal[idioma]} <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
@@ -478,7 +478,7 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
-                <Link href={enlaceReal(es ? "/#agenda" : "/en#agenda")}>
+                <Link href={enlaceReal(es ? "/agendar" : "/en/book-a-call")}>
                   {CLINICAS.ctaPrincipal[idioma]} <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>

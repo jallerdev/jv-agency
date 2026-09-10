@@ -368,7 +368,7 @@ export default function DisenoPaginasWebBogotaPage() {
           <Reveal delay={120}>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
-                <Link href="/#agenda">
+                <Link href="/agendar">
                   Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
@@ -725,7 +725,7 @@ export default function DisenoPaginasWebBogotaPage() {
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
-                <Link href="/#agenda">
+                <Link href="/agendar">
                   Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>

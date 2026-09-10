@@ -458,7 +458,7 @@ export function SeoCostPost() {
         <Link href="/en/industries/salons-and-spas">a salon or a spa</Link> or{" "}
         <Link href="/en/industries/clinics">a clinic or a practice</Link>, what changes in each case
         is there — and then come back. And if you&apos;re already clear,{" "}
-        <Link href="/en#agenda">tell me what you sell and in which city</Link>: with that I&apos;ll
+        <Link href="/en/book-a-call">tell me what you sell and in which city</Link>: with that I&apos;ll
         tell you which plan you fall into before charging you anything.
       </p>
       <p>

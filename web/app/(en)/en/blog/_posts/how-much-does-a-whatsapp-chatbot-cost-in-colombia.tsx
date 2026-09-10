@@ -459,7 +459,7 @@ export function WhatsAppChatbotCostPost() {
       <p>
         If you want to see what each type of bot does, it&apos;s all on{" "}
         <Link href="/en/services/whatsapp-chatbot">the WhatsApp chatbot page</Link>. And if you
-        already know what you need, <Link href="/en#agenda">write to me</Link>: I&apos;ll tell you
+        already know what you need, <Link href="/en/book-a-call">write to me</Link>: I&apos;ll tell you
         which range you fall into and what Meta will charge you separately.
       </p>
       <p>

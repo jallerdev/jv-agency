@@ -239,6 +239,6 @@ export const PRECIOS = {
       en: "Tell me what you need and I'll tell you which range it falls into. If I can't help you, I'll say that too.",
     },
     cta: { es: "Agenda una llamada", en: "Book a call" },
-    href: { es: "/#agenda", en: "/en#agenda" },
+    href: { es: "/agendar", en: "/en/book-a-call" },
   },
 } as const;

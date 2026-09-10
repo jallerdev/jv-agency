@@ -36,7 +36,7 @@ export const HERO: Hero = {
   botones: [
     {
       texto: { es: "Agenda una llamada", en: "Book a call" },
-      href: { es: "/#agenda", en: "/en#agenda" },
+      href: { es: "/agendar", en: "/en/book-a-call" },
     },
     {
       texto: { es: "Ver mi trabajo", en: "See my work" },
@@ -50,7 +50,7 @@ export const HERO: Hero = {
         es: "$850.000 · lista en 5 días",
         en: "$850,000 COP · live in 5 days",
       },
-      href: { es: "/#agenda", en: "/en#agenda" },
+      href: { es: "/agendar", en: "/en/book-a-call" },
     },
   },
   credencial: {

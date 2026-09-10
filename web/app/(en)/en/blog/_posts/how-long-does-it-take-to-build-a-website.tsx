@@ -158,7 +158,7 @@ export function HowLongPost() {
           how much a website costs in Colombia
         </Link>{" "}
         or tell me your case and I&apos;ll give you the schedule on the{" "}
-        <Link href="/en#agenda">first call</Link>.
+        <Link href="/en/book-a-call">first call</Link>.
       </p>
       <p>
         The timelines above are the ones I work to, and they&apos;re the same ones you&apos;ll see

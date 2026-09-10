@@ -23,6 +23,6 @@ export const STATEMENT: Statement = {
   },
   enlace: {
     texto: { es: "Hablemos de tu proyecto", en: "Let's talk about your project" },
-    href: { es: "/#agenda", en: "/en#agenda" },
+    href: { es: "/agendar", en: "/en/book-a-call" },
   },
 };
