@@ -57,7 +57,7 @@ export function PanelAutonomia({
             <span className="flex min-h-11 min-w-0 flex-1 items-center rounded-md border border-line bg-background px-3 font-mono text-[15px] tabular-nums text-ink">
               {precio.campo}
             </span>
-            <span className="flex min-h-11 shrink-0 items-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-surface">
+            <span className="flex min-h-11 shrink-0 items-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-on-accent">
               {precio.boton}
             </span>
           </div>

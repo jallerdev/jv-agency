@@ -298,8 +298,8 @@ function Resumen({ a, onRestart }: { a: AutomationAnswers; onRestart: () => void
         </div>
 
         <div className="mt-7 grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-surface shadow-soft">
-            <p className="font-body text-sm text-surface/80">Pago único</p>
+          <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-on-accent shadow-soft">
+            <p className="font-body text-sm text-ink/80">Pago único</p>
             <p className="mt-1 font-display text-4xl">{money(t.total)}</p>
           </div>
           <div className="rounded-2xl border border-line bg-background/60 p-6">

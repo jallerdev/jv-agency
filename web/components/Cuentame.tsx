@@ -304,7 +304,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
                     className={cn(
                       "tap-target inline-flex w-full items-center justify-center gap-1.5 text-balance rounded-full border px-3 py-2 text-center font-body text-sm leading-tight transition-surface duration-quick ease-state active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                       on
-                        ? "border-primary bg-primary text-surface shadow-soft"
+                        ? "border-primary bg-primary text-on-accent shadow-soft"
                         : "border-line bg-background/50 text-ink-soft hover:border-primary/45 hover:bg-background hover:text-ink",
                       faltaNecesita && !on && "border-danger/45"
                     )}
@@ -358,8 +358,8 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
             className={cn(
               "group flex w-full items-center justify-center gap-3 rounded-full px-6 py-4 font-body text-base font-semibold transition-card duration-base ease-state focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface",
               listo
-                ? "bg-ink text-surface shadow-soft hover:-translate-y-0.5 hover:shadow-lift"
-                : "cursor-not-allowed bg-ink/25 text-surface"
+                ? "bg-canvas text-ink shadow-soft hover:-translate-y-0.5 hover:shadow-lift"
+                : "cursor-not-allowed bg-ink/25 text-ink"
             )}
           >
             <WhatsAppGlyph className="h-5 w-5 shrink-0" />
@@ -415,7 +415,7 @@ export function BotonCuentame({
     "tap-target inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-body font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     size === "lg" ? "h-14 px-9 text-lg" : "h-12 px-7 text-base",
     variant === "primary"
-      ? "bg-primary text-surface shadow-soft hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-lift"
+      ? "bg-primary text-on-accent shadow-soft hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-lift"
       : "border border-primary/35 bg-transparent text-primary-dark hover:border-primary hover:bg-primary/5",
     className
   );

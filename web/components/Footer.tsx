@@ -83,17 +83,15 @@ const SOCIAL = [
  *    acertar con el pulgar. Con `.tap-row` el área sube a ~44 px sin mover el
  *    texto ni el ritmo (por eso el contenedor baja de space-y-3 a space-y-1).
  *
- * 3. EL CONTRASTE. La línea legal iba en `text-surface/40` = 3,61:1 y no
+ * 3. EL CONTRASTE. La línea legal iba en `text-ink/40` = 3,61:1 y no
  *    pasaba AA. Sube a /60 (6,5:1). Los enlaces suben de /60 a /70 (8,3:1).
  */
 export function Footer() {
   return (
     <footer
-      /* El anillo de foco de la casa es primary-dark, calibrado sobre el papel
-         (7,38:1). Sobre este bloque oscuro se queda en 2:1 y deja de verse.
-         Redefinir el token AQUÍ lo arregla para todo el pie de una vez: el
-         cobre da 4,77:1 sobre #211b17. */
-      className="relative isolate overflow-hidden bg-[#211b17] text-surface/80 [--focus-ring-color:theme(colors.accent.DEFAULT)]"
+      /* El pie ya no necesita un tono propio: sobre el canvas casi negro, el
+         escalon de superficie (#101012) y el filete de 1px bastan. */
+      className="relative isolate overflow-hidden bg-surface text-ink-soft [--focus-ring-color:theme(colors.accent.DEFAULT)]"
     >
       {/* Costura: el mismo hilo de cobre con el que cierra la banda de contacto. */}
       <div
@@ -114,10 +112,10 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:gap-x-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] lg:gap-x-10 lg:gap-y-12">
           <div className="col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5">
-              <Logo className="h-9 w-auto" />
-              <span className="font-display text-xl text-surface">Agencia</span>
+              <Logo className="h-9 w-auto text-primary" />
+              <span className="font-display text-xl text-ink">Agencia</span>
             </div>
-            <p className="mt-5 max-w-xs text-pretty font-body text-sm leading-relaxed text-surface/70">
+            <p className="mt-5 max-w-xs text-pretty font-body text-sm leading-relaxed text-ink/70">
               Diseño que enamora, código que aguanta. Webs y software a la medida para PYMEs de
               LATAM, hechos por una sola persona de principio a fin.
             </p>
@@ -131,7 +129,7 @@ export function Footer() {
                   aria-label={label}
                   target={url.startsWith("http") ? "_blank" : undefined}
                   rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="tap-target grid h-11 w-11 place-items-center rounded-full border border-surface/15 text-surface/75 transition-card duration-quick ease-state hover:-translate-y-0.5 hover:border-accent hover:bg-surface/5 hover:text-accent active:translate-y-0 active:scale-[0.96]"
+                  className="tap-target grid h-11 w-11 place-items-center rounded-full border border-surface/15 text-ink/75 transition-card duration-quick ease-state hover:-translate-y-0.5 hover:border-accent hover:bg-surface/5 hover:text-accent active:translate-y-0 active:scale-[0.96]"
                 >
                   <Icon className="h-4 w-4" strokeWidth={1.75} />
                 </a>
@@ -143,7 +141,7 @@ export function Footer() {
             <div key={col.title} className="min-w-0">
               {/* Mono en versalitas: el mismo idioma de etiqueta que usa el
                   resto del sitio para los antetítulos. */}
-              <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-surface/70">
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/70">
                 {col.title}
               </h3>
               <ul className="mt-3 space-y-0.5">
@@ -154,7 +152,7 @@ export function Footer() {
                   // míos y sirve para atribuirlo en analítica.
                   const external = link.href.startsWith("http");
                   const cls =
-                    "tap-target flex items-center font-body text-sm text-surface/70 transition-surface duration-quick ease-state hover:text-accent";
+                    "tap-target flex items-center font-body text-sm text-ink/70 transition-surface duration-quick ease-state hover:text-accent";
                   return (
                     <li key={link.label}>
                       {external ? (
@@ -174,13 +172,13 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 border-t border-surface/12 pt-6 font-body text-sm text-surface/70">
+        <div className="mt-14 border-t border-surface/12 pt-6 font-body text-sm text-ink/70">
           <div className="flex flex-col gap-x-7 gap-y-1 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href={`mailto:${BUSINESS.email}`}
               className="tap-target inline-flex items-center gap-2 transition-surface duration-quick ease-state hover:text-accent"
             >
-              <Mail className="h-4 w-4 shrink-0 text-surface/55" strokeWidth={1.75} />
+              <Mail className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={1.75} />
               {BUSINESS.email}
             </a>
             <a
@@ -189,23 +187,23 @@ export function Footer() {
               rel="noopener noreferrer"
               className="tap-target inline-flex items-center gap-2 whitespace-nowrap tabular-nums transition-surface duration-quick ease-state hover:text-accent"
             >
-              <Phone className="h-4 w-4 shrink-0 text-surface/55" strokeWidth={1.75} />
+              <Phone className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={1.75} />
               WhatsApp {BUSINESS.whatsappDisplay}
             </a>
             <a
               href={`tel:${BUSINESS.phone}`}
               className="tap-target inline-flex items-center gap-2 whitespace-nowrap tabular-nums transition-surface duration-quick ease-state hover:text-accent"
             >
-              <Phone className="h-4 w-4 shrink-0 text-surface/55" strokeWidth={1.75} />
+              <Phone className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={1.75} />
               {BUSINESS.phoneDisplay}
             </a>
-            <span className="tap-target inline-flex items-center gap-2 text-surface/60">
-              <MapPin className="h-4 w-4 shrink-0 text-surface/55" strokeWidth={1.75} />
+            <span className="tap-target inline-flex items-center gap-2 text-ink/60">
+              <MapPin className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={1.75} />
               {ADDRESS_LINE}
             </span>
           </div>
 
-          <div className="mt-5 flex flex-col gap-1 border-t border-surface/10 pt-5 font-mono text-xs tabular-nums text-surface/60 md:flex-row md:items-center md:justify-between">
+          <div className="mt-5 flex flex-col gap-1 border-t border-surface/10 pt-5 font-mono text-xs tabular-nums text-ink/60 md:flex-row md:items-center md:justify-between">
             <span>
               {BUSINESS.legalNameOfficial} · NIT {BUSINESS.taxId}
             </span>

@@ -67,9 +67,9 @@ const SUPERFICIE: Record<Tier, string> = {
 /** El cuadro del icono. El degradado se gana; el resto va en contorno. */
 const CHIP: Record<Tier, string> = {
   ancla:
-    "h-16 w-16 rounded-xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft",
+    "h-16 w-16 rounded-xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft",
   destacado:
-    "h-14 w-14 rounded-lg bg-gradient-to-br from-primary to-accent text-surface shadow-soft",
+    "h-14 w-14 rounded-lg bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft",
   base: "h-12 w-12 rounded-lg border border-primary/25 bg-primary/[0.07] text-primary",
 };
 
@@ -92,7 +92,7 @@ function Chip({ s }: { s: Service }) {
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center justify-center transition-transform duration-slow ease-spring motion-reduce:transform-none",
+        "inline-flex shrink-0 items-center justify-center transition-transform duration-slow ease-ps motion-reduce:transform-none",
         CHIP[s.tier],
         s.href && "group-hover:scale-105 group-focus-visible:scale-105"
       )}

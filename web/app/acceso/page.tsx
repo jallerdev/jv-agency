@@ -42,7 +42,7 @@ export default async function AccesoPage({
         className="mb-10 inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-80"
         aria-label="Ir a la portada de JV Agencia"
       >
-        <Logo className="h-9 w-9" />
+        <Logo className="h-9 w-9 text-primary" />
         <span className="font-display text-xl text-ink">JV Agencia</span>
       </Link>
 

@@ -389,7 +389,7 @@ function PasosCompra() {
               M · agotada
             </span>
           </div>
-          <span className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-surface">
+          <span className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-on-accent">
             Agregar al carrito
           </span>
         </div>
@@ -424,7 +424,7 @@ function PasosCompra() {
         </dl>
         <span
           aria-hidden
-          className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-surface"
+          className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-on-accent"
         >
           Ir a pagar
         </span>
@@ -463,7 +463,7 @@ function PasosCompra() {
         </ul>
         <span
           aria-hidden
-          className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-surface"
+          className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-on-accent"
         >
           Pagar $ 190.000
         </span>
@@ -812,7 +812,7 @@ export default function TiendasVirtualesPage() {
                   `object-cover` se comía el lado izquierdo de la tienda; y el
                   `scale-[1.04]` anclado arriba tapa la canaleta blanca que el
                   archivo trae por la derecha, sin tocar el asset. */}
-              <div className="relative aspect-[16/9] self-start overflow-hidden bg-ink">
+              <div className="relative aspect-[16/9] self-start overflow-hidden bg-canvas">
                 <Image
                   src="/work/bloomrose.webp"
                   alt="Tienda virtual de Bloomrose: catálogo de bisutería y accesorios con carrito y pagos en línea"

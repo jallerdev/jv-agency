@@ -1102,11 +1102,11 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
           </div>
         </div>
 
-        <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-surface shadow-soft">
-          <p className="font-body text-sm text-surface/80">Total del proyecto</p>
+        <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-on-accent shadow-soft">
+          <p className="font-body text-sm text-ink/80">Total del proyecto</p>
           <p className="mt-1 font-display text-4xl">{money(t.total)}</p>
           {t.monthly > 0 && (
-            <p className="mt-3 border-t border-surface/20 pt-3 font-body text-sm text-surface/80">
+            <p className="mt-3 border-t border-surface/20 pt-3 font-body text-sm text-ink/80">
               Más {money(t.monthly)} al mes de {t.monthlyLabel.toLowerCase()}, desde el mes
               siguiente a la entrega.
             </p>

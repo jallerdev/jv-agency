@@ -112,7 +112,7 @@ export function Testimonials() {
                   <div className="flex items-center gap-3 border-t border-line pt-5">
                     <span
                       aria-hidden="true"
-                      className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary-dark font-display text-sm tracking-wide text-surface ring-1 ring-inset ring-surface/15"
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary-dark font-display text-sm tracking-wide text-on-accent ring-1 ring-inset ring-surface/15"
                     >
                       {initialsOf(t)}
                     </span>

@@ -56,10 +56,10 @@ export function Faqs({
                   </span>
                   <span
                     aria-hidden="true"
-                    className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line bg-background/60 text-accent-ink transition-surface duration-slow ease-state group-hover/trigger:border-primary/40 group-data-[state=open]/trigger:border-primary group-data-[state=open]/trigger:bg-primary group-data-[state=open]/trigger:text-surface"
+                    className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line bg-background/60 text-accent-ink transition-surface duration-slow ease-state group-hover/trigger:border-primary/40 group-data-[state=open]/trigger:border-primary group-data-[state=open]/trigger:bg-primary group-data-[state=open]/trigger:text-on-accent"
                   >
                     <Plus
-                      className="h-4 w-4 transition-transform duration-slow ease-spring group-data-[state=open]/trigger:rotate-45"
+                      className="h-4 w-4 transition-transform duration-slow ease-ps group-data-[state=open]/trigger:rotate-45"
                       strokeWidth={2.25}
                     />
                   </span>

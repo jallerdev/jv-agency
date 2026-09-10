@@ -121,7 +121,7 @@ const DE_ESTUDIO = PROYECTOS.filter((p) => !p.url);
    los 3 px del bisel = 1,56rem.
    =========================================================================== */
 const BISEL = "rounded-3xl bg-gradient-to-b from-white/95 via-line to-secondary/45 p-[3px]";
-const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-ink";
+const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-canvas";
 
 const SIZES_PLACA = "(min-width:1024px) 46rem, (min-width:768px) 88vw, 92vw";
 
@@ -169,7 +169,7 @@ function BarraNavegador({ dominio }: { dominio?: string }) {
  */
 function Captura({ p }: { p: Proyecto }) {
   return (
-    <div className="relative aspect-[16/9] overflow-hidden bg-ink">
+    <div className="relative aspect-[16/9] overflow-hidden bg-canvas">
       <Image
         src={p.img}
         alt={`${p.nombre} — sitio que diseñé y desarrollé`}
@@ -190,13 +190,13 @@ function Captura({ p }: { p: Proyecto }) {
       {/* Degradado inferior: insinúa que la captura sigue por debajo del corte. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink/30 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-canvas/70 to-transparent"
       />
 
       {p.url && (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between gap-3 bg-ink/90 px-5 py-3 font-mono text-xs text-surface backdrop-blur transition-transform duration-base ease-state group-hover/placa:translate-y-0 group-focus-visible/placa:translate-y-0 motion-reduce:transition-none">
+          className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between gap-3 bg-canvas/90 px-5 py-3 font-mono text-xs text-ink backdrop-blur transition-transform duration-base ease-state group-hover/placa:translate-y-0 group-focus-visible/placa:translate-y-0 motion-reduce:transition-none">
           <span className="truncate">{p.dominio}</span>
           <span className="shrink-0">Abrir sitio ↗</span>
         </span>
@@ -304,7 +304,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
 
           {/* Miniatura. Una lista de títulos no sería un portafolio: aunque solo
               se abra una, cada fila sigue enseñando de qué sitio habla. */}
-          <span className="relative hidden h-11 w-[4.5rem] shrink-0 overflow-hidden rounded-lg border border-line bg-ink sm:block">
+          <span className="relative hidden h-11 w-[4.5rem] shrink-0 overflow-hidden rounded-lg border border-line bg-canvas sm:block">
             <Image
               src={p.img}
               alt=""
@@ -363,7 +363,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
               href={p.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="tap-target mt-5 inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-surface/70 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state hover:border-primary hover:bg-primary hover:text-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="tap-target mt-5 inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-surface/70 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state hover:border-primary hover:bg-primary hover:text-on-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               Abrir {p.dominio}
               <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.25} />

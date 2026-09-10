@@ -82,7 +82,7 @@ export function ArbolDecision({
             className={cn(
               "min-h-11 text-balance rounded-xl border px-3 py-2 font-body text-[15px] font-semibold leading-snug transition-surface duration-quick ease-state",
               elegida === i
-                ? "border-primary bg-primary text-surface"
+                ? "border-primary bg-primary text-on-accent"
                 : "border-line bg-surface text-ink-soft hover:border-primary/40 hover:text-ink"
             )}
           >

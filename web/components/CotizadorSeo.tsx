@@ -538,14 +538,14 @@ function SeoFinal({ answers, onRestart }: { answers: SeoAnswers; onRestart: () =
           </div>
         </div>
 
-        <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-surface shadow-soft">
-          <p className="font-body text-sm text-surface/80">Mensualidad</p>
+        <div className="mt-7 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-on-accent shadow-soft">
+          <p className="font-body text-sm text-ink/80">Mensualidad</p>
           <p className="mt-1 font-display text-4xl">
             {money(t.monthlyTotal)}
-            <span className="font-body text-lg text-surface/70"> /mes</span>
+            <span className="font-body text-lg text-ink/70"> /mes</span>
           </p>
           {t.setupTotal > 0 && (
-            <p className="mt-3 border-t border-surface/20 pt-3 font-body text-sm text-surface/80">
+            <p className="mt-3 border-t border-surface/20 pt-3 font-body text-sm text-ink/80">
               Más {money(t.setupTotal)} de arranque, una sola vez. Primer pago:{" "}
               {money(t.primerPago)}.
             </p>

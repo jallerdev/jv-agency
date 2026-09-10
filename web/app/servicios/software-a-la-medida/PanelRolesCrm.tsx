@@ -88,7 +88,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
               className={cn(
                 "min-h-11 rounded-xl border px-3 py-2 font-body text-[13px] font-semibold leading-snug transition-surface duration-quick ease-state",
                 activa
-                  ? "border-primary bg-primary text-surface"
+                  ? "border-primary bg-primary text-on-accent"
                   : "border-line bg-background text-ink-soft hover:border-primary/40 hover:text-ink"
               )}
             >

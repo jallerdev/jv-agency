@@ -24,7 +24,7 @@ const FEATURES = [
    pegados. Si se toca aquí, hay que tocarlo igual allá.
    Radio interior = 1,75rem (rounded-3xl) − 3 px del bisel = 1,56rem. */
 const BISEL = "rounded-3xl bg-gradient-to-b from-white/95 via-line to-secondary/45 p-[3px]";
-const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-ink";
+const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-canvas";
 
 export function MediaSection() {
   return (
@@ -95,7 +95,7 @@ export function MediaSection() {
                   {/* La ventana impone la proporción: el archivo es 2000x1160
                       (1,72:1) y trae 23 px de canaleta blanca a la derecha. El
                       `scale-[1.03]` anclado arriba se la come sin tocar el asset. */}
-                  <div className="relative aspect-[16/9] overflow-hidden bg-ink">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-canvas">
                     <Image
                       src={BLOOMROSE_IMG}
                       alt="Bloomrose — tienda de bisutería y accesorios que diseñé y construí"
@@ -113,7 +113,7 @@ export function MediaSection() {
 
                     <span
                       aria-hidden
-                      className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between gap-3 bg-ink/90 px-5 py-3 font-mono text-xs text-surface backdrop-blur transition-transform duration-base ease-state group-hover:translate-y-0 group-focus-visible:translate-y-0 motion-reduce:transition-none">
+                      className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-between gap-3 bg-canvas/90 px-5 py-3 font-mono text-xs text-ink backdrop-blur transition-transform duration-base ease-state group-hover:translate-y-0 group-focus-visible:translate-y-0 motion-reduce:transition-none">
                       <span className="truncate">bloomroseaccesorios.com</span>
                       <span className="shrink-0">Abrir sitio ↗</span>
                     </span>

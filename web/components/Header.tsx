@@ -228,7 +228,8 @@ export function Header() {
           >
             <Logo
               className={cn(
-                "w-auto transition-[height] duration-slow ease-state",
+                /* El monograma toma el violeta de marca por `currentColor`. */
+                "w-auto text-primary transition-[height] duration-slow ease-state",
                 solid ? "h-8" : "h-9"
               )}
             />
@@ -295,13 +296,13 @@ export function Header() {
               <span aria-hidden className="relative block h-3 w-[1.125rem]">
                 <span
                   className={cn(
-                    "absolute left-0 top-0 h-px w-full bg-ink transition-transform duration-slow ease-spring",
+                    "absolute left-0 top-0 h-px w-full bg-canvas transition-transform duration-slow ease-ps",
                     open && "translate-y-[5.5px] rotate-45"
                   )}
                 />
                 <span
                   className={cn(
-                    "absolute bottom-0 left-0 h-px w-full bg-ink transition-transform duration-slow ease-spring",
+                    "absolute bottom-0 left-0 h-px w-full bg-canvas transition-transform duration-slow ease-ps",
                     open && "-translate-y-[5.5px] -rotate-45"
                   )}
                 />

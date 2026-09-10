@@ -42,8 +42,8 @@ function VerifiedShield({ className }: { className?: string }) {
     <svg viewBox="0 0 40 40" fill="none" aria-hidden className={className}>
       <defs>
         <linearGradient id="jv-shield" x1="8" y1="4" x2="32" y2="36" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#C0763B" />
-          <stop offset="1" stopColor="#985C3E" />
+          <stop stopColor="var(--violeta-400)" />
+          <stop offset="1" stopColor="var(--violeta-600)" />
         </linearGradient>
       </defs>
       {/* Escudo propio: nada aquí imita un sello de Meta. */}
@@ -57,7 +57,7 @@ function VerifiedShield({ className }: { className?: string }) {
       />
       <path
         d="M14.2 20.1l4.1 4.1 7.9-8.4"
-        stroke="#4F7A52"
+        stroke="var(--teal-500)"
         strokeWidth="2.6"
         strokeLinecap="round"
         strokeLinejoin="round"

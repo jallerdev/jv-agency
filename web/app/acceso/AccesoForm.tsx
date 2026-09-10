@@ -53,7 +53,7 @@ export function AccesoForm({
   return (
     <div className="w-full max-w-md">
       <div className="rounded-[1.75rem] border border-line bg-surface p-8 shadow-lift md:p-10">
-        <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
+        <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
           <Lock className="h-5 w-5" />
         </span>
 

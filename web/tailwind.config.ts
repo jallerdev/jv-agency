@@ -45,7 +45,13 @@ const config: Config = {
       colors: {
         /* Fondo de página y superficies. `background` es el canvas casi negro
            —#09090B, nunca #000 y nunca gris cálido—; `surface` la tarjeta. */
-        canvas: "var(--canvas)",
+        canvas: {
+          DEFAULT: "var(--canvas)",
+          /* Casi negro con sesgo violeta. El sistema lo reserva al hero y al
+             cierre: son las dos superficies donde el violeta tiene que
+             sentirse aunque no haya un solo elemento violeta encima. */
+          tint: "var(--canvas-tint)",
+        },
         background: "var(--canvas)",
         surface: "var(--surface)",
         raised: "var(--surface-raised)",
@@ -76,7 +82,18 @@ const config: Config = {
         primary: {
           DEFAULT: "var(--accent)",
           hover: "var(--accent-hover)",
-          dark: "var(--accent-press)",
+          /* `primary.dark` apunta a violeta-400, NO al paso de pulsacion.
+             Medido sobre el sitio ya portado: `text-primary-dark` aparece 182
+             veces —era el color del texto en bronce, 7,38:1 sobre el papel— y
+             apuntando al 600 daba 3,75:1 sobre el canvas y 3,58:1 sobre las
+             tarjetas. 141 textos por debajo de AA de un solo token mal
+             dirigido.
+             Apuntarlo al 400 arregla las dos caras a la vez: como TEXTO da
+             7,48:1, y como relleno de hover ACLARA en vez de oscurecer, que
+             es justo lo que pide el sistema sobre fondo oscuro. El nombre
+             «dark» queda heredado del sistema anterior y ya no describe nada;
+             renombrarlo serian 182 ediciones para no cambiar un pixel. */
+          dark: "var(--accent-ink)",
         },
         accent: {
           DEFAULT: "var(--accent)",
@@ -135,6 +152,12 @@ const config: Config = {
         entrance: "var(--ease-entrance)",
         exit: "var(--ease-exit)",
         state: "var(--ease-state)",
+        /* La curva firma de palo-seco, y la que el design system pone por
+           defecto para TODO en la parte de marketing: reveal, lift y clip. */
+        ps: "var(--ease-ps)",
+        /* `spring` se queda declarada para superficies de producto, pero en el
+           sitio ya no la usa nadie: el sistema dice «no bounce on UI» y sus
+           cinco micro-gestos pasaron a `ease-ps`. */
         spring: "var(--ease-spring)",
       },
       transitionDelay: {

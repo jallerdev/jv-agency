@@ -357,7 +357,7 @@ export default function ClinicasYConsultoriosPage() {
               return (
                 <Reveal key={n.titulo} index={i}>
                   <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                       <Icon className="h-6 w-6" />
                     </span>
                     <h3 className="mt-5 font-display text-xl text-ink">{n.titulo}</h3>
@@ -425,7 +425,7 @@ export default function ClinicasYConsultoriosPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
               <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
-                <div className="aspect-[16/10] overflow-hidden border-b border-line bg-ink">
+                <div className="aspect-[16/10] overflow-hidden border-b border-line bg-canvas">
                   <Image
                     src="/work/animal-expert.webp"
                     alt="Animal Expert: captura del sitio que diseñé y construí"
@@ -452,7 +452,7 @@ export default function ClinicasYConsultoriosPage() {
 
             <Reveal delay={80}>
               <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
-                <div className="aspect-[16/10] overflow-hidden border-b border-line bg-ink">
+                <div className="aspect-[16/10] overflow-hidden border-b border-line bg-canvas">
                   <Image
                     src="/work/elka-spa.webp"
                     alt="Fta. Elka Gómez: captura del sitio que diseñé y construí"
@@ -485,7 +485,7 @@ export default function ClinicasYConsultoriosPage() {
 
             <Reveal delay={160}>
               <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-primary/25 bg-surface">
-                <div className="aspect-[16/10] overflow-hidden border-b border-primary/25 bg-ink">
+                <div className="aspect-[16/10] overflow-hidden border-b border-primary/25 bg-canvas">
                   <Image
                     src="/work/hummik.webp"
                     alt="Hummik: captura del producto de agenda de citas que construí"

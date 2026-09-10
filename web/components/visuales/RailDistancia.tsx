@@ -41,9 +41,9 @@ export const PARADAS_POR_DEFECTO: ParadaDistancia[] = [
 /* Paradas de color del carril: primary → secondary → line. Los tres son de la
    paleta; lo que se interpola es la mezcla entre ellos, no un color nuevo. */
 const PARADAS_COLOR = [
-  [152, 92, 62],   /* primary      #985C3E */
-  [176, 137, 104], /* secondary    #B08968 */
-  [228, 216, 203], /* line         #E4D8CB */
+  [124, 108, 245], /* violeta-500  #7C6CF5 */
+  [157, 146, 248], /* violeta-400  #9D92F8 */
+  [ 56, 189, 248], /* cielo-400    #38BDF8 */
 ] as const;
 
 function colorEn(t: number) {

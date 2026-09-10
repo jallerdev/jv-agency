@@ -166,7 +166,7 @@ export function Founder() {
               >
                 <span className="pointer-events-none absolute inset-[6px] rounded-[1.125rem] border border-surface/20 lg:rounded-[1.375rem]" />
                 <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(155deg,rgba(255,255,255,0.22),transparent_44%)]" />
-                <span className="relative font-display text-[1.6rem] tracking-[0.08em] text-surface sm:text-3xl lg:text-[2.15rem]">
+                <span className="relative font-display text-[1.6rem] tracking-[0.08em] text-ink sm:text-3xl lg:text-[2.15rem]">
                   LJ
                 </span>
               </span>

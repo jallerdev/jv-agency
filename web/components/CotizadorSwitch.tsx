@@ -41,7 +41,7 @@ export function CotizadorSwitch() {
               className={cn(
                 "inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-body text-sm transition-all",
                 linea === id
-                  ? "bg-primary text-surface shadow-soft"
+                  ? "bg-primary text-on-accent shadow-soft"
                   : "text-ink-soft hover:text-ink"
               )}
             >

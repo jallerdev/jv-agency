@@ -457,7 +457,7 @@ export default function PosicionamientoSeoPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
               <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <Wrench className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-5 font-display text-xl text-ink">SEO técnico</h3>
@@ -477,7 +477,7 @@ export default function PosicionamientoSeoPage() {
 
             <Reveal delay={90}>
               <article className="h-full rounded-2xl border border-primary/25 bg-surface p-7 shadow-soft">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <LineChart className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-5 font-display text-xl text-ink">Posicionamiento</h3>
@@ -547,7 +547,7 @@ export default function PosicionamientoSeoPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
               <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <FileSearch className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-5 font-display text-xl text-ink">Auditoría SEO</h3>
@@ -567,7 +567,7 @@ export default function PosicionamientoSeoPage() {
 
             <Reveal delay={90}>
               <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-surface p-7 shadow-soft">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <LineChart className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-5 font-display text-xl text-ink">
@@ -736,7 +736,7 @@ export default function PosicionamientoSeoPage() {
 
             <Reveal delay={120}>
               <div className="rounded-2xl border border-line bg-surface p-7">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-surface shadow-soft">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                   <Sparkles className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-5 font-display text-xl text-ink">

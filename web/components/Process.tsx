@@ -33,7 +33,7 @@ const NODO = [
   "border-secondary/40 bg-surface text-primary-dark",
   "border-secondary/70 bg-surface text-primary-dark",
   "border-primary/70 bg-surface text-primary-dark",
-  "border-primary bg-primary text-surface shadow-soft",
+  "border-primary bg-primary text-on-accent shadow-soft",
 ];
 
 export function Process() {

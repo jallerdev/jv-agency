@@ -44,7 +44,7 @@ const prettyDate = (iso: string) => {
  * táctil es el único estado que confirma el toque. */
 const chipBase =
   "tap-target inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2.5 transition-surface duration-quick ease-state active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50";
-const chipOn = "border-primary bg-primary text-surface shadow-soft";
+const chipOn = "border-primary bg-primary text-on-accent shadow-soft";
 const chipOff =
   "border-line bg-background/50 text-ink-soft hover:border-primary/45 hover:bg-background hover:text-ink";
 
@@ -212,7 +212,7 @@ export function ScheduleCall() {
     return (
       <div className={cardClass}>
         <div className="flex items-center gap-4">
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-success/12 text-success ring-1 ring-success/25 motion-safe:animate-[fade-in_var(--duration-slow)_var(--ease-spring)_both]">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-success/12 text-success ring-1 ring-success/25 motion-safe:animate-[fade-in_var(--duration-slow)_var(--ease-ps)_both]">
             <Check className="h-6 w-6" strokeWidth={2.25} />
           </span>
           <div className="min-w-0">

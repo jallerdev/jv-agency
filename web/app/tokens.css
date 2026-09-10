@@ -82,7 +82,18 @@
   --text-muted: var(--zinc-400);
   --text-accent: var(--violeta-400);
   --text-inverse: var(--zinc-950);
-  --text-on-accent: #ffffff;
+  /* DESVIACIÓN DECLARADA del design system, que dice `#ffffff`.
+     Medido sobre el sitio ya portado, en 24 botones de las catorce rutas:
+       blanco sobre violeta-500 (#7C6CF5) .... 3,95:1   AA pide 4,5
+       blanco sobre violeta-400 (hover) ...... 2,66:1
+       casi negro sobre violeta-500 .......... 5,04:1
+       casi negro sobre violeta-400 .......... 7,48:1
+     El blanco no pasa ni en reposo ni en hover; el casi negro pasa en los dos,
+     y encima mejora al aclarar el relleno, que es la dirección de hover que
+     pide el sistema sobre fondo oscuro. Esto hay que corregirlo EN EL DESIGN
+     SYSTEM: mientras siga diciendo #ffffff, cualquiera que lo aplique de nuevo
+     reintroduce el fallo. */
+  --text-on-accent: var(--zinc-950);
 
   --line: var(--zinc-800);
   --line-soft: var(--alpha-line-soft);

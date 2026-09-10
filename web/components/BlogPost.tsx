@@ -56,7 +56,7 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
           <div className="mt-5 flex flex-wrap gap-3">
             <Link
               href="/precios"
-              className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 py-2.5 font-body text-sm font-semibold text-surface transition-colors hover:bg-primary-dark"
+              className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 py-2.5 font-body text-sm font-semibold text-on-accent transition-colors hover:bg-primary-dark"
             >
               Ver precios
             </Link>

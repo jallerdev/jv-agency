@@ -107,7 +107,7 @@ export function HiloWhatsApp({
              el botón primario. El `bg-primary` de más no es redundante: deja el
              suelo del degradado declarado como color sólido, así que cualquier
              medición automática lee un valor cierto en vez de «transparente». */
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary bg-gradient-to-br from-primary to-primary-dark font-mono text-[11px] font-semibold uppercase tracking-wide text-surface"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary bg-gradient-to-br from-primary to-primary-dark font-mono text-[11px] font-semibold uppercase tracking-wide text-on-accent"
         >
           {iniciales}
         </span>

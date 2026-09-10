@@ -31,7 +31,7 @@ export function FinalCTA() {
   return (
     <section
       id="contacto"
-      className="relative isolate overflow-hidden bg-primary-dark px-5 pb-20 pt-20 shadow-[0_-28px_64px_-36px_rgba(43,36,32,0.30)] md:px-8 md:pb-28 md:pt-28"
+      className="jv-bloom relative isolate overflow-hidden border-t border-line bg-canvas-tint px-5 pb-20 pt-20 md:px-8 md:pb-28 md:pt-28"
     >
       {/* Luz, no orbes: un foco cálido que cae sobre la esquina donde vive el
           formulario, y un velo que apaga la banda hacia el pie. Son capas
@@ -55,14 +55,14 @@ export function FinalCTA() {
 
       <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-16">
         <Reveal className="min-w-0" distance="lg" variant="left">
-          <h2 className="text-balance font-display text-[2.4rem]/[1.12] text-surface/75 sm:text-5xl/[1.06] lg:text-[3.5rem]/[1.04]">
+          <h2 className="text-balance font-display text-[2.4rem]/[1.12] text-ink/75 sm:text-5xl/[1.06] lg:text-[3.5rem]/[1.04]">
             {/* Los dos sintagmas van enteros: el único corte posible cae entre
                 ellos, y «página web» —el término que vende— no se parte nunca. */}
             <span className="whitespace-nowrap">Tu página web,</span>{" "}
             <span className="whitespace-nowrap">hecha</span>
-            <span className="block italic text-surface">por quien la programa.</span>
+            <span className="block italic text-ink">por quien la programa.</span>
           </h2>
-          <p className="mt-6 max-w-[46ch] text-pretty font-body text-lg leading-relaxed text-surface/85">
+          <p className="mt-6 max-w-[46ch] text-pretty font-body text-lg leading-relaxed text-ink/85">
             Agenda una llamada y cuéntame qué necesitas. Te digo con franqueza si te puedo
             ayudar —y cómo.
           </p>
@@ -73,10 +73,10 @@ export function FinalCTA() {
             {PERKS.map((p) => (
               <li
                 key={p}
-                className="flex items-center gap-3.5 border-b border-surface/15 py-4 font-body text-surface"
+                className="flex items-center gap-3.5 border-b border-surface/15 py-4 font-body text-ink"
               >
                 <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-surface/15 ring-1 ring-surface/20">
-                  <Check className="h-3.5 w-3.5 text-surface" strokeWidth={2.5} />
+                  <Check className="h-3.5 w-3.5 text-ink" strokeWidth={2.5} />
                 </span>
                 <span className="text-pretty">{p}</span>
               </li>

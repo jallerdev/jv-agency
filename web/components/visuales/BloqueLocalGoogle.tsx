@@ -59,7 +59,7 @@ function FilaBloque({ ficha, tuyo }: { ficha: Ficha; tuyo?: boolean }) {
         aria-hidden
         className={cn(
           "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-[11px] tabular-nums",
-          tuyo ? "bg-primary text-surface" : "bg-background text-ink-soft"
+          tuyo ? "bg-primary text-on-accent" : "bg-background text-ink-soft"
         )}
       >
         {tuyo ? "✓" : "·"}
@@ -117,7 +117,7 @@ export function BloqueLocalGoogle({
             className={cn(
               "min-h-11 rounded-full border px-4 font-body text-sm font-semibold transition-surface duration-quick ease-state",
               conFicha === o.v
-                ? "border-primary bg-primary text-surface"
+                ? "border-primary bg-primary text-on-accent"
                 : "border-line bg-surface text-ink-soft hover:border-primary/40 hover:text-ink"
             )}
           >
