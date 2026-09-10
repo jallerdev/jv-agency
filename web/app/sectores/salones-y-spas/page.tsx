@@ -360,7 +360,7 @@ export default function SalonesYSpasPage() {
             </h2>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {NECESITA.map((n, i) => {
               const Icon = n.icon;
               return (
@@ -398,7 +398,7 @@ export default function SalonesYSpasPage() {
             Segunda `.banda` seguida: se funde con la anterior y las dos leen
             como un solo capítulo —el argumento y su demostración—. */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
             <Reveal>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Así se ve una reserva que no te interrumpe
@@ -438,7 +438,7 @@ export default function SalonesYSpasPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             <Reveal>
               <article className="flex h-full flex-col overflow-hidden jv-card">
                 <div className="aspect-[16/10] overflow-hidden border-b border-line bg-canvas">
@@ -566,7 +566,7 @@ export default function SalonesYSpasPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
                 <article className="flex h-full flex-col jv-card p-6 md:p-7">

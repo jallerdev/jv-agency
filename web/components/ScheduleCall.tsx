@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from "react";
 import {
   AlertCircle,
   ArrowRight,
+  ArrowLeft,
   Check,
   CalendarCheck,
   Clock,
@@ -62,6 +63,11 @@ const chipOff =
   "border-line bg-background/50 text-ink-soft hover:border-primary/45 hover:bg-background hover:text-ink";
 
 export function ScheduleCall() {
+  /* El eje de pasos. La máquina de estados del envío —idle, buscando horarios,
+     enviando, éxito, error— NO se toca: esto es una capa de presentación
+     encima, y por eso el paso no entra en `reset` como un estado más sino
+     volviendo al 1, que es donde empieza todo. */
+  const [paso, setPaso] = useState<1 | 2>(1);
   const [service, setService] = useState("");
   const [time, setTime] = useState("");
   const [values, setValues] = useState({ name: "", email: "", phone: "", date: "", note: "" });
@@ -111,6 +117,17 @@ export function ScheduleCall() {
     if (key in errors) setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
+  /* El paso 1 valida solo lo suyo. Si validara el formulario entero, el botón
+     «Continuar» pintaría en rojo campos que todavía no se han visto. */
+  const validarPaso1 = () => {
+    const e: Partial<Record<FieldKey, string>> = {};
+    if (!values.name.trim()) e.name = "Escribe tu nombre";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = "Ingresa un correo válido";
+    if (values.phone.replace(/\D/g, "").length < 7) e.phone = "Ingresa un teléfono válido";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
   const validate = () => {
     const e: Partial<Record<FieldKey, string>> = {};
     if (!service) e.service = "Elige una opción";
@@ -123,22 +140,40 @@ export function ScheduleCall() {
     return Object.keys(e).length === 0;
   };
 
+  /* Enviar el foco al primer campo en rojo. Va en el siguiente fotograma
+     porque `setErrors` es asíncrono: hasta que React no repinta, el DOM
+     todavía no tiene los `aria-invalid` que este selector busca. */
+  const irAlPrimerError = (form: HTMLFormElement) => {
+    requestAnimationFrame(() => {
+      const primero = form.querySelector<HTMLElement>(
+        '[aria-invalid="true"], [data-invalid="true"]'
+      );
+      primero?.focus({ preventScroll: true });
+      primero?.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+  };
+
   const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault();
     if (submitting) return;
+
+    /* Enter en un campo del paso 1 avanza, no envía a medias. Sin esto, la
+       tecla más usada de un formulario dispararía la validación completa y
+       pintaría en rojo tres campos del paso 2 que nadie ha visto todavía. */
+    if (paso === 1) {
+      const form = ev.currentTarget as HTMLFormElement;
+      if (!validarPaso1()) {
+        irAlPrimerError(form);
+        return;
+      }
+      setPaso(2);
+      return;
+    }
+
     if (!validate()) {
       /* Si algo falta, el foco va al primer campo con error en vez de dejar al
-         visitante buscando el mensaje rojo en un formulario de 1.000 px.
-         En el siguiente fotograma: `setErrors` es asincrono y hasta que React
-         no repinta, el DOM todavia no tiene los aria-invalid. */
-      const form = ev.currentTarget as HTMLFormElement;
-      requestAnimationFrame(() => {
-        const first = form.querySelector<HTMLElement>(
-          '[aria-invalid="true"], [data-invalid="true"]'
-        );
-        first?.focus({ preventScroll: true });
-        first?.scrollIntoView({ block: "center", behavior: "smooth" });
-      });
+         visitante buscando el mensaje rojo. */
+      irAlPrimerError(ev.currentTarget as HTMLFormElement);
       return;
     }
 
@@ -183,6 +218,7 @@ export function ScheduleCall() {
   };
 
   const reset = () => {
+    setPaso(1);
     setService("");
     setTime("");
     setValues({ name: "", email: "", phone: "", date: "", note: "" });
@@ -312,201 +348,250 @@ export function ScheduleCall() {
         Diagnóstico sin costo de 20 minutos por Google Meet. Cuéntame qué necesitas.
       </p>
 
+      {/* El indicador de paso. No es adorno: un formulario partido sin decir en
+          cuántos trozos está partido se siente más largo que el mismo
+          formulario entero, porque quien lo llena no sabe si le quedan dos
+          pantallas o siete. La promesa de respuesta va aquí y no al final,
+          donde ya no cambia la decisión de empezar. */}
+      <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <p
+          aria-live="polite"
+          className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-accent-ink"
+        >
+          Paso {paso} de 2
+        </p>
+        <span aria-hidden className="h-3 w-px bg-line" />
+        <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-soft">
+          Te respondo en menos de 24 h
+        </p>
+        {/* La barra es `aria-hidden`: el texto de arriba ya dice el paso, y un
+            lector de pantalla anunciando «progreso 50 %» detrás de «paso 1 de
+            2» está diciendo lo mismo dos veces. */}
+        <span aria-hidden className="ml-auto flex w-16 gap-1">
+          <span className="h-0.5 flex-1 rounded-full bg-accent" />
+          <span
+            className={cn(
+              "h-0.5 flex-1 rounded-full transition-colors duration-slow ease-ps",
+              paso === 2 ? "bg-accent" : "bg-line"
+            )}
+          />
+        </span>
+      </div>
+
+      {/* ── Paso 1 · Quién eres ─────────────────────────────────────────
+          Tres campos y a otra cosa. El orden importa: lo barato de dar va
+          primero. Pedir «¿en qué te ayudo?» de entrada obliga a decidir el
+          proyecto antes de haber escrito el nombre, y ahí es donde la gente
+          cierra la pestaña. */}
+      <div hidden={paso !== 1}>
+        <div className="mt-4 jv-rule pt-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Nombre" error={errors.name}>
+              {(p) => (
+                <Input
+                  {...p}
+                  value={values.name}
+                  onChange={(e) => set("name", e.target.value)}
+                  placeholder="Tu nombre"
+                  autoComplete="name"
+                  disabled={submitting}
+                />
+              )}
+            </Field>
+            <Field label="Correo" error={errors.email}>
+              {(p) => (
+                <Input
+                  {...p}
+                  type="email"
+                  value={values.email}
+                  onChange={(e) => set("email", e.target.value)}
+                  placeholder="tu@correo.com"
+                  autoComplete="email"
+                  inputMode="email"
+                  disabled={submitting}
+                />
+              )}
+            </Field>
+          </div>
+
+          <div className="mt-4 sm:max-w-[calc(50%-0.5rem)]">
+            <Field label="WhatsApp / teléfono" error={errors.phone}>
+              {(p) => (
+                <Input
+                  {...p}
+                  type="tel"
+                  value={values.phone}
+                  onChange={(e) => set("phone", e.target.value)}
+                  placeholder="+57 300 000 0000"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  disabled={submitting}
+                />
+              )}
+            </Field>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Paso 2 · Qué necesitas ──────────────────────────────────────
+          `hidden` en vez de desmontar: lo que se escribió en el paso 1 sigue
+          en el DOM, así que volver atrás no pierde nada y el autocompletado
+          del navegador no se reinicia. Y con `hidden` los campos ocultos
+          tampoco son paradas de tabulador. */}
+      <div hidden={paso !== 2}>
       {/* Servicio */}
-      {/* El borde va en el envoltorio, no en el <fieldset>: el navegador encaja
-          el <legend> DENTRO del borde del fieldset y la regla queda partiendo
-          el texto por la mitad. */}
-      <div className="mt-4 jv-rule pt-4">
-      <fieldset>
-        <legend className="mb-3 font-body text-sm font-medium text-ink">
-          ¿En qué te ayudo?
-        </legend>
-        <div className="flex flex-wrap gap-2">
-          {SERVICES.map((s) => {
-            const on = service === s.id;
-            return (
-              <button
-                key={s.id}
-                type="button"
-                disabled={submitting}
-                data-invalid={errors.service ? "true" : undefined}
-                onClick={() => {
-                  setService(s.id);
-                  setErrors((e) => ({ ...e, service: undefined }));
-                }}
-                className={cn(chipBase, "font-body text-sm", on ? chipOn : chipOff)}
-                aria-pressed={on}
-                aria-describedby={errors.service ? serviceErrorId : undefined}
-              >
-                {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
-                {CORTO[s.id] ?? s.label}
-              </button>
-            );
-          })}
-        </div>
-        <FieldError id={serviceErrorId} message={errors.service} />
-      </fieldset>
-      </div>
-
-      {/* Datos */}
-      <div className="mt-4 jv-rule pt-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Nombre" error={errors.name}>
-            {(p) => (
-              <Input
-                {...p}
-                value={values.name}
-                onChange={(e) => set("name", e.target.value)}
-                placeholder="Tu nombre"
-                autoComplete="name"
-                disabled={submitting}
-              />
-            )}
-          </Field>
-          <Field label="Correo" error={errors.email}>
-            {(p) => (
-              <Input
-                {...p}
-                type="email"
-                value={values.email}
-                onChange={(e) => set("email", e.target.value)}
-                placeholder="tu@correo.com"
-                autoComplete="email"
-                inputMode="email"
-                disabled={submitting}
-              />
-            )}
-          </Field>
+        {/* El borde va en el envoltorio, no en el <fieldset>: el navegador encaja
+            el <legend> DENTRO del borde del fieldset y la regla queda partiendo
+            el texto por la mitad. */}
+        <div className="mt-4 jv-rule pt-4">
+        <fieldset>
+          <legend className="mb-3 font-body text-sm font-medium text-ink">
+            ¿En qué te ayudo?
+          </legend>
+          <div className="flex flex-wrap gap-2">
+            {SERVICES.map((s) => {
+              const on = service === s.id;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  disabled={submitting}
+                  data-invalid={errors.service ? "true" : undefined}
+                  onClick={() => {
+                    setService(s.id);
+                    setErrors((e) => ({ ...e, service: undefined }));
+                  }}
+                  className={cn(chipBase, "font-body text-sm", on ? chipOn : chipOff)}
+                  aria-pressed={on}
+                  aria-describedby={errors.service ? serviceErrorId : undefined}
+                >
+                  {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
+                  {CORTO[s.id] ?? s.label}
+                </button>
+              );
+            })}
+          </div>
+          <FieldError id={serviceErrorId} message={errors.service} />
+        </fieldset>
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <Field label="WhatsApp / teléfono" error={errors.phone}>
-            {(p) => (
-              <Input
-                {...p}
-                type="tel"
-                value={values.phone}
-                onChange={(e) => set("phone", e.target.value)}
-                placeholder="+57 300 000 0000"
-                autoComplete="tel"
-                inputMode="tel"
-                disabled={submitting}
-              />
-            )}
-          </Field>
-          {/* El campo nativo pinta el marcador según el locale del NAVEGADOR,
-              no del documento: en un Chrome en inglés sale «mm/dd/yyyy» en un
-              sitio colombiano y no hay forma de cambiarlo. Anunciar un formato
-              fijo sería mentir la mitad de las veces, así que se confirma la
-              fecha elegida en palabras debajo del campo. */}
-          <Field
-            label="Fecha preferida"
-            error={errors.date}
-            note={values.date ? prettyDate(values.date) : undefined}
-          >
-            {(p) => (
-              <Input
-                {...p}
-                type="date"
-                min={todayISO()}
-                value={values.date}
-                onChange={(e) => set("date", e.target.value)}
-                disabled={submitting}
-                /* Tocar el campo abre el calendario, no solo el iconito de
-                   16 px de la derecha. */
-                onClick={(e) => {
-                  const el = e.currentTarget as HTMLInputElement & { showPicker?: () => void };
-                  try {
-                    el.showPicker?.();
-                  } catch {
-                    /* Navegador que no lo permite fuera de su propio gesto. */
-                  }
-                }}
-                className="[&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-55 [&::-webkit-calendar-picker-indicator]:transition-opacity hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
-              />
-            )}
-          </Field>
+      {/* Fecha */}
+        <div className="mt-4 jv-rule pt-4">
+          <div className="sm:max-w-[calc(50%-0.5rem)]">
+            {/* El campo nativo pinta el marcador según el locale del NAVEGADOR,
+                no del documento: en un Chrome en inglés sale «mm/dd/yyyy» en un
+                sitio colombiano y no hay forma de cambiarlo. Anunciar un formato
+                fijo sería mentir la mitad de las veces, así que se confirma la
+                fecha elegida en palabras debajo del campo. */}
+            <Field
+              label="Fecha preferida"
+              error={errors.date}
+              note={values.date ? prettyDate(values.date) : undefined}
+            >
+              {(p) => (
+                <Input
+                  {...p}
+                  type="date"
+                  min={todayISO()}
+                  value={values.date}
+                  onChange={(e) => set("date", e.target.value)}
+                  disabled={submitting}
+                  /* Tocar el campo abre el calendario, no solo el iconito de
+                     16 px de la derecha. */
+                  onClick={(e) => {
+                    const el = e.currentTarget as HTMLInputElement & { showPicker?: () => void };
+                    try {
+                      el.showPicker?.();
+                    } catch {
+                      /* Navegador que no lo permite fuera de su propio gesto. */
+                    }
+                  }}
+                  className="[&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-55 [&::-webkit-calendar-picker-indicator]:transition-opacity hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
+                />
+              )}
+            </Field>
+          </div>
         </div>
-      </div>
 
       {/* Hora */}
-      <div className="mt-4 jv-rule pt-4">
-      <fieldset>
-        <legend className="mb-3 flex items-center gap-2 font-body text-sm font-medium text-ink">
-          <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
-          Hora disponible
-          {values.date && !loadingSlots && slots && slots.length > 0 && (
-            <span className="font-mono text-[11px] font-normal tabular-nums text-ink-soft">
-              {slots.length} libres
-            </span>
-          )}
-        </legend>
+        <div className="mt-4 jv-rule pt-4">
+        <fieldset>
+          <legend className="mb-3 flex items-center gap-2 font-body text-sm font-medium text-ink">
+            <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
+            Hora disponible
+            {values.date && !loadingSlots && slots && slots.length > 0 && (
+              <span className="font-mono text-[11px] font-normal tabular-nums text-ink-soft">
+                {slots.length} libres
+              </span>
+            )}
+          </legend>
 
-        <div aria-live="polite" aria-busy={loadingSlots}>
-          {!values.date ? (
-            <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
-              Elige una fecha para ver los horarios.
-            </p>
-          ) : loadingSlots ? (
-            /* Esqueleto en vez de una línea de texto: el bloque ya ocupa el
-               alto que va a ocupar y la tarjeta no da un salto al responder. */
-            <div className="flex flex-wrap gap-2" aria-label="Buscando horarios disponibles">
-              {[76, 76, 76, 76, 76, 76].map((w, i) => (
-                <span
-                  key={i}
-                  style={{ width: w }}
-                  className="h-11 animate-pulse rounded-full bg-line/60 motion-reduce:animate-none"
-                />
-              ))}
-            </div>
-          ) : slots && slots.length === 0 ? (
-            <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
-              No hay horarios disponibles ese día. Prueba con otra fecha.
-            </p>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {(slots ?? []).map((t) => {
-                const on = time === t;
-                return (
-                  <button
-                    key={t}
-                    type="button"
-                    disabled={submitting}
-                    data-invalid={errors.time ? "true" : undefined}
-                    onClick={() => {
-                      setTime(t);
-                      setErrors((e) => ({ ...e, time: undefined }));
-                    }}
-                    className={cn(chipBase, "font-mono text-sm tabular-nums", on ? chipOn : chipOff)}
-                    aria-pressed={on}
-                    aria-describedby={errors.time ? timeErrorId : undefined}
-                  >
-                    {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
-                    {t}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          <div aria-live="polite" aria-busy={loadingSlots}>
+            {!values.date ? (
+              <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
+                Elige una fecha para ver los horarios.
+              </p>
+            ) : loadingSlots ? (
+              /* Esqueleto en vez de una línea de texto: el bloque ya ocupa el
+                 alto que va a ocupar y la tarjeta no da un salto al responder. */
+              <div className="flex flex-wrap gap-2" aria-label="Buscando horarios disponibles">
+                {[76, 76, 76, 76, 76, 76].map((w, i) => (
+                  <span
+                    key={i}
+                    style={{ width: w }}
+                    className="h-11 animate-pulse rounded-full bg-line-soft motion-reduce:animate-none"
+                  />
+                ))}
+              </div>
+            ) : slots && slots.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
+                No hay horarios disponibles ese día. Prueba con otra fecha.
+              </p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {(slots ?? []).map((t) => {
+                  const on = time === t;
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      disabled={submitting}
+                      data-invalid={errors.time ? "true" : undefined}
+                      onClick={() => {
+                        setTime(t);
+                        setErrors((e) => ({ ...e, time: undefined }));
+                      }}
+                      className={cn(chipBase, "font-mono text-sm tabular-nums", on ? chipOn : chipOff)}
+                      aria-pressed={on}
+                      aria-describedby={errors.time ? timeErrorId : undefined}
+                    >
+                      {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
+                      {t}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+          <FieldError id={timeErrorId} message={errors.time} />
+        </fieldset>
         </div>
-        <FieldError id={timeErrorId} message={errors.time} />
-      </fieldset>
-      </div>
 
       {/* Nota */}
-      <div className="mt-4 jv-rule pt-4">
-        <label className="mb-1.5 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
-          Cuéntame brevemente <span className="font-normal text-ink-soft">(opcional)</span>
-        </label>
-        <textarea
-          id={noteId}
-          value={values.note}
-          onChange={(e) => set("note", e.target.value)}
-          rows={2}
-          disabled={submitting}
-          placeholder="¿Qué tienes en mente? Un sitio nuevo, un rediseño, una app…"
-          className="w-full rounded-xl border border-line bg-background/40 px-4 py-3 font-body text-base text-ink placeholder:text-ink-soft/60 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60"
-        />
+        <div className="mt-4 jv-rule pt-4">
+          <label className="mb-1.5 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
+            Cuéntame brevemente <span className="font-normal text-ink-soft">(opcional)</span>
+          </label>
+          <textarea
+            id={noteId}
+            value={values.note}
+            onChange={(e) => set("note", e.target.value)}
+            rows={2}
+            disabled={submitting}
+            placeholder="¿Qué tienes en mente? Un sitio nuevo, un rediseño, una app…"
+            className="w-full rounded-xl border border-line bg-background/40 px-4 py-3 font-body text-base text-ink placeholder:text-ink-muted transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60"
+          />
+        </div>
       </div>
 
       {submitError && (
@@ -529,28 +614,53 @@ export function ScheduleCall() {
         </div>
       )}
 
-      <Button
-        type="submit"
-        variant="primary"
-        size="lg"
-        /* `px-9` + `text-lg` fijaban un ancho mínimo de contenido de ~245 px:
-           a 360 px el botón empujaba el formulario fuera de su columna y el
-           contenedor lo recortaba 8 px. Encoge en móvil y recupera su tamaño
-           desde sm. `focus-visible:transition-none` para que el anillo aparezca
-           en el fotograma 0 y no con el fundido de 300 ms del botón. */
-        className="mt-7 w-full px-5 text-base focus-visible:transition-none sm:px-9 sm:text-lg"
-        disabled={submitting}
-      >
-        {submitting ? (
-          <>
-            <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} /> Agendando…
-          </>
-        ) : (
-          <>
-            Agendar llamada <ArrowRight className="h-5 w-5" strokeWidth={2} />
-          </>
-        )}
-      </Button>
+      {/* ── El pie del formulario ───────────────────────────────────────
+          «Continuar» en el paso 1 y «Agendar» en el 2. El botón de atrás es
+          secundario y va a la izquierda: retroceder tiene que ser posible y
+          barato —quien se equivocó de correo no puede quedar atrapado— pero no
+          debe competir con el que lleva hacia adelante. */}
+      {paso === 1 ? (
+        <Button
+          type="submit"
+          variant="primary"
+          size="lg"
+          className="mt-7 w-full px-5 text-base focus-visible:transition-none sm:px-9 sm:text-lg"
+        >
+          Continuar <ArrowRight className="h-5 w-5" strokeWidth={2} />
+        </Button>
+      ) : (
+        <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
+          <button
+            type="button"
+            onClick={() => setPaso(1)}
+            disabled={submitting}
+            className="jv-boton-2 justify-center disabled:opacity-60 sm:w-auto"
+          >
+            <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden /> Atrás
+          </button>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            /* `px-9` + `text-lg` fijaban un ancho mínimo de contenido de ~245 px:
+               a 360 px el botón empujaba el formulario fuera de su columna.
+               `focus-visible:transition-none` para que el anillo aparezca en el
+               fotograma 0 y no con el fundido de 300 ms del botón. */
+            className="w-full px-5 text-base focus-visible:transition-none sm:flex-1 sm:px-9 sm:text-lg"
+            disabled={submitting}
+          >
+            {submitting ? (
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} /> Agendando…
+              </>
+            ) : (
+              <>
+                Agendar llamada <ArrowRight className="h-5 w-5" strokeWidth={2} />
+              </>
+            )}
+          </Button>
+        </div>
+      )}
       <p className="mt-3 text-center text-pretty font-body text-xs leading-relaxed text-ink-soft">
         Sin compromiso. Recibirás la invitación de Google Meet en tu correo.
       </p>

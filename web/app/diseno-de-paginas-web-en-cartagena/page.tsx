@@ -380,7 +380,7 @@ export default function DisenoPaginasWebCartagenaPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
             {CIFRAS.map((c, i) => (
               <Reveal key={c.dato} index={i}>
                 <article className="flex h-full flex-col jv-card p-6 sm:p-7">
@@ -410,7 +410,7 @@ export default function DisenoPaginasWebCartagenaPage() {
               Los negocios de Cartagena a los que esto les sirve
             </h2>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {PARA_QUIEN.map((p, i) => {
               const Icon = p.icon;
               return (
@@ -450,7 +450,7 @@ export default function DisenoPaginasWebCartagenaPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
                 <article className="flex h-full flex-col jv-card p-6 sm:p-7">
@@ -547,7 +547,7 @@ export default function DisenoPaginasWebCartagenaPage() {
             />
           </Reveal>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-2 lg:items-start">
+          <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <ListaAcopio
                 almacen="acopio-cartagena"
@@ -612,9 +612,9 @@ export default function DisenoPaginasWebCartagenaPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             <Reveal>
-              <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-secondary/15 p-6 sm:p-7">
+              <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-white/15 p-6 sm:p-7">
                 <span className="w-fit rounded-full bg-primary/12 px-3 py-1 jv-eyebrow text-primary-dark">
                   En línea · Cartagena
                 </span>

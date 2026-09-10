@@ -159,7 +159,7 @@ export function Cotizador() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
       {/* Wizard */}
       <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         {/* Progress */}
@@ -363,7 +363,7 @@ function ToggleRow({
         </span>
       </button>
 
-      <details className="group border-t border-line/70 px-4 pb-3">
+      <details className="group border-t border-line-soft px-4 pb-3">
         <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 jv-eyebrow text-ink-soft transition-colors hover:text-ink">
           Qué incluye
           <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
@@ -1090,7 +1090,7 @@ function FinalSummary({ answers, onRestart }: { answers: Answers; onRestart: () 
   )}`;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
       <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="flex items-center gap-3">
           <span className="grid h-12 w-12 place-items-center rounded-full bg-success/15 text-success">

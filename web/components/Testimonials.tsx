@@ -101,7 +101,7 @@ export function Testimonials() {
                     <blockquote
                       lang={t.originalLang}
                       {...(t.url ? { cite: t.url } : {})}
-                      className="mt-3 whitespace-pre-line border-l-2 border-secondary/50 pl-4 font-body text-sm italic leading-relaxed text-ink-soft"
+                      className="mt-3 whitespace-pre-line border-l-2 border-white/50 pl-4 font-body text-sm italic leading-relaxed text-ink-soft"
                     >
                       {t.original}
                     </blockquote>

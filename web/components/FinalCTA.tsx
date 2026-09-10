@@ -46,7 +46,7 @@ export function FinalCTA() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/45 to-transparent"
       />
 
-      <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-16">
+      <div className="relative mx-auto grid grid-cols-1 max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-16">
         <Reveal className="min-w-0" distance="lg" variant="left">
           <h2 className="text-balance font-display text-[2.4rem]/[1.12] text-ink/75 sm:text-5xl/[1.06] lg:text-[3.5rem]/[1.04]">
             {/* Los dos sintagmas van enteros: el único corte posible cae entre

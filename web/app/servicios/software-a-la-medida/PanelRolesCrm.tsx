@@ -102,7 +102,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
         {total} negocios visibles
       </p>
 
-      <div className="mt-3 grid gap-4 sm:grid-cols-4 sm:items-start sm:gap-3">
+      <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-4 sm:items-start sm:gap-3">
         {TABLERO.map((col) => {
           const suyos = col.negocios.filter(visible);
           return (

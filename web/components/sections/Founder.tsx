@@ -28,7 +28,7 @@ export function Founder({ idioma }: { idioma: Idioma }) {
 
   return (
     <Seccion id="quien" className="border-y border-line">
-      <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <div>
           <div className="jv-bloom jv-card grid aspect-square w-full max-w-[18rem] place-items-center">
             <Logo className="h-24 w-auto text-brand" />
@@ -54,7 +54,7 @@ export function Founder({ idioma }: { idioma: Idioma }) {
             )}
           </p>
 
-          <dl className="mt-12 grid gap-8 sm:grid-cols-3">
+          <dl className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3">
             {FOUNDER.cifras.map((c) => (
               <Cifra key={c.etiqueta.es} cifra={c} idioma={idioma} />
             ))}

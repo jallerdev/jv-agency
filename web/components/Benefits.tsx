@@ -60,7 +60,7 @@ type Service = (typeof SERVICES)[number];
 const SUPERFICIE: Record<Tier, string> = {
   ancla:
     "border-primary/30 bg-gradient-to-br from-primary/[0.10] via-surface to-accent/[0.07] shadow-soft",
-  destacado: "border-secondary/40 bg-surface",
+  destacado: "border-white/40 bg-surface",
   base: "border-line bg-surface/60",
 };
 
@@ -187,7 +187,7 @@ export function Benefits() {
        desde dentro de un solo componente. */
     <section id="servicios" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <Reveal stagger distance="lg">
             <Badge>Lo que hago</Badge>
             <h2 className="mt-6 text-balance font-display text-4xl/[1.15] text-ink sm:text-5xl/[1.08]">
@@ -206,7 +206,7 @@ export function Benefits() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-5">
+        <div className="mt-14 grid grid-cols-1 gap-5 lg:grid-cols-5">
           {SERVICES.map((s, i) => {
             /* Solo los servicios que ya tienen pagina propia son enlace, y solo
                ellos se elevan y llevan flecha. Antes cinco tarjetas muertas

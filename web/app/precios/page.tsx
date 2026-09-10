@@ -201,7 +201,7 @@ const DETALLE = [
 function PropuestaPorEscrito() {
   return (
     <figure className="mx-auto mt-8 max-w-2xl">
-      <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-surface via-surface to-secondary/12 shadow-soft">
+      <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-surface via-surface to-white/12 shadow-soft">
         {/* Lomo: el canto encuadernado de un documento, no un borde de tarjeta. */}
         <span
           aria-hidden
@@ -448,7 +448,7 @@ export default function PreciosPage() {
               Dónde ver el detalle
             </h2>
           </Reveal>
-          <div className="mt-7 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+          <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {DETALLE.map((d, i) => (
               <Reveal key={d.href} index={i}>
                 <Link

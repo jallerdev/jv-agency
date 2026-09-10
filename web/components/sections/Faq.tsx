@@ -43,7 +43,7 @@ export function Faq({ idioma }: { idioma: Idioma }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         {/* La columna de la izquierda se queda pegada: mientras se abren y
             cierran ocho respuestas, el titular sigue diciendo de qué van. */}
         <div className="lg:sticky lg:top-28 lg:self-start">
@@ -52,13 +52,9 @@ export function Faq({ idioma }: { idioma: Idioma }) {
             {FAQ.cierre.texto[idioma]}{" "}
             <Link
               href={FAQ.cierre.enlace.href[idioma]}
-              className="group relative font-semibold text-brand"
+              className="jv-enlace font-semibold text-brand"
             >
               {FAQ.cierre.enlace.texto[idioma]}
-              <span
-                aria-hidden
-                className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-brand transition-transform duration-base ease-ps group-hover:scale-x-100 group-focus-visible:scale-x-100"
-              />
             </Link>
           </p>
         </div>

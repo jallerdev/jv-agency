@@ -113,7 +113,7 @@
 /* El florón: el único degradado plano que el sistema permite detrás de un
    titular. Barato; se puede usar sin pensarlo. */
 .jv-bloom { position: relative; }
-.jv-bloom::before { content: ""; position: absolute; inset: 0; background: var(--bloom-violeta); pointer-events: none; }
+.jv-bloom::before { content: ""; position: absolute; inset: 0; background: var(--bloom-brand); pointer-events: none; }
 
 /* Entrada al hacer scroll. `data-armed` lo pone el JS: sin él, quien navegue
    sin JavaScript vería la página en blanco esperando un observador que nunca
@@ -341,4 +341,52 @@ input[type="radio"] { accent-color: var(--accent); }
   /* Sin sticky no hay secuestro de scroll: queda una pila normal. */
   .jv-pila__item { position: static; }
   .jv-pila__item > * { transform: none !important; opacity: 1 !important; }
+}
+
+/* ===========================================================================
+   El barrido de imagen
+   ---------------------------------------------------------------------------
+   `clip-path: inset(0 0 100%)` → `inset(0)` en .9s, tal cual lo hace
+   palo-seco. La captura se descubre de arriba abajo en vez de aparecer.
+
+   No lleva IntersectionObserver a propósito: se usa dentro del acordeón, y
+   Radix desmonta el contenido cerrado, así que la animación arranca sola cada
+   vez que se abre un expediente. Un observador ahí no volvería a disparar.
+   =========================================================================== */
+@keyframes jv-barrido {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+.jv-barrido { animation: jv-barrido 0.9s var(--ease-ps) both; }
+@media (prefers-reduced-motion: reduce) {
+  .jv-barrido { animation: none; clip-path: none; }
+}
+
+/* ===========================================================================
+   El enlace de texto
+   ---------------------------------------------------------------------------
+   El subrayado crece desde la izquierda al pasar por encima. Estaba escrito a
+   mano con un <span> absoluto en tres sitios; aquí es una clase, que es lo que
+   pidió el encargo: que cambiar el estilo de un enlace sea cambiar una regla.
+
+   Va con `::after` en vez de `text-decoration` porque hay que animar el ancho,
+   y el subrayado nativo no se puede animar.
+   =========================================================================== */
+.jv-enlace { position: relative; }
+.jv-enlace::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.125rem;
+  height: 1px;
+  width: 100%;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-ps);
+}
+.jv-enlace:hover::after,
+.jv-enlace:focus-visible::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .jv-enlace::after { transition: none; }
 }

@@ -121,7 +121,7 @@ export function MetaTechProvider({
           /* `bg-surface` opaco debajo del degradado: la tarjeta era translucida y el
              campo de manchas del hero se le colaba por detras, dejando «VERIFICADO ·
              JUL 2026» en 4,44:1. Una credencial no puede transparentar. */
-          "relative overflow-hidden rounded-3xl border border-primary/20 bg-surface bg-gradient-to-br from-surface via-surface to-secondary/12 p-6 pl-7 text-left shadow-soft",
+          "relative overflow-hidden rounded-3xl border border-primary/20 bg-surface bg-gradient-to-br from-surface via-surface to-white/12 p-6 pl-7 text-left shadow-soft",
           className
         )}
       >
@@ -170,7 +170,7 @@ export function MetaTechProvider({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-surface via-surface to-secondary/12 text-left shadow-soft",
+        "relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-surface via-surface to-white/12 text-left shadow-soft",
         className
       )}
     >

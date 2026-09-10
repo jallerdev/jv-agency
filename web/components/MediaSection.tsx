@@ -163,7 +163,7 @@ export function MediaSection() {
               apoyada sobre el papel, separada de la placa por una regla fina:
               a la izquierda qué es, a la derecha qué se construyó. */}
           <div className="mx-auto mt-10 max-w-5xl jv-rule pt-8 md:mt-12">
-            <div className="grid gap-8 md:grid-cols-[1.15fr_1fr] md:gap-14">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.15fr_1fr] md:gap-14">
               <div>
                 <div className="flex flex-wrap items-center gap-3">
                   <h3 className="font-display text-3xl/[1.1] text-ink">Bloomrose</h3>

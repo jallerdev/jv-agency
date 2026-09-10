@@ -374,7 +374,7 @@ export default function SoftwareALaMedidaPage() {
             necesitaba un sistema y se conforma con una web. */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-white/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Antes de nada:
                 <span className="text-metal"> ¿necesitas software o te sirve una página web?</span>
@@ -383,7 +383,7 @@ export default function SoftwareALaMedidaPage() {
                 Mucha gente escribe «software» cuando quiere una página web, y contratar lo
                 equivocado cuesta caro en las dos direcciones. La regla que uso es esta:
               </p>
-              <div className="mt-7 grid gap-5 md:grid-cols-2">
+              <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-2">
                 <div className="jv-card/80 p-6">
                   <h3 className="font-body text-xl font-semibold text-ink">Si el problema está afuera</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">
@@ -435,7 +435,7 @@ export default function SoftwareALaMedidaPage() {
               siempre después de aguantarla de más.
             </p>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} index={i}>
                 <article className="h-full jv-card bg-surface/70 p-7">
@@ -472,7 +472,7 @@ export default function SoftwareALaMedidaPage() {
             <PanelRolesCrm className="mt-6" />
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {QUE_CONSTRUYO.map((q, i) => {
               const Icon = q.icon;
               return (
@@ -527,7 +527,7 @@ export default function SoftwareALaMedidaPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             <Reveal>
               <article className="h-full jv-card bg-surface/70 p-7">
                 <h3 className="font-body text-xl font-semibold text-ink">Lo que sube el precio</h3>
@@ -591,7 +591,7 @@ export default function SoftwareALaMedidaPage() {
 
         {/* ── Qué incluye / qué no ───────────────────────────────────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué incluye siempre</h2>
               <ul className="mt-8 grid gap-3">
@@ -678,7 +678,7 @@ export default function SoftwareALaMedidaPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {PRUEBA.map((p, i) => (
               <Reveal key={p.nombre} index={i}>
                 <a
@@ -723,7 +723,7 @@ export default function SoftwareALaMedidaPage() {
               solo yo hablo.
             </p>
           </Reveal>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STACK.map((s, i) => (
               <Reveal key={s.grupo} index={i}>
                 <div className="h-full jv-card/60 p-6">

@@ -53,7 +53,7 @@ export function Caso({ idioma }: { idioma: Idioma }) {
         </div>
       </Reveal>
 
-      <Reveal delay={140} className="mt-12 grid gap-10 md:grid-cols-[1.1fr_1fr] md:gap-16">
+      <Reveal delay={140} className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-[1.1fr_1fr] md:gap-16">
         <div>
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="jv-titulo text-2xl">{CASO.proyecto}</h3>

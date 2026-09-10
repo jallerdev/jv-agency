@@ -75,16 +75,23 @@ const config: Config = {
         /* Fondo de página y superficies. `background` es el canvas casi negro
            —#09090B, nunca #000 y nunca gris cálido—; `surface` la tarjeta. */
         canvas: {
-          DEFAULT: "var(--canvas)",
+          DEFAULT: "rgb(var(--canvas-rgb) / <alpha-value>)",
           /* Casi negro con sesgo violeta. El sistema lo reserva al hero y al
              cierre: son las dos superficies donde el violeta tiene que
              sentirse aunque no haya un solo elemento violeta encima. */
           tint: "var(--canvas-tint)",
         },
-        background: "var(--canvas)",
-        surface: "var(--surface)",
-        raised: "var(--surface-raised)",
-        band: "var(--surface-band)",
+        background: "rgb(var(--canvas-rgb) / <alpha-value>)",
+        /* El casi negro del fondo, en tripleta RGB para que ADMITA opacidad.
+           `var(--negro)` a secas no sirve: Tailwind no puede meter un alfa
+           dentro de un hex que solo conoce en tiempo de ejecución, así que
+           descarta la utilidad ENTERA sin avisar —`bg-negro/85` no generaba
+           ni una regla, y por eso la cabecera fija se veía transparente
+           encima de la tarjeta naranja. */
+        negro: "rgb(var(--negro-rgb) / <alpha-value>)",
+        surface: "rgb(var(--surface-rgb) / <alpha-value>)",
+        raised: "rgb(var(--surface-raised-rgb) / <alpha-value>)",
+        band: "rgb(var(--surface-band-rgb) / <alpha-value>)",
 
         /* Texto. `ink` es el titular, `ink.soft` el cuerpo, `ink.muted` lo
            terciario. `on-accent` es el blanco que va SOBRE un relleno de
@@ -134,11 +141,11 @@ const config: Config = {
            color de marca. El verde queda solo para el estado «en línea». */
         secondary: "var(--line-strong)",
         success: {
-          DEFAULT: "var(--success)",
+          DEFAULT: "rgb(var(--success-rgb) / <alpha-value>)",
           ink: "var(--success-ink)",
         },
-        danger: "var(--danger)",
-        warning: "var(--warning)",
+        danger: "rgb(var(--danger-rgb) / <alpha-value>)",
+        warning: "rgb(var(--warning-rgb) / <alpha-value>)",
         info: "var(--info)",
       },
       /* ── Radios, en la escala de HalcónOS ───────────────────────────────

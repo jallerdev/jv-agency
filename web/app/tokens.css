@@ -7,11 +7,13 @@
    que aquí las sirve `next/font/local` desde app/fonts y por eso apuntan a las
    variables que genera el layout en vez de al nombre de la fuente.
 
-   La paleta es la de HalcónOS, promovida de producto a marca: violeta
-   #7C6CF5, teal #1CCF9E y una escala de grises FRÍA (tono 240). El sistema
-   terracota-y-papel anterior se descartó a propósito —el propio readme lo
-   deja escrito para que nadie lo reintroduzca sin darse cuenta—: leía como
-   artesanal, y lo que vende el estudio es software.
+   La estructura es la de HalcónOS —superficies, filetes, escala tipográfica y
+   movimiento— con UN SOLO acento: naranja #E8623F. El violeta y el teal de
+   HalcónOS salieron a propósito: aquel es producto y puede permitirse dos
+   colores funcionales; una marca de estudio con dos acentos no tiene ninguno.
+   El sistema terracota-y-papel anterior también se descartó —queda escrito
+   para que nadie lo reintroduzca sin darse cuenta—: leía como artesanal, y lo
+   que vende el estudio es software.
 
    OSCURO ES EL MODO POR DEFECTO. `:root` es oscuro; `[data-theme="claro"]`
    cambia el sistema entero a claro para propuestas impresas y correo.
@@ -96,6 +98,29 @@
   --line-soft: rgba(255, 255, 255, 0.05);
   --line-strong: rgba(255, 255, 255, 0.16);
 
+  /* Las dos capas de estado sobre superficie. Existen para que un hover no
+     tenga que inventarse un gris cada vez: `-muted` es el fondo en reposo de
+     una pastilla, `-hover` el que gana al pasar por encima. Sobre casi negro
+     el escalón tiene que ser pequeño; un blanco al 8% ya se lee como caja. */
+  --hs-muted: rgba(255, 255, 255, 0.03);
+  --hs-hover: rgba(255, 255, 255, 0.06);
+
+  /* ── Tripletas RGB ─────────────────────────────────────────────────────
+     Existen SOLO para que Tailwind pueda aplicar opacidad. Un color guardado
+     como hex dentro de una custom property no admite modificador: Tailwind no
+     puede meterle un alfa a un valor que no conoce hasta que el navegador lo
+     resuelve, así que descarta la utilidad entera y NO avisa. Así se perdían
+     ochenta reglas —`bg-surface/70`, `bg-background/40`, `bg-negro/85`— que
+     parecían escritas y no existían en el CSS servido.
+     Si cambias el hex de arriba, cambia también la tripleta. */
+  --canvas-rgb: 8 8 8;
+  --surface-rgb: 17 17 17;
+  --surface-raised-rgb: 23 23 23;
+  --surface-band-rgb: 17 17 17;
+  --success-rgb: 74 222 128;
+  --danger-rgb: 248 113 113;
+  --warning-rgb: 251 191 36;
+
   --accent: var(--brand-500);
   --accent-hover: var(--brand-600);
   --accent-press: var(--brand-700);
@@ -129,7 +154,6 @@
   /* El resplandor del hero: naranja al 8% sobre negro, como pide la
      especificación. Plano y barato. */
   --bloom-brand: radial-gradient(70% 60% at 50% 0%, rgba(232, 98, 63, 0.08) 0%, rgba(232, 98, 63, 0) 70%);
-  --bloom-violeta: var(--bloom-brand);   /* alias mientras se renombra */
   --scrim-bottom: linear-gradient(to top, rgba(8, 8, 8, 0.94) 0%, rgba(8, 8, 8, 0.6) 40%, rgba(8, 8, 8, 0) 80%);
 
   /* ── Tipografía ──────────────────────────────────────────────────────────
@@ -199,12 +223,14 @@
   --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.24), 0 2px 8px hsl(var(--shadow-color) / 0.16);
   --shadow-md: 0 6px 18px -4px hsl(var(--shadow-color) / 0.34);
   --shadow-pop: 0 8px 30px hsl(var(--shadow-color) / 0.45);
-  --shadow-accent: 0 10px 28px -10px hsl(252 100% 68% / 0.5);
+  --shadow-accent: 0 10px 28px -10px rgba(232, 98, 63, 0.5);
   --inset-hairline: inset 0 1px 0 hsl(0 0% 100% / 0.06);
 
   --blur-glass: saturate(150%) blur(14px);
-  /* El único degradado decorativo plano que existe: el florón violeta. */
-  --bloom-violeta: radial-gradient(60% 55% at 50% 0%, hsl(252 100% 68% / 0.18) 0%, hsl(252 100% 68% / 0) 70%);
+  /* El florón se define UNA vez, arriba, en --bloom-brand. Aquí había una
+     segunda declaración de --bloom-violeta en violeta que ganaba por orden y
+     dejaba el degradado del color viejo: por eso el florón seguía morado
+     después de portar la marca. */
   --scrim-bottom: linear-gradient(to top, hsl(240 10% 3.9% / 0.94) 0%, hsl(240 10% 3.9% / 0.6) 40%, hsl(240 10% 3.9% / 0) 80%);
 
   /* ── Movimiento ───────────────────────────────────────────────────────── */
@@ -231,40 +257,14 @@
   --reveal-rise: 24px;
 }
 
-/* ── Modo claro — para propuestas impresas y correo ─────────────────────── */
-[data-theme="claro"] {
-  --canvas: var(--zinc-25);
-  --canvas-tint: #faf9ff;
-  --surface: var(--zinc-0);
-  --surface-raised: var(--zinc-50);
-  --surface-band: var(--zinc-50);
-  --surface-inverse: var(--zinc-950);
-
-  --text-strong: #131316;
-  --text-body: var(--zinc-600);
-  --text-muted: var(--zinc-500);
-  --text-accent: var(--violeta-600);
-  --text-inverse: #fafafa;
-
-  --line: var(--zinc-200);
-  --line-soft: var(--zinc-100);
-  --line-strong: var(--zinc-300);
-
-  --accent-hover: var(--violeta-600);
-  --accent-press: var(--violeta-700);
-  --accent-quiet: #7c6cf514;
-  --accent-quiet-line: #7c6cf533;
-  --accent-ink: var(--violeta-700);
-
-  --accent-2: var(--teal-600);
-  --success: var(--teal-700);
-  --success-ink: var(--teal-700);
-  --danger: var(--rojo-500);
-  --warning: var(--ambar-500);
-
-  --focus-ring-color: var(--violeta-500);
-  --track: var(--zinc-200);
-}
+/* MODO CLARO: NO EXISTE, Y ES A PROPÓSITO.
+   Aquí hubo un bloque `[data-theme="claro"]` que se leía como una función del
+   sistema y no lo era: apuntaba a `--zinc-*`, `--rojo-500` y `--ambar-500`,
+   variables que no están definidas en ninguna parte, y nada del sitio pone
+   nunca ese atributo. Se quitó en vez de arreglarlo porque el encargo pide un
+   solo mundo visual, oscuro. Si algún día hace falta un tema claro para
+   propuestas impresas, se escribe entero y se prueba, que es lo que aquel
+   bloque no tuvo. */
 
 @media (prefers-reduced-motion: reduce) {
   :root {

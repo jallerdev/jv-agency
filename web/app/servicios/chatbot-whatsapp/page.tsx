@@ -302,7 +302,7 @@ export default function ChatbotWhatsappPage() {
         {/* ── El diferenciador, arriba y no enterrado ─────────────────── */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-white/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Casi todos te revenden una plataforma.
                 <span className="text-metal"> Yo conecto directo.</span>
@@ -330,7 +330,7 @@ export default function ChatbotWhatsappPage() {
               Esto te sirve si te pasa alguna de estas
             </h2>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} delay={i * 80}>
                 <article className="h-full jv-card bg-surface/70 p-7">
@@ -368,7 +368,7 @@ export default function ChatbotWhatsappPage() {
             mensajes={HILO}
           />
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {TIPOS.map((t, i) => {
               const Icon = t.icon;
               return (
@@ -414,7 +414,7 @@ export default function ChatbotWhatsappPage() {
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Qué incluye, en cualquiera de los cinco
             </h2>
-            <ul className="mt-8 grid gap-3 md:grid-cols-2 md:gap-x-8">
+            <ul className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-x-8">
               {INCLUYE.map((x) => (
                 <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
                   <Check className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />

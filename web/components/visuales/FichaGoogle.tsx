@@ -78,7 +78,7 @@ export function FichaGoogle({
         {campos.map((c) => (
           <div
             key={c.etiqueta}
-            className="grid gap-1 py-2.5 sm:grid-cols-[7rem_1fr] sm:items-baseline sm:gap-3"
+            className="grid grid-cols-1 gap-1 py-2.5 sm:grid-cols-[7rem_1fr] sm:items-baseline sm:gap-3"
           >
             <dt className="jv-eyebrow text-accent-ink">
               {c.etiqueta}

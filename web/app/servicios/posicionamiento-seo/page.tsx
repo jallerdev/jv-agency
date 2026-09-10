@@ -421,7 +421,7 @@ export default function PosicionamientoSeoPage() {
         {/* ── Lo que nadie pone en la portada ─────────────────────────── */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-white/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 No te voy a garantizar el primer puesto.
                 <span className="text-metal"> Nadie puede.</span>
@@ -454,7 +454,7 @@ export default function PosicionamientoSeoPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             <Reveal>
               <article className="h-full jv-card bg-surface/70 p-7">
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
@@ -513,7 +513,7 @@ export default function PosicionamientoSeoPage() {
               Esto te sirve si te pasa alguna de estas
             </h2>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {PARA_QUIEN.map((p, i) => {
               const Icon = p.icon;
               return (
@@ -544,7 +544,7 @@ export default function PosicionamientoSeoPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             <Reveal>
               <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
@@ -703,7 +703,7 @@ export default function PosicionamientoSeoPage() {
 
           {/* Insumo → resultado. A 390 se apilan en ese orden, que además es
               el orden en que se cuenta. */}
-          <div className="mt-10 grid gap-6 lg:grid-cols-2 lg:items-start">
+          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <FichaGoogle />
             </Reveal>
@@ -712,7 +712,7 @@ export default function PosicionamientoSeoPage() {
             </Reveal>
           </div>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:items-start">
+          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <h3 className="font-display text-2xl text-ink sm:text-3xl">
                 Y por ciudad, si es lo tuyo

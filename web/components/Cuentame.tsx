@@ -244,7 +244,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
             Tres datos y te escribo yo. Sin formularios largos ni intermediarios.
           </p>
 
-          <div className="mt-7 grid gap-5 sm:grid-cols-2">
+          <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div className="min-w-0">
               <label className={etiquetaCampo} htmlFor={idNombre}>
                 Tu nombre
@@ -269,7 +269,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
             <div className="min-w-0">
               <label className={etiquetaCampo} htmlFor={idNegocio}>
                 Tu negocio{" "}
-                <span className="font-normal normal-case tracking-normal text-ink-soft/70">
+                <span className="font-normal normal-case tracking-normal text-ink-muted">
                   (opcional)
                 </span>
               </label>
@@ -325,7 +325,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
           <div className="mt-6 min-w-0">
             <label className={etiquetaCampo} htmlFor={idDetalle}>
               En dos líneas{" "}
-              <span className="font-normal normal-case tracking-normal text-ink-soft/70">
+              <span className="font-normal normal-case tracking-normal text-ink-muted">
                 (opcional)
               </span>
             </label>
@@ -382,7 +382,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
 const etiquetaCampo =
   "mb-2 block jv-eyebrow text-ink-soft";
 const campo =
-  "h-12 w-full rounded-full border border-line bg-background/40 px-5 font-body text-base text-ink placeholder:text-ink-soft/55 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25";
+  "h-12 w-full rounded-full border border-line bg-background/40 px-5 font-body text-base text-ink placeholder:text-ink-muted transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25";
 const campoMal = "border-danger/55";
 const error = "mt-2 font-body text-xs text-danger";
 

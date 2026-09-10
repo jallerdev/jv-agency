@@ -382,7 +382,7 @@ export default function DisenoPaginasWebBogotaPage() {
         {/* ── La confesión. Va arriba a propósito · banda ────────────── */}
         <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-7 sm:p-9 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-white/15 p-7 sm:p-9 md:p-10">
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                 <MapPinOff className="h-6 w-6" aria-hidden="true" />
               </span>
@@ -426,7 +426,7 @@ export default function DisenoPaginasWebBogotaPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {QUIEN.map((p, i) => {
               const Icon = p.icon;
               return (
@@ -477,7 +477,7 @@ export default function DisenoPaginasWebBogotaPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.nombre} index={i}>
                 <article className="flex h-full flex-col jv-card p-6 sm:p-7">
@@ -550,7 +550,7 @@ export default function DisenoPaginasWebBogotaPage() {
 
         {/* ── Qué incluye · cómo se trabaja a distancia · banda ──────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Qué entra en cualquier proyecto
@@ -639,7 +639,7 @@ export default function DisenoPaginasWebBogotaPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {ABIERTOS.map((p, i) => (
               <Reveal key={p.nombre} index={i}>
                 <a

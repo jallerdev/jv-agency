@@ -168,7 +168,7 @@ export function Founder() {
                     con filete grabado: sobre oscuro un bisel se lee como un botón
                     de escritorio de 2008, y el florón es el recurso que el sistema
                     ya usa para dar presencia sin dibujar una caja. */}
-                <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,var(--alpha-violeta-30),transparent_70%)]" />
+                <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,var(--accent-quiet),transparent_70%)]" />
                 
                 <span className="text-halcon relative font-display text-[1.6rem] tracking-[0.08em] sm:text-3xl lg:text-[2.15rem]">
                   LJ

@@ -204,7 +204,7 @@ export function Header() {
         className={cn(
           "fixed inset-x-0 top-0 z-[60] transition-chrome duration-slow ease-state",
           solid
-            ? "border-b border-line/70 bg-background/90 shadow-soft backdrop-blur-lg"
+            ? "border-b border-line-soft bg-background/90 shadow-soft backdrop-blur-lg"
             : "border-b border-transparent bg-transparent"
         )}
       >
@@ -340,11 +340,11 @@ export function Header() {
           }}
         >
           <nav aria-label="Principal (móvil)">
-            <ul className="border-y border-line/70">
+            <ul className="border-y border-line-soft">
               {NAV.map((item, index) => (
                 <li
                   key={item.href}
-                  className="animate-fade-in border-b border-line/70 last:border-b-0"
+                  className="animate-fade-in border-b border-line-soft last:border-b-0"
                   style={{
                     animationDuration: "var(--duration-slow)",
                     animationDelay: `${60 + index * 45}ms`,

@@ -86,7 +86,7 @@ export function CotizadorAutomatizaciones() {
   if (done) return <Resumen a={a} onRestart={reiniciar} />;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
       <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="mb-7">
           <div className="mb-2 flex items-center justify-between font-body text-sm text-ink-soft">
@@ -101,7 +101,7 @@ export function CotizadorAutomatizaciones() {
         <div key={i} className="animate-fade-in">
           {paso === "tipo" && (
             <StepHeader title="¿Qué quieres automatizar?" desc="Elige el flujo principal. Después le sumamos integraciones.">
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {TIPOS.map(({ id, icon: Icon }) => (
                   <Opcion
                     key={id}
@@ -139,7 +139,7 @@ export function CotizadorAutomatizaciones() {
 
           {paso === "integraciones" && (
             <StepHeader title="¿Con qué se tiene que conectar?" desc="Marca todo lo que necesites. Puedes dejarlo en blanco.">
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {INTEGRACIONES.map(({ key, title, desc }) => (
                   <Opcion
                     key={key}
@@ -176,7 +176,7 @@ export function CotizadorAutomatizaciones() {
 
           {paso === "plazo" && (
             <StepHeader title="¿Para cuándo la necesitas?" desc="El plazo ajusta el precio hacia arriba o hacia abajo.">
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {PLAZOS.map(({ id, icon: Icon }) => (
                   <Opcion
                     key={id}
@@ -285,7 +285,7 @@ function Resumen({ a, onRestart }: { a: AutomationAnswers; onRestart: () => void
   const wa = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsApp(a))}`;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
       <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="flex items-center gap-3">
           <span className="grid h-12 w-12 place-items-center rounded-full bg-success/15 text-success">
@@ -297,7 +297,7 @@ function Resumen({ a, onRestart }: { a: AutomationAnswers; onRestart: () => void
           </div>
         </div>
 
-        <div className="mt-7 grid gap-3 sm:grid-cols-2">
+        <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-dark via-primary to-[#7a4a30] p-6 text-on-accent shadow-soft">
             <p className="font-body text-sm text-ink/80">Pago único</p>
             <p className="mt-1 font-display text-4xl">{money(t.total)}</p>

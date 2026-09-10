@@ -158,7 +158,7 @@ export default function SobreNosotrosPage() {
         {/* Fundador */}
         <section className="banda mx-auto max-w-5xl px-5 py-16 md:px-8">
           <Reveal>
-            <div className="grid gap-8 jv-card/80 p-8 shadow-soft md:grid-cols-[auto_1fr] md:items-center md:p-12">
+            <div className="grid grid-cols-1 gap-8 jv-card/80 p-8 shadow-soft md:grid-cols-[auto_1fr] md:items-center md:p-12">
               <div className="grid h-28 w-28 shrink-0 place-items-center rounded-2xl border border-line bg-background">
                 <Logo className="h-16 w-auto text-ink" />
               </div>
@@ -195,7 +195,7 @@ export default function SobreNosotrosPage() {
           <Reveal className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Cómo trabajo</h2>
           </Reveal>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             {APPROACH.map((a, i) => (
               <Reveal key={a.title} delay={i * 100}>
                 <div className="h-full jv-card/60 p-7">
@@ -216,7 +216,7 @@ export default function SobreNosotrosPage() {
               Tecnología moderna y probada para construir productos rápidos, sólidos y listos para crecer.
             </p>
           </Reveal>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {STACK.map((s) => (
               <div key={s.group} className="jv-card/60 p-6">
                 <h3 className="font-body text-sm font-semibold uppercase tracking-widest text-ink">
@@ -249,7 +249,7 @@ export default function SobreNosotrosPage() {
               sectores hasta que Luis confirme que son reales; el NDA se queda.]
             </Pendiente>
           </Reveal>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
             {PROJECTS.map((p, i) => (
               <Reveal key={p.name} delay={i * 100}>
                 <div className="h-full jv-card bg-surface/70 p-7">

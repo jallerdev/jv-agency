@@ -579,7 +579,7 @@ export default function TiendasVirtualesPage() {
               Esto te sirve si te pasa alguna de estas
             </h2>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} delay={i * 80}>
                 <article className="h-full jv-card bg-surface/70 p-7">
@@ -606,7 +606,7 @@ export default function TiendasVirtualesPage() {
           {/* Tres tarjetas con las MISMAS tres filas en el mismo orden. Es una
               matriz que se lee en paralelo en escritorio y en secuencia a 390,
               sin tabla que desborde ni transposición que mantener. */}
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
             {PLATAFORMAS.map((p, i) => (
               <Reveal key={p.t} delay={i * 70}>
                 <article
@@ -683,7 +683,7 @@ export default function TiendasVirtualesPage() {
                 No todas las tiendas lo necesitan, así que no se lo cobro a todas.
               </p>
             </Reveal>
-            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               {EXTRAS.map((e, i) => (
                 <Reveal key={e.t} delay={i * 60}>
                   <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
@@ -805,7 +805,7 @@ export default function TiendasVirtualesPage() {
           </Reveal>
 
           <Reveal delay={100}>
-            <article className="mt-10 grid overflow-hidden rounded-[1.5rem] border border-line bg-surface/70 lg:grid-cols-2">
+            <article className="mt-10 grid grid-cols-1 overflow-hidden rounded-[1.5rem] border border-line bg-surface/70 lg:grid-cols-2">
               {/* Proporción fija (16/9) en las dos anchuras y el mismo recorte
                   que usa Portfolio.tsx. El archivo mide 2000x1160, así que con
                   16/10 la ventana quedaba más angosta que la captura y

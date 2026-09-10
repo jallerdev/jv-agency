@@ -534,7 +534,7 @@ export default function DisenoDePaginasWebPage() {
               Se levanta con uno de estos seis problemas.
             </p>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {PARA_QUIEN.map((p, i) => {
               const Icon = p.icon;
               return (
@@ -584,7 +584,7 @@ export default function DisenoDePaginasWebPage() {
             <ArbolDecision raiz={ARBOL} className="mt-10" />
           </Reveal>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-3">
             {FORMATOS.map((f, i) => {
               const Icon = f.icon;
               return (
@@ -703,7 +703,7 @@ export default function DisenoDePaginasWebPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             <Reveal>
               <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
                 <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">

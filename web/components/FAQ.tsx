@@ -69,7 +69,7 @@ const FAQS: Faq[] = [
 export function FAQ() {
   return (
     <section id="faq" className="relative py-24 md:py-32">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="mx-auto grid grid-cols-1 max-w-7xl gap-12 px-5 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
         {/* El encabezado se queda quieto mientras se leen las preguntas: en una
             columna de ítems que crecen al abrirse, el titular ya no se va por
             arriba a la tercera pregunta. */}

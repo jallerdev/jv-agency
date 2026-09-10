@@ -178,7 +178,7 @@ export default function TallerDeVisuales() {
           ruta="visuales/BloqueLocalGoogle · visuales/FichaGoogle"
           para="Insumo y resultado, montados en dos paneles. A 390 se apilan en ese orden."
         >
-          <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
             <FichaGoogle />
             <BloqueLocalGoogle />
           </div>
@@ -192,7 +192,7 @@ export default function TallerDeVisuales() {
           ruta="visuales/CasillaVacia"
           para="/diseno-de-paginas-web-en-bogota — el hueco declarado en la vitrina."
         >
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {["Bloomrose", "Halcón OS", "Hummik"].map((t) => (
               <article
                 key={t}

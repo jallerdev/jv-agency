@@ -25,7 +25,7 @@ export function Servicios({ idioma }: { idioma: Idioma }) {
         <EncabezadoSeccion contenido={SERVICIOS} idioma={idioma} />
       </Reveal>
 
-      <Reveal stagger className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <Reveal stagger className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {SERVICIOS.tarjetas.map((t) => (
           <article
             key={t.id}

@@ -351,7 +351,7 @@ export default function ClinicasYConsultoriosPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {NECESITA.map((n, i) => {
               const Icon = n.icon;
               return (
@@ -422,7 +422,7 @@ export default function ClinicasYConsultoriosPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             <Reveal>
               <article className="flex h-full flex-col overflow-hidden jv-card">
                 <div className="aspect-[16/10] overflow-hidden border-b border-line bg-canvas">
@@ -556,7 +556,7 @@ export default function ClinicasYConsultoriosPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
                 <article className="flex h-full flex-col jv-card p-6 md:p-7">
@@ -633,7 +633,7 @@ export default function ClinicasYConsultoriosPage() {
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-2 lg:items-start">
+          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
             <Reveal>
               <FichaGoogle
                 campos={[

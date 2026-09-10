@@ -84,7 +84,7 @@ export function AccesoForm({
               aria-describedby={error ? "clave-error" : undefined}
               placeholder="La que te compartimos"
               className={cn(
-                "w-full rounded-xl border bg-background/50 py-3 pl-4 pr-12 font-body text-ink transition-colors placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-surface",
+                "w-full rounded-xl border bg-background/50 py-3 pl-4 pr-12 font-body text-ink transition-colors placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-surface",
                 error ? "border-danger" : "border-line focus:border-primary/40",
               )}
             />

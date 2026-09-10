@@ -48,7 +48,7 @@ export function Comparador({
   className?: string;
 }) {
   return (
-    <div className={cn("grid gap-8 lg:grid-cols-2 lg:gap-12", className)}>
+    <div className={cn("grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12", className)}>
       <section>
         {tituloIncluye && (
           <Titulo className="font-display text-2xl text-ink sm:text-3xl">{tituloIncluye}</Titulo>

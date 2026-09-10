@@ -129,14 +129,31 @@ export default function RootLayout({
             que no son de nadie. */}
         {process.env.NODE_ENV === "production" && (
           <>
+            {/* Modo de consentimiento v2, DENEGADO por defecto.
+                Va antes que gtag/js y con `beforeInteractive` a propósito: si
+                se declarara después, GA4 ya habría escrito su cookie y el
+                aviso llegaría tarde. Con esto GA4 arranca sin cookies y solo
+                sube a concedido si la persona acepta en el aviso.
+                La Ley 1581 de 2012 pide consentimiento PREVIO; «previo» es
+                justo esta línea. */}
+            <Script id="consentimiento" strategy="beforeInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = gtag;
+gtag('consent', 'default', {
+  analytics_storage: 'denied',
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  wait_for_update: 500
+});`}
+            </Script>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
               strategy="afterInteractive"
             />
             <Script id="ga4" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
+              {`gtag('js', new Date());
 gtag('config', '${GA_MEASUREMENT_ID}');`}
             </Script>
           </>

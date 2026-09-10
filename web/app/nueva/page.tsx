@@ -8,6 +8,11 @@ import { Caso } from "@/components/sections/Caso";
 import { Statement } from "@/components/sections/Statement";
 import { Marquee } from "@/components/sections/Marquee";
 import { Servicios } from "@/components/sections/Servicios";
+import { Portafolio } from "@/components/sections/Portafolio";
+import { Agenda } from "@/components/sections/Agenda";
+import { Header } from "@/components/sections/Header";
+import { Footer } from "@/components/sections/Footer";
+import { BarraMovil } from "@/components/BarraMovil";
 
 /**
  * Banco de pruebas de la portada nueva.
@@ -18,17 +23,24 @@ import { Servicios } from "@/components/sections/Servicios";
  */
 export default function Nueva() {
   return (
-    <main className="min-h-screen">
+    <>
+      <Header idioma="es" />
+      <main id="contenido" className="min-h-screen pt-[var(--header-h)]">
       <Hero idioma="es" />
       <Statement idioma="es" />
       <Marquee />
       <Caso idioma="es" />
       <Servicios idioma="es" />
+      <Portafolio idioma="es" />
       <Proceso idioma="es" />
       <Verticales idioma="es" />
       <Founder idioma="es" />
       <Testimonios idioma="es" />
       <Faq idioma="es" />
-    </main>
+        <Agenda idioma="es" />
+      </main>
+      <Footer idioma="es" />
+      <BarraMovil idioma="es" />
+    </>
   );
 }

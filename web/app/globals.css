@@ -94,7 +94,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: var(--bloom-violeta);
+    background-image: var(--bloom-brand);
   }
 
 
@@ -642,3 +642,98 @@ main p:not([class*="max-w"]) {
    breakpoint está.
    No hace falta: el tope de medida encoge la caja y quien la centra es la
    alineación del contenedor, que sí es sensible al breakpoint. */
+
+/* ===========================================================================
+   NAVEGACIÓN Y BOTONES
+   ---------------------------------------------------------------------------
+   Estaban escritos a mano en cada sitio de uso: cuatro variantes de botón que
+   nadie eligió y que salieron de copiar y pegar. Aquí son clases, que es lo
+   que pidió el encargo: cambiar el CTA del sitio entero debe ser cambiar una
+   regla, no catorce archivos.
+   =========================================================================== */
+@layer components {
+  /* ── Enlace de la barra ───────────────────────────────────────────────
+     El filete crece desde la izquierda. `data-activo` lo deja fijo: quien
+     navega con teclado necesita ver dónde está sin tener que pasar el ratón,
+     y en hover-only esa señal no existe. */
+  .jv-navlink {
+    position: relative;
+    font-size: 0.9375rem;
+    color: var(--text-body);
+    transition: color var(--duration-base) var(--ease-ps);
+  }
+  .jv-navlink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.25rem;
+    height: 1px;
+    width: 100%;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-ps);
+  }
+  .jv-navlink:hover,
+  .jv-navlink[data-activo] { color: var(--text-strong); }
+  .jv-navlink:hover::after,
+  .jv-navlink:focus-visible::after,
+  .jv-navlink[data-activo]::after { transform: scaleX(1); }
+
+  /* ── Botón primario ───────────────────────────────────────────────────
+     Naranja con texto casi negro. El blanco sobre este naranja da 3,36:1 y no
+     pasa AA; el casi negro da 5,96:1. Es el motivo de que el texto del CTA
+     sea oscuro y no al revés, que es lo que uno esperaría.
+
+     Los 44px de alto no son estéticos: son el mínimo táctil. */
+  .jv-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    border-radius: var(--radius-pill);
+    padding: 0.6875rem 1.375rem;
+    background-color: var(--accent);
+    color: var(--text-on-accent);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    transition: background-color var(--duration-base) var(--ease-ps);
+  }
+  .jv-boton:hover { background-color: var(--accent-hover); }
+
+  /* ── Botón secundario ─────────────────────────────────────────────────
+     Filete, sin relleno. Nunca compite con el primario: una pantalla tiene un
+     solo CTA principal y el resto se subordina. */
+  .jv-boton-2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    border-radius: var(--radius-pill);
+    padding: 0.6875rem 1.375rem;
+    border: 1px solid var(--line-strong);
+    color: var(--text-strong);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    transition: border-color var(--duration-base) var(--ease-ps),
+      background-color var(--duration-base) var(--ease-ps);
+  }
+  .jv-boton-2:hover { border-color: var(--accent); background-color: var(--hs-hover); }
+
+  /* ── Botón de icono ───────────────────────────────────────────────────
+     44x44 exactos. El icono mide 20 y el resto es área táctil. */
+  .jv-icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    width: 2.75rem;
+    margin-right: -0.625rem;
+    border-radius: var(--radius-md);
+    color: var(--text-strong);
+    transition: background-color var(--duration-base) var(--ease-ps);
+  }
+  .jv-icono:hover { background-color: var(--hs-hover); }
+}

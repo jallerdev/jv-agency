@@ -30,8 +30,8 @@ const STEPS = [
 /* Progresion, no repeticion: el anillo del nodo se va cerrando paso a paso y
    el ultimo se llena. Se ve de un vistazo que hay un principio y un final. */
 const NODO = [
-  "border-secondary/40 bg-surface text-primary-dark",
-  "border-secondary/70 bg-surface text-primary-dark",
+  "border-white/40 bg-surface text-primary-dark",
+  "border-white/70 bg-surface text-primary-dark",
   "border-primary/70 bg-surface text-primary-dark",
   "border-primary bg-primary text-on-accent shadow-soft",
 ];
@@ -62,7 +62,7 @@ export function Process() {
         {/* Recorrido, no rejilla. Los pasos van sobre un riel con nodos
             numerados: vertical mientras se apilan, horizontal cuando caben en
             fila. Los chevrones dicen hacia donde va. */}
-        <ol className="mt-12 grid gap-x-10 md:mt-16 md:grid-cols-2 md:gap-y-14 lg:grid-cols-4 lg:gap-x-8">
+        <ol className="mt-12 grid grid-cols-1 gap-x-10 md:mt-16 md:grid-cols-2 md:gap-y-14 lg:grid-cols-4 lg:gap-x-8">
           {STEPS.map((s, i) => {
             const ultimo = i === ultimoIndice;
             return (
@@ -81,12 +81,12 @@ export function Process() {
                     aria-hidden="true"
                     className="absolute bottom-2 left-7 top-16 flex w-px flex-col items-center md:hidden"
                   >
-                    <span className="w-px flex-1 bg-gradient-to-b from-secondary/20 to-secondary/45" />
+                    <span className="w-px flex-1 bg-gradient-to-b from-white/20 to-white/45" />
                     <ChevronDown
                       strokeWidth={2}
                       className="my-1 h-3.5 w-3.5 shrink-0 text-secondary"
                     />
-                    <span className="w-px flex-1 bg-gradient-to-b from-secondary/45 to-primary/45" />
+                    <span className="w-px flex-1 bg-gradient-to-b from-white/45 to-primary/45" />
                   </span>
                 )}
 
@@ -112,12 +112,12 @@ export function Process() {
                       ultimo ? "lg:hidden" : "lg:flex"
                     )}
                   >
-                    <span className="h-px flex-1 bg-gradient-to-r from-secondary/20 to-secondary/45" />
+                    <span className="h-px flex-1 bg-gradient-to-r from-white/20 to-white/45" />
                     <ChevronRight
                       strokeWidth={2}
                       className="h-3.5 w-3.5 shrink-0 text-secondary"
                     />
-                    <span className="h-px flex-1 bg-gradient-to-r from-secondary/45 to-primary/45" />
+                    <span className="h-px flex-1 bg-gradient-to-r from-white/45 to-primary/45" />
                   </span>
                 </div>
 
