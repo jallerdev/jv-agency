@@ -3,6 +3,8 @@ import { Proceso } from "@/components/sections/Proceso";
 import { Verticales } from "@/components/sections/Verticales";
 import { Faq } from "@/components/sections/Faq";
 import { Founder } from "@/components/sections/Founder";
+import { Testimonios } from "@/components/sections/Testimonios";
+import { Caso } from "@/components/sections/Caso";
 import { Statement } from "@/components/sections/Statement";
 import { Marquee } from "@/components/sections/Marquee";
 import { Servicios } from "@/components/sections/Servicios";
@@ -20,10 +22,12 @@ export default function Nueva() {
       <Hero idioma="es" />
       <Statement idioma="es" />
       <Marquee />
+      <Caso idioma="es" />
       <Servicios idioma="es" />
       <Proceso idioma="es" />
       <Verticales idioma="es" />
       <Founder idioma="es" />
+      <Testimonios idioma="es" />
       <Faq idioma="es" />
     </main>
   );

@@ -35,6 +35,13 @@
        #080808 sobre relleno #E8623F .. 5,96:1  por eso el texto sobre naranja
                                                 es CASI NEGRO, no blanco
        blanco sobre relleno #E8623F ... 3,36:1  no pasa, y por eso no se usa   */
+  /* La rampa va DOS veces: en hex, para usarla tal cual, y en tripletas RGB.
+     Sin las tripletas, Tailwind no puede generar `text-brand/10` ni
+     `border-brand/30`: no sabe meterle alfa a un `var()` que contiene un hex,
+     así que descarta la utilidad ENTERA sin avisar y el elemento se queda con
+     el color que herede. Es el mismo defecto que tenían los nueve `/12` y el
+     borde por defecto: la clase se escribe, no genera regla, y nadie lo nota
+     hasta que alguien mira el CSS servido. */
   --brand-50: #fdf0ec;
   --brand-100: #fadcd4;
   --brand-200: #f5bba8;
@@ -46,6 +53,14 @@
   --brand-800: #8e2d1c;
   --brand-900: #661f14;
   --brand-950: #3d120c;
+
+  --brand-300-rgb: 240 153 125;
+  --brand-400-rgb: 236 126 94;
+  --brand-500-rgb: 232 98 63;
+  --brand-600-rgb: 219 72 45;
+  --brand-700-rgb: 182 58 36;
+  --blanco-rgb: 250 250 250;
+  --negro-rgb: 8 8 8;
 
   /* ── Neutros ──────────────────────────────────────────────────────────
      El negro es #080808, no #000: un negro puro sobre una pantalla OLED

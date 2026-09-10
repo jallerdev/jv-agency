@@ -60,12 +60,12 @@ const config: Config = {
           50: "var(--brand-50)",
           100: "var(--brand-100)",
           200: "var(--brand-200)",
-          300: "var(--brand-300)",
-          400: "var(--brand-400)",
-          DEFAULT: "var(--brand-500)",
-          500: "var(--brand-500)",
-          600: "var(--brand-600)",
-          700: "var(--brand-700)",
+          300: "rgb(var(--brand-300-rgb) / <alpha-value>)",
+          400: "rgb(var(--brand-400-rgb) / <alpha-value>)",
+          DEFAULT: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          500: "rgb(var(--brand-500-rgb) / <alpha-value>)",
+          600: "rgb(var(--brand-600-rgb) / <alpha-value>)",
+          700: "rgb(var(--brand-700-rgb) / <alpha-value>)",
           800: "var(--brand-800)",
           900: "var(--brand-900)",
           950: "var(--brand-950)",
@@ -91,11 +91,11 @@ const config: Config = {
            color: antes ese papel lo hacía `surface`, que ahora es casi negro
            y sobre violeta sería ilegible. */
         ink: {
-          DEFAULT: "var(--text-strong)",
+          DEFAULT: "rgb(var(--blanco-rgb) / <alpha-value>)",
           soft: "var(--text-body)",
           muted: "var(--text-muted)",
         },
-        "on-accent": "var(--text-on-accent)",
+        "on-accent": "rgb(var(--negro-rgb) / <alpha-value>)",
         inverse: "var(--text-inverse)",
 
         line: {
