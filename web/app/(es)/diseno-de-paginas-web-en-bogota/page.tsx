@@ -675,7 +675,7 @@ export default function DisenoPaginasWebBogotaPage() {
             <p className="mt-8 font-body leading-relaxed text-ink-soft">
               El resto del portafolio, con las capturas de cada sitio, está en{" "}
               <Link
-                href="/#proyectos"
+                href="/#portafolio"
                 className="font-semibold text-primary-dark underline underline-offset-4"
               >
                 la portada

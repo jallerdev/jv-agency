@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
+import type { Idioma } from "@/content/types";
 
 /**
  * EL PANEL QUE CAMBIA SEGÚN QUIÉN MIRA
@@ -31,6 +32,31 @@ import { cn } from "@/lib/utils";
 
 type Negocio = { id: string; cliente: string; de: "v1" | "v2" };
 type Columna = { estado: string; negocios: Negocio[] };
+
+/* Los cuatro estados del embudo, en las dos lenguas. Los nombres de cliente
+   son «Cliente A»/«Client A» a propósito: un panel de venta con nombres o
+   cifras reales insinuaría un cliente que no existe. */
+const ESTADOS = {
+  es: ["Nuevo", "Contactado", "Propuesta", "Cerrado"],
+  en: ["New", "Contacted", "Proposal", "Closed"],
+} as const;
+
+const T = {
+  es: {
+    admin: "Administrador",
+    vendedor: "Vendedor a comisión",
+    noEsTuyo: "No es tuyo",
+    ejemplo: "Ejemplo · datos de muestra",
+    cliente: (letra: string) => `Cliente ${letra}`,
+  },
+  en: {
+    admin: "Administrator",
+    vendedor: "Commission salesperson",
+    noEsTuyo: "Not yours",
+    ejemplo: "Example · sample data",
+    cliente: (letra: string) => `Client ${letra}`,
+  },
+} as const;
 
 const TABLERO: Columna[] = [
   {
@@ -61,12 +87,17 @@ const TABLERO: Columna[] = [
   },
 ];
 
-const VISTAS = [
-  { id: "admin" as const, boton: "Administrador" },
-  { id: "vendedor" as const, boton: "Vendedor a comisión" },
-];
 
-export function PanelRolesCrm({ className }: { className?: string }) {
+
+export function PanelRolesCrm({
+  idioma = "es",
+  className,
+}: {
+  idioma?: Idioma;
+  className?: string;
+}) {
+  const t = T[idioma];
+  const estados = ESTADOS[idioma];
   const [vista, setVista] = useState<"admin" | "vendedor">("admin");
   const esAdmin = vista === "admin";
 
@@ -77,7 +108,10 @@ export function PanelRolesCrm({ className }: { className?: string }) {
     <div className={cn("jv-card p-5 sm:p-6", className)}>
       {/* El conmutador es el control principal: ancho completo y gordo. */}
       <div className="grid grid-cols-2 gap-2 sm:max-w-lg">
-        {VISTAS.map((v) => {
+        {[
+          { id: "admin" as const, boton: t.admin },
+          { id: "vendedor" as const, boton: t.vendedor },
+        ].map((v) => {
           const activa = v.id === vista;
           return (
             <button
@@ -103,12 +137,12 @@ export function PanelRolesCrm({ className }: { className?: string }) {
       </p>
 
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-4 sm:items-start sm:gap-3">
-        {TABLERO.map((col) => {
+        {TABLERO.map((col, i) => {
           const suyos = col.negocios.filter(visible);
           return (
             <div key={col.estado} className="min-w-0">
               <p className="flex items-baseline justify-between gap-2 border-b border-line pb-2 jv-eyebrow text-accent-ink">
-                <span className="min-w-0 truncate">{col.estado}</span>
+                <span className="min-w-0 truncate">{estados[i] ?? col.estado}</span>
                 <span className="shrink-0 tabular-nums">{suyos.length}</span>
               </p>
               <ul className="mt-2 grid gap-2">
@@ -118,7 +152,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
                     className="rounded-xl border border-line bg-background px-3 py-2.5"
                   >
                     <span className="block font-body text-[13px] font-semibold leading-snug text-ink">
-                      {n.cliente}
+                      {t.cliente(n.cliente.slice(-1))}
                     </span>
                     <span className="mt-0.5 block jv-eyebrow text-ink-soft">
                       {n.de === "v1" ? "Vendedor 1" : "Vendedor 2"}
@@ -127,7 +161,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
                 ))}
                 {suyos.length === 0 && (
                   <li className="rounded-xl border border-dashed border-line px-3 py-2.5 font-body text-[13px] leading-snug text-ink-soft">
-                    No es tuyo
+                    {t.noEsTuyo}
                   </li>
                 )}
               </ul>
@@ -137,7 +171,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
       </div>
 
       <p className="mt-5 jv-eyebrow text-accent-ink">
-        Ejemplo · datos de muestra
+        {t.ejemplo}
       </p>
     </div>
   );

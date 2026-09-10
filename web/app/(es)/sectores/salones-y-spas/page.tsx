@@ -542,7 +542,7 @@ export default function SalonesYSpasPage() {
             <p className="mt-8 font-body leading-relaxed text-ink-soft">
               Lo demás está en{" "}
               <Link
-                href="/#proyectos"
+                href="/#portafolio"
                 className="font-semibold text-primary-dark underline-offset-4 hover:underline"
               >
                 el portafolio completo

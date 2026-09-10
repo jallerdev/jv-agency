@@ -632,7 +632,7 @@ export default function BarranquillaPage() {
               Lo que sí puedes abrir hoy son los proyectos en producción con dominio propio: están
               en{" "}
               <Link
-                href="/#proyectos"
+                href="/#portafolio"
                 className="font-semibold text-primary-dark underline underline-offset-4"
               >
                 el portafolio de la portada
