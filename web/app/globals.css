@@ -561,12 +561,14 @@
       border-color var(--duration-base) var(--ease-ps),
       background-color var(--duration-base) var(--ease-ps);
   }
+  /* En hover el borde pasa a naranja y NO se mueve nada.
+     La especificación lo pide así, y tiene razón: una rejilla de siete
+     tarjetas donde cada una salta al pasar por encima convierte el recorrido
+     del ratón en un temblor. El color basta para decir «esto se puede tocar». */
   .jv-card-int:hover {
-    transform: translateY(-2px);
-    border-color: var(--line-strong);
+    border-color: var(--accent);
     background-color: var(--surface-raised);
   }
-  .jv-card-int:active { transform: scale(0.995); }
 
   /* ── Pastilla ─────────────────────────────────────────────────────────
      Un estado o una opción. `-on` es la elegida; `-off` la que espera. */

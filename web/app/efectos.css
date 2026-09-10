@@ -304,3 +304,41 @@ textarea:-webkit-autofill {
 /* Los interruptores nativos toman el violeta de marca. */
 input[type="checkbox"],
 input[type="radio"] { accent-color: var(--accent); }
+
+/* El punto de «en línea» late. Es `pctaPulse` de palo-seco: un anillo que se
+   expande y se apaga, no un parpadeo de opacidad —parpadear se lee como error;
+   expandirse, como señal—. Se calla con movimiento reducido. */
+@keyframes jv-latido {
+  0%   { box-shadow: 0 0 0 0 rgba(232, 98, 63, 0.55); }
+  70%  { box-shadow: 0 0 0 6px rgba(232, 98, 63, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 98, 63, 0); }
+}
+.jv-latido { animation: jv-latido 2.4s var(--ease-ps) infinite; }
+@media (prefers-reduced-motion: reduce) { .jv-latido { animation: none; } }
+
+/* ===========================================================================
+   La pila apilada
+   ---------------------------------------------------------------------------
+   Portada de palo-seco: `top: calc(15vh + var(--i) * 14px)`. El escalón de
+   14 px por índice es lo que deja ver el canto de las tarjetas que ya pasaron;
+   sin él se taparían del todo y parecería que solo hay una.
+
+   Las cubiertas se encogen a .945 y bajan al 75%: se van al fondo sin
+   desaparecer, que es lo que hace legible el apilado.
+   =========================================================================== */
+.jv-pila { list-style: none; margin: 0; padding: 0; }
+.jv-pila__item {
+  position: sticky;
+  top: calc(15vh + var(--i, 0) * 14px);
+  padding-bottom: 1.5rem;
+}
+.jv-pila__item > * {
+  transition: transform var(--duration-slow) var(--ease-ps),
+    opacity var(--duration-slow) var(--ease-ps);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sin sticky no hay secuestro de scroll: queda una pila normal. */
+  .jv-pila__item { position: static; }
+  .jv-pila__item > * { transform: none !important; opacity: 1 !important; }
+}
