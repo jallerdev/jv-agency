@@ -240,7 +240,7 @@ function Panel({ a, sticky }: { a: AutomationAnswers; sticky?: boolean }) {
   const t = computeAutomationTotals(a);
   return (
     <aside className={cn("rounded-[1.5rem] border border-line bg-surface p-6 shadow-soft", sticky && "lg:sticky lg:top-28")}>
-      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">Tu estimado</p>
+      <p className="jv-eyebrow text-accent">Tu estimado</p>
       <p className="mt-3 font-display text-3xl text-ink">{money(t.total)}</p>
       <p className="font-body text-xs text-ink-soft">pago único</p>
       {t.monthly > 0 && (
@@ -250,7 +250,7 @@ function Panel({ a, sticky }: { a: AutomationAnswers; sticky?: boolean }) {
         </>
       )}
       {t.items.length > 0 && (
-        <dl className="mt-5 space-y-2 border-t border-line pt-4">
+        <dl className="mt-5 space-y-2 jv-rule pt-4">
           {t.items.map((it) => (
             <div key={it.label} className="flex items-start justify-between gap-3">
               <dt className="font-body text-xs text-ink-soft">{it.label}</dt>
@@ -259,7 +259,7 @@ function Panel({ a, sticky }: { a: AutomationAnswers; sticky?: boolean }) {
           ))}
         </dl>
       )}
-      <p className="mt-5 border-t border-line pt-4 font-body text-[11px] leading-relaxed text-ink-soft">
+      <p className="mt-5 jv-rule pt-4 font-body text-[11px] leading-relaxed text-ink-soft">
         {META_BILLING_NOTE}
       </p>
     </aside>

@@ -114,7 +114,7 @@ function Pieza({
 }) {
   return (
     <div className="mx-auto max-w-4xl">
-      <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <p className="jv-eyebrow text-accent-ink">
         {n} · {ruta}
       </p>
       <h2 className="mt-2 font-display text-2xl text-ink sm:text-3xl">{nombre}</h2>
@@ -130,7 +130,7 @@ export default function TallerDeVisuales() {
   return (
     <main className="pb-fab">
       <section className="mx-auto max-w-4xl px-5 pb-8 pt-16 md:px-8">
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+        <p className="jv-eyebrow text-accent-ink">
           Solo desarrollo · 404 en producción
         </p>
         <h1 className="mt-3 font-display text-4xl leading-tight text-ink sm:text-5xl">
@@ -196,7 +196,7 @@ export default function TallerDeVisuales() {
             {["Bloomrose", "Halcón OS", "Hummik"].map((t) => (
               <article
                 key={t}
-                className="grid min-h-[12rem] place-items-center rounded-2xl border border-line bg-surface p-6 text-center"
+                className="grid min-h-[12rem] place-items-center jv-card p-6 text-center"
               >
                 <span className="font-body text-ink-soft">{t}</span>
               </article>

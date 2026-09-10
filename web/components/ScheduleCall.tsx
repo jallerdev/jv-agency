@@ -212,7 +212,7 @@ export function ScheduleCall() {
      que el marco vive en una constante y no se duplica. `shadow-glow` es el
      único de la página: es el elemento que debe dominar. */
   const cardClass =
-    "rounded-3xl border border-line bg-surface p-5 text-left shadow-glow sm:p-7 md:p-8";
+    "jv-card p-5 text-left shadow-glow sm:p-7 md:p-8";
 
   if (submitted) {
     const firstName = values.name.trim().split(" ")[0] || "";
@@ -248,7 +248,7 @@ export function ScheduleCall() {
                 i > 0 && "border-t border-line"
               )}
             >
-              <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft">{k}</dt>
+              <dt className="jv-eyebrow text-ink-soft">{k}</dt>
               <dd
                 className={cn(
                   "min-w-0 break-words text-right font-body text-sm font-medium tabular-nums text-ink",
@@ -316,7 +316,7 @@ export function ScheduleCall() {
       {/* El borde va en el envoltorio, no en el <fieldset>: el navegador encaja
           el <legend> DENTRO del borde del fieldset y la regla queda partiendo
           el texto por la mitad. */}
-      <div className="mt-4 border-t border-line pt-4">
+      <div className="mt-4 jv-rule pt-4">
       <fieldset>
         <legend className="mb-3 font-body text-sm font-medium text-ink">
           ¿En qué te ayudo?
@@ -349,7 +349,7 @@ export function ScheduleCall() {
       </div>
 
       {/* Datos */}
-      <div className="mt-4 border-t border-line pt-4">
+      <div className="mt-4 jv-rule pt-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Nombre" error={errors.name}>
             {(p) => (
@@ -430,7 +430,7 @@ export function ScheduleCall() {
       </div>
 
       {/* Hora */}
-      <div className="mt-4 border-t border-line pt-4">
+      <div className="mt-4 jv-rule pt-4">
       <fieldset>
         <legend className="mb-3 flex items-center gap-2 font-body text-sm font-medium text-ink">
           <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
@@ -494,7 +494,7 @@ export function ScheduleCall() {
       </div>
 
       {/* Nota */}
-      <div className="mt-4 border-t border-line pt-4">
+      <div className="mt-4 jv-rule pt-4">
         <label className="mb-1.5 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
           Cuéntame brevemente <span className="font-normal text-ink-soft">(opcional)</span>
         </label>

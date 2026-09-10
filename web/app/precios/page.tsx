@@ -216,12 +216,12 @@ function PropuestaPorEscrito() {
         <div className="relative p-6 pl-7 sm:p-8 sm:pl-10">
           {/* Cabecera del documento */}
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line pb-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+            <p className="jv-eyebrow text-accent-ink">
               Tu propuesta
             </p>
             {/* Pastilla y no texto suelto: a 390 este rótulo quedaba pegado
                 al de la izquierda y los dos se leían como una sola línea. */}
-            <p className="rounded-full border border-line px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+            <p className="rounded-full border border-line px-2.5 py-1 jv-eyebrow text-ink-soft">
               Ejemplo
             </p>
           </div>
@@ -272,11 +272,11 @@ function PropuestaPorEscrito() {
           </div>
 
           {/* Pie con regla: la firma y el compromiso. */}
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line pt-4">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 jv-rule pt-4">
+            <span className="jv-eyebrow text-ink-soft">
               Luis Jaller · Turbaco, Bolívar
             </span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary-dark">
+            <span className="jv-eyebrow text-primary-dark">
               Por escrito, antes de pagar nada
             </span>
           </div>
@@ -399,7 +399,7 @@ export default function PreciosPage() {
             {/* `bg-surface` a plena opacidad, no /70: sobre el canvas la
                 tarjeta apenas se despegaba (1,08:1) y esta es LA pieza de la
                 página. */}
-            <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
+            <ul className="divide-y divide-line overflow-hidden jv-card shadow-soft">
               {LINEAS.map((l) => (
                 <li key={l.servicio} className="px-5 py-5 sm:px-6 sm:py-6 md:px-8">
                   <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
@@ -453,7 +453,7 @@ export default function PreciosPage() {
               <Reveal key={d.href} index={i}>
                 <Link
                   href={d.href}
-                  className="flex h-full min-h-11 items-center justify-between gap-3 rounded-2xl border border-line bg-surface/60 px-5 py-4 font-body text-sm font-semibold text-primary-dark transition-surface duration-quick ease-state hover:border-primary/40 hover:bg-surface sm:px-6"
+                  className="flex h-full min-h-11 items-center justify-between gap-3 jv-card/60 px-5 py-4 font-body text-sm font-semibold text-primary-dark transition-surface duration-quick ease-state hover:border-primary/40 hover:bg-surface sm:px-6"
                 >
                   {d.label}
                   <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />

@@ -136,7 +136,7 @@ export default function SobreNosotrosPage() {
                 return (
                   <div
                     key={s.label}
-                    className="rounded-2xl border border-line bg-surface/70 p-6 text-center"
+                    className="jv-card bg-surface/70 p-6 text-center"
                   >
                     <div
                       className={
@@ -158,7 +158,7 @@ export default function SobreNosotrosPage() {
         {/* Fundador */}
         <section className="banda mx-auto max-w-5xl px-5 py-16 md:px-8">
           <Reveal>
-            <div className="grid gap-8 rounded-2xl border border-line bg-surface/80 p-8 shadow-soft md:grid-cols-[auto_1fr] md:items-center md:p-12">
+            <div className="grid gap-8 jv-card/80 p-8 shadow-soft md:grid-cols-[auto_1fr] md:items-center md:p-12">
               <div className="grid h-28 w-28 shrink-0 place-items-center rounded-2xl border border-line bg-background">
                 <Logo className="h-16 w-auto text-ink" />
               </div>
@@ -198,7 +198,7 @@ export default function SobreNosotrosPage() {
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {APPROACH.map((a, i) => (
               <Reveal key={a.title} delay={i * 100}>
-                <div className="h-full rounded-2xl border border-line bg-surface/60 p-7">
+                <div className="h-full jv-card/60 p-7">
                   <span className="font-mono text-sm text-accent-ink">0{i + 1}</span>
                   <h3 className="mt-3 font-body text-xl font-semibold text-ink">{a.title}</h3>
                   <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{a.desc}</p>
@@ -218,7 +218,7 @@ export default function SobreNosotrosPage() {
           </Reveal>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {STACK.map((s) => (
-              <div key={s.group} className="rounded-2xl border border-line bg-surface/60 p-6">
+              <div key={s.group} className="jv-card/60 p-6">
                 <h3 className="font-body text-sm font-semibold uppercase tracking-widest text-ink">
                   {s.group}
                 </h3>
@@ -252,8 +252,8 @@ export default function SobreNosotrosPage() {
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {PROJECTS.map((p, i) => (
               <Reveal key={p.name} delay={i * 100}>
-                <div className="h-full rounded-2xl border border-line bg-surface/70 p-7">
-                  <span className="rounded-full bg-accent/15 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
+                <div className="h-full jv-card bg-surface/70 p-7">
+                  <span className="rounded-full bg-accent/15 px-3 py-1 jv-eyebrow text-primary-dark">
                     {p.tag}
                   </span>
                   <h3 className="mt-4 font-display text-2xl text-ink">{p.name}</h3>

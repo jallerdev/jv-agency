@@ -383,10 +383,10 @@ export default function DisenoPaginasWebCartagenaPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {CIFRAS.map((c, i) => (
               <Reveal key={c.dato} index={i}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
                   <p className="font-display text-4xl text-primary-dark">{c.dato}</p>
                   <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">{c.de}</p>
-                  <p className="mt-5 border-t border-line pt-4 font-mono text-[11px] leading-relaxed text-ink-soft">
+                  <p className="mt-5 jv-rule pt-4 font-mono text-[11px] leading-relaxed text-ink-soft">
                     {c.fuente}
                   </p>
                 </article>
@@ -415,7 +415,7 @@ export default function DisenoPaginasWebCartagenaPage() {
               const Icon = p.icon;
               return (
                 <Reveal key={p.titulo} index={i}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                  <article className="flex h-full flex-col jv-card p-6 sm:p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
@@ -453,7 +453,7 @@ export default function DisenoPaginasWebCartagenaPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{p.q}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.d}
@@ -467,7 +467,7 @@ export default function DisenoPaginasWebCartagenaPage() {
                       <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                     </Link>
                   )}
-                  <div className="mt-4 border-t border-line pt-4">
+                  <div className="mt-4 jv-rule pt-4">
                     <p className="font-mono text-lg text-primary-dark">
                       {p.desde === "Según el alcance" ? p.desde : `desde ${p.desde}`}
                     </p>
@@ -615,7 +615,7 @@ export default function DisenoPaginasWebCartagenaPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
               <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-secondary/15 p-6 sm:p-7">
-                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
+                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 jv-eyebrow text-primary-dark">
                   En línea · Cartagena
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Bloomrose</h3>
@@ -647,8 +647,8 @@ export default function DisenoPaginasWebCartagenaPage() {
             </Reveal>
 
             <Reveal delay={80}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+              <article className="flex h-full flex-col jv-card p-6 sm:p-7">
+                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
                   Proyecto de estudio · Cartagena
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
@@ -662,8 +662,8 @@ export default function DisenoPaginasWebCartagenaPage() {
             </Reveal>
 
             <Reveal delay={160}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+              <article className="flex h-full flex-col jv-card p-6 sm:p-7">
+                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
                   Proyecto de estudio · Turbaco
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Animal Expert</h3>
@@ -680,8 +680,8 @@ export default function DisenoPaginasWebCartagenaPage() {
                 una pagina publica, asi que el bloque entero solo existe en desarrollo. */}
             {MOSTRAR_PENDIENTES && (
               <Reveal delay={240}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
-                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
                     Trabajo con negocios cartageneros
                   </span>
                   <h3 className="mt-4 font-display text-2xl text-ink">
@@ -725,7 +725,7 @@ export default function DisenoPaginasWebCartagenaPage() {
           <div className="mt-10 grid gap-4">
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
-                <article className="rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                <article className="jv-card p-6 sm:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                 </article>
@@ -754,7 +754,7 @@ export default function DisenoPaginasWebCartagenaPage() {
             </div>
 
             <nav aria-label="Otras páginas del sitio" className="mt-12">
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+              <p className="jv-eyebrow text-ink-soft">
                 También trabajo
               </p>
               <ul className="mt-4 flex flex-wrap justify-center gap-2">

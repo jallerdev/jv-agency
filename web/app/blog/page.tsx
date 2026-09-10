@@ -76,7 +76,7 @@ export default function BlogIndexPage() {
               href={`/blog/${p.slug}`}
               className="group rounded-2xl border border-line p-7 transition-colors hover:border-accent/40 hover:bg-ink/[0.02]"
             >
-              <p className="font-mono text-[11px] uppercase tracking-widest text-accent-ink">
+              <p className="jv-eyebrowst text-accent-ink">
                 {p.category}
               </p>
               <h2 className="mt-3 font-display text-2xl text-ink">{p.title}</h2>

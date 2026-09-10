@@ -253,7 +253,7 @@ export function IncludeBox({
 }) {
   return (
     <div className={cn("rounded-2xl border border-line bg-background/40 p-5", className)}>
-      <p className="font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">{title}</p>
+      <p className="jv-eyebrow text-ink-soft">{title}</p>
       <IncludeList items={items} className="mt-3 sm:grid-cols-2" />
     </div>
   );
@@ -351,7 +351,7 @@ function ToggleRow({
           <span className="flex flex-wrap items-center gap-2">
             <span className="font-body font-semibold text-ink">{def.label}</span>
             {recomendado && (
-              <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-primary-dark">
+              <span className="rounded-full bg-primary/10 px-2 py-0.5 jv-eyebrowr text-primary-dark">
                 Recomendado
               </span>
             )}
@@ -364,7 +364,7 @@ function ToggleRow({
       </button>
 
       <details className="group border-t border-line/70 px-4 pb-3">
-        <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft transition-colors hover:text-ink">
+        <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 jv-eyebrow text-ink-soft transition-colors hover:text-ink">
           Qué incluye
           <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
         </summary>
@@ -626,7 +626,7 @@ function StepBody({
             sesion de fotos, y las imagenes de banco no muestran SU negocio. */}
         {answers.contenido === "todo" && (
           <div className="mt-4 rounded-2xl border border-line bg-background/40 p-5">
-            <p className="font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+            <p className="jv-eyebrow text-ink-soft">
               Lo que no incluye
             </p>
             <p className="mt-3 font-body text-sm text-ink-soft">
@@ -1015,7 +1015,7 @@ function SummaryPanel({ answers, sticky }: { answers: Answers; sticky?: boolean 
         )}
       </dl>
 
-      <div className="mt-5 space-y-2 border-t border-line pt-5">
+      <div className="mt-5 space-y-2 jv-rule pt-5">
         <div className="flex items-center justify-between font-body text-sm text-ink-soft">
           <span>Subtotal</span>
           <span className="font-mono text-ink">{money(t.subtotal)}</span>

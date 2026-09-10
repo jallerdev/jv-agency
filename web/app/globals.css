@@ -523,3 +523,119 @@
 .punto-escribe {
   animation: punto-escribe 1.2s ease-in-out infinite;
 }
+
+/* ===========================================================================
+   CLASES DE COMPONENTE
+   ---------------------------------------------------------------------------
+   Medido antes de escribir esto, en los 78 archivos del sitio:
+
+     70x  rounded-2xl border border-line bg-surface     -> tarjeta
+     65x  font-mono text-[11px] uppercase tracking-...  -> antetítulo
+     46x  rounded-full border border-line               -> pastilla
+     42x  border-t border-line pt-...                   -> regla
+
+   223 repeticiones de cuatro formas. Eso no es un sistema: es la misma
+   decisión tomada 223 veces, y basta que una se escriba distinta para que la
+   pieza deje de pertenecer al conjunto —que es exactamente lo que pasó con los
+   bordes, los radios y los seis grosores de trazo.
+
+   Van en `@layer components` a propósito: así una utilidad de Tailwind escrita
+   en el sitio de uso sigue ganando —`jv-card bg-raised` cambia el fondo sin
+   pelear con la especificidad— y la clase da el valor por defecto, no la
+   última palabra.
+   =========================================================================== */
+
+@layer components {
+  /* ── Tarjeta ──────────────────────────────────────────────────────────
+     Superficie + filete de 1px + radio. SIN sombra: sobre oscuro la
+     elevación la da el escalón de superficie y el filete, y la sombra queda
+     para lo que de verdad flota —menús, diálogos, el encabezado fijo. */
+  .jv-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background-color: var(--surface);
+  }
+
+  /* Variante interactiva: sube el filete y se levanta 2px. Es el único
+     movimiento de hover del sistema, y va con la curva de palo-seco. */
+  .jv-card-int {
+    transition: transform var(--dur-lift) var(--ease-ps),
+      border-color var(--duration-base) var(--ease-ps),
+      background-color var(--duration-base) var(--ease-ps);
+  }
+  .jv-card-int:hover {
+    transform: translateY(-2px);
+    border-color: var(--line-strong);
+    background-color: var(--surface-raised);
+  }
+  .jv-card-int:active { transform: scale(0.995); }
+
+  /* ── Pastilla ─────────────────────────────────────────────────────────
+     Un estado o una opción. `-on` es la elegida; `-off` la que espera. */
+  .jv-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--line);
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    transition: background-color var(--duration-quick) var(--ease-ps),
+      border-color var(--duration-quick) var(--ease-ps),
+      color var(--duration-quick) var(--ease-ps);
+  }
+  .jv-chip-off { background-color: var(--hs-muted); color: var(--text-body); }
+  .jv-chip-off:hover { border-color: var(--line-strong); background-color: var(--hs-hover); color: var(--text-strong); }
+  .jv-chip-on { border-color: var(--accent); background-color: var(--accent); color: var(--text-on-accent); }
+
+  /* ── Regla ────────────────────────────────────────────────────────────
+     El separador del sistema: un filete arriba y aire. Es la alternativa a
+     meter cada grupo en su propia caja, que es lo que aplana una página. */
+  .jv-rule { border-top: 1px solid var(--line); padding-top: var(--space-6, 1.5rem); }
+
+  /* ── Título de tarjeta ────────────────────────────────────────────────
+     Figtree 600, no el serif. Instrument Serif solo tiene un peso: a 20px
+     sobre casi negro se queda sin masa y la tarjeta se lee como texto
+     suelto. El serif se reserva a los titulares grandes. */
+  .jv-titulo {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    letter-spacing: -0.011em;
+    color: var(--text-strong);
+  }
+
+  /* ── Entradilla ───────────────────────────────────────────────────────
+     El párrafo que sigue a un titular de sección. Un escalón por encima del
+     cuerpo y con la medida corta: es para leer de una pasada, no de corrido. */
+  .jv-lead {
+    font-size: var(--text-lead);
+    line-height: 1.55;
+    color: var(--text-body);
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+}
+
+/* ===========================================================================
+   MEDIDA DE LÍNEA
+   ---------------------------------------------------------------------------
+   Medido con un patrón real renderizado en la misma fuente y tamaño —no con
+   `fontSize * 0.5`, que en un antetítulo de 11px con 0,16em de tracking daba
+   140ch y era falso—: siete rutas tenían párrafos de 86ch. La regla es 65-75.
+
+   El tope va a los que NO declaran el suyo: donde alguien escribió
+   `max-w-[46ch]` o `max-w-2xl` esa decisión manda, porque ahí se penso.
+   Y si el párrafo está centrado, los márgenes automáticos evitan que
+   estrechar la caja lo empuje a la izquierda.
+   =========================================================================== */
+main p:not([class*="max-w"]) {
+  max-width: var(--maxw-prose);
+}
+main p:not([class*="max-w"])[class*="text-center"],
+[class*="text-center"] > p:not([class*="max-w"]),
+[class*="items-center"] > p:not([class*="max-w"]) {
+  margin-inline: auto;
+}

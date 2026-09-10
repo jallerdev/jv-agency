@@ -44,13 +44,13 @@ export function PanelAutonomia({
   className,
 }: Props) {
   return (
-    <div className={cn("rounded-2xl border border-line bg-surface p-5 sm:p-6", className)}>
+    <div className={cn("jv-card p-5 sm:p-6", className)}>
       <p className="font-body text-xl font-semibold text-ink">{titulo}</p>
 
       <ul className="mt-5 divide-y divide-line">
         {/* 1 · Cambiar un precio */}
         <li className="py-4 first:pt-0">
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+          <p className="jv-eyebrow text-accent-ink">
             {precio.etiqueta}
           </p>
           <div aria-hidden className="mt-2.5 flex items-center gap-2">
@@ -65,7 +65,7 @@ export function PanelAutonomia({
 
         {/* 2 · Subir una foto */}
         <li className="py-4">
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+          <p className="jv-eyebrow text-accent-ink">
             {archivo.etiqueta}
           </p>
           <div aria-hidden className="mt-2.5 flex min-h-11 flex-wrap items-center gap-2">
@@ -73,7 +73,7 @@ export function PanelAutonomia({
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
               <span className="truncate font-mono text-[13px] text-ink">{archivo.nombre}</span>
             </span>
-            <span className="shrink-0 rounded-full bg-success/12 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-success-ink">
+            <span className="shrink-0 rounded-full bg-success/12 px-3 py-1 jv-eyebrow text-success-ink">
               {archivo.nota}
             </span>
           </div>
@@ -81,7 +81,7 @@ export function PanelAutonomia({
 
         {/* 3 · Marcar un pedido */}
         <li className="py-4 last:pb-0">
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+          <p className="jv-eyebrow text-accent-ink">
             {estado.etiqueta}
           </p>
           <div aria-hidden className="mt-2.5 flex flex-wrap items-center gap-2">
@@ -102,7 +102,7 @@ export function PanelAutonomia({
         </li>
       </ul>
 
-      <p className="mt-4 border-t border-line pt-4 font-mono text-[11px] text-ink-soft">{rotulo}</p>
+      <p className="mt-4 jv-rule pt-4 font-mono text-[11px] text-ink-soft">{rotulo}</p>
     </div>
   );
 }

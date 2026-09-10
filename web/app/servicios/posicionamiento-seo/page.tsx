@@ -456,7 +456,7 @@ export default function PosicionamientoSeoPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
-              <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
+              <article className="h-full jv-card bg-surface/70 p-7">
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                   <Wrench className="h-6 w-6" aria-hidden="true" />
                 </span>
@@ -464,7 +464,7 @@ export default function PosicionamientoSeoPage() {
                 <p className="mt-2 font-body text-sm leading-relaxed text-ink-soft">
                   Se hace una sola vez y se acaba. Va incluido cuando la página web la hago yo.
                 </p>
-                <ul className="mt-5 grid gap-2.5 border-t border-line pt-5">
+                <ul className="mt-5 grid gap-2.5 jv-rule pt-5">
                   {SEO_DETALLE.tecnico.map((x) => (
                     <li key={x} className="flex items-start gap-3 font-body text-sm text-ink-soft">
                       <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
@@ -484,7 +484,7 @@ export default function PosicionamientoSeoPage() {
                 <p className="mt-2 font-body text-sm leading-relaxed text-ink-soft">
                   Trabajo mensual y continuo. Es esto lo que se contrata en esta página.
                 </p>
-                <ul className="mt-5 grid gap-2.5 border-t border-line pt-5">
+                <ul className="mt-5 grid gap-2.5 jv-rule pt-5">
                   {SEO_PLAN_DETALLE.local.map((x) => (
                     <li key={x} className="flex items-start gap-3 font-body text-sm text-ink-soft">
                       <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
@@ -518,7 +518,7 @@ export default function PosicionamientoSeoPage() {
               const Icon = p.icon;
               return (
                 <Reveal key={p.titulo} delay={i * 80}>
-                  <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
+                  <article className="h-full jv-card bg-surface/70 p-7">
                     <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-line bg-background/60 text-primary-dark">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
@@ -546,7 +546,7 @@ export default function PosicionamientoSeoPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+              <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                   <FileSearch className="h-6 w-6" aria-hidden="true" />
                 </span>
@@ -556,7 +556,7 @@ export default function PosicionamientoSeoPage() {
                   qué orden se arregla. Sale de tus datos —tu sitio rastreado, tu Search Console,
                   tu analítica—, no de un PDF exportado de una herramienta. Pago único.
                 </p>
-                <p className="mt-5 border-t border-line pt-4 font-mono text-lg text-primary-dark">
+                <p className="mt-5 jv-rule pt-4 font-mono text-lg text-primary-dark">
                   desde {money(390000)}
                 </p>
                 <p className="mt-2 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
@@ -578,7 +578,7 @@ export default function PosicionamientoSeoPage() {
                   Google Business gestionada, 2 contenidos al mes, vigilancia de hasta 30
                   búsquedas e informe mensual. Sin permanencia.
                 </p>
-                <p className="mt-5 border-t border-line pt-4 font-mono text-lg text-primary-dark">
+                <p className="mt-5 jv-rule pt-4 font-mono text-lg text-primary-dark">
                   desde {money(650000)} al mes
                 </p>
                 <p className="mt-2 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
@@ -735,7 +735,7 @@ export default function PosicionamientoSeoPage() {
             </Reveal>
 
             <Reveal delay={120}>
-              <div className="rounded-2xl border border-line bg-surface p-7">
+              <div className="jv-card p-7">
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                   <Sparkles className="h-6 w-6" aria-hidden="true" />
                 </span>
@@ -751,7 +751,7 @@ export default function PosicionamientoSeoPage() {
                   Lo que no te vendo es una garantía de que un modelo te mencione. Eso no lo
                   controla nadie.
                 </p>
-                <p className="mt-5 border-t border-line pt-5 font-body text-sm leading-relaxed text-ink-soft">
+                <p className="mt-5 jv-rule pt-5 font-body text-sm leading-relaxed text-ink-soft">
                   Si tu negocio es{" "}
                   <Link
                     href="/sectores/clinicas-y-consultorios"

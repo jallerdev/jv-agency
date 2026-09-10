@@ -106,8 +106,8 @@ export function SumadorSeo({
   };
 
   return (
-    <div className={cn("rounded-2xl border border-line bg-surface p-5 sm:p-6", className)}>
-      <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+    <div className={cn("jv-card p-5 sm:p-6", className)}>
+      <p className="jv-eyebrow text-accent-ink">
         Cómo se arma tu número
       </p>
 
@@ -191,7 +191,7 @@ export function SumadorSeo({
       </ul>
 
       {/* Los dos totales, separados a propósito. */}
-      <dl className="mt-4 grid gap-2 border-t border-line pt-4" aria-live="polite">
+      <dl className="mt-4 grid gap-2 jv-rule pt-4" aria-live="polite">
         <div className="flex items-baseline justify-between gap-3">
           <dt className="font-body text-[15px] text-ink">Al mes</dt>
           <dd className="font-mono text-lg tabular-nums text-primary-dark">

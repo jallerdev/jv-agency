@@ -52,8 +52,8 @@ export function FichaGoogle({
   const pct = total === 0 ? 0 : Math.round((llenos / total) * 100);
 
   return (
-    <div className={cn("rounded-2xl border border-line bg-surface p-5 sm:p-6", className)}>
-      <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">{titulo}</p>
+    <div className={cn("jv-card p-5 sm:p-6", className)}>
+      <p className="jv-eyebrow text-accent-ink">{titulo}</p>
 
       {/* Medidor. El porcentaje va FUERA de la barra: a 390 px la barra mide
           unos 300 px y el número se solapa con el borde del relleno. */}
@@ -80,7 +80,7 @@ export function FichaGoogle({
             key={c.etiqueta}
             className="grid gap-1 py-2.5 sm:grid-cols-[7rem_1fr] sm:items-baseline sm:gap-3"
           >
-            <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+            <dt className="jv-eyebrow text-accent-ink">
               {c.etiqueta}
             </dt>
             <dd className="min-w-0">
@@ -98,7 +98,7 @@ export function FichaGoogle({
         ))}
       </dl>
 
-      <p className="mt-5 border-t border-line pt-4 font-mono text-[11px] leading-relaxed text-ink-soft">
+      <p className="mt-5 jv-rule pt-4 font-mono text-[11px] leading-relaxed text-ink-soft">
         {rotulo}
       </p>
     </div>

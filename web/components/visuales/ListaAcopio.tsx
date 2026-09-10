@@ -73,12 +73,12 @@ export function ListaAcopio({
   const listos = items.filter((i) => marcados[i]).length;
 
   return (
-    <div className={cn("rounded-2xl border border-line bg-surface p-5 sm:p-6", className)}>
+    <div className={cn("jv-card p-5 sm:p-6", className)}>
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <p className="font-body text-xl font-semibold leading-tight text-ink">{titulo}</p>
         <p
           aria-live="polite"
-          className="shrink-0 font-mono text-[11px] uppercase tracking-[0.14em] tabular-nums text-accent-ink"
+          className="shrink-0 jv-eyebrow tabular-nums text-accent-ink"
         >
           {listos} de {items.length} listos
         </p>
@@ -111,7 +111,7 @@ export function ListaAcopio({
       </ul>
 
       {nota && (
-        <p className="mt-4 border-t border-line pt-4 font-body text-[13px] leading-relaxed text-ink-soft">
+        <p className="mt-4 jv-rule pt-4 font-body text-[13px] leading-relaxed text-ink-soft">
           {nota}
         </p>
       )}

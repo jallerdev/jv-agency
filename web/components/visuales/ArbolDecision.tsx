@@ -70,7 +70,7 @@ export function ArbolDecision({
     nivel: number,
     elegida: number | null
   ) => (
-    <div key={`${nivel}-${nodo.pregunta}`} className="border-t border-line pt-5 first:border-t-0 first:pt-0">
+    <div key={`${nivel}-${nodo.pregunta}`} className="jv-rule pt-5 first:border-t-0 first:pt-0">
       <p className="font-body text-[15px] font-semibold leading-snug text-ink">{nodo.pregunta}</p>
       <div className="mt-3 grid grid-cols-2 gap-3">
         {nodo.opciones.map((o, i) => (
@@ -94,7 +94,7 @@ export function ArbolDecision({
   );
 
   return (
-    <div className={cn("rounded-2xl border border-line bg-surface p-5 sm:p-6", className)}>
+    <div className={cn("jv-card p-5 sm:p-6", className)}>
       <div className="grid gap-5">
         {contestadas.map((c, i) => pregunta(c.nodo, i, c.elegida))}
         {actual.tipo === "pregunta" && pregunta(actual, contestadas.length, null)}
@@ -108,7 +108,7 @@ export function ArbolDecision({
       >
         {actual.tipo === "resultado" ? (
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+            <p className="jv-eyebrow text-accent-ink">
               Lo que te sirve
             </p>
             <p className="mt-2 font-body text-xl font-semibold leading-tight text-ink">{actual.titulo}</p>
@@ -140,7 +140,7 @@ export function ArbolDecision({
         <button
           type="button"
           onClick={() => setRuta([])}
-          className="mt-3 inline-flex min-h-11 items-center font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft underline underline-offset-4 hover:text-ink"
+          className="mt-3 inline-flex min-h-11 items-center jv-eyebrow text-ink-soft underline underline-offset-4 hover:text-ink"
         >
           Empezar de nuevo
         </button>

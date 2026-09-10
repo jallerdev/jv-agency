@@ -231,7 +231,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
         </button>
 
         <div className="px-6 pb-7 pt-6 sm:px-9 sm:pb-9 sm:pt-8">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary-dark">
+          <p className="jv-eyebrow text-primary-dark">
             Hablemos
           </p>
           <h2
@@ -380,7 +380,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
 }
 
 const etiquetaCampo =
-  "mb-2 block font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft";
+  "mb-2 block jv-eyebrow text-ink-soft";
 const campo =
   "h-12 w-full rounded-full border border-line bg-background/40 px-5 font-body text-base text-ink placeholder:text-ink-soft/55 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25";
 const campoMal = "border-danger/55";

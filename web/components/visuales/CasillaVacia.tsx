@@ -34,7 +34,7 @@ export function CasillaVacia({
       )}
     >
       <div className="max-w-[26ch]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">{rotulo}</p>
+        <p className="jv-eyebrow text-ink-soft">{rotulo}</p>
         <p className="mt-3 text-balance font-body text-[15px] leading-snug text-ink-soft">
           {children}
         </p>

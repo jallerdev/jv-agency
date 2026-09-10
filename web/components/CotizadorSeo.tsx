@@ -217,7 +217,7 @@ function SeoToggle({
         </span>
       </button>
       <details className="group border-t border-line/70 px-4 pb-3">
-        <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft transition-colors hover:text-ink">
+        <summary className="flex cursor-pointer list-none items-center gap-1.5 pt-3 jv-eyebrow text-ink-soft transition-colors hover:text-ink">
           Qué incluye
           <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
         </summary>
@@ -347,7 +347,7 @@ function SeoStepBody({
 
         {plan && (
           <div className="mt-4 rounded-2xl border border-line bg-background/40 p-5">
-            <p className="font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+            <p className="jv-eyebrow text-ink-soft">
               Con lo que llevas
             </p>
             <p className="mt-2 font-body text-sm text-ink-soft">
@@ -429,7 +429,7 @@ function SeoSummary({ answers, sticky }: { answers: SeoAnswers; sticky?: boolean
 
       {t.monthlyItems.length > 0 && (
         <>
-          <p className="mt-5 font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+          <p className="mt-5 jv-eyebrow text-ink-soft">
             Cada mes
           </p>
           <dl className="mt-2 space-y-2.5">
@@ -452,7 +452,7 @@ function SeoSummary({ answers, sticky }: { answers: SeoAnswers; sticky?: boolean
 
       {t.setupItems.length > 0 && (
         <>
-          <p className="mt-6 font-mono text-[11px] uppercase tracking-[.14em] text-ink-soft">
+          <p className="mt-6 jv-eyebrow text-ink-soft">
             Una sola vez, al arrancar
           </p>
           <dl className="mt-2 space-y-2.5">

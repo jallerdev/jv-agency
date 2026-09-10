@@ -65,7 +65,7 @@ export function Comparador({
 
       {/* El filete que separa las dos mitades es horizontal a 390 y vertical de
           lg en adelante. Al revés, la línea vertical queda flotando en el aire. */}
-      <section className="border-t border-line pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
+      <section className="jv-rule pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
         {tituloNoIncluye && (
           <Titulo className="font-display text-2xl text-ink sm:text-3xl">{tituloNoIncluye}</Titulo>
         )}
@@ -78,7 +78,7 @@ export function Comparador({
               <X aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
               <p className="min-w-0 font-body text-[15px] leading-snug text-ink-soft">
                 {x.texto}{" "}
-                <span className="ml-0.5 inline-flex items-center whitespace-nowrap rounded-full border border-line px-2 py-0.5 align-middle font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+                <span className="ml-0.5 inline-flex items-center whitespace-nowrap rounded-full border border-line px-2 py-0.5 align-middle jv-eyebrow text-accent-ink">
                   {x.quien}
                 </span>
               </p>

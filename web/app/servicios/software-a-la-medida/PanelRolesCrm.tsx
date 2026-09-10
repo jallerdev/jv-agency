@@ -74,7 +74,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
   const total = TABLERO.reduce((s, c) => s + c.negocios.filter(visible).length, 0);
 
   return (
-    <div className={cn("rounded-2xl border border-line bg-surface p-5 sm:p-6", className)}>
+    <div className={cn("jv-card p-5 sm:p-6", className)}>
       {/* El conmutador es el control principal: ancho completo y gordo. */}
       <div className="grid grid-cols-2 gap-2 sm:max-w-lg">
         {VISTAS.map((v) => {
@@ -98,7 +98,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
         })}
       </div>
 
-      <p aria-live="polite" className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <p aria-live="polite" className="mt-4 jv-eyebrow text-accent-ink">
         {total} negocios visibles
       </p>
 
@@ -107,7 +107,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
           const suyos = col.negocios.filter(visible);
           return (
             <div key={col.estado} className="min-w-0">
-              <p className="flex items-baseline justify-between gap-2 border-b border-line pb-2 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+              <p className="flex items-baseline justify-between gap-2 border-b border-line pb-2 jv-eyebrow text-accent-ink">
                 <span className="min-w-0 truncate">{col.estado}</span>
                 <span className="shrink-0 tabular-nums">{suyos.length}</span>
               </p>
@@ -120,7 +120,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
                     <span className="block font-body text-[13px] font-semibold leading-snug text-ink">
                       {n.cliente}
                     </span>
-                    <span className="mt-0.5 block font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft">
+                    <span className="mt-0.5 block jv-eyebrow text-ink-soft">
                       {n.de === "v1" ? "Vendedor 1" : "Vendedor 2"}
                     </span>
                   </li>
@@ -136,7 +136,7 @@ export function PanelRolesCrm({ className }: { className?: string }) {
         })}
       </div>
 
-      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <p className="mt-5 jv-eyebrow text-accent-ink">
         Ejemplo · datos de muestra
       </p>
     </div>

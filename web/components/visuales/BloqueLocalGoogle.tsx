@@ -135,7 +135,7 @@ export function BloqueLocalGoogle({
         <span className="min-w-0 flex-1 truncate font-mono text-[13px] text-ink">{consulta}</span>
       </div>
 
-      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <p className="mt-5 jv-eyebrow text-accent-ink">
         Los tres del mapa
       </p>
 
@@ -156,7 +156,7 @@ export function BloqueLocalGoogle({
         ) : (
           <div className="grid min-h-[4.5rem] place-items-center rounded-xl border border-dashed border-line px-4 py-4 text-center">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+              <p className="jv-eyebrow text-accent-ink">
                 Sin ficha
               </p>
               <p className="mt-1.5 text-balance font-body text-[15px] leading-snug text-ink-soft">
@@ -172,7 +172,7 @@ export function BloqueLocalGoogle({
       </div>
 
       {/* Dos resultados orgánicos, para que se entienda dónde queda el bloque. */}
-      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <p className="mt-5 jv-eyebrow text-accent-ink">
         Debajo, los resultados de siempre
       </p>
       <ul className="mt-2.5 grid gap-3">
@@ -186,7 +186,7 @@ export function BloqueLocalGoogle({
         ))}
       </ul>
 
-      <p className="mt-5 border-t border-line pt-4 font-mono text-[11px] leading-relaxed text-accent-ink">
+      <p className="mt-5 jv-rule pt-4 font-mono text-[11px] leading-relaxed text-accent-ink">
         Ejemplo · no es un resultado real. El trabajo es entrar en la lista, no
         prometer el primer puesto.
       </p>

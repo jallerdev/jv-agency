@@ -142,7 +142,7 @@ const ANILLOS = [
 
 function RelojDelDomingo() {
   return (
-    <div className="rounded-2xl border border-line bg-surface/70 p-7">
+    <div className="jv-card bg-surface/70 p-7">
       <h3 className="font-body text-xl font-semibold text-ink">Las horas en que tu WhatsApp contesta</h3>
       <div className="mt-6 grid grid-cols-2 gap-4">
         {ANILLOS.map((a) => {
@@ -183,14 +183,14 @@ function RelojDelDomingo() {
                   {a.horas} h
                 </text>
               </svg>
-              <p className="mt-2 text-center font-mono text-[11px] uppercase tracking-[0.12em] text-accent-ink">
+              <p className="mt-2 text-center jv-eyebrow text-accent-ink">
                 {a.titulo}
               </p>
             </div>
           );
         })}
       </div>
-      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <p className="mt-5 jv-eyebrow text-accent-ink">
         Ejemplo · mostrador de 8 a 6
       </p>
     </div>
@@ -333,7 +333,7 @@ export default function ChatbotWhatsappPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} delay={i * 80}>
-                <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
+                <article className="h-full jv-card bg-surface/70 p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                 </article>
@@ -373,7 +373,7 @@ export default function ChatbotWhatsappPage() {
               const Icon = t.icon;
               return (
                 <Reveal key={t.key} delay={i * 70}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                  <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                       <Icon className="h-6 w-6" />
                     </span>
@@ -381,7 +381,7 @@ export default function ChatbotWhatsappPage() {
                     <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                       {A_TYPE_DESC[t.key]}
                     </p>
-                    <p className="mt-5 border-t border-line pt-4 font-mono text-lg text-primary-dark">
+                    <p className="mt-5 jv-rule pt-4 font-mono text-lg text-primary-dark">
                       desde {money(A_PRICES.base[t.key])}
                     </p>
                   </article>

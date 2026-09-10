@@ -130,7 +130,7 @@ export function AccesoForm({
           </Button>
         </form>
 
-        <p className="mt-6 border-t border-line pt-5 font-body text-xs leading-relaxed text-ink-soft">
+        <p className="mt-6 jv-rule pt-5 font-body text-xs leading-relaxed text-ink-soft">
           ¿No tienes la contraseña o se te perdió? Escríbeme y te la reenvío.
         </p>
       </div>

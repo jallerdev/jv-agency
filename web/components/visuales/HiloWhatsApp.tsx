@@ -93,7 +93,7 @@ export function HiloWhatsApp({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-3xl border border-line bg-surface shadow-frame",
+        "overflow-hidden jv-card shadow-frame",
         className
       )}
     >
@@ -113,7 +113,7 @@ export function HiloWhatsApp({
         </span>
         <span className="min-w-0 flex-1">
           <span className="block truncate font-body text-sm font-semibold text-ink">{negocio}</span>
-          <span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+          <span className="flex items-center gap-1.5 jv-eyebrow text-ink-soft">
             <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
             En línea
           </span>
@@ -137,7 +137,7 @@ export function HiloWhatsApp({
                 )}
               >
                 {m.traspaso && (
-                  <span className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+                  <span className="mb-1.5 block jv-eyebrow text-accent-ink">
                     Te paso con una persona
                   </span>
                 )}
@@ -161,7 +161,7 @@ export function HiloWhatsApp({
         })}
       </Reveal>
 
-      <p className="border-t border-line px-4 py-3 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <p className="border-t border-line px-4 py-3 jv-eyebrow text-accent-ink">
         {rotulo}
       </p>
     </div>

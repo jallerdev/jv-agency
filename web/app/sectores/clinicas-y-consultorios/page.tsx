@@ -356,7 +356,7 @@ export default function ClinicasYConsultoriosPage() {
               const Icon = n.icon;
               return (
                 <Reveal key={n.titulo} index={i}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
+                  <article className="flex h-full flex-col jv-card p-6 md:p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                       <Icon className="h-6 w-6" />
                     </span>
@@ -424,7 +424,7 @@ export default function ClinicasYConsultoriosPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
-              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+              <article className="flex h-full flex-col overflow-hidden jv-card">
                 <div className="aspect-[16/10] overflow-hidden border-b border-line bg-canvas">
                   <Image
                     src="/work/animal-expert.webp"
@@ -437,7 +437,7 @@ export default function ClinicasYConsultoriosPage() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6 md:p-7">
-                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
                     Proyecto de estudio · Turbaco
                   </span>
                   <h3 className="mt-3 font-display text-2xl text-ink">Animal Expert</h3>
@@ -451,7 +451,7 @@ export default function ClinicasYConsultoriosPage() {
             </Reveal>
 
             <Reveal delay={80}>
-              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+              <article className="flex h-full flex-col overflow-hidden jv-card">
                 <div className="aspect-[16/10] overflow-hidden border-b border-line bg-canvas">
                   <Image
                     src="/work/elka-spa.webp"
@@ -464,7 +464,7 @@ export default function ClinicasYConsultoriosPage() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6 md:p-7">
-                  <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+                  <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
                     Proyecto de estudio · Cartagena
                   </span>
                   <h3 className="mt-3 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
@@ -497,7 +497,7 @@ export default function ClinicasYConsultoriosPage() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6 md:p-7">
-                  <span className="w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-primary-dark">
+                  <span className="w-fit rounded-full bg-primary/12 px-3 py-1 jv-eyebrow text-primary-dark">
                     Producto propio · en línea
                   </span>
                   <h3 className="mt-3 font-display text-2xl text-ink">Hummik</h3>
@@ -559,7 +559,7 @@ export default function ClinicasYConsultoriosPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.q} index={i}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
+                <article className="flex h-full flex-col jv-card p-6 md:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{p.q}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.d}
@@ -572,7 +572,7 @@ export default function ClinicasYConsultoriosPage() {
                       Ver el detalle <ArrowRight className="h-4 w-4" />
                     </Link>
                   )}
-                  <div className="mt-4 border-t border-line pt-4">
+                  <div className="mt-4 jv-rule pt-4">
                     <p className="font-mono text-lg text-primary-dark">
                       {p.desde === "Según el alcance" ? p.desde : `desde ${p.desde}`}
                     </p>
@@ -584,7 +584,7 @@ export default function ClinicasYConsultoriosPage() {
           </div>
 
           <Reveal>
-            <div className="mt-6 rounded-2xl border border-line bg-surface p-6 font-body leading-relaxed text-ink-soft md:p-7">
+            <div className="mt-6 jv-card p-6 font-body leading-relaxed text-ink-soft md:p-7">
               <p>
                 <strong className="text-ink">La renovación anual cuesta {money(290000)}</strong> y
                 cubre el dominio, el alojamiento y que la página siga en pie. Va acá y no en una
@@ -728,7 +728,7 @@ export default function ClinicasYConsultoriosPage() {
           <div className="mt-10 grid gap-4">
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
-                <article className="rounded-2xl border border-line bg-surface p-6 md:p-7">
+                <article className="jv-card p-6 md:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                 </article>

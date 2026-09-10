@@ -86,7 +86,7 @@ export function RailPlazo({
             <div className={cn("min-w-0 flex-1 pb-7 sm:pb-0 sm:pt-4", esUltimo && "pb-0")}>
               <p
                 className={cn(
-                  "font-mono text-[11px] uppercase tracking-[0.14em]",
+                  "jv-eyebrow",
                   t.esPrevio ? "text-ink-soft" : "text-accent-ink"
                 )}
               >

@@ -206,6 +206,7 @@
   /* ── Espacio y ritmo ─────────────────────────────────────────────────── */
   --maxw: 1200px;
   --maxw-narrow: 900px;
+  --maxw-prose: 68ch;
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --section-y: clamp(4.5rem, 9vw, 8.5rem);
   --header-h: 4rem;

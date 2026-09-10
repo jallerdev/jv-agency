@@ -431,7 +431,7 @@ export default function DisenoPaginasWebBogotaPage() {
               const Icon = p.icon;
               return (
                 <Reveal key={p.titulo} index={i}>
-                  <article className="h-full rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                  <article className="h-full jv-card p-6 sm:p-7">
                     <div className="flex items-center gap-4">
                       <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                         <Icon className="h-6 w-6" aria-hidden="true" />
@@ -480,7 +480,7 @@ export default function DisenoPaginasWebBogotaPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.nombre} index={i}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{p.nombre}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.desc}
@@ -494,7 +494,7 @@ export default function DisenoPaginasWebBogotaPage() {
                       <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                     </Link>
                   )}
-                  <p className="mt-4 border-t border-line pt-4 font-mono text-lg text-primary-dark">
+                  <p className="mt-4 jv-rule pt-4 font-mono text-lg text-primary-dark">
                     {p.exacto ? "" : "desde "}
                     {money(p.desde)}
                     {p.mensual ? " / mes" : ""}
@@ -646,7 +646,7 @@ export default function DisenoPaginasWebBogotaPage() {
                   href={p.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift sm:p-7"
+                  className="group flex h-full flex-col jv-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift sm:p-7"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-body text-xl font-semibold text-ink">{p.nombre}</h3>
@@ -695,7 +695,7 @@ export default function DisenoPaginasWebBogotaPage() {
           <div className="mt-10 grid gap-4">
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
-                <article className="rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                <article className="jv-card p-6 sm:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                   {f.href && (
@@ -736,7 +736,7 @@ export default function DisenoPaginasWebBogotaPage() {
             </div>
 
             <nav aria-label="Otras páginas del sitio" className="mt-12">
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+              <p className="jv-eyebrow text-ink-soft">
                 También trabajo
               </p>
               <ul className="mt-4 flex flex-wrap justify-center gap-2">

@@ -162,7 +162,7 @@ export function MediaSection() {
               pastillas grises: parecía un formulario. Ahora es una ficha
               apoyada sobre el papel, separada de la placa por una regla fina:
               a la izquierda qué es, a la derecha qué se construyó. */}
-          <div className="mx-auto mt-10 max-w-5xl border-t border-line pt-8 md:mt-12">
+          <div className="mx-auto mt-10 max-w-5xl jv-rule pt-8 md:mt-12">
             <div className="grid gap-8 md:grid-cols-[1.15fr_1fr] md:gap-14">
               <div>
                 <div className="flex flex-wrap items-center gap-3">
@@ -173,7 +173,7 @@ export function MediaSection() {
                       proyectos—. Aquí decía "E-commerce": una palabra que no
                       se usa en ninguna otra parte del sitio, para la misma
                       tienda, en la misma página. */}
-                  <span className="rounded-full bg-accent/15 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark">
+                  <span className="rounded-full bg-accent/15 px-3 py-1 jv-eyebrow text-primary-dark">
                     Tienda online
                   </span>
                 </div>
@@ -189,7 +189,7 @@ export function MediaSection() {
               </div>
 
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+                <p className="jv-eyebrow text-accent-ink">
                   Qué construí
                 </p>
                 <ul className="mt-3 divide-y divide-line border-y border-line">

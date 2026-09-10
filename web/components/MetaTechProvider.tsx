@@ -71,7 +71,7 @@ function StatusChip({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] tabular-nums text-primary-dark",
+        "inline-flex items-center gap-2 jv-eyebrow tabular-nums text-primary-dark",
         className
       )}
     >
@@ -158,7 +158,7 @@ export function MetaTechProvider({
             <strong className="font-semibold text-ink">a tu nombre</strong> —no al mío.
           </p>
 
-          <p className="mt-5 flex items-center gap-2 border-t border-line pt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+          <p className="mt-5 flex items-center gap-2 jv-rule pt-4 jv-eyebrow text-ink-soft">
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success" />
             Verificado · jul 2026
           </p>
@@ -202,7 +202,7 @@ export function MetaTechProvider({
           </div>
 
           <div className="min-w-0 sm:pt-1">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+            <p className="jv-eyebrow text-accent-ink">
               Automatizaciones sobre WhatsApp
             </p>
             <p className="mt-2.5 text-balance font-display text-2xl leading-[1.15] text-ink sm:text-[1.75rem]">
@@ -217,7 +217,7 @@ export function MetaTechProvider({
         </div>
 
         {/* Pie de credencial: la regla y la prueba. */}
-        <div className="mt-6 flex items-center gap-4 border-t border-line pt-4">
+        <div className="mt-6 flex items-center gap-4 jv-rule pt-4">
           <StatusChip />
         </div>
       </div>

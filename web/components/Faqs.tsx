@@ -40,7 +40,7 @@ export function Faqs({
             <AccordionPrimitive.Item
               key={i}
               value={`faq-${i}`}
-              className="group/item relative rounded-2xl border border-line bg-surface/60 transition-card duration-slow ease-state hover:bg-surface/90 data-[state=open]:border-primary/30 data-[state=open]:bg-surface data-[state=open]:shadow-soft"
+              className="group/item relative jv-card/60 transition-card duration-slow ease-state hover:bg-surface/90 data-[state=open]:border-primary/30 data-[state=open]:bg-surface data-[state=open]:shadow-soft"
             >
               {/* Lomo de acento: crece cuando el ítem abre. Es lo que permite
                   ver de un vistazo, desde el margen, cuál está abierto. */}

@@ -103,10 +103,10 @@ export function ComparadorAnchos({
           className="pointer-events-none absolute inset-y-0 w-[2px] -translate-x-1/2 bg-surface/90"
         />
 
-        <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-surface/90 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+        <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-surface/90 px-2.5 py-1 jv-eyebrow text-accent-ink">
           {etiquetaMovil}
         </span>
-        <span className="pointer-events-none absolute right-3 top-3 rounded-full bg-surface/90 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+        <span className="pointer-events-none absolute right-3 top-3 rounded-full bg-surface/90 px-2.5 py-1 jv-eyebrow text-accent-ink">
           {etiquetaEscritorio}
         </span>
       </div>

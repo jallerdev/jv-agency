@@ -65,7 +65,7 @@ export function Testimonials() {
             const short = t.quote.length < 420;
             return (
             <Reveal key={t.author + i} index={i}>
-              <article className="relative flex flex-col rounded-3xl border border-line bg-surface p-6 shadow-soft sm:p-8">
+              <article className="relative flex flex-col jv-card p-6 shadow-soft sm:p-8">
                 {/* La comilla es tipográfica, no un icono de librería: es el
                     mismo serif del sitio a tamaño de titular. Como abre la
                     cita, el texto ya no lleva comillas en línea. */}
@@ -90,7 +90,7 @@ export function Testimonials() {
                     prueba y no se esconde. */}
                 {t.original && (
                   <details className="group/og mt-5">
-                    <summary className="tap-target -ml-2 inline-flex cursor-pointer list-none items-center gap-2 rounded-lg px-2 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft underline decoration-line decoration-dotted underline-offset-4 transition-surface duration-quick ease-state hover:text-primary-dark hover:decoration-primary/50 [&::-webkit-details-marker]:hidden">
+                    <summary className="tap-target -ml-2 inline-flex cursor-pointer list-none items-center gap-2 rounded-lg px-2 jv-eyebrow text-ink-soft underline decoration-line decoration-dotted underline-offset-4 transition-surface duration-quick ease-state hover:text-primary-dark hover:decoration-primary/50 [&::-webkit-details-marker]:hidden">
                       <ChevronDown
                         className="h-3.5 w-3.5 shrink-0 transition-transform duration-base ease-state group-open/og:rotate-180"
                         strokeWidth={2}
@@ -109,7 +109,7 @@ export function Testimonials() {
                 )}
 
                 <footer className="pt-7">
-                  <div className="flex items-center gap-3 border-t border-line pt-5">
+                  <div className="flex items-center gap-3 jv-rule pt-5">
                     <span
                       aria-hidden="true"
                       className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary-dark font-display text-sm tracking-wide text-on-accent ring-1 ring-inset ring-line"
@@ -135,7 +135,7 @@ export function Testimonials() {
                       href={t.url}
                       target="_blank"
                       rel="noopener noreferrer nofollow"
-                      className="tap-target group/src mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-background/60 px-4 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state hover:border-primary/40 hover:bg-primary/10"
+                      className="tap-target group/src mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-background/60 px-4 jv-eyebrow text-primary-dark transition-surface duration-quick ease-state hover:border-primary/40 hover:bg-primary/10"
                     >
                       Verificar en {t.source}
                       <ArrowUpRight
@@ -145,7 +145,7 @@ export function Testimonials() {
                       />
                     </a>
                   ) : (
-                    <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft">
+                    <p className="mt-4 jv-eyebrow text-ink-soft">
                       Vía {t.source}
                     </p>
                   )}

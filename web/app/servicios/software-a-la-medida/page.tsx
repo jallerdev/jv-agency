@@ -384,7 +384,7 @@ export default function SoftwareALaMedidaPage() {
                 equivocado cuesta caro en las dos direcciones. La regla que uso es esta:
               </p>
               <div className="mt-7 grid gap-5 md:grid-cols-2">
-                <div className="rounded-2xl border border-line bg-surface/80 p-6">
+                <div className="jv-card/80 p-6">
                   <h3 className="font-body text-xl font-semibold text-ink">Si el problema está afuera</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">
                     No te conocen, no te encuentran en Google, o lo que hay de ti en internet no
@@ -399,7 +399,7 @@ export default function SoftwareALaMedidaPage() {
                     Ver precios de páginas web <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>
-                <div className="rounded-2xl border border-line bg-surface/80 p-6">
+                <div className="jv-card/80 p-6">
                   <h3 className="font-body text-xl font-semibold text-ink">Si el problema está adentro</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">
                     Te escriben y vendes, pero por dentro el proceso no da abasto: inventario que
@@ -438,7 +438,7 @@ export default function SoftwareALaMedidaPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} index={i}>
-                <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
+                <article className="h-full jv-card bg-surface/70 p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                 </article>
@@ -477,7 +477,7 @@ export default function SoftwareALaMedidaPage() {
               const Icon = q.icon;
               return (
                 <Reveal key={q.titulo} index={i}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                  <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                       <Icon className="h-6 w-6" />
                     </span>
@@ -529,7 +529,7 @@ export default function SoftwareALaMedidaPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <Reveal>
-              <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
+              <article className="h-full jv-card bg-surface/70 p-7">
                 <h3 className="font-body text-xl font-semibold text-ink">Lo que sube el precio</h3>
                 <ul className="mt-4 grid gap-3">
                   {[
@@ -550,7 +550,7 @@ export default function SoftwareALaMedidaPage() {
             </Reveal>
 
             <Reveal delay={100}>
-              <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
+              <article className="h-full jv-card bg-surface/70 p-7">
                 <h3 className="font-body text-xl font-semibold text-ink">Lo que lo baja</h3>
                 <ul className="mt-4 grid gap-3">
                   {[
@@ -685,14 +685,14 @@ export default function SoftwareALaMedidaPage() {
                   href={p.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7 transition-card duration-slow ease-state hover:border-primary/40 hover:shadow-soft"
+                  className="group flex h-full flex-col jv-card bg-surface/70 p-7 transition-card duration-slow ease-state hover:border-primary/40 hover:shadow-soft"
                 >
-                  <span className="inline-flex w-fit rounded-full bg-primary/12 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark">
+                  <span className="inline-flex w-fit rounded-full bg-primary/12 px-3 py-1 jv-eyebrow text-primary-dark">
                     Producto propio · En producción
                   </span>
                   <h3 className="mt-4 font-display text-2xl text-ink">{p.nombre}</h3>
                   <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">{p.que}</p>
-                  <span className="mt-5 inline-flex items-center gap-1.5 border-t border-line pt-4 font-mono text-sm text-primary-dark">
+                  <span className="mt-5 inline-flex items-center gap-1.5 jv-rule pt-4 font-mono text-sm text-primary-dark">
                     {p.dominio}
                     <ArrowUpRight className="h-4 w-4 transition-transform duration-base ease-state group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
@@ -726,7 +726,7 @@ export default function SoftwareALaMedidaPage() {
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STACK.map((s, i) => (
               <Reveal key={s.grupo} index={i}>
-                <div className="h-full rounded-2xl border border-line bg-surface/60 p-6">
+                <div className="h-full jv-card/60 p-6">
                   <h3 className="font-body text-sm font-semibold uppercase tracking-widest text-ink">
                     {s.grupo}
                   </h3>

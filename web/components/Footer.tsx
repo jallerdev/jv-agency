@@ -141,7 +141,7 @@ export function Footer() {
             <div key={col.title} className="min-w-0">
               {/* Mono en versalitas: el mismo idioma de etiqueta que usa el
                   resto del sitio para los antetítulos. */}
-              <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/70">
+              <h3 className="jv-eyebrow text-ink/70">
                 {col.title}
               </h3>
               <ul className="mt-3 space-y-0.5">
@@ -172,7 +172,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 border-t border-line pt-6 font-body text-sm text-ink/70">
+        <div className="mt-14 jv-rule font-body text-sm text-ink/70">
           <div className="flex flex-col gap-x-7 gap-y-1 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href={`mailto:${BUSINESS.email}`}
@@ -203,7 +203,7 @@ export function Footer() {
             </span>
           </div>
 
-          <div className="mt-5 flex flex-col gap-1 border-t border-line pt-5 font-mono text-xs tabular-nums text-ink/60 md:flex-row md:items-center md:justify-between">
+          <div className="mt-5 flex flex-col gap-1 jv-rule pt-5 font-mono text-xs tabular-nums text-ink/60 md:flex-row md:items-center md:justify-between">
             <span>
               {BUSINESS.legalNameOfficial} · NIT {BUSINESS.taxId}
             </span>

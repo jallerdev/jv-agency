@@ -153,7 +153,7 @@ export function Founder() {
         <Reveal
           as="article"
           distance="lg"
-          className="rounded-3xl border border-line bg-surface/80 p-6 shadow-soft sm:p-9 md:p-12"
+          className="jv-card/80 p-6 shadow-soft sm:p-9 md:p-12"
         >
           <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
             {/* Identidad. El monograma no es un avatar de relleno: es una placa

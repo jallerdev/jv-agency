@@ -413,7 +413,7 @@ export default function BarranquillaPage() {
               const Icon = p.icon;
               return (
                 <Reveal key={p.titulo} index={i}>
-                  <article className="h-full rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                  <article className="h-full jv-card p-6 sm:p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
@@ -442,7 +442,7 @@ export default function BarranquillaPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRECIOS.map((p, i) => (
               <Reveal key={p.servicio} index={i}>
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{p.servicio}</h3>
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.desc}
@@ -456,7 +456,7 @@ export default function BarranquillaPage() {
                       <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                     </Link>
                   )}
-                  <p className="mt-4 border-t border-line pt-4 font-mono text-lg text-primary-dark">
+                  <p className="mt-4 jv-rule pt-4 font-mono text-lg text-primary-dark">
                     {p.desde}
                   </p>
                   <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
@@ -595,7 +595,7 @@ export default function BarranquillaPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 md:items-stretch">
             <Reveal>
-              <figure className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+              <figure className="flex h-full flex-col overflow-hidden jv-card">
                 <Image
                   src="/work/marcopolo.webp"
                   alt="Captura de la página que construí para Peluquería Marcopolo, un salón de Barranquilla: portada con los servicios de corte y color."
@@ -605,7 +605,7 @@ export default function BarranquillaPage() {
                   className="h-auto w-full border-b border-line"
                 />
                 <figcaption className="p-5 font-body text-sm leading-relaxed text-ink-soft sm:p-6">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+                  <span className="jv-eyebrow text-ink-soft">
                     Proyecto de estudio · Barranquilla
                   </span>
                   <span className="mt-2 block">
@@ -652,7 +652,7 @@ export default function BarranquillaPage() {
           <div className="mt-10 grid gap-4">
             {FAQS.map((f, i) => (
               <Reveal key={f.q} index={i}>
-                <article className="rounded-2xl border border-line bg-surface p-6 sm:p-7">
+                <article className="jv-card p-6 sm:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
                   <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
                   {f.q.startsWith("Mi competencia") && (
@@ -697,7 +697,7 @@ export default function BarranquillaPage() {
             </div>
 
             <nav aria-label="Otras páginas del sitio" className="mt-12">
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+              <p className="jv-eyebrow text-ink-soft">
                 También trabajo
               </p>
               <ul className="mt-4 flex flex-wrap justify-center gap-2">

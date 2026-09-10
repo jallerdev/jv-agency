@@ -353,8 +353,8 @@ function PasosCompra() {
   return (
     <div className="-mx-5 flex w-[calc(100%+2.5rem)] snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-1 no-scrollbar sm:mx-0 sm:grid sm:w-full sm:grid-cols-3 sm:gap-5 sm:overflow-visible sm:px-0">
       {/* 1 · Ficha con variantes */}
-      <article className="flex w-[86%] shrink-0 snap-center flex-col rounded-2xl border border-line bg-surface p-5 sm:w-auto">
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <article className="flex w-[86%] shrink-0 snap-center flex-col jv-card p-5 sm:w-auto">
+        <p className="jv-eyebrow text-accent-ink">
           1 · Ficha
         </p>
         <h3 className="mt-2 font-body text-lg font-semibold text-ink">La talla que se acabó, marcada</h3>
@@ -364,7 +364,7 @@ function PasosCompra() {
 
         <div aria-hidden className="mt-4 flex flex-1 flex-col">
           <div className="grid aspect-[5/3] shrink-0 place-items-center rounded-lg bg-gradient-to-br from-band to-line">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+            <span className="jv-eyebrow text-ink-soft">
               Tu foto
             </span>
           </div>
@@ -385,7 +385,7 @@ function PasosCompra() {
             ))}
             {/* `basis-full` la baja a su propio renglón: pegada a la L se leía
                 como una cuarta talla. */}
-            <span className="basis-full font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+            <span className="basis-full jv-eyebrow text-ink-soft">
               M · agotada
             </span>
           </div>
@@ -396,8 +396,8 @@ function PasosCompra() {
       </article>
 
       {/* 2 · Carrito y envío */}
-      <article className="flex w-[86%] shrink-0 snap-center flex-col rounded-2xl border border-line bg-surface p-5 sm:w-auto">
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <article className="flex w-[86%] shrink-0 snap-center flex-col jv-card p-5 sm:w-auto">
+        <p className="jv-eyebrow text-accent-ink">
           2 · Carrito
         </p>
         <h3 className="mt-2 font-body text-lg font-semibold text-ink">El envío, cotizado antes de pagar</h3>
@@ -431,8 +431,8 @@ function PasosCompra() {
       </article>
 
       {/* 3 · Pago */}
-      <article className="flex w-[86%] shrink-0 snap-center flex-col rounded-2xl border border-line bg-surface p-5 sm:w-auto">
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+      <article className="flex w-[86%] shrink-0 snap-center flex-col jv-card p-5 sm:w-auto">
+        <p className="jv-eyebrow text-accent-ink">
           3 · Pago
         </p>
         <h3 className="mt-2 font-body text-lg font-semibold text-ink">Cobra a las once de la noche</h3>
@@ -582,7 +582,7 @@ export default function TiendasVirtualesPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {PARA_QUIEN.map((p, i) => (
               <Reveal key={p.titulo} delay={i * 80}>
-                <article className="h-full rounded-2xl border border-line bg-surface/70 p-7">
+                <article className="h-full jv-card bg-surface/70 p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{p.titulo}</h3>
                   <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
                 </article>
@@ -613,7 +613,7 @@ export default function TiendasVirtualesPage() {
                   className={
                     p.destacada
                       ? "flex h-full flex-col rounded-2xl border border-primary/25 bg-surface p-6 shadow-soft"
-                      : "flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-6"
+                      : "flex h-full flex-col jv-card bg-surface/70 p-6"
                   }
                 >
                   <h3 className="font-body text-xl font-semibold leading-tight text-ink">{p.t}</h3>
@@ -622,7 +622,7 @@ export default function TiendasVirtualesPage() {
                   <dl className="mt-5 divide-y divide-line border-y border-line">
                     {FILAS_PLATAFORMA.map((f) => (
                       <div key={f.clave} className="grid grid-cols-[5.5rem_1fr] items-baseline gap-3 py-3">
-                        <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent-ink">
+                        <dt className="jv-eyebrow text-accent-ink">
                           {f.etiqueta}
                         </dt>
                         <dd className="min-w-0 font-body text-[13px] leading-snug text-ink">
@@ -686,12 +686,12 @@ export default function TiendasVirtualesPage() {
             <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {EXTRAS.map((e, i) => (
                 <Reveal key={e.t} delay={i * 60}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                  <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
                     <h4 className="font-body text-lg font-semibold text-ink">{e.t}</h4>
                     <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                       {e.d}
                     </p>
-                    <p className="mt-5 border-t border-line pt-4 font-mono text-base text-primary-dark">
+                    <p className="mt-5 jv-rule pt-4 font-mono text-base text-primary-dark">
                       desde {money(e.p)}
                     </p>
                   </article>
@@ -753,7 +753,7 @@ export default function TiendasVirtualesPage() {
           </Reveal>
 
           <Reveal delay={140}>
-            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+            <p className="mt-4 jv-eyebrow text-ink-soft">
               Ejemplo · pantallas de muestra, producto y precios inventados
             </p>
           </Reveal>

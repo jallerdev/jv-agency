@@ -147,7 +147,7 @@ function BarraNavegador({ dominio }: { dominio?: string }) {
           <span className="truncate font-mono text-xs text-ink-soft">{dominio}</span>
         </span>
       ) : (
-        <span className="ml-1 whitespace-nowrap rounded-full border border-dashed border-secondary px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark">
+        <span className="ml-1 whitespace-nowrap rounded-full border border-dashed border-secondary px-3 py-1 jv-eyebrow text-primary-dark">
           En estudio
         </span>
       )}
@@ -260,7 +260,7 @@ function Expediente({ p, className }: { p: Proyecto; className?: string }) {
 
   return (
     <div className={className}>
-      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+      <p className="jv-eyebrow text-accent-ink">
         Caso abierto
       </p>
       <p className="mt-3 font-display text-2xl/[1.15] text-ink">{p.nombre}</p>
@@ -270,7 +270,7 @@ function Expediente({ p, className }: { p: Proyecto; className?: string }) {
             key={k}
             className="grid grid-cols-[6.5rem_1fr] gap-3 border-b border-line py-3"
           >
-            <dt className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft">
+            <dt className="jv-eyebrow text-ink-soft">
               {k}
             </dt>
             <dd className="min-w-0 font-body text-sm leading-relaxed text-ink">{v}</dd>
@@ -328,7 +328,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
 
           <span
             className={cn(
-              "hidden shrink-0 items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] md:inline-flex",
+              "hidden shrink-0 items-center gap-1.5 rounded-full px-3 py-1 jv-eyebrow md:inline-flex",
               p.url
                 ? "bg-success/12 text-success-ink"
                 : "border border-dashed border-secondary text-ink-soft"
@@ -363,7 +363,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
               href={p.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="tap-target mt-5 inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-surface/70 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state hover:border-primary hover:bg-primary hover:text-on-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="tap-target mt-5 inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-surface/70 px-4 py-2 jv-eyebrow text-primary-dark transition-surface duration-quick ease-state hover:border-primary hover:bg-primary hover:text-on-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               Abrir {p.dominio}
               <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />
@@ -372,7 +372,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
 
           {/* En móvil no hay columna lateral donde pegar la ficha, así que
               baja al panel. */}
-          <Expediente p={p} className="mt-8 border-t border-line pt-6 lg:hidden" />
+          <Expediente p={p} className="mt-8 jv-rule lg:hidden" />
         </div>
       </Acordeon.Content>
     </Acordeon.Item>
@@ -395,7 +395,7 @@ export function Portfolio() {
         {/* Encabezado de continuación, no de capítulo: alineado a la izquierda,
             sin píldora y un escalón por debajo del h2 del caso a fondo. */}
         <Reveal className="max-w-3xl" stagger>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-ink">
+          <p className="jv-eyebrow text-accent-ink">
             Proyectos
           </p>
           <h2 className="mt-4 font-display text-3xl/[1.15] text-ink sm:text-[2.5rem]/[1.08]">
@@ -423,7 +423,7 @@ export function Portfolio() {
             type="single"
             value={abierto}
             onValueChange={(v) => v && setAbierto(v)}
-            className="min-w-0 overflow-hidden rounded-3xl border border-line bg-surface/70 shadow-soft"
+            className="min-w-0 overflow-hidden jv-card/70 shadow-soft"
           >
             <Encabezado
               titulo="En producción"
@@ -462,7 +462,7 @@ function Encabezado({ titulo, nota }: { titulo: string; nota: string }) {
   return (
     <div className="border-b border-line bg-ink/[0.035] px-5 py-3.5">
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary-dark">
+        <h3 className="jv-eyebrow text-primary-dark">
           {titulo}
         </h3>
         <p className="min-w-0 font-body text-xs leading-relaxed text-ink-soft">{nota}</p>

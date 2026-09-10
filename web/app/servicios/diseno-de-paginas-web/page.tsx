@@ -539,7 +539,7 @@ export default function DisenoDePaginasWebPage() {
               const Icon = p.icon;
               return (
                 <Reveal key={p.titulo} delay={i * 70}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                  <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
@@ -589,12 +589,12 @@ export default function DisenoDePaginasWebPage() {
               const Icon = f.icon;
               return (
                 <Reveal key={f.nombre} delay={i * 80}>
-                  <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
+                  <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
                     <h3 className="mt-5 font-body text-xl font-semibold text-ink">{f.nombre}</h3>
-                    <p className="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+                    <p className="mt-1 jv-eyebrow text-ink-soft">
                       también: {f.tambien}
                     </p>
 
@@ -622,7 +622,7 @@ export default function DisenoDePaginasWebPage() {
                       ))}
                     </ul>
 
-                    <p className="mt-5 border-t border-line pt-4 font-mono text-lg text-primary-dark">
+                    <p className="mt-5 jv-rule pt-4 font-mono text-lg text-primary-dark">
                       {f.desde ? `desde ${pesos(f.desde)}` : "según lo que haya hoy"}
                     </p>
                   </article>
@@ -705,8 +705,8 @@ export default function DisenoDePaginasWebPage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             <Reveal>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+              <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
+                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
                   En producción · Cartagena
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">Bloomrose</h3>
@@ -727,8 +727,8 @@ export default function DisenoDePaginasWebPage() {
             </Reveal>
 
             <Reveal delay={80}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+              <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
+                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
                   En producción · producto propio
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">HalcónOS y Hummik</h3>
@@ -755,8 +755,8 @@ export default function DisenoDePaginasWebPage() {
             </Reveal>
 
             <Reveal delay={160}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">
+              <article className="flex h-full flex-col jv-card bg-surface/70 p-7">
+                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
                   Proyectos de estudio
                 </span>
                 <h3 className="mt-4 font-display text-2xl text-ink">
