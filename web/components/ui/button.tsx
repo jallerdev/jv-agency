@@ -23,7 +23,7 @@ const buttonVariants = cva(
         ghost: "rounded-full text-ink-soft hover:text-ink hover:bg-ink/5",
       },
       size: {
-        sm: "h-10 px-5 text-sm",
+        sm: "h-11 px-5 text-sm",
         md: "h-12 px-7 text-base",
         lg: "h-14 px-9 text-lg",
         xl: "h-16 px-11 text-xl",

@@ -23,17 +23,17 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
       <main className="mx-auto max-w-3xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 font-body text-sm text-ink-soft transition-colors hover:text-accent"
+          className="-my-2 inline-flex min-h-11 items-center gap-2 py-2 font-body text-sm text-ink-soft transition-colors hover:text-accent-ink"
         >
           <ArrowLeft className="size-4" /> Volver al blog
         </Link>
 
-        <p className="mt-8 font-mono text-xs uppercase tracking-widest text-accent">
+        <p className="mt-8 font-mono text-xs uppercase tracking-widest text-accent-ink">
           {post.category}
         </p>
         <h1 className="mt-3 font-display text-4xl text-ink md:text-5xl">{post.title}</h1>
 
-        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 font-body text-sm text-ink-soft/80">
+        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 font-body text-sm text-ink-soft">
           <span className="inline-flex items-center gap-1.5">
             <Calendar className="size-4" />
             <time dateTime={post.publishedAt}>
@@ -56,13 +56,13 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
           <div className="mt-5 flex flex-wrap gap-3">
             <Link
               href="/precios"
-              className="inline-flex items-center rounded-full bg-accent px-5 py-2.5 font-body text-sm font-medium text-white transition-opacity hover:opacity-90"
+              className="inline-flex min-h-11 items-center rounded-full bg-primary px-5 py-2.5 font-body text-sm font-semibold text-surface transition-colors hover:bg-primary-dark"
             >
               Ver precios
             </Link>
             <Link
               href="/#contacto"
-              className="inline-flex items-center rounded-full border border-ink/15 px-5 py-2.5 font-body text-sm font-medium text-ink transition-colors hover:bg-ink/5"
+              className="inline-flex min-h-11 items-center rounded-full border border-ink/15 px-5 py-2.5 font-body text-sm font-medium text-ink transition-colors hover:bg-ink/5"
             >
               Hablar conmigo
             </Link>

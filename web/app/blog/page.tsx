@@ -60,7 +60,7 @@ export default function BlogIndexPage() {
       />
       <Header />
       <main className="mx-auto max-w-4xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
-        <p className="font-mono text-xs uppercase tracking-widest text-accent">Blog</p>
+        <p className="font-mono text-xs uppercase tracking-widest text-accent-ink">Blog</p>
         <h1 className="mt-3 font-display text-4xl text-ink md:text-5xl">
           Lo que deberías saber antes de pagar por una web
         </h1>
@@ -76,12 +76,12 @@ export default function BlogIndexPage() {
               href={`/blog/${p.slug}`}
               className="group rounded-2xl border border-ink/10 p-7 transition-colors hover:border-accent/40 hover:bg-ink/[0.02]"
             >
-              <p className="font-mono text-[11px] uppercase tracking-widest text-accent">
+              <p className="font-mono text-[11px] uppercase tracking-widest text-accent-ink">
                 {p.category}
               </p>
               <h2 className="mt-3 font-display text-2xl text-ink">{p.title}</h2>
               <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{p.excerpt}</p>
-              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 font-body text-xs text-ink-soft/70">
+              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 font-body text-xs text-ink-soft">
                 <span className="inline-flex items-center gap-1.5">
                   <Calendar className="size-3.5" />
                   <time dateTime={p.publishedAt}>{FECHA.format(new Date(p.publishedAt))}</time>
@@ -89,7 +89,7 @@ export default function BlogIndexPage() {
                 <span className="inline-flex items-center gap-1.5">
                   <Clock className="size-3.5" /> {p.readingMinutes} min
                 </span>
-                <span className="ml-auto inline-flex items-center gap-1.5 text-accent">
+                <span className="ml-auto inline-flex items-center gap-1.5 text-accent-ink">
                   Leer <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>

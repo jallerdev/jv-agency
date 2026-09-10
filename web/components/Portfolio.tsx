@@ -300,7 +300,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
             className="pointer-events-none absolute bottom-3 left-0 top-3 w-[3px] origin-center scale-y-0 rounded-full bg-accent transition-transform duration-slow ease-state group-data-[state=open]/item:scale-y-100"
           />
 
-          <span className="shrink-0 font-mono text-xs tabular-nums text-ink-soft/70">{n}</span>
+          <span className="shrink-0 font-mono text-xs tabular-nums text-ink-soft">{n}</span>
 
           {/* Miniatura. Una lista de títulos no sería un portafolio: aunque solo
               se abra una, cada fila sigue enseñando de qué sitio habla. */}
@@ -343,7 +343,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
               prometería una acción que no existe. Se apaga y ya. */}
           <span
             aria-hidden
-            className="shrink-0 font-mono text-sm text-ink-soft/60 transition-opacity duration-base ease-state group-data-[state=open]/item:opacity-0"
+            className="shrink-0 font-mono text-sm text-ink-soft transition-opacity duration-base ease-state group-data-[state=open]/item:opacity-0"
           >
             +
           </span>

@@ -92,7 +92,7 @@ export function AccesoForm({
               type="button"
               onClick={() => setVerClave((v) => !v)}
               aria-label={verClave ? "Ocultar contraseña" : "Mostrar contraseña"}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-ink-soft transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="absolute right-1 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-lg text-ink-soft transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               {verClave ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>

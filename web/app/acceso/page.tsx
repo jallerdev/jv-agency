@@ -39,7 +39,7 @@ export default async function AccesoPage({
     <main className="flex min-h-screen flex-col items-center justify-center px-5 py-16">
       <Link
         href="/"
-        className="mb-10 inline-flex items-center gap-3 transition-opacity hover:opacity-80"
+        className="mb-10 inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-80"
         aria-label="Ir a la portada de JV Agencia"
       >
         <Logo className="h-9 w-9" />
@@ -62,7 +62,7 @@ export default async function AccesoPage({
           </p>
           <Link
             href="/"
-            className="mt-6 inline-flex font-body text-sm font-medium text-primary-dark underline underline-offset-4 hover:text-primary"
+            className="mt-4 inline-flex min-h-11 items-center py-2 font-body text-sm font-medium text-primary-dark underline underline-offset-4 hover:text-primary"
           >
             Ir a la portada
           </Link>

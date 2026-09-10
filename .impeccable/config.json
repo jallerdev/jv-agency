@@ -64,6 +64,11 @@
         ],
         "createdAt": "2026-09-09T04:26:38.853Z",
         "reason": "Falso positivo de idioma, verificado con la regex del detector sobre este archivo: NOT_A_RE (el patron ingles real) da 0; las 3 coincidencias vienen de SHORT_REBUTTAL_RE, que marca una frase seguida de 'No'. En espanol 'No' es el adverbio de negacion y abre imperativos normales: 'No las edites ni les pongas filtros', 'No cuesta nada'. Cadencia aforistica real: cero."
+      },
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "createdAt": "2026-09-09T23:16:51.104Z"
       }
     ]
   }
