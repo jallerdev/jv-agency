@@ -67,9 +67,9 @@ const SUPERFICIE: Record<Tier, string> = {
 /** El cuadro del icono. El degradado se gana; el resto va en contorno. */
 const CHIP: Record<Tier, string> = {
   ancla:
-    "h-16 w-16 rounded-xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft",
+    "h-16 w-16 rounded-xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line",
   destacado:
-    "h-14 w-14 rounded-lg bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft",
+    "h-14 w-14 rounded-lg bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line",
   base: "h-12 w-12 rounded-lg border border-primary/25 bg-primary/[0.07] text-primary",
 };
 

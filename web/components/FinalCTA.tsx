@@ -31,7 +31,7 @@ export function FinalCTA() {
   return (
     <section
       id="contacto"
-      className="jv-bloom relative isolate overflow-hidden border-t border-line bg-canvas-tint px-5 pb-20 pt-20 md:px-8 md:pb-28 md:pt-28"
+      className="jv-bloom relative isolate overflow-hidden border-t border-line bg-canvas-tint px-5 pb-12 pt-12 md:px-8 md:pb-14 md:pt-14"
     >
       {/* La luz del cierre la pone `.jv-bloom` en la propia sección: el florón
           violeta al 18%, que es el único degradado plano que permite el
@@ -55,14 +55,14 @@ export function FinalCTA() {
             <span className="whitespace-nowrap">hecha</span>
             <span className="block italic text-ink">por quien la programa.</span>
           </h2>
-          <p className="mt-6 max-w-[46ch] text-pretty font-body text-lg leading-relaxed text-ink/85">
+          <p className="mt-5 max-w-[46ch] text-pretty font-body text-lg leading-relaxed text-ink/85">
             Agenda una llamada y cuéntame qué necesitas. Te digo con franqueza si te puedo
             ayudar —y cómo.
           </p>
 
           {/* Las tres garantías dejan de ser viñetas y pasan a ser filas con
               regla: se leen como condiciones de un acuerdo, que es lo que son. */}
-          <ul className="mt-10 border-t border-line">
+          <ul className="mt-8 border-t border-line">
             {PERKS.map((p) => (
               <li
                 key={p}

@@ -42,8 +42,21 @@ const prettyDate = (iso: string) => {
  *
  * Además `tap-target` (44x44 reales, antes 36 px de alto) y `:active`, que en
  * táctil es el único estado que confirma el toque. */
+/* Siete pastillas con el nombre completo ocupaban TRES filas —194 px, el
+   bloque mas alto del formulario— y empujaban el boton de enviar fuera de
+   pantalla. Con la etiqueta corta caben en dos. El nombre largo no se pierde:
+   sigue siendo el que viaja en el mensaje. */
+const CORTO: Record<string, string> = {
+  web: "Páginas web",
+  chatbot: "Chatbot",
+  seo: "SEO",
+  software: "Software",
+  design: "Diseño / UI",
+  support: "Mantenimiento",
+};
+
 const chipBase =
-  "tap-target inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2.5 transition-surface duration-quick ease-state active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50";
+  "tap-target inline-flex items-center justify-center gap-2 rounded-full border px-3.5 py-2 transition-surface duration-quick ease-state active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50";
 const chipOn = "border-primary bg-primary text-on-accent shadow-soft";
 const chipOff =
   "border-line bg-background/50 text-ink-soft hover:border-primary/45 hover:bg-background hover:text-ink";
@@ -303,7 +316,7 @@ export function ScheduleCall() {
       {/* El borde va en el envoltorio, no en el <fieldset>: el navegador encaja
           el <legend> DENTRO del borde del fieldset y la regla queda partiendo
           el texto por la mitad. */}
-      <div className="mt-6 border-t border-line pt-6">
+      <div className="mt-4 border-t border-line pt-4">
       <fieldset>
         <legend className="mb-3 font-body text-sm font-medium text-ink">
           ¿En qué te ayudo?
@@ -326,7 +339,7 @@ export function ScheduleCall() {
                 aria-describedby={errors.service ? serviceErrorId : undefined}
               >
                 {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
-                {s.label}
+                {CORTO[s.id] ?? s.label}
               </button>
             );
           })}
@@ -336,7 +349,7 @@ export function ScheduleCall() {
       </div>
 
       {/* Datos */}
-      <div className="mt-6 border-t border-line pt-6">
+      <div className="mt-4 border-t border-line pt-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Nombre" error={errors.name}>
             {(p) => (
@@ -417,7 +430,7 @@ export function ScheduleCall() {
       </div>
 
       {/* Hora */}
-      <div className="mt-6 border-t border-line pt-6">
+      <div className="mt-4 border-t border-line pt-4">
       <fieldset>
         <legend className="mb-3 flex items-center gap-2 font-body text-sm font-medium text-ink">
           <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
@@ -481,15 +494,15 @@ export function ScheduleCall() {
       </div>
 
       {/* Nota */}
-      <div className="mt-6 border-t border-line pt-6">
-        <label className="mb-2 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
+      <div className="mt-4 border-t border-line pt-4">
+        <label className="mb-1.5 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
           Cuéntame brevemente <span className="font-normal text-ink-soft">(opcional)</span>
         </label>
         <textarea
           id={noteId}
           value={values.note}
           onChange={(e) => set("note", e.target.value)}
-          rows={3}
+          rows={2}
           disabled={submitting}
           placeholder="¿Qué tienes en mente? Un sitio nuevo, un rediseño, una app…"
           className="w-full rounded-xl border border-line bg-background/40 px-4 py-3 font-body text-base text-ink placeholder:text-ink-soft/60 transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60"
@@ -590,7 +603,7 @@ function Field({
   const errorId = `${id}-error`;
   return (
     <div className="min-w-0">
-      <label htmlFor={id} className="mb-2 block font-body text-sm font-medium text-ink">
+      <label htmlFor={id} className="mb-1.5 block font-body text-sm font-medium text-ink">
         {label}
       </label>
       {children({

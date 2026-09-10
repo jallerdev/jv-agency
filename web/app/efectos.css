@@ -170,6 +170,24 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* El rail del canto superior. En HalcónOS cada tarjeta de cifra lleva un
+   degradado violeta→teal que recorre TODO su borde de arriba: es lo que hace
+   que cuatro cajas iguales se lean como un tablero y no como cuatro cajas.
+   Va en el ::after para no gastar un elemento, y sigue el radio de la tarjeta. */
+.jv-rail { position: relative; }
+.jv-rail::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  border-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-image: linear-gradient(90deg, var(--violeta-500), var(--cielo-400) 55%, var(--teal-500));
+  opacity: 0.85;
+  pointer-events: none;
+}
+
 /* La barra corta que HalcónOS pone encima de cada cifra: cuatro píxeles de
    violeta que rematan la columna por arriba. Marca sin gastar una caja. */
 /* Solo de 640 px en adelante: por debajo la cifra y su etiqueta van en una

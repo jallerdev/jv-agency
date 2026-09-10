@@ -416,7 +416,7 @@ export default function DisenoPaginasWebCartagenaPage() {
               return (
                 <Reveal key={p.titulo} index={i}>
                   <article className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </span>
                     <h3 className="mt-5 font-body text-xl font-semibold text-ink">{p.titulo}</h3>
