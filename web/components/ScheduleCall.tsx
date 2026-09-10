@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/contact";
 import { OPCIONES_SERVICIO } from "@/lib/services";
+import { FORM, SERVICIO_CORTO } from "@/content/home/agenda";
+import type { Idioma } from "@/content/types";
 
 // Las opciones salen de lib/services.ts, que es la fuente unica: antes esta
 // lista vivia aparte y se quedo atras cuando cambiaron los servicios.
@@ -26,10 +28,10 @@ type FieldKey = "service" | "name" | "email" | "phone" | "date" | "time";
 
 const todayISO = () => new Date().toISOString().split("T")[0];
 
-const prettyDate = (iso: string) => {
+const prettyDate = (iso: string, locale: string) => {
   if (!iso) return "";
   const d = new Date(`${iso}T00:00:00`);
-  return d.toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" });
+  return d.toLocaleDateString(locale, { weekday: "long", day: "numeric", month: "long" });
 };
 
 /* Píldora de selección (servicio y hora).
@@ -47,14 +49,6 @@ const prettyDate = (iso: string) => {
    bloque mas alto del formulario— y empujaban el boton de enviar fuera de
    pantalla. Con la etiqueta corta caben en dos. El nombre largo no se pierde:
    sigue siendo el que viaja en el mensaje. */
-const CORTO: Record<string, string> = {
-  web: "Páginas web",
-  chatbot: "Chatbot",
-  seo: "SEO",
-  software: "Software",
-  design: "Diseño / UI",
-  support: "Mantenimiento",
-};
 
 const chipBase =
   "tap-target inline-flex items-center justify-center gap-2 rounded-full border px-3.5 py-2 transition-surface duration-quick ease-state active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50";
@@ -62,7 +56,12 @@ const chipOn = "border-primary bg-primary text-on-accent shadow-soft";
 const chipOff =
   "border-line bg-background/50 text-ink-soft hover:border-primary/45 hover:bg-background hover:text-ink";
 
-export function ScheduleCall() {
+export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
+  /* Todos los textos del formulario, en el idioma de la página. `T` es corto a
+     propósito: aparece cuarenta veces y `TEXTOS_DEL_FORMULARIO[idioma]` en
+     cada una escondería el marcado. */
+  const T = FORM[idioma];
+  const CORTO = SERVICIO_CORTO[idioma];
   /* El eje de pasos. La máquina de estados del envío —idle, buscando horarios,
      enviando, éxito, error— NO se toca: esto es una capa de presentación
      encima, y por eso el paso no entra en `reset` como un estado más sino
@@ -121,21 +120,21 @@ export function ScheduleCall() {
      «Continuar» pintaría en rojo campos que todavía no se han visto. */
   const validarPaso1 = () => {
     const e: Partial<Record<FieldKey, string>> = {};
-    if (!values.name.trim()) e.name = "Escribe tu nombre";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = "Ingresa un correo válido";
-    if (values.phone.replace(/\D/g, "").length < 7) e.phone = "Ingresa un teléfono válido";
+    if (!values.name.trim()) e.name = T.errores.nombre;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = T.errores.correo;
+    if (values.phone.replace(/\D/g, "").length < 7) e.phone = T.errores.telefono;
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
   const validate = () => {
     const e: Partial<Record<FieldKey, string>> = {};
-    if (!service) e.service = "Elige una opción";
-    if (!values.name.trim()) e.name = "Escribe tu nombre";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = "Ingresa un correo válido";
-    if (values.phone.replace(/\D/g, "").length < 7) e.phone = "Ingresa un teléfono válido";
-    if (!values.date) e.date = "Elige una fecha";
-    if (!time) e.time = "Elige una hora";
+    if (!service) e.service = T.errores.servicio;
+    if (!values.name.trim()) e.name = T.errores.nombre;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) e.email = T.errores.correo;
+    if (values.phone.replace(/\D/g, "").length < 7) e.phone = T.errores.telefono;
+    if (!values.date) e.date = T.errores.fecha;
+    if (!time) e.time = T.errores.hora;
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -197,21 +196,21 @@ export function ScheduleCall() {
 
       if (res.status === 409) {
         // El slot se ocupó mientras tanto: refrescar horarios.
-        setSubmitError(data.error || "Ese horario se acaba de ocupar. Elige otro.");
+        setSubmitError(data.error || T.errores.ocupado);
         setTime("");
         const r = await fetch(`/api/availability?date=${values.date}`).then((x) => x.json());
         setSlots(Array.isArray(r.slots) ? r.slots : []);
         return;
       }
       if (!res.ok) {
-        setSubmitError(data.error || "No se pudo agendar. Intenta de nuevo o escríbeme por WhatsApp.");
+        setSubmitError(data.error || T.errores.envio);
         return;
       }
 
       setMeetLink(typeof data.meetLink === "string" ? data.meetLink : null);
       setSubmitted(true);
     } catch {
-      setSubmitError("No se pudo agendar. Intenta de nuevo o escríbeme por WhatsApp.");
+      setSubmitError(T.errores.envio);
     } finally {
       setSubmitting(false);
     }
@@ -233,14 +232,14 @@ export function ScheduleCall() {
 
   const waHref = (() => {
     const msg =
-      `Hola JV Agencia 👋 Quiero agendar una llamada.\n\n` +
-      `• Nombre: ${values.name}\n` +
-      `• Servicio: ${serviceLabel}\n` +
-      `• Fecha: ${prettyDate(values.date)}\n` +
-      `• Hora: ${time}\n` +
-      `• Email: ${values.email}\n` +
-      `• Teléfono: ${values.phone}` +
-      (values.note.trim() ? `\n• Nota: ${values.note.trim()}` : "");
+      `${T.wa.saludo}\n\n` +
+      `• ${T.wa.nombre}: ${values.name}\n` +
+      `• ${T.wa.servicio}: ${serviceLabel}\n` +
+      `• ${T.wa.fecha}: ${prettyDate(values.date, T.locale)}\n` +
+      `• ${T.wa.hora}: ${time}\n` +
+      `• ${T.wa.correo}: ${values.email}\n` +
+      `• ${T.wa.telefono}: ${values.phone}` +
+      (values.note.trim() ? `\n• ${T.wa.notaEtiqueta}: ${values.note.trim()}` : "");
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   })();
 
@@ -253,10 +252,10 @@ export function ScheduleCall() {
   if (submitted) {
     const firstName = values.name.trim().split(" ")[0] || "";
     const rows: { k: string; v: string; caps?: boolean }[] = [
-      { k: "Servicio", v: serviceLabel },
-      { k: "Fecha", v: prettyDate(values.date), caps: true },
-      { k: "Hora", v: time },
-      { k: "Correo", v: values.email },
+      { k: T.exito.filas.servicio, v: serviceLabel },
+      { k: T.exito.filas.fecha, v: prettyDate(values.date, T.locale), caps: true },
+      { k: T.exito.filas.hora, v: time },
+      { k: T.exito.filas.correo, v: values.email },
     ];
     return (
       <div className={cardClass}>
@@ -265,9 +264,9 @@ export function ScheduleCall() {
             <Check className="h-6 w-6" strokeWidth={2} />
           </span>
           <div className="min-w-0">
-            <h3 className="font-display text-2xl leading-tight text-ink">¡Listo, {firstName}!</h3>
+            <h3 className="font-display text-2xl leading-tight text-ink">{T.exito.saludo(firstName)}</h3>
             <p className="font-body text-sm text-ink-soft">
-              {meetLink ? "Tu llamada quedó agendada." : "Recibí tu solicitud de llamada."}
+              {meetLink ? T.exito.agendada : T.exito.recibida}
             </p>
           </div>
         </div>
@@ -300,34 +299,34 @@ export function ScheduleCall() {
         {meetLink ? (
           <>
             <p className="mt-6 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-              Te envié la invitación a <span className="text-ink">{values.email}</span> con el
-              enlace de Google Meet. También puedes unirte desde aquí:
+              {T.exito.conMeet(values.email).antes}
+              <span className="text-ink">{values.email}</span>
+              {T.exito.conMeet(values.email).despues}
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="primary" size="md" className="flex-1">
                 <a href={meetLink} target="_blank" rel="noopener noreferrer">
-                  <Video className="h-5 w-5" strokeWidth={2} /> Unirse a Google Meet
+                  <Video className="h-5 w-5" strokeWidth={2} /> {T.exito.unirse}
                 </a>
               </Button>
               <Button onClick={reset} variant="ghost" size="md" type="button">
-                <RotateCcw className="h-4 w-4" strokeWidth={2} /> Agendar otra
+                <RotateCcw className="h-4 w-4" strokeWidth={2} /> {T.exito.otra}
               </Button>
             </div>
           </>
         ) : (
           <>
             <p className="mt-6 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-              Para confirmar la cita, envíame los datos por WhatsApp. Te respondo para cerrar el
-              horario.
+{T.exito.sinMeet}
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="primary" size="md" className="flex-1">
                 <a href={waHref} target="_blank" rel="noopener noreferrer">
-                  Confirmar por WhatsApp <ArrowRight className="h-5 w-5" strokeWidth={2} />
+                  {T.exito.confirmar} <ArrowRight className="h-5 w-5" strokeWidth={2} />
                 </a>
               </Button>
               <Button onClick={reset} variant="ghost" size="md" type="button">
-                <RotateCcw className="h-4 w-4" strokeWidth={2} /> Agendar otra
+                <RotateCcw className="h-4 w-4" strokeWidth={2} /> {T.exito.otra}
               </Button>
             </div>
           </>
@@ -342,10 +341,10 @@ export function ScheduleCall() {
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-background text-primary-dark">
           <CalendarCheck className="h-5 w-5" strokeWidth={2} />
         </span>
-        <h3 className="font-display text-2xl leading-tight text-ink">Agenda tu llamada</h3>
+        <h3 className="font-display text-2xl leading-tight text-ink">{T.titulo}</h3>
       </div>
       <p className="mt-3 text-pretty font-body text-sm leading-relaxed text-ink-soft">
-        Diagnóstico sin costo de 20 minutos por Google Meet. Cuéntame qué necesitas.
+{T.intro}
       </p>
 
       {/* El indicador de paso. No es adorno: un formulario partido sin decir en
@@ -353,21 +352,22 @@ export function ScheduleCall() {
           formulario entero, porque quien lo llena no sabe si le quedan dos
           pantallas o siete. La promesa de respuesta va aquí y no al final,
           donde ya no cambia la decisión de empezar. */}
-      <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
+      {/* Dos renglones, no uno que se parte.
+          En una sola fila envuelta, a 390 el separador «|» quedaba colgando al
+          final del primer renglón y la barra se iba sola al segundo. Con el
+          paso y la barra arriba, y la promesa debajo, se lee igual a cualquier
+          ancho y no hay nada que envolver. */}
+      <div className="mt-5 flex items-center gap-3">
         <p
           aria-live="polite"
           className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-accent-ink"
         >
-          Paso {paso} de 2
+          {T.paso(paso)}
         </p>
-        <span aria-hidden className="h-3 w-px bg-line" />
-        <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-soft">
-          Te respondo en menos de 24 h
-        </p>
-        {/* La barra es `aria-hidden`: el texto de arriba ya dice el paso, y un
+        {/* La barra es `aria-hidden`: el texto de al lado ya dice el paso, y un
             lector de pantalla anunciando «progreso 50 %» detrás de «paso 1 de
             2» está diciendo lo mismo dos veces. */}
-        <span aria-hidden className="ml-auto flex w-16 gap-1">
+        <span aria-hidden className="ml-auto flex w-16 shrink-0 gap-1">
           <span className="h-0.5 flex-1 rounded-full bg-accent" />
           <span
             className={cn(
@@ -377,6 +377,9 @@ export function ScheduleCall() {
           />
         </span>
       </div>
+      <p className="mt-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-soft">
+        {T.promesa}
+      </p>
 
       {/* ── Paso 1 · Quién eres ─────────────────────────────────────────
           Tres campos y a otra cosa. El orden importa: lo barato de dar va
@@ -386,26 +389,26 @@ export function ScheduleCall() {
       <div hidden={paso !== 1}>
         <div className="mt-4 jv-rule pt-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Nombre" error={errors.name}>
+            <Field label={T.nombre} error={errors.name}>
               {(p) => (
                 <Input
                   {...p}
                   value={values.name}
                   onChange={(e) => set("name", e.target.value)}
-                  placeholder="Tu nombre"
+                  placeholder={T.nombrePlaceholder}
                   autoComplete="name"
                   disabled={submitting}
                 />
               )}
             </Field>
-            <Field label="Correo" error={errors.email}>
+            <Field label={T.correo} error={errors.email}>
               {(p) => (
                 <Input
                   {...p}
                   type="email"
                   value={values.email}
                   onChange={(e) => set("email", e.target.value)}
-                  placeholder="tu@correo.com"
+                  placeholder={T.correoPlaceholder}
                   autoComplete="email"
                   inputMode="email"
                   disabled={submitting}
@@ -415,7 +418,7 @@ export function ScheduleCall() {
           </div>
 
           <div className="mt-4 sm:max-w-[calc(50%-0.5rem)]">
-            <Field label="WhatsApp / teléfono" error={errors.phone}>
+            <Field label={T.telefono} error={errors.phone}>
               {(p) => (
                 <Input
                   {...p}
@@ -446,7 +449,7 @@ export function ScheduleCall() {
         <div className="mt-4 jv-rule pt-4">
         <fieldset>
           <legend className="mb-3 font-body text-sm font-medium text-ink">
-            ¿En qué te ayudo?
+  {T.servicio}
           </legend>
           <div className="flex flex-wrap gap-2">
             {SERVICES.map((s) => {
@@ -484,9 +487,9 @@ export function ScheduleCall() {
                 fijo sería mentir la mitad de las veces, así que se confirma la
                 fecha elegida en palabras debajo del campo. */}
             <Field
-              label="Fecha preferida"
+              label={T.fecha}
               error={errors.date}
-              note={values.date ? prettyDate(values.date) : undefined}
+              note={values.date ? prettyDate(values.date, T.locale) : undefined}
             >
               {(p) => (
                 <Input
@@ -518,10 +521,10 @@ export function ScheduleCall() {
         <fieldset>
           <legend className="mb-3 flex items-center gap-2 font-body text-sm font-medium text-ink">
             <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
-            Hora disponible
+{T.hora}
             {values.date && !loadingSlots && slots && slots.length > 0 && (
               <span className="font-mono text-[11px] font-normal tabular-nums text-ink-soft">
-                {slots.length} libres
+                {T.libres(slots.length)}
               </span>
             )}
           </legend>
@@ -529,12 +532,12 @@ export function ScheduleCall() {
           <div aria-live="polite" aria-busy={loadingSlots}>
             {!values.date ? (
               <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
-                Elige una fecha para ver los horarios.
+  {T.sinFecha}
               </p>
             ) : loadingSlots ? (
               /* Esqueleto en vez de una línea de texto: el bloque ya ocupa el
                  alto que va a ocupar y la tarjeta no da un salto al responder. */
-              <div className="flex flex-wrap gap-2" aria-label="Buscando horarios disponibles">
+              <div className="flex flex-wrap gap-2" aria-label={T.buscando}>
                 {[76, 76, 76, 76, 76, 76].map((w, i) => (
                   <span
                     key={i}
@@ -545,7 +548,7 @@ export function ScheduleCall() {
               </div>
             ) : slots && slots.length === 0 ? (
               <p className="rounded-xl border border-dashed border-line px-4 py-3 font-body text-sm text-ink-soft">
-                No hay horarios disponibles ese día. Prueba con otra fecha.
+  {T.sinHoras}
               </p>
             ) : (
               <div className="flex flex-wrap gap-2">
@@ -580,7 +583,7 @@ export function ScheduleCall() {
       {/* Nota */}
         <div className="mt-4 jv-rule pt-4">
           <label className="mb-1.5 block font-body text-sm font-medium text-ink" htmlFor={noteId}>
-            Cuéntame brevemente <span className="font-normal text-ink-soft">(opcional)</span>
+            {T.nota} <span className="font-normal text-ink-soft">{T.notaOpcional}</span>
           </label>
           <textarea
             id={noteId}
@@ -588,7 +591,7 @@ export function ScheduleCall() {
             onChange={(e) => set("note", e.target.value)}
             rows={2}
             disabled={submitting}
-            placeholder="¿Qué tienes en mente? Un sitio nuevo, un rediseño, una app…"
+            placeholder={T.notaPlaceholder}
             className="w-full rounded-xl border border-line bg-background/40 px-4 py-3 font-body text-base text-ink placeholder:text-ink-muted transition-surface duration-quick ease-state focus-visible:border-primary focus-visible:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 disabled:opacity-60"
           />
         </div>
@@ -608,7 +611,7 @@ export function ScheduleCall() {
               rel="noopener noreferrer"
               className="mt-1 inline-block font-body text-xs font-semibold text-ink underline decoration-line underline-offset-4 transition-surface duration-quick ease-state hover:decoration-primary"
             >
-              O escríbeme por WhatsApp
+              {T.porWhatsApp}
             </a>
           </div>
         </div>
@@ -626,7 +629,7 @@ export function ScheduleCall() {
           size="lg"
           className="mt-7 w-full px-5 text-base focus-visible:transition-none sm:px-9 sm:text-lg"
         >
-          Continuar <ArrowRight className="h-5 w-5" strokeWidth={2} />
+          {T.continuar} <ArrowRight className="h-5 w-5" strokeWidth={2} />
         </Button>
       ) : (
         <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
@@ -636,7 +639,7 @@ export function ScheduleCall() {
             disabled={submitting}
             className="jv-boton-2 justify-center disabled:opacity-60 sm:w-auto"
           >
-            <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden /> Atrás
+            <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden /> {T.atras}
           </button>
           <Button
             type="submit"
@@ -651,18 +654,18 @@ export function ScheduleCall() {
           >
             {submitting ? (
               <>
-                <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} /> Agendando…
+                <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2} /> {T.enviando}
               </>
             ) : (
               <>
-                Agendar llamada <ArrowRight className="h-5 w-5" strokeWidth={2} />
+                {T.enviar} <ArrowRight className="h-5 w-5" strokeWidth={2} />
               </>
             )}
           </Button>
         </div>
       )}
       <p className="mt-3 text-center text-pretty font-body text-xs leading-relaxed text-ink-soft">
-        Sin compromiso. Recibirás la invitación de Google Meet en tu correo.
+{T.aviso}
       </p>
     </form>
   );

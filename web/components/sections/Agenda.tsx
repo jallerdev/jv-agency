@@ -40,7 +40,7 @@ export function Agenda({ idioma }: { idioma: Idioma }) {
         </Reveal>
 
         <Reveal>
-          <ScheduleCall />
+          <ScheduleCall idioma={idioma} />
         </Reveal>
       </div>
     </Seccion>

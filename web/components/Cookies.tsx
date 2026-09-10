@@ -75,7 +75,10 @@ export function Cookies({ idioma }: { idioma: Idioma }) {
     <div
       role="dialog"
       aria-label={COOKIES.titulo[idioma]}
-      className="fixed bottom-4 left-4 right-4 z-50 max-w-md sm:right-auto"
+      /* Por encima de la barra de CTA móvil, que ocupa el borde inferior hasta
+         `lg`. Sin este desplazamiento las dos se pisan y el botón «Aceptar»
+         queda debajo de la barra, que es justo el que hay que poder tocar. */
+      className="fixed bottom-[6.25rem] left-4 right-4 z-50 max-w-md sm:right-auto lg:bottom-4"
     >
       <div className="jv-card bg-raised p-5">
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">

@@ -129,13 +129,16 @@ export function Footer({ idioma }: { idioma: Idioma }) {
         </div>
       </div>
 
-      {/* La marca de agua. `leading-[0.75]` y el recorte de abajo hacen que las
-          letras se apoyen en el borde inferior en vez de flotar con un hueco
-          de interlínea debajo, que es lo que delata una marca de agua puesta
-          sin mirar. */}
+      {/* La marca de agua.
+          `whitespace-nowrap` es obligatorio: a 20vw el nombre no cabía en 1440
+          y se partía en «JV AGE / NCIA», que es peor que no ponerla. A 14vw
+          entra en una línea a cualquier ancho.
+          `leading-[0.75]` y el desplazamiento de abajo apoyan las letras en el
+          borde inferior en vez de dejar flotando el hueco de la interlínea,
+          que es lo que delata una marca de agua puesta sin mirar. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -bottom-[0.12em] -z-10 select-none overflow-hidden text-center font-display text-[20vw] font-semibold leading-[0.75] tracking-[-0.04em] text-ink opacity-[0.04]"
+        className="pointer-events-none absolute inset-x-0 -bottom-[0.14em] -z-10 select-none whitespace-nowrap text-center font-display text-[14vw] font-semibold leading-[0.75] tracking-[-0.04em] text-ink opacity-[0.04]"
       >
         JV AGENCIA
       </span>
