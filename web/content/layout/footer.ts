@@ -122,6 +122,15 @@ export const COLUMNAS: readonly ColumnaPie[] = [
         texto: { es: "Política de cookies", en: "Cookie policy" },
         href: { es: "/cookies", en: "/cookies" },
       },
+      /* Esta no es una legal más: es la URL de eliminación de datos que Meta
+         exige a un Tech Provider y que su equipo de revisión comprueba. Estaba
+         en el sitemap.xml y no la enlazaba NADIE —única huérfana de las 37
+         URL del sitio—, así que Google la veía ofrecida y sin un solo enlace
+         entrante, y un revisor de Meta solo podía llegar tecleándola. */
+      {
+        texto: { es: "Eliminación de datos", en: "Data deletion" },
+        href: { es: "/eliminacion-de-datos", en: "/eliminacion-de-datos" },
+      },
     ],
   },
 ];
