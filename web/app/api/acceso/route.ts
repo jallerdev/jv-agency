@@ -39,6 +39,22 @@ export async function POST(req: NextRequest) {
   const doc = buscarDocPorId(docId);
   const esperada = doc ? process.env[doc.passEnv] : undefined;
 
+  /* SIN VARIABLE DE ENTORNO NO HAY CONTRASEÑA BUENA, y el visitante recibía
+     «esa contraseña no es», que manda a buscar el fallo donde no está.
+
+     El aviso va al log del SERVIDOR y solo fuera de producción: la respuesta
+     al navegador no cambia ni un byte, porque distinguir «documento sin clave
+     configurada» de «clave equivocada» le confirmaría a cualquiera qué
+     documentos existen, que es justo lo que el bloque de abajo evita. */
+  if (doc && !esperada && process.env.NODE_ENV !== "production") {
+    console.warn(
+      `[acceso] El documento «${doc.id}» declara la variable ${doc.passEnv} y no está ` +
+        `definida en este entorno, así que ninguna contraseña puede funcionar. ` +
+        `Defínela en .env.local o trae las de Vercel con ` +
+        `\`vercel env pull .env.local --environment=production --project jv-agency\`.`
+    );
+  }
+
   // Un documento inexistente y una contraseña mal puesta responden igual: no
   // hay por qué confirmarle a nadie qué documentos existen.
   if (!doc || !esperada || !igualSeguro(password, esperada)) {

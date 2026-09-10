@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import { Documento } from "@/app/Documento";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
@@ -15,6 +15,19 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
  * El cuerpo del documento —fuentes, manchas, analítica, aviso de cookies— es
  * el mismo de `app/Documento.tsx`, para que no puedan separarse con el tiempo.
  */
+/**
+ * El color de la barra del navegador.
+ *
+ * No lo pone `app/manifest.ts`: ese `theme_color` solo aplica cuando el sitio
+ * está INSTALADO como aplicación. Para una visita normal en Chrome de Android
+ * hace falta este `<meta name="theme-color">`, que no existía, así que la
+ * barra salía en el gris por defecto del navegador y cortaba en seco contra
+ * la cabecera oscura.
+ */
+export const viewport: Viewport = {
+  themeColor: "#080808",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Web design, online stores and custom software | JV Agencia",
