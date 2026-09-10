@@ -54,7 +54,7 @@ export default async function AccesoPage({
           destino={destino}
         />
       ) : (
-        <div className="w-full max-w-md rounded-[1.75rem] border border-line bg-surface p-8 text-center shadow-lift md:p-10">
+        <div className="w-full max-w-md rounded-[1.5rem] border border-line bg-surface p-8 text-center shadow-lift md:p-10">
           <h1 className="font-display text-2xl text-ink">Este enlace no lleva a ninguna parte</h1>
           <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">
             Puede que esté incompleto o que el documento ya no esté disponible. Escríbeme y te

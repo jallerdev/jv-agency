@@ -227,7 +227,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
           aria-label="Cerrar"
           className="tap-target absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full text-ink-soft transition-surface duration-quick ease-state hover:bg-ink/5 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
-          <X className="h-5 w-5" strokeWidth={1.75} />
+          <X className="h-5 w-5" strokeWidth={2} />
         </button>
 
         <div className="px-6 pb-7 pt-6 sm:px-9 sm:pb-9 sm:pt-8">
@@ -309,7 +309,7 @@ function Dialogo({ ruta, onCerrar }: { ruta: string; onCerrar: () => void }) {
                       faltaNecesita && !on && "border-danger/45"
                     )}
                   >
-                    {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} />}
+                    {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
                     {n.label}
                   </button>
                 );

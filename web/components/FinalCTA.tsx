@@ -69,7 +69,7 @@ export function FinalCTA() {
                 className="flex items-center gap-3.5 border-b border-line py-4 font-body text-ink"
               >
                 <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-surface/15 ring-1 ring-line">
-                  <Check className="h-3.5 w-3.5 text-ink" strokeWidth={2.5} />
+                  <Check className="h-3.5 w-3.5 text-ink" strokeWidth={2} />
                 </span>
                 <span className="text-pretty">{p}</span>
               </li>

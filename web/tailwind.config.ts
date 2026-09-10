@@ -42,6 +42,17 @@ const config: Config = {
 
          Todo sale de app/tokens.css, que es el port del design system. Aquí
          solo se le pone nombre de Tailwind. Si un valor cambia, cambia allá.  */
+      /* EL BORDE POR DEFECTO.
+         Medido en las catorce rutas: 59 elementos pintaban su filete en
+         `rgb(229, 231, 235)` —el gris-200 con el que Tailwind rellena
+         cualquier `border` que no declare color—. Sobre el papel anterior
+         pasaba por un filete claro mas; sobre casi negro es un trazo BLANCO,
+         y es literalmente el borde del que se quejaba el dueno.
+         No se arregla escribiendo `border-line` en 59 sitios: se arregla
+         cambiando el relleno por defecto, que es donde estaba el error. */
+      borderColor: {
+        DEFAULT: "var(--line)",
+      },
       colors: {
         /* Fondo de página y superficies. `background` es el canvas casi negro
            —#09090B, nunca #000 y nunca gris cálido—; `surface` la tarjeta. */
@@ -110,19 +121,20 @@ const config: Config = {
         warning: "var(--warning)",
         info: "var(--info)",
       },
-      /* Escala de radios con lógica de anidación:
-         radio interior = radio exterior - padding.
-         sección/panel 3xl-4xl · tarjeta 2xl · sub-tarjeta xl ·
-         chip e icono lg · control de formulario md.
-         xl y 2xl conservan su valor de siempre: no mueven nada de lo hecho. */
+      /* ── Radios, en la escala de HalcónOS ───────────────────────────────
+         4 / 8 / 12 / 18 / 24 / pastilla, medidos en el producto. La escala
+         anterior tenía 1,75rem (28px) y 0,875rem (14px), que no están en
+         ninguna de las dos: eran del sistema de papel y sobrevivieron al port
+         en 22 elementos. Los nombres de utilidad se conservan —`rounded-3xl`
+         está escrito por todas partes— y lo que cambia es su valor. */
       borderRadius: {
-        sm: "0.375rem",
-        md: "0.625rem",
-        lg: "0.875rem",
-        xl: "1rem",
-        "2xl": "1.5rem",
-        "3xl": "1.75rem",
-        "4xl": "2rem",
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
+        xl: "var(--radius-md)",
+        "2xl": "var(--radius-lg)",
+        "3xl": "var(--radius-xl)",
+        "4xl": "var(--radius-xl)",
       },
       /* Tres niveles de elevación con función asignada, más un marco.
          soft = reposo · lift = SOLO hover/foco · glow = un elemento por

@@ -796,7 +796,7 @@ export default function DisenoDePaginasWebPage() {
         {/* ── Dónde estoy y a dónde llego ────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-line bg-surface/70 p-7 md:p-10">
+            <div className="rounded-[1.5rem] border border-line bg-surface/70 p-7 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 ¿Buscabas un diseñador de páginas web cerca de ti?
               </h2>

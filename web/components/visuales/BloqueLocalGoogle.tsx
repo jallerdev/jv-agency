@@ -129,8 +129,8 @@ export function BloqueLocalGoogle({
       {/* Barra de búsqueda maquetada. */}
       <div className="mt-4 flex min-w-0 items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-3">
         <svg viewBox="0 0 16 16" className="h-4 w-4 shrink-0 text-ink-soft" fill="none" aria-hidden>
-          <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="2" />
+          <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
         <span className="min-w-0 flex-1 truncate font-mono text-[13px] text-ink">{consulta}</span>
       </div>

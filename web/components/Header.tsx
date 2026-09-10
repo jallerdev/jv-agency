@@ -364,7 +364,7 @@ export function Header() {
                     </span>
                     <ArrowUpRight
                       aria-hidden
-                      strokeWidth={1.5}
+                      strokeWidth={2}
                       className="ml-auto h-5 w-5 text-primary/50 transition-transform duration-base ease-state group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                     />
                   </a>
@@ -380,7 +380,7 @@ export function Header() {
             <Button size="lg" variant="primary" className="w-full" asChild>
               <a href="/#contacto" onClick={() => setOpen(false)}>
                 Agenda una llamada
-                <ArrowRight className="h-5 w-5" strokeWidth={1.75} />
+                <ArrowRight className="h-5 w-5" strokeWidth={2} />
               </a>
             </Button>
           </div>

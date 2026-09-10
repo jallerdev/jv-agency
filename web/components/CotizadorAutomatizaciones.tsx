@@ -87,7 +87,7 @@ export function CotizadorAutomatizaciones() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
-      <div className="rounded-[1.75rem] border border-line bg-surface p-6 shadow-lift md:p-9">
+      <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="mb-7">
           <div className="mb-2 flex items-center justify-between font-body text-sm text-ink-soft">
             <span>Pregunta {i + 1} de {PASOS.length}</span>
@@ -239,7 +239,7 @@ function Opcion({
 function Panel({ a, sticky }: { a: AutomationAnswers; sticky?: boolean }) {
   const t = computeAutomationTotals(a);
   return (
-    <aside className={cn("rounded-[1.75rem] border border-line bg-surface p-6 shadow-soft", sticky && "lg:sticky lg:top-28")}>
+    <aside className={cn("rounded-[1.5rem] border border-line bg-surface p-6 shadow-soft", sticky && "lg:sticky lg:top-28")}>
       <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">Tu estimado</p>
       <p className="mt-3 font-display text-3xl text-ink">{money(t.total)}</p>
       <p className="font-body text-xs text-ink-soft">pago único</p>
@@ -286,7 +286,7 @@ function Resumen({ a, onRestart }: { a: AutomationAnswers; onRestart: () => void
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
-      <div className="rounded-[1.75rem] border border-line bg-surface p-6 shadow-lift md:p-9">
+      <div className="rounded-[1.5rem] border border-line bg-surface p-6 shadow-lift md:p-9">
         <div className="flex items-center gap-3">
           <span className="grid h-12 w-12 place-items-center rounded-full bg-success/15 text-success">
             <Check className="h-6 w-6" />

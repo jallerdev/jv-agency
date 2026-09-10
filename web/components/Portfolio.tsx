@@ -366,7 +366,7 @@ function Fila({ p, n }: { p: Proyecto; n: string }) {
               className="tap-target mt-5 inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-surface/70 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-dark transition-surface duration-quick ease-state hover:border-primary hover:bg-primary hover:text-on-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               Abrir {p.dominio}
-              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.25} />
+              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />
             </a>
           )}
 

@@ -60,7 +60,7 @@ export function Faqs({
                   >
                     <Plus
                       className="h-4 w-4 transition-transform duration-slow ease-ps group-data-[state=open]/trigger:rotate-45"
-                      strokeWidth={2.25}
+                      strokeWidth={2}
                     />
                   </span>
                 </AccordionPrimitive.Trigger>

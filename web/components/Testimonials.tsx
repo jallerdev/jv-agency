@@ -93,7 +93,7 @@ export function Testimonials() {
                     <summary className="tap-target -ml-2 inline-flex cursor-pointer list-none items-center gap-2 rounded-lg px-2 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft underline decoration-line decoration-dotted underline-offset-4 transition-surface duration-quick ease-state hover:text-primary-dark hover:decoration-primary/50 [&::-webkit-details-marker]:hidden">
                       <ChevronDown
                         className="h-3.5 w-3.5 shrink-0 transition-transform duration-base ease-state group-open/og:rotate-180"
-                        strokeWidth={2.25}
+                        strokeWidth={2}
                         aria-hidden="true"
                       />
                       Traducida del inglés · ver original
@@ -140,7 +140,7 @@ export function Testimonials() {
                       Verificar en {t.source}
                       <ArrowUpRight
                         className="h-3.5 w-3.5 transition-transform duration-base ease-state group-hover/src:-translate-y-0.5 group-hover/src:translate-x-0.5"
-                        strokeWidth={2.25}
+                        strokeWidth={2}
                         aria-hidden="true"
                       />
                     </a>

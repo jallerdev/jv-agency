@@ -658,7 +658,7 @@ export default function TiendasVirtualesPage() {
           </Reveal>
 
           <Reveal delay={80}>
-            <div className="mt-10 rounded-[1.75rem] border border-primary/20 bg-surface/70 p-8 md:p-10">
+            <div className="mt-10 rounded-[1.5rem] border border-primary/20 bg-surface/70 p-8 md:p-10">
               <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
                 <h3 className="font-display text-2xl text-ink sm:text-3xl">
                   Tienda online completa
@@ -805,7 +805,7 @@ export default function TiendasVirtualesPage() {
           </Reveal>
 
           <Reveal delay={100}>
-            <article className="mt-10 grid overflow-hidden rounded-[1.75rem] border border-line bg-surface/70 lg:grid-cols-2">
+            <article className="mt-10 grid overflow-hidden rounded-[1.5rem] border border-line bg-surface/70 lg:grid-cols-2">
               {/* Proporción fija (16/9) en las dos anchuras y el mismo recorte
                   que usa Portfolio.tsx. El archivo mide 2000x1160, así que con
                   16/10 la ventana quedaba más angosta que la captura y

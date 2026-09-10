@@ -421,7 +421,7 @@ export default function PosicionamientoSeoPage() {
         {/* ── Lo que nadie pone en la portada ─────────────────────────── */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 No te voy a garantizar el primer puesto.
                 <span className="text-metal"> Nadie puede.</span>

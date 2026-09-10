@@ -374,7 +374,7 @@ export default function SoftwareALaMedidaPage() {
             necesitaba un sistema y se conforma con una web. */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Antes de nada:
                 <span className="text-metal"> ¿necesitas software o te sirve una página web?</span>

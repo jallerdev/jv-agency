@@ -213,7 +213,7 @@ export function ScheduleCall() {
       <div className={cardClass}>
         <div className="flex items-center gap-4">
           <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-success/12 text-success ring-1 ring-success/25 motion-safe:animate-[fade-in_var(--duration-slow)_var(--ease-ps)_both]">
-            <Check className="h-6 w-6" strokeWidth={2.25} />
+            <Check className="h-6 w-6" strokeWidth={2} />
           </span>
           <div className="min-w-0">
             <h3 className="font-display text-2xl leading-tight text-ink">¡Listo, {firstName}!</h3>
@@ -257,7 +257,7 @@ export function ScheduleCall() {
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="primary" size="md" className="flex-1">
                 <a href={meetLink} target="_blank" rel="noopener noreferrer">
-                  <Video className="h-5 w-5" strokeWidth={1.75} /> Unirse a Google Meet
+                  <Video className="h-5 w-5" strokeWidth={2} /> Unirse a Google Meet
                 </a>
               </Button>
               <Button onClick={reset} variant="ghost" size="md" type="button">
@@ -274,7 +274,7 @@ export function ScheduleCall() {
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="primary" size="md" className="flex-1">
                 <a href={waHref} target="_blank" rel="noopener noreferrer">
-                  Confirmar por WhatsApp <ArrowRight className="h-5 w-5" strokeWidth={1.75} />
+                  Confirmar por WhatsApp <ArrowRight className="h-5 w-5" strokeWidth={2} />
                 </a>
               </Button>
               <Button onClick={reset} variant="ghost" size="md" type="button">
@@ -291,7 +291,7 @@ export function ScheduleCall() {
     <form onSubmit={handleSubmit} noValidate aria-busy={submitting} className={cardClass}>
       <div className="flex items-center gap-3">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-background text-primary-dark">
-          <CalendarCheck className="h-5 w-5" strokeWidth={1.75} />
+          <CalendarCheck className="h-5 w-5" strokeWidth={2} />
         </span>
         <h3 className="font-display text-2xl leading-tight text-ink">Agenda tu llamada</h3>
       </div>
@@ -325,7 +325,7 @@ export function ScheduleCall() {
                 aria-pressed={on}
                 aria-describedby={errors.service ? serviceErrorId : undefined}
               >
-                {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} />}
+                {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
                 {s.label}
               </button>
             );
@@ -468,7 +468,7 @@ export function ScheduleCall() {
                     aria-pressed={on}
                     aria-describedby={errors.time ? timeErrorId : undefined}
                   >
-                    {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} />}
+                    {on && <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />}
                     {t}
                   </button>
                 );
@@ -501,7 +501,7 @@ export function ScheduleCall() {
           role="alert"
           className="mt-6 flex gap-3 rounded-2xl border border-danger/35 bg-danger/[0.07] px-4 py-3.5"
         >
-          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" strokeWidth={2.25} />
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger" strokeWidth={2} />
           <div className="min-w-0">
             <p className="font-body text-sm text-danger">{submitError}</p>
             <a
@@ -534,7 +534,7 @@ export function ScheduleCall() {
           </>
         ) : (
           <>
-            Agendar llamada <ArrowRight className="h-5 w-5" strokeWidth={1.75} />
+            Agendar llamada <ArrowRight className="h-5 w-5" strokeWidth={2} />
           </>
         )}
       </Button>
@@ -556,7 +556,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
       role="alert"
       className="mt-2 flex items-center gap-1.5 font-body text-xs font-medium text-danger"
     >
-      <AlertCircle className="h-3.5 w-3.5 shrink-0" strokeWidth={2.25} />
+      <AlertCircle className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
       {message}
     </p>
   );

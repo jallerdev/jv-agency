@@ -166,7 +166,7 @@ export function Hero() {
           <Button size="lg" variant="primary" className="w-full sm:w-auto" asChild>
             <a href="#contacto">
               Agenda una llamada
-              <ArrowRight className="h-5 w-5" strokeWidth={1.75} />
+              <ArrowRight className="h-5 w-5" strokeWidth={2} />
             </a>
           </Button>
           <Button size="lg" variant="outline" className="w-full sm:w-auto" asChild>

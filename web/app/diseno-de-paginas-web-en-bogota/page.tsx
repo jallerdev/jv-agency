@@ -382,7 +382,7 @@ export default function DisenoPaginasWebBogotaPage() {
         {/* ── La confesión. Va arriba a propósito · banda ────────────── */}
         <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-7 sm:p-9 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-7 sm:p-9 md:p-10">
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-on-accent shadow-soft">
                 <MapPinOff className="h-6 w-6" aria-hidden="true" />
               </span>

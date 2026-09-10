@@ -131,7 +131,7 @@ export function Footer() {
                   rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="tap-target grid h-11 w-11 place-items-center rounded-full border border-line text-ink/75 transition-card duration-quick ease-state hover:-translate-y-0.5 hover:border-accent hover:bg-surface/5 hover:text-accent active:translate-y-0 active:scale-[0.96]"
                 >
-                  <Icon className="h-4 w-4" strokeWidth={1.75} />
+                  <Icon className="h-4 w-4" strokeWidth={2} />
                 </a>
               ))}
             </div>
@@ -178,7 +178,7 @@ export function Footer() {
               href={`mailto:${BUSINESS.email}`}
               className="tap-target inline-flex items-center gap-2 transition-surface duration-quick ease-state hover:text-accent"
             >
-              <Mail className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={1.75} />
+              <Mail className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={2} />
               {BUSINESS.email}
             </a>
             <a
@@ -187,18 +187,18 @@ export function Footer() {
               rel="noopener noreferrer"
               className="tap-target inline-flex items-center gap-2 whitespace-nowrap tabular-nums transition-surface duration-quick ease-state hover:text-accent"
             >
-              <Phone className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={1.75} />
+              <Phone className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={2} />
               WhatsApp {BUSINESS.whatsappDisplay}
             </a>
             <a
               href={`tel:${BUSINESS.phone}`}
               className="tap-target inline-flex items-center gap-2 whitespace-nowrap tabular-nums transition-surface duration-quick ease-state hover:text-accent"
             >
-              <Phone className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={1.75} />
+              <Phone className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={2} />
               {BUSINESS.phoneDisplay}
             </a>
             <span className="tap-target inline-flex items-center gap-2 text-ink/60">
-              <MapPin className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={1.75} />
+              <MapPin className="h-4 w-4 shrink-0 text-ink/55" strokeWidth={2} />
               {ADDRESS_LINE}
             </span>
           </div>

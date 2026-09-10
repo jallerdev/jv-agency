@@ -302,7 +302,7 @@ export default function ChatbotWhatsappPage() {
         {/* ── El diferenciador, arriba y no enterrado ─────────────────── */}
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-8 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Casi todos te revenden una plataforma.
                 <span className="text-metal"> Yo conecto directo.</span>

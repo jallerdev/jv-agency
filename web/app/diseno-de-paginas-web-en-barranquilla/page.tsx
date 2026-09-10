@@ -362,7 +362,7 @@ export default function BarranquillaPage() {
         {/* ── La confesión, arriba y no escondida · banda ────────────── */}
         <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal>
-            <div className="rounded-[1.75rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-7 sm:p-9 md:p-10">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-secondary/15 p-7 sm:p-9 md:p-10">
               <h2 className="font-display text-3xl text-ink sm:text-4xl">
                 Búscale la dirección a cada uno.
                 <span className="text-metal"> Yo te ahorro el minuto.</span>

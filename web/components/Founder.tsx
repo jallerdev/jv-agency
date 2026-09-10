@@ -227,7 +227,7 @@ export function Founder() {
                   Más sobre mí
                   <ArrowUpRight
                     className="h-4 w-4 transition-transform duration-base ease-state group-hover:translate-x-0.5"
-                    strokeWidth={1.75}
+                    strokeWidth={2}
                   />
                 </Link>
                 <span className="hidden h-4 w-px bg-line sm:block" aria-hidden="true" />
@@ -238,7 +238,7 @@ export function Founder() {
                     rel="noopener noreferrer"
                     className="tap-target -mx-2 inline-flex items-center gap-1.5 rounded-lg px-2 font-body text-sm text-ink-soft transition-surface duration-quick ease-state hover:text-ink"
                   >
-                    <Linkedin className="h-4 w-4" strokeWidth={1.75} /> LinkedIn
+                    <Linkedin className="h-4 w-4" strokeWidth={2} /> LinkedIn
                   </a>
                   <a
                     href={FOUNDER.github}
@@ -246,7 +246,7 @@ export function Founder() {
                     rel="noopener noreferrer"
                     className="tap-target -mx-2 inline-flex items-center gap-1.5 rounded-lg px-2 font-body text-sm text-ink-soft transition-surface duration-quick ease-state hover:text-ink"
                   >
-                    <Github className="h-4 w-4" strokeWidth={1.75} /> GitHub
+                    <Github className="h-4 w-4" strokeWidth={2} /> GitHub
                   </a>
                 </div>
               </div>
