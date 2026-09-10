@@ -67,29 +67,49 @@ export function BarraMovil({ idioma }: { idioma: Idioma }) {
   const fuera = !visible || enAgenda;
 
   return (
-    <div
-      aria-hidden={fuera}
-      inert={fuera}
-      className={cn(
-        "fixed inset-x-0 bottom-0 z-40 border-t border-line bg-negro/90 backdrop-blur-md transition-transform duration-slow ease-ps lg:hidden",
-        fuera ? "translate-y-full" : "translate-y-0"
-      )}
-      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
-    >
-      <div className="flex items-center gap-3 px-4 py-3">
-        <Link href={enlaceReal(CABECERA.cta.href[idioma])} className="jv-boton flex-1 justify-center">
-          {CABECERA.cta.texto[idioma]}
-        </Link>
-        <a
-          href={WHATSAPP_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-          className="jv-boton-2 !mr-0 aspect-square !px-0 justify-center"
-        >
-          <WhatsAppGlyph className="h-5 w-5" />
-        </a>
+    <>
+      {/* EL HUECO QUE LA BARRA SE DEBE A SÍ MISMA.
+          Es `fixed`, así que no ocupa sitio en el flujo, y se sentaba encima de
+          los últimos 76 px del pie: los iconos sociales a medias y la marca de
+          agua entera.
+
+          Se reserva ACÁ y no en el pie a propósito. El pie lo usan dieciocho
+          páginas y solo diez montan esta barra: si el hueco viviera allá, las
+          ocho restantes —blog, legales, ciudades, contacto— arrastrarían 69 px
+          de vacío al final por una barra que no tienen. Reservándolo aquí, lo
+          paga exactamente quien lo ocupa.
+
+          Va en `bg-surface`, el mismo fondo del pie, para que se lea como su
+          continuación y no como una franja suelta cuando la barra se retira.
+          Y NO se esconde con la barra: si el hueco desapareciera al retirarse
+          ella, la página daría un salto de 69 px cada vez que el visitante
+          entra o sale de la sección de agenda. */}
+      <div aria-hidden className="h-[var(--barra-movil-h)] bg-surface lg:hidden" />
+
+      <div
+        aria-hidden={fuera}
+        inert={fuera}
+        className={cn(
+          "fixed inset-x-0 bottom-0 z-40 border-t border-line bg-negro/90 backdrop-blur-md transition-transform duration-slow ease-ps lg:hidden",
+          fuera ? "translate-y-full" : "translate-y-0"
+        )}
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      >
+        <div className="flex items-center gap-3 px-4 py-3">
+          <Link href={enlaceReal(CABECERA.cta.href[idioma])} className="jv-boton flex-1 justify-center">
+            {CABECERA.cta.texto[idioma]}
+          </Link>
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            className="jv-boton-2 !mr-0 aspect-square !px-0 justify-center"
+          >
+            <WhatsAppGlyph className="h-5 w-5" />
+          </a>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -214,6 +214,17 @@
      quede alta y vacía, que es peor que baja. */
   --header-h: 5.5rem;   /* alto real del header fijo, medido */
 
+  /* Alto de la barra de acción móvil (`components/BarraMovil.tsx`), medida:
+     44 px de botón + 12 px de aire arriba y abajo + el filete de 1 px. Va con
+     el borde seguro del teléfono sumado, porque en un iPhone la barra se
+     asienta por encima del indicador de inicio y sin eso el pie queda
+     tapado justo en los aparatos donde más se nota.
+
+     Existe porque la barra es `fixed` y no ocupa sitio en el flujo: sin
+     reservarlo, se sentaba encima de los últimos 76 px del pie —los iconos
+     sociales a medias y la marca de agua entera—. */
+  --barra-movil-h: calc(4.3125rem + env(safe-area-inset-bottom, 0px));
+
   /* ── Forma ───────────────────────────────────────────────────────────── */
   --radius-xs: 4px;
   --radius-sm: 8px;

@@ -136,10 +136,27 @@ export function Footer({ idioma }: { idioma: Idioma }) {
           entra en una línea a cualquier ancho.
           `leading-[0.75]` y el desplazamiento de abajo apoyan las letras en el
           borde inferior en vez de dejar flotando el hueco de la interlínea,
-          que es lo que delata una marca de agua puesta sin mirar. */}
+          que es lo que delata una marca de agua puesta sin mirar.
+
+          EN MÓVIL SUBE DE TAMAÑO Y DE OPACIDAD, y no por gusto: 14vw son
+          201 px en un monitor de 1440 y 55 px en un teléfono de 390, así que
+          la misma regla da una marca de agua en uno y un renglón perdido en el
+          otro. Sube a 16vw —62 px— y del 4 % al 5,5 %, porque un 4 % funciona
+          con letras de 200 px, donde hay superficie de sobra para que el ojo
+          la registre, y con letras de 62 px sobre casi negro no se ve nada.
+
+          16vw ES EL TECHO, no una cifra a ojo: medido a diez anchos entre 320
+          y 2560, «JV AGENCIA» ocupa el 90 % del viewport a 16vw y se pasa del
+          100 % a 18vw. Con `whitespace-nowrap` y este `overflow-hidden`,
+          pasarse no parte la palabra: la recorta, y la marca acaba diciendo
+          «JV AGENC».
+
+          Que en móvil NO quede debajo de la barra de acción no se arregla
+          aquí: lo arregla la propia barra, que reserva su alto. Ver
+          `components/BarraMovil.tsx`. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -bottom-[0.14em] -z-10 select-none whitespace-nowrap text-center font-display text-[14vw] font-semibold leading-[0.75] tracking-[-0.04em] text-ink opacity-[0.04]"
+        className="pointer-events-none absolute inset-x-0 -bottom-[0.14em] -z-10 select-none whitespace-nowrap text-center font-display text-[16vw] font-semibold leading-[0.75] tracking-[-0.04em] text-ink opacity-[0.055] lg:text-[14vw] lg:opacity-[0.04]"
       >
         JV AGENCIA
       </span>
