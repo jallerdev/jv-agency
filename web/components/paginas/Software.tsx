@@ -17,7 +17,7 @@ import { SOFTWARE, SOFTWARE_FAQ } from "@/content/paginas/software";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
-import { money } from "@/lib/quote";
+import { money, PISOS} from "@/lib/quote";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -42,8 +42,8 @@ import { PanelRolesCrm } from "@/components/visuales/PanelRolesCrm";
  * Los dos únicos números que aparecen son los de la página web y la tienda, y
  * salen de las mismas constantes que publican esas dos páginas.
  */
-const PISO_WEB = 850000;
-const PISO_ECOM = 2500000;
+const PISO_WEB = PISOS.landing;
+const PISO_ECOM = PISOS.tienda;
 
 const GLIFOS = {
   inventario: Boxes,
@@ -57,9 +57,8 @@ const GLIFOS = {
 export function PaginaSoftware({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
   const url = `${SITE_URL}${ruta}`;
   const es = idioma === "es";
-  const pesos = (n: number, idioma: Idioma) => money(n, idioma).replace(/^(\$)\s+/, "$1");
   const conPrecios = (t: string) =>
-    t.replaceAll("{piso}", pesos(PISO_WEB, idioma)).replaceAll("{ecom}", pesos(PISO_ECOM, idioma));
+    t.replaceAll("{piso}", money(PISO_WEB, idioma)).replaceAll("{ecom}", money(PISO_ECOM, idioma));
 
   const jsonLd = {
     "@context": "https://schema.org",

@@ -14,7 +14,7 @@ import { TIENDAS, TIENDAS_FAQ } from "@/content/paginas/tiendas";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
-import { PRICES, money } from "@/lib/quote";
+import { PRICES, money, PISOS} from "@/lib/quote";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -37,8 +37,8 @@ import { RailPlazo } from "@/components/visuales/RailPlazo";
  * no coincide con el piso que anuncia el sitio. Estaban escritos a mano en
  * cuatro sitios distintos del archivo original.
  */
-const PISO_TIENDA = 2500000;
-const RENOVACION_ANUAL = 290000;
+const PISO_TIENDA = PISOS.tienda;
+const RENOVACION_ANUAL = PISOS.renovacion;
 
 /** Precios de los extras, por la misma clave que usa el contenido. */
 const PRECIO_EXTRA: Record<string, number> = {

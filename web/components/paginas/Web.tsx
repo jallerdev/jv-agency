@@ -16,7 +16,7 @@ import { WEB, WEB_CERCA, WEB_FAQ, WEB_PRUEBAS } from "@/content/paginas/web";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
-import { PRICES, money } from "@/lib/quote";
+import { PRICES, money, PISOS} from "@/lib/quote";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -43,27 +43,14 @@ import { RailPlazo } from "@/components/visuales/RailPlazo";
  * que es la fuente de verdad del cotizador interno, y el contenido los pide
  * con marcadores —`{piso}`, `{ecom}`, `{marca}`— que se sustituyen aquí. Antes
  * el 2.500.000 estaba escrito a mano en dos sitios de esta misma página.
- *
- * El formateador de `es-CO` mete un espacio duro después del signo
- * («$ 850.000») y el precio autorizado se escribe «$850.000». `pesos()` quita
- * ESE espacio y solo ese: el número sigue saliendo del cotizador.
- *
- * En inglés no se toca nada. Ahí la cadena es «$390,000 COP» y el espacio que
- * lleva separa el importe de la sigla —quitarlo daría «$390,000COP»—, así que
- * el recorte se aplica únicamente entre el signo y el primer dígito.
  */
-const pesos = (n: number, idioma: Idioma) => money(n, idioma).replace(/^(\$)\s+/, "$1");
 
-/**
- * Los pisos PUBLICADOS. Ojo: no son `PRICES.base`. Esa es la base con la que
- * arranca el cotizador antes de sumar nada, y para landing y tienda no
- * coincide con el número que el sitio anuncia.
- */
-const PISO_LANDING = 850000;
-const PISO_ECOM = 2500000;
-const PISO_AUDITORIA = 390000;
-const PISO_SEO_MES = 650000;
-const RENOVACION = 290000;
+/** Alias locales de los pisos publicados, para no repetir `PISOS.` doce veces. */
+const PISO_LANDING = PISOS.landing;
+const PISO_ECOM = PISOS.tienda;
+const PISO_AUDITORIA = PISOS.auditoria;
+const PISO_SEO_MES = PISOS.seoMes;
+const RENOVACION = PISOS.renovacion;
 
 const GLIFOS = {
   movil: Smartphone,
@@ -77,13 +64,13 @@ const GLIFOS = {
 /** Sustituye los marcadores de precio del contenido por el número de verdad. */
 function conPrecios(texto: string, idioma: Idioma) {
   return texto
-    .replaceAll("{piso}", pesos(PISO_LANDING, idioma))
-    .replaceAll("{ecom}", pesos(PISO_ECOM, idioma))
-    .replaceAll("{auditoria}", pesos(PISO_AUDITORIA, idioma))
-    .replaceAll("{seoMes}", pesos(PISO_SEO_MES, idioma))
-    .replaceAll("{marca}", pesos(PRICES.marca.nada, idioma))
-    .replaceAll("{mantenimiento}", pesos(PRICES.mantenimiento.basico, idioma))
-    .replaceAll("{renovacion}", pesos(RENOVACION, idioma));
+    .replaceAll("{piso}", money(PISO_LANDING, idioma))
+    .replaceAll("{ecom}", money(PISO_ECOM, idioma))
+    .replaceAll("{auditoria}", money(PISO_AUDITORIA, idioma))
+    .replaceAll("{seoMes}", money(PISO_SEO_MES, idioma))
+    .replaceAll("{marca}", money(PRICES.marca.nada, idioma))
+    .replaceAll("{mantenimiento}", money(PRICES.mantenimiento.basico, idioma))
+    .replaceAll("{renovacion}", money(RENOVACION, idioma));
 }
 
 /**
@@ -103,7 +90,7 @@ function arbolDe(idioma: Idioma): NodoArbol {
           tipo: "resultado",
           titulo: a.tienda.titulo[idioma],
           detalle: a.tienda.detalle[idioma],
-          pie: `${WEB.desde[idioma]} ${pesos(PISO_ECOM, idioma)} · ${a.tienda.semanas[idioma]}`,
+          pie: `${WEB.desde[idioma]} ${money(PISO_ECOM, idioma)} · ${a.tienda.semanas[idioma]}`,
           enlace: {
             texto: a.tienda.enlace[idioma],
             href: enlaceReal(a.tienda.href[idioma]),
@@ -137,7 +124,7 @@ function arbolDe(idioma: Idioma): NodoArbol {
                       tipo: "resultado",
                       titulo: a.landing.titulo[idioma],
                       detalle: a.landing.detalle[idioma],
-                      pie: `${WEB.desde[idioma]} ${pesos(PISO_LANDING, idioma)} · ${a.landing.dias[idioma]}`,
+                      pie: `${WEB.desde[idioma]} ${money(PISO_LANDING, idioma)} · ${a.landing.dias[idioma]}`,
                     },
                   },
                   {
@@ -146,7 +133,7 @@ function arbolDe(idioma: Idioma): NodoArbol {
                       tipo: "resultado",
                       titulo: a.corporativa.titulo[idioma],
                       detalle: a.corporativa.detalle[idioma],
-                      pie: `${WEB.desde[idioma]} ${pesos(PRICES.base.corp, idioma)} · ${a.corporativa.semanas[idioma]}`,
+                      pie: `${WEB.desde[idioma]} ${money(PRICES.base.corp, idioma)} · ${a.corporativa.semanas[idioma]}`,
                     },
                   },
                 ],
@@ -385,7 +372,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
 
                     <p className="jv-rule mt-5 pt-4 font-mono text-lg text-brand">
                       {piso
-                        ? `${WEB.desde[idioma]} ${pesos(piso, idioma)}`
+                        ? `${WEB.desde[idioma]} ${money(piso, idioma)}`
                         : WEB.segunLoQueHaya[idioma]}
                     </p>
                   </article>

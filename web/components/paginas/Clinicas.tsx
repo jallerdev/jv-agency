@@ -17,7 +17,7 @@ import { CLINICAS, CLINICAS_FAQ } from "@/content/paginas/clinicas";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
-import { A_PRICES, money } from "@/lib/quote";
+import { A_PRICES, money, PISOS} from "@/lib/quote";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -42,10 +42,10 @@ import { RailPlazo } from "@/components/visuales/RailPlazo";
  * autorizado. Por eso su tarjeta imprime «según el alcance» y su oferta no
  * entra en el JSON-LD.
  */
-const PISO_WEB = 850000;
-const PISO_SEO_MES = 650000;
-const PISO_AUDITORIA = 390000;
-const RENOVACION = 290000;
+const PISO_WEB = PISOS.landing;
+const PISO_SEO_MES = PISOS.seoMes;
+const PISO_AUDITORIA = PISOS.auditoria;
+const RENOVACION = PISOS.renovacion;
 
 const GLIFOS = {
   persona: UserRound,
@@ -57,7 +57,7 @@ const GLIFOS = {
 } as const;
 
 /** El piso de cada línea. `software` va sin número a propósito. */
-const PISOS: Record<string, number | null> = {
+const PISO_POR_SERVICIO: Record<string, number | null> = {
   web: PISO_WEB,
   citas: A_PRICES.base.citas,
   software: null,
@@ -114,7 +114,7 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
        un número inventado en el dato estructurado es tan falso como uno
        inventado en la página. */
     offers: CLINICAS.precios
-      .filter((p) => PISOS[p.clave] !== null)
+      .filter((p) => PISO_POR_SERVICIO[p.clave] !== null)
       .map((p) => ({
         "@type": "Offer",
         name: p.titulo[idioma],
@@ -122,7 +122,7 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: PISOS[p.clave],
+          minPrice: PISO_POR_SERVICIO[p.clave],
         },
         availability: "https://schema.org/InStock",
       })),
@@ -331,7 +331,7 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
 
           <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {CLINICAS.precios.map((p, i) => {
-              const piso = PISOS[p.clave];
+              const piso = PISO_POR_SERVICIO[p.clave];
               return (
                 <Reveal key={p.clave} index={i}>
                   <article className="jv-card jv-card-int flex h-full flex-col p-6 md:p-7">

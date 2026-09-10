@@ -15,7 +15,7 @@ import { SEO, SEO_FAQ } from "@/content/paginas/seo";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
-import { SEO_HONESTY_NOTE, SEO_PRICES, money } from "@/lib/quote";
+import { SEO_HONESTY_NOTE, SEO_PRICES, money, PISOS} from "@/lib/quote";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -44,8 +44,8 @@ import { RailPlazo } from "@/components/visuales/RailPlazo";
  * son texto con marcadores de precio, y las tres que llevan enlace lo traen
  * aparte: así se pueden traducir sin duplicar marcado.
  */
-const PISO_AUDITORIA = 390000;
-const PISO_PLAN = 650000;
+const PISO_AUDITORIA = PISOS.auditoria;
+const PISO_PLAN = PISOS.seoMes;
 
 const GLIFOS = {
   buscar: Search,

@@ -1,4 +1,4 @@
-import { FRASES } from "@/content/home/marquee";
+import { frasesMarquesina } from "@/content/home/marquee";
 import type { Idioma } from "@/content/types";
 
 /**
@@ -25,7 +25,7 @@ import type { Idioma } from "@/content/types";
 const COPIAS = 6;
 
 export function Marquee({ idioma }: { idioma: Idioma }) {
-  const frases = FRASES[idioma];
+  const frases = frasesMarquesina(idioma);
   const carril = Array.from({ length: COPIAS }, () => frases).flat();
 
   return (

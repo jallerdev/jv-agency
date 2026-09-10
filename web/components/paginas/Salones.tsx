@@ -16,7 +16,7 @@ import { SALONES, SALONES_FAQ } from "@/content/paginas/salones";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
-import { A_PRICES, money } from "@/lib/quote";
+import { A_PRICES, money, PISOS} from "@/lib/quote";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -38,11 +38,11 @@ import { RailPlazo } from "@/components/visuales/RailPlazo";
  * Marcopolo y Elka Gómez van rotulados como PROYECTO DE ESTUDIO en las dos
  * lenguas. No son clientes que pagaron y la etiqueta es lo que lo sostiene.
  */
-const PISO_WEB = 850000;
-const PISO_SEO_MES = 650000;
-const PISO_AUDITORIA = 390000;
-const PISO_TIENDA = 2500000;
-const RENOVACION = 290000;
+const PISO_WEB = PISOS.landing;
+const PISO_SEO_MES = PISOS.seoMes;
+const PISO_AUDITORIA = PISOS.auditoria;
+const PISO_TIENDA = PISOS.tienda;
+const RENOVACION = PISOS.renovacion;
 
 const GLIFOS = {
   precios: Tags,
@@ -54,7 +54,7 @@ const GLIFOS = {
 } as const;
 
 /** El piso de cada línea de precio, por la misma clave que usa el contenido. */
-const PISOS: Record<string, number> = {
+const PISO_POR_SERVICIO: Record<string, number> = {
   web: PISO_WEB,
   citas: A_PRICES.base.citas,
   seoMes: PISO_SEO_MES,
@@ -125,7 +125,7 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
       priceSpecification: {
         "@type": "PriceSpecification",
         priceCurrency: "COP",
-        minPrice: PISOS[p.clave],
+        minPrice: PISO_POR_SERVICIO[p.clave],
       },
       availability: "https://schema.org/InStock",
     })),
@@ -349,7 +349,7 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
                   </Link>
                   <div className="jv-rule mt-4 pt-4">
                     <p className="font-mono text-lg text-brand">
-                      {SALONES.desde[idioma]} {money(PISOS[p.clave], idioma)}
+                      {SALONES.desde[idioma]} {money(PISO_POR_SERVICIO[p.clave], idioma)}
                       {p.clave === "seoMes" && (es ? "/mes" : "/month")}
                     </p>
                     <p className="mt-1 text-sm text-ink-soft">{p.plazo[idioma]}</p>
