@@ -72,9 +72,9 @@
   /* ── Alias semánticos — OSCURO es el modo de marca ────────────────────── */
   --canvas: var(--zinc-950);
   --canvas-tint: var(--zinc-tint);
-  --surface: var(--zinc-900);
-  --surface-raised: var(--zinc-875);
-  --surface-band: var(--zinc-900);
+  --surface: var(--hs-card);
+  --surface-raised: var(--hs-card-2);
+  --surface-band: var(--hs-card);
   --surface-inverse: var(--zinc-25);
 
   --text-strong: #fafafa;
@@ -116,10 +116,42 @@
   --warning: var(--ambar-400);
   --info: var(--cielo-400);
 
+
+  /* ── Los tokens de HalcónOS, replicados ──────────────────────────────────
+     Leídos de la hoja servida de halcon.jvagencia.com, en los mismos HSL en
+     que los declara el producto. No es una interpretación: es el mismo sistema
+     corriendo en dos superficies, que es lo que hace que el sitio y la app se
+     sientan la misma marca cuando alguien pasa de una a otra.
+
+     Lo que faltaba de la primera pasada y sí estaba en el producto:      */
+
+  /* El segundo escalón de superficie. HalcónOS tiene DOS: `card` para lo que
+     se apoya en el canvas y `card-2` para lo que se apoya sobre una card. Sin
+     el segundo, todo lo anidado queda al mismo tono y se aplana. */
+  --hs-card: hsl(240 6% 7%);
+  --hs-card-2: hsl(240 6% 9%);
+  /* El relleno neutro de hover y de los chips en reposo. En HalcónOS `--accent`
+     NO es el violeta: es este gris. El violeta es `--primary`. */
+  --hs-muted: hsl(240 4% 12%);
+  --hs-hover: hsl(240 4% 14%);
+  /* La superficie de un menú o un diálogo, un punto MÁS oscura que la card:
+     flota sobre todo lo demás y por eso se hunde en tono. */
+  --hs-popover: hsl(240 8% 6%);
+  --hs-input: hsl(240 4% 16%);
+  --hs-track: hsl(240 6% 16%);
+
+  /* LA SOMBRA NO ES NEGRA. HalcónOS la tiñe de violeta-gris frío
+     —`240 30% 20%`— y la usa a opacidades muy bajas. Una sombra negra pura
+     sobre un canvas azulado se lee como un agujero; teñida del mismo tono que
+     el fondo se lee como profundidad. Es de los detalles que más separan una
+     interfaz oscura cuidada de una que solo bajó el brillo. */
+  --shadow-color: 240 30% 20%;
+  --shadow-card: 0 1px 2px hsl(var(--shadow-color) / 0.06), 0 4px 16px hsl(var(--shadow-color) / 0.05);
+
   --focus-ring-color: var(--violeta-400);
   --focus-ring-width: 2px;
   --focus-ring-offset: 3px;
-  --track: var(--zinc-750);
+  --track: var(--hs-track);
 
   /* ── Tipografía ──────────────────────────────────────────────────────────
      Instrument Serif para TODO titular y las cifras grandes. Ya es estrecha y
@@ -136,7 +168,13 @@
   --text-h3: 1.5rem;
   --text-h4: 1.1875rem;
   --text-lead: clamp(1.0625rem, 1.35vw, 1.25rem);
-  --text-body-size: 0.9375rem;
+  /* 17 px, no los 15 del sistema.
+     El design system fija 15 px y lo dice claro: «viene del lado de producto».
+     En una tabla densa de HalcónOS eso es correcto; en una página que se lee
+     de corrido y se abre desde un teléfono, es pequeño. Se sube a 17 px, que
+     con Figtree y una medida de 66ch da una línea cómoda sin llegar a
+     tamaño de blog. La escala de titulares no se toca: ya está en clamp(). */
+  --text-body-size: 1.0625rem;
   --text-eyebrow: 0.6875rem;
 
   --lh-tight: 1;
@@ -167,10 +205,10 @@
 
   /* Sobre oscuro la elevación la da el escalón de superficie más el filete de
      1px. La sombra queda para lo que de verdad flota. */
-  --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.3);
-  --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.3), 0 2px 8px hsl(0 0% 0% / 0.18);
-  --shadow-md: 0 6px 18px -4px hsl(0 0% 0% / 0.4);
-  --shadow-pop: 0 12px 40px hsl(0 0% 0% / 0.55);
+  --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / 0.24);
+  --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.24), 0 2px 8px hsl(var(--shadow-color) / 0.16);
+  --shadow-md: 0 6px 18px -4px hsl(var(--shadow-color) / 0.34);
+  --shadow-pop: 0 8px 30px hsl(var(--shadow-color) / 0.45);
   --shadow-accent: 0 10px 28px -10px hsl(252 100% 68% / 0.5);
   --inset-hairline: inset 0 1px 0 hsl(0 0% 100% / 0.06);
 

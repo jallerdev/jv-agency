@@ -127,19 +127,25 @@ const config: Config = {
       /* Tres niveles de elevación con función asignada, más un marco.
          soft = reposo · lift = SOLO hover/foco · glow = un elemento por
          página, el que debe dominar. */
+      /* ── Sombras ────────────────────────────────────────────────────────
+         La escala entera seguia en bronce: `rgba(110, 65, 40, .45)` y
+         `rgba(192, 118, 59, .45)`. Sobre papel calido eso era coherente; sobre
+         casi negro es una aureola MARRON alrededor de cada captura y de cada
+         tarjeta, y es exactamente el resplandor caliente que se veia en la
+         portada sin que nada pintara nada marron.
+
+         El sistema las quiere neutras-frias, de opacidad baja y con un trabajo
+         asignado: sobre oscuro la elevacion la da el escalon de superficie mas
+         el filete de 1px, y la sombra se reserva a lo que de verdad flota. */
       boxShadow: {
-        soft: "0 2px 8px -2px rgba(43, 36, 32, 0.08), 0 8px 24px -8px rgba(43, 36, 32, 0.12)",
-        lift: "0 12px 40px -12px rgba(110, 65, 40, 0.28)",
-        glow: "0 0 0 1px rgba(192, 118, 59, 0.25), 0 16px 48px -16px rgba(192, 118, 59, 0.45)",
-        /* Sombra de dos tiempos —contacto duro + difusa larga— para las
-           piezas que deben tener peso físico sobre el papel cálido: las
-           capturas del portafolio y el caso a fondo. */
-        frame:
-          "0 1px 2px rgba(43, 36, 32, 0.10), 0 18px 28px -14px rgba(110, 65, 40, 0.35), 0 46px 70px -40px rgba(110, 65, 40, 0.45)",
-        "frame-hover":
-          "0 2px 4px rgba(43, 36, 32, 0.12), 0 28px 44px -16px rgba(110, 65, 40, 0.40), 0 70px 100px -50px rgba(110, 65, 40, 0.50)",
-        /* Hundido: para bandejas o paneles que contienen, en vez de elevar. */
-        well: "inset 0 2px 14px rgba(43, 36, 32, 0.06)",
+        soft: "var(--shadow-sm)",
+        lift: "var(--shadow-md)",
+        /* El unico halo de color que queda, y solo bajo un CTA primario. */
+        glow: "var(--shadow-accent)",
+        frame: "var(--shadow-md)",
+        "frame-hover": "var(--shadow-pop)",
+        pop: "var(--shadow-pop)",
+        well: "var(--inset-hairline)",
       },
       transitionDuration: {
         instant: "var(--duration-instant)",

@@ -23,8 +23,8 @@ const FEATURES = [
    caso a fondo y la rejilla se lean como parientes y no como dos diseños
    pegados. Si se toca aquí, hay que tocarlo igual allá.
    Radio interior = 1,75rem (rounded-3xl) − 3 px del bisel = 1,56rem. */
-const BISEL = "rounded-3xl bg-gradient-to-b from-white/95 via-line to-secondary/45 p-[3px]";
-const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-canvas";
+const BISEL = "rounded-[1.125rem] border border-line bg-surface p-[3px]";
+const PANTALLA = "overflow-hidden rounded-[0.9375rem] bg-canvas";
 
 export function MediaSection() {
   return (
@@ -140,8 +140,8 @@ export function MediaSection() {
               aria-hidden
               className="pointer-events-none relative mx-auto h-16 max-w-5xl overflow-hidden opacity-40 [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.85),transparent_78%)] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.85),transparent_78%)] md:h-24"
             >
-              <div className="absolute inset-x-0 top-0 rounded-t-3xl bg-gradient-to-t from-white/95 via-line to-secondary/45 px-[3px] pt-[3px]">
-                <div className="overflow-hidden rounded-t-[1.56rem]">
+              <div className="absolute inset-x-0 top-0 rounded-t-[1.125rem] border-x border-t border-line bg-surface px-[3px] pt-[3px]">
+                <div className="overflow-hidden rounded-t-[0.9375rem]">
                   <Image
                     src={BLOOMROSE_IMG}
                     alt=""

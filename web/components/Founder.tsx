@@ -162,11 +162,15 @@ export function Founder() {
             <div className="flex items-center gap-5 lg:block lg:w-44 lg:shrink-0">
               <span
                 aria-hidden="true"
-                className="relative grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center overflow-hidden rounded-2xl bg-[radial-gradient(120%_120%_at_25%_0%,#A9683F_0%,#8A5233_48%,#5C3620_100%)] shadow-soft ring-1 ring-inset ring-surface/20 sm:h-20 sm:w-20 lg:h-24 lg:w-24 lg:rounded-3xl"
+                className="relative grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center overflow-hidden rounded-[1.125rem] border border-line bg-raised sm:h-20 sm:w-20 lg:h-24 lg:w-24"
               >
-                <span className="pointer-events-none absolute inset-[6px] rounded-[1.125rem] border border-surface/20 lg:rounded-[1.375rem]" />
-                <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(155deg,rgba(255,255,255,0.22),transparent_44%)]" />
-                <span className="relative font-display text-[1.6rem] tracking-[0.08em] text-ink sm:text-3xl lg:text-[2.15rem]">
+                {/* El florón violeta detrás de las iniciales, en vez del bisel de cobre
+                    con filete grabado: sobre oscuro un bisel se lee como un botón
+                    de escritorio de 2008, y el florón es el recurso que el sistema
+                    ya usa para dar presencia sin dibujar una caja. */}
+                <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,var(--alpha-violeta-30),transparent_70%)]" />
+                
+                <span className="text-halcon relative font-display text-[1.6rem] tracking-[0.08em] sm:text-3xl lg:text-[2.15rem]">
                   LJ
                 </span>
               </span>

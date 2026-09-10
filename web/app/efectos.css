@@ -218,3 +218,52 @@ li::marker { color: var(--accent-hover); }
    porcentajes. Sin esto una columna de números baila al cambiar un dígito. */
 .font-mono,
 [class*="tabular"] { font-variant-numeric: tabular-nums; }
+
+/* ===========================================================================
+   Controles de formulario
+   ---------------------------------------------------------------------------
+   El fondo de un <input> lo pone el navegador —blanco— y Tailwind no lo
+   resetea. Sobre el papel claro anterior eso pasaba desapercibido porque
+   coincidia con la pagina, asi que doce campos del sitio se quedaron SIN clase
+   de fondo y nadie lo noto en dos años. Sobre casi negro son pastillas blancas
+   con el texto en #fafafa encima: ilegibles.
+
+   Se arregla en la base y no campo por campo, porque el fallo no es de un
+   componente: es que el valor por defecto del navegador no pertenece a ningun
+   sistema y hay que declararlo una vez.
+   =========================================================================== */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+textarea,
+select {
+  background-color: var(--surface);
+  color: var(--text-strong);
+  border-color: var(--line);
+}
+::placeholder { color: var(--text-muted); opacity: 1; }
+
+/* El icono del selector de fecha viene en negro sobre fondo oscuro y
+   desaparece. `invert` lo devuelve a blanco sin tener que dibujar uno propio. */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.55;
+  cursor: pointer;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+/* El autorrelleno de Chrome pinta un amarillo pálido que ignora el tema. No se
+   puede cambiar el fondo, pero sí taparlo con una sombra interior del color de
+   la superficie. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--text-strong);
+  -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+  caret-color: var(--accent-hover);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Los interruptores nativos toman el violeta de marca. */
+input[type="checkbox"],
+input[type="radio"] { accent-color: var(--accent); }

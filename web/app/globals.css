@@ -83,6 +83,10 @@
   }
 
   body {
+    /* El tamaño de cuerpo sale del token, no del `text-base` de Tailwind: así
+       se cambia en un sitio y no en trescientas clases. */
+    font-size: var(--text-body-size);
+    line-height: var(--lh-body);
     /* `clip`, no `hidden`. Los dos cortan el desborde lateral que provoca la
        banda a sangre de las internas (`.banda::before` mide 100vw, y 100vw
        incluye la barra de scroll), pero `hidden` convierte al body en

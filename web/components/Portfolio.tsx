@@ -120,8 +120,8 @@ const DE_ESTUDIO = PROYECTOS.filter((p) => !p.url);
    El radio interior sale de la regla de anidación: 1,75rem (rounded-3xl) menos
    los 3 px del bisel = 1,56rem.
    =========================================================================== */
-const BISEL = "rounded-3xl bg-gradient-to-b from-white/95 via-line to-secondary/45 p-[3px]";
-const PANTALLA = "overflow-hidden rounded-[1.56rem] bg-canvas";
+const BISEL = "rounded-[1.125rem] border border-line bg-surface p-[3px]";
+const PANTALLA = "overflow-hidden rounded-[0.9375rem] bg-canvas";
 
 const SIZES_PLACA = "(min-width:1024px) 46rem, (min-width:768px) 88vw, 92vw";
 

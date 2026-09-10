@@ -33,24 +33,17 @@ export function FinalCTA() {
       id="contacto"
       className="jv-bloom relative isolate overflow-hidden border-t border-line bg-canvas-tint px-5 pb-20 pt-20 md:px-8 md:pb-28 md:pt-28"
     >
-      {/* Luz, no orbes: un foco cálido que cae sobre la esquina donde vive el
-          formulario, y un velo que apaga la banda hacia el pie. Son capas
-          estáticas: cuestan una pintada y nada más. */}
+      {/* La luz del cierre la pone `.jv-bloom` en la propia sección: el florón
+          violeta al 18%, que es el único degradado plano que permite el
+          sistema detrás de un titular.
+          Aquí vivían dos radiales de bronce —rgba(192,118,59) y
+          rgba(176,137,104)— más una capa de grano. Con el remapeo el fondo
+          pasó a casi negro pero esos radiales siguieron pintando, y eran el
+          resplandor CALIENTE que se veía en la portada sin que nada declarara
+          nada marrón. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(120%_90%_at_82%_-10%,rgba(192,118,59,0.42),transparent_62%),radial-gradient(90%_70%_at_8%_18%,rgba(176,137,104,0.20),transparent_58%)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-[rgba(33,27,23,0.82)]"
-      />
-      {/* La textura de papel sigue corriendo sobre el bronce: el material no
-          cambia aunque cambie el tono. */}
-      <div aria-hidden className="bg-grain pointer-events-none absolute inset-0 -z-10 opacity-50" />
-      {/* Costura superior: un hilo de cobre marca dónde termina el papel. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/55 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/45 to-transparent"
       />
 
       <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-16">
