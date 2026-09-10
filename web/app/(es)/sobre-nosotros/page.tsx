@@ -106,7 +106,7 @@ export default function SobreNosotrosPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header idioma="es" />
-      <main>
+      <main id="contenido">
         {/* Hero */}
         <section className="mx-auto max-w-4xl px-5 pb-10 pt-32 text-center md:px-8 md:pt-40">
           <Reveal>

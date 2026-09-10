@@ -334,7 +334,7 @@ function Resumen({ a, onRestart }: { a: AutomationAnswers; onRestart: () => void
               Enviar por WhatsApp <ArrowRight className="h-5 w-5" />
             </a>
           </Button>
-          <Button asChild variant="outline" size="lg"><a href="/#contacto">Agendar llamada</a></Button>
+          <Button asChild variant="outline" size="lg"><a href="/#agenda">Agendar llamada</a></Button>
         </div>
         <button type="button" onClick={onRestart}
           className="mt-4 inline-flex items-center gap-2 font-body text-sm text-ink-soft transition-colors hover:text-ink">

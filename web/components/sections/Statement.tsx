@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { STATEMENT } from "@/content/home/statement";
+import { enlaceReal } from "@/lib/rutas";
 import type { Idioma } from "@/content/types";
 import { Seccion, Titular } from "@/components/ui/seccion";
 
@@ -26,7 +27,7 @@ export function Statement({ idioma }: { idioma: Idioma }) {
       {/* Enlace con el subrayado que crece desde la izquierda: el gesto de
           hover del sistema, y otro de los cinco sitios del naranja. */}
       <Link
-        href={STATEMENT.enlace.href[idioma]}
+        href={enlaceReal(STATEMENT.enlace.href[idioma])}
         className="group mt-8 inline-flex min-h-11 items-center gap-2 text-brand"
       >
         <span className="relative">

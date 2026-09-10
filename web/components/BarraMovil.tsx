@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { CABECERA } from "@/content/layout/header";
 import type { Idioma } from "@/content/types";
 import { WHATSAPP_LINK } from "@/lib/business";
+import { enlaceReal } from "@/lib/rutas";
 import { WhatsAppGlyph } from "@/components/WhatsAppGlyph";
 import { cn } from "@/lib/utils";
 
@@ -76,7 +77,7 @@ export function BarraMovil({ idioma }: { idioma: Idioma }) {
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       <div className="flex items-center gap-3 px-4 py-3">
-        <Link href={CABECERA.cta.href[idioma]} className="jv-boton flex-1 justify-center">
+        <Link href={enlaceReal(CABECERA.cta.href[idioma])} className="jv-boton flex-1 justify-center">
           {CABECERA.cta.texto[idioma]}
         </Link>
         <a

@@ -85,3 +85,27 @@ export function paresDeIdioma(ruta: string): Record<Idioma, string> | null {
   if (!otra) return null;
   return idiomaDeRuta(ruta) === "en" ? { es: otra, en: ruta } : { es: ruta, en: otra };
 }
+
+/** El mapa inverso de lo pendiente: del slug inglés a la página en español. */
+const PENDIENTE_INVERSO: Readonly<Record<string, string>> = Object.fromEntries(
+  Object.entries(PENDIENTES).map(([es, en]) => [en, es])
+);
+
+/**
+ * La URL a la que enlazar DE VERDAD.
+ *
+ * La navegación se escribe con los slugs definitivos en las dos lenguas, que
+ * es como debe quedar. Mientras una traducción no exista, enlazar su slug
+ * sería mandar a un 404, así que esta función devuelve la página en español
+ * en su lugar: mejor la información en el otro idioma que ninguna.
+ *
+ * No hace falta acordarse de nada al traducir una página: en cuanto su par
+ * pasa de `PENDIENTES` a `RUTAS`, esta función deja de desviarla y el menú
+ * apunta solo a la versión en inglés.
+ */
+export function enlaceReal(href: string): string {
+  const [ruta, ancla = ""] = href.split(/(?=#)/);
+  const limpia = ruta.replace(/\/+$/, "") || "/";
+  const desvio = PENDIENTE_INVERSO[limpia];
+  return desvio ? desvio + ancla : href;
+}

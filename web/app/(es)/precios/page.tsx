@@ -370,7 +370,7 @@ export default function PreciosPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header idioma="es" />
-      <main>
+      <main id="contenido">
         {/* ── Encabezado ─────────────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
           <Reveal>
@@ -483,7 +483,7 @@ export default function PreciosPage() {
                 sin sacrificar objetivo táctil: 280x56. */}
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
               <Button asChild size="lg" className="w-full max-w-[17.5rem] sm:w-auto sm:max-w-none">
-                <a href="/#contacto">Agenda una llamada</a>
+                <a href="/#agenda">Agenda una llamada</a>
               </Button>
               <BotonCuentame className="w-full max-w-[17.5rem] sm:w-auto sm:max-w-none" />
             </div>

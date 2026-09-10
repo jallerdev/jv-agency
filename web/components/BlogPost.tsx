@@ -20,7 +20,7 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
   return (
     <>
       <Header idioma="es" />
-      <main className="mx-auto max-w-3xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
+      <main id="contenido" className="mx-auto max-w-3xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
         <Link
           href="/blog"
           className="-my-2 inline-flex min-h-11 items-center gap-2 py-2 font-body text-sm text-ink-soft transition-colors hover:text-accent-ink"
@@ -61,7 +61,7 @@ export function BlogPost({ post, children }: { post: Post; children: ReactNode }
               Ver precios
             </Link>
             <Link
-              href="/#contacto"
+              href="/#agenda"
               className="inline-flex min-h-11 items-center rounded-full border border-line px-5 py-2.5 font-body text-sm font-medium text-ink transition-colors hover:bg-ink/5"
             >
               Hablar conmigo

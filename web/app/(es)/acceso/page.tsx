@@ -36,7 +36,7 @@ export default async function AccesoPage({
       : (doc?.paths[0] ?? "/");
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-5 py-16">
+    <main id="contenido" className="flex min-h-screen flex-col items-center justify-center px-5 py-16">
       <Link
         href="/"
         className="mb-10 inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-80"

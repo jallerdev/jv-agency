@@ -279,7 +279,7 @@ export function Header() {
 
           <div className="flex items-center gap-2.5">
             <Button size="sm" variant="primary" className="hidden sm:inline-flex" asChild>
-              <a href="/#contacto">Agenda una llamada</a>
+              <a href="/#agenda">Agenda una llamada</a>
             </Button>
 
             {/* Disparador del menú móvil: 44×44 reales, y las dos barras se
@@ -378,7 +378,7 @@ export function Header() {
             style={{ animationDuration: "var(--duration-slow)", animationDelay: "300ms" }}
           >
             <Button size="lg" variant="primary" className="w-full" asChild>
-              <a href="/#contacto" onClick={() => setOpen(false)}>
+              <a href="/#agenda" onClick={() => setOpen(false)}>
                 Agenda una llamada
                 <ArrowRight className="h-5 w-5" strokeWidth={2} />
               </a>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 
 import { HERO } from "@/content/home/hero";
+import { enlaceReal } from "@/lib/rutas";
 import type { Idioma } from "@/content/types";
 import { Eyebrow, Titular } from "@/components/ui/seccion";
 import { Blobs } from "@/components/Blobs";
@@ -52,7 +53,7 @@ export function Hero({ idioma }: { idioma: Idioma }) {
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
-              href={principal.href[idioma]}
+              href={enlaceReal(principal.href[idioma])}
               className="tap-target group inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-4 font-semibold text-on-accent transition-colors duration-base ease-ps hover:bg-brand-600"
             >
               {principal.texto[idioma]}
@@ -62,7 +63,7 @@ export function Hero({ idioma }: { idioma: Idioma }) {
               />
             </Link>
             <Link
-              href={secundario.href[idioma]}
+              href={enlaceReal(secundario.href[idioma])}
               className="tap-target inline-flex items-center justify-center rounded-full border border-line px-7 py-4 font-semibold text-ink transition-colors duration-base ease-ps hover:border-brand hover:text-brand"
             >
               {secundario.texto[idioma]}
@@ -72,7 +73,7 @@ export function Hero({ idioma }: { idioma: Idioma }) {
           <p className="mt-6 text-sm text-ink-soft">
             {HERO.precio.texto[idioma]}{" "}
             <Link
-              href={HERO.precio.enlace.href[idioma]}
+              href={enlaceReal(HERO.precio.enlace.href[idioma])}
               className="group relative font-semibold text-ink"
             >
               {HERO.precio.enlace.texto[idioma]}

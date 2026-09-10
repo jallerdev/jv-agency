@@ -156,7 +156,7 @@ export function CuantoDemoraPost() {
         <Link href="/blog/cuanto-cuesta-una-pagina-web-en-colombia">
           cuánto cuesta una página web en Colombia
         </Link>{" "}
-        o cuéntame tu caso y te doy el cronograma en la <Link href="/#contacto">primera llamada</Link>.
+        o cuéntame tu caso y te doy el cronograma en la <Link href="/#agenda">primera llamada</Link>.
       </p>
       <p>
         Los plazos de arriba son los que manejo yo, y son los mismos que verás en{" "}

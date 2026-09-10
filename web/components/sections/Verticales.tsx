@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { VERTICALES } from "@/content/home/verticales";
+import { enlaceReal } from "@/lib/rutas";
 import type { Idioma } from "@/content/types";
 import { Seccion, EncabezadoSeccion } from "@/components/ui/seccion";
 
@@ -62,7 +63,7 @@ export function Verticales({ idioma }: { idioma: Idioma }) {
               </p>
 
               <Link
-                href={v.enlace.href[idioma]}
+                href={enlaceReal(v.enlace.href[idioma])}
                 className="mt-4 inline-flex min-h-11 items-center gap-1.5 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps group-hover:text-brand"
               >
                 {v.enlace.texto[idioma]}

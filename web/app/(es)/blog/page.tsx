@@ -59,7 +59,7 @@ export default function BlogIndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
       />
       <Header idioma="es" />
-      <main className="mx-auto max-w-4xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
+      <main id="contenido" className="mx-auto max-w-4xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
         <p className="font-mono text-xs uppercase tracking-widest text-accent-ink">Blog</p>
         <h1 className="mt-3 font-display text-4xl text-ink md:text-5xl">
           Lo que deberías saber antes de pagar por una web

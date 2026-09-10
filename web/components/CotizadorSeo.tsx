@@ -585,7 +585,7 @@ function SeoFinal({ answers, onRestart }: { answers: SeoAnswers; onRestart: () =
             </a>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <a href="/#contacto">Agendar llamada</a>
+            <a href="/#agenda">Agendar llamada</a>
           </Button>
         </div>
         <button

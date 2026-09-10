@@ -128,7 +128,7 @@ export default function TallerDeVisuales() {
   if (process.env.NODE_ENV === "production") notFound();
 
   return (
-    <main className="pb-fab">
+    <main id="contenido" className="pb-fab">
       <section className="mx-auto max-w-4xl px-5 pb-8 pt-16 md:px-8">
         <p className="jv-eyebrow text-accent-ink">
           Solo desarrollo · 404 en producción

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { FOUNDER } from "@/content/home/founder";
+import { enlaceReal } from "@/lib/rutas";
 import type { Idioma } from "@/content/types";
 import { Seccion, EncabezadoSeccion } from "@/components/ui/seccion";
 import { useCountUp } from "@/hooks/useCountUp";
@@ -64,7 +65,7 @@ export function Founder({ idioma }: { idioma: Idioma }) {
             {FOUNDER.enlaces.map((e) => (
               <Link
                 key={e.texto.es}
-                href={e.href[idioma]}
+                href={enlaceReal(e.href[idioma])}
                 {...(e.externo
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}

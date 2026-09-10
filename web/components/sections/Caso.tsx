@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, Check } from "lucide-react";
 
 import { CASO } from "@/content/home/caso";
+import { enlaceReal } from "@/lib/rutas";
 import type { Idioma } from "@/content/types";
 import { Seccion, EncabezadoSeccion } from "@/components/ui/seccion";
 import { Reveal } from "@/components/Reveal";
@@ -65,7 +66,7 @@ export function Caso({ idioma }: { idioma: Idioma }) {
             {CASO.descripcion[idioma]}
           </p>
           <a
-            href={CASO.enlace.href[idioma]}
+            href={enlaceReal(CASO.enlace.href[idioma])}
             target="_blank"
             rel="noopener noreferrer"
             className="tap-target mt-7 inline-flex items-center gap-2 rounded-full border border-brand px-5 py-2.5 text-sm font-semibold text-brand transition-colors duration-base ease-ps hover:bg-brand hover:text-on-accent"

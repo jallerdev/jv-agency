@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { FAQ } from "@/content/home/faq";
+import { enlaceReal } from "@/lib/rutas";
 import type { Idioma } from "@/content/types";
 import { Seccion, EncabezadoSeccion } from "@/components/ui/seccion";
 import { Faqs } from "@/components/Faqs";
@@ -51,7 +52,7 @@ export function Faq({ idioma }: { idioma: Idioma }) {
           <p className="mt-8 text-sm text-ink-soft">
             {FAQ.cierre.texto[idioma]}{" "}
             <Link
-              href={FAQ.cierre.enlace.href[idioma]}
+              href={enlaceReal(FAQ.cierre.enlace.href[idioma])}
               className="jv-enlace font-semibold text-brand"
             >
               {FAQ.cierre.enlace.texto[idioma]}

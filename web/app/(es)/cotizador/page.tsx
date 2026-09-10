@@ -16,7 +16,7 @@ export default function CotizadorPage() {
   return (
     <>
       <Header idioma="es" />
-      <main className="px-5 pb-24 pt-28 md:px-8 md:pt-36">
+      <main id="contenido" className="px-5 pb-24 pt-28 md:px-8 md:pt-36">
         <section className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-4 py-1.5 font-body text-xs font-medium uppercase tracking-wider text-primary-dark">

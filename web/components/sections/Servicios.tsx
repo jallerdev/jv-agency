@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { SERVICIOS } from "@/content/home/servicios";
+import { enlaceReal } from "@/lib/rutas";
 import type { Idioma } from "@/content/types";
 import { Seccion, EncabezadoSeccion } from "@/components/ui/seccion";
 import { Reveal } from "@/components/Reveal";
@@ -62,7 +63,7 @@ export function Servicios({ idioma }: { idioma: Idioma }) {
                 veces seguidas no dice a dónde va. */}
             {t.enlace && (
               <Link
-                href={t.enlace.href[idioma]}
+                href={enlaceReal(t.enlace.href[idioma])}
                 className="absolute inset-0 rounded-[inherit]"
                 aria-label={`${t.titulo[idioma]} — ${t.enlace.texto[idioma]}`}
               >
@@ -86,7 +87,7 @@ export function Servicios({ idioma }: { idioma: Idioma }) {
             {SERVICIOS.cta.botones.map((b, i) => (
               <Link
                 key={b.href[idioma]}
-                href={b.href[idioma]}
+                href={enlaceReal(b.href[idioma])}
                 className={
                   i === 0
                     ? "tap-target inline-flex items-center rounded-full bg-canvas px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-base ease-ps hover:bg-surface"

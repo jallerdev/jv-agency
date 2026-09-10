@@ -456,7 +456,7 @@ export function CuantoCuestaSeoPost() {
         <Link href="/sectores/salones-y-spas">un salón o un spa</Link> o{" "}
         <Link href="/sectores/clinicas-y-consultorios">una clínica o un consultorio</Link>, ahí
         está lo que cambia en cada caso— y después vuelve. Y si ya lo tienes claro,{" "}
-        <Link href="/#contacto">cuéntame qué vendes y en qué ciudad</Link>: con eso te digo en
+        <Link href="/#agenda">cuéntame qué vendes y en qué ciudad</Link>: con eso te digo en
         qué plan caes antes de cobrarte nada.
       </p>
       <p>

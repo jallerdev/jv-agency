@@ -388,7 +388,7 @@ export default function PosicionamientoSeoPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header idioma="es" />
-      <main>
+      <main id="contenido">
         {/* ── Encabezado ─────────────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
           <Reveal>
@@ -407,7 +407,7 @@ export default function PosicionamientoSeoPage() {
           <Reveal delay={120}>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
-                <Link href="/#contacto">
+                <Link href="/#agenda">
                   Agenda una llamada <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
@@ -846,7 +846,7 @@ export default function PosicionamientoSeoPage() {
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
-                <Link href="/#contacto">
+                <Link href="/#agenda">
                   Agenda una llamada <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>

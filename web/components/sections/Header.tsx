@@ -7,7 +7,7 @@ import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 
 import { CABECERA, NAV, type EntradaNav } from "@/content/layout/header";
 import type { Idioma } from "@/content/types";
-import { rutaEnOtroIdioma } from "@/lib/rutas";
+import { enlaceReal, rutaEnOtroIdioma } from "@/lib/rutas";
 import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 
@@ -99,7 +99,7 @@ function Mega({
           {entrada.hijos?.map((h) => (
             <Link
               key={h.href.es}
-              href={h.href[idioma]}
+              href={enlaceReal(h.href[idioma])}
               onClick={onCerrar}
               className="group rounded-[var(--radius-md)] p-4 transition-colors duration-base ease-ps hover:bg-surface"
             >
@@ -255,7 +255,7 @@ export function Header({ idioma }: { idioma: Idioma }) {
               ) : (
                 <Link
                   key={entrada.href.es}
-                  href={entrada.href[idioma]}
+                  href={enlaceReal(entrada.href[idioma])}
                   className="jv-navlink py-2"
                   data-activo={ruta === entrada.href[idioma] || undefined}
                 >
@@ -283,7 +283,7 @@ export function Header({ idioma }: { idioma: Idioma }) {
             )}
 
             <Link
-              href={CABECERA.cta.href[idioma]}
+              href={enlaceReal(CABECERA.cta.href[idioma])}
               className="jv-boton hidden sm:inline-flex"
             >
               {CABECERA.cta.texto[idioma]}
@@ -326,7 +326,7 @@ export function Header({ idioma }: { idioma: Idioma }) {
             {NAV.map((entrada) => (
               <div key={entrada.href.es} className="border-b border-line">
                 <Link
-                  href={entrada.href[idioma]}
+                  href={enlaceReal(entrada.href[idioma])}
                   className="flex min-h-[3.5rem] items-center font-display text-2xl font-semibold tracking-[-0.02em] text-ink"
                 >
                   {entrada.texto[idioma]}
@@ -339,7 +339,7 @@ export function Header({ idioma }: { idioma: Idioma }) {
                     {entrada.hijos.map((h) => (
                       <li key={h.href.es}>
                         <Link
-                          href={h.href[idioma]}
+                          href={enlaceReal(h.href[idioma])}
                           className="flex min-h-11 items-center text-ink-soft"
                         >
                           {h.texto[idioma]}
@@ -351,7 +351,7 @@ export function Header({ idioma }: { idioma: Idioma }) {
               </div>
             ))}
 
-            <Link href={CABECERA.cta.href[idioma]} className="jv-boton mt-8 justify-center">
+            <Link href={enlaceReal(CABECERA.cta.href[idioma])} className="jv-boton mt-8 justify-center">
               {CABECERA.cta.texto[idioma]}
             </Link>
 

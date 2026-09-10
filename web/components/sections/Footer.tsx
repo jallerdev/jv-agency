@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, Instagram, Facebook, Mail } from "lucide-react";
 
 import { COLUMNAS, PIE } from "@/content/layout/footer";
+import { enlaceReal } from "@/lib/rutas";
 import type { Idioma } from "@/content/types";
 import { BUSINESS, WHATSAPP_LINK } from "@/lib/business";
 import { Logo } from "@/components/Logo";
@@ -84,7 +85,7 @@ export function Footer({ idioma }: { idioma: Idioma }) {
                 {col.enlaces.map((e) => (
                   <li key={e.href.es}>
                     <Link
-                      href={e.href[idioma]}
+                      href={enlaceReal(e.href[idioma])}
                       {...(e.externo
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}

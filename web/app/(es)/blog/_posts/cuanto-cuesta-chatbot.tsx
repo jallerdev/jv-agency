@@ -463,7 +463,7 @@ export function CuantoCuestaChatbotPost() {
       <p>
         Si quieres ver qué hace cada tipo de bot, está todo en{" "}
         <Link href="/servicios/chatbot-whatsapp">la página del chatbot de WhatsApp</Link>. Y si ya
-        sabes lo que necesitas, <Link href="/#contacto">escríbeme</Link>: te digo en qué rango cae
+        sabes lo que necesitas, <Link href="/#agenda">escríbeme</Link>: te digo en qué rango cae
         y qué te va a cobrar Meta aparte.
       </p>
       <p>
