@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import { Documento } from "@/app/Documento";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
@@ -11,6 +11,19 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
  * sido más limpio de mirar y habría puesto en juego las impresiones que el
  * sitio ya tiene, a cambio de nada.
  */
+/**
+ * El color de la barra del navegador.
+ *
+ * No lo pone `app/manifest.ts`: ese `theme_color` solo aplica cuando el sitio
+ * está INSTALADO como aplicación. Para una visita normal en Chrome de Android
+ * hace falta este `<meta name="theme-color">`, que no existía, así que la
+ * barra salía en el gris por defecto del navegador y cortaba en seco contra
+ * la cabecera oscura.
+ */
+export const viewport: Viewport = {
+  themeColor: "#080808",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   // POR QUÉ ESTE TÍTULO YA NO DICE "DISEÑO DE PÁGINAS WEB EN COLOMBIA"

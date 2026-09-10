@@ -42,8 +42,11 @@ export default async function AccesoPage({
         className="mb-10 inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-80"
         aria-label="Ir a la portada de JV Agencia"
       >
-        <Logo className="h-9 w-9 text-primary" />
-        <span className="font-body text-xl font-semibold text-ink">JV Agencia</span>
+        {/* El monograma SOLO. Iba con «JV Agencia» escrito al lado y el
+            monograma ya dibuja esas dos letras: se leía «JV · JV Agencia».
+            Es lo mismo que hacen la cabecera y el pie, y el nombre completo
+            sigue estando en el pie de esta página. */}
+        <Logo className="h-9 w-9 text-brand" />
       </Link>
 
       {doc ? (

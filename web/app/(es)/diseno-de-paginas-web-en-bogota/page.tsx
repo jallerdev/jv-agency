@@ -383,7 +383,7 @@ export default function DisenoPaginasWebBogotaPage() {
         <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
           <Reveal>
             <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-white/15 p-7 sm:p-9 md:p-10">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-brand-line">
                 <MapPinOff className="h-6 w-6" aria-hidden="true" />
               </span>
               <h2 className="mt-5 font-display text-3xl text-ink sm:text-4xl">
@@ -433,7 +433,7 @@ export default function DisenoPaginasWebBogotaPage() {
                 <Reveal key={p.titulo} index={i}>
                   <article className="h-full jv-card p-6 sm:p-7">
                     <div className="flex items-center gap-4">
-                      <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-accent-quiet-line">
+                      <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-brand-line">
                         <Icon className="h-6 w-6" aria-hidden="true" />
                       </span>
                       <span className="font-mono text-2xl text-primary-dark">{p.dato}</span>
