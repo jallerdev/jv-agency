@@ -89,11 +89,16 @@ export function PaginaContacto({ idioma, ruta }: { idioma: Idioma; ruta: string 
                     <h2 className="jv-titulo mt-6">{v.titulo[idioma]}</h2>
                     <p className="mt-3 flex-1 text-pretty text-ink-soft">{v.cuerpo[idioma]}</p>
 
-                    <span className="jv-rule mt-6 flex items-center justify-between gap-3 pt-4">
+                    {/* La acción y la nota en DOS renglones, no en una fila
+                        repartida: a tres columnas la fila deja 150 px por lado
+                        y parte «Abrir WhatsApp» en dos líneas y «Respondo en
+                        menos de 24 h» en dos más. Apiladas caben enteras a
+                        cualquier ancho. */}
+                    <span className="jv-rule mt-6 flex flex-col gap-2 pt-4">
                       <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
                         {v.accion[idioma]}
                         <ArrowUpRight
-                          className="h-4 w-4 transition-transform duration-base ease-ps group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                          className="h-4 w-4 shrink-0 transition-transform duration-base ease-ps group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                           strokeWidth={2}
                           aria-hidden
                         />

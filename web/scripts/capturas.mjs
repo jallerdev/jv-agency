@@ -41,7 +41,12 @@ for (const [ancho, alto, sufijo] of [[1440, 900, 'd'], [390, 844, 'm']]) {
     await p.goto('http://localhost:3000' + ruta, { waitUntil: 'networkidle' });
     const H = await p.evaluate(() => document.body.scrollHeight);
     for (let y = 0; y < H; y += Math.floor(alto * 0.7)) { await p.evaluate(v => scrollTo(0, v), y); await p.waitForTimeout(60); }
-    await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(900);
+    await p.evaluate(() => scrollTo(0, 0));
+    /* 1.400 ms y no 900: `Reveal` entra en 0,7 s con su escalonado encima, y
+       una foto disparada antes sale con media pagina en blanco. Me paso: la
+       primera captura de /contacto salio vacia y parecia que la pagina no
+       existia. */
+    await p.waitForTimeout(1400);
     await p.screenshot({ path: `${OUT}/${nombre}-${sufijo}.png`, fullPage: true });
     console.log(`${nombre}-${sufijo}  ${H}px`);
   }
