@@ -1,30 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Boxes,
-  Clock,
-  CreditCard,
-  ExternalLink,
-  Smartphone,
-  Truck,
-} from "lucide-react";
+import { ArrowRight, Boxes, CreditCard, Smartphone, Truck } from "lucide-react";
 
-import { TIENDAS, TIENDAS_FAQ } from "@/content/paginas/tiendas";
+import { TIENDAS, TIENDAS_FAQ, TIENDAS_FAQ_GRUPOS } from "@/content/paginas/tiendas";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
-import { PRICES, money, PISOS} from "@/lib/quote";
+import { PRICES, money, PISOS } from "@/lib/quote";
+import { cn } from "@/lib/utils";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Faqs } from "@/components/Faqs";
 import { BotonCuentame } from "@/components/Cuentame";
-import { Comparador } from "@/components/visuales/Comparador";
+import { PageHero } from "@/components/kit/PageHero";
+import { ContrastBlock } from "@/components/kit/ContrastBlock";
+import { PainGrid } from "@/components/kit/PainGrid";
+import { InOutLedger } from "@/components/kit/InOutLedger";
+import { ProofCard } from "@/components/kit/ProofCard";
+import { PriceCard } from "@/components/kit/Precio";
+import { AddOnCalculator } from "@/components/kit/AddOnCalculator";
+import { FaqAccordion } from "@/components/kit/FaqAccordion";
+import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
+import { SectionIndex } from "@/components/kit/SectionIndex";
+import { AsiCompra } from "@/components/visuales/AsiCompra";
 import { ListaAcopio } from "@/components/visuales/ListaAcopio";
 import { PanelAutonomia } from "@/components/visuales/PanelAutonomia";
 import { RailPlazo } from "@/components/visuales/RailPlazo";
@@ -36,6 +37,23 @@ import { RailPlazo } from "@/components/visuales/RailPlazo";
  * esa es la base del cotizador antes de sumar pasarela, catálogo y envíos, y
  * no coincide con el piso que anuncia el sitio. Estaban escritos a mano en
  * cuatro sitios distintos del archivo original.
+ *
+ * QUÉ CAMBIÓ EN LA FASE 2, Y POR QUÉ
+ * ----------------------------------
+ * Esta página tiene el mejor material demostrativo del sitio —las tres
+ * pantallas de compra, el panel, la comparación con Shopify y WooCommerce— y
+ * lo presentaba como documento: todo del mismo peso, de arriba abajo. Ahora:
+ *
+ * · La pieza firma es UN SOLO TELÉFONO que va cambiando con los tres pasos.
+ *   Tres tarjetas en fila no son una compra: son tres capturas.
+ * · El panel de autonomía dejó de ser un dibujo y se puede tocar: el precio se
+ *   guarda, la foto sube con su barra y el pedido dispara el aviso. El
+ *   argumento era «esto lo haces tú» y un botón dibujado no lo demuestra.
+ * · Los cinco extras dejaron de ser cinco tarjetas con su precio al pie y
+ *   pasaron a una calculadora que suma. El que hacía la cuenta a ojo se pasaba.
+ * · El veredicto de Shopify se pinta como cita: «te lo digo aunque no me
+ *   convenga» es el argumento de la página, no el pie de una tarjeta.
+ * · Las catorce preguntas van agrupadas en cuatro temas y en `<details>`.
  */
 const PISO_TIENDA = PISOS.tienda;
 const RENOVACION_ANUAL = PISOS.renovacion;
@@ -49,6 +67,7 @@ const PRECIO_EXTRA: Record<string, number> = {
   migrar: PRICES.migracion.migrar,
 };
 
+/** Las tres tallas del ejemplo. La M agotada es el argumento del paso 1. */
 const TALLAS = [
   { t: "S", agotada: false },
   { t: "M", agotada: true },
@@ -56,129 +75,44 @@ const TALLAS = [
 ];
 
 /**
- * LOS TRES PASOS DE LA COMPRA
- * ──────────────────────────────────────────────────────────────────────────
- * Cuatro de los renglones de «qué incluye» eran la descripción de estas tres
- * pantallas. Enseñar la casilla «M · agotada» dice más sobre control de
- * inventario que cualquier viñeta, y la duda que frena una tienda de dos
- * millones y medio no es qué trae: es si de verdad va a cobrar sola.
+ * La captura de Bloomrose en un teléfono, para el hero.
  *
- * REGLAS QUE SE RESPETAN AQUÍ:
- *  · Es DECORADO: los controles son <span>/<div> con aria-hidden. Un botón de
- *    verdad que no hace nada es una trampa para quien navega con teclado.
- *    Este bloque no aporta ni un enfocable a la página.
- *  · Los nombres de las pasarelas van como TEXTO, nunca su logotipo.
- *  · Producto y precios son de ejemplo y lo dice el rótulo. No se usan los de
- *    Bloomrose: inventar precios sobre el catálogo de una clienta real sería
- *    inventar datos sobre un tercero.
- *  · A 390 es un carril con arrastre y anclaje —asoma el borde del siguiente,
- *    así el gesto se entiende sin instrucciones—; scrollea la caja, nunca el
- *    documento. De sm en adelante, el MISMO DOM es una rejilla de tres.
+ * Es una captura REAL del sitio en producción tomada a 390 px, no un montaje:
+ * la tienda de una clienta, abierta desde el mismo ancho en el que la abre su
+ * cliente. Por eso el marco es un teléfono y no una ventana de navegador —y
+ * por eso valía la pena tomar la captura móvil en vez de meter el pantallazo
+ * de escritorio dentro de un teléfono, que es la clase de trampa que este
+ * sitio no hace.
  */
-function PasosCompra({ idioma }: { idioma: Idioma }) {
-  const p = TIENDAS.pasos;
-
+function TelefonoBloomrose({ idioma }: { idioma: Idioma }) {
   return (
-    <div className="no-scrollbar -mx-6 flex w-[calc(100%+3rem)] snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:mx-0 sm:grid sm:w-full sm:grid-cols-3 sm:gap-5 sm:overflow-visible sm:px-0">
-      {/* 1 · Ficha con variantes */}
-      <article className="jv-card flex w-[86%] shrink-0 snap-center flex-col p-5 sm:w-auto">
-        <p className="jv-eyebrow text-accent-ink">{p.ficha.rotulo[idioma]}</p>
-        <h3 className="mt-2 text-lg font-semibold text-ink">{p.ficha.titulo[idioma]}</h3>
-        <p className="mt-1.5 text-[13px] leading-snug text-ink-soft">{p.ficha.cuerpo[idioma]}</p>
-
-        <div aria-hidden className="mt-4 flex flex-1 flex-col">
-          <div className="grid aspect-[5/3] shrink-0 place-items-center rounded-lg bg-gradient-to-br from-band to-line">
-            <span className="jv-eyebrow text-ink-soft">{p.ficha.foto[idioma]}</span>
+    <figure className="mx-auto w-full max-w-[16rem]">
+      <div className="rounded-[2rem] border border-line bg-surface p-2.5">
+        {/* La pantalla no lleva borde propio: el marco ya es una caja con
+            borde, y dos bordes concéntricos son una tarjeta dentro de otra
+            —el detector lo marca y tiene razón—. El bisel se lee igual con
+            el relleno del marco y el fondo más oscuro de la pantalla. */}
+        <div className="relative overflow-hidden rounded-[1.5rem] bg-canvas">
+          <span
+            aria-hidden="true"
+            className="absolute left-1/2 top-2 z-10 h-1.5 w-14 -translate-x-1/2 rounded-full bg-line-strong"
+          />
+          <div className="relative aspect-[390/780]">
+            <Image
+              src="/work/bloomrose-movil.webp"
+              alt={TIENDAS.caso.alt[idioma]}
+              fill
+              sizes="256px"
+              priority
+              className="object-cover object-top"
+            />
           </div>
-          <p className="mt-3 text-sm font-semibold text-ink">{p.ficha.producto[idioma]}</p>
-          <p className="font-mono text-[15px] tabular-nums text-brand">$ 89.000</p>
-          <div className="mb-4 mt-3 flex flex-wrap items-center gap-2">
-            {TALLAS.map((x) => (
-              <span
-                key={x.t}
-                className={
-                  x.agotada
-                    ? "rounded-md border border-dashed border-line px-3 py-1.5 font-mono text-[13px] text-ink-soft line-through"
-                    : "rounded-md border border-line px-3 py-1.5 font-mono text-[13px] text-ink"
-                }
-              >
-                {x.t}
-              </span>
-            ))}
-            {/* `basis-full` la baja a su propio renglón: pegada a la L se leía
-                como una cuarta talla. */}
-            <span className="jv-eyebrow basis-full text-ink-soft">{p.ficha.agotada[idioma]}</span>
-          </div>
-          <span className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-brand px-5 text-sm font-semibold text-on-accent">
-            {p.ficha.boton[idioma]}
-          </span>
         </div>
-      </article>
-
-      {/* 2 · Carrito y envío */}
-      <article className="jv-card flex w-[86%] shrink-0 snap-center flex-col p-5 sm:w-auto">
-        <p className="jv-eyebrow text-accent-ink">{p.carrito.rotulo[idioma]}</p>
-        <h3 className="mt-2 text-lg font-semibold text-ink">{p.carrito.titulo[idioma]}</h3>
-        <p className="mt-1.5 text-[13px] leading-snug text-ink-soft">{p.carrito.cuerpo[idioma]}</p>
-
-        <dl aria-hidden className="mb-4 mt-4 divide-y divide-line">
-          {[
-            [p.carrito.subtotal[idioma], "$ 178.000"],
-            [p.carrito.envio[idioma], "$ 12.000"],
-          ].map(([k, v]) => (
-            <div key={k} className="flex items-baseline justify-between gap-3 py-2.5">
-              <dt className="text-[13px] text-ink-soft">{k}</dt>
-              <dd className="shrink-0 font-mono text-[13px] tabular-nums text-ink">{v}</dd>
-            </div>
-          ))}
-          <div className="flex items-baseline justify-between gap-3 py-2.5">
-            <dt className="text-sm font-semibold text-ink">{p.carrito.total[idioma]}</dt>
-            <dd className="shrink-0 font-mono text-[15px] tabular-nums text-brand">$ 190.000</dd>
-          </div>
-        </dl>
-        <span
-          aria-hidden
-          className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-brand px-5 text-sm font-semibold text-on-accent"
-        >
-          {p.carrito.boton[idioma]}
-        </span>
-      </article>
-
-      {/* 3 · Pago */}
-      <article className="jv-card flex w-[86%] shrink-0 snap-center flex-col p-5 sm:w-auto">
-        <p className="jv-eyebrow text-accent-ink">{p.pago.rotulo[idioma]}</p>
-        <h3 className="mt-2 text-lg font-semibold text-ink">{p.pago.titulo[idioma]}</h3>
-        <p className="mt-1.5 text-[13px] leading-snug text-ink-soft">{p.pago.cuerpo[idioma]}</p>
-
-        <ul aria-hidden className="mb-4 mt-4 grid gap-2">
-          {p.pago.medios[idioma].map((m, i) => (
-            <li
-              key={m}
-              className={
-                i === 0
-                  ? "flex min-h-11 items-center gap-3 rounded-lg border border-brand/40 bg-brand/5 px-3"
-                  : "flex min-h-11 items-center gap-3 rounded-lg border border-line px-3"
-              }
-            >
-              <span
-                className={
-                  i === 0
-                    ? "h-3 w-3 shrink-0 rounded-full border-[3px] border-brand"
-                    : "h-3 w-3 shrink-0 rounded-full border border-line"
-                }
-              />
-              <span className="min-w-0 text-[13px] text-ink">{m}</span>
-            </li>
-          ))}
-        </ul>
-        <span
-          aria-hidden
-          className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-brand px-5 text-sm font-semibold text-on-accent"
-        >
-          {p.pago.boton[idioma]}
-        </span>
-      </article>
-    </div>
+      </div>
+      <figcaption className="mt-4 text-center font-mono text-xs text-ink-soft">
+        bloomroseaccesorios.com
+      </figcaption>
+    </figure>
   );
 }
 
@@ -236,6 +170,31 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
 
   const PUNTOS_CASO = [Boxes, CreditCard, Truck, Smartphone];
 
+  /* Las catorce preguntas, repartidas en sus cuatro bloques por el propio
+     contenido. Un grupo que se quede sin preguntas no se pinta. */
+  const faqs = TIENDAS_FAQ.map((f) => ({
+    q: f.q[idioma],
+    a: conPrecios(f.a[idioma]),
+    grupo: f.grupo,
+  }));
+  const gruposFaq = TIENDAS_FAQ_GRUPOS.map((g) => ({
+    titulo: g.titulo[idioma],
+    items: faqs.filter((f) => f.grupo === g.clave),
+  })).filter((g) => g.items.length > 0);
+
+  const indice = [
+    { id: "diferencia", texto: es ? "Por qué a la medida" : "Why custom" },
+    { id: "problemas", texto: es ? "Para quién es" : "Who it's for" },
+    { id: "asi-compra", texto: es ? "Así compra tu cliente" : "How your customer buys" },
+    { id: "plataformas", texto: es ? "Shopify o a la medida" : "Shopify or custom" },
+    { id: "precio", texto: es ? "Precio" : "Price" },
+    { id: "panel", texto: es ? "Tu panel" : "Your panel" },
+    { id: "incluye", texto: es ? "Qué entra" : "What's included" },
+    { id: "arranque", texto: es ? "Para arrancar" : "To get started" },
+    { id: "caso", texto: es ? "Una tienda vendiendo" : "A store selling" },
+    { id: "preguntas", texto: es ? "Preguntas" : "Questions" },
+  ];
+
   return (
     <>
       <script
@@ -244,74 +203,147 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
       />
       <Header idioma={idioma} />
       <main id="contenido">
-        {/* ── Encabezado ─────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-6 pb-8 pt-32 text-center md:px-12 md:pt-40">
-          <Reveal>
-            <Badge>{TIENDAS.badge[idioma]}</Badge>
-            <h1 className="mt-6 text-[length:var(--text-hero)]">
+        <PageHero
+          variante="servicio"
+          idioma={idioma}
+          migas={[{ texto: TIENDAS.badge[idioma] }]}
+          titulo={
+            <>
               {TIENDAS.titulo[idioma]}{" "}
               <span className="block text-brand">{TIENDAS.tituloAcento[idioma]}</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-ink-soft">
-              {TIENDAS.entradilla[idioma]}
-            </p>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            </>
+          }
+          entradilla={TIENDAS.entradilla[idioma]}
+          precio="tienda"
+          indice={<SectionIndex entradas={indice} idioma={idioma} variante="chip" />}
+          aparte={<TelefonoBloomrose idioma={idioma} />}
+          acciones={
+            <>
               <Button size="lg" variant="primary" asChild>
                 <Link href={enlaceReal(es ? "/agendar" : "/en/book-a-call")}>
                   {TIENDAS.ctaPrincipal[idioma]} <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="#precios">{TIENDAS.ctaSecundario[idioma]}</a>
+                <a href="#precio">{TIENDAS.ctaSecundario[idioma]}</a>
               </Button>
-            </div>
-          </Reveal>
-        </section>
+            </>
+          }
+        />
 
-        {/* ── El diferenciador, arriba y no enterrado ─────────────────── */}
-        <section className="mx-auto max-w-4xl px-6 py-12 md:px-12">
-          <Reveal>
-            <h2 className="text-[length:var(--text-display)]">
-              {TIENDAS.diferenciador.titulo[idioma]}{" "}
-              <span className="text-brand">{TIENDAS.diferenciador.acento[idioma]}</span>
-            </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-soft">
-              {TIENDAS.diferenciador.parrafo1[idioma]}
-            </p>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+        {/* ── El diferenciador ───────────────────────────────────────── */}
+        <section
+          id="diferencia"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
+          <ContrastBlock
+            etiquetaComun={es ? "Lo que te van a ofrecer" : "What you'll be offered"}
+            comun={TIENDAS.diferenciador.parrafo1[idioma]}
+            etiquetaPropio={TIENDAS.badge[idioma]}
+            propio={`${TIENDAS.diferenciador.titulo[idioma]} ${TIENDAS.diferenciador.acento[idioma]}`}
+            como="h2"
+          >
+            <p className="max-w-[52ch] leading-relaxed text-ink-soft">
               <strong className="text-ink">{TIENDAS.diferenciador.fuerte[idioma]}</strong>
               {TIENDAS.diferenciador.parrafo2[idioma]}
             </p>
-          </Reveal>
+          </ContrastBlock>
         </section>
 
         {/* ── Para quién es ──────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-6 py-12 md:px-12">
+        <section
+          id="problemas"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="text-[length:var(--text-display)]">{TIENDAS.paraQuienTitulo[idioma]}</h2>
+            <h2 className="text-balance text-[length:var(--text-display)]">
+              {TIENDAS.paraQuienTitulo[idioma]}
+            </h2>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-            {TIENDAS.paraQuien.map((p, i) => (
-              <Reveal key={p.titulo.es} delay={i * 80}>
-                <article className="jv-card jv-card-int h-full p-7">
-                  <h3 className="jv-titulo">{p.titulo[idioma]}</h3>
-                  <p className="mt-2 leading-relaxed text-ink-soft">{p.cuerpo[idioma]}</p>
-                </article>
-              </Reveal>
-            ))}
+
+          <PainGrid
+            className="mt-12"
+            dolores={TIENDAS.paraQuien.map((p) => ({
+              titulo: p.titulo[idioma],
+              cuerpo: p.cuerpo[idioma],
+            }))}
+          />
+        </section>
+
+        {/* ── Pieza firma: así compra tu cliente ─────────────────────── */}
+        <section id="asi-compra" className="border-y border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-28">
+            <Reveal>
+              <h2 className="text-balance text-[length:var(--text-display)]">
+                {TIENDAS.pasosTitulo[idioma]}
+              </h2>
+              <p className="mt-4 max-w-[52ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                {TIENDAS.pasosEntradilla[idioma]}
+              </p>
+            </Reveal>
+
+            <AsiCompra
+              className="mt-14"
+              idioma={idioma}
+              nota={TIENDAS.pasosNota[idioma]}
+              pasos={[
+                {
+                  rotulo: TIENDAS.pasos.ficha.rotulo[idioma],
+                  titulo: TIENDAS.pasos.ficha.titulo[idioma],
+                  cuerpo: TIENDAS.pasos.ficha.cuerpo[idioma],
+                  pantalla: TIENDAS.firma.pantallas[idioma][0],
+                },
+                {
+                  rotulo: TIENDAS.pasos.carrito.rotulo[idioma],
+                  titulo: TIENDAS.pasos.carrito.titulo[idioma],
+                  cuerpo: TIENDAS.pasos.carrito.cuerpo[idioma],
+                  pantalla: TIENDAS.firma.pantallas[idioma][1],
+                },
+                {
+                  rotulo: TIENDAS.pasos.pago.rotulo[idioma],
+                  titulo: TIENDAS.pasos.pago.titulo[idioma],
+                  cuerpo: TIENDAS.pasos.pago.cuerpo[idioma],
+                  pantalla: TIENDAS.firma.pantallas[idioma][2],
+                },
+              ]}
+              datos={{
+                foto: TIENDAS.pasos.ficha.foto[idioma],
+                producto: TIENDAS.pasos.ficha.producto[idioma],
+                /* Precios de ejemplo, y el pie lo dice. No son los de
+                   Bloomrose: inventar cifras sobre el catálogo de una clienta
+                   real sería inventar datos sobre un tercero. */
+                precio: es ? "$ 89.000" : "$89,000 COP",
+                tallas: TALLAS,
+                agotada: TIENDAS.pasos.ficha.agotada[idioma],
+                botonFicha: TIENDAS.pasos.ficha.boton[idioma],
+                subtotalEtiqueta: TIENDAS.pasos.carrito.subtotal[idioma],
+                subtotal: es ? "$ 178.000" : "$178,000",
+                envioEtiqueta: TIENDAS.pasos.carrito.envio[idioma],
+                envio: es ? "$ 12.000" : "$12,000",
+                calculando: TIENDAS.firma.calculando[idioma],
+                totalEtiqueta: TIENDAS.pasos.carrito.total[idioma],
+                total: es ? "$ 190.000" : "$190,000",
+                botonCarrito: TIENDAS.pasos.carrito.boton[idioma],
+                medios: TIENDAS.pasos.pago.medios[idioma],
+                botonPago: TIENDAS.pasos.pago.boton[idioma],
+                procesando: TIENDAS.firma.procesando[idioma],
+                pagado: TIENDAS.firma.pagado[idioma],
+                hora: TIENDAS.firma.hora[idioma],
+              }}
+            />
           </div>
         </section>
 
         {/* ── Shopify vs WooCommerce vs a la medida ───────────────────── */}
-        <section className="mx-auto max-w-6xl px-6 py-12 md:px-12">
+        <section
+          id="plataformas"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="text-[length:var(--text-display)]">
+            <h2 className="text-balance text-[length:var(--text-display)]">
               {TIENDAS.plataformasTitulo[idioma]}
             </h2>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[52ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
               {TIENDAS.plataformasEntradilla[idioma]}
             </p>
           </Reveal>
@@ -319,18 +351,17 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
           {/* Tres tarjetas con las MISMAS tres filas en el mismo orden. Es una
               matriz que se lee en paralelo en escritorio y en secuencia a 390,
               sin tabla que desborde ni transposición que mantener. */}
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
             {TIENDAS.plataformas.map((p, i) => (
-              <Reveal key={p.titulo.es} delay={i * 70}>
+              <Reveal key={p.titulo.es} delay={i * 70} className="h-full">
                 <article
-                  className={
-                    p.destacada
-                      ? "jv-card flex h-full flex-col border-brand/30 bg-raised p-6"
-                      : "jv-card flex h-full flex-col p-6"
-                  }
+                  className={cn(
+                    "jv-card flex h-full flex-col p-6",
+                    p.destacada && "border-brand/30 bg-raised",
+                  )}
                 >
                   <h3 className="jv-titulo leading-tight">{p.titulo[idioma]}</h3>
-                  <p className="mt-2 text-[13px] leading-snug text-ink-soft">{p.cuerpo[idioma]}</p>
+                  <p className="mt-2 text-sm leading-snug text-ink-soft">{p.cuerpo[idioma]}</p>
 
                   <dl className="mt-5 divide-y divide-line border-y border-line">
                     {TIENDAS.filas.map((f) => (
@@ -339,30 +370,41 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
                         className="grid grid-cols-[5.5rem_1fr] items-baseline gap-3 py-3"
                       >
                         <dt className="jv-eyebrow text-accent-ink">{f.etiqueta[idioma]}</dt>
-                        <dd className="min-w-0 text-[13px] leading-snug text-ink">
+                        <dd className="min-w-0 text-sm leading-snug text-ink">
                           {conPrecios(p.filas[f.clave][idioma])}
                         </dd>
                       </div>
                     ))}
                   </dl>
 
-                  <p className="mt-5 flex-1 text-sm leading-relaxed text-ink">
-                    {p.veredicto[idioma]}
-                  </p>
+                  {p.cita ? (
+                    /* La honestidad es el argumento, así que se lee como cita
+                       y no como pie de tarjeta. */
+                    <blockquote className="mt-5 flex-1 border-l-2 border-brand pl-4 text-[length:var(--text-h4)] leading-snug text-ink">
+                      {p.veredicto[idioma]}
+                    </blockquote>
+                  ) : (
+                    <p className="mt-5 flex-1 text-sm leading-relaxed text-ink">
+                      {p.veredicto[idioma]}
+                    </p>
+                  )}
                 </article>
               </Reveal>
             ))}
           </div>
         </section>
 
-        {/* ── Precios ────────────────────────────────────────────────── */}
-        <section id="precios" className="mx-auto max-w-6xl scroll-mt-32 px-6 py-12 md:px-12">
+        {/* ── Precio y extras ────────────────────────────────────────── */}
+        <section
+          id="precio"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <Badge>{TIENDAS.precios.badge[idioma]}</Badge>
-            <h2 className="mt-6 text-[length:var(--text-display)]">
+            <p className="jv-eyebrow text-brand">{TIENDAS.precios.badge[idioma]}</p>
+            <h2 className="mt-4 text-balance text-[length:var(--text-display)]">
               {TIENDAS.precios.titulo[idioma]}
             </h2>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[52ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
               {TIENDAS.precios.entradillaAntes[idioma]}
               <Link
                 href={enlaceReal(es ? "/precios" : "/en/pricing")}
@@ -374,125 +416,108 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
             </p>
           </Reveal>
 
-          <Reveal delay={80}>
-            <div className="jv-card mt-10 p-8 md:p-10">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
-                <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
-                  {TIENDAS.precios.tarjetaTitulo[idioma]}
-                </h3>
-                <p className="font-mono text-2xl text-brand">
-                  {TIENDAS.precios.desde[idioma]} {money(PISO_TIENDA, idioma)}
-                </p>
-              </div>
-              <p className="jv-chip jv-chip-off mt-3 gap-2 text-sm">
-                <Clock className="h-4 w-4 text-brand" strokeWidth={2} aria-hidden />
-                {TIENDAS.precios.plazo[idioma]}
-              </p>
-              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-soft">
-                {TIENDAS.precios.tarjetaCuerpo[idioma]}
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="mt-10">
-            <Reveal>
-              <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] text-ink">
-                {TIENDAS.precios.extrasTitulo[idioma]}
-              </h3>
-              <p className="mt-3 max-w-2xl leading-relaxed text-ink-soft">
-                {TIENDAS.precios.extrasCuerpo[idioma]}
-              </p>
-            </Reveal>
-            <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {TIENDAS.extras.map((e, i) => (
-                <Reveal key={e.clave} delay={i * 60}>
-                  <article className="jv-card jv-card-int flex h-full flex-col p-7">
-                    <h4 className="jv-titulo text-lg">{e.titulo[idioma]}</h4>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">
-                      {e.cuerpo[idioma]}
-                    </p>
-                    <p className="jv-rule mt-5 pt-4 font-mono text-base text-brand">
-                      {TIENDAS.precios.desde[idioma]} {money(PRECIO_EXTRA[e.clave], idioma)}
-                    </p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-
-          <Reveal>
-            <div className="jv-card mt-6 p-7">
-              <p className="leading-relaxed text-ink-soft">
-                <strong className="text-ink">{TIENDAS.precios.aclaracionTitulo[idioma]}</strong>
-                {TIENDAS.precios.aclaracion1Antes[idioma]}
-                <strong className="text-ink">{TIENDAS.precios.aclaracion1Fuerte[idioma]}</strong>
-                {TIENDAS.precios.aclaracion1Despues[idioma]}
-              </p>
-              <p className="mt-4 leading-relaxed text-ink-soft">
-                {TIENDAS.precios.aclaracion2Antes[idioma]}
-                <strong className="text-ink">
-                  {conPrecios(TIENDAS.precios.aclaracion2Fuerte[idioma])}
-                </strong>
-                {TIENDAS.precios.aclaracion2Despues[idioma]}
-              </p>
-            </div>
-          </Reveal>
-        </section>
-
-        {/* ── Qué incluye y qué no ───────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-6 py-12 md:px-12">
-          <Reveal>
-            <Comparador
-              tituloComo="h2"
-              tituloIncluye={TIENDAS.comparador.incluye[idioma]}
-              tituloNoIncluye={
-                <>
-                  {TIENDAS.comparador.noIncluyeAntes[idioma]}
-                  <span className="text-brand">{TIENDAS.comparador.noIncluyeAcento[idioma]}</span>
-                  {TIENDAS.comparador.noIncluyeDespues[idioma]}
-                </>
-              }
-              nota={TIENDAS.comparador.nota[idioma]}
-              incluye={[...TIENDAS.incluye[idioma]]}
-              noIncluye={TIENDAS.noIncluye.map((n) => ({
-                texto: n.texto[idioma],
-                quien: n.quien[idioma],
-              }))}
+          <Reveal delay={80} className="mt-12">
+            <PriceCard
+              id="tienda"
+              idioma={idioma}
+              tam="lg"
+              descripcion={TIENDAS.precios.tarjetaCuerpo[idioma]}
+              conEnlace={false}
             />
           </Reveal>
-        </section>
 
-        {/* ── Así compra tu cliente, así lo manejas tú ────────────────── */}
-        <section className="mx-auto max-w-6xl px-6 py-12 md:px-12">
-          <Reveal>
-            <h2 className="text-[length:var(--text-display)]">{TIENDAS.pasosTitulo[idioma]}</h2>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
-              {TIENDAS.pasosEntradilla[idioma]}
+          <Reveal delay={120} className="mt-10">
+            <h3 className="jv-titulo">{TIENDAS.precios.extrasTitulo[idioma]}</h3>
+            <p className="mt-2 max-w-[52ch] leading-relaxed text-ink-soft">
+              {TIENDAS.precios.extrasCuerpo[idioma]}
             </p>
           </Reveal>
 
-          <Reveal delay={80} className="mt-10">
-            <PasosCompra idioma={idioma} />
+          <AddOnCalculator
+            className="mt-8"
+            idioma={idioma}
+            base={PISO_TIENDA}
+            baseEtiqueta={TIENDAS.calculadora.base[idioma]}
+            titulo={TIENDAS.calculadora.titulo[idioma]}
+            totalEtiqueta={TIENDAS.calculadora.total[idioma]}
+            aviso={TIENDAS.calculadora.aviso[idioma]}
+            desde={TIENDAS.precios.desde[idioma]}
+            extras={TIENDAS.extras.map((e) => ({
+              clave: e.clave,
+              titulo: e.titulo[idioma],
+              cuerpo: e.cuerpo[idioma],
+              precio: PRECIO_EXTRA[e.clave],
+            }))}
+            /* Las dos notas fijas: lo que se paga igual y no lo cobro yo. Se
+               componen de los mismos fragmentos que ya decía la página, para
+               que no haya dos versiones de la misma aclaración. */
+            notas={[
+              `${TIENDAS.precios.aclaracion1Antes[idioma].trim()} ${TIENDAS.precios.aclaracion1Fuerte[idioma]}${TIENDAS.precios.aclaracion1Despues[idioma]}`,
+              conPrecios(
+                `${TIENDAS.precios.aclaracion2Antes[idioma].trim()} ${TIENDAS.precios.aclaracion2Fuerte[idioma]}${TIENDAS.precios.aclaracion2Despues[idioma]}`,
+              ),
+            ]}
+          />
+        </section>
+
+        {/* ── Y esto lo haces tú ─────────────────────────────────────── */}
+        <section
+          id="panel"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-center lg:gap-16">
+            <Reveal>
+              <h2 className="text-balance text-[length:var(--text-display)]">
+                {TIENDAS.panelTitulo[idioma]}
+              </h2>
+            </Reveal>
+
+            {/* Sin título dentro de la tarjeta: el h2 de al lado ya lo dice, y
+                repetirlo palabra por palabra a treinta píxeles se lee como un
+                error de copiar y pegar. */}
+            <Reveal delay={100}>
+              <PanelAutonomia idioma={idioma} titulo={null} />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── Qué entra y qué no ─────────────────────────────────────── */}
+        <section
+          id="incluye"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
+          <Reveal>
+            <h2 className="text-balance text-[length:var(--text-display)]">
+              {TIENDAS.comparador.incluye[idioma]}
+            </h2>
           </Reveal>
 
-          <Reveal delay={140}>
-            <p className="jv-eyebrow-frase mt-4 text-ink-soft">{TIENDAS.pasosNota[idioma]}</p>
-          </Reveal>
-
-          <Reveal delay={200}>
-            <PanelAutonomia
-              idioma={idioma}
-              className="mx-auto mt-12 max-w-md"
-              titulo={TIENDAS.panelTitulo[idioma]}
-            />
-          </Reveal>
+          <InOutLedger
+            className="mt-12"
+            idioma={idioma}
+            titulos={{
+              dentro: TIENDAS.comparador.incluye[idioma],
+              fuera: `${TIENDAS.comparador.noIncluyeAntes[idioma]}${TIENDAS.comparador.noIncluyeAcento[idioma]}${TIENDAS.comparador.noIncluyeDespues[idioma]}`,
+            }}
+            dentro={TIENDAS.incluye[idioma].map((texto) => ({ texto }))}
+            fuera={TIENDAS.noIncluye.map((n) => ({
+              texto: n.texto[idioma],
+              sello: n.quien[idioma],
+            }))}
+            remate={TIENDAS.comparador.nota[idioma]}
+          />
         </section>
 
         {/* ── Cómo se hace ───────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-6 py-12 md:px-12">
+        <section
+          id="arranque"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="text-[length:var(--text-display)]">{TIENDAS.procesoTitulo[idioma]}</h2>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+            <h2 className="text-balance text-[length:var(--text-display)]">
+              {TIENDAS.procesoTitulo[idioma]}
+            </h2>
+            <p className="mt-4 max-w-[52ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
               {TIENDAS.procesoEntradilla[idioma]}
             </p>
           </Reveal>
@@ -501,7 +526,7 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
               después: el reloj arranca con el catálogo, no con la firma. */}
           <Reveal delay={80}>
             <RailPlazo
-              className="mt-10"
+              className="mt-12"
               previo={{
                 etiqueta: TIENDAS.previo.etiqueta[idioma],
                 texto: TIENDAS.previo.texto[idioma],
@@ -515,7 +540,7 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
 
           <Reveal delay={140}>
             <ListaAcopio
-              className="mt-12 max-w-2xl"
+              className="mt-14 max-w-2xl"
               titulo={TIENDAS.acopio.titulo[idioma]}
               nota={TIENDAS.acopio.nota[idioma]}
               almacen={`acopio-tienda-virtual-${idioma}`}
@@ -526,93 +551,93 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
         </section>
 
         {/* ── El trabajo real que respalda la página ──────────────────── */}
-        <section className="mx-auto max-w-6xl px-6 py-12 md:px-12">
+        <section
+          id="caso"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="text-[length:var(--text-display)]">{TIENDAS.casoTitulo[idioma]}</h2>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+            <h2 className="text-balance text-[length:var(--text-display)]">
+              {TIENDAS.casoTitulo[idioma]}
+            </h2>
+            <p className="mt-4 max-w-[52ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
               {TIENDAS.casoEntradilla[idioma]}
             </p>
           </Reveal>
 
-          <Reveal delay={100}>
-            <article className="jv-card mt-10 grid grid-cols-1 overflow-hidden lg:grid-cols-2">
-              {/* Proporción fija (16/9) en las dos anchuras. El archivo mide
-                  2000x1160, así que con 16/10 la ventana quedaba más angosta
-                  que la captura y `object-cover` se comía el lado izquierdo;
-                  el `scale-[1.04]` anclado arriba tapa la canaleta blanca que
-                  el archivo trae por la derecha, sin tocar el asset. */}
-              <div className="relative aspect-[16/9] self-start overflow-hidden bg-canvas">
-                <Image
-                  src="/work/bloomrose.webp"
-                  alt={TIENDAS.caso.alt[idioma]}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="origin-top scale-[1.04] object-cover object-top"
-                />
-              </div>
-              <div className="p-8 md:p-10">
-                <p className="jv-eyebrow text-accent-ink">{TIENDAS.caso.rotulo[idioma]}</p>
-                <h3 className="mt-4 font-display text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
-                  Bloomrose
-                </h3>
-                <p className="mt-4 leading-relaxed text-ink-soft">{TIENDAS.caso.cuerpo[idioma]}</p>
-                <ul className="mt-6 grid gap-2.5">
-                  {TIENDAS.caso.puntos[idioma].map((t, i) => {
-                    const Glifo = PUNTOS_CASO[i];
-                    return (
-                      <li key={t} className="flex items-start gap-3 text-sm text-ink-soft">
-                        <Glifo className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={2} />
-                        <span>{t}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <a
-                  href="https://www.bloomroseaccesorios.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="jv-enlace mt-6 inline-flex min-h-11 items-center gap-2 self-start font-semibold text-brand"
-                >
-                  bloomroseaccesorios.com
-                  <ExternalLink className="h-4 w-4" strokeWidth={2} />
-                </a>
-              </div>
-            </article>
-          </Reveal>
+          <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-start">
+            <Reveal className="h-full">
+              <ProofCard
+                idioma={idioma}
+                nombre="Bloomrose"
+                categoria={TIENDAS.caso.rotulo[idioma]}
+                cuerpo={TIENDAS.caso.cuerpo[idioma]}
+                dominio="bloomroseaccesorios.com"
+                url="https://www.bloomroseaccesorios.com"
+                estado="produccion"
+                destacada
+              >
+                {/* La proporción es la del archivo (2000×1160): con una
+                    inventada, `object-cover` se come un lado de la captura. */}
+                <div className="relative border-b border-line bg-surface" style={{ aspectRatio: "2000 / 1160" }}>
+                  <Image
+                    src="/work/bloomrose.webp"
+                    alt={TIENDAS.caso.alt[idioma]}
+                    fill
+                    sizes="(min-width: 1024px) 740px, 100vw"
+                    className="object-cover object-top"
+                  />
+                </div>
+              </ProofCard>
+            </Reveal>
+
+            <Reveal delay={100}>
+              <ul className="flex flex-col divide-y divide-line border-y border-line">
+                {TIENDAS.caso.puntos[idioma].map((t, i) => {
+                  const Glifo = PUNTOS_CASO[i];
+                  return (
+                    <li key={t} className="flex items-start gap-3 py-4 leading-relaxed text-ink-soft">
+                      <Glifo
+                        className="mt-1 h-5 w-5 shrink-0 text-brand"
+                        strokeWidth={2}
+                        aria-hidden="true"
+                      />
+                      <span>{t}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Reveal>
+          </div>
         </section>
 
-        {/* ── Preguntas ──────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-6 py-12 md:px-12">
-          <Reveal>
-            <h2 className="text-[length:var(--text-display)]">{TIENDAS.faqTitulo[idioma]}</h2>
-          </Reveal>
-          <Reveal delay={80} className="mt-10">
-            <Faqs
-              items={TIENDAS_FAQ.map((f) => ({
-                q: f.q[idioma],
-                a: conPrecios(f.a[idioma]),
-              }))}
-            />
-          </Reveal>
+        {/* ── Preguntas, por tema ────────────────────────────────────── */}
+        <section
+          id="preguntas"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+            <Reveal>
+              <div className="lg:sticky lg:top-28">
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  {TIENDAS.faqTitulo[idioma]}
+                </h2>
+              </div>
+            </Reveal>
+
+            <FaqAccordion grupos={gruposFaq} />
+          </div>
         </section>
 
-        {/* ── Cierre ─────────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-6 py-16 text-center md:px-12 md:py-24">
-          <Reveal>
-            <h2 className="text-[length:var(--text-display)]">{TIENDAS.cierre.titulo[idioma]}</h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
-              {TIENDAS.cierre.cuerpo[idioma]}
-            </p>
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Button size="lg" variant="primary" asChild>
-                <Link href={enlaceReal(es ? "/agendar" : "/en/book-a-call")}>
-                  {TIENDAS.ctaPrincipal[idioma]} <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-              <BotonCuentame />
-            </div>
-          </Reveal>
-        </section>
+        <FinalCTA
+          idioma={idioma}
+          titulo={TIENDAS.cierre.titulo[idioma]}
+          cuerpo={TIENDAS.cierre.cuerpo[idioma]}
+          siguiente={<NextStep id="chatbot" idioma={idioma} />}
+        />
+
+        <div className="mx-auto max-w-[1280px] px-6 pb-20 md:px-12">
+          <BotonCuentame />
+        </div>
       </main>
       <Footer idioma={idioma} />
       <WhatsAppButton idioma={idioma} />

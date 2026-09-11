@@ -472,6 +472,53 @@ input[type="radio"] { accent-color: var(--accent); }
 }
 
 /* ===========================================================================
+   «Así compra tu cliente» (`components/visuales/AsiCompra.tsx`)
+   ---------------------------------------------------------------------------
+   Tres gestos y ni uno decorativo: la talla que se tacha porque el inventario
+   ya la descontó, el envío que primero calcula y después dice cuánto, y el
+   aviso que entra cuando el pago confirma. Cada uno es la respuesta a la duda
+   del paso que lo enseña.
+
+   El envío hace un RELEVO: «Calculando…» se apaga y la cifra entra en su
+   sitio, las dos en la misma celda. Por eso la cifra va en `absolute` —si
+   fueran dos elementos en flujo, la fila cambiaría de alto a mitad de la
+   animación y el total daría un salto.
+
+   Con movimiento reducido todo esto queda en su estado final: la M tachada, el
+   envío con su cifra, el aviso puesto. No se acorta: se quita.
+   =========================================================================== */
+@keyframes jv-compra-tachar  { from { opacity: 0.35; } to { opacity: 1; } }
+@keyframes jv-compra-apagar  { to   { opacity: 0; } }
+@keyframes jv-compra-prender { from { opacity: 0; } to { opacity: 1; } }
+@keyframes jv-compra-subir   { from { opacity: 0; transform: translateY(6px); } }
+@keyframes jv-compra-entrar  { from { opacity: 0; transform: translateY(12px); } }
+@keyframes jv-compra-girar   { to   { transform: rotate(1turn); } }
+
+.jv-compra-agotada    { animation: jv-compra-tachar 0.5s var(--ease-ps) both; }
+.jv-compra-calculando { animation: jv-compra-apagar 0.3s var(--ease-ps) 0.7s both; }
+.jv-compra-envio      { animation: jv-compra-prender 0.3s var(--ease-ps) 0.9s both; }
+.jv-compra-total      { animation: jv-compra-subir 0.4s var(--ease-ps) 1s both; }
+.jv-compra-medio      { animation: jv-compra-prender 0.4s var(--ease-ps) both; }
+.jv-compra-boton      { animation: jv-compra-prender 0.4s var(--ease-ps) 0.2s both; }
+.jv-compra-aviso      { animation: jv-compra-entrar 0.5s var(--ease-ps) 1.1s both; }
+.jv-compra-girar      { animation: jv-compra-girar 1s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-compra-agotada,
+  .jv-compra-total,
+  .jv-compra-medio,
+  .jv-compra-boton,
+  .jv-compra-aviso,
+  .jv-compra-girar {
+    animation: none;
+  }
+  /* El relevo del envío no se puede «no animar»: sin animación las dos celdas
+     se pintan encima. Se resuelve al revés, dejando puesta la que manda. */
+  .jv-compra-calculando { animation: none; opacity: 0; }
+  .jv-compra-envio      { animation: none; opacity: 1; }
+}
+
+/* ===========================================================================
    El acordeón de preguntas (`components/kit/FaqAccordion.tsx`)
    ---------------------------------------------------------------------------
    `list-style: none` no basta: Safari pinta su propio triángulo con un

@@ -120,6 +120,12 @@ export const TIENDAS = {
   plataformas: [
     {
       titulo: { es: "Shopify o Tiendanube", en: "Shopify or Tiendanube" },
+      /* Su veredicto se pinta como CITA y no como el pie de las otras dos: la
+         frase «te lo digo aunque no me convenga» es el argumento de toda la
+         página —si recomiendo al competidor cuando toca, el resto de lo que
+         digo se puede creer— y enterrada al final de una tarjeta no la lee
+         nadie. */
+      cita: true,
       cuerpo: {
         es: "Alquilas la tienda. Cada cosa que quieras cambiar depende de que exista una app que la haga.",
         en: "You rent the store. Everything you want to change depends on an app existing that does it.",
@@ -180,6 +186,7 @@ export const TIENDAS = {
     titulo: Texto;
     cuerpo: Texto;
     destacada?: boolean;
+    cita?: boolean;
     filas: Record<"dia1" | "despues" | "venta", Texto>;
     veredicto: Texto;
   }[],
@@ -425,6 +432,58 @@ export const TIENDAS = {
     en: "And you do this yourself, without writing to me",
   },
 
+  /**
+   * LA PIEZA FIRMA: «Así compra tu cliente», en un solo teléfono.
+   *
+   * Las tres pantallas ya estaban escritas —`pasos`— y no se tocan: esto solo
+   * añade lo que hay que poder LEER de cada pantalla sin verla, que es lo que
+   * oye quien usa lector de pantalla, y el rótulo del estado que la pantalla
+   * enseña al final.
+   *
+   * El producto y los precios siguen siendo inventados y el pie lo sigue
+   * diciendo: `pasosNota`.
+   */
+  firma: {
+    pantallas: {
+      es: [
+        "La ficha del producto con tres tallas: la M aparece tachada y marcada como agotada, porque el inventario ya la descontó.",
+        "El carrito: el envío a Cartagena se cotiza y el total sube de los $ 178.000 del subtotal a los $ 190.000 con envío.",
+        "El pago: se elige Nequi, el botón pasa a «procesando» y entra el aviso de pedido pagado.",
+      ],
+      en: [
+        "The product page with three sizes: M shows struck through and marked sold out, because inventory already discounted it.",
+        "The cart: shipping to Cartagena is quoted and the total goes from the $178,000 subtotal to $190,000 with shipping.",
+        "Payment: Nequi is picked, the button turns to “processing” and the paid-order notice comes in.",
+      ],
+    } as Traducido<readonly string[]>,
+    procesando: { es: "Procesando…", en: "Processing…" },
+    pagado: { es: "Pedido pagado", en: "Order paid" },
+    hora: { es: "11:04 p. m.", en: "11:04 PM" },
+    calculando: { es: "Calculando…", en: "Calculating…" },
+  },
+
+  /**
+   * La calculadora de extras. Los cinco extras y sus precios ya existen
+   * —`extras` aquí y `TOGGLES` en `lib/quote.ts`—: esto es solo lo que la
+   * calculadora necesita decir alrededor del total.
+   */
+  calculadora: {
+    titulo: { es: "Arma tu total", en: "Build your total" },
+    base: { es: "Tienda online completa", en: "Complete online store" },
+    total: { es: "Total estimado", en: "Estimated total" },
+    ninguno: {
+      es: "Sin extras: el piso de la tienda completa.",
+      en: "No extras: the floor for the complete store.",
+    },
+    /* El aviso que impide que el total se lea como una cotización cerrada. Es
+       la misma condición que ya dice la sección de precio, dicha donde se
+       mira el número. */
+    aviso: {
+      es: "Estimado, no cotización: el número final sale de tu lista de productos.",
+      en: "An estimate, not a quote: the final number comes out of your product list.",
+    },
+  },
+
   procesoTitulo: { es: "Cómo se hace", en: "How it's done" },
   procesoEntradilla: {
     es: "Antes de cotizar necesito tu lista de productos. De ahí sale el precio y el plazo de verdad: sin eso, cualquier número que te dé —yo o el que sea— es adivinanza.",
@@ -546,8 +605,18 @@ export const TIENDAS = {
  * y Mercado Pago pide sesión— y que además cambian cuando quieren. Un rango
  * orienta sin prometer; una cifra desactualizada es una mentira con fecha.
  */
-export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
+export const TIENDAS_FAQ_GRUPOS = [
+  { clave: "pagos", titulo: { es: "Pagos y comisiones", en: "Payments and fees" } },
+  { clave: "envios", titulo: { es: "Envíos y entrega", en: "Shipping and delivery" } },
+  { clave: "operacion", titulo: { es: "Operación del día a día", en: "Day-to-day operation" } },
+  { clave: "seguridad", titulo: { es: "Seguridad y datos", en: "Security and data" } },
+] as const satisfies readonly { clave: string; titulo: Texto }[];
+
+export type GrupoFaqTienda = (typeof TIENDAS_FAQ_GRUPOS)[number]["clave"];
+
+export const TIENDAS_FAQ: readonly { q: Texto; a: Texto; grupo: GrupoFaqTienda }[] = [
   {
+    grupo: "pagos",
     q: { es: "¿Con qué me van a pagar mis clientes?", en: "What will my customers pay with?" },
     a: {
       es: "PSE, tarjeta débito y crédito, Nequi y Bancolombia, según lo que habilite la pasarela que escojas. Y si quieres, el botón de cerrar el pedido por WhatsApp al lado: en Colombia todavía mucha gente prefiere hablar antes de pagar, y perder esa venta por purismo sería bobo.",
@@ -555,6 +624,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "pagos",
     q: {
       es: "¿Cuánto me cobra la pasarela por cada venta?",
       en: "How much does the gateway charge me per sale?",
@@ -565,6 +635,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "pagos",
     q: {
       es: "¿Voy a pagar mensualidad y además comisión por venta?",
       en: "Will I pay a monthly fee and a sales commission on top?",
@@ -575,6 +646,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "pagos",
     q: {
       es: "¿Y la facturación electrónica de la DIAN? ¿Se conecta?",
       en: "What about DIAN electronic invoicing? Does it connect?",
@@ -585,6 +657,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "envios",
     q: {
       es: "¿Cómo se calcula el envío? ¿Y la contraentrega?",
       en: "How is shipping calculated? And cash on delivery?",
@@ -595,6 +668,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "operacion",
     q: {
       es: "¿Yo puedo subir productos y cambiar precios sin llamarte?",
       en: "Can I upload products and change prices without calling you?",
@@ -605,6 +679,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "operacion",
     q: { es: "¿Cuántos productos aguanta?", en: "How many products does it hold?" },
     a: {
       es: "Los que necesites: no hay un techo técnico. Lo que sube por franjas es el trabajo de montar y organizar el catálogo — {franjas}. El precio de arranque cubre la primera franja.",
@@ -612,6 +687,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "operacion",
     q: {
       es: "¿Qué pasa cuando alguien deja el carrito abandonado?",
       en: "What happens when someone abandons the cart?",
@@ -622,6 +698,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "operacion",
     q: { es: "¿Se compra bien desde el celular?", en: "Does it buy well from a phone?" },
     a: {
       es: "Ahí es donde se cae la venta, así que ahí es donde se prueba primero. La tienda se arma empezando por la pantalla del teléfono y no adaptándola después, y la velocidad se revisa antes de entregar. Si el pago se demora en un celular con dos rayitas de señal, la venta se perdió y no hay diseño bonito que la salve.",
@@ -629,6 +706,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "operacion",
     q: {
       es: "Ya vendo por Instagram y por WhatsApp. ¿Para qué quiero una tienda?",
       en: "I already sell on Instagram and WhatsApp. Why do I want a store?",
@@ -639,6 +717,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "operacion",
     q: { es: "¿En cuánto la tienes lista de verdad?", en: "How soon is it really ready?" },
     a: {
       es: "Tres semanas, contadas desde que el catálogo está completo. Ese es el detalle que casi nadie aclara: el reloj no arranca cuando firmas, arranca cuando tengo fotos, precios y existencias. Si me entregas ochocientos productos con tallas y colores en un archivo a medio llenar, no son tres semanas — y te lo digo en la primera llamada, no al final.",
@@ -646,6 +725,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "seguridad",
     q: {
       es: "¿Y si se cae la tienda un sábado a mediodía?",
       en: "And if the store goes down at midday on a Saturday?",
@@ -656,6 +736,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "seguridad",
     q: {
       es: "¿Quién responde por la seguridad y por los datos de mis clientes?",
       en: "Who's responsible for security and my customers' data?",
@@ -666,6 +747,7 @@ export const TIENDAS_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "operacion",
     q: {
       es: "¿Se conecta con el inventario o con el sistema de mi contador?",
       en: "Does it connect to my inventory or my accountant's system?",

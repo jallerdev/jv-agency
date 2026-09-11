@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { Check, ChevronDown, Upload } from "lucide-react";
+
 import type { Idioma } from "@/content/types";
 import { cn } from "@/lib/utils";
 
@@ -10,10 +15,22 @@ import { cn } from "@/lib/utils";
  * concretos la hace verificable de un vistazo, y de paso desactiva el miedo a
  * quedar preso del proveedor.
  *
- * DECORADO, NO FORMULARIO. Los controles son <div>, no <input> ni <button>: un
- * control real que no hace nada es una trampa para quien navega con teclado o
- * con lector de pantalla. Lo que sí es real es la ETIQUETA de cada fila —ahí
- * está el argumento— y esa se lee normal.
+ * AHORA SE PUEDE TOCAR, Y ES LO CORRECTO
+ * --------------------------------------
+ * Eran tres `<div>` con aspecto de control y `aria-hidden`: un decorado. El
+ * argumento de esta pieza es «esto lo haces tú», y un dibujo de un botón no
+ * demuestra que se pueda hacer nada. Ahora el precio se escribe y se guarda,
+ * la foto sube con su barra y el pedido se marca y dispara el aviso.
+ *
+ * DÓNDE ESTÁ EL LÍMITE, PARA NO MENTIR: esto NO toca ninguna tienda. Es una
+ * demostración de la interfaz, lo dice su rótulo —«Ejemplo · pantallas de
+ * muestra del panel»— y nada de lo que se escriba aquí sale del navegador ni
+ * se guarda en ningún sitio. Lo que se enseña es exactamente lo que el panel
+ * real hace, sin la parte que necesita una tienda detrás.
+ *
+ * Que sean controles DE VERDAD —`input`, `button`, `select`— también arregla
+ * lo de antes por el otro lado: el decorado no era enfocable y el lector de
+ * pantalla no anunciaba nada; ahora cada control dice qué es y qué hace.
  *
  * PUNTO DE ROTURA A 390: etiqueta + campo + botón en una línea no caben. La
  * etiqueta va encima, y debajo el campo con `min-w-0 flex-1` y el botón con
@@ -23,7 +40,8 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   idioma?: Idioma;
-  titulo?: string;
+  /** `null` pinta la tarjeta sin título: para cuando la sección ya lo dice. */
+  titulo?: string | null;
   rotulo?: string;
   precio?: { etiqueta: string; campo: string; boton: string };
   archivo?: { etiqueta: string; nombre: string; nota: string };
@@ -51,6 +69,12 @@ const T = {
       elegida: "Despachado",
       nota: "El cliente recibe el aviso",
     },
+    guardado: "Guardado",
+    subiendo: "Subiendo…",
+    subir: "Subir",
+    pendiente: "Pendiente",
+    enviado: "Aviso enviado al cliente",
+    demo: "Es una demostración: nada de esto sale de tu navegador.",
   },
   en: {
     titulo: "You do this yourself, without writing to me",
@@ -62,6 +86,12 @@ const T = {
       elegida: "Shipped",
       nota: "The customer gets the notification",
     },
+    guardado: "Saved",
+    subiendo: "Uploading…",
+    subir: "Upload",
+    pendiente: "Pending",
+    enviado: "Notification sent to the customer",
+    demo: "This is a demo: none of it leaves your browser.",
   },
 } as const;
 
@@ -78,66 +108,160 @@ export function PanelAutonomia({
   const filaPrecio = precio ?? t.precio;
   const filaArchivo = archivo ?? t.archivo;
   const filaEstado = estado ?? t.estado;
+
+  const [valor, setValor] = useState(filaPrecio.campo);
+  const [guardado, setGuardado] = useState(false);
+  const [subida, setSubida] = useState<"quieto" | "subiendo" | "listo">("quieto");
+  const [despachado, setDespachado] = useState(false);
+  const temporizadores = useRef<number[]>([]);
+
+  /* Los relojes se limpian al desmontar: si alguien cambia de página mientras
+     la barra sube, el `setState` caería sobre un componente que ya no está. */
+  useEffect(() => {
+    const relojes = temporizadores.current;
+    return () => relojes.forEach((id) => window.clearTimeout(id));
+  }, []);
+
+  const enEspera = (fn: () => void, ms: number) => {
+    temporizadores.current.push(window.setTimeout(fn, ms));
+  };
+
+  const guardar = () => {
+    setGuardado(true);
+    enEspera(() => setGuardado(false), 2400);
+  };
+
+  const subir = () => {
+    if (subida === "subiendo") return;
+    setSubida("subiendo");
+    /* 900 ms: lo que tarda una foto de producto en una conexión normal. Más
+       corto no se ve la barra; más largo parece que se colgó. */
+    enEspera(() => setSubida("listo"), 900);
+  };
+
   return (
     <div className={cn("jv-card p-5 sm:p-6", className)}>
-      <p className="font-body text-xl font-semibold text-ink">{titulo ?? t.titulo}</p>
+      {titulo !== null && (
+        <p className="font-body text-xl font-semibold text-ink">{titulo ?? t.titulo}</p>
+      )}
 
-      <ul className="mt-5 divide-y divide-line">
+      <ul className={cn("divide-y divide-line", titulo !== null && "mt-5")}>
         {/* 1 · Cambiar un precio */}
         <li className="py-4 first:pt-0">
-          <p className="jv-eyebrow text-accent-ink">
+          <label className="jv-eyebrow block text-accent-ink" htmlFor="jv-panel-precio">
             {filaPrecio.etiqueta}
-          </p>
-          <div aria-hidden className="mt-2.5 flex items-center gap-2">
-            <span className="flex min-h-11 min-w-0 flex-1 items-center rounded-md border border-line bg-background px-3 font-mono text-[15px] tabular-nums text-ink">
-              {filaPrecio.campo}
-            </span>
-            <span className="flex min-h-11 shrink-0 items-center rounded-full bg-primary px-5 font-body text-sm font-semibold text-on-accent">
+          </label>
+          <div className="mt-2.5 flex items-center gap-2">
+            <input
+              id="jv-panel-precio"
+              value={valor}
+              onChange={(e) => {
+                setValor(e.target.value);
+                setGuardado(false);
+              }}
+              inputMode="numeric"
+              className="focus-ring min-h-11 min-w-0 flex-1 rounded-md border border-line bg-canvas px-3 font-mono text-[15px] tabular-nums text-ink"
+            />
+            <button
+              type="button"
+              onClick={guardar}
+              className="jv-boton min-h-11 shrink-0 px-5 text-sm"
+            >
               {filaPrecio.boton}
-            </span>
+            </button>
           </div>
+          <p aria-live="polite" className="mt-2 min-h-5 font-body text-sm leading-snug text-ink-soft">
+            {guardado && (
+              <span className="inline-flex items-center gap-1.5 text-brand">
+                <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                {t.guardado}
+              </span>
+            )}
+          </p>
         </li>
 
         {/* 2 · Subir una foto */}
         <li className="py-4">
-          <p className="jv-eyebrow text-accent-ink">
-            {filaArchivo.etiqueta}
-          </p>
-          <div aria-hidden className="mt-2.5 flex min-h-11 flex-wrap items-center gap-2">
-            <span className="flex min-w-0 items-center gap-2 rounded-full border border-line bg-background px-3 py-2">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
-              <span className="truncate font-mono text-[13px] text-ink">{filaArchivo.nombre}</span>
+          <p className="jv-eyebrow text-accent-ink">{filaArchivo.etiqueta}</p>
+          <div className="mt-2.5 flex min-h-11 flex-wrap items-center gap-2">
+            <span className="flex min-w-0 flex-1 items-center gap-2 rounded-full border border-line bg-canvas px-3 py-2">
+              <Upload className="h-3.5 w-3.5 shrink-0 text-ink-soft" strokeWidth={2} aria-hidden />
+              <span className="truncate font-mono text-sm text-ink">{filaArchivo.nombre}</span>
             </span>
-            <span className="shrink-0 rounded-full bg-success/12 px-3 py-1 jv-eyebrow text-success-ink">
-              {filaArchivo.nota}
-            </span>
+            <button
+              type="button"
+              onClick={subir}
+              disabled={subida === "subiendo"}
+              className="jv-boton-2 min-h-11 shrink-0 px-4 text-sm"
+            >
+              {subida === "listo" ? filaArchivo.nota : t.subir}
+            </button>
           </div>
+
+          {/* La barra: `scaleX` sobre un riel, no un `width` animado. Animar el
+              ancho recalcula la caja en cada fotograma; la escala no toca el
+              flujo. */}
+          <div
+            aria-hidden="true"
+            className="mt-3 h-1 overflow-hidden rounded-full bg-line"
+          >
+            <span
+              className={cn(
+                "block h-full origin-left rounded-full bg-brand transition-transform duration-slow ease-ps",
+                subida === "quieto" && "scale-x-0",
+                subida === "subiendo" && "scale-x-[0.6]",
+                subida === "listo" && "scale-x-100",
+              )}
+            />
+          </div>
+          <p aria-live="polite" className="mt-2 min-h-5 font-body text-sm leading-snug text-ink-soft">
+            {subida === "subiendo" && t.subiendo}
+            {subida === "listo" && (
+              <span className="inline-flex items-center gap-1.5 text-brand">
+                <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                {filaArchivo.nota}
+              </span>
+            )}
+          </p>
         </li>
 
         {/* 3 · Marcar un pedido */}
         <li className="py-4 last:pb-0">
-          <p className="jv-eyebrow text-accent-ink">
+          <label className="jv-eyebrow block text-accent-ink" htmlFor="jv-panel-estado">
             {filaEstado.etiqueta}
-          </p>
-          <div aria-hidden className="mt-2.5 flex flex-wrap items-center gap-2">
-            <span className="flex min-h-11 min-w-0 flex-1 items-center justify-between gap-2 rounded-md border border-line bg-background px-3">
-              <span className="truncate font-body text-[15px] text-ink">{filaEstado.elegida}</span>
-              <svg viewBox="0 0 16 16" className="h-4 w-4 shrink-0 text-ink-soft" fill="none">
-                <path
-                  d="M4 6.5L8 10.5L12 6.5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
+          </label>
+          <div className="relative mt-2.5">
+            <select
+              id="jv-panel-estado"
+              value={despachado ? "despachado" : "pendiente"}
+              onChange={(e) => setDespachado(e.target.value === "despachado")}
+              className="focus-ring min-h-11 w-full appearance-none rounded-md border border-line bg-canvas px-3 pr-10 font-body text-[15px] text-ink"
+            >
+              <option value="pendiente">{t.pendiente}</option>
+              <option value="despachado">{filaEstado.elegida}</option>
+            </select>
+            <ChevronDown
+              aria-hidden="true"
+              strokeWidth={2}
+              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft"
+            />
           </div>
-          <p className="mt-2 font-body text-[13px] leading-snug text-ink-soft">{filaEstado.nota}</p>
+          <p aria-live="polite" className="mt-2 min-h-5 font-body text-sm leading-snug text-ink-soft">
+            {despachado ? (
+              <span className="inline-flex items-center gap-1.5 text-brand">
+                <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                {t.enviado}
+              </span>
+            ) : (
+              filaEstado.nota
+            )}
+          </p>
         </li>
       </ul>
 
-      <p className="mt-4 jv-rule pt-4 font-mono text-xs text-ink-soft">{rotulo ?? t.rotulo}</p>
+      <p className="jv-rule mt-4 pt-4 font-mono text-xs leading-relaxed text-ink-soft">
+        {rotulo ?? t.rotulo} · {t.demo}
+      </p>
     </div>
   );
 }
