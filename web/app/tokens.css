@@ -185,7 +185,12 @@
      el cuerpo y deja los 14 para la interfaz densa. La página estaba tomando
      el tamaño de la tabla, no el del texto. */
   --text-body-size: 1.125rem;
-  --text-eyebrow: 0.6875rem;
+  /* 12px y no 11. El antetítulo pasa contraste de sobra, pero a 11px con
+     0,16em de tracking y en mayúscula es el texto más pequeño del sitio y el
+     detector lo marcaba catorce veces. Doce sigue siendo un rótulo —no compite
+     con nada— y sale del último escalón en el que un texto en mono mayúscula
+     se lee de un vistazo. */
+  --text-eyebrow: 0.75rem;
 
   --lh-tight: 1;
   --lh-display: 1.05;

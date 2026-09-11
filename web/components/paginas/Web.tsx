@@ -341,7 +341,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
                       <Glifo className="h-6 w-6" strokeWidth={2} aria-hidden />
                     </span>
                     <h3 className="jv-titulo mt-5">{f.nombre[idioma]}</h3>
-                    <p className="jv-eyebrow mt-1 text-ink-soft">
+                    <p className="jv-eyebrow-frase mt-1 text-ink-soft">
                       {WEB.tambien[idioma]} {f.tambien[idioma]}
                     </p>
 

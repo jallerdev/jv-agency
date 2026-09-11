@@ -130,7 +130,7 @@ export function RailDistancia({
               </div>
 
               <div className={cn("min-w-0 flex-1 pb-7 sm:pb-0 sm:pt-3", esUltimo && "pb-0")}>
-                <p className="font-mono text-[11px] tabular-nums tracking-[0.1em] text-accent-ink">
+                <p className="font-mono text-xs tabular-nums tracking-[0.1em] text-accent-ink">
                   {p.distancia}
                 </p>
                 <p className="mt-1 font-body text-[15px] font-semibold leading-snug text-ink">
@@ -146,7 +146,7 @@ export function RailDistancia({
       </ol>
 
       {nota && (
-        <p className="mt-6 max-w-[56ch] font-mono text-[11px] leading-relaxed text-ink-soft">
+        <p className="mt-6 max-w-[56ch] font-mono text-xs leading-relaxed text-ink-soft">
           {pie}
         </p>
       )}

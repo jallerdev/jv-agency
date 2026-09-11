@@ -705,10 +705,31 @@
 
    El tope va a los que NO declaran el suyo: donde alguien escribió
    `max-w-[46ch]` o `max-w-2xl` esa decisión manda, porque ahí se penso.
+
+   Y cubre `li`, `dd`, `blockquote` y `span`, no solo `p`: la prosa de un
+   artículo de blog vive tanto en viñetas como en párrafos, y los `li` iban a
+   88-91 caracteres mientras los `p` de al lado iban a 68. En un `span` el tope
+   solo pica cuando es `display:block`, que es justo el caso que fallaba —las
+   descripciones de la lista de planes de SEO, a 100ch—. El pie entra también:
+   su aviso de copyright iba a 82ch en las 59 rutas.
    Y si el párrafo está centrado, los márgenes automáticos evitan que
    estrechar la caja lo empuje a la izquierda.
    =========================================================================== */
-main p:not([class*="max-w"]) {
+main :is(p, li, dd, dt, blockquote, figcaption, span):not([class*="max-w"]),
+footer p:not([class*="max-w"]) {
+  max-width: var(--maxw-prose);
+}
+
+/* Los que SÍ declaran ancho, pero eligieron uno de CONTENEDOR y no de lectura.
+   `max-w-3xl` son 768px: con el cuerpo a 18px eso da 86 caracteres por línea,
+   y era la causa más repetida del sitio —servicios, sectores y las tres
+   ciudades viejas—. `max-w-4xl` son 896px, peor todavía. `max-w-2xl` se queda:
+   672px dan ~75ch, que es el tope de la banda buena.
+
+   Va después de la regla de arriba y con la misma especificidad, así que gana
+   por orden. No toca contenedores: solo pica cuando la clase está en el propio
+   elemento de texto. */
+main :is(p, li, blockquote):is([class*="max-w-3xl"], [class*="max-w-4xl"]) {
   max-width: var(--maxw-prose);
 }
 /* Aquí NO va ningún `margin-inline: auto`.

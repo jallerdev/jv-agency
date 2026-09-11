@@ -61,7 +61,7 @@ function FilaBloque({ ficha, tuyo }: { ficha: Ficha; tuyo?: boolean }) {
       <span
         aria-hidden
         className={cn(
-          "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-[11px] tabular-nums",
+          "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-xs tabular-nums",
           tuyo ? "bg-primary text-on-accent" : "bg-background text-ink-soft"
         )}
       >
@@ -80,11 +80,11 @@ function FilaBloque({ ficha, tuyo }: { ficha: Ficha; tuyo?: boolean }) {
             por el ancho con el nombre. */}
         <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-[13px] text-ink-soft">
           <Estrellas n={ficha.estrellas} />
-          <span className="font-mono text-[11px] tabular-nums">{ficha.estrellas},0</span>
+          <span className="font-mono text-xs tabular-nums">{ficha.estrellas},0</span>
           <span aria-hidden>·</span>
           <span>{ficha.categoria}</span>
           <span aria-hidden>·</span>
-          <span className="font-mono text-[11px] tabular-nums">{ficha.distancia}</span>
+          <span className="font-mono text-xs tabular-nums">{ficha.distancia}</span>
         </span>
       </span>
     </div>
@@ -225,7 +225,7 @@ export function BloqueLocalGoogle({
         ))}
       </ul>
 
-      <p className="jv-rule mt-5 pt-4 font-mono text-[11px] leading-relaxed text-accent-ink">
+      <p className="jv-rule mt-5 pt-4 font-mono text-xs leading-relaxed text-accent-ink">
         {idioma === "es"
           ? "Ejemplo · no es un resultado real. El trabajo es entrar en la lista, no prometer el primer puesto."
           : "Example · not a real result. The work is getting into the list, not promising first place."}

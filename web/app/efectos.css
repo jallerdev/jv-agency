@@ -110,6 +110,25 @@
   color: var(--text-muted);
 }
 
+/* El mismo rótulo cuando lo que lleva es una FRASE y no una etiqueta.
+   Un rótulo de dos palabras en mayúscula se lee de un vistazo; una frase de
+   sesenta caracteres en mayúscula hay que descifrarla, porque la mayúscula
+   borra los ascendentes y descendentes que dan forma a la palabra. Y justo
+   esas frases largas son las etiquetas de honestidad —«Ejemplo · pantallas de
+   muestra, producto y precios inventados»—, que son las que más falta hace
+   que se lean.
+
+   Conserva la familia, el tamaño y el color: sigue siendo el mismo elemento
+   del sistema. Solo suelta la mayúscula y afloja el tracking, que en caja
+   baja sobra. */
+.jv-eyebrow-frase {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
 /* El florón: el único degradado plano que el sistema permite detrás de un
    titular. Barato; se puede usar sin pensarlo. */
 .jv-bloom { position: relative; }

@@ -259,7 +259,7 @@ function Panel({ a, sticky }: { a: AutomationAnswers; sticky?: boolean }) {
           ))}
         </dl>
       )}
-      <p className="mt-5 jv-rule pt-4 font-body text-[11px] leading-relaxed text-ink-soft">
+      <p className="mt-5 jv-rule pt-4 font-body text-xs leading-relaxed text-ink-soft">
         {META_BILLING_NOTE}
       </p>
     </aside>

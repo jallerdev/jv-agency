@@ -42,7 +42,7 @@ function Ficha({ proyecto, idioma }: { proyecto: Proyecto; idioma: Idioma }) {
     <dl className="divide-y divide-line border-y border-line">
       {filas.map((f) => (
         <div key={f.k} className="flex items-baseline justify-between gap-6 py-3">
-          <dt className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
+          <dt className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
             {f.k}
           </dt>
           <dd className="text-right text-sm text-ink-soft">{f.v}</dd>
@@ -68,7 +68,7 @@ function Expediente({ proyecto, idioma }: { proyecto: Proyecto; idioma: Idioma }
             <span className="block font-display text-[clamp(1.25rem,3vw,1.875rem)] font-semibold leading-tight tracking-[-0.02em]">
               {proyecto.nombre}
             </span>
-            <span className="mt-1 block font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
+            <span className="mt-1 block font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
               {proyecto.categoria[idioma]}
             </span>
           </span>
@@ -78,7 +78,7 @@ function Expediente({ proyecto, idioma }: { proyecto: Proyecto; idioma: Idioma }
           {proyecto.url && (
             <span className="hidden items-center gap-2 sm:flex">
               <span aria-hidden className="jv-latido h-1.5 w-1.5 rounded-full bg-brand" />
-              <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-soft">
+              <span className="font-mono text-xs uppercase tracking-[0.12em] text-ink-soft">
                 {PORTAFOLIO.estados[idioma].enLinea}
               </span>
             </span>

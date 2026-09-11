@@ -73,7 +73,7 @@ export function FichaGoogle({
             className="block h-full rounded-full bg-gradient-to-r from-secondary to-primary"
           />
         </span>
-        <span aria-hidden className="shrink-0 font-mono text-[11px] tabular-nums text-ink-soft">
+        <span aria-hidden className="shrink-0 font-mono text-xs tabular-nums text-ink-soft">
           {llenos}/{total}
         </span>
       </div>
@@ -102,7 +102,7 @@ export function FichaGoogle({
         ))}
       </dl>
 
-      <p className="mt-5 jv-rule pt-4 font-mono text-[11px] leading-relaxed text-ink-soft">
+      <p className="mt-5 jv-rule pt-4 font-mono text-xs leading-relaxed text-ink-soft">
         {rotulo}
       </p>
     </div>

@@ -81,7 +81,7 @@ export function Cookies({ idioma }: { idioma: Idioma }) {
       className="fixed bottom-[6.25rem] left-4 right-4 z-50 max-w-md sm:right-auto lg:bottom-4"
     >
       <div className="jv-card bg-raised p-5">
-        <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
+        <p className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
           {COOKIES.titulo[idioma]}
         </p>
         <p className="mt-3 text-sm leading-relaxed text-ink-soft">{COOKIES.texto[idioma]}</p>

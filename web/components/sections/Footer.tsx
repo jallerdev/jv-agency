@@ -70,7 +70,7 @@ export function Footer({ idioma }: { idioma: Idioma }) {
               >
                 {BUSINESS.whatsappDisplay}
               </a>
-              <p className="pt-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
+              <p className="pt-2 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
                 {PIE.base[idioma]}
               </p>
             </div>
@@ -78,7 +78,7 @@ export function Footer({ idioma }: { idioma: Idioma }) {
 
           {COLUMNAS.map((col) => (
             <nav key={col.titulo.es} aria-label={col.titulo[idioma]}>
-              <h2 className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
+              <h2 className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
                 {col.titulo[idioma]}
               </h2>
               <ul className="mt-4 flex flex-col">

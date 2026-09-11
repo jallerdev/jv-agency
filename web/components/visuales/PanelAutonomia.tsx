@@ -137,7 +137,7 @@ export function PanelAutonomia({
         </li>
       </ul>
 
-      <p className="mt-4 jv-rule pt-4 font-mono text-[11px] text-ink-soft">{rotulo ?? t.rotulo}</p>
+      <p className="mt-4 jv-rule pt-4 font-mono text-xs text-ink-soft">{rotulo ?? t.rotulo}</p>
     </div>
   );
 }

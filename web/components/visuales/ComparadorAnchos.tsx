@@ -144,7 +144,7 @@ export function ComparadorAnchos({
           [&::-moz-range-thumb]:h-11 [&::-moz-range-thumb]:w-11 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-line [&::-moz-range-thumb]:bg-primary"
       />
 
-      <figcaption className="mt-2 font-mono text-[11px] leading-relaxed text-ink-soft">
+      <figcaption className="mt-2 font-mono text-xs leading-relaxed text-ink-soft">
         El mismo sitio real, a dos anchos. Arrastra o usa las flechas del teclado.
       </figcaption>
     </figure>

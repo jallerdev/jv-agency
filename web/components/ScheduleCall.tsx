@@ -367,7 +367,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
       <div className="mt-5 flex items-center gap-3">
         <p
           aria-live="polite"
-          className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-accent-ink"
+          className="font-mono text-xs uppercase tracking-[0.12em] text-accent-ink"
         >
           {T.paso(paso)}
         </p>
@@ -384,7 +384,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
           />
         </span>
       </div>
-      <p className="mt-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-soft">
+      <p className="mt-2 font-mono text-xs uppercase tracking-[0.12em] text-ink-soft">
         {T.promesa}
       </p>
 
@@ -530,7 +530,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
             <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
 {T.hora}
             {values.date && !loadingSlots && slots && slots.length > 0 && (
-              <span className="font-mono text-[11px] font-normal tabular-nums text-ink-soft">
+              <span className="font-mono text-xs font-normal tabular-nums text-ink-soft">
                 {T.libres(slots.length)}
               </span>
             )}
@@ -740,7 +740,7 @@ function Field({
         ),
       })}
       {note && !error && (
-        <p className="mt-1.5 font-mono text-[11px] text-ink-soft first-letter:uppercase">{note}</p>
+        <p className="mt-1.5 font-mono text-xs text-ink-soft first-letter:uppercase">{note}</p>
       )}
       <FieldError id={errorId} message={error} />
     </div>

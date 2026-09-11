@@ -137,7 +137,7 @@ export function ArbolDecision({
               {actual.detalle}
             </p>
             {actual.pie && (
-              <p className="mt-3 font-mono text-[11px] tabular-nums text-primary-dark">
+              <p className="mt-3 font-mono text-xs tabular-nums text-primary-dark">
                 {actual.pie}
               </p>
             )}

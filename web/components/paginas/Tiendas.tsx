@@ -476,7 +476,7 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
           </Reveal>
 
           <Reveal delay={140}>
-            <p className="jv-eyebrow mt-4 text-ink-soft">{TIENDAS.pasosNota[idioma]}</p>
+            <p className="jv-eyebrow-frase mt-4 text-ink-soft">{TIENDAS.pasosNota[idioma]}</p>
           </Reveal>
 
           <Reveal delay={200}>
