@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
+import { ArrowUpRight, type LucideIcon } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
@@ -45,8 +45,14 @@ export function PainGrid({
 }) {
   return (
     <div
+      /* LAS CUATRO COLUMNAS SOLO A PARTIR DE `xl`.
+         Estaban desde `lg`, y a 1.024 px cada celda pequeña medía 230: los
+         titulares se partían en cinco renglones —«Quieres / rehacerla, pero /
+         te da miedo / perder lo / posicionado»— y el cuerpo iba a veinte
+         caracteres por línea. Entre `sm` y `lg` van dos columnas, con las dos
+         grandes a ancho completo. */
       className={cn(
-        "grid grid-cols-1 gap-px overflow-hidden rounded-[--radius-lg] border border-line bg-line sm:grid-cols-2 lg:grid-cols-4",
+        "grid grid-cols-1 gap-px overflow-hidden rounded-[--radius-lg] border border-line bg-line sm:grid-cols-2 xl:grid-cols-4",
         className,
       )}
     >
@@ -59,15 +65,19 @@ export function PainGrid({
             delay={Math.min(i, 3) * 70}
             className={cn(
               "flex flex-col bg-canvas p-6 sm:p-7",
-              grande ? "lg:col-span-2" : "lg:col-span-1",
+              grande ? "sm:col-span-2" : "sm:col-span-1",
             )}
           >
             <h3 className="flex items-start gap-2.5">
+              {/* 24 px y trazo 2, no 20 y 1,75: a ese tamaño y ese grosor, un
+                  teléfono o una lupa en naranja sobre casi negro se leen como
+                  una mota, no como un signo. El icono acompaña a un titular de
+                  20-24 px; por debajo de eso parece suciedad en la pantalla. */}
               {Icono && (
                 <Icono
                   aria-hidden="true"
-                  strokeWidth={1.75}
-                  className="mt-[0.15em] h-5 w-5 shrink-0 text-brand"
+                  strokeWidth={2}
+                  className="mt-[0.1em] h-6 w-6 shrink-0 text-brand"
                 />
               )}
               <span
@@ -81,11 +91,15 @@ export function PainGrid({
             </h3>
             <p className="mt-3 flex-1 leading-relaxed text-ink-soft">{d.cuerpo}</p>
             {d.enlace && (
+              /* Con `jv-navlink` no parecía un enlace: texto blanco en negrita
+                 y nada más. `jv-enlace` le pone el subrayado de marca, y la
+                 flecha dice que lleva a otra página. */
               <Link
                 href={d.enlace.href}
-                className="jv-navlink mt-5 w-fit text-sm font-semibold text-ink"
+                className="jv-enlace mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-brand"
               >
                 {d.enlace.texto}
+                <ArrowUpRight aria-hidden="true" strokeWidth={2} className="h-4 w-4" />
               </Link>
             )}
           </Reveal>
