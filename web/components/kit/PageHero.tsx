@@ -56,6 +56,7 @@ export function PageHero({
   titulo,
   entradilla,
   precio,
+  indice,
   acciones,
   aparte,
   className,
@@ -74,6 +75,8 @@ export function PageHero({
   entradilla?: string;
   /** El servicio cuyo ticket se enseña. Sin él, no hay ticket. */
   precio?: ServicioPublicado["id"];
+  /** El índice de la página, si lo tiene. Va en el renglón de las migas. */
+  indice?: React.ReactNode;
   acciones?: React.ReactNode;
   /** La pieza real de la derecha. */
   aparte?: React.ReactNode;
@@ -86,7 +89,14 @@ export function PageHero({
           logotipo. Se vio en la primera captura de /servicios/diseno-de-
           paginas-web, con «Inicio / Diseño de páginas web» pisando la marca. */}
       <div className="mx-auto max-w-[1280px] px-6 pb-16 pt-[calc(var(--header-h)+2rem)] md:px-12 md:pb-24 md:pt-[calc(var(--header-h)+3rem)]">
-        <Breadcrumbs migas={migas} idioma={idioma} />
+        {/* Las migas y, si la página lo pasa, su índice: los dos son
+            navegación de esta página y comparten renglón. Suelto debajo del
+            hero, el chip del índice se quedaba solo en una banda vacía de 120
+            px que separaba el hero de lo siguiente en vez de unirlos. */}
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <Breadcrumbs migas={migas} idioma={idioma} />
+          {indice}
+        </div>
 
         <div
           className={cn(

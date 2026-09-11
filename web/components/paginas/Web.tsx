@@ -16,6 +16,7 @@ import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
 import { PRICES, money, PISOS } from "@/lib/quote";
+import { BUSINESS } from "@/lib/business";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
@@ -305,7 +306,13 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
             </>
           }
           entradilla={WEB.entradilla[idioma]}
-          precio="landing"
+          indice={<SectionIndex entradas={indice} idioma={idioma} variante="chip" />}
+          /* EL TICKET, EN LA COLUMNA DE LA DERECHA Y NO EN UNA LÍNEA.
+             Son los tres datos que la sección siguiente demuestra que casi
+             nadie publica juntos, y van con las mismas etiquetas que las tres
+             columnas de esa tabla: el hero los dice, la tabla los contrasta.
+             De paso, la mitad derecha del hero deja de estar vacía a 1.920. */
+          aparte={<TicketPublicado idioma={idioma} />}
           acciones={
             <>
               <Button size="lg" variant="primary" asChild>
@@ -319,13 +326,6 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
             </>
           }
         />
-
-        {/* El índice, como chip plegable: esta página es de secciones a ancho
-            completo —la pieza firma y el cierre van a sangre— y no tiene una
-            columna lateral donde el riel pueda quedarse pegado. */}
-        <div className="mx-auto max-w-[1280px] px-6 pt-10 md:px-12">
-          <SectionIndex entradas={indice} idioma={idioma} variante="chip" />
-        </div>
 
         {/* ── El diferenciador, con su tabla ──────────────────────────── */}
         <section id="diferencia" className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24">
@@ -621,6 +621,59 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
       <WhatsAppButton idioma={idioma} />
       <BarraMovil idioma={idioma} />
     </>
+  );
+}
+
+/**
+ * EL TICKET DEL HERO
+ * ──────────────────────────────────────────────────────────────────────────
+ * Los tres datos que la sección siguiente demuestra que casi nadie publica
+ * juntos, con las mismas etiquetas que las tres columnas de esa tabla: el hero
+ * los dice, la tabla los contrasta.
+ *
+ * LA PRIMERA VERSIÓN ERA UNA FICHA DE ESPECIFICACIONES —tres renglones de
+ * etiqueta y valor, los tres del mismo peso— y se leía como el reverso de una
+ * caja de electrodomésticos. El precio es el argumento de la página: aquí
+ * manda él, a tamaño de titular, y el plazo y el nombre son la letra que lo
+ * acompaña. Un solo dato grande y dos pequeños es jerarquía; tres medianos no
+ * es ninguna.
+ *
+ * `tabular-nums` no es capricho: sin él, los dos puntos de millar de 850.000
+ * bailan respecto a los de cualquier otro precio del sitio.
+ */
+function TicketPublicado({ idioma }: { idioma: Idioma }) {
+  const filas = [
+    { k: WEB.tabla.columnas[idioma][1], v: WEB.arbol.landing.dias[idioma] },
+    { k: WEB.tabla.columnas[idioma][2], v: BUSINESS.founderName },
+  ];
+
+  return (
+    <aside className="jv-card overflow-hidden">
+      {/* La cabecera va en su propio escalón de superficie, como la barra de
+          dirección de las tarjetas de trabajo: es el mismo mueble del sitio. */}
+      <p className="jv-rule bg-raised px-6 py-3 jv-eyebrow text-brand sm:px-8">
+        {WEB.badgePrecio[idioma]}
+      </p>
+
+      <div className="px-6 py-7 sm:px-8">
+        <p className="jv-eyebrow text-ink-muted">{WEB.tabla.columnas[idioma][0]}</p>
+        <p className="mt-3 flex flex-wrap items-baseline gap-x-2">
+          <span className="text-sm text-ink-soft">{WEB.desde[idioma]}</span>
+          <span className="text-[length:var(--text-h2)] font-semibold leading-none tabular-nums tracking-[-0.02em] text-ink">
+            {money(PISO_LANDING, idioma)}
+          </span>
+        </p>
+
+        <dl className="mt-7 grid gap-3 border-t border-line pt-5">
+          {filas.map((f) => (
+            <div key={f.k} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <dt className="jv-eyebrow text-ink-muted">{f.k}</dt>
+              <dd className="font-mono text-sm text-ink">{f.v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </aside>
   );
 }
 
