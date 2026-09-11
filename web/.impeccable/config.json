@@ -1,7 +1,9 @@
 {
   "detector": {
     "ignoreRules": [
-      "gradient-text"
+      "gradient-text",
+      "hero-eyebrow-chip",
+      "kicker-above-heading"
     ],
     "ignoreFiles": [],
     "ignoreValues": [
@@ -9,6 +11,24 @@
         "rule": "gradient-text",
         "value": "background-clip: text gradient",
         "createdAt": "2026-09-10T02:28:07.129Z"
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "createdAt": "2026-09-11T07:45:25.986064Z",
+        "reason": "Marca JV, definida en el home. `.jv-eyebrow` (JetBrains Mono 11px, 0.16em, --text-muted) es el rotulo de seccion del sistema y esta en app/efectos.css y en DESIGN.md: aparece en la portada, que es la referencia visual del sitio. Quitarlo de las internas las haria distintas del home, que es justo lo contrario del encargo."
+      },
+      {
+        "rule": "kicker-above-heading",
+        "value": "*",
+        "createdAt": "2026-09-11T07:45:25.986064Z",
+        "reason": "Mismo elemento que hero-eyebrow-chip: `.jv-eyebrow` sobre un h2 de seccion. Decision del home, registrada en DESIGN.md."
+      },
+      {
+        "rule": "radial-spotlight-glow",
+        "value": "*",
+        "createdAt": "2026-09-11T07:45:25.986064Z",
+        "reason": "Es `--bloom-brand`, el UNICO degradado que el sistema permite y esta escrito asi en app/tokens.css: naranja al 8% en radial detras de un titular. Va en la portada. La regla marca el patron generico; aca es una decision de marca documentada."
       }
     ]
   }

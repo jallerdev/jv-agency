@@ -23,6 +23,7 @@ import { HiloWhatsApp } from "@/components/visuales/HiloWhatsApp";
 import { CasillaVacia } from "@/components/visuales/CasillaVacia";
 import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
+import { catalogo, money, PLAZOS } from "@/lib/quote";
 
 /**
  * Página de ciudad para la intención transaccional «diseño de páginas web en
@@ -83,6 +84,14 @@ export const metadata: Metadata = {
  * resume; el desarrollo completo —qué incluye, cómo se cobra, qué no entra—
  * vive en la página de servicio, y esa es la que tiene que recibir la señal.
  */
+/* El número Y EL PLAZO salen del catálogo de `lib/quote.ts`. Estaban escritos
+   a mano —«desde $850.000», «3 semanas»— con lo que esta página podía quedar
+   cobrando distinto que /precios sin que nadie lo notara, y de hecho el plazo
+   de la tienda ya no coincidía. Las descripciones son de Barranquilla y se
+   quedan.
+
+   FALTABA EL CHATBOT: la página tiene una sección entera de conversación de
+   WhatsApp y no lo ofrecía en el cuadro de precios. */
 const PRECIOS: {
   servicio: string;
   desde: string;
@@ -91,45 +100,52 @@ const PRECIOS: {
   href?: string;
 }[] = [
   {
-    servicio: "Página web",
-    desde: "desde $850.000",
-    plazo: "5 días",
+    servicio: catalogo("landing").nombre.es,
+    desde: `desde ${money(catalogo("landing").desde)}`,
+    plazo: PLAZOS.landing.es,
     desc: "De una a varias páginas, con tus textos ordenados, tus fotos y un formulario que sí llega.",
-    href: "/servicios/diseno-de-paginas-web",
+    href: catalogo("landing").href.es,
   },
   {
-    servicio: "Tienda online",
-    desde: "desde $2.500.000",
-    plazo: "3 semanas",
+    servicio: catalogo("tienda").nombre.es,
+    desde: `desde ${money(catalogo("tienda").desde)}`,
+    plazo: PLAZOS.tienda.es,
     desc: "Catálogo, carrito, cuentas de cliente, pagos en línea y cálculo de envío.",
-    href: "/servicios/tiendas-virtuales",
+    href: catalogo("tienda").href.es,
   },
   {
-    servicio: "Auditoría SEO",
-    desde: "desde $390.000",
-    plazo: "5 días",
+    servicio: catalogo("chatbot").nombre.es,
+    desde: `desde ${money(catalogo("chatbot").desde)}`,
+    plazo: PLAZOS.chatbot.es,
+    desc: "Tu número contesta solo lo de siempre —horarios, precios, dónde quedas— y te pasa la conversación cuando vale la pena. Conectado directo a Meta, a nombre de tu negocio.",
+    href: catalogo("chatbot").href.es,
+  },
+  {
+    servicio: catalogo("auditoria").nombre.es,
+    desde: `desde ${money(catalogo("auditoria").desde)}`,
+    plazo: PLAZOS.auditoria.es,
     desc: "Qué te está frenando hoy y en qué orden arreglarlo. Sirva o no sirva que yo lo haga.",
-    href: "/servicios/posicionamiento-seo",
+    href: catalogo("auditoria").href.es,
   },
   {
     servicio: "SEO local mensual",
-    desde: "desde $650.000/mes",
+    desde: `desde ${money(catalogo("seoMes").desde)}/mes`,
     plazo: "trabajo continuo",
     desc: "Aparecer cuando alguien de Barranquilla busca lo que vendes. Es trabajo, no un botón.",
-    href: "/servicios/posicionamiento-seo",
+    href: catalogo("seoMes").href.es,
   },
   {
-    servicio: "Renovación anual",
-    desde: "$290.000",
+    servicio: catalogo("renovacion").nombre.es,
+    desde: money(catalogo("renovacion").desde),
     plazo: "una vez al año",
     desc: "Dominio, alojamiento y que el sitio siga en pie el año siguiente. Se dice desde el primer día.",
   },
   {
-    servicio: "Software a la medida",
-    desde: "según alcance",
-    plazo: "se estima contigo",
+    servicio: catalogo("software").nombre.es,
+    desde: `desde ${money(catalogo("software").desde)}`,
+    plazo: PLAZOS.software.es,
     desc: "Cuando no necesitas una página sino un sistema que te resuelva un proceso.",
-    href: "/servicios/software-a-la-medida",
+    href: catalogo("software").href.es,
   },
 ];
 
@@ -288,16 +304,24 @@ export default function BarranquillaPage() {
       {
         "@type": "Offer",
         name: "Página web",
-        description: "Página web a la medida, lista en 5 días.",
-        price: 850000,
+        description: `Página web a la medida, lista en ${PLAZOS.landing.es}.`,
+        price: catalogo("landing").desde,
         priceCurrency: "COP",
         availability: "https://schema.org/InStock",
       },
       {
         "@type": "Offer",
-        name: "Tienda online",
+        name: "Tienda virtual",
         description: "Tienda virtual con catálogo, carrito y pagos en línea.",
-        price: 2500000,
+        price: catalogo("tienda").desde,
+        priceCurrency: "COP",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        name: "Chatbot de WhatsApp",
+        description: "Automatización de WhatsApp conectada directo a Meta, a nombre del negocio.",
+        price: catalogo("chatbot").desde,
         priceCurrency: "COP",
         availability: "https://schema.org/InStock",
       },
@@ -305,7 +329,7 @@ export default function BarranquillaPage() {
         "@type": "Offer",
         name: "Auditoría SEO",
         description: "Diagnóstico de posicionamiento con el orden en que hay que arreglarlo.",
-        price: 390000,
+        price: catalogo("auditoria").desde,
         priceCurrency: "COP",
         availability: "https://schema.org/InStock",
       },
@@ -313,7 +337,7 @@ export default function BarranquillaPage() {
         "@type": "Offer",
         name: "SEO local mensual",
         description: "Trabajo mensual de posicionamiento local en Barranquilla.",
-        price: 650000,
+        price: catalogo("seoMes").desde,
         priceCurrency: "COP",
         availability: "https://schema.org/InStock",
       },
@@ -351,9 +375,15 @@ export default function BarranquillaPage() {
 
           <Reveal delay={120}>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <BotonCuentame variant="primary">
-                Cuéntame tu proyecto <ArrowRight className="h-5 w-5" aria-hidden="true" />
-              </BotonCuentame>
+              {/* «Agenda una llamada» y no «Cuéntame tu proyecto»: era la única
+                  página del sitio con otra acción principal en el hero, y una
+                  marca que dice lo mismo en siete ciudades no puede pedir cosas
+                  distintas en la octava. El botón de WhatsApp sigue abajo. */}
+              <Button size="lg" variant="primary" asChild>
+                <Link href="/agendar">
+                  Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                </Link>
+              </Button>
               <Button size="lg" variant="outline" asChild>
                 <a href="#precios">Ver precios</a>
               </Button>

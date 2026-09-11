@@ -25,7 +25,7 @@ import { ListaAcopio } from "@/components/visuales/ListaAcopio";
 import { PanelAutonomia } from "@/components/visuales/PanelAutonomia";
 import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
-import { A_PRICES, money } from "@/lib/quote";
+import { catalogo, money, PLAZOS } from "@/lib/quote";
 
 /**
  * Página de ciudad para la intención transaccional «diseño de páginas web en
@@ -145,48 +145,63 @@ const PARA_QUIEN = [
  * todo el sitio; el del chatbot sale de `lib/quote.ts` para que no haya dos
  * verdades. El formato de moneda también sale de ahí.
  */
+/* El número Y EL PLAZO salen del catálogo de `lib/quote.ts`. El plazo estaba
+   escrito a mano y decía «de 2 a 5 semanas» para el chatbot cuando su propia
+   página dice «de 1 a 5»: la ciudad cita el plazo, no lo decide. Las
+   descripciones sí son de Cartagena y se quedan como están. */
+const D = (id: Parameters<typeof catalogo>[0]) => catalogo(id);
+
 const PRECIOS = [
   {
-    q: "Página web",
-    desde: money(850000),
-    plazo: "5 días",
+    q: D("landing").nombre.es,
+    desde: money(D("landing").desde),
+    plazo: PLAZOS.landing.es,
     d: "Carga rápido, se ve seria en el teléfono y dice en diez segundos qué haces. Con tu dominio y tu correo.",
-    href: "/servicios/diseno-de-paginas-web",
+    href: D("landing").href.es,
   },
   {
-    q: "Tienda online",
-    desde: money(2500000),
-    plazo: "3 semanas",
+    q: catalogo("tienda").nombre.es,
+    desde: money(D("tienda").desde),
+    plazo: PLAZOS.tienda.es,
     d: "Catálogo con inventario, carrito, cuentas de cliente, pagos en línea y cotización de envíos. Como Bloomrose.",
-    href: "/servicios/tiendas-virtuales",
+    href: D("tienda").href.es,
   },
   {
-    q: "Chatbot de WhatsApp",
-    desde: money(A_PRICES.base.faq),
-    plazo: "de 2 a 5 semanas",
+    q: D("chatbot").nombre.es,
+    desde: money(D("chatbot").desde),
+    plazo: PLAZOS.chatbot.es,
     d: "Tu número contesta solo las preguntas de siempre y te pasa la conversación cuando vale la pena.",
-    href: "/servicios/chatbot-whatsapp",
+    href: D("chatbot").href.es,
   },
   {
-    q: "Auditoría SEO",
-    desde: money(390000),
-    plazo: "5 días",
+    q: D("auditoria").nombre.es,
+    desde: money(D("auditoria").desde),
+    plazo: PLAZOS.auditoria.es,
     d: "Por qué no apareces y qué se arregla primero. Sirve igual si la página te la hizo otro.",
-    href: "/servicios/posicionamiento-seo",
+    href: D("auditoria").href.es,
   },
   {
     q: "SEO local, mensual",
-    desde: `${money(650000)}/mes`,
+    desde: `${money(D("seoMes").desde)}/mes`,
     plazo: "trabajo continuo",
     d: "Aparecer en búsquedas con ciudad: «funeraria en Cartagena», «avisos publicitarios en Cartagena».",
-    href: "/servicios/posicionamiento-seo",
+    href: D("seoMes").href.es,
   },
   {
-    q: "Software a la medida",
-    desde: "Según el alcance",
-    plazo: "se define al cotizar",
+    /* Faltaba, y es la única línea que se vuelve a cobrar cada año: callarla
+       acá y decirla en /precios es justo la sorpresa que el sitio promete no
+       dar. */
+    q: D("renovacion").nombre.es,
+    desde: money(D("renovacion").desde),
+    plazo: "una vez al año",
+    d: "Dominio, alojamiento, certificado y respaldos del sitio ya entregado. Se dice desde el primer día.",
+  },
+  {
+    q: D("software").nombre.es,
+    desde: money(D("software").desde),
+    plazo: PLAZOS.software.es,
     d: "Cuando el problema no es una página sino un proceso: reservas, inventario, historia clínica.",
-    href: "/servicios/software-a-la-medida",
+    href: D("software").href.es,
   },
 ];
 
@@ -230,7 +245,7 @@ const FAQS = [
   },
   {
     q: "Ya me hicieron una página y no aparece por ningún lado. ¿La rehacemos?",
-    a: "Primero la reviso. Muchas veces no es la página: es que en ninguna parte dice «Cartagena», nunca se le avisó a Google que existe y no hay una sola reseña. La auditoría cuesta desde " + money(390000) + " y en 5 días te digo qué tiene. Si conviene rehacerla te lo digo, y si no, también.",
+    a: "Primero la reviso. Muchas veces no es la página: es que en ninguna parte dice «Cartagena», nunca se le avisó a Google que existe y no hay una sola reseña. La auditoría cuesta desde " + money(catalogo("auditoria").desde) + " y en 5 días te digo qué tiene. Si conviene rehacerla te lo digo, y si no, también.",
   },
   {
     q: "La carta me cambia según lo que llegue de Bazurto. ¿Toca llamarte cada vez?",
@@ -283,22 +298,33 @@ export default function DisenoPaginasWebCartagenaPage() {
       {
         "@type": "Offer",
         name: "Página web",
-        description: "Página web a la medida, con dominio y correo propio. Entrega en 5 días.",
+        description: `Página web a la medida, con dominio y correo propio. Entrega en ${PLAZOS.landing.es}.`,
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 850000,
+          minPrice: catalogo("landing").desde,
         },
         availability: "https://schema.org/InStock",
       },
       {
         "@type": "Offer",
-        name: "Tienda online",
-        description: "Catálogo, carrito, pagos en línea y cotización de envíos. Entrega en 3 semanas.",
+        name: "Tienda virtual",
+        description: `Catálogo, carrito, pagos en línea y cotización de envíos. Entrega en ${PLAZOS.tienda.es}.`,
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 2500000,
+          minPrice: catalogo("tienda").desde,
+        },
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        name: "Chatbot de WhatsApp",
+        description: `Automatización conectada directo a Meta, a nombre del negocio. Entrega ${PLAZOS.chatbot.es}.`,
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          priceCurrency: "COP",
+          minPrice: catalogo("chatbot").desde,
         },
         availability: "https://schema.org/InStock",
       },
@@ -309,7 +335,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 390000,
+          minPrice: catalogo("auditoria").desde,
         },
         availability: "https://schema.org/InStock",
       },
@@ -320,7 +346,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 650000,
+          minPrice: catalogo("seoMes").desde,
         },
         availability: "https://schema.org/InStock",
       },
@@ -352,7 +378,7 @@ export default function DisenoPaginasWebCartagenaPage() {
             </p>
             <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
               Diseño y programo yo mismo, sin equipo intermedio. Desde{" "}
-              <strong className="text-ink">{money(850000)}</strong>, en{" "}
+              <strong className="text-ink">{money(catalogo("landing").desde)}</strong>, en{" "}
               <strong className="text-ink">5 días</strong>.
             </p>
           </Reveal>
@@ -389,7 +415,7 @@ export default function DisenoPaginasWebCartagenaPage() {
                 <article className="flex h-full flex-col jv-card p-6 sm:p-7">
                   <p className="font-display text-4xl text-primary-dark">{c.dato}</p>
                   <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">{c.de}</p>
-                  <p className="mt-5 jv-rule pt-4 font-mono text-[11px] leading-relaxed text-ink-soft">
+                  <p className="mt-5 jv-rule pt-4 font-mono text-xs leading-relaxed text-ink-soft">
                     {c.fuente}
                   </p>
                 </article>
@@ -487,7 +513,7 @@ export default function DisenoPaginasWebCartagenaPage() {
           <Reveal>
             <div className="mt-6 grid gap-4 rounded-2xl border border-line bg-band/60 p-6 font-body leading-relaxed text-ink-soft sm:p-7">
               <p>
-                <strong className="text-ink">La renovación anual cuesta {money(290000)}</strong> y
+                <strong className="text-ink">La renovación anual cuesta {money(catalogo("renovacion").desde)}</strong> y
                 cubre dominio, alojamiento y que la página siga actualizada y en pie. Lo digo acá
                 arriba y no en una nota al pie: es el costo que a todo el mundo se le aparece de
                 sorpresa al año siguiente.

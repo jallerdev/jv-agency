@@ -26,7 +26,7 @@ import { Comparador } from "@/components/visuales/Comparador";
 import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
 import { BUSINESS } from "@/lib/business";
-import { INCLUIDO_SIEMPRE, A_PRICES, money } from "@/lib/quote";
+import { INCLUIDO_SIEMPRE, catalogo, money, PLAZOS } from "@/lib/quote";
 
 /**
  * Página de ciudad para la intención transaccional «diseño de páginas web en
@@ -89,54 +89,52 @@ export const metadata: Metadata = {
   },
 };
 
-/** Precio de entrada del chatbot: se lee de quote.ts, no se escribe a mano. */
-const CHATBOT_DESDE = Math.min(...Object.values(A_PRICES.base));
-
 /**
- * Precios autorizados para publicación. Los números viven acá una sola vez y
- * alimentan tanto las tarjetas como el JSON-LD, para que no se puedan
- * desincronizar.
+ * Precios autorizados para publicación. El número y el plazo salen del
+ * catálogo de `lib/quote.ts`; acá solo queda la descripción. Estaban escritos
+ * a mano —850000, 2500000, «3 semanas»— y alimentan también el JSON-LD, así
+ * que una diferencia con /precios se publicaba además como dato estructurado.
  */
 const PRECIOS = [
   {
-    nombre: "Página web",
-    desde: 850000,
-    plazo: "5 días",
+    nombre: catalogo("landing").nombre.es,
+    desde: catalogo("landing").desde,
+    plazo: PLAZOS.landing.es,
     desc: "De una landing a una web corporativa. Diseño propio, no plantilla comprada.",
-    href: "/servicios/diseno-de-paginas-web",
+    href: catalogo("landing").href.es,
   },
   {
-    nombre: "Tienda online",
-    desde: 2500000,
-    plazo: "3 semanas",
+    nombre: catalogo("tienda").nombre.es,
+    desde: catalogo("tienda").desde,
+    plazo: PLAZOS.tienda.es,
     desc: "Catálogo, carrito, pagos en línea y panel para administrar productos e inventario.",
-    href: "/servicios/tiendas-virtuales",
+    href: catalogo("tienda").href.es,
   },
   {
-    nombre: "Chatbot de WhatsApp",
-    desde: CHATBOT_DESDE,
-    plazo: "de 1 a 5 semanas",
+    nombre: catalogo("chatbot").nombre.es,
+    desde: catalogo("chatbot").desde,
+    plazo: PLAZOS.chatbot.es,
     desc: "Tu número contesta solo: responde lo repetido, capta interesados y agenda.",
-    href: "/servicios/chatbot-whatsapp",
+    href: catalogo("chatbot").href.es,
   },
   {
-    nombre: "Auditoría SEO",
-    desde: 390000,
-    plazo: "5 días",
+    nombre: catalogo("auditoria").nombre.es,
+    desde: catalogo("auditoria").desde,
+    plazo: PLAZOS.auditoria.es,
     desc: "Qué te está frenando hoy en Google, con la lista de arreglos en orden de impacto.",
-    href: "/servicios/posicionamiento-seo",
+    href: catalogo("auditoria").href.es,
   },
   {
     nombre: "SEO local mensual",
-    desde: 650000,
+    desde: catalogo("seoMes").desde,
     plazo: "trabajo mensual",
     desc: "Contenido, ficha de Google y arreglos mes a mes. Los primeros movimientos, entre el mes 3 y el 6.",
     mensual: true,
-    href: "/servicios/posicionamiento-seo",
+    href: catalogo("seoMes").href.es,
   },
   {
-    nombre: "Renovación anual",
-    desde: 290000,
+    nombre: catalogo("renovacion").nombre.es,
+    desde: catalogo("renovacion").desde,
     plazo: "una vez al año",
     desc: "Dominio, hosting, certificado y respaldos del sitio ya entregado.",
     exacto: true,
@@ -659,7 +657,7 @@ export default function DisenoPaginasWebBogotaPage() {
                       aria-hidden="true"
                     />
                   </div>
-                  <span className="mt-2 w-fit break-all rounded-full border border-line px-3 py-1 font-mono text-[11px] text-ink-soft">
+                  <span className="mt-2 w-fit break-all rounded-full border border-line px-3 py-1 font-mono text-xs text-ink-soft">
                     {p.dominio}
                   </span>
                   <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{p.que}</p>

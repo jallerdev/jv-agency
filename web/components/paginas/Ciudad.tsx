@@ -22,7 +22,7 @@ import { Comparador } from "@/components/visuales/Comparador";
 import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
 import { BUSINESS } from "@/lib/business";
-import { INCLUIDO_SIEMPRE, PISOS, money } from "@/lib/quote";
+import { CATALOGO, INCLUIDO_SIEMPRE, PISOS, money } from "@/lib/quote";
 import type { Ciudad } from "@/content/ciudades/tipos";
 
 /**
@@ -50,52 +50,41 @@ import type { Ciudad } from "@/content/ciudades/tipos";
  * ciudades y fingir una dirección es exactamente lo que Google castiga acá.
  */
 
-/** Los precios se leen de `lib/quote.ts`. Ni un número escrito a mano. */
-const PRECIOS = [
-  {
-    nombre: "Página web",
-    desde: PISOS.landing,
-    plazo: "5 días",
-    desc: "De una landing a una web corporativa. Diseño propio, no plantilla comprada.",
-    href: "/servicios/diseno-de-paginas-web",
-  },
-  {
-    nombre: "Tienda virtual",
-    desde: PISOS.tienda,
-    plazo: "3 semanas",
-    desc: "Catálogo, carrito, pagos en línea y panel para administrar productos e inventario.",
-    href: "/servicios/tiendas-virtuales",
-  },
-  {
-    nombre: "Chatbot de WhatsApp",
-    desde: PISOS.chatbot,
-    plazo: "de 1 a 5 semanas",
-    desc: "Tu número contesta solo: responde lo repetido, capta interesados y agenda.",
-    href: "/servicios/chatbot-whatsapp",
-  },
-  {
-    nombre: "Auditoría SEO",
-    desde: PISOS.auditoria,
-    plazo: "5 días",
-    desc: "Qué te está frenando hoy en Google, con la lista de arreglos en orden de impacto.",
-    href: "/servicios/posicionamiento-seo",
-  },
-  {
-    nombre: "SEO local mensual",
-    desde: PISOS.seoMes,
-    plazo: "trabajo mensual",
-    desc: "Contenido, ficha de Google y arreglos mes a mes. Los primeros movimientos, entre el mes 3 y el 6.",
-    mensual: true,
-    href: "/servicios/posicionamiento-seo",
-  },
-  {
-    nombre: "Renovación anual",
-    desde: PISOS.renovacion,
-    plazo: "una vez al año",
-    desc: "Dominio, hosting, certificado y respaldos del sitio ya entregado.",
-    exacto: true,
-  },
-] as const;
+/**
+ * Las seis tarjetas salen del CATÁLOGO de `lib/quote.ts`: número y plazo, los
+ * dos. Los plazos estaban escritos a mano aquí y decían «3 semanas» para la
+ * tienda cuando su propia página dice «3 a 5», que es el plazo que se cumple.
+ *
+ * `plazoPropio` es para las dos líneas que no tienen entrega —el SEO mensual y
+ * la renovación—: el catálogo las declara `null` porque poner un número ahí
+ * sería prometer un resultado, y la tarjeta necesita igual una línea que decir.
+ */
+const PLAZO_PROPIO: Partial<Record<string, string>> = {
+  seoMes: "trabajo mensual",
+  renovacion: "una vez al año",
+};
+
+const DESC_CIUDAD: Partial<Record<string, string>> = {
+  seoMes:
+    "Contenido, ficha de Google y arreglos mes a mes. Los primeros movimientos, entre el mes 3 y el 6.",
+  renovacion: "Dominio, hosting, certificado y respaldos del sitio ya entregado.",
+};
+
+/* Fuera del cuadro, y a propósito: el mantenimiento del chatbot es un
+   recurrente que se explica en su página, y el software a la medida tiene su
+   propio párrafo debajo —«va aparte, según el alcance»— porque un sistema
+   interno no se cotiza por tabla. Quedan las seis de siempre. */
+const PRECIOS = CATALOGO.filter(
+  (s) => s.id !== "chatbotMes" && s.id !== "software",
+).map((s) => ({
+  nombre: s.nombre.es,
+  desde: s.desde,
+  plazo: s.plazo?.es ?? PLAZO_PROPIO[s.id] ?? "",
+  desc: DESC_CIUDAD[s.id] ?? s.desc.es,
+  mensual: s.unidad === "mes",
+  exacto: s.id === "renovacion",
+  href: s.id === "renovacion" ? undefined : s.href.es,
+}));
 
 const PROCESO = [
   {
@@ -518,7 +507,7 @@ export function PaginaCiudad({ ciudad }: { ciudad: Ciudad }) {
                       aria-hidden="true"
                     />
                   </div>
-                  <span className="mt-2 w-fit break-all rounded-full border border-line px-3 py-1 font-mono text-[11px] text-ink-soft">
+                  <span className="mt-2 w-fit break-all rounded-full border border-line px-3 py-1 font-mono text-xs text-ink-soft">
                     {p.dominio}
                   </span>
                   <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{p.que}</p>

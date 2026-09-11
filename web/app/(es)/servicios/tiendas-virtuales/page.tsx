@@ -14,7 +14,7 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Creación de tiendas virtuales y tienda online en Colombia | JV Agencia",
   description:
-    "Creo tu tienda virtual con catálogo, inventario, carrito, pagos con PSE, Nequi y tarjeta y envíos cotizados. Tienda online desde $2.500.000, lista en 3 semanas.",
+    "Creo tu tienda virtual con catálogo, inventario, carrito, pagos con PSE, Nequi y tarjeta y envíos cotizados. Tienda online desde $2.500.000, lista en 3 a 5 semanas.",
   alternates: {
     canonical: "/servicios/tiendas-virtuales",
     languages: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Creación de tiendas virtuales y tienda online en Colombia | JV Agencia",
     description:
-      "Tu tienda virtual cobra sola: PSE, Nequi y tarjeta, inventario y envíos. Desde $2.500.000, lista en 3 semanas.",
+      "Tu tienda virtual cobra sola: PSE, Nequi y tarjeta, inventario y envíos. Desde $2.500.000, lista en 3 a 5 semanas.",
     url: `${SITE_URL}/servicios/tiendas-virtuales`,
     type: "website",
     locale: "es_LA",

@@ -302,7 +302,11 @@ export const SALONES = {
     {
       clave: "tienda",
       titulo: { es: "Tienda online", en: "Online store" },
-      plazo: { es: "3 semanas", en: "3 weeks" },
+      /* «3 a 5», no «3»: en el cotizador (`PRICES.deliveryWeeks.ecom`) tres
+         semanas es el plazo URGENTE, que lleva un 25 % de recargo, y cinco es
+         el estándar. Anunciar el urgente como si fuera el normal es prometer
+         un plazo que se cobra aparte. */
+      plazo: { es: "3 a 5 semanas", en: "3 to 5 weeks" },
       cuerpo: {
         es: "Si además vendes producto: catálogo con inventario, carrito, pagos en línea y envíos.",
         en: "If you also sell product: catalogue with inventory, cart, online payments and shipping.",

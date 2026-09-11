@@ -1,5 +1,5 @@
 import type { Idioma, Texto, Traducido } from "@/content/types";
-import { money, PISOS } from "@/lib/quote";
+import { CATALOGO, money, PISOS } from "@/lib/quote";
 
 /**
  * LOS PRECIOS, EN LAS DOS LENGUAS
@@ -62,67 +62,63 @@ export function precioImpreso(l: LineaPrecio, idioma: Idioma): string {
   );
 }
 
-export const LINEAS: readonly LineaPrecio[] = [
-  {
-    servicio: { es: "Página web", en: "Website" },
-    plazo: {
-      es: "5 días la landing · 1 a 2 semanas la corporativa",
-      en: "5 days for a landing page · 1 to 2 weeks for a corporate site",
-    },
-    montoCop: PISOS.landing,
-    esDesde: true,
-    schemaDesc: {
-      es: "Página web a la medida, con dominio y correo propio.",
-      en: "A custom website, with your own domain and email.",
-    },
+/**
+ * La tabla publicada. SALE DEL CATÁLOGO, no de una lista escrita aquí.
+ *
+ * Estaba escrita a mano y le faltaban tres líneas que el resto del sitio sí
+ * cobra: el chatbot de WhatsApp (que se anuncia en la portada, en su página y
+ * en cinco ciudades), su mantenimiento mensual, y el piso del software —que
+ * decía «según alcance» cuando `PISOS.software` existe desde que Luis lo fijó
+ * en $2.000.000—. La página que existe para ser la fuente del precio era la
+ * que menos precios tenía.
+ *
+ * `schemaDesc` se queda aquí y no en el catálogo: es texto para el dato
+ * estructurado, no para la página, y no tiene por qué viajar con el precio.
+ */
+const SCHEMA_DESC: Record<string, Texto> = {
+  landing: {
+    es: "Página web a la medida, con dominio y correo propio.",
+    en: "A custom website, with your own domain and email.",
   },
-  {
-    servicio: { es: "Tienda online", en: "Online store" },
-    plazo: { es: "3 a 5 semanas", en: "3 to 5 weeks" },
-    montoCop: PISOS.tienda,
-    esDesde: true,
-    schemaDesc: {
-      es: "Tienda en línea con catálogo, carrito, cuentas, pagos y envíos.",
-      en: "An online store with catalogue, cart, accounts, payments and shipping.",
-    },
+  tienda: {
+    es: "Tienda en línea con catálogo, carrito, cuentas, pagos y envíos.",
+    en: "An online store with catalogue, cart, accounts, payments and shipping.",
   },
-  {
-    servicio: { es: "Auditoría SEO", en: "SEO audit" },
-    plazo: { es: "5 días", en: "5 days" },
-    montoCop: PISOS.auditoria,
-    esDesde: true,
-    schemaDesc: {
-      es: "Diagnóstico de por qué un sitio no aparece cuando lo buscan, y qué se arregla primero.",
-      en: "A diagnosis of why a site doesn't show up when people search for it, and what to fix first.",
-    },
+  chatbot: {
+    es: "Automatización de WhatsApp conectada directo a Meta, a nombre del negocio.",
+    en: "A WhatsApp automation wired straight to Meta, in the business's own name.",
   },
-  {
-    servicio: { es: "SEO local mensual", en: "Monthly local SEO" },
-    montoCop: PISOS.seoMes,
-    esDesde: true,
-    mensual: true,
-    schemaDesc: {
-      es: "Trabajo continuo de posicionamiento en búsquedas con ciudad.",
-      en: "Ongoing work to rank for searches that name a city.",
-    },
+  chatbotMes: {
+    es: "Monitoreo mensual del token y de las plantillas de la automatización.",
+    en: "Monthly monitoring of the automation's token and message templates.",
   },
-  {
-    servicio: { es: "Renovación anual", en: "Yearly renewal" },
-    montoCop: PISOS.renovacion,
-    schemaDesc: {
-      es: "Renovación anual del dominio, el alojamiento y el mantenimiento del sitio en pie.",
-      en: "Yearly renewal of the domain, the hosting and keeping the site standing.",
-    },
+  auditoria: {
+    es: "Diagnóstico de por qué un sitio no aparece cuando lo buscan, y qué se arregla primero.",
+    en: "A diagnosis of why a site doesn't show up when people search for it, and what to fix first.",
   },
-  {
-    servicio: { es: "Software a la medida", en: "Custom software" },
-    precio: { es: "según alcance", en: "depends on scope" },
-    schemaDesc: {
-      es: "Apps web, sistemas internos y plataformas hechas a la medida. El precio va según el alcance.",
-      en: "Web apps, internal systems and custom platforms. The price follows the scope.",
-    },
+  seoMes: {
+    es: "Trabajo continuo de posicionamiento en búsquedas con ciudad.",
+    en: "Ongoing work to rank for searches that name a city.",
   },
-];
+  software: {
+    es: "Apps web, sistemas internos y plataformas hechas a la medida. El precio sube con el alcance.",
+    en: "Web apps, internal systems and custom platforms. The price follows the scope.",
+  },
+  renovacion: {
+    es: "Renovación anual del dominio, el alojamiento y el mantenimiento del sitio en pie.",
+    en: "Yearly renewal of the domain, the hosting and keeping the site standing.",
+  },
+};
+
+export const LINEAS: readonly LineaPrecio[] = CATALOGO.map((s) => ({
+  servicio: s.nombre,
+  plazo: s.plazo ?? undefined,
+  montoCop: s.desde,
+  /* La renovación es una tarifa cerrada; todo lo demás es un piso. */
+  esDesde: s.id !== "renovacion",
+  mensual: s.unidad === "mes",
+  schemaDesc: SCHEMA_DESC[s.id],
+}));
 
 /* Los tres renglones del documento de ejemplo. Son CONCEPTOS, no importes:
    describen de qué se compone cualquier propuesta y son verdaderos por
