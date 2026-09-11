@@ -140,18 +140,24 @@ export function ArbolDecision({
   );
 
   return (
+    /* PREGUNTAS A UN LADO, RESPUESTA AL OTRO, a partir de `md`.
+       En una sola columna, el panel de respuesta es una caja vacía de 136 px
+       de alto y ancho completo esperando a que alguien conteste: parece que la
+       sección se quedó a medio construir. En dos columnas, el hueco es la
+       mitad de la pieza que espera su otra mitad, que es lo que es. */
     <div className={cn("jv-card p-5 sm:p-6", className)}>
-      <div className="grid gap-5">
-        {contestadas.map((c, i) => pregunta(c.nodo, i, c.elegida))}
-        {actual.tipo === "pregunta" && pregunta(actual, contestadas.length, null)}
-      </div>
+      <div className="grid gap-5 md:grid-cols-2 md:items-start md:gap-6">
+        <div className="grid gap-5">
+          {contestadas.map((c, i) => pregunta(c.nodo, i, c.elegida))}
+          {actual.tipo === "pregunta" && pregunta(actual, contestadas.length, null)}
+        </div>
 
-      {/* Alto reservado: el contenido de abajo no salta al cambiar de rama.
-          Lo que se anima es la opacidad, nunca la altura. */}
-      <div
-        aria-live="polite"
-        className="mt-5 grid min-h-[8.5rem] content-center rounded-xl border border-line bg-background p-4 transition-opacity duration-quick ease-state"
-      >
+        {/* Alto reservado: el contenido de abajo no salta al cambiar de rama.
+            Lo que se anima es la opacidad, nunca la altura. */}
+        <div
+          aria-live="polite"
+          className="grid min-h-[8.5rem] content-center rounded-xl border border-line bg-background p-4 transition-opacity duration-quick ease-state md:min-h-[11rem]"
+        >
         {actual.tipo === "resultado" ? (
           <div>
             <p className="jv-eyebrow text-accent-ink">{t.rotulo}</p>
@@ -181,6 +187,7 @@ export function ArbolDecision({
             {t.pista}
           </p>
         )}
+        </div>
       </div>
 
       {ruta.length > 0 && (

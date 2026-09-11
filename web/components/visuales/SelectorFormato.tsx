@@ -79,14 +79,10 @@ export function SelectorFormato({
 
   return (
     <div className={className}>
-      {/* El árbol no se estira a los 1.184 px de la sección: son dos botones y
-          una pregunta corta, y a ancho completo se leen como dos pancartas. */}
-      <ArbolDecision
-        raiz={raiz}
-        idioma={idioma}
-        onResultado={alResultado}
-        className="max-w-3xl"
-      />
+      {/* Sin tope de ancho: desde que el árbol reparte preguntas y respuesta en
+          dos columnas, lo que antes eran dos botones estirados a 1.184 px son
+          dos columnas de 560, que es una medida sensata. */}
+      <ArbolDecision raiz={raiz} idioma={idioma} onResultado={alResultado} />
 
       <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-3">
         {formatos.map((f) => {
@@ -96,24 +92,24 @@ export function SelectorFormato({
               key={f.clave}
               aria-current={suya ? "true" : undefined}
               className={cn(
-                "jv-card jv-card-int flex h-full flex-col p-7 transition-[opacity,border-color,transform] duration-base ease-ps",
+                "jv-card jv-card-int relative flex h-full flex-col p-7 transition-[opacity,border-color,transform] duration-base ease-ps",
                 suya && "border-brand",
                 hayEleccion && !suya && "opacity-55",
               )}
             >
-              {/* El rótulo ocupa sitio siempre, esté o no: sin esto, la
-                  tarjeta elegida crece 28 px y empuja a las otras dos. */}
-              <p
-                className={cn(
-                  "jv-eyebrow text-brand transition-opacity duration-base ease-ps",
-                  !suya && "opacity-0",
-                )}
-                aria-hidden={!suya}
-              >
-                {t.tuya}
-              </p>
+              {/* EL RÓTULO VA ABSOLUTO, montado en el filete de arriba.
+                  Reservarle sitio en el flujo dejaba un renglón en blanco
+                  encima del nombre en las tres tarjetas —parecía que faltaba
+                  algo—, y no reservarlo hacía crecer 28 px a la elegida y
+                  empujar a las otras dos. Montado en el borde no ocupa flujo
+                  ni mueve nada. */}
+              {suya && (
+                <p className="absolute -top-[0.6875rem] left-6 bg-canvas px-2 jv-eyebrow text-brand">
+                  {t.tuya}
+                </p>
+              )}
 
-              <h3 className="jv-titulo mt-3">{f.nombre}</h3>
+              <h3 className="jv-titulo">{f.nombre}</h3>
               <p className="jv-eyebrow-frase mt-1 text-ink-soft">{f.tambien}</p>
 
               <p className="mt-5 text-sm font-semibold text-ink">{t.quePaginas}</p>
@@ -142,9 +138,11 @@ export function SelectorFormato({
       </div>
 
       {esTienda && (
-        <article className="jv-card jv-card-int mt-5 border-brand p-7">
-          <p className="jv-eyebrow text-brand">{t.tuya}</p>
-          <h3 className="jv-titulo mt-3">{tienda.nombre}</h3>
+        <article className="jv-card jv-card-int relative mt-5 border-brand p-7">
+          <p className="absolute -top-[0.6875rem] left-6 bg-canvas px-2 jv-eyebrow text-brand">
+            {t.tuya}
+          </p>
+          <h3 className="jv-titulo">{tienda.nombre}</h3>
           <p className="mt-2 max-w-[52ch] leading-relaxed text-ink-soft">{tienda.cuerpo}</p>
           <p className="mt-4 font-mono text-lg text-brand">{tienda.pie}</p>
           <Link
