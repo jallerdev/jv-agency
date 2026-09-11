@@ -216,14 +216,16 @@
        Va con !important y cubriendo TODA superficie, porque el documento pinta
        fondos oscuros en muchas piezas y en papel ninguno debe sobrevivir. */
     html, body{ background:#FFFFFF !important; background-image:none !important; color:#111111 !important; }
-    .doc, .sec, .card, .note, .change, .calc, .plan, .offerbox, .cfg, .sheet,
-    .fig, .pill, .partlabel, table, thead, tbody, tr, td, th, blockquote,
-    [style*="background"]{ background-color:transparent !important; }
+    /* Toda superficie, sin lista blanca: enumerar clases dejaba fuera .offer,
+       .cell, .cfg__cell, .opt--pick y .msg, que conservaban su fondo oscuro y
+       se llevaban su texto —ya en tinta #111— a un contraste de 1,1:1. */
+    body *{ background-color:transparent !important; }
     /* lo que iba en tinta clara sobre oscuro vuelve a tinta oscura */
     body *{ color:#111111 !important; }
     .eyebrow, .lbl, h2 > .num, [class*="tag"]{ color:#B0431F !important; }
     /* y las piezas que de verdad son un bloque de color se marcan con filete */
-    .offerbox, .plan--pick, .card{ border:1px solid #D9D9D9 !important; }
+    .offerbox, .plan--pick, .card, .offer, .offer__final, .opt--pick,
+    .cfg__cell.is-hero, .cell.hero, .msg{ border:1px solid #D9D9D9 !important; }
 
 
     /* AL IMPRIMIR SE VUELVE AL PAPEL. El documento en pantalla va en el casi
@@ -248,7 +250,7 @@
   /* ---------- Screen helper bar ---------- */
   .helper{
     position:sticky; top:0; z-index:10;
-    background:#1c1c1c; color:var(--surface);
+    background:#1c1c1c; color:var(--ink);
     font-size:13px; text-align:center; padding:10px 16px;
   }
   .helper b{ color:var(--ink); }
@@ -296,7 +298,7 @@
         <p class="muted" style="margin:0">Quiénes somos, qué hacemos, un caso real y cómo trabajamos. Puedes enseñar estas páginas en una reunión o enviarlas por WhatsApp/correo.</p>
       </div>
       <div class="card">
-        <span class="pill" style="background:#1c1c1c">Parte 2</span>
+        <span class="pill" style="background:#1c1c1c;color:var(--ink)">Parte 2</span>
         <h3 style="margin-top:12px">Solo para ti (vendedor)</h3>
         <p class="muted" style="margin:0">Precios, cómo cotizar, manejo de objeciones, guion de venta, cómo cerrar, tu comisión y cómo usar el CRM. <strong>No se la muestres al cliente tal cual.</strong></p>
       </div>
@@ -424,7 +426,7 @@
 
   <!-- ============ CLIENTE IDEAL ============ -->
   <section class="sheet pagebreak" style="padding-top:8px">
-    <span class="partlabel" style="background:#1c1c1c">Parte 2 · Solo para ti, vendedor</span>
+    <span class="partlabel" style="background:#1c1c1c;color:var(--ink)">Parte 2 · Solo para ti, vendedor</span>
     <p class="eyebrow">A quién le vendes</p>
     <h2 class="sec-h2">El cliente ideal</h2>
     <p class="lead">No le vendemos a todo el mundo. Mientras mejor califiques, más fácil cierras.</p>
@@ -959,7 +961,7 @@
 
   <!-- ============ EL CRM (HALCÓNOS) ============ -->
   <section class="sheet pagebreak" style="padding-top:8px">
-    <span class="partlabel" style="background:#1c1c1c">Parte 2 · Tu herramienta de trabajo</span>
+    <span class="partlabel" style="background:#1c1c1c;color:var(--ink)">Parte 2 · Tu herramienta de trabajo</span>
     <p class="eyebrow">El CRM</p>
     <h2 class="sec-h2">Dónde trabajas tus leads <span class="metal">cada día.</span></h2>
     <p class="lead">Te damos acceso a <strong>HalcónOS</strong>, nuestro CRM. Ahí ves tus leads, los contactas y registras todo. Cada venta que cierres queda con tu nombre.</p>
