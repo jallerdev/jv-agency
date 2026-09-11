@@ -14,6 +14,7 @@ import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
+import { Breadcrumbs } from "@/components/kit/Breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BotonCuentame } from "@/components/Cuentame";
@@ -222,7 +223,15 @@ export function PaginaCiudad({ ciudad }: { ciudad: Ciudad }) {
       <main id="contenido">
         {/* ── Encabezado · canvas ────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
-          <Reveal>
+          {/* Las migas van FUERA del Reveal: son orientación, y orientarse no
+              espera a que termine una animación. Llevan su BreadcrumbList, que
+              hasta ahora solo tenía el artículo de blog en todo el dominio. */}
+          <Breadcrumbs
+            migas={[{ texto: `Diseño de páginas web en ${ciudad.nombre}` }]}
+            idioma="es"
+            className="[&_ol]:justify-center"
+          />
+          <Reveal className="mt-6">
             <Badge>{ciudad.badge}</Badge>
             <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
               Diseño de páginas web en {ciudad.nombre},{" "}

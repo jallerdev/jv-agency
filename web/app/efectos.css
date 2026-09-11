@@ -150,7 +150,16 @@
 .jv-marquee { display: flex; width: max-content; animation: var(--dur-marquee) linear infinite jv-marquee; }
 
 .jv-lift { transition: transform var(--dur-lift) var(--ease-ps), box-shadow 0.4s var(--ease-ps), border-color 0.18s var(--ease-ps), background 0.18s var(--ease-ps); }
-.jv-lift:hover { transform: translateY(-2px); }
+/* El levantamiento SOLO donde hay puntero de verdad.
+   En una pantalla táctil `:hover` no es un estado pasajero: se queda pegado
+   después de tocar y no se suelta hasta que tocas otra cosa. Una tarjeta que
+   se queda 2px arriba después de tocarla parece rota, y el usuario no tiene
+   forma de deshacerlo. `(hover: hover)` excluye justamente eso. */
+@media (hover: hover) {
+  .jv-lift:hover { transform: translateY(-2px); }
+}
+/* La pulsación sí va en todas partes: es el acuse de recibo del toque, y
+   dura lo que dura el dedo encima. */
 .jv-lift:active { transform: scale(0.985); }
 
 @media (prefers-reduced-motion: reduce) {

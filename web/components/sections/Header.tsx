@@ -9,6 +9,7 @@ import { CABECERA, NAV, type EntradaNav } from "@/content/layout/header";
 import type { Idioma } from "@/content/types";
 import { enlaceReal, rutaEnOtroIdioma } from "@/lib/rutas";
 import { Logo } from "@/components/Logo";
+import { PisoDeRuta } from "@/components/kit/Precio";
 import { cn } from "@/lib/utils";
 
 /**
@@ -116,6 +117,11 @@ function Mega({
                   {h.descripcion[idioma]}
                 </span>
               )}
+              {/* El precio de entrada, en el menú. Es lo primero que pregunta
+                  quien llega, y el sitio lo publica: esconderlo dos clics más
+                  adentro contradice el argumento entero. Sale del catálogo, así
+                  que no puede decir aquí una cosa y otra en la página. */}
+              <PisoDeRuta href={h.href[idioma]} idioma={idioma} className="mt-2 block" />
             </Link>
           ))}
         </div>
@@ -347,9 +353,10 @@ export function Header({ idioma }: { idioma: Idioma }) {
                       <li key={h.href.es}>
                         <Link
                           href={enlaceReal(h.href[idioma])}
-                          className="flex min-h-11 items-center text-ink-soft"
+                          className="flex min-h-11 items-center justify-between gap-4 text-ink-soft"
                         >
-                          {h.texto[idioma]}
+                          <span>{h.texto[idioma]}</span>
+                          <PisoDeRuta href={h.href[idioma]} idioma={idioma} />
                         </Link>
                       </li>
                     ))}

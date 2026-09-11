@@ -336,6 +336,31 @@ Todas van en `@layer components`, a propósito: así una utilidad escrita en el
 sitio de uso sigue ganando (`jv-card bg-raised` cambia el fondo sin pelear con
 la especificidad) y la clase da el valor por defecto, no la última palabra.
 
+**`components/ui/button.tsx` delega en `.jv-boton` y `.jv-boton-2`**, no los
+repite. Ahí vivía una segunda definición de botón escrita cuando el sitio era
+bronce —con sombra y con `hover:-translate-y-0.5`— y el sitio acababa con dos
+botones que se parecían sin ser iguales: la cabecera usaba la clase del sistema
+y diecinueve archivos usaban el otro. `Eyebrow` de `components/ui/seccion.tsx`
+hace lo mismo con `.jv-eyebrow`.
+
+### El kit de las páginas internas
+
+`components/kit/` — se construyen una vez y las leen todas las páginas. Todo lo
+que tenga que ver con precio sale de `CATALOGO`:
+
+| Componente | Qué hace |
+|---|---|
+| `Breadcrumbs` | Migas con su `BreadcrumbList`. `aria-current` solo en la última. |
+| `PriceTag` · `PriceCard` | El precio en línea y en tarjeta. Números tabulares. |
+| `PisoDeRuta` | El «desde» de una RUTA: la línea más barata que vende esa página. |
+| `PageHero` | Hero asimétrico con migas, ticket y una pieza real a la derecha. |
+| `ContrastBlock` | «Casi todos hacen X. Yo hago Y.» Dos columnas desiguales, 2/5 y 3/5. |
+| `PainGrid` | Bento asimétrico. **El icono va en línea con el titular, nunca en un azulejo encima.** |
+| `InOutLedger` | «Lo que entra / lo que no entra», con los sellos de quién cobra. |
+| `ProofCard` | Marco de navegador. En producción enlaza y late; estudio va con filete discontinuo. |
+| `SectionIndex` | Índice con seguimiento de scroll. Solo con seis secciones o más. |
+| `FinalCTA` · `NextStep` | El cierre, idéntico en todas, y el siguiente paso lógico. |
+
 ### Foco
 
 Anillo de `2px` en `brand-500` con `3px` de separación, en **todo** lo
@@ -360,6 +385,25 @@ Entrada: opacidad + `24px` de subida, con cascada de `80ms` por hijo
 
 `prefers-reduced-motion` pone **todas** las duraciones y el desplazamiento a
 cero desde `:root`; no hace falta apagarlas una por una en cada componente.
+
+**El levantamiento de `.jv-lift` va dentro de `@media (hover: hover)`.** En una
+pantalla táctil `:hover` no es un estado pasajero: se queda pegado después de
+tocar y no se suelta hasta que tocas otra cosa, así que una tarjeta se quedaba
+dos píxeles arriba sin forma de deshacerlo. La pulsación (`:active`, escala
+0,985) sí va en todas partes: dura lo que dura el dedo encima.
+
+**Los tres niveles de movimiento**, para que cada pieza sepa a cuál pertenece:
+
+| Nivel | Qué es | Con qué se hace |
+|---|---|---|
+| 1 · Respuesta | Todo lo que se toca responde | `--duration-quick` y `--duration-base` con `--ease-ps` |
+| 2 · Revelado | Lo que gana con aparecer en orden | `Reveal` / `.jv-reveal`, `--dur-reveal` |
+| 3 · Pieza firma | Una por página, y solo una | Se define en el brief de esa página |
+
+El encargo de las internas proponía una segunda pareja de curvas
+(`--ease-out`, `--ease-inout`). **No entran**: el sistema ya tiene cinco curvas
+con trabajo asignado y `--ease-ps` es la firma. Dos sistemas de easing
+conviviendo es exactamente cómo aparecieron los dos sistemas de botón.
 
 La marquesina va a 120 s y no a los 45 de la referencia: con seis copias de
 once frases el carril mide ~13.000 px, y a 45 s pasaría a 290 px/s — ilegible.

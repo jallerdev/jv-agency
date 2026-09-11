@@ -315,3 +315,76 @@ a propósito.
 La regla de fondo, que es la misma que deja sin caso a la página de SEO: **un
 sector que no se pueda sostener en una llamada no se publica, aunque esté
 escrito en otro sitio.**
+
+---
+
+## 12 · Fase 1 · El kit y los dos sistemas que se unificaron
+
+### Lo que se construyó
+
+`components/kit/`: `Breadcrumbs`, `PriceTag`, `PriceCard`, `PisoDeRuta`,
+`PageHero`, `ContrastBlock`, `PainGrid`, `InOutLedger`, `ProofCard`,
+`SectionIndex`, `FinalCTA` y `NextStep`. Todo lo que toca precio sale de
+`CATALOGO`; ninguno lleva un número escrito a mano.
+
+`PainGrid` es el que más pesa de los doce: el azulejo de icono sobre el titular
+—103 hallazgos, la regla más repetida del sitio después de la medida— muere ahí,
+porque el componente pone el icono EN LÍNEA con el titular y reparte las celdas
+en bento asimétrico en vez de en tres columnas iguales.
+
+### Dos sistemas que eran uno mal contado
+
+**El botón.** `components/ui/button.tsx` llevaba una segunda definición escrita
+cuando el sitio era bronce: relleno propio, `shadow-soft`, `shadow-lift` y un
+`hover:-translate-y-0.5`. Los comentarios seguían explicando contrastes del
+cobre `#C0763B`, que no existe desde el rediseño. La cabecera de la portada usa
+`.jv-boton` —la definición del sistema— y diecinueve archivos usaban el otro.
+Ahora el componente delega en las clases del sistema. Medido después del
+cambio: todos los botones rellenos dan 5,96:1 y ninguno baja de 44 px de alto.
+
+Dos cosas se fueron con él y ninguna se echa de menos: las sombras, que valen
+`none` desde el rediseño y solo eran ruido en la clase; y el levantamiento en
+hover sin guardia de puntero.
+
+**El antetítulo.** `Eyebrow` de `components/ui/seccion.tsx` repetía los valores
+de `.jv-eyebrow` con `0.12em` de tracking en vez de `0.16em`. Ahora se apoya en
+la clase.
+
+**El levantamiento en táctil.** `.jv-lift:hover` pasa a `@media (hover: hover)`.
+En una pantalla táctil `:hover` se queda pegado después de tocar, así que una
+tarjeta se quedaba dos píxeles arriba hasta que tocabas otra cosa, y el usuario
+no tenía cómo deshacerlo.
+
+**El menú enseña el precio.** Los servicios del mega-menú y del cajón móvil
+llevan su «desde», leído de `CATALOGO` con `PisoDeRuta`, que para una ruta que
+vende varias cosas elige la más barata —`/servicios/posicionamiento-seo` dice
+$390.000, la auditoría, no los $650.000 del plan mensual—. Es lo primero que
+pregunta quien llega y el sitio lo publica: esconderlo dos clics más adentro
+contradecía el argumento entero.
+
+### Tres cosas del encargo que NO se hicieron, y por qué
+
+1. **`CoastMap` no sustituye a `RailDistancia`.** El componente actual lleva
+   escrito, de antes de este encargo, por qué NO es un mapa: «un mapa de Bolívar
+   y Atlántico insinúa una cobertura que no existe, y a 390 px sus etiquetas
+   colisionan». Ese argumento es el mismo que sostiene toda la arquitectura de
+   ciudades —la regla anti-doorway—, así que cambiarlo por un mapa sería romper
+   la honestidad para ganar un efecto. Lo que el encargo quiere de verdad
+   —trazo que se dibuja y kilometraje que sube— cabe en el riel. **Si Luis
+   quiere el mapa igual, se hace; pero que sea una decisión y no un descuido.**
+2. **La marca de agua del pie no se revela con `clip-path`.** Está al 4-5,5 % de
+   opacidad: una animación que nadie va a percibir, y el propio encargo dice que
+   el revelado porque sí es la marca más reconocible de un sitio genérico.
+3. **La transición de página con la «/» no se intentó.** El encargo dice que si
+   View Transitions no está soportado, se deja sin transición antes que
+   simularla con JS. Se mira cuando haya una pieza que la justifique.
+
+### Lo que queda del kit para la fase 2
+
+`AddOnCalculator` (generalizar `SumadorSeo`) y el agrupado de `FaqAccordion` se
+hacen con la página que los estrena delante: una API de componente diseñada sin
+un consumidor real se diseña dos veces.
+
+Las migas se estrenaron en la plantilla de ciudad. El resto de páginas las
+reciben en su fase, con su verificación: son doce heros distintos y meterlas a
+ciegas en los doce es cambiar doce páginas sin mirar ninguna.
