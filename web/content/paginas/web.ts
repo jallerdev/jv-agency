@@ -58,6 +58,51 @@ export const WEB = {
     },
   },
 
+  /**
+   * LA TABLA DEL DIFERENCIADOR
+   * ────────────────────────────────────────────────────────────────────────
+   * No dice nada que no diga ya el párrafo de arriba: «unas agencias ponen
+   * precio y no dicen cuánto tardan; otras dicen "de 4 a 8 semanas" y te
+   * mandan a un formulario». La tabla es ESE párrafo en tres filas, para que
+   * se vea de un golpe lo que en prosa hay que reconstruir leyendo.
+   *
+   * Por eso las celdas de las dos primeras filas son «sí», «no» y «no lo
+   * dice», y nada más: cualquier otra cosa sería una afirmación sobre
+   * terceros que el copy no hace y que no se puede sostener. El «de 4 a 8
+   * semanas» va entrecomillado porque es la cita que ya estaba escrita.
+   */
+  tabla: {
+    titulo: { es: "Quién publica qué", en: "Who publishes what" },
+    columnas: {
+      es: ["Precio publicado", "Plazo publicado", "Quién programa"],
+      en: ["Price published", "Timeline published", "Who writes the code"],
+    } as Traducido<readonly string[]>,
+    si: { es: "Sí", en: "Yes" },
+    no: { es: "No", en: "No" },
+    calla: { es: "No lo dice", en: "Doesn't say" },
+    filas: [
+      {
+        quien: { es: "Unas agencias", en: "Some agencies" },
+        celdas: ["si", "no", "calla"],
+      },
+      {
+        quien: { es: "Otras", en: "Others" },
+        celdas: ["no", "cita", "calla"],
+        cita: { es: "«de 4 a 8 semanas»", en: "“4 to 8 weeks”" },
+      },
+      {
+        quien: { es: "Acá", en: "Here" },
+        celdas: ["piso", "plazo", "nombre"],
+        propia: true,
+      },
+    ] as readonly {
+      quien: Texto;
+      celdas: readonly string[];
+      cita?: Texto;
+      propia?: boolean;
+    }[],
+  },
+
   paraQuienTitulo: {
     es: "Nadie se levanta queriendo «una página web»",
     en: "Nobody wakes up wanting “a website”",
@@ -458,6 +503,48 @@ export const WEB = {
     de: { es: "de", en: "of" },
   },
 
+  /**
+   * LA PIEZA FIRMA: «Cinco días, en pantalla».
+   *
+   * Los pasos NO se escriben aquí otra vez: son `previo` y `hitos`, los
+   * mismos que ya contaba el riel de plazo. Lo único que se añade es lo que
+   * hay que poder leer de la ilustración sin verla —`pantalla`—, que es el
+   * texto que oye quien usa lector de pantalla y lo que se lee si el dibujo
+   * no carga. Va en el mismo orden: primero el previo, después los cuatro
+   * días.
+   */
+  firma: {
+    titulo: { es: "Cinco días, en pantalla", en: "Five days, on screen" },
+    /* Decía «el marco de la derecha va cambiando»: en un teléfono no hay
+       marco a la derecha —cada paso lleva el suyo debajo— y la frase era
+       falsa justo donde llega la mayoría. */
+    entradilla: {
+      es: "Lo mismo de arriba, pero viéndolo: qué hay en la pantalla cada uno de los cinco días.",
+      en: "The same as above, but seen: what's on the screen on each of the five days.",
+    },
+    pantallas: {
+      es: [
+        "El logo, las fotos y los textos entran al marco como archivos sueltos.",
+        "El marco enseña la estructura en bloques grises, todavía sin color ni tipografía.",
+        "El marco partido en dos: a un lado el diseño con color y tipografía, al otro el código que lo produce.",
+        "El marco se desdobla en teléfono y computador, con notas de revisión que se van resolviendo.",
+        "La barra de dirección con candado, el dominio propio y el punto de «en línea».",
+      ],
+      en: [
+        "The logo, the photos and the copy drop into the frame as loose files.",
+        "The frame shows the structure in grey blocks, still with no colour or typography.",
+        "The frame split in two: on one side the design with colour and type, on the other the code that produces it.",
+        "The frame unfolds into a phone and a desktop, with review notes being resolved.",
+        "The address bar with its padlock, the domain of your own and the “online” dot.",
+      ],
+    } as Traducido<readonly string[]>,
+    /* El rótulo del marco del día 5. El dominio de ejemplo ya estaba escrito
+       en la lista de «lo que entra siempre» (hola@tumarca.com): es el mismo
+       nombre, no uno nuevo. */
+    dominioEjemplo: { es: "tumarca.com", en: "yourbrand.com" },
+    enLinea: { es: "En línea", en: "Online" },
+  },
+
   faqTitulo: { es: "Lo que siempre preguntan", en: "What people always ask" },
   faqEntradilla: {
     es: "Están contestadas de frente, incluidas las incómodas.",
@@ -484,12 +571,40 @@ export const WEB = {
  * `sinPendientes()` lo quita en producción: una cifra inventada cuesta más que
  * un hueco.
  */
+export const WEB_FAQ_GRUPOS = [
+  {
+    clave: "precio",
+    titulo: { es: "Precio y pagos", en: "Price and payments" },
+  },
+  {
+    clave: "plazo",
+    titulo: { es: "Plazo, textos y ajustes", en: "Timeline, copy and revisions" },
+  },
+  {
+    clave: "tuyo",
+    titulo: { es: "Qué recibes y de quién es", en: "What you get and whose it is" },
+  },
+  {
+    clave: "google",
+    titulo: { es: "Google y posicionamiento", en: "Google and rankings" },
+  },
+  {
+    clave: "trabajar",
+    titulo: { es: "Trabajar conmigo", en: "Working with me" },
+  },
+] as const satisfies readonly { clave: string; titulo: Texto }[];
+
+export type GrupoFaq = (typeof WEB_FAQ_GRUPOS)[number]["clave"];
+
 export const WEB_FAQ: readonly {
   q: Texto;
   a: Texto;
+  /** A qué bloque del acordeón pertenece. Ver `WEB_FAQ_GRUPOS`. */
+  grupo: GrupoFaq;
   verify?: string;
 }[] = [
   {
+    grupo: "precio",
     q: {
       es: "¿Cuánto me cuesta y qué entra exactamente por ese precio?",
       en: "What does it cost me and what exactly do I get for that price?",
@@ -500,6 +615,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "plazo",
     q: {
       es: "¿En cuánto me la entregas de verdad, y desde cuándo se cuentan los días?",
       en: "How soon do you really deliver, and when do the days start counting?",
@@ -510,6 +626,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "tuyo",
     q: {
       es: "¿Yo la puedo editar después sin llamarte?",
       en: "Can I edit it afterwards without calling you?",
@@ -520,6 +637,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "tuyo",
     q: {
       es: "¿El dominio y el hosting quedan a mi nombre o al tuyo?",
       en: "Do the domain and hosting stay in my name or yours?",
@@ -530,6 +648,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "tuyo",
     q: {
       es: "Si mañana me voy con otro proveedor, ¿me llevo la página?",
       en: "If I move to another provider tomorrow, do I take the site with me?",
@@ -540,6 +659,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "tuyo",
     q: {
       es: "¿La haces en WordPress, en plantilla comprada o a la medida?",
       en: "Do you build it in WordPress, on a bought template or custom?",
@@ -550,6 +670,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "google",
     q: {
       es: "¿Incluye SEO? ¿Voy a aparecer en Google por esto?",
       en: "Does it include SEO? Will I show up on Google because of this?",
@@ -560,6 +681,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "google",
     q: {
       es: "Ya tengo página. ¿Pierdo lo que tengo posicionado si la cambio?",
       en: "I already have a site. Do I lose my rankings if I change it?",
@@ -570,6 +692,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "plazo",
     q: {
       es: "¿Quién escribe los textos y quién consigue las fotos?",
       en: "Who writes the copy and who gets the photos?",
@@ -580,6 +703,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "precio",
     q: {
       es: "¿Qué pago cada año después de entregada?",
       en: "What do I pay each year after handover?",
@@ -590,6 +714,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "precio",
     q: {
       es: "¿Cómo se paga? ¿Cuánto por adelantado?",
       en: "How is it paid? How much up front?",
@@ -600,6 +725,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "tuyo",
     q: { es: "¿Se ve bien en el celular?", en: "Does it look right on a phone?" },
     a: {
       es: "Se diseña primero para el celular y después para el computador, no al revés. En Colombia más de siete de cada diez búsquedas salen del teléfono, así que la versión móvil no es una adaptación: es la principal. Antes de entregar se revisan velocidad y accesibilidad, y te muestro los números.",
@@ -607,6 +733,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "plazo",
     q: {
       es: "¿Y si no me gusta el diseño? ¿Cuántos ajustes tengo?",
       en: "And if I don't like the design? How many revisions do I get?",
@@ -621,6 +748,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "trabajar",
     q: {
       es: "¿Trabajas con negocios fuera de tu ciudad?",
       en: "Do you work with businesses outside your city?",
@@ -631,6 +759,7 @@ export const WEB_FAQ: readonly {
     },
   },
   {
+    grupo: "trabajar",
     q: {
       es: "Eres uno solo. ¿Qué pasa si te enfermas o desapareces?",
       en: "You're one person. What happens if you get sick or disappear?",

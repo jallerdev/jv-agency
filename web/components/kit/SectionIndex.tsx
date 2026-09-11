@@ -43,10 +43,22 @@ const MINIMO = 6;
 export function SectionIndex({
   entradas,
   idioma,
+  variante = "auto",
   className,
 }: {
   entradas: readonly Entrada[];
   idioma: Idioma;
+  /**
+   * `auto` pinta el riel fijo en pantallas anchas y el chip plegable en el
+   * resto. `chip` pinta solo el chip.
+   *
+   * El riel necesita una COLUMNA PROPIA en la que quedarse pegado; puesto en
+   * el flujo normal de una página de secciones a ancho completo, se planta
+   * como un bloque suelto contra el borde izquierdo —así salió en la primera
+   * captura de /servicios/diseno-de-paginas-web, con «EN ESTA PÁGINA» cortado
+   * por el margen—. Una página que no tenga esa columna pide `chip`.
+   */
+  variante?: "auto" | "chip";
   className?: string;
 }) {
   const [activa, setActiva] = useState<string | null>(entradas[0]?.id ?? null);
@@ -110,19 +122,21 @@ export function SectionIndex({
   return (
     <>
       {/* Riel fijo: solo donde sobra ancho para que no le quite sitio al texto. */}
-      <nav
-        aria-label={TITULO[idioma]}
-        className={cn(
-          "sticky top-[calc(var(--header-h)+2rem)] hidden max-h-[70vh] overflow-y-auto xl:block",
-          className,
-        )}
-      >
-        <p className="jv-eyebrow mb-4 text-ink-muted">{TITULO[idioma]}</p>
-        {lista}
-      </nav>
+      {variante === "auto" && (
+        <nav
+          aria-label={TITULO[idioma]}
+          className={cn(
+            "sticky top-[calc(var(--header-h)+2rem)] hidden max-h-[70vh] overflow-y-auto xl:block",
+            className,
+          )}
+        >
+          <p className="jv-eyebrow mb-4 text-ink-muted">{TITULO[idioma]}</p>
+          {lista}
+        </nav>
+      )}
 
       {/* Chip plegable: todo lo demás. */}
-      <div className={cn("xl:hidden", className)}>
+      <div className={cn(variante === "auto" && "xl:hidden", className)}>
         <button
           type="button"
           aria-expanded={abierto}

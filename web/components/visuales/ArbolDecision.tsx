@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import type { Idioma } from "@/content/types";
@@ -35,6 +35,13 @@ export type NodoArbol =
     }
   | {
       tipo: "resultado";
+      /**
+       * Con qué se corresponde este resultado fuera del árbol. Sirve para que
+       * la página destaque la tarjeta del formato que acaba de salir: el
+       * árbol dice cuál es y la rejilla lo señala, en vez de dejar que el
+       * visitante busque a ojo entre tres tarjetas cuál era la suya.
+       */
+      clave?: string;
       titulo: string;
       detalle: string;
       /** El piso y el plazo. Sácalos de PRICES/lib, nunca de un literal aquí. */
@@ -52,20 +59,30 @@ const T = {
   es: {
     reiniciar: "Empezar de nuevo",
     pista: "Contesta y te digo cuál de los formatos te sirve.",
+    /* Estaba escrito a pelo en el JSX, así que la página inglesa pintaba
+       «Lo que te sirve» encima de un resultado en inglés. */
+    rotulo: "Lo que te sirve",
   },
   en: {
     reiniciar: "Start over",
     pista: "Answer and I'll tell you which of the formats suits you.",
+    rotulo: "What suits you",
   },
 } as const;
 
 export function ArbolDecision({
   raiz,
   idioma = "es",
+  onResultado,
   className,
 }: {
   raiz: NodoArbol;
   idioma?: Idioma;
+  /**
+   * Se avisa cada vez que cambia el resultado alcanzado, con su `clave`, y
+   * con `null` mientras no haya resultado o al empezar de nuevo.
+   */
+  onResultado?: (clave: string | null) => void;
   className?: string;
 }) {
   const t = T[idioma];
@@ -82,6 +99,14 @@ export function ArbolDecision({
     contestadas.push({ nodo: actual, elegida });
     actual = siguiente.siguiente;
   }
+
+  /* El aviso sale en un efecto y no dentro del onClick: el resultado no
+     depende de la opción pulsada sino de a dónde lleva la rama entera, y eso
+     solo se sabe después de recorrer el árbol con la ruta nueva. */
+  const claveActual = actual.tipo === "resultado" ? actual.clave ?? null : null;
+  useEffect(() => {
+    onResultado?.(claveActual);
+  }, [claveActual, onResultado]);
 
   const responder = (nivel: number, opcion: number) =>
     setRuta((r) => [...r.slice(0, nivel), opcion]);
@@ -129,9 +154,7 @@ export function ArbolDecision({
       >
         {actual.tipo === "resultado" ? (
           <div>
-            <p className="jv-eyebrow text-accent-ink">
-              Lo que te sirve
-            </p>
+            <p className="jv-eyebrow text-accent-ink">{t.rotulo}</p>
             <p className="mt-2 font-body text-xl font-semibold leading-tight text-ink">{actual.titulo}</p>
             <p className="mt-2 text-pretty font-body text-[15px] leading-snug text-ink-soft">
               {actual.detalle}
@@ -151,7 +174,10 @@ export function ArbolDecision({
             )}
           </div>
         ) : (
-          <p className="text-balance text-center font-body text-[15px] leading-snug text-ink-soft">
+          /* `mx-auto`: el tope de medida de línea de `globals.css` encoge la
+             caja, y sin márgenes automáticos un texto centrado se queda
+             pegado a la izquierda de su contenedor. */
+          <p className="mx-auto text-balance text-center font-body text-[15px] leading-snug text-ink-soft">
             {t.pista}
           </p>
         )}

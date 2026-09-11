@@ -706,17 +706,49 @@
    El tope va a los que NO declaran el suyo: donde alguien escribió
    `max-w-[46ch]` o `max-w-2xl` esa decisión manda, porque ahí se penso.
 
-   Y cubre `li`, `dd`, `blockquote` y `span`, no solo `p`: la prosa de un
-   artículo de blog vive tanto en viñetas como en párrafos, y los `li` iban a
-   88-91 caracteres mientras los `p` de al lado iban a 68. En un `span` el tope
-   solo pica cuando es `display:block`, que es justo el caso que fallaba —las
-   descripciones de la lista de planes de SEO, a 100ch—. El pie entra también:
-   su aviso de copyright iba a 82ch en las 59 rutas.
+   Y cubre `li`, `dd` y `blockquote`, no solo `p`: la prosa de un artículo de
+   blog vive tanto en viñetas como en párrafos, y los `li` iban a 88-91
+   caracteres mientras los `p` de al lado iban a 68. El pie entra también: su
+   aviso de copyright iba a 82ch en las 59 rutas.
    Y si el párrafo está centrado, los márgenes automáticos evitan que
    estrechar la caja lo empuje a la izquierda.
+
+   LO QUE SE APRENDIÓ DESPUÉS, Y CUESTA CARO OLVIDARLO
+   ---------------------------------------------------
+   La primera versión metía `li` y `span` a secas, y eso ROMPIÓ TRES SITIOS
+   del home y de /precios, que es exactamente lo que Luis vio:
+
+   · Las tarjetas del proceso apilado son `<li>`. Quedaron cortadas a 612 px
+     dentro de un contenedor de 1.184: media pantalla vacía a la derecha.
+   · En el portafolio, el nombre del proyecto vive en un `<span class="flex-1">`
+     que empuja al estado «en línea» hacia el borde. Con el tope, el estado se
+     quedaba plantado en mitad de la fila.
+   · En la tabla de precios, cada renglón es un `<li>`: el precio dejó de
+     llegar al borde derecho de la tarjeta.
+
+   Un `li` o un `span` no son prosa por ser `li` o `span`: la mitad de la
+   maquetación del sitio vive ahí. Ahora el tope distingue:
+
+   · `li` SOLO cuando no contiene estructura. Un `<li>` con un `div`, una
+     tarjeta, un botón o una rejilla dentro es una celda, no una viñeta, y
+     `:has()` lo dice sin tener que etiquetar nada a mano.
+   · `span` SOLO cuando es de bloque declarado —`class="block"`—, que era el
+     caso que motivó incluirlo: las descripciones de los planes de SEO, a
+     100ch. Un `span` en línea nunca necesitó esto.
    =========================================================================== */
-main :is(p, li, dd, dt, blockquote, figcaption, span):not([class*="max-w"]),
+main :is(p, dd, dt, blockquote, figcaption):not([class*="max-w"]),
 footer p:not([class*="max-w"]) {
+  max-width: var(--maxw-prose);
+}
+
+main li:not([class*="max-w"]):not(
+    :has(:is(div, article, section, aside, figure, ul, ol, dl, table, img, svg,
+             video, button, input, h1, h2, h3, h4, h5, h6, p))
+  ) {
+  max-width: var(--maxw-prose);
+}
+
+main span.block:not([class*="max-w"]) {
   max-width: var(--maxw-prose);
 }
 

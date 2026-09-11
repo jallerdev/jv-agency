@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 export function ContrastBlock({
   comun,
   propio,
+  como: Como = "p",
   etiquetaComun,
   etiquetaPropio,
   className,
@@ -34,6 +35,14 @@ export function ContrastBlock({
   comun: string;
   /** Lo que hace JV. Va en tinta plena. */
   propio: string;
+  /**
+   * Con qué etiqueta se pinta la declaración. En casi todas las páginas esta
+   * frase ES el encabezado de su sección —«Casi nadie publica precio y plazo
+   * juntos»— y pintarla como párrafo le quita un nivel al esquema de títulos
+   * que ya tenía la página. Por defecto `p`, porque la declaración puede ir
+   * también dentro de una sección que ya tiene su h2.
+   */
+  como?: "h2" | "p";
   etiquetaComun?: string;
   etiquetaPropio?: string;
   className?: string;
@@ -56,14 +65,14 @@ export function ContrastBlock({
 
       <Reveal delay={120} className="md:col-span-3">
         {etiquetaPropio && <p className="jv-eyebrow text-brand">{etiquetaPropio}</p>}
-        <p
+        <Como
           className={cn(
             "text-balance text-[length:var(--text-h2)] font-semibold leading-tight tracking-[-0.02em] text-ink",
             etiquetaPropio && "mt-3",
           )}
         >
           {propio}
-        </p>
+        </Como>
         {children && <div className="mt-8">{children}</div>}
       </Reveal>
     </div>

@@ -428,6 +428,70 @@ input[type="radio"] { accent-color: var(--accent); }
 }
 
 /* ===========================================================================
+   «Cinco días, en pantalla» (`components/visuales/CincoDias.tsx`)
+   ---------------------------------------------------------------------------
+   Cada pantalla entra una vez, al cambiar de paso, y su estado FINAL es el que
+   cuenta: con movimiento reducido todo esto se apaga y las cinco ilustraciones
+   se ven enteras y quietas. Nada de lo que se anima aquí es información.
+
+   El escalonado lo pone el componente con `animation-delay` en línea, porque
+   el retraso depende del índice del elemento y eso no se puede escribir en una
+   hoja de estilos sin una regla por posición.
+
+   EL CÓDIGO SE ESCRIBE CON `clip-path`, no con un contador de caracteres en
+   JavaScript: la línea se descubre de izquierda a derecha como si la
+   estuvieran tecleando, y son cuatro líneas de CSS en vez de un temporizador.
+   =========================================================================== */
+@keyframes jv-dia-cae    { from { opacity: 0; transform: translateY(-12px); } }
+@keyframes jv-dia-entra  { from { opacity: 0; transform: translateY(8px); } }
+@keyframes jv-dia-teclea { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes jv-dia-brota  { from { opacity: 0; transform: scale(0.6); } }
+@keyframes jv-dia-abre   { from { opacity: 0; transform: translateX(14px); } }
+
+.jv-dia-archivo    { animation: jv-dia-cae    var(--dur-reveal, 0.7s) var(--ease-ps) both; }
+.jv-dia-bloque     { animation: jv-dia-entra  0.45s var(--ease-ps) both; }
+.jv-dia-diseno     { animation: jv-dia-entra  0.5s  var(--ease-ps) both; }
+.jv-dia-codigo     { animation: jv-dia-teclea 0.5s  var(--ease-ps) both; }
+.jv-dia-escritorio { animation: jv-dia-entra  0.5s  var(--ease-ps) both; }
+.jv-dia-telefono   { animation: jv-dia-abre   0.5s  var(--ease-ps) 0.12s both; }
+.jv-dia-nota       { animation: jv-dia-brota  0.35s var(--ease-ps) 0.45s both; }
+.jv-dia-nota--2    { animation-delay: 0.7s; }
+.jv-dia-publicado  { animation: jv-dia-entra  0.5s  var(--ease-ps) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-dia-archivo,
+  .jv-dia-bloque,
+  .jv-dia-diseno,
+  .jv-dia-codigo,
+  .jv-dia-escritorio,
+  .jv-dia-telefono,
+  .jv-dia-nota,
+  .jv-dia-publicado {
+    animation: none;
+  }
+}
+
+/* ===========================================================================
+   El acordeón de preguntas (`components/kit/FaqAccordion.tsx`)
+   ---------------------------------------------------------------------------
+   `list-style: none` no basta: Safari pinta su propio triángulo con un
+   pseudoelemento que solo se quita por nombre. Sin esta línea, el acordeón
+   lleva una flechita gris delante de la pregunta solo en un navegador.
+
+   El cuerpo entra con un fundido corto en vez de crecer de alto: `<details>`
+   no anima su apertura y forzarlo pide medir el contenido con JavaScript, que
+   es justo lo que este acordeón no usa.
+   =========================================================================== */
+.jv-faq-fila::-webkit-details-marker { display: none; }
+.jv-faq-cuerpo { animation: jv-faq-abre 220ms var(--ease-ps) both; }
+@keyframes jv-faq-abre {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jv-faq-cuerpo { animation: none; }
+}
+
+/* ===========================================================================
    La marca de agua del pie
    ---------------------------------------------------------------------------
    Estaba en un 4% de opacidad plana: sobre #111111 eso da #171717, seis

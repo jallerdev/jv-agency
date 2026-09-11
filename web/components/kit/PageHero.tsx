@@ -64,7 +64,13 @@ export function PageHero({
   migas: readonly Miga[];
   idioma: Idioma;
   eyebrow?: string;
-  titulo: string;
+  /**
+   * Nodo y no cadena: varios H1 del sitio llevan su segunda mitad en color de
+   * marca —«Diseño de páginas web / para negocios que quieren vender más»— y
+   * obligarlos a ser texto plano habría borrado ese contraste o, peor, habría
+   * llevado a dos H1 uno debajo del otro.
+   */
+  titulo: React.ReactNode;
   entradilla?: string;
   /** El servicio cuyo ticket se enseña. Sin él, no hay ticket. */
   precio?: ServicioPublicado["id"];
@@ -75,7 +81,11 @@ export function PageHero({
 }) {
   return (
     <header className={cn("border-b border-line", className)}>
-      <div className="mx-auto max-w-[1280px] px-6 pb-16 pt-8 md:px-12 md:pb-24 md:pt-10">
+      {/* El relleno de arriba SALE DE `--header-h` y no de un número a ojo: la
+          cabecera es fija, así que un `pt-8` deja las migas debajo del
+          logotipo. Se vio en la primera captura de /servicios/diseno-de-
+          paginas-web, con «Inicio / Diseño de páginas web» pisando la marca. */}
+      <div className="mx-auto max-w-[1280px] px-6 pb-16 pt-[calc(var(--header-h)+2rem)] md:px-12 md:pb-24 md:pt-[calc(var(--header-h)+3rem)]">
         <Breadcrumbs migas={migas} idioma={idioma} />
 
         <div
