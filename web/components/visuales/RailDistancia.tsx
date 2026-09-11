@@ -4,14 +4,22 @@ import { cn } from "@/lib/utils";
 /**
  * LA DISTANCIA REAL
  * ─────────────────────────────────────────────────────────────────────────
- * La ventaja competitiva de un estudio en la costa es geográfica, y hoy se
- * cuenta con una frase. El rail la cuenta Y cuenta la limitación en el mismo
- * dibujo: el carril se apaga hacia el final, que dice «esto se vuelve remoto»
- * sin escribirlo.
+ * La ventaja de un estudio en la costa es geográfica, y hoy se cuenta con una
+ * frase. El rail la dibuja: el carril se aclara con la distancia —de brand-700
+ * a brand-300—, así que la última parada pesa menos en la página que la
+ * primera sin que haga falta escribir «esto ya es remoto».
  *
- * NO ES UN MAPA a propósito. Un mapa de Bolívar y Atlántico insinúa una
- * cobertura que no existe, y a 390 px sus etiquetas colisionan unas con otras.
- * El rail no tiene ese modo de fallo.
+ * LO QUE LA DISTANCIA CAMBIA ES SI NOS VEMOS EN PERSONA, no si tomo el
+ * trabajo. Se atiende a negocios de cualquier parte de Colombia; lo que no
+ * existe es una oficina en cada ciudad, y eso es lo que el rail declara. Las
+ * páginas de ciudad existen para buscar trabajo en esas plazas, no para
+ * insinuar una sede allá: la última parada lo dice en palabras y la nota al
+ * pie lo remata.
+ *
+ * NO ES UN MAPA a propósito. Un mapa dibuja una mancha de cobertura —y una
+ * mancha es más difícil de decir con precisión que una línea de paradas—, y a
+ * 390 px sus etiquetas colisionan unas con otras. El rail no tiene ese modo de
+ * fallo.
  *
  * ESCALA: las paradas van EQUIESPACIADAS, no a escala lineal. Con 0, 20, 120 y
  * 1.000 km una escala real amontona las tres primeras en el 2% del carril; y
@@ -46,19 +54,37 @@ export const PARADAS_POR_DEFECTO: Record<Idioma, ParadaDistancia[]> = {
     { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "Aquí vivo y aquí trabajo." },
     { lugar: "Cartagena", distancia: "≈ 20 km", nota: "Nos vemos si el proyecto lo pide." },
     { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "Nos vemos si el proyecto lo pide." },
-    { lugar: "Bogotá", distancia: "≈ 1.000 km", nota: "A distancia, y lo digo yo primero." },
+    {
+      lugar: "Bogotá y el resto del país",
+      distancia: "≈ 1.000 km",
+      nota: "A distancia, y lo digo yo primero. Se trabaja igual.",
+    },
   ],
   en: [
     { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "This is where I live and work." },
     { lugar: "Cartagena", distancia: "≈ 20 km", nota: "We meet in person if the project calls for it." },
     { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "We meet in person if the project calls for it." },
-    { lugar: "Bogotá", distancia: "≈ 1,000 km", nota: "Remote, and I say so first." },
+    {
+      lugar: "Bogotá and the rest of the country",
+      distancia: "≈ 1,000 km",
+      nota: "Remote, and I say so first. The work is the same.",
+    },
   ],
 };
 
+/**
+ * La nota al pie. Dice dos cosas y las dos hacen falta:
+ *
+ * · Que el dibujo no está a escala, porque si no lo dice alguien va a medir
+ *   con el ojo y a concluir que Barranquilla queda a mitad de camino de
+ *   Bogotá.
+ * · Que la distancia decide si nos vemos, no si tomo el trabajo. Sin esa
+ *   frase, un riel que empieza en Turbaco y termina a 1.000 km se lee como un
+ *   radio de cobertura, y el radio de cobertura es todo el país.
+ */
 const NOTA_PIE: Record<Idioma, string> = {
-  es: "Distancias por carretera, aproximadas. Las paradas van equiespaciadas: esto no es un mapa a escala.",
-  en: "Road distances, approximate. The stops are evenly spaced: this isn't a map to scale.",
+  es: "Distancias por carretera, aproximadas; las paradas van equiespaciadas, así que esto no es un mapa a escala. Trabajo con negocios de cualquier parte de Colombia: la distancia decide si nos vemos en persona, no si tomo el proyecto.",
+  en: "Road distances, approximate; the stops are evenly spaced, so this isn't a map to scale. I work with businesses anywhere in Colombia: distance decides whether we meet in person, not whether I take the project.",
 };
 
 /* Paradas de color del carril, dentro de la rampa de marca: 600 → 500 → 300.
@@ -136,7 +162,10 @@ export function RailDistancia({
                 <p className="mt-1 font-body text-[15px] font-semibold leading-snug text-ink">
                   {p.lugar}
                 </p>
-                <p className="mt-1 text-pretty font-body text-[13px] leading-snug text-ink-soft">
+                {/* 14 px = el paso `ui-xs` de la escala de interfaz. Estaba en
+                    13 px, que no es ningún paso: era la única letra del sitio
+                    de ese tamaño. */}
+                <p className="mt-1 text-pretty font-body text-sm leading-snug text-ink-soft">
                   {p.nota}
                 </p>
               </div>
@@ -145,7 +174,12 @@ export function RailDistancia({
         })}
       </ol>
 
-      {nota && (
+      {/* La condición era `nota &&`, no `pie &&`: la nota al pie solo salía en
+          las páginas que pasaban una propia —Cartagena, Barranquilla— y el
+          texto por defecto no se pintó nunca en ningún sitio. La escala y la
+          cobertura son justamente lo que hay que aclarar donde nadie escribió
+          una nota a mano. */}
+      {pie && (
         <p className="mt-6 max-w-[56ch] font-mono text-xs leading-relaxed text-ink-soft">
           {pie}
         </p>

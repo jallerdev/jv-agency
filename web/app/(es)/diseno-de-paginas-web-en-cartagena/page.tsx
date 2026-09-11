@@ -610,9 +610,10 @@ export default function DisenoPaginasWebCartagenaPage() {
               Qué significa que esté en Turbaco y no en Bocagrande
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Cubro Cartagena de Indias, Turbaco, Arjona, Turbaná y el resto de Bolívar. Hablas
-              siempre conmigo, de la primera llamada a la entrega, y cuando escribas para reclamar
-              va a contestar el que hizo el trabajo.
+              En persona cubro Cartagena de Indias, Turbaco, Arjona, Turbaná y el resto de Bolívar;
+              a distancia, el resto del país. Hablas
+              siempre conmigo, de la primera llamada a la entrega, y si llegas a tener alguna
+              inconformidad o un reclamo, te responde el mismo que hizo el trabajo.
             </p>
           </Reveal>
 

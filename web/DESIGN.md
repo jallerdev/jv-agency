@@ -400,6 +400,16 @@ dos píxeles arriba sin forma de deshacerlo. La pulsación (`:active`, escala
 | 2 · Revelado | Lo que gana con aparecer en orden | `Reveal` / `.jv-reveal`, `--dur-reveal` |
 | 3 · Pieza firma | Una por página, y solo una | Se define en el brief de esa página |
 
+**El cambio de página es del nivel 1, no del 3.** Lo hace la View Transitions
+API del navegador: `<ViewTransition default="jv-pagina">` en `app/Documento.tsx`
+y las curvas en `app/efectos.css`. Es un fundido de 200 ms, las dos fotos con
+la misma duración, en lineal y con `mix-blend-mode: plus-lighter` para que
+entre las dos sumen siempre uno; el grupo —la geometría— va a los mismos
+200 ms. Donde el navegador no soporta la API no pasa nada: la página cambia de
+golpe. **La regla es esa**: o la hace el navegador o no se hace. Una
+transición fingida con JavaScript retrasa cada clic para disimular que no hay
+nada que enseñar todavía.
+
 El encargo de las internas proponía una segunda pareja de curvas
 (`--ease-out`, `--ease-inout`). **No entran**: el sistema ya tiene cinco curvas
 con trabajo asignado y `--ease-ps` es la firma. Dos sistemas de easing

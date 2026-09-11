@@ -90,7 +90,7 @@
 .jv-glowsec::before,
 .jv-glowsec::after { content: ""; position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; height: clamp(90px, 14vh, 180px); }
 .jv-glowsec::before { top: 0; background: linear-gradient(180deg, var(--canvas) 0%, rgba(9, 9, 11, 0) 100%); }
-.jv-glowsec::after { bottom: 0; background: linear-gradient(0deg, var(--canvas) 0%, rgba(9, 9, 11, 0) 100%); }
+.jv-glowsec::after { bottom: 0; background: linear-gradient(0deg, var(--canvas) 0%, rgb(var(--canvas-rgb) / 0) 100%); }
 .jv-glowsec .jv-gg {
   -webkit-mask-image: radial-gradient(125% 118% at 50% 45%, #000 48%, #0000 90%);
   mask-image: radial-gradient(125% 118% at 50% 45%, #000 48%, #0000 90%);
@@ -350,6 +350,121 @@ input[type="radio"] { accent-color: var(--accent); }
 }
 .jv-latido { animation: jv-latido 2.4s var(--ease-ps) infinite; }
 @media (prefers-reduced-motion: reduce) { .jv-latido { animation: none; } }
+
+/* ===========================================================================
+   La transición entre páginas
+   ---------------------------------------------------------------------------
+   El fundido lo hace la View Transitions API del navegador; aquí solo se le
+   dan las curvas y los tiempos. El montaje está en `app/Documento.tsx`.
+
+   LAS DOS DURAN LO MISMO Y VAN EN LINEAL, y las dos cosas se comprobaron
+   congelando la transición a mitad de camino. Estaban a 160 ms la que sale y
+   260 la que entra, por aquello de que salir rápido se siente más ágil: a los
+   110 ms la vieja iba por 0,31 de opacidad y la nueva por 0,42, o sea que
+   entre las dos no llegaban ni a la mitad y el fundido pasaba por un bajón
+   oscuro. Con la misma duración y curva lineal, lo que una pierde lo gana la
+   otra en el mismo instante.
+
+   `mix-blend-mode: plus-lighter` es la otra mitad del arreglo: sin él, dos
+   capas al 50 % siguen dejando ver el fondo entre ambas. Sumándolas, el
+   fundido mantiene el brillo de punta a punta. Es la misma técnica que usa el
+   navegador en su fundido de fábrica.
+
+   NO HAY DESPLAZAMIENTO NI ESCALA, solo opacidad. Al cambiar de ruta el
+   documento vuelve al principio de golpe (`components/AlCambiarDeRuta.tsx`),
+   así que la foto vieja ya está en otra posición que la nueva; añadirle un
+   movimiento propio encima convierte el corte en un tumbo.
+
+   `both` en las dos: sin él, la foto nueva parpadea a opacidad 1 en el frame
+   anterior al arranque de su animación.
+
+   POR QUÉ SE APUNTA A `.jv-pagina` Y NO A `root`. Medido en Chrome: React no
+   transiciona la raíz. A cada hijo del `<ViewTransition>` le pone un nombre
+   generado —`_t_0_`, `_t_0__1`, `_t_0__2`…— y anima cada uno por su cuenta a
+   250 ms con curva `linear`. Con `::view-transition-old(root)` estas reglas no
+   se aplicaban a nada y la transición corría con los tiempos por defecto de
+   React. La propiedad `default="jv-pagina"` del componente les pone a todos
+   `view-transition-class: jv-pagina`, que es el gancho estable: los nombres
+   generados no lo son.
+   =========================================================================== */
+@keyframes jv-pagina-sale  { to   { opacity: 0; } }
+@keyframes jv-pagina-entra { from { opacity: 0; } }
+
+/* `root` VA TAMBIÉN, y no sobra: React nombra a sus hijos, pero todo lo que
+   queda fuera de ese reparto —el fondo del documento, las manchas, la barra
+   móvil— sigue viajando en la foto de la raíz, y esa se fundía con los 250 ms
+   lineales de fábrica. Medido: dos ritmos distintos en la misma transición. */
+::view-transition-old(root),
+::view-transition-old(.jv-pagina),
+::view-transition-new(root),
+::view-transition-new(.jv-pagina) { mix-blend-mode: plus-lighter; }
+
+::view-transition-old(root),
+::view-transition-old(.jv-pagina) { animation: jv-pagina-sale 200ms linear both; }
+::view-transition-new(root),
+::view-transition-new(.jv-pagina) { animation: jv-pagina-entra 200ms linear both; }
+
+/* El grupo anima GEOMETRÍA —lleva la caja de cada elemento de su posición y
+   tamaño viejos a los nuevos— y va al mismo tiempo que el fundido para que
+   todo termine a la vez; de fábrica son 250 ms y el fundido 200.
+
+   SE PROBÓ A 0 s Y FUE PEOR, que es justo lo contrario de lo que parecía:
+   sin animación de grupo, cada bloque aparece de golpe en su caja nueva, así
+   que la foto del pie de la página que llega se planta encima del titular de
+   la que se va. En la captura congelada se veían las dos columnas del pie
+   sobre el hero. Con el grupo animado, cada bloque viaja de donde estaba a
+   donde va y no se cruza con lo que no le toca. */
+::view-transition-group(*) { animation-duration: 200ms; }
+
+/* Con movimiento reducido no se funde nada: la página nueva aparece y ya. No
+   basta con acortar el tiempo —un fundido corto sigue siendo un fundido.
+   El `*` cubre también lo que React nombre por su cuenta. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ===========================================================================
+   La marca de agua del pie
+   ---------------------------------------------------------------------------
+   Estaba en un 4% de opacidad plana: sobre #111111 eso da #171717, seis
+   niveles de gris por encima del fondo. Medido, no adivinado: nadie lo iba a
+   percibir, y una marca de agua que no se percibe es peso muerto en el DOM.
+
+   NO SE ARREGLA SUBIENDO LA OPACIDAD A SECAS. El renglón legal y los iconos
+   sociales pasan POR ENCIMA de las letras, así que cada punto de opacidad que
+   sube aclara el fondo real de ese texto y le baja el contraste. Un 12% plano
+   deja la marca visible y el copyright peor de lo que estaba.
+
+   Lo resuelve el degradado: las letras se pintan con `background-clip: text`,
+   fuertes en la base —donde no hay nada encima, solo el borde inferior del
+   pie— y casi apagadas en su parte alta, que es justo por donde cruza el
+   texto. La marca gana presencia donde puede y la cede donde debe.
+
+   El `@supports` no es ceremonia: sin `background-clip: text` el color
+   transparente dejaría la marca invisible del todo. Ahí cae a un relleno
+   plano, que es exactamente lo que había antes.
+   =========================================================================== */
+.jv-marca-agua {
+  color: rgb(var(--blanco-rgb) / 0.06);
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .jv-marca-agua {
+    background-image: linear-gradient(
+      to top,
+      rgb(var(--blanco-rgb) / 0.14) 0%,
+      rgb(var(--blanco-rgb) / 0.085) 45%,
+      rgb(var(--blanco-rgb) / 0.02) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
 
 /* ===========================================================================
    La pila apilada

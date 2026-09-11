@@ -636,8 +636,8 @@ export const WEB_FAQ: readonly {
       en: "You're one person. What happens if you get sick or disappear?",
     },
     a: {
-      es: "Es la pregunta correcta y no te voy a vender que soy un equipo. Por eso el dominio y el hosting quedan a tu nombre, el código te lo entrego y nada depende de una plataforma mía: si mañana no estoy, cualquier desarrollador puede seguir. Lo que sí te doy y una agencia no: cuando escribas a reclamar, contesta el que hizo el trabajo.",
-      en: "It's the right question and I'm not going to sell you that I'm a team. That's why the domain and hosting stay in your name, I hand over the code and nothing depends on a platform of mine: if I'm not around tomorrow, any developer can carry on. What I give you and an agency doesn't: when you write to complain, the person who did the work answers.",
+      es: "Es la pregunta correcta y no te voy a vender que soy un equipo. Por eso el dominio y el hosting quedan a tu nombre, el código te lo entrego y nada depende de una plataforma mía: si mañana no estoy, cualquier desarrollador puede seguir. Lo que sí te doy y una agencia no: si llegas a tener alguna inconformidad, te responde el mismo que hizo el trabajo.",
+      en: "It's the right question and I'm not going to sell you that I'm a team. That's why the domain and hosting stay in your name, I hand over the code and nothing depends on a platform of mine: if I'm not around tomorrow, any developer can carry on. What I give you and an agency doesn't: if something isn't right, the person who did the work is the one who answers.",
     },
   },
 ];

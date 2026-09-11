@@ -487,8 +487,10 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
                 {WEB_CERCA.cuerpoDespues[idioma]}
               </p>
 
-              {/* La ventaja y la limitación en el mismo dibujo. No es un mapa a
-                  propósito: un mapa insinúa cobertura que no existe. */}
+              {/* La ventaja y lo que la distancia cambia, en el mismo dibujo.
+                  No es un mapa a propósito: el rail termina diciendo que se
+                  trabaja con todo el país y que lo que la distancia decide es
+                  si nos vemos, no si tomo el proyecto. */}
               <RailDistancia idioma={idioma} className="mt-8" />
 
               <ul className="mt-8 flex flex-wrap gap-3">

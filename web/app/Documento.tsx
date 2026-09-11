@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import Script from "next/script";
 
 import "./globals.css";
@@ -46,7 +47,25 @@ export function Documento({
         <StructuredData />
         {/* El diálogo de contacto vive en el layout, no en cada página: hay un
             solo panel montado para todo el sitio y cualquier botón lo abre. */}
-        <CuentameProvider idioma={lang}>{children}</CuentameProvider>
+        {/* LA TRANSICIÓN ENTRE PÁGINAS.
+            Es la View Transitions API del navegador, no una animación en JS.
+            Esa distinción es la que decide que esté aquí: el navegador toma
+            una foto de la página que se va y otra de la que llega y funde la
+            una en la otra; no hay opacidad animada a mano, ni un div que tape
+            la pantalla, ni una espera artificial antes de navegar. Donde el
+            navegador no la soporta no ocurre nada —la página cambia de golpe,
+            como cambiaba antes— y ese es justamente el trato: o la hace el
+            navegador o no se hace.
+
+            La cabecera y el pie no parpadean aunque entren en la foto: son
+            píxel por píxel los mismos a un lado y al otro del corte, así que
+            fundir uno con el otro no se ve.
+
+            Las curvas y los tiempos van en `app/efectos.css`, con el resto del
+            movimiento, y ahí mismo se apaga bajo `prefers-reduced-motion`. */}
+        <ViewTransition default="jv-pagina">
+          <CuentameProvider idioma={lang}>{children}</CuentameProvider>
+        </ViewTransition>
         <Cookies idioma={lang} />
 
         {/* Google Analytics 4.
