@@ -103,7 +103,13 @@ export function PaginaAgendar({ idioma, ruta }: { idioma: Idioma; ruta: string }
               </p>
             </Reveal>
 
-            <Reveal>
+            {/* El formulario se centra contra la columna de al lado en vez de
+                colgar de su borde de arriba. La izquierda mide ~680 px con el
+                titular, las tres razones y el enlace; el formulario, ~480: con
+                los dos pegados arriba quedaban 200 px de vacío debajo de la
+                tarjeta y la pantalla se veía descuadrada. Centrado, el hueco
+                se reparte y las dos columnas se miran a los ojos. */}
+            <Reveal className="lg:self-center">
               <ScheduleCall idioma={idioma} />
             </Reveal>
           </div>
