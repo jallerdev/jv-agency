@@ -8,7 +8,6 @@ import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BarraMovil } from "@/components/BarraMovil";
-import { Pendiente } from "@/components/Pendiente";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
@@ -152,19 +151,46 @@ export function PaginaSobre({
             <h2 className="text-[length:var(--text-display)]">{SOBRE.stackTitulo[idioma]}</h2>
             <p className="mt-4 text-ink-soft">{SOBRE.stackEntradilla[idioma]}</p>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {SOBRE.stack.map((s) => (
-              <div key={s.grupo.es} className="jv-card p-6">
-                <h3 className="jv-eyebrow text-ink">{s.grupo[idioma]}</h3>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {s.items.map((it) => (
-                    <li key={it} className="jv-chip jv-chip-off text-xs">
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          {/* Dos bloques y no uno: lo que se cotiza arriba, lo que es
+              experiencia abajo y dicho como tal. Es el arreglo de la
+              contradicción con la página de software. */}
+          <h3 className="jv-eyebrow mt-10 text-ink">{SOBRE.stackSubtituloEncargo[idioma]}</h3>
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {SOBRE.stack
+              .filter((s) => s.encargo)
+              .map((s) => (
+                <div key={s.grupo.es} className="jv-card p-6">
+                  <h4 className="jv-eyebrow text-ink">{s.grupo[idioma]}</h4>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {s.items.map((it) => (
+                      <li key={it} className="jv-chip jv-chip-off text-xs">
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+          </div>
+
+          <h3 className="jv-eyebrow mt-12 text-ink">{SOBRE.stackSubtituloTambien[idioma]}</h3>
+          <p className="mt-3 max-w-[62ch] text-sm leading-relaxed text-ink-soft">
+            {SOBRE.stackNotaTambien[idioma]}
+          </p>
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {SOBRE.stack
+              .filter((s) => !s.encargo)
+              .map((s) => (
+                <div key={s.grupo.es} className="jv-card border-dashed p-6">
+                  <h4 className="jv-eyebrow text-ink-soft">{s.grupo[idioma]}</h4>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {s.items.map((it) => (
+                      <li key={it} className="jv-chip jv-chip-off text-xs">
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
           </div>
         </section>
 
@@ -173,9 +199,14 @@ export function PaginaSobre({
           <Reveal className="mx-auto max-w-2xl text-center">
             <h2 className="text-[length:var(--text-display)]">{SOBRE.proyectosTitulo[idioma]}</h2>
             <p className="mt-4 text-ink-soft">{SOBRE.proyectosEntradilla[idioma]}</p>
-            <Pendiente>{SOBRE.proyectosPendiente[idioma]}</Pendiente>
+            {/* Los sectores del NDA ya están confirmados, así que esto pasa de
+                marcador a texto publicado. Dice el sector y calla el cliente,
+                que es lo que un acuerdo de confidencialidad permite. */}
+            <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+              {SOBRE.proyectosSectores[idioma]}
+            </p>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {SOBRE.proyectos.map((p, i) => (
               <Reveal key={p.nombre} delay={i * 100}>
                 <article className="jv-card jv-card-int h-full p-7">

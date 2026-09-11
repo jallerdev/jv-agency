@@ -73,33 +73,85 @@ export const SOBRE = {
     es: "Tecnología moderna y probada para construir productos rápidos, sólidos y listos para crecer.",
     en: "Modern, proven technology to build products that are fast, solid and ready to grow.",
   },
-  /* Los nombres de tecnología no se traducen. Los rótulos de grupo, sí. */
+  /* Los nombres de tecnología no se traducen. Los rótulos de grupo, sí.
+
+     DOS NIVELES, y existen para resolver una contradicción real: esta lista
+     incluía React Native, Expo y Kubernetes mientras
+     /servicios/software-a-la-medida dice, y lo tiene en su lista de «qué no
+     hago», que no entrega app nativa para Android ni iOS. Las dos cosas eran
+     ciertas y se leían como una mentira, porque la página no distinguía entre
+     lo que Luis VENDE y lo que Luis SABE.
+
+     `encargo: true`  → sale en los encargos, y es lo que se cotiza.
+     `encargo: false` → experiencia real, no oferta. Va aparte y con su aviso. */
+  stackSubtituloEncargo: {
+    es: "Con lo que construyo tus encargos",
+    en: "What I build your projects with",
+  },
+  stackSubtituloTambien: { es: "Y además sé", en: "And I also know" },
+  stackNotaTambien: {
+    es: "Experiencia de otros proyectos, no parte de lo que vendo hoy. Las apps nativas de Android y iOS siguen fuera de lo que hago: ahí prefiero decírtelo y no cobrarte por aprender.",
+    en: "Experience from other projects, not part of what I sell today. Native Android and iOS apps are still outside what I do: I'd rather say so than charge you for learning.",
+  },
   stack: [
     {
       grupo: { es: "Frontend", en: "Frontend" },
       items: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+      encargo: true,
     },
-    { grupo: { es: "Backend", en: "Backend" }, items: ["Node.js", "NestJS", "Express", "Prisma"] },
+    {
+      grupo: { es: "Backend", en: "Backend" },
+      items: ["Node.js", "NestJS", "Express", "Prisma"],
+      encargo: true,
+    },
     {
       grupo: { es: "Nube y DevOps", en: "Cloud & DevOps" },
-      items: ["AWS", "Terraform", "Docker", "Kubernetes", "GitHub Actions"],
+      items: ["AWS", "Terraform", "Docker", "GitHub Actions"],
+      encargo: true,
     },
-    { grupo: { es: "Datos", en: "Data" }, items: ["PostgreSQL", "DynamoDB", "Redis"] },
-    { grupo: { es: "Móvil", en: "Mobile" }, items: ["React Native", "Expo"] },
-  ] as readonly { grupo: Texto; items: readonly string[] }[],
+    {
+      grupo: { es: "Datos", en: "Data" },
+      items: ["PostgreSQL", "DynamoDB", "Redis"],
+      encargo: true,
+    },
+    {
+      grupo: { es: "Móvil", en: "Mobile" },
+      items: ["React Native", "Expo"],
+      encargo: false,
+    },
+    {
+      grupo: { es: "Orquestación", en: "Orchestration" },
+      items: ["Kubernetes"],
+      encargo: false,
+    },
+  ] as readonly { grupo: Texto; items: readonly string[]; encargo: boolean }[],
 
   proyectosTitulo: { es: "Algunos proyectos", en: "A few projects" },
   proyectosEntradilla: {
     es: "Una muestra pública; el resto está bajo NDA.",
     en: "A public sample; the rest is under NDA.",
   },
-  proyectosPendiente: {
-    es: "[VERIFICAR: la frase decía «SaaS, fintech, logística». Se quitaron los sectores hasta que Luis confirme que son reales; el NDA se queda.]",
-    en: "[VERIFICAR: la frase decía «SaaS, fintech, logística». Se quitaron los sectores hasta que Luis confirme que son reales; el NDA se queda.]",
+  /* Los sectores del NDA. Se nombra el SECTOR y nunca el cliente, que es
+     exactamente lo que un acuerdo de confidencialidad permite: decir en qué has
+     trabajado sin decir para quién.
+
+     SIN FINTECH, y conviene dejar escrito por qué: la frase vieja decía «SaaS,
+     fintech, logística» y el portafolio personal de Luis lista un proyecto de
+     «Fintech · integración de pagos & reconciliación». Luis lo desmintió el 11
+     de septiembre de 2026 —«en verdad nunca he trabajado en fintech»— y manda
+     él, no la otra página. Si alguien vuelve a verlo allá y lo trae para acá,
+     que sepa que ya se miró y se descartó a propósito.
+
+     Regla de fondo: un sector que no se pueda sostener en una llamada no entra,
+     aunque esté escrito en otro sitio. Es el mismo criterio que deja sin caso de
+     SEO a la página de posicionamiento. */
+  proyectosSectores: {
+    es: "Los que no puedo nombrar son de SaaS empresarial y B2B, logística, analítica deportiva y comercio electrónico. Puedo decir el sector; el cliente, no.",
+    en: "The ones I can't name are in enterprise and B2B SaaS, logistics, sports analytics and e-commerce. I can name the sector; the client, no.",
   },
   proyectos: [
     {
-      nombre: "BloomRose",
+      nombre: "Bloomrose",
       etiqueta: { es: "Comercio electrónico", en: "E-commerce" },
       cuerpo: {
         es: "Tienda online de bisutería y accesorios, de punta a punta.",
@@ -116,10 +168,20 @@ export const SOBRE = {
     },
     {
       nombre: "InvitiApp",
-      etiqueta: { es: "SaaS", en: "SaaS" },
+      etiqueta: { es: "SaaS de eventos", en: "Events SaaS" },
       cuerpo: {
-        es: "Plataforma de invitaciones digitales.",
-        en: "A digital invitations platform.",
+        es: "Plataforma de invitaciones digitales para organizadores de eventos.",
+        en: "A digital invitations platform for event planners.",
+      },
+    },
+    {
+      /* Entra porque el portafolio de la portada lo enseña y esta página no, y
+         las dos hablaban del mismo trabajo con listas distintas. */
+      nombre: "Hummik",
+      etiqueta: { es: "Producto propio", en: "Own product" },
+      cuerpo: {
+        es: "Producto propio, en línea y con dominio propio.",
+        en: "An own product, online and on its own domain.",
       },
     },
   ] as readonly { nombre: string; etiqueta: Texto; cuerpo: Texto }[],
