@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Pendiente } from "@/components/Pendiente";
 
 import { A_PRICES, A_TYPE_LABEL, META_BILLING_NOTE, money } from "@/lib/quote";
 import type { AutomationType } from "@/lib/quote";
@@ -17,10 +16,16 @@ import type { AutomationType } from "@/lib/quote";
 // blog esté cotizando otra cosa que la propuesta.
 //
 // ⚠️ CADUCIDAD — este es el post más perecedero del blog:
-//   • El 1/10/2026 Meta empieza a cobrar los mensajes de servicio y publica
-//     lista de tarifas nueva (las actualiza cada trimestre). Ese día hay que
-//     revisar la sección «Lo que cambia el 1 de octubre», resolver los
-//     [PENDIENTE] visibles y poner `updatedAt` en la entrada de lib/blog.ts.
+//   • El 1/10/2026 Meta empieza a cobrar los mensajes de servicio y entra lista
+//     de tarifas nueva (las actualiza cada trimestre: 1/1, 1/4, 1/7 y 1/10).
+//     Repasado el 10/9/2026 contra la documentación de Meta: los mil mensajes
+//     de servicio gratis, el cobro de plantillas de utilidad dentro de la
+//     ventana y la ausencia de tramos por volumen en servicio están
+//     confirmados. Lo que HAY que rehacer ese día es la cifra por mensaje de
+//     Colombia y cambiar «lo que cambia» por «lo que cambió».
+//   • El check de cuenta oficial es AZUL, no verde, y el plazo para volver a
+//     pedirlo tras un rechazo son 30 días — dicho por Meta, no por las guías,
+//     que repiten tres meses. Si eso cambia, cambia en las dos lenguas.
 //   • Los precios de los competidores están fechados en el texto a propósito:
 //     si alguien los actualiza, se ve de una que la cita quedó vieja.
 
@@ -254,7 +259,21 @@ export function CuantoCuestaChatbotPost() {
         no con la cifra al centavo: la única lista que manda es la de Meta, y cambia cada tres
         meses.
       </p>
-      <Pendiente>[PENDIENTE: verificar la fila de Colombia contra la lista oficial de Meta el día de publicación. Entra lista nueva el 1 de octubre de 2026 y estas cifras caducan ese día.]</Pendiente>
+      <p>
+        Una nota sobre de dónde salen esos dos números, porque no pesan igual. El de{" "}
+        <strong>utilidad y autenticación —USD 0,0008— coincide en todas las fuentes</strong> que
+        publican la lista por país: Colombia es de los mercados más baratos del mundo en esa
+        categoría. El de marketing no: según quién lo publique va de USD 0,0125 a USD 0,014. Por
+        eso lo de arriba se dice en orden de magnitud. La lista que manda es la de Meta, vive en
+        los CSV de su{" "}
+        <a
+          href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing"
+          rel="noopener"
+        >
+          página oficial de precios
+        </a>{" "}
+        y se actualiza cada trimestre.
+      </p>
 
       <h3>Lo que cambia el 1 de octubre de 2026</h3>
       <p>
@@ -264,9 +283,10 @@ export function CuantoCuestaChatbotPost() {
         24 horas. Eran gratis desde noviembre de 2024. Cada número de empresa recibe{" "}
         <strong>1.000 mensajes de servicio gratis al mes</strong>, que no se acumulan, y de ahí
         en adelante se cobran a la misma tarifa de utilidad/autenticación del país de quien
-        recibe y <strong>sin descuento por volumen</strong>. Además, las plantillas de utilidad
-        enviadas dentro de la ventana pasan a cobrarse. Meta dijo que publicaría las tarifas
-        definitivas a más tardar el 1 de septiembre de 2026 (
+        recibe y <strong>sin descuento por volumen</strong> —los tramos por volumen existen para
+        utilidad y autenticación, pero no para servicio—. Además, las plantillas de utilidad
+        enviadas dentro de la ventana pasan a cobrarse: eran gratis desde el 1 de julio de 2025.
+        Meta ya publicó la lista de octubre, dentro del plazo que se había puesto (
         <a
           href="https://support.zendesk.com/hc/en-us/articles/11113277351322-Announcing-upcoming-changes-to-WhatsApp-Business-messaging-pricing"
           rel="noopener"
@@ -354,11 +374,20 @@ export function CuantoCuestaChatbotPost() {
           que el nombre registrado coincida con el legal. Sin eso no hay API.
         </li>
         <li>
-          <strong>El check verde.</strong> No se compra: es la cuenta oficial de empresa, se
-          solicita y Meta decide. Exige la verificación previa del negocio y trayectoria real de
-          uso de la API, y el motivo de rechazo más común es que el nombre no coincida exactamente
-          con el legal.{" "}
-          <Pendiente>[PENDIENTE: confirmar en la ayuda oficial de Meta el plazo para volver a solicitarlo tras un rechazo — las fuentes secundarias hablan de 3 meses.]</Pendiente>
+          <strong>El check —que hoy es azul, no verde—.</strong> No se compra: es la cuenta
+          oficial de empresa, se solicita y Meta decide. La{" "}
+          <a
+            href="https://developers.facebook.com/documentation/business-messaging/whatsapp/official-business-accounts/"
+            rel="noopener"
+          >
+            documentación de Meta
+          </a>{" "}
+          pide cinco cosas: cumplir la política de mensajería, llevar <strong>30 días o más</strong>{" "}
+          registrado en la plataforma, tener el portafolio de negocio verificado, la verificación
+          en dos pasos activada en el número y el nombre para mostrar aprobado. Ese último es el
+          motivo de rechazo más común: el nombre no coincide con el legal. Si te lo niegan,{" "}
+          <strong>hay que esperar 30 días</strong> para volver a pedirlo — no tres meses, como
+          repiten muchas guías.
         </li>
         <li>
           <strong>Las plantillas más allá de las incluidas</strong> y la corrección de las que

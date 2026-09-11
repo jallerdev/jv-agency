@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Pendiente } from "@/components/Pendiente";
 
 import { A_PRICES, A_TYPE_LABEL_EN, META_BILLING_NOTE_EN, money } from "@/lib/quote";
 import type { AutomationType } from "@/lib/quote";
@@ -14,10 +13,16 @@ import type { AutomationType } from "@/lib/quote";
 //
 // ⚠️ EXPIRY — this is the most perishable post on the blog, and its Spanish
 // twin carries the same warning. On 1/10/2026 Meta starts charging for
-// service messages and publishes a new rate list (updated every quarter).
-// That day, review the "What changes on 1 October" section, resolve the
-// visible [PENDIENTE] markers and set `updatedAt` in lib/blog.ts — in BOTH
-// languages, or one of the two will be quoting last quarter's rules.
+// service messages and a new rate list takes effect (updated every quarter:
+// 1/1, 1/4, 1/7 and 1/10). Checked on 10/9/2026 against Meta's own docs: the
+// thousand free service messages, the charging of utility templates inside
+// the window and the absence of volume tiers for service are all confirmed.
+// What HAS to be redone that day is Colombia's per-message figure, and
+// "what changes" becomes "what changed" — in BOTH languages, or one of the
+// two will be quoting last quarter's rules.
+// The official-account checkmark is BLUE, not green, and the wait to reapply
+// after a rejection is 30 days — Meta's wording, not the guides', which keep
+// repeating three months.
 
 const TIPOS: AutomationType[] = ["faq", "avisos", "leads", "citas", "pedidos"];
 
@@ -247,7 +252,21 @@ export function WhatsAppChatbotCostPost() {
         give different figures for the same country, so keep the order of magnitude rather than the
         exact cent: the only list that counts is Meta&apos;s, and it changes every three months.
       </p>
-      <Pendiente>[PENDIENTE: verificar la fila de Colombia contra la lista oficial de Meta el día de publicación. Entra lista nueva el 1 de octubre de 2026 y estas cifras caducan ese día. Vale para las dos lenguas.]</Pendiente>
+      <p>
+        A note on where those two numbers come from, because they don&apos;t carry the same weight.
+        The <strong>utility and authentication one — USD 0.0008 — matches across every source</strong>{" "}
+        that publishes the per-country list: Colombia is one of the cheapest markets in the world in
+        that category. The marketing one doesn&apos;t: depending on who publishes it, it ranges from
+        USD 0.0125 to USD 0.014. That&apos;s why the figure above is given as an order of magnitude.
+        The list that counts is Meta&apos;s, it lives in the CSVs on its{" "}
+        <a
+          href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing"
+          rel="noopener"
+        >
+          official pricing page
+        </a>{" "}
+        and it&apos;s updated every quarter.
+      </p>
 
       <h3>What changes on 1 October 2026</h3>
       <p>
@@ -257,9 +276,10 @@ export function WhatsAppChatbotCostPost() {
         free since November 2024. Each business number gets{" "}
         <strong>1,000 free service messages a month</strong>, which don&apos;t roll over, and beyond
         that they&apos;re charged at the same utility/authentication rate for the recipient&apos;s
-        country and <strong>with no volume discount</strong>. On top of that, utility templates sent
-        inside the window start being charged. Meta said it would publish the final rates by 1
-        September 2026 at the latest (
+        country and <strong>with no volume discount</strong> — volume tiers exist for utility and
+        authentication, but not for service. On top of that, utility templates sent inside the
+        window start being charged: they had been free since 1 July 2025. Meta has already
+        published the October list, within the deadline it set itself (
         <a
           href="https://support.zendesk.com/hc/en-us/articles/11113277351322-Announcing-upcoming-changes-to-WhatsApp-Business-messaging-pricing"
           rel="noopener"
@@ -350,11 +370,20 @@ export function WhatsAppChatbotCostPost() {
           registered name matching the legal one. Without that there&apos;s no API.
         </li>
         <li>
-          <strong>The green tick.</strong> It isn&apos;t bought: it&apos;s the official business
-          account, you apply and Meta decides. It requires prior business verification and a real
-          track record of API use, and the most common reason for rejection is the name not matching
-          the legal one exactly.{" "}
-          <Pendiente>[PENDIENTE: confirmar en la ayuda oficial de Meta el plazo para volver a solicitarlo tras un rechazo — las fuentes secundarias hablan de 3 meses. Vale para las dos lenguas.]</Pendiente>
+          <strong>The checkmark — which is blue now, not green.</strong> It isn&apos;t bought:
+          it&apos;s the official business account, you apply and Meta decides.{" "}
+          <a
+            href="https://developers.facebook.com/documentation/business-messaging/whatsapp/official-business-accounts/"
+            rel="noopener"
+          >
+            Meta&apos;s documentation
+          </a>{" "}
+          asks for five things: complying with the messaging policy, being registered on the
+          platform for <strong>30 days or more</strong>, having the business portfolio verified,
+          two-step verification enabled on the number, and an approved display name. That last one
+          is the most common reason for rejection: the name doesn&apos;t match the legal one. If
+          you&apos;re turned down, <strong>you have to wait 30 days</strong> to apply again — not
+          three months, as many guides repeat.
         </li>
         <li>
           <strong>Templates beyond the included ones</strong> and fixing any Meta rejects over

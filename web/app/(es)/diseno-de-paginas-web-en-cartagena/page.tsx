@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 
 import { Header } from "@/components/sections/Header";
-import { MOSTRAR_PENDIENTES, Pendiente } from "@/components/Pendiente";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Reveal } from "@/components/Reveal";
@@ -675,30 +674,25 @@ export default function DisenoPaginasWebCartagenaPage() {
               </article>
             </Reveal>
 
-            {/* Nombra a Pixels Maker y a la Funeraria San Francisco de Asis con el
-                detalle del trabajo. Sin su autorizacion escrita eso no puede estar en
-                una pagina publica, asi que el bloque entero solo existe en desarrollo. */}
-            {MOSTRAR_PENDIENTES && (
-              <Reveal delay={240}>
-                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                  <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
-                    Trabajo con negocios cartageneros
-                  </span>
-                  <h3 className="mt-4 font-display text-2xl text-ink">
-                    Pixels Maker y la Funeraria San Francisco de Asís
-                  </h3>
-                  <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                    Dos negocios de Cartagena de Indias. Con Pixels &amp; Pixels el problema era de
-                    búsqueda local pura: hacen letreros y avisos publicitarios, y cuando alguien
-                    escribe «avisos publicitarios en Cartagena» no aparecen. A la funeraria le
-                    entregué la página y el trabajo mensual para aparecer en «funeraria en Cartagena».
-                  </p>
-                  <Pendiente>[PENDIENTE: autorización de Pixels Maker y de la Funeraria San Francisco de Asís
-                    para nombrarlos y mostrar el detalle del trabajo en una página pública. Hasta que
-                    Luis la confirme, este bloque no se publica.]</Pendiente>
-                </article>
-              </Reveal>
-            )}
+            {/* CLIENTE REAL, y el unico de esta pagina: los otros dos son
+                proyectos de estudio. Luis autorizo nombrar a la funeraria; al
+                otro negocio cartagenero NO, asi que no aparece ni de pasada. */}
+            <Reveal delay={240}>
+              <article className="flex h-full flex-col jv-card p-6 sm:p-7">
+                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
+                  Cliente · Cartagena
+                </span>
+                <h3 className="mt-4 font-display text-2xl text-ink">
+                  Funeraria San Francisco de Asís
+                </h3>
+                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
+                  Le entregué la página y el trabajo mensual de posicionamiento, apuntado a la
+                  búsqueda que de verdad importa en ese negocio: «funeraria en Cartagena». Es un
+                  sector donde nadie compara durante semanas — se busca una vez, con prisa y en el
+                  peor día, y se llama al primero que inspire confianza.
+                </p>
+              </article>
+            </Reveal>
           </div>
 
           <Reveal>

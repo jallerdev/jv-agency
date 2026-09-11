@@ -1265,4 +1265,10 @@ export const PISOS = {
      mientras la página de chatbots empezaba en 700.000, o sea un «desde» más
      caro que el precio más barato del mismo servicio. */
   chatbot: Math.min(...Object.values(A_PRICES.base)),
+  /* El piso del software a la medida. No sale de sumar pantallas: sale de que
+     hasta el encargo más pequeño arranca con diseño de base de datos, accesos
+     y despliegue, y ese trabajo existe aunque la interfaz sea una sola vista.
+     Por debajo de esta cifra el encargo no es software: es otra cosa, y más
+     barata. */
+  software: 2000000,
 } as const;

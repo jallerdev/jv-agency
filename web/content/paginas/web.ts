@@ -611,15 +611,14 @@ export const WEB_FAQ: readonly {
       es: "¿Y si no me gusta el diseño? ¿Cuántos ajustes tengo?",
       en: "And if I don't like the design? How many revisions do I get?",
     },
+    /* DOS RONDAS, con número. Era lo primero que preguntaba un cliente quemado
+       y el sitio no lo decía en ninguna parte. Un «los ajustes que necesites»
+       suena generoso y termina en pelea: el que se pasa de la raya no sabe que
+       se pasó. */
     a: {
-      es: "La revisas antes de que salga al aire y los cambios se hacen ahí mismo, en vivo. Después de publicada quedan 30 días de ajustes sin costo.",
-      en: "You review it before it goes live and the changes are made right there, live. After publishing there are 30 days of adjustments at no cost.",
+      es: "Dos rondas de ajustes entran en el precio. La revisas antes de que salga al aire y los cambios se hacen ahí mismo, en vivo. Si después de la segunda ronda quieres cambiar de rumbo, eso se cotiza aparte y te digo cuánto antes de tocar nada. Ya publicada quedan 30 días de ajustes sin costo.",
+      en: "Two rounds of revisions are included in the price. You review it before it goes live and the changes are made right there, live. If after the second round you want to change direction, that's quoted separately and I tell you the cost before touching anything. Once published, there are 30 days of adjustments at no cost.",
     },
-    /* Va en `verify` y no dentro de la respuesta: Radix desmonta el contenido
-       del acordeón cerrado, así que ahí adentro el marcador no existiría en el
-       DOM hasta que alguien hiciera clic. Comprobado en el navegador. */
-    verify:
-      "[PENDIENTE: cuántas rondas de ajuste de diseño entran en el precio, dicho con un número. Hoy el sitio no lo dice en ninguna parte y es lo primero que pregunta un cliente quemado.]",
   },
   {
     q: {

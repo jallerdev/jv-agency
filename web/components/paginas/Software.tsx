@@ -17,7 +17,7 @@ import { SOFTWARE, SOFTWARE_FAQ } from "@/content/paginas/software";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
-import { money, PISOS} from "@/lib/quote";
+import { money, PISOS } from "@/lib/quote";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -26,7 +26,7 @@ import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Faqs } from "@/components/Faqs";
-import { Pendiente, sinPendientes } from "@/components/Pendiente";
+import { sinPendientes } from "@/components/Pendiente";
 import { BotonCuentame } from "@/components/Cuentame";
 import { RailPlazo } from "@/components/visuales/RailPlazo";
 import { PanelRolesCrm } from "@/components/visuales/PanelRolesCrm";
@@ -35,11 +35,15 @@ import { PanelRolesCrm } from "@/components/visuales/PanelRolesCrm";
  * SOFTWARE A LA MEDIDA, EN LOS DOS IDIOMAS
  * ──────────────────────────────────────────────────────────────────────────
  * NO HAY PRECIO PUBLICADO, y eso es una decisión, no un olvido: `lib/quote.ts`
- * no cotiza esta línea y el precio autorizado es «según alcance». Tampoco hay
- * `offers` con precio en el JSON-LD —un número inventado ahí es tan falso como
- * uno inventado en la página—.
+ * no cotiza esta línea y el precio autorizado sigue siendo «según alcance».
+ * Tampoco hay `offers` con precio en el JSON-LD —un número inventado ahí es tan
+ * falso como uno inventado en la página—.
  *
- * Los dos únicos números que aparecen son los de la página web y la tienda, y
+ * SÍ HAY PISO, que es otra cosa: `PISOS.software`, autorizado por Luis. No dice
+ * cuánto cuesta el encargo, dice por debajo de qué cifra no da. Es la pregunta
+ * que el visitante venía a hacer y la página no contestaba.
+ *
+ * Los otros dos números que aparecen son los de la página web y la tienda, y
  * salen de las mismas constantes que publican esas dos páginas.
  */
 const PISO_WEB = PISOS.landing;
@@ -316,8 +320,14 @@ export function PaginaSoftware({ idioma, ruta }: { idioma: Idioma; ruta: string 
                 </Link>
                 {SOFTWARE.precio.pagoDespues[idioma]}
               </p>
-              {/* Dato que falta, a la vista. No se inventa un piso: se pide. */}
-              <Pendiente>{SOFTWARE.precio.pendientePiso}</Pendiente>
+              {/* El piso. Va junto a «cómo se paga» porque las dos contestan la
+                  misma pregunta —¿me alcanza?— y separarlas dejaba la página
+                  explicando el método sin dar nunca la cifra. */}
+              <p>
+                <strong className="text-ink">{SOFTWARE.precio.pisoFuerte[idioma]}</strong>{" "}
+                <strong className="text-brand">{money(PISOS.software, idioma)}</strong>
+                {SOFTWARE.precio.pisoTexto[idioma]}
+              </p>
             </div>
           </Reveal>
         </section>
@@ -386,9 +396,11 @@ export function PaginaSoftware({ idioma, ruta }: { idioma: Idioma; ruta: string 
               <Clock className="h-4 w-4 text-brand" strokeWidth={2} aria-hidden />
               {SOFTWARE.plazoNota[idioma]}
             </p>
-            {/* El plazo típico de la primera etapa es el dato que más preguntan
-                y el único que no está confirmado. Queda a la vista. */}
-            <Pendiente>{SOFTWARE.pendientePlazo}</Pendiente>
+            {/* El plazo de la primera versión útil: el dato que más preguntan.
+                Con el recargo por urgencia dicho aquí, no en la propuesta. */}
+            <p className="mt-6 max-w-prose leading-relaxed text-ink-soft">
+              {SOFTWARE.plazoPrimera[idioma]}
+            </p>
           </Reveal>
         </section>
 

@@ -220,10 +220,8 @@ const FAQS = [
     a: "No, y por eso está en el título de esta página. Vivo en Turbaco, Bolívar, y todo se hace por WhatsApp, correo y videollamada. Si necesitas a alguien que se te siente al frente cada semana, contrata a alguien de Barranquilla — te lo digo yo, que estoy tratando de venderte.",
   },
   {
-    // [VERIFICAR] tiempo de viaje Turbaco → Barranquilla por la Vía al Mar.
-    // No se publica un dato sin confirmar; la respuesta funciona sin el.
     q: "¿Y si necesito una reunión presencial?",
-    a: "Si el proyecto lo justifica, se coordina el viaje y se acuerda antes cuántas visitas entran, para que no aparezca de sorpresa en la factura. Lo normal es que todo se resuelva por videollamada.",
+    a: "Se puede. Turbaco queda a unas dos horas de Barranquilla por la Vía al Mar, así que el viaje es de ida y vuelta en el día. Si el proyecto lo justifica se coordina, y antes de empezar acordamos cuántas visitas entran, para que no aparezca de sorpresa en la factura. Lo normal, eso sí, es que todo se resuelva por videollamada.",
   },
   {
     q: "¿Voy a salir de primero en Google buscando mi servicio en Barranquilla?",

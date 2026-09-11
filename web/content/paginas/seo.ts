@@ -484,11 +484,13 @@ export const SEO = {
     resto: Texto;
     enlace?: { texto: Texto; href: string };
   }[],
-  /* Dato por comprobar, a la vista: todavía no hay un caso de posicionamiento
-     mensual con seis meses cumplidos, y ese es justamente el dato que más pesa
-     en esta página. No se inventa. */
-  pendienteCaso:
-    "[PENDIENTE: caso real de posicionamiento mensual con al menos 6 meses cumplidos — negocio, ciudad, qué se hizo y qué muestran las impresiones y los clics de su Search Console. Hasta que exista, esta página no muestra resultados de clientes.]",
+  /* NO HAY CASO DE CLIENTE CON SEIS MESES CUMPLIDOS, y por eso esta página no
+     enseña resultados de posicionamiento de nadie. Es el dato que más pesa
+     acá y el que más fácil sería inventar: una captura de Search Console sin
+     dueño, un «+300% de impresiones» sin negocio detrás. Cuando exista un caso
+     real —con nombre, ciudad, qué se hizo y qué muestran sus impresiones y sus
+     clics— entra aquí. Mientras tanto lo que se enseña son las páginas que
+     están en línea, que el visitante puede abrir y medir él mismo. */
 
   faqTitulo: { es: "Lo que siempre preguntan", en: "What people always ask" },
   cierre: {

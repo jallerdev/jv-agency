@@ -101,6 +101,11 @@ export const POSTS: BlogPost[] = [
       en: "The setup fee is the easy part to find out. What almost nobody explains is what Meta charges you, separately, per message — and that changes on 1 October.",
     },
     publishedAt: "2026-09-09",
+    /* Repasado contra la documentación de Meta: tarifas de Colombia, el cambio
+       del 1/10 y el plazo del check de cuenta oficial. Se corrigieron dos
+       cosas que estaban mal —el check es azul y el plazo son 30 días, no tres
+       meses—, así que la fecha se mueve en las dos lenguas a la vez. */
+    updatedAt: "2026-09-10",
     readingMinutes: 9,
     keywords: {
       es: [

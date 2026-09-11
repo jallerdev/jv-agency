@@ -24,7 +24,6 @@ import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Faqs } from "@/components/Faqs";
-import { Pendiente } from "@/components/Pendiente";
 import { BotonCuentame } from "@/components/Cuentame";
 import { Comparador } from "@/components/visuales/Comparador";
 import { SumadorSeo } from "@/components/visuales/SumadorSeo";
@@ -508,12 +507,6 @@ export function PaginaSeo({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
             </div>
           </Reveal>
 
-          {/* Dato por comprobar, a la vista: todavía no hay un caso de
-              posicionamiento mensual con seis meses cumplidos, y ese es el dato
-              que más pesa en esta página. No se inventa. */}
-          <Reveal>
-            <Pendiente>{SEO.pendienteCaso}</Pendiente>
-          </Reveal>
         </section>
 
         {/* ── Preguntas ──────────────────────────────────────────────── */}

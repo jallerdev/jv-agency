@@ -13,8 +13,11 @@ import type { Texto, Traducido } from "@/content/types";
  * sería una doorway page.
  *
  * LO QUE NO SE PUEDE ROMPER:
- * · No hay precio publicado. `lib/quote.ts` no cotiza esta línea y el precio
- *   autorizado es «según alcance». Ningún número inventado, tampoco en el
+ * · No hay PRECIO publicado: `lib/quote.ts` no cotiza esta línea y lo que se
+ *   cobra sigue siendo «según alcance». Lo único autorizado es el PISO —
+ *   `PISOS.software`—, que Luis fijó en $2.000.000 porque hasta el encargo más
+ *   pequeño arranca con diseño de base de datos, accesos y despliegue. Es un
+ *   «desde», no una tarifa: ningún otro número se inventa, tampoco en el
  *   JSON-LD.
  * · HalcónOS y Hummik son PRODUCTO PROPIO, no encargos de cliente, y se
  *   nombran con esas palabras exactas.
@@ -290,9 +293,15 @@ export const SOFTWARE = {
       es: ". Si una etapa no se entregó, no se cobra.",
       en: ". If a stage wasn't delivered, it isn't charged.",
     },
-    /* Dato que falta, a la vista. No se inventa un piso: se pide. */
-    pendientePiso:
-      "[PENDIENTE: definir el piso — por debajo de qué monto no vale la pena arrancar un software a la medida. Sin ese número, esta sección explica cómo se cotiza pero no le dice al visitante si le alcanza, que es lo que vino a averiguar.]",
+    /* EL PISO, que es la pregunta que el visitante vino a hacer y la sección
+       no contestaba. No es una tarifa —el precio sigue saliendo del alcance—:
+       es la línea por debajo de la cual el encargo no da, y decirla ahorra la
+       llamada a los dos. La cifra vive en `PISOS.software`. */
+    pisoFuerte: { es: "El piso:", en: "The floor:" },
+    pisoTexto: {
+      es: " por debajo de ahí el encargo no da. Hasta el software más pequeño arranca con diseño de base de datos, accesos y despliegue, y ese trabajo existe aunque la interfaz sea una sola pantalla. Si tu presupuesto está por debajo te lo digo en la llamada, y miramos si lo que necesitas es software o es otra cosa más barata.",
+      en: " below that the job doesn't add up. Even the smallest custom software starts with database design, credentials and deployment, and that work exists even if the interface is a single screen. If your budget is under that I'll say so on the call, and we'll look at whether what you need is software or something cheaper.",
+    },
   },
 
   incluyeTitulo: { es: "Qué incluye siempre", en: "What's always included" },
@@ -435,8 +444,14 @@ export const SOFTWARE = {
     es: "El plazo sale del alcance y queda escrito en la propuesta, con fechas",
     en: "The timeline comes out of the scope and is written into the proposal, with dates",
   },
-  pendientePlazo:
-    "[PENDIENTE: plazo típico de la primera versión útil, en semanas. Es lo que todo el mundo pregunta en la llamada y hoy la página no lo contesta.]",
+  /* El plazo de la primera versión útil: lo que más preguntan en la llamada.
+     El recargo por urgencia va dicho aquí y no en la propuesta, porque
+     enterarse tarde de que correr cuesta más es exactamente lo que vuelve
+     hostil una cotización. */
+  plazoPrimera: {
+    es: "La primera versión útil sale en un mes. Si la necesitas en tres semanas se puede, recortando el alcance y con un 20% de recargo por la urgencia: comprimir no sale gratis y prefiero decírtelo ahora y no a mitad de camino.",
+    en: "The first useful version ships in a month. If you need it in three weeks it can be done, by cutting the scope and with a 20% rush surcharge: compressing isn't free and I'd rather tell you now than halfway through.",
+  },
 
   pruebaTitulo: { es: "Lo que puedes abrir ahora mismo", en: "What you can open right now" },
   pruebaP1Antes: {
