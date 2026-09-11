@@ -65,7 +65,12 @@ export function WebsiteCostPost() {
       <ul>
         <li>
           <strong>Domain and hosting.</strong> Between $150,000 and $600,000 COP a year depending on
-          traffic. Plenty of quotes include the first year without saying so.
+          traffic. Plenty of quotes include the first year without saying so. The breakdown of both —
+          and the question that decides everything, which is whose name the domain is in — is in{" "}
+          <Link href="/en/blog/how-much-do-a-domain-and-hosting-cost-in-colombia">
+            how much a domain and hosting cost
+          </Link>
+          .
         </li>
         <li>
           <strong>Content.</strong> The copy and the photos. If you don&apos;t supply them, someone

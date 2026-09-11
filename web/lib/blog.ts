@@ -287,6 +287,132 @@ export const POSTS: BlogPost[] = [
     },
     category: { es: "Guías", en: "Guides" },
   },
+  {
+    slug: SLUGS.googleMaps,
+    title: {
+      es: "Cómo aparecer en Google Maps con tu negocio",
+      en: "How to get your business to show up on Google Maps",
+    },
+    description: {
+      es: "La ficha de Google es gratis y para «cerca de mí» le gana a tu web. Cómo crearla, qué te suspende la cuenta y cuándo te alcanza con eso.",
+      en: "The Google listing is free, and for «near me» it beats your website. How to set it up, what gets you suspended, and when it is all you need.",
+    },
+    excerpt: {
+      es: "Empiezo por lo que menos me conviene decir: la ficha es gratis, se hace en una tarde y para las búsquedas de cercanía le gana a tu página web.",
+      en: "I will start with what suits me least: the listing is free, it takes an afternoon, and for proximity searches it beats your website.",
+    },
+    publishedAt: "2026-09-11",
+    readingMinutes: 8,
+    keywords: {
+      es: [
+        "cómo aparecer en Google Maps",
+        "poner mi negocio en Google Maps",
+        "ficha de Google mi negocio",
+        "Google My Business Colombia",
+        "perfil de empresa en Google",
+      ],
+      en: [
+        "how to appear on Google Maps",
+        "add my business to Google Maps",
+        "Google Business Profile",
+        "Google My Business Colombia",
+      ],
+    },
+    category: { es: "Guías", en: "Guides" },
+  },
+  {
+    slug: SLUGS.noAparece,
+    title: {
+      es: "¿Por qué mi página web no aparece en Google?",
+      en: "Why doesn't my website show up on Google?",
+    },
+    description: {
+      es: "Las cinco causas, en orden, y cómo comprobar tres de ellas tú mismo en quince minutos sin contratar a nadie.",
+      en: "The five causes, in order, and how to check three of them yourself in fifteen minutes without hiring anyone.",
+    },
+    excerpt: {
+      es: "Antes de pelear con nadie: busca site:tudominio.com y mira cuántos resultados salen. Esa sola búsqueda separa los dos mundos posibles.",
+      en: "Before arguing with anyone: search site:yourdomain.com and see how many results come back. That one search splits the two possible worlds.",
+    },
+    publishedAt: "2026-09-11",
+    readingMinutes: 7,
+    keywords: {
+      es: [
+        "por qué mi página no aparece en Google",
+        "mi web no sale en Google",
+        "no aparezco en Google",
+        "indexar página en Google",
+      ],
+      en: [
+        "why my website doesn't show up on Google",
+        "site not indexed Google",
+        "website not appearing in search",
+      ],
+    },
+    category: { es: "Guías", en: "Guides" },
+  },
+  {
+    slug: SLUGS.dominioHosting,
+    title: {
+      es: "¿Cuánto cuesta un dominio y un hosting en Colombia?",
+      en: "How much do a domain and hosting cost in Colombia?",
+    },
+    description: {
+      es: "Precios reales en pesos, en qué se diferencian, y la pregunta que decide todo: a nombre de quién queda el dominio.",
+      en: "Real prices in pesos, how the two differ, and the question that decides everything: whose name the domain is in.",
+    },
+    excerpt: {
+      es: "El precio es la parte fácil. Lo que decide si esto te sale caro o barato es a nombre de quién queda, y eso no aparece en ninguna tabla.",
+      en: "The price is the easy part. What decides whether this ends up cheap or expensive is whose name it is in, and that is on no price list.",
+    },
+    publishedAt: "2026-09-11",
+    readingMinutes: 6,
+    keywords: {
+      es: [
+        "cuánto cuesta un dominio web en Colombia",
+        "precio dominio y hosting Colombia",
+        "diferencia entre dominio y hosting",
+        "cuánto cuesta un hosting",
+      ],
+      en: [
+        "domain cost Colombia",
+        "hosting price Colombia",
+        "difference between domain and hosting",
+      ],
+    },
+    category: { es: "Precios", en: "Pricing" },
+  },
+  {
+    slug: SLUGS.landingPage,
+    title: {
+      es: "Qué es una landing page y cuándo te conviene",
+      en: "What a landing page is, and when it is the right call",
+    },
+    description: {
+      es: "Una sola página, un solo objetivo y sin salidas. Qué lleva, qué cuesta frente a un sitio completo y por qué casi no posiciona sola.",
+      en: "One page, one goal, no exits. What goes in it, what it costs against a full site, and why on its own it barely ranks.",
+    },
+    excerpt: {
+      es: "Un sitio web quiere que explores; una landing quiere que decidas. Todo lo que la hace distinta sale de esa frase.",
+      en: "A website wants you to browse; a landing page wants you to decide. Everything else about it follows from that.",
+    },
+    publishedAt: "2026-09-11",
+    readingMinutes: 7,
+    keywords: {
+      es: [
+        "qué es una landing page",
+        "para qué sirve una landing page",
+        "landing page o página web",
+        "cuánto cuesta una landing page",
+      ],
+      en: [
+        "what is a landing page",
+        "landing page vs website",
+        "landing page cost",
+      ],
+    },
+    category: { es: "Decisión", en: "Deciding" },
+  },
 ];
 
 /** El post cuyo slug —en el idioma dado— coincide. */

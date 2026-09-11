@@ -9,6 +9,10 @@ import { RestaurantWebsitePost } from "../_posts/what-a-restaurant-website-needs
 import { HowLongPost } from "../_posts/how-long-does-it-take-to-build-a-website";
 import { WhatsAppChatbotCostPost } from "../_posts/how-much-does-a-whatsapp-chatbot-cost-in-colombia";
 import { SeoCostPost } from "../_posts/how-much-does-seo-cost-in-colombia";
+import { HowToShowUpOnGoogleMapsPost } from "../_posts/how-to-show-up-on-google-maps";
+import { WhyMyWebsiteDoesntShowUpPost } from "../_posts/why-my-website-doesnt-show-up-on-google";
+import { DomainAndHostingCostPost } from "../_posts/how-much-do-a-domain-and-hosting-cost-in-colombia";
+import { WhatIsALandingPagePost } from "../_posts/what-is-a-landing-page";
 
 // SSG completa: cada post se prerenderiza en el build.
 export function generateStaticParams() {
@@ -35,6 +39,10 @@ const CUERPOS: Record<string, () => React.JSX.Element> = {
   "how-long-does-it-take-to-build-a-website": HowLongPost,
   "how-much-does-a-whatsapp-chatbot-cost-in-colombia": WhatsAppChatbotCostPost,
   "how-much-does-seo-cost-in-colombia": SeoCostPost,
+  "how-to-show-up-on-google-maps": HowToShowUpOnGoogleMapsPost,
+  "why-my-website-doesnt-show-up-on-google": WhyMyWebsiteDoesntShowUpPost,
+  "how-much-do-a-domain-and-hosting-cost-in-colombia": DomainAndHostingCostPost,
+  "what-is-a-landing-page": WhatIsALandingPagePost,
 };
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {

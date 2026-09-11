@@ -9,6 +9,10 @@ import { WebRestaurantePost } from "../_posts/web-restaurante";
 import { CuantoDemoraPost } from "../_posts/cuanto-demora";
 import { CuantoCuestaChatbotPost } from "../_posts/cuanto-cuesta-chatbot";
 import { CuantoCuestaSeoPost } from "../_posts/cuanto-cuesta-seo";
+import { AparecerEnGoogleMapsPost } from "../_posts/aparecer-en-google-maps";
+import { NoApareceEnGooglePost } from "../_posts/no-aparece-en-google";
+import { DominioYHostingPost } from "../_posts/dominio-y-hosting";
+import { QueEsUnaLandingPagePost } from "../_posts/que-es-una-landing-page";
 
 // SSG completa: cada post se prerenderiza en el build.
 export function generateStaticParams() {
@@ -34,6 +38,10 @@ const CUERPOS: Record<string, () => React.JSX.Element> = {
   "cuanto-se-demora-hacer-una-pagina-web": CuantoDemoraPost,
   "cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia": CuantoCuestaChatbotPost,
   "cuanto-cuesta-el-seo-en-colombia": CuantoCuestaSeoPost,
+  "como-aparecer-en-google-maps": AparecerEnGoogleMapsPost,
+  "por-que-mi-pagina-no-aparece-en-google": NoApareceEnGooglePost,
+  "cuanto-cuesta-un-dominio-y-un-hosting-en-colombia": DominioYHostingPost,
+  "que-es-una-landing-page": QueEsUnaLandingPagePost,
 };
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {

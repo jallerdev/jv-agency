@@ -46,6 +46,22 @@ export const SLUGS = {
     es: "cuanto-se-demora-hacer-una-pagina-web",
     en: "how-long-does-it-take-to-build-a-website",
   },
+  googleMaps: {
+    es: "como-aparecer-en-google-maps",
+    en: "how-to-show-up-on-google-maps",
+  },
+  noAparece: {
+    es: "por-que-mi-pagina-no-aparece-en-google",
+    en: "why-my-website-doesnt-show-up-on-google",
+  },
+  dominioHosting: {
+    es: "cuanto-cuesta-un-dominio-y-un-hosting-en-colombia",
+    en: "how-much-do-a-domain-and-hosting-cost-in-colombia",
+  },
+  landingPage: {
+    es: "que-es-una-landing-page",
+    en: "what-is-a-landing-page",
+  },
 } as const satisfies Record<string, Record<Idioma, string>>;
 
 /**

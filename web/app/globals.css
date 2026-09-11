@@ -394,6 +394,61 @@
     color: var(--color-ink);
     font-weight: 600;
   }
+
+  /* TABLAS DEL BLOG. No existian, y ya hay cinco articulos que las usan: los
+     tres de precios, el de dominio y hosting y el de landing pages. Sin regla,
+     la tabla de tres columnas del articulo de dominio desbordaba la pagina a
+     390 px — medido, no supuesto.
+
+     `display:block` sobre la tabla es lo que permite que scrollee sola sin
+     tener que envolver cada una en un div desde el JSX. Cuesta que el ancho lo
+     fije el contenido y no el contenedor, y a cambio la pagina nunca se va de
+     lado, que es el fallo que si se nota. `min-width` evita que a 390 px las
+     columnas se aplasten a una palabra por linea. */
+  .legal table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+    margin: 1.75rem 0;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .legal thead {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .legal th {
+    padding: 0.625rem 1rem 0.625rem 0;
+    color: var(--color-ink);
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .legal td {
+    min-width: 8.5rem;
+    padding: 0.75rem 1rem 0.75rem 0;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-ink-soft);
+    vertical-align: top;
+  }
+  .legal th:last-child,
+  .legal td:last-child {
+    padding-right: 0;
+  }
+  /* La primera columna es la etiqueta de la fila: va en tinta fuerte para que
+     la tabla se pueda recorrer con la vista sin leerla entera. */
+  .legal td:first-child {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+  .legal code {
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    background: rgb(var(--brand-500-rgb) / 0.1);
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
 }
 
 /* ==========================================================================

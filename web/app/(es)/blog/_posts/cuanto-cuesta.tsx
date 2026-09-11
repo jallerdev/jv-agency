@@ -65,7 +65,12 @@ export function CuantoCuestaPost() {
       <ul>
         <li>
           <strong>Dominio y hosting.</strong> Entre $150.000 y $600.000 al año según el tráfico.
-          Muchas cotizaciones incluyen el primer año y no lo dicen.
+          Muchas cotizaciones incluyen el primer año y no lo dicen. El desglose de las dos cosas
+          —y la pregunta que decide todo, que es a nombre de quién queda el dominio— está en{" "}
+          <Link href="/blog/cuanto-cuesta-un-dominio-y-un-hosting-en-colombia">
+            cuánto cuesta un dominio y un hosting
+          </Link>
+          .
         </li>
         <li>
           <strong>Contenido.</strong> Los textos y las fotos. Si no los entregas tú, alguien
