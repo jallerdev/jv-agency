@@ -89,7 +89,7 @@ export function RailDistancia({
   className,
 }: {
   idioma?: Idioma;
-  paradas?: ParadaDistancia[];
+  paradas?: readonly ParadaDistancia[];
   nota?: string;
   className?: string;
 }) {

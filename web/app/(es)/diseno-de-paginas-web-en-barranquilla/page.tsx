@@ -208,6 +208,10 @@ const PROCESO = [
 const OTRAS_PAGINAS = [
   { href: "/diseno-de-paginas-web-en-cartagena", label: "Diseño web en Cartagena" },
   { href: "/diseno-de-paginas-web-en-bogota", label: "Diseño web en Bogotá" },
+  { href: "/diseno-de-paginas-web-en-santa-marta", label: "Diseño web en Santa Marta" },
+  { href: "/diseno-de-paginas-web-en-medellin", label: "Diseño web en Medellín" },
+  { href: "/diseno-de-paginas-web-en-cali", label: "Diseño web en Cali" },
+  { href: "/diseno-de-paginas-web-en-bucaramanga", label: "Diseño web en Bucaramanga" },
   { href: "/sectores/salones-y-spas", label: "Salones y spas" },
   { href: "/sectores/clinicas-y-consultorios", label: "Clínicas y consultorios" },
   { href: "/servicios/chatbot-whatsapp", label: "Chatbot de WhatsApp" },

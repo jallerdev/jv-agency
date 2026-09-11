@@ -88,7 +88,12 @@
 
   --text-strong: var(--blanco);
   --text-body: rgba(250, 250, 250, 0.62);
-  --text-muted: rgba(250, 250, 250, 0.44);
+  /* 0.50 y no 0.44: al 44% la tinta apagada daba 4,25:1 sobre el casi negro,
+     por debajo de AA, y se la lleva TODO el sitio porque es el color de
+     `.jv-eyebrow` —los rótulos en mono de cada sección— y de los placeholders.
+     El mínimo exacto para 4,5:1 sobre #080808 es 0.4605; 0.50 deja margen y
+     sigue pasando sobre las superficies altas: 5,00:1 sobre #1c1c1c. */
+  --text-muted: rgba(250, 250, 250, 0.50);
   --text-accent: var(--brand-500);
   --text-inverse: var(--negro);
   /* Casi negro sobre el relleno naranja: 5,96:1. El blanco daría 3,36:1. */

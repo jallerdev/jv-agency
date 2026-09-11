@@ -68,7 +68,7 @@ export const COLUMNAS: readonly ColumnaPie[] = [
         texto: { es: "Clínicas y consultorios", en: "Clinics" },
         href: { es: "/sectores/clinicas-y-consultorios", en: "/en/industries/clinics" },
       },
-      /* Las tres de ciudad no se traducen: «diseño de páginas web en
+      /* Las SIETE de ciudad no se traducen: «diseño de páginas web en
          Cartagena» es SEO local y no tiene búsqueda equivalente en inglés.
          Apuntan al español desde las dos lenguas, a propósito. */
       {
@@ -90,6 +90,34 @@ export const COLUMNAS: readonly ColumnaPie[] = [
         href: {
           es: "/diseno-de-paginas-web-en-bogota",
           en: "/diseno-de-paginas-web-en-bogota",
+        },
+      },
+      {
+        texto: { es: "Medellín", en: "Medellín" },
+        href: {
+          es: "/diseno-de-paginas-web-en-medellin",
+          en: "/diseno-de-paginas-web-en-medellin",
+        },
+      },
+      {
+        texto: { es: "Cali", en: "Cali" },
+        href: {
+          es: "/diseno-de-paginas-web-en-cali",
+          en: "/diseno-de-paginas-web-en-cali",
+        },
+      },
+      {
+        texto: { es: "Bucaramanga", en: "Bucaramanga" },
+        href: {
+          es: "/diseno-de-paginas-web-en-bucaramanga",
+          en: "/diseno-de-paginas-web-en-bucaramanga",
+        },
+      },
+      {
+        texto: { es: "Santa Marta", en: "Santa Marta" },
+        href: {
+          es: "/diseno-de-paginas-web-en-santa-marta",
+          en: "/diseno-de-paginas-web-en-santa-marta",
         },
       },
     ],

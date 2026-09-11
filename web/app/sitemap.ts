@@ -11,6 +11,10 @@ const CIUDADES = [
   "diseno-de-paginas-web-en-cartagena",
   "diseno-de-paginas-web-en-barranquilla",
   "diseno-de-paginas-web-en-bogota",
+  "diseno-de-paginas-web-en-medellin",
+  "diseno-de-paginas-web-en-cali",
+  "diseno-de-paginas-web-en-bucaramanga",
+  "diseno-de-paginas-web-en-santa-marta",
 ] as const;
 
 // Páginas de servicio: intención de DECISIÓN también ("chatbot de WhatsApp

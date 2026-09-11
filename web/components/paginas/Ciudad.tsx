@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -8,15 +7,12 @@ import {
   FileText,
   MapPinOff,
   MessageCircle,
-  Store,
-  UserRound,
-  Video,
-  Wrench,
 } from "lucide-react";
 
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,109 +22,67 @@ import { Comparador } from "@/components/visuales/Comparador";
 import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
 import { BUSINESS } from "@/lib/business";
-import { INCLUIDO_SIEMPRE, A_PRICES, money } from "@/lib/quote";
+import { INCLUIDO_SIEMPRE, PISOS, money } from "@/lib/quote";
+import type { Ciudad } from "@/content/ciudades/tipos";
 
 /**
- * Página de ciudad para la intención transaccional «diseño de páginas web en
- * Bogotá».
+ * EL ESQUELETO DE UNA PÁGINA DE CIUDAD
+ * ──────────────────────────────────────────────────────────────────────────
+ * Mismo orden de secciones y mismo ritmo de bandas que Cartagena, Barranquilla
+ * y Bogotá. Lo que cambia entre hermanas es el MATERIAL, y el material vive en
+ * `content/ciudades/`.
  *
- * POR QUÉ ESTA PÁGINA ES DISTINTA A LAS DE CARTAGENA Y BARRANQUILLA
- * ----------------------------------------------------------------
- * No hay un solo proyecto entregado en Bogotá. Cero: la investigación de
- * septiembre de 2026 hizo grep de «bogot» en todo el repositorio y la única
- * coincidencia era `America/Bogota`, la zona horaria de `lib/booking.ts`.
+ * POR QUÉ ESTO NO ES UNA DOORWAY PAGE, que es la pregunta que hay que hacerle
+ * a cualquier plantilla de ciudad: lo que se repite es la estructura y los
+ * precios —que son los mismos de verdad, y decir otra cosa sería mentir—;
+ * lo que cambia es todo lo que argumenta. Cada ciudad trae sus propias cifras
+ * del registro mercantil con su fuente citada y auditable, su propia
+ * confesión, sus propias preguntas y su propia distancia. Si alguien añade una
+ * quinta ciudad copiando el archivo y cambiando el topónimo, esto SÍ se vuelve
+ * una doorway page y hay que bajarla. El tipo `Ciudad` obliga a traer datos y
+ * confesión justamente para que eso no se pueda hacer por descuido.
  *
- * Por eso esta página NO se apoya en cercanía (el argumento de Cartagena) ni
- * en ser el único que publica precios (falso en Bogotá: allá varias agencias
- * ya los publican). Se apoya en tres cosas verdaderas y comprobables:
+ * LAS TRES PÁGINAS VIEJAS NO SE PORTARON aquí a propósito: son las URL que ya
+ * están indexadas y no se pone en juego su posicionamiento por elegancia de
+ * código. Portarlas es un trabajo aparte y verificable.
  *
- *   1. Datos públicos del tejido empresarial DE BOGOTÁ, que dicen algo que
- *      nadie más está usando: el 52,1 % de las empresas con matrícula activa
- *      de la ciudad son personas naturales con registro mercantil, no
- *      sociedades, y el 92,4 % son microempresas. Ese es exactamente el
- *      cliente de esta agencia, y no vive en el Chicó: vive en Suba, Kennedy
- *      y Engativá.
- *   2. La confesión, arriba y sin letra chica: no hay oficina en Bogotá y no
- *      hay cliente en Bogotá. Se dice en el segundo bloque de la página, y en
- *      la vitrina se dibuja: la rejilla de trabajo abierto tiene tres piezas
- *      reales y una CASILLA VACÍA rotulada. Nadie diseña un hueco en su
- *      propio portafolio; por eso el hueco es lo más creíble de la página.
- *   3. El precio escrito y el trabajo abierto, que se comprueban con un clic.
- *
- * Si algún día se borra el punto 2 porque «suena mal», esta página se vuelve
- * una doorway page — tres párrafos genéricos con la ciudad cambiada — y hay
- * que bajarla. La honestidad no es el tono de la página: es su único activo.
- *
- * ESQUELETO COMPARTIDO con Cartagena y Barranquilla: mismo orden de secciones
- * y mismo ritmo de bandas. Lo que cambia entre hermanas es el material.
- *
- * FUENTE de todas las cifras de Bogotá (una sola, para poder auditarla):
- * Observatorio de Desarrollo Económico de Bogotá, «Boletín Dinámica
- * empresarial n.º 52», 21 de octubre de 2025, con datos de la Cámara de
- * Comercio de Bogotá. Periodo de análisis: septiembre de 2025.
- * https://observatorio.desarrolloeconomico.gov.co/wp-content/uploads/2025/10/Bol-DinEmpre-N-052-20251021-v2.pdf
+ * SCHEMA: `Service`, nunca `LocalBusiness`. No hay local en ninguna de estas
+ * ciudades y fingir una dirección es exactamente lo que Google castiga acá.
  */
 
-const RUTA = "/diseno-de-paginas-web-en-bogota";
-
-const FUENTE_BOGOTA =
-  "https://observatorio.desarrolloeconomico.gov.co/wp-content/uploads/2025/10/Bol-DinEmpre-N-052-20251021-v2.pdf";
-
-export const metadata: Metadata = {
-  // 58 caracteres. El término que la gente escribe va primero; la marca, al final.
-  title: "Diseño de páginas web en Bogotá | Luis Jaller · JV Agencia",
-  description:
-    "Diseño y programo páginas web para negocios de Bogotá desde $850.000 y en 5 días. Trabajo a distancia desde Bolívar: no tengo oficina allá y te lo digo de una.",
-  alternates: { canonical: RUTA },
-  openGraph: {
-    title: "Diseño de páginas web en Bogotá | Luis Jaller · JV Agencia",
-    description:
-      "Páginas web para negocios de Bogotá desde $850.000 y en 5 días. A distancia, desde Bolívar, y hablando siempre con quien programa.",
-    url: `${SITE_URL}${RUTA}`,
-    type: "website",
-  },
-};
-
-/** Precio de entrada del chatbot: se lee de quote.ts, no se escribe a mano. */
-const CHATBOT_DESDE = Math.min(...Object.values(A_PRICES.base));
-
-/**
- * Precios autorizados para publicación. Los números viven acá una sola vez y
- * alimentan tanto las tarjetas como el JSON-LD, para que no se puedan
- * desincronizar.
- */
+/** Los precios se leen de `lib/quote.ts`. Ni un número escrito a mano. */
 const PRECIOS = [
   {
     nombre: "Página web",
-    desde: 850000,
+    desde: PISOS.landing,
     plazo: "5 días",
     desc: "De una landing a una web corporativa. Diseño propio, no plantilla comprada.",
     href: "/servicios/diseno-de-paginas-web",
   },
   {
-    nombre: "Tienda online",
-    desde: 2500000,
+    nombre: "Tienda virtual",
+    desde: PISOS.tienda,
     plazo: "3 semanas",
     desc: "Catálogo, carrito, pagos en línea y panel para administrar productos e inventario.",
     href: "/servicios/tiendas-virtuales",
   },
   {
     nombre: "Chatbot de WhatsApp",
-    desde: CHATBOT_DESDE,
+    desde: PISOS.chatbot,
     plazo: "de 1 a 5 semanas",
     desc: "Tu número contesta solo: responde lo repetido, capta interesados y agenda.",
     href: "/servicios/chatbot-whatsapp",
   },
   {
     nombre: "Auditoría SEO",
-    desde: 390000,
+    desde: PISOS.auditoria,
     plazo: "5 días",
     desc: "Qué te está frenando hoy en Google, con la lista de arreglos en orden de impacto.",
     href: "/servicios/posicionamiento-seo",
   },
   {
     nombre: "SEO local mensual",
-    desde: 650000,
+    desde: PISOS.seoMes,
     plazo: "trabajo mensual",
     desc: "Contenido, ficha de Google y arreglos mes a mes. Los primeros movimientos, entre el mes 3 y el 6.",
     mensual: true,
@@ -136,50 +90,18 @@ const PRECIOS = [
   },
   {
     nombre: "Renovación anual",
-    desde: 290000,
+    desde: PISOS.renovacion,
     plazo: "una vez al año",
     desc: "Dominio, hosting, certificado y respaldos del sitio ya entregado.",
     exacto: true,
   },
-];
-
-/**
- * Los cuatro perfiles salen de la composición REAL del registro mercantil de
- * Bogotá, no de una lluvia de ideas. Cada porcentaje es del boletín citado
- * arriba.
- */
-const QUIEN = [
-  {
-    icon: UserRound,
-    dato: "52,1 %",
-    titulo: "Personas naturales con registro mercantil",
-    desc: "Más de la mitad de las empresas activas de Bogotá no son sociedades: son una persona con su RUT y su oficio. Yo también soy una de esas.",
-  },
-  {
-    icon: Store,
-    dato: "43,8 %",
-    titulo: "Comercio",
-    desc: "El sector más grande, y el que más pesa en Kennedy (11,1 %), Suba (10,4 %) y Engativá (8,5 %). Lo que necesitas es un catálogo que se pueda mandar por WhatsApp sin que se vea roto.",
-  },
-  {
-    icon: Video,
-    dato: "36,4 %",
-    titulo: "Servicios",
-    desc: "Concentrado en Chapinero (16,7 %), Usaquén (15,0 %) y Suba (13,8 %). Consultorios, estudios, salones, asesorías. Acá la página no vende un producto: vende una cita.",
-  },
-  {
-    icon: Wrench,
-    dato: "16,9 %",
-    titulo: "Industria",
-    desc: "Talleres, confección, metalmecánica, alimentos. La página que sirve es la que le prueba a un comprador que existes y con qué máquinas trabajas.",
-  },
-];
+] as const;
 
 const PROCESO = [
   {
     n: "01",
     t: "Una llamada de veinte minutos",
-    d: "Por Meet o por WhatsApp. Nadie cruza la ciudad para esto, ni tú ni yo.",
+    d: "Por Meet o por WhatsApp. Nadie cruza el país para esto, ni tú ni yo.",
   },
   {
     n: "02",
@@ -198,15 +120,10 @@ const PROCESO = [
   },
 ];
 
-/**
- * Lo que cambia a tu favor y lo que cambia en tu contra por trabajar con
- * alguien que no está en Cundinamarca. Las dos listas enteras: la segunda es
- * la que hace creíble la primera y no se recorta.
- */
 const A_FAVOR = [
   "Mismo país, misma hora y mismos pesos: para tu contabilidad soy un proveedor nacional más",
   "No hay reuniones presenciales que te cuesten media mañana de ida y vuelta",
-  "No hay oficina en la 100 que alguien tenga que pagar y meter en tu cotización",
+  "No hay oficina en zona cara que alguien tenga que pagar y meter en tu cotización",
   "Le escribes a la persona que está tocando el código, no a un intermediario",
   "El dominio queda a tu nombre: si dejamos de trabajar juntos, el sitio se lo lleva cualquiera",
 ];
@@ -215,12 +132,13 @@ const EN_CONTRA = [
   { texto: "No voy a estar en tu oficina un martes cualquiera.", quien: "todo va por videollamada" },
   { texto: "No tengo un equipo detrás que absorba un pico de trabajo.", quien: "soy uno" },
   {
-    texto: "Si tu compra pasa por proveedores con póliza, orden de compra y comité, probablemente no encaje.",
+    texto:
+      "Si tu compra pasa por proveedores con póliza, orden de compra y comité, probablemente no encaje.",
     quien: "dímelo en la primera llamada",
   },
 ];
 
-/** Proyectos que se abren y se comprueban. Ninguno es de Bogotá — se dibuja. */
+/** Trabajo publicado con dominio propio. Ninguno es de estas cuatro ciudades. */
 const ABIERTOS = [
   {
     nombre: "HalcónOS",
@@ -242,87 +160,51 @@ const ABIERTOS = [
   },
 ];
 
-/** Enlaces del cierre. Fila de destinos tocables, no prosa con subrayados. */
-const OTRAS_PAGINAS = [
+/**
+ * Las otras ciudades, calculadas: cada página enlaza a las demás menos a sí
+ * misma. Escritas a mano, la séptima ciudad habría dejado seis listas
+ * desactualizadas y un enlace a sí misma en alguna.
+ */
+const CIUDADES = [
   { href: "/diseno-de-paginas-web-en-cartagena", label: "Diseño web en Cartagena" },
   { href: "/diseno-de-paginas-web-en-barranquilla", label: "Diseño web en Barranquilla" },
+  { href: "/diseno-de-paginas-web-en-bogota", label: "Diseño web en Bogotá" },
   { href: "/diseno-de-paginas-web-en-medellin", label: "Diseño web en Medellín" },
   { href: "/diseno-de-paginas-web-en-cali", label: "Diseño web en Cali" },
   { href: "/diseno-de-paginas-web-en-bucaramanga", label: "Diseño web en Bucaramanga" },
   { href: "/diseno-de-paginas-web-en-santa-marta", label: "Diseño web en Santa Marta" },
-  { href: "/sectores/salones-y-spas", label: "Salones y spas" },
-  { href: "/sectores/clinicas-y-consultorios", label: "Clínicas y consultorios" },
-  { href: "/servicios/software-a-la-medida", label: "Software a la medida" },
 ];
 
-const FAQS = [
-  {
-    q: "¿Tienes clientes en Bogotá?",
-    a: "No, todavía no, y prefiero decírtelo yo antes de que lo averigües tú. Lo que tengo publicado es trabajo de la costa y dos productos propios, y todo se abre con un clic. El día que haya un proyecto bogotano entregado, va a estar en esta página con nombre y con enlace.",
-  },
-  {
-    q: "¿Puedes venir a una reunión presencial?",
-    a: "Puedo viajar si el proyecto lo justifica, y el viaje se acuerda aparte. Pero lo normal es que no vaya. Si tu proyecto necesita a alguien sentado en tu oficina cada semana, contrata a alguien de Bogotá.",
-  },
-  {
-    q: "¿Por qué contratar a alguien de Bolívar habiendo cientos de agencias en Bogotá?",
-    a: "Por una sola razón: hablas con quien hace el trabajo. No hay ejecutivo de cuenta repitiéndote lo que le dijo el diseñador. Si esa razón no te pesa, la respuesta honesta es que no me contrates.",
-  },
-  {
-    q: "¿Facturas legalmente? Necesito soporte contable.",
-    a: `Sí. Persona natural con RUT y NIT colombiano (${BUSINESS.taxId}), cuenta de cobro o factura en pesos y contrato regido por ley colombiana.`,
-  },
-  {
-    q: "¿En cuánto salgo primero en Google en Bogotá?",
-    a: "No te lo puedo prometer, y desconfía de quien te lo prometa. Lo que sí hago es entregar el sitio técnicamente en orden desde el primer día: velocidad, estructura, datos para Google y ficha de negocio. Los primeros movimientos se ven entre el mes 3 y el 6, y Bogotá es la búsqueda más peleada del país: ahí no esperes menos.",
-  },
-  {
-    q: "¿El precio sube porque estoy en Bogotá?",
-    a: "No. Es el mismo precio que le cobro a un negocio de Turbaco. No tengo oficina que pagar en la 100, así que no hay ningún costo que trasladarte por tu dirección.",
-  },
-  {
-    q: "¿Y si el negocio no necesita página web todavía?",
-    a: "Pasa, y más de lo que uno creería. Escribí un artículo entero sobre los casos en que conviene esperar, con los criterios para decidirlo.",
-    href: "/blog/mi-negocio-necesita-pagina-web",
-    hrefLabel: "¿Mi negocio necesita página web?",
-  },
-];
+export function PaginaCiudad({ ciudad }: { ciudad: Ciudad }) {
+  const url = `${SITE_URL}${ciudad.ruta}`;
+  const otras = CIUDADES.filter((c) => c.href !== ciudad.ruta);
 
-export default function DisenoPaginasWebBogotaPage() {
-  // Service, no LocalBusiness: no hay local en Bogotá y fingir una dirección
-  // allá es exactamente lo que Google castiga en las páginas de ciudad.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "@id": `${SITE_URL}${RUTA}#servicio`,
-    name: "Diseño de páginas web en Bogotá",
-    alternateName: [
-      "Diseño web Bogotá",
-      "Páginas web en Bogotá",
-      "Creación de páginas web Bogotá",
-    ],
+    "@id": `${url}#servicio`,
+    name: `Diseño de páginas web en ${ciudad.nombre}`,
+    alternateName: ciudad.alternos,
     serviceType: "Diseño y desarrollo de páginas web",
-    description:
-      "Diseño y programación de páginas web, tiendas online y chatbots de WhatsApp para negocios de Bogotá, prestado íntegramente a distancia desde Turbaco, Bolívar, Colombia.",
+    description: `Diseño y programación de páginas web, tiendas virtuales y chatbots de WhatsApp para negocios de ${ciudad.nombre}, prestado a distancia desde Turbaco, Bolívar, Colombia.`,
     provider: { "@id": `${SITE_URL}/#organization` },
     areaServed: [
       {
         "@type": "City",
-        name: "Bogotá",
-        alternateName: "Bogotá D.C.",
+        name: ciudad.nombre,
         address: {
           "@type": "PostalAddress",
-          addressLocality: "Bogotá",
-          addressRegion: "Bogotá D.C.",
+          addressLocality: ciudad.nombre,
+          addressRegion: ciudad.region,
           addressCountry: "CO",
         },
       },
       { "@type": "Country", name: "Colombia" },
     ],
-    url: `${SITE_URL}${RUTA}`,
+    url,
     availableChannel: {
       "@type": "ServiceChannel",
-      serviceUrl: `${SITE_URL}${RUTA}`,
+      serviceUrl: url,
       servicePhone: { "@type": "ContactPoint", telephone: BUSINESS.phone },
       availableLanguage: { "@type": "Language", name: "Spanish", alternateName: "es" },
     },
@@ -333,10 +215,9 @@ export default function DisenoPaginasWebBogotaPage() {
       priceSpecification: {
         "@type": "PriceSpecification",
         priceCurrency: "COP",
-        // «desde» se declara como mínimo, no como precio cerrado: decir lo
-        // contrario en los datos estructurados sería mentir en el código.
-        ...(p.exacto ? { price: p.desde } : { minPrice: p.desde }),
-        ...(p.mensual ? { unitCode: "MON" } : {}),
+        // «desde» se declara como mínimo, no como precio cerrado.
+        ...("exacto" in p && p.exacto ? { price: p.desde } : { minPrice: p.desde }),
+        ...("mensual" in p && p.mensual ? { unitCode: "MON" } : {}),
       },
       availability: "https://schema.org/InStock",
     })),
@@ -353,20 +234,19 @@ export default function DisenoPaginasWebBogotaPage() {
         {/* ── Encabezado · canvas ────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
           <Reveal>
-            <Badge>Bogotá · a distancia</Badge>
+            <Badge>{ciudad.badge}</Badge>
             <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              Diseño de páginas web en Bogotá,{" "}
-              <span className="block text-metal">desde Bolívar y a distancia</span>
+              Diseño de páginas web en {ciudad.nombre},{" "}
+              <span className="block text-metal">{ciudad.tituloAcento}</span>
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Bogotá cerró septiembre de 2025 con 406.513 empresas activas. El 92,4 % son
-              microempresas y el 52,1 % ni siquiera son sociedades: son una persona con registro
-              mercantil.
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Yo también soy una de esas. Esta página está escrita para ese negocio, no para el que
-              tiene departamento de mercadeo.
-            </p>
+            {ciudad.entradilla.map((p) => (
+              <p
+                key={p}
+                className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft"
+              >
+                {p}
+              </p>
+            ))}
           </Reveal>
 
           <Reveal delay={120}>
@@ -391,47 +271,33 @@ export default function DisenoPaginasWebBogotaPage() {
                 <MapPinOff className="h-6 w-6" aria-hidden="true" />
               </span>
               <h2 className="mt-5 font-display text-3xl text-ink sm:text-4xl">
-                Antes de seguir:
-                <span className="text-metal"> no tengo oficina en Bogotá ni cliente en Bogotá.</span>
+                {ciudad.confesion.titulo}
+                <span className="text-metal">{ciudad.confesion.tituloAcento}</span>
               </h2>
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Vivo en Turbaco, Bolívar —al lado de Cartagena, no al lado de la Séptima—, y hoy no
-                tengo un solo proyecto entregado allá. No te voy a poner una dirección de la calle
-                100 en el pie de página.
-              </p>
-              <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-                Si lo primero que necesitas es alguien que se te siente al frente, te ahorro la
-                llamada: <strong className="text-ink">no soy yo</strong>. Si lo que necesitas es que
-                quien te cotiza sea el mismo que diseña, programa y te contesta el WhatsApp seis
-                meses después, sigue leyendo.
-              </p>
+              {ciudad.confesion.parrafos.map((p) => (
+                <p key={p} className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
+                  {p}
+                </p>
+              ))}
             </div>
           </Reveal>
 
           <Reveal>
-            <RailDistancia className="mt-10" />
+            <RailDistancia className="mt-10" paradas={ciudad.paradas} />
           </Reveal>
         </section>
 
-        {/* ── Para quién es · banda (mismo capítulo que la confesión) ── */}
+        {/* ── Los datos de la ciudad · banda (mismo capítulo) ────────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              En Bogotá el negocio promedio no está en el Chicó
-            </h2>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">{ciudad.datosTitulo}</h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Las cinco localidades que más microempresas concentran son{" "}
-              <strong className="text-ink">
-                Suba (12,0 %), Kennedy (9,7 %), Usaquén (9,4 %), Engativá (8,5 %) y Chapinero
-                (8,3 %)
-              </strong>
-              : entre las cinco, casi la mitad del total. Barrios de local en la esquina y taller en
-              el primer piso, no de torre corporativa.
+              {ciudad.datosEntradilla}
             </p>
           </Reveal>
 
           <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-            {QUIEN.map((p, i) => {
+            {ciudad.datos.map((p, i) => {
               const Icon = p.icon;
               return (
                 <Reveal key={p.titulo} index={i}>
@@ -454,16 +320,14 @@ export default function DisenoPaginasWebBogotaPage() {
             <p className="mt-6 font-body text-sm leading-relaxed text-ink-soft">
               Fuente de las cifras:{" "}
               <a
-                href={FUENTE_BOGOTA}
+                href={ciudad.fuente.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline underline-offset-4 hover:text-ink"
               >
-                Observatorio de Desarrollo Económico de Bogotá, «Boletín Dinámica empresarial n.º
-                52»
-              </a>{" "}
-              (21 de octubre de 2025), con datos de la Cámara de Comercio de Bogotá. Periodo:
-              septiembre de 2025.
+                {ciudad.fuente.texto}
+              </a>
+              . {ciudad.fuente.periodo}
             </p>
           </Reveal>
         </section>
@@ -472,12 +336,9 @@ export default function DisenoPaginasWebBogotaPage() {
         <section id="precios" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-12 md:px-8">
           <Reveal>
             <Badge>Precios</Badge>
-            <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
-              Lo que cobro, escrito
-            </h2>
+            <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">Lo que cobro, escrito</h2>
             <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              No te voy a decir que soy el más barato de Bogotá, porque no lo sé. Es el mismo número
-              que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Bogotá.
+              {ciudad.precioNota}
             </p>
           </Reveal>
 
@@ -489,7 +350,7 @@ export default function DisenoPaginasWebBogotaPage() {
                   <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
                     {p.desc}
                   </p>
-                  {p.href && (
+                  {"href" in p && p.href && (
                     <Link
                       href={p.href}
                       className="mt-3 inline-flex min-h-11 w-fit items-center gap-1 py-2.5 font-body text-sm font-semibold text-primary-dark underline underline-offset-4"
@@ -499,9 +360,9 @@ export default function DisenoPaginasWebBogotaPage() {
                     </Link>
                   )}
                   <p className="mt-4 jv-rule pt-4 font-mono text-lg text-primary-dark">
-                    {p.exacto ? "" : "desde "}
+                    {"exacto" in p && p.exacto ? "" : "desde "}
                     {money(p.desde)}
-                    {p.mensual ? " / mes" : ""}
+                    {"mensual" in p && p.mensual ? " / mes" : ""}
                   </p>
                   <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
                     <Clock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
@@ -522,7 +383,7 @@ export default function DisenoPaginasWebBogotaPage() {
                   Software a la medida
                 </Link>{" "}
                 <strong className="text-ink">va aparte</strong>, según el alcance: un sistema
-                interno no se cotiza por tabla.
+                interno no se cotiza por tabla. El piso son {money(PISOS.software)}.
               </p>
               <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">
                 El desglose largo:{" "}
@@ -605,13 +466,11 @@ export default function DisenoPaginasWebBogotaPage() {
           </div>
         </section>
 
-        {/* ── Lo que cambia, a favor y en contra · banda (mismo capítulo).
-             Las dos columnas enteras: la de la derecha es la que hace
-             creíble la de la izquierda. ─────────────────────────────── */}
+        {/* ── Lo que cambia, a favor y en contra · banda ─────────────── */}
         <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Qué cambia, en la práctica, porque yo no estoy en Cundinamarca
+              Qué cambia, en la práctica, porque yo no estoy en {ciudad.region}
             </h2>
           </Reveal>
           <Reveal>
@@ -629,13 +488,13 @@ export default function DisenoPaginasWebBogotaPage() {
           </Reveal>
         </section>
 
-        {/* ── Trabajo abierto · canvas. La cuarta casilla está vacía a
-             propósito: es la frase «ninguno es de Bogotá», dibujada. ─── */}
+        {/* ── Trabajo abierto · canvas. La cuarta casilla va vacía a
+             propósito: es «no hay cliente acá», dibujado. ───────────── */}
         <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Trabajo mío que puedes abrir ahora.
-              <span className="text-metal"> Ninguno es de Bogotá.</span>
+              <span className="text-metal"> Ninguno es de {ciudad.nombre}.</span>
             </h2>
             <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
               Los tres están publicados con dominio propio y se comprueban con un clic, que es más
@@ -668,9 +527,8 @@ export default function DisenoPaginasWebBogotaPage() {
             ))}
 
             <Reveal index={3}>
-              <CasillaVacia className="h-full bg-surface/50" rotulo="Sin cliente de Bogotá">
-                Todavía no hay un proyecto entregado en Bogotá. Cuando lo haya, va aquí, con nombre
-                y con enlace.
+              <CasillaVacia className="h-full bg-surface/50" rotulo={ciudad.sinCliente.rotulo}>
+                {ciudad.sinCliente.texto}
               </CasillaVacia>
             </Reveal>
           </div>
@@ -693,11 +551,11 @@ export default function DisenoPaginasWebBogotaPage() {
         <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
           <Reveal>
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Lo que pregunta un cliente de Bogotá
+              Lo que pregunta un cliente de {ciudad.nombre}
             </h2>
           </Reveal>
           <div className="mt-10 grid gap-4">
-            {FAQS.map((f, i) => (
+            {ciudad.faqs.map((f, i) => (
               <Reveal key={f.q} index={i}>
                 <article className="jv-card p-6 sm:p-7">
                   <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
@@ -714,18 +572,29 @@ export default function DisenoPaginasWebBogotaPage() {
                 </article>
               </Reveal>
             ))}
+
+            {/* La de facturación es igual en todas y sale de `lib/business.ts`,
+                así que no se copia en cada archivo de ciudad. */}
+            <Reveal index={ciudad.faqs.length}>
+              <article className="jv-card p-6 sm:p-7">
+                <h3 className="font-body text-xl font-semibold text-ink">
+                  ¿Facturas legalmente? Necesito soporte contable.
+                </h3>
+                <p className="mt-3 font-body leading-relaxed text-ink-soft">
+                  Sí. Persona natural con RUT y NIT colombiano ({BUSINESS.taxId}), cuenta de cobro o
+                  factura en pesos y contrato regido por ley colombiana.
+                </p>
+              </article>
+            </Reveal>
           </div>
         </section>
 
         {/* ── Cierre · canvas ────────────────────────────────────────── */}
         <section className="mx-auto max-w-4xl px-5 py-16 text-center md:px-8 md:py-24">
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Cuéntame qué vende tu negocio y en qué localidad estás
-            </h2>
+            <h2 className="font-display text-3xl text-ink sm:text-4xl">{ciudad.cierreTitulo}</h2>
             <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              En veinte minutos sabemos si esto te sirve, cuánto costaría y en cuánto quedaría en
-              línea. Si te conviene más alguien de Bogotá, te lo digo en esa misma llamada.
+              {ciudad.cierreCuerpo}
             </p>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" variant="primary" asChild>
@@ -739,12 +608,10 @@ export default function DisenoPaginasWebBogotaPage() {
               </BotonCuentame>
             </div>
 
-            <nav aria-label="Otras páginas del sitio" className="mt-12">
-              <p className="jv-eyebrow text-ink-soft">
-                También trabajo
-              </p>
+            <nav aria-label="Otras ciudades" className="mt-12">
+              <p className="jv-eyebrow text-ink-soft">También trabajo</p>
               <ul className="mt-4 flex flex-wrap justify-center gap-2">
-                {OTRAS_PAGINAS.map((o) => (
+                {otras.map((o) => (
                   <li key={o.href}>
                     <Link
                       href={o.href}
@@ -761,6 +628,7 @@ export default function DisenoPaginasWebBogotaPage() {
       </main>
       <Footer idioma="es" />
       <WhatsAppButton />
+      <BarraMovil idioma="es" />
     </>
   );
 }
