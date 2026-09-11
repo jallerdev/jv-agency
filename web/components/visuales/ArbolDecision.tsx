@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 import type { Idioma } from "@/content/types";
 import { cn } from "@/lib/utils";
@@ -46,6 +49,13 @@ export type NodoArbol =
       detalle: string;
       /** El piso y el plazo. Sácalos de PRICES/lib, nunca de un literal aquí. */
       pie?: string;
+      /**
+       * Qué hacer con la respuesta. Contestar tres preguntas y quedarse
+       * mirando el resultado es dejar al visitante en la puerta: el botón lo
+       * lleva a agendar CON lo que acaba de contestar —el formulario llega
+       * con el servicio marcado y la nota escrita—, sin pedirle que lo repita.
+       */
+      accion?: { texto: string; href: string };
       enlace?: { texto: string; href: string };
     };
 
@@ -170,13 +180,25 @@ export function ArbolDecision({
                 {actual.pie}
               </p>
             )}
-            {actual.enlace && (
-              <Link
-                href={actual.enlace.href}
-                className="mt-3 inline-flex min-h-11 items-center font-body text-[15px] font-semibold text-primary-dark underline underline-offset-4"
-              >
-                {actual.enlace.texto}
-              </Link>
+            {(actual.accion || actual.enlace) && (
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                {actual.accion && (
+                  <Button size="sm" variant="primary" asChild>
+                    <Link href={actual.accion.href}>
+                      {actual.accion.texto}
+                      <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+                    </Link>
+                  </Button>
+                )}
+                {actual.enlace && (
+                  <Link
+                    href={actual.enlace.href}
+                    className="jv-enlace inline-flex min-h-11 items-center font-body text-[15px] font-semibold text-brand"
+                  >
+                    {actual.enlace.texto}
+                  </Link>
+                )}
+              </div>
             )}
           </div>
         ) : (

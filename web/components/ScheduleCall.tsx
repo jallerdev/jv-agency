@@ -85,6 +85,34 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
   const timeErrorId = `${uid}-time-error`;
   const noteId = `${uid}-note`;
 
+  /**
+   * LLEGAR CON EL SERVICIO Y LA NOTA YA PUESTOS
+   * ------------------------------------------------------------------------
+   * El selector de formato de /servicios/diseno-de-paginas-web termina en un
+   * botón de agendar, y sería absurdo que después de contestar tres preguntas
+   * hubiera que volver a decir qué se quiere: el botón trae `?servicio=` y
+   * `?nota=` y esto los recoge.
+   *
+   * Se lee de `window.location` y no con `useSearchParams()` a propósito: ese
+   * hook obliga a envolver el componente en `<Suspense>` o tumba la página
+   * entera a renderizado dinámico, y /agendar hoy es estática. Aquí el
+   * parámetro solo ayuda a rellenar un formulario; si no llega, no pasa nada.
+   *
+   * El servicio se VALIDA contra la lista real. Un `?servicio=loquesea` de una
+   * URL manipulada no puede meter una opción que no existe en el formulario.
+   */
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const servicio = q.get("servicio");
+    if (servicio && SERVICES.some((s) => s.id === servicio)) setService(servicio);
+
+    const nota = q.get("nota");
+    /* 400 caracteres: lo que cabe en el área de texto sin que el visitante
+       tenga que desplazarse dentro de ella para ver qué se escribió en su
+       nombre. */
+    if (nota) setValues((s) => ({ ...s, note: nota.slice(0, 400) }));
+  }, []);
+
   // Cargar horarios libres cuando cambia la fecha.
   useEffect(() => {
     if (!values.date) {

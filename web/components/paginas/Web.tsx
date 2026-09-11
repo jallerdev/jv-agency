@@ -110,6 +110,25 @@ function conPrecios(texto: string, idioma: Idioma) {
  */
 function arbolDe(idioma: Idioma): NodoArbol {
   const a = WEB.arbol;
+  const es = idioma === "es";
+
+  /**
+   * El botón del resultado. Lleva a la agenda con el servicio ya marcado y la
+   * nota escrita, así que quien contestó tres preguntas no tiene que volver a
+   * contarlas. `servicio=web` es el id real de `lib/services.ts`; el
+   * formulario lo valida contra su propia lista y descarta cualquier otro.
+   */
+  const agendar = (formato: string, detalle: string) => {
+    const nota = WEB.notaSelector[idioma]
+      .replace("{formato}", formato)
+      .replace("{detalle}", detalle);
+    const base = enlaceReal(es ? "/agendar" : "/en/book-a-call");
+    return {
+      texto: WEB.ctaPrincipal[idioma],
+      href: `${base}?servicio=web&nota=${encodeURIComponent(nota)}`,
+    };
+  };
+
   return {
     tipo: "pregunta",
     pregunta: a.p1[idioma],
@@ -122,10 +141,18 @@ function arbolDe(idioma: Idioma): NodoArbol {
           titulo: a.tienda.titulo[idioma],
           detalle: a.tienda.detalle[idioma],
           pie: `${WEB.desde[idioma]} ${money(PISO_ECOM, idioma)} · ${a.tienda.semanas[idioma]}`,
-          enlace: {
+          /* La tienda sale de esta página, así que el botón principal es el
+             que lleva a su página; la agenda queda de segunda. Al revés sería
+             citar a una llamada sobre un servicio que se explica en otro
+             sitio. */
+          accion: {
             texto: a.tienda.enlace[idioma],
             href: enlaceReal(a.tienda.href[idioma]),
           },
+          enlace: agendar(
+            a.tienda.titulo[idioma],
+            `${WEB.desde[idioma]} ${money(PISO_ECOM, idioma)} · ${a.tienda.semanas[idioma]}`,
+          ),
         },
       },
       {
@@ -142,6 +169,7 @@ function arbolDe(idioma: Idioma): NodoArbol {
                 titulo: a.rediseno.titulo[idioma],
                 detalle: a.rediseno.detalle[idioma],
                 pie: a.rediseno.pie[idioma],
+                accion: agendar(a.rediseno.titulo[idioma], a.rediseno.pie[idioma]),
               },
             },
             {
@@ -158,6 +186,10 @@ function arbolDe(idioma: Idioma): NodoArbol {
                       titulo: a.landing.titulo[idioma],
                       detalle: a.landing.detalle[idioma],
                       pie: `${WEB.desde[idioma]} ${money(PISO_LANDING, idioma)} · ${a.landing.dias[idioma]}`,
+                      accion: agendar(
+                        a.landing.titulo[idioma],
+                        `${WEB.desde[idioma]} ${money(PISO_LANDING, idioma)} · ${a.landing.dias[idioma]}`,
+                      ),
                     },
                   },
                   {
@@ -168,6 +200,10 @@ function arbolDe(idioma: Idioma): NodoArbol {
                       titulo: a.corporativa.titulo[idioma],
                       detalle: a.corporativa.detalle[idioma],
                       pie: `${WEB.desde[idioma]} ${money(PRICES.base.corp, idioma)} · ${a.corporativa.semanas[idioma]}`,
+                      accion: agendar(
+                        a.corporativa.titulo[idioma],
+                        `${WEB.desde[idioma]} ${money(PRICES.base.corp, idioma)} · ${a.corporativa.semanas[idioma]}`,
+                      ),
                     },
                   },
                 ],

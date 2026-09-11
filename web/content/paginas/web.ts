@@ -375,6 +375,20 @@ export const WEB = {
     },
   },
 
+  /**
+   * La nota con la que llega el formulario de agenda cuando se entra desde el
+   * selector. `{formato}` es el resultado del árbol y `{detalle}` su piso y su
+   * plazo, los dos tal cual salen de `lib/quote.ts`: aquí no se escribe ni una
+   * cifra.
+   *
+   * Se escribe en primera persona del visitante porque es SU nota: la va a ver
+   * en el campo de mensaje y la puede borrar o cambiar antes de enviar.
+   */
+  notaSelector: {
+    es: "Contesté el selector de la página de diseño web y me salió: {formato} ({detalle}).",
+    en: "I answered the selector on the web design page and it suggested: {formato} ({detalle}).",
+  },
+
   comparador: {
     incluye: {
       es: "Lo que entra siempre, sea cual sea el formato",
