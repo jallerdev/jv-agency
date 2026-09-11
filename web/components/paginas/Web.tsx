@@ -17,6 +17,7 @@ import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
 import { PRICES, money, PISOS } from "@/lib/quote";
 import { BUSINESS } from "@/lib/business";
+import { LuzPuntero } from "@/components/LuzPuntero";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
@@ -182,11 +183,19 @@ function arbolDe(idioma: Idioma): NodoArbol {
 /** El orden de las tarjetas de formato, con la clave que el árbol devuelve. */
 const CLAVES_FORMATO = ["landing", "corporativa", "rediseno"] as const;
 
-/** Las capturas de los proyectos que ya están en el portafolio del home. */
-const CAPTURAS: Record<string, string> = {
-  Bloomrose: "/work/bloomrose.webp",
-  "HalcónOS y Hummik": "/work/halconos.webp",
-  "HalcónOS and Hummik": "/work/halconos.webp",
+/**
+ * Las capturas de los proyectos que ya están en el portafolio del home, con la
+ * proporción REAL del archivo.
+ *
+ * La proporción no es un detalle: la tarjeta grande enseña la captura entera, y
+ * con un `aspect` inventado —16/10 sobre una imagen de 1,72— `object-cover`
+ * recortaba los lados y el sitio de Bloomrose aparecía con el texto cortado por
+ * el margen, como si la maqueta estuviera rota.
+ */
+const CAPTURAS: Record<string, { src: string; ratio: string }> = {
+  Bloomrose: { src: "/work/bloomrose.webp", ratio: "2000/1160" },
+  "HalcónOS y Hummik": { src: "/work/halconos.webp", ratio: "1600/1000" },
+  "HalcónOS and Hummik": { src: "/work/halconos.webp", ratio: "1600/1000" },
 };
 
 export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
@@ -501,51 +510,28 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
             </p>
           </Reveal>
 
-          {/* La jerarquía la dice la rejilla: el que está en producción y se
-              puede abrir ocupa el doble; el de estudio, la mitad y con el
-              borde punteado que ya distingue a los dos grupos en el home. */}
-          <div className="mt-12 grid grid-cols-1 gap-5 lg:grid-cols-3">
-            {WEB_PRUEBAS.fichas.map((f, i) => {
-              const captura = CAPTURAS[f.nombre[idioma]];
-              /* La etiqueta del contenido dice «En producción · Cartagena», y
-                 la tarjeta ya pinta «En producción» con su punto. Se queda la
-                 mitad que añade algo; si no la hay, no va segunda pastilla. */
-              const matiz = f.etiqueta[idioma].split("·")[1]?.trim();
-              return (
-                <Reveal
-                  key={f.nombre.es}
-                  delay={i * 80}
-                  className={cn(i === 0 && "lg:col-span-2")}
-                >
-                  <ProofCard
-                    idioma={idioma}
-                    nombre={f.nombre[idioma]}
-                    categoria={matiz}
-                    cuerpo={f.cuerpo[idioma]}
-                    dominio={f.dominio}
-                    url={f.url}
-                    estado={f.url ? "produccion" : "estudio"}
-                    destacada={i === 0}
-                  >
-                    {captura && (
-                      <div className="relative aspect-[16/10] border-b border-line bg-surface">
-                        <Image
-                          src={captura}
-                          alt={
-                            es
-                              ? `Captura del sitio de ${f.nombre.es}`
-                              : `Screenshot of the ${f.nombre.en} site`
-                          }
-                          fill
-                          sizes="(min-width: 1024px) 800px, 100vw"
-                          className="object-cover object-top"
-                        />
-                      </div>
-                    )}
-                  </ProofCard>
+          {/* DOS COLUMNAS, NO TRES.
+              Con tres y la primera a doble ancho, la tercera ficha caía sola
+              en una fila nueva y dejaba dos huecos a su derecha: una escalera
+              en vez de una rejilla. Con una columna ancha y otra estrecha
+              —la ancha para lo que se puede abrir y mirar, la estrecha para
+              las otras dos apiladas— las dos llegan abajo a la vez y la
+              jerarquía se sigue leyendo: tamaño, captura y borde continuo
+              frente a borde punteado. */}
+          <div className="mt-12 grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-start">
+            {WEB_PRUEBAS.fichas.slice(0, 1).map((f) => (
+              <Reveal key={f.nombre.es} className="h-full">
+                {fichaProof(f, idioma, es, true)}
+              </Reveal>
+            ))}
+
+            <div className="grid gap-5">
+              {WEB_PRUEBAS.fichas.slice(1).map((f, i) => (
+                <Reveal key={f.nombre.es} delay={(i + 1) * 80} className="h-full">
+                  {fichaProof(f, idioma, es, false)}
                 </Reveal>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </section>
 
@@ -625,6 +611,62 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
 }
 
 /**
+ * Una ficha del bloque de trabajo. Vive aparte porque la rejilla la pinta en
+ * dos sitios —la columna ancha y la estrecha— y duplicar diez líneas de JSX
+ * es cómo dos tarjetas que deberían ser la misma acaban divergiendo.
+ */
+function fichaProof(
+  f: (typeof WEB_PRUEBAS.fichas)[number],
+  idioma: Idioma,
+  es: boolean,
+  destacada: boolean,
+) {
+  const captura = CAPTURAS[f.nombre[idioma]];
+  /* La etiqueta del contenido dice «En producción · Cartagena», y la tarjeta
+     ya pinta «En producción» con su punto. Se queda la mitad que añade algo;
+     si no la hay, no va segunda pastilla. */
+  const matiz = f.etiqueta[idioma].split("·")[1]?.trim();
+
+  return (
+    <ProofCard
+      idioma={idioma}
+      nombre={f.nombre[idioma]}
+      categoria={matiz}
+      cuerpo={f.cuerpo[idioma]}
+      dominio={f.dominio}
+      url={f.url}
+      estado={f.url ? "produccion" : "estudio"}
+      destacada={destacada}
+    >
+      {captura && (
+        <div
+          className={cn("relative border-b border-line bg-surface")}
+          /* La grande enseña la captura entera y por eso lleva SU proporción;
+             la mediana enseña solo la franja de arriba, porque en una columna
+             estrecha una captura completa empuja el texto fuera de la
+             pantalla. Va en `style` y no en una clase porque la proporción
+             sale del archivo: una clase de Tailwind con un valor dinámico no
+             existe en la hoja compilada. */
+          style={{ aspectRatio: destacada ? captura.ratio.replace("/", " / ") : "16 / 7" }}
+        >
+          <Image
+            src={captura.src}
+            alt={
+              es
+                ? `Captura del sitio de ${f.nombre.es}`
+                : `Screenshot of the ${f.nombre.en} site`
+            }
+            fill
+            sizes={destacada ? "(min-width: 1024px) 740px, 100vw" : "(min-width: 1024px) 500px, 100vw"}
+            className="object-cover object-top"
+          />
+        </div>
+      )}
+    </ProofCard>
+  );
+}
+
+/**
  * EL TICKET DEL HERO
  * ──────────────────────────────────────────────────────────────────────────
  * Los tres datos que la sección siguiente demuestra que casi nadie publica
@@ -648,23 +690,39 @@ function TicketPublicado({ idioma }: { idioma: Idioma }) {
   ];
 
   return (
-    <aside className="jv-card overflow-hidden">
-      {/* La cabecera va en su propio escalón de superficie, como la barra de
-          dirección de las tarjetas de trabajo: es el mismo mueble del sitio. */}
-      <p className="jv-rule bg-raised px-6 py-3 jv-eyebrow text-brand sm:px-8">
-        {WEB.badgePrecio[idioma]}
-      </p>
+    /* El mismo mueble que la credencial de Meta del home —`jv-cred` monta el
+       filete que gira, el destello que cruza y la luz que sigue al puntero—,
+       con el lomo encuadernado y el guilloché de la esquina. Es la pieza mejor
+       resuelta del sitio y esta es su hermana: las dos dicen «esto está
+       publicado y lo sostengo».
 
-      <div className="px-6 py-7 sm:px-8">
-        <p className="jv-eyebrow text-ink-muted">{WEB.tabla.columnas[idioma][0]}</p>
-        <p className="mt-3 flex flex-wrap items-baseline gap-x-2">
+       LO QUE NO SE COPIA ES EL SELLO. Un medallón con su troquel acredita una
+       verificación de un tercero; un precio no se verifica, se publica. Aquí
+       el sello es el número. */
+    <aside className="jv-cred relative overflow-hidden rounded-3xl border border-line bg-surface bg-gradient-to-br from-surface via-surface to-white/[0.06] p-6 pl-7 text-left sm:p-8 sm:pl-10">
+      <LuzPuntero />
+
+      <span
+        aria-hidden
+        className="absolute inset-y-0 left-0 z-[3] w-[3px] bg-gradient-to-b from-brand-300 via-brand to-brand-700"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[repeating-radial-gradient(circle_at_50%_50%,rgba(232,98,63,0.07)_0_1px,transparent_1px_10px)] [-webkit-mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)] [mask-image:radial-gradient(circle_at_50%_50%,#000_38%,transparent_72%)]"
+      />
+
+      <div className="relative z-[3]">
+        <p className="jv-eyebrow text-accent-ink">{WEB.badgePrecio[idioma]}</p>
+
+        <p className="mt-6 jv-eyebrow text-ink-muted">{WEB.tabla.columnas[idioma][0]}</p>
+        <p className="mt-2.5 flex flex-wrap items-baseline gap-x-2">
           <span className="text-sm text-ink-soft">{WEB.desde[idioma]}</span>
-          <span className="text-[length:var(--text-h2)] font-semibold leading-none tabular-nums tracking-[-0.02em] text-ink">
+          <span className="font-display text-[clamp(2rem,3.2vw,2.75rem)] font-semibold leading-none tabular-nums tracking-[-0.03em] text-ink">
             {money(PISO_LANDING, idioma)}
           </span>
         </p>
 
-        <dl className="mt-7 grid gap-3 border-t border-line pt-5">
+        <dl className="jv-rule mt-6 grid gap-3 pt-5">
           {filas.map((f) => (
             <div key={f.k} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
               <dt className="jv-eyebrow text-ink-muted">{f.k}</dt>
@@ -672,6 +730,8 @@ function TicketPublicado({ idioma }: { idioma: Idioma }) {
             </div>
           ))}
         </dl>
+
+        <p className="mt-5 text-sm text-ink-soft">{WEB.ticketNota[idioma]}</p>
       </div>
     </aside>
   );

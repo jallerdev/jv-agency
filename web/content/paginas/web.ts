@@ -231,6 +231,14 @@ export const WEB = {
   },
   formatosEntradillaEnlace: { es: "precios", en: "pricing" },
   badgePrecio: { es: "Precio y plazo", en: "Price and timeline" },
+  /* El pie del ticket del hero. NO es una frase nueva: es la primera oración
+     de `formatosEntradillaAntes`, la que abre la sección de precio. Se repite
+     aquí porque el número grande del hero sin esa condición se lee como tarifa
+     cerrada, y la condición estaba mil píxeles más abajo. */
+  ticketNota: {
+    es: "Es un piso, no una tarifa cerrada.",
+    en: "It's a floor, not a fixed rate.",
+  },
   tambien: { es: "también:", en: "also called:" },
   quePaginas: { es: "Qué páginas trae", en: "Which pages it comes with" },
   ademasDe: { es: "Además de lo de siempre", en: "On top of the usual" },

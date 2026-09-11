@@ -418,6 +418,26 @@ conviviendo es exactamente cómo aparecieron los dos sistemas de botón.
 La marquesina va a 120 s y no a los 45 de la referencia: con seis copias de
 once frases el carril mide ~13.000 px, y a 45 s pasaría a 290 px/s — ilegible.
 
+### Rejillas de prueba (`ProofCard`)
+
+Tres reglas que salieron de verlo roto en pantalla, y que valen para todas las
+páginas que enseñen trabajo:
+
+- **Nunca tres columnas con la primera a doble ancho y un número impar de
+  fichas.** La tercera cae sola en una fila nueva y deja dos huecos a su
+  derecha: una escalera, no una rejilla. Una columna ancha —lo que se puede
+  abrir y mirar— y otra estrecha con el resto apilado; las dos llegan abajo a
+  la vez.
+- **La proporción de una captura sale del archivo, no de la clase que quede
+  bonita.** `aspect-[16/10]` sobre una imagen de 1,72 recorta los lados con
+  `object-cover`, y el sitio del cliente aparece con el texto cortado por el
+  margen, como si la maqueta estuviera rota. La tarjeta grande lleva la
+  proporción real; una tarjeta estrecha puede enseñar solo la franja de arriba,
+  pero entonces se recorta a propósito y por arriba.
+- **Sin dominio no hay barra de navegador.** Un proyecto de estudio no tiene
+  dirección: pintar la ventana con la pastilla vacía es dibujar algo que no
+  existe. El borde punteado ya dice lo que es.
+
 ## Do's and Don'ts
 
 **Haz**

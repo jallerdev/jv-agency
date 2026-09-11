@@ -68,32 +68,41 @@ export function ProofCard({
   const enLinea = estado === "produccion" && Boolean(url);
 
   const marco = (
+    /* `h-full` y columna: en una rejilla, dos tarjetas de la misma fila tienen
+       que llegar abajo iguales. Sin esto, la que tiene menos texto queda corta
+       y la fila se ve rota. */
     <div
       className={cn(
-        "jv-card overflow-hidden",
+        "jv-card flex h-full flex-col overflow-hidden",
         estado === "estudio" && "border-dashed",
         enLinea && "jv-card-int jv-lift",
       )}
     >
       {/* La barra de dirección. `aria-hidden` porque es la ilustración de un
-          navegador, no información: el dominio se anuncia con el enlace. */}
-      <div
-        aria-hidden="true"
-        className="flex items-center gap-2 border-b border-line bg-raised px-3 py-2"
-      >
-        <span className="flex gap-1.5">
-          <span className="h-2 w-2 rounded-full bg-line-strong" />
-          <span className="h-2 w-2 rounded-full bg-line-strong" />
-          <span className="h-2 w-2 rounded-full bg-line-strong" />
-        </span>
-        <span className="min-w-0 flex-1 truncate rounded-full bg-surface px-3 py-1 font-mono text-xs text-ink-soft">
-          {dominio ?? "—"}
-        </span>
-      </div>
+          navegador, no información: el dominio se anuncia con el enlace.
+
+          SIN DOMINIO NO HAY BARRA. Pintaba un guion dentro de una pastilla
+          vacía, que es una ventana de navegador sin dirección: justo lo que un
+          proyecto de estudio no tiene. Mejor no dibujar la ventana. */}
+      {dominio && (
+        <div
+          aria-hidden="true"
+          className="flex items-center gap-2 border-b border-line bg-raised px-3 py-2"
+        >
+          <span className="flex gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-line-strong" />
+            <span className="h-2 w-2 rounded-full bg-line-strong" />
+            <span className="h-2 w-2 rounded-full bg-line-strong" />
+          </span>
+          <span className="min-w-0 flex-1 truncate rounded-full bg-surface px-3 py-1 font-mono text-xs text-ink-soft">
+            {dominio}
+          </span>
+        </div>
+      )}
 
       {children && <div className="relative">{children}</div>}
 
-      <div className={cn("p-6", destacada && "sm:p-8")}>
+      <div className={cn("flex flex-1 flex-col p-6", destacada && "sm:p-8")}>
         <div className="flex flex-wrap items-center gap-2">
           <span
             className={cn(
@@ -115,7 +124,7 @@ export function ProofCard({
         <h3 className={cn("jv-titulo mt-4", destacada && "text-[length:var(--text-h3)]")}>
           {nombre}
         </h3>
-        {cuerpo && <p className="mt-2 text-sm leading-relaxed text-ink-soft">{cuerpo}</p>}
+        {cuerpo && <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{cuerpo}</p>}
         {dominio && (
           /* `break-all` porque un dominio largo en un teléfono de 390px
              desborda la tarjeta, y un desborde lateral es de las pocas cosas
@@ -126,7 +135,7 @@ export function ProofCard({
     </div>
   );
 
-  if (!enLinea) return <div className={className}>{marco}</div>;
+  if (!enLinea) return <div className={cn("h-full", className)}>{marco}</div>;
 
   return (
     <Link
@@ -134,7 +143,7 @@ export function ProofCard({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${nombre} — ${dominio} · ${ABRE[idioma]}`}
-      className={cn("focus-ring block rounded-[--radius-lg]", className)}
+      className={cn("focus-ring block h-full rounded-[--radius-lg]", className)}
     >
       {marco}
     </Link>
