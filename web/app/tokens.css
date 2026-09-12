@@ -216,34 +216,30 @@
   --maxw-narrow: 900px;
   /* MEDIDO, Y NO MIDE 68 CARACTERES. El `ch` es el ancho del glifo «0» de la
      primera fuente disponible, y en este sitio resuelve al valor de reserva
-     —0,5em— en vez de al avance real de Figtree. Sobre el párrafo de 18 px de
-     la declaración de la portada, `68ch` da 816 px: unos 89 caracteres por
-     línea, contra los 65-75 que pide la §11 del encargo. Es el mismo fallo de
-     unidad que ya mordió tres veces en la fase 4 —las filas de precio, la caja
-     de Censura y la barra de dato—, y las tres se arreglaron pasando a `rem`.
+     —0,5em— en vez de al avance real de Figtree. Resultado: `68ch` da entre 79
+     y 91 caracteres por línea según el tamaño de letra, contra los 65-75 que
+     pide la §11 del encargo. Es el mismo fallo de unidad que ya mordió tres
+     veces en la fase 4, y las tres se arreglaron cambiando la unidad.
 
-     EL ARREGLO DE UNIDAD SERÍA `34em`, no un `rem`. El `em` resuelve contra el
-     tamaño del elemento que lo USA, así que da los mismos ~68 caracteres a 14
-     px y a 18; un valor en `rem` acierta en un tamaño y falla en el otro, que
-     es el problema que el `ch` venía a resolver. 34em = 68 × 0,5em, el avance
-     medio de Figtree.
+     EL ARREGLO ES `34em`, no un `rem`. El `em` resuelve contra el tamaño del
+     elemento que lo USA, así que da los mismos ~68 caracteres a 12 px y a 18;
+     un valor en `rem` acierta en un tamaño y falla en el otro, que es justo el
+     problema que el `ch` venía a resolver. 34em = 68 × 0,5em, el avance medio
+     de Figtree.
 
-     NO SE TOCA AQUÍ, y no es prudencia: es que NO ES SOLO UN CAMBIO DE UNIDAD.
-     Medido a 1440 px, los párrafos que se pasan de 80 caracteres están dentro
-     de celdas de rejilla de 608-612 px. Bajar el tope a 34em —476 px a 14 px—
-     ataría de verdad y dejaría 130 px de hueco a la derecha DENTRO de cada
-     celda: el texto dejaría de llenar su caja y eso se ve. O sea que arreglar
-     la medida de línea obliga a repensar los anchos de esas rejillas, una por
-     una, y eso es trabajo de diseño con la página delante, no un cambio de
-     token.
+     EL ALCANCE REAL, MEDIDO RUTA POR RUTA cambiando el token y mirando qué se
+     movía: 262 bloques en 29 de las 59 rutas. Los cinco servicios y los dos
+     sectores se llevan la mayoría —de 8 a 21 bloques cada uno—; las siete
+     ciudades, entre 6 y 8; y la portada, UNO: el renglón de 12 px que dice
+     «Sin compromiso. Recibirás la invitación de Google Meet en tu correo»,
+     que pasaría de 544 a 408 px.
 
-     Y toca la portada, que la §12.1 del encargo declara referencia intocable.
-
-     POR QUÉ SALE AHORA Y NO ANTES: hasta la fase 7 el sitio bajaba seis
-     archivos de fuente y el detector medía con la de reserva puesta. Con dos
-     archivos, el texto asienta en Figtree —de glifo más estrecho— antes de la
-     medición, y las líneas que siempre midieron 87 caracteres por fin se
-     cuentan. El defecto es viejo; lo nuevo es que se ve. */
+     O SEA QUE LA §12.1 NO ES EL OBSTÁCULO que se anotó aquí antes. Se escribió
+     que el cambio «toca la portada» y que «obliga a repensar los anchos de esas
+     rejillas»; comprobado con capturas del antes y el después, ninguna de las
+     dos cosas se sostiene. Los párrafos afectados viven dentro de tarjetas
+     anchas, no de celdas ajustadas, así que al estrecharse no dejan un hueco
+     raro: se leen mejor. La decisión es de Luis y las capturas están hechas.
   --maxw-prose: 68ch;
   --gutter: 1.25rem;    /* px-5: el margen lateral de todas las secciones */
   --section-y: clamp(4.5rem, 9vw, 8.5rem);
