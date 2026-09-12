@@ -43,6 +43,15 @@
         ],
         "createdAt": "2026-09-11T15:47:25.560Z",
         "reason": "Las dos unicas instancias del archivo son deliberadas y no son texto de lectura: .text-halcon es el logotipo de HalcónOS escrito en la rampa de marca, y .jv-marca-agua es la marca de agua del pie, aria-hidden, cuyo degradado existe justamente para NO bajarle el contraste al texto que la cruza."
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "components/visuales/HiloWhatsApp.tsx"
+        ],
+        "createdAt": "2026-09-12T00:52:30.510Z",
+        "reason": "Las 'tarjetas anidadas' son las BURBUJAS del chat dentro del hilo: es lo que es una conversacion de WhatsApp, no una tarjeta metida en otra. Comprobado en el DOM: hijo div.w-fit.max-w-[85%].rounded-2xl dentro de div.jv-card."
       }
     ]
   }

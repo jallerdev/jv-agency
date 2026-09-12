@@ -472,6 +472,37 @@ input[type="radio"] { accent-color: var(--accent); }
 }
 
 /* ===========================================================================
+   El diagrama de la conexión (`components/visuales/ConexionDirecta.tsx`)
+   ---------------------------------------------------------------------------
+   Dos gestos y los dos son el argumento: el eslabón del tercero se tacha y la
+   línea directa se dibuja. Arrancan cuando la pieza entra en vista —el
+   componente pone `data-visible`—, no al cargar la página: una animación que
+   termina antes de que alguien llegue a mirarla no existe.
+
+   Las dos van con `scaleX` sobre el origen izquierdo, que es como se dibuja
+   una línea; animar el ancho recalcularía la caja en cada fotograma.
+   =========================================================================== */
+.jv-corte,
+.jv-linea {
+  transform: scaleX(0);
+  transition: transform var(--dur-reveal, 0.7s) var(--ease-ps);
+}
+.jv-corte-x {
+  opacity: 0;
+  transition: opacity var(--duration-base, 0.24s) var(--ease-ps) 0.5s;
+}
+[data-visible="true"] .jv-corte,
+[data-visible="true"] .jv-linea { transform: scaleX(1); }
+[data-visible="true"] .jv-corte-x { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* El estado final desde el principio: el dibujo dice lo mismo quieto. */
+  .jv-corte,
+  .jv-linea { transform: scaleX(1); transition: none; }
+  .jv-corte-x { opacity: 1; transition: none; }
+}
+
+/* ===========================================================================
    «Así compra tu cliente» (`components/visuales/AsiCompra.tsx`)
    ---------------------------------------------------------------------------
    Tres gestos y ni uno decorativo: la talla que se tacha porque el inventario

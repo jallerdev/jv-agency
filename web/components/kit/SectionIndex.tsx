@@ -155,8 +155,17 @@ export function SectionIndex({
           </span>
         </button>
         {/* `grid-template-rows` de 0fr a 1fr: se pliega sin animar `height`, y
-            el contenido sigue en el DOM aunque esté cerrado. */}
+            el contenido sigue en el DOM aunque esté cerrado.
+
+            `inert` CUANDO ESTÁ CERRADO, y no es un detalle: plegado, el panel
+            recorta sus enlaces con `overflow-hidden`, pero seguían estando en
+            el orden de tabulación. Quien navega con teclado caía en siete
+            enlaces invisibles —el detector lo marcó como `text-occlusion` y
+            tenía razón—. `inert` los saca del foco y del árbol de
+            accesibilidad sin desmontarlos, así que el contenido sigue servido
+            en el HTML. */}
         <div
+          inert={!abierto}
           className={cn(
             "grid transition-[grid-template-rows] duration-slow ease-ps",
             abierto ? "grid-rows-[1fr]" : "grid-rows-[0fr]",

@@ -33,8 +33,16 @@ export type Dolor = {
   enlace?: { texto: string; href: string };
 };
 
-/** Cuántas celdas van a doble ancho, empezando por la primera. */
+/**
+ * Cuántas celdas van a doble ancho, empezando por la primera.
+ *
+ * SOLO CUANDO HAY SEIS O MÁS. Con cuatro, dos celdas grandes llenan la primera
+ * fila y las dos pequeñas ocupan media segunda: queda un hueco negro del
+ * tamaño de dos celdas a la derecha, que es lo que se veía en el chatbot y en
+ * tiendas. Con cuatro, las cuatro pesan igual y la rejilla es 2×2.
+ */
 const GRANDES = 2;
+const MINIMO_BENTO = 6;
 
 export function PainGrid({
   dolores,
@@ -52,13 +60,14 @@ export function PainGrid({
          caracteres por línea. Entre `sm` y `lg` van dos columnas, con las dos
          grandes a ancho completo. */
       className={cn(
-        "grid grid-cols-1 gap-px overflow-hidden rounded-[--radius-lg] border border-line bg-line sm:grid-cols-2 xl:grid-cols-4",
+        "grid grid-cols-1 gap-px overflow-hidden rounded-[--radius-lg] border border-line bg-line sm:grid-cols-2",
+        dolores.length >= MINIMO_BENTO && "xl:grid-cols-4",
         className,
       )}
     >
       {dolores.map((d, i) => {
         const Icono = d.icono;
-        const grande = i < GRANDES;
+        const grande = dolores.length >= MINIMO_BENTO && i < GRANDES;
         return (
           <Reveal
             key={d.titulo}
