@@ -69,12 +69,28 @@ export function Documento({
         <Cookies idioma={lang} />
 
         {/* Google Analytics 4.
-            Va con next/script y `afterInteractive`: se carga cuando la página
-            ya es usable, para no competir con el contenido por el hilo
-            principal ni castigar las métricas de carga que justamente sirve
-            para medir.
             Solo en producción: en desarrollo ensuciaría los datos con visitas
-            que no son de nadie. */}
+            que no son de nadie.
+
+            LA BIBLIOTECA VA EN `lazyOnload`, Y ESO VALE 1,18 SEGUNDOS. Estaba
+            en `afterInteractive`, que ya es lo correcto por defecto, y aun así
+            `gtag/js` pesa 171 kB: más que TODO el JavaScript propio del sitio
+            comprimido, y más que las fuentes. En una línea de 1,6 Mbps eso son
+            ochocientos milisegundos de ancho de banda que la portada necesita
+            para pintar su propio texto.
+
+            MEDIDO, no supuesto. Teléfono emulado a 4x de CPU y 4G lenta,
+            portada: con Analytics, LCP 2,50 s; con la misma página y Analytics
+            bloqueado, 1,32 s. En `/precios` la diferencia es cero —1,19 contra
+            1,20— porque ahí no hay imágenes compitiendo por la línea. O sea que
+            el coste no es del script: es de la BANDA que ocupa mientras el
+            navegador todavía está pintando.
+
+            `lazyOnload` lo baja cuando el navegador está ocioso, después de
+            `load`. La medición no cambia de naturaleza: el `config` sigue
+            encolándose antes —abajo, en `afterInteractive`— y `gtag/js` lo
+            procesa al llegar, así que la visita se cuenta igual. Lo único que
+            cambia es que deja de robarle la línea al primer pintado. */}
         {process.env.NODE_ENV === "production" && (
           <>
             {/* Modo de consentimiento v2, DENEGADO por defecto.
@@ -98,8 +114,12 @@ gtag('consent', 'default', {
             </Script>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
+            {/* El `config` SÍ se queda en `afterInteractive`: son dos líneas
+                que solo empujan al `dataLayer`, y encolarlas pronto es lo que
+                hace que la visita lleve su hora real y no la del momento en que
+                el navegador tuvo un hueco para bajar la biblioteca. */}
             <Script id="ga4" strategy="afterInteractive">
               {`gtag('js', new Date());
 gtag('config', '${GA_MEASUREMENT_ID}');`}
