@@ -198,6 +198,14 @@ const securityHeaders = [
 
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    /* El 404 de las URL que no emparejan con ninguna ruta. Hace falta la
+       bandera porque el sitio tiene dos layouts raíz —`(es)` y `(en)`— y sin
+       ella Next se rinde al 404 gris de fábrica en todo lo que no caiga dentro
+       de un segmento ya emparejado. El porqué completo, en
+       `app/global-not-found.tsx`. */
+    globalNotFound: true,
+  },
   /* Next 16 exige declarar cada `quality` que se use en <Image>: si no, avisa
      por consola en CADA carga de la portada. Dos escalones, no cuatro. Venían
      tres valores puestos a ojo por tres manos distintas —90 en el caso a

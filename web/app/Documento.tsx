@@ -36,7 +36,26 @@ export function Documento({
        abajo, esa referencia no las ve —una custom property se hereda hacia
        abajo, nunca hacia arriba— y las familias caían al system-ui sin avisar
        de nada. */
-    <html lang={lang} className={`${figtree.variable} ${jetbrains.variable}`}>
+    <html
+      lang={lang}
+      className={`${figtree.variable} ${jetbrains.variable}`}
+      /* `suppressHydrationWarning` EN EL <html>, Y ES OBLIGATORIO AQUÍ.
+         El script en línea de más abajo escribe `data-cookies` en este mismo
+         elemento ANTES de que React hidrate —esa es toda su gracia: decidir si
+         el aviso se ve antes del primer pintado—. React compara entonces el
+         HTML del servidor con el DOM que encuentra, ve un atributo de más y
+         avisa de que el árbol no coincide.
+
+         No es un fallo que se pueda evitar escribiendo el atributo en el
+         servidor: el servidor NO PUEDE saber qué hay en el `localStorage` de
+         quien pide la página. Es el mismo patrón con el que funciona cualquier
+         conmutador de tema, y la propiedad existe exactamente para él.
+
+         Suprime un solo nivel: los atributos de ESTE elemento. Cualquier
+         discrepancia dentro del <body> sigue avisando, que es lo que se quiere.
+      */
+      suppressHydrationWarning
+    >
       <body className="bg-canvas font-body text-ink-soft antialiased">
         {/* QUIÉN VE EL AVISO DE COOKIES, DECIDIDO ANTES DEL PRIMER PINTADO.
             ─────────────────────────────────────────────────────────────────

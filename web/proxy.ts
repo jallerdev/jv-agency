@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { CABECERA_RUTA } from "@/lib/rutas";
 import {
   buscarDoc,
   nombreCookie,
@@ -28,6 +29,25 @@ export const config = {
  * cookie válida se manda a `/acceso`, que es una página del sitio y no la
  * ventana gris del navegador.
  */
+/**
+ * Deja pasar la petición, pero contándole a la app en qué ruta iba.
+ *
+ * `app/global-not-found.tsx` —el 404 de las URL que no emparejan con ninguna
+ * ruta— no recibe props: el convenio de Next es explícito en que no acepta
+ * ninguna. Y sin saber la ruta no puede saber el idioma, así que una dirección
+ * rota bajo `/en/` contestaría en castellano. Esta cabecera es el único hilo
+ * que queda entre la URL pedida y esa página.
+ *
+ * Va en la petición y no en la respuesta: `NextResponse.next({ request })` es
+ * la forma documentada de que un componente de servidor pueda leerla con
+ * `headers()`.
+ */
+function seguir(req: NextRequest) {
+  const headers = new Headers(req.headers);
+  headers.set(CABECERA_RUTA, req.nextUrl.pathname);
+  return NextResponse.next({ request: { headers } });
+}
+
 export async function proxy(req: NextRequest) {
   const hostname = (req.headers.get("host") ?? "").split(":")[0].toLowerCase();
 
@@ -45,11 +65,11 @@ export async function proxy(req: NextRequest) {
   // La pantalla de acceso y la ruta que comprueba la clave NO pueden quedar
   // detrás de la puerta: sería un bucle de redirecciones.
   if (pathname === RUTA_ACCESO || pathname.startsWith("/api/acceso")) {
-    return NextResponse.next();
+    return seguir(req);
   }
 
   const doc = buscarDoc(pathname);
-  if (!doc) return NextResponse.next();
+  if (!doc) return seguir(req);
 
   const clave = process.env[doc.passEnv];
   const abierto =
@@ -75,7 +95,7 @@ export async function proxy(req: NextRequest) {
         url.pathname = doc.file as string;
         return NextResponse.rewrite(url);
       })()
-    : NextResponse.next();
+    : seguir(req);
 
   res.headers.set("X-Robots-Tag", "noindex, nofollow");
   res.headers.set("Cache-Control", "no-store");

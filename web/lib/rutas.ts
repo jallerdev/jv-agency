@@ -67,6 +67,13 @@ export const SOLO_ESPANOL = [
   "/cookies",
 ] as const;
 
+/**
+ * La cabecera con la que `proxy.ts` le cuenta a la app en qué ruta iba la
+ * petición. La lee `app/global-not-found.tsx`, que es la única página del sitio
+ * que no puede saberlo de otra manera: el convenio de Next no le pasa props.
+ */
+export const CABECERA_RUTA = "x-jv-ruta";
+
 /** El idioma que le corresponde a una ruta, por su prefijo. */
 export function idiomaDeRuta(ruta: string): Idioma {
   return ruta === "/en" || ruta.startsWith("/en/") ? "en" : IDIOMA_POR_DEFECTO;
