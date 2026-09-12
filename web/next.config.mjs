@@ -159,6 +159,43 @@ const securityHeaders = [
   { key: "Content-Security-Policy-Report-Only", value: csp },
 ];
 
+/* ───────────────────────────────────────────────────────────────────────────
+ * EL PRESUPUESTO DE JAVASCRIPT, Y LA RUTA QUE SE PASA
+ * ───────────────────────────────────────────────────────────────────────────
+ * El encargo fija un techo de +30 kB comprimidos por página frente al sitio
+ * anterior. Medido ruta por ruta contra producción, con Analytics fuera de la
+ * cuenta —es de terceros y pesa igual en los dos—, diecisiete de dieciocho
+ * rutas caben: de -8 kB a +19. La que se pasa es UNA:
+ *
+ *     /precios ........ 213 kB → 251 kB ..... +38 kB
+ *
+ * Y NO ES LO QUE PARECE. El encargo prevé este caso y manda el remedio: «si una
+ * pieza firma lo exige, se carga con `dynamic()` cuando entra en vista». Se
+ * midió antes de aplicarlo: quitando el constructor de propuestas ENTERO
+ * —`components/visuales/Recibo.tsx`, la pieza firma de la página— el peso baja
+ * 2 kB. Diferirlo sería trabajo con la forma correcta y el efecto de nada.
+ *
+ * DÓNDE ESTÁN LOS 38 kB DE VERDAD: /precios carga CINCO trozos de entrada de
+ * cliente y los cinco llevan dentro una copia de `BarraMovil`, `WhatsAppButton`
+ * y las clases de botón. Se comprobó extrayendo las cadenas de cada trozo: los
+ * cinco contienen `h-[var(--barra-movil-h)]`. Turbopack emite un trozo por
+ * frontera de cliente y copia las dependencias compartidas en cada uno en vez
+ * de izarlas a un trozo común; en todo el build, `BarraMovil` aparece en 17
+ * trozos distintos. No es un defecto del código de la página: es cómo se está
+ * partiendo el paquete.
+ *
+ * POR QUÉ NO SE FUERZA HOY. La métrica que ese techo existe para proteger se
+ * cumple justo en esa ruta, y con margen: /precios es la MÁS rápida de las tres
+ * que más entran —LCP 1,11 s contra un techo de 2,5; CLS 0; TBT 88 ms contra un
+ * techo de 200—. Cambiar el empaquetador para ganar 38 kB en una ruta que ya va
+ * sobrada es arriesgar el build por una cifra, no por una mejora.
+ *
+ * SI ALGÚN DÍA ESTORBA, es aquí donde se arregla: o reduciendo las fronteras de
+ * cliente que alcanza el árbol de /precios, o dándole al empaquetador una
+ * estrategia de trozos comunes. Queda anotado con su medida para que quien lo
+ * abra no tenga que volver a medirlo.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
 const nextConfig = {
   reactStrictMode: true,
   /* Next 16 exige declarar cada `quality` que se use en <Image>: si no, avisa

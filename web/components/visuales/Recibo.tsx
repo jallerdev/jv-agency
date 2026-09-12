@@ -5,7 +5,13 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import type { Idioma } from "@/content/types";
-import { money } from "@/lib/quote";
+/* `@/lib/money` y NO `@/lib/quote`, aunque `quote` reexporte `money` y las dos
+   líneas compilen igual. Esto es un componente de CLIENTE: importar de `quote`
+   mete el catálogo entero —mil quinientas líneas de precios, extras, plazos y
+   textos— en el paquete del navegador para usar un formateador de seis. Medido:
+   /precios enviaba 39 kB de trozos propios y 25 de ellos eran el catálogo.
+   Es la razón exacta por la que `lib/money.ts` existe. */
+import { money } from "@/lib/money";
 import { cn } from "@/lib/utils";
 
 /**
