@@ -222,12 +222,28 @@
      unidad que ya mordió tres veces en la fase 4 —las filas de precio, la caja
      de Censura y la barra de dato—, y las tres se arreglaron pasando a `rem`.
 
-     NO SE TOCA AQUÍ, y la razón es de alcance, no de criterio: este token rige
-     la prosa de las cuarenta rutas Y de la portada, y la §12.1 del encargo dice
-     que la portada es la referencia y no se toca. Cambiarlo a `36rem` estrecha
-     240 px cada bloque de texto del sitio, empezando por el home. Es una
-     decisión de Luis, no un arreglo que se pueda colar en una pasada de
-     rendimiento. Queda la medida escrita para que se decida con ella delante. */
+     EL ARREGLO DE UNIDAD SERÍA `34em`, no un `rem`. El `em` resuelve contra el
+     tamaño del elemento que lo USA, así que da los mismos ~68 caracteres a 14
+     px y a 18; un valor en `rem` acierta en un tamaño y falla en el otro, que
+     es el problema que el `ch` venía a resolver. 34em = 68 × 0,5em, el avance
+     medio de Figtree.
+
+     NO SE TOCA AQUÍ, y no es prudencia: es que NO ES SOLO UN CAMBIO DE UNIDAD.
+     Medido a 1440 px, los párrafos que se pasan de 80 caracteres están dentro
+     de celdas de rejilla de 608-612 px. Bajar el tope a 34em —476 px a 14 px—
+     ataría de verdad y dejaría 130 px de hueco a la derecha DENTRO de cada
+     celda: el texto dejaría de llenar su caja y eso se ve. O sea que arreglar
+     la medida de línea obliga a repensar los anchos de esas rejillas, una por
+     una, y eso es trabajo de diseño con la página delante, no un cambio de
+     token.
+
+     Y toca la portada, que la §12.1 del encargo declara referencia intocable.
+
+     POR QUÉ SALE AHORA Y NO ANTES: hasta la fase 7 el sitio bajaba seis
+     archivos de fuente y el detector medía con la de reserva puesta. Con dos
+     archivos, el texto asienta en Figtree —de glifo más estrecho— antes de la
+     medición, y las líneas que siempre midieron 87 caracteres por fin se
+     cuentan. El defecto es viejo; lo nuevo es que se ve. */
   --maxw-prose: 68ch;
   --gutter: 1.25rem;    /* px-5: el margen lateral de todas las secciones */
   --section-y: clamp(4.5rem, 9vw, 8.5rem);
