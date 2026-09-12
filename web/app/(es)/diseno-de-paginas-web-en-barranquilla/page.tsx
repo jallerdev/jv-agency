@@ -16,6 +16,7 @@ import { ProofCard } from "@/components/kit/ProofCard";
 import { FaqAccordion } from "@/components/kit/FaqAccordion";
 import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
 import { Comparador } from "@/components/visuales/Comparador";
+import { BarrasDato } from "@/components/visuales/BarrasDato";
 import { FranjaMeses } from "@/components/visuales/FranjaMeses";
 import { HiloWhatsApp } from "@/components/visuales/HiloWhatsApp";
 import { CasillaVacia } from "@/components/visuales/CasillaVacia";
@@ -463,35 +464,14 @@ export default function BarranquillaPage() {
             </p>
           </Reveal>
 
-          {/* LOS TRES PORCENTAJES, COMO BARRAS. Eran tres cifras dentro de un
-              párrafo y ahí no se comparan: «34,9» y «12,1» se leen igual de
-              largas. Dibujadas a escala, la primera es tres veces la tercera, y
-              eso es lo que el dato dice. */}
-          <Reveal delay={80}>
-            <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
-              {SECTORES.map((x) => (
-                <li key={x.nombre} className="grid grid-cols-1 items-center gap-x-8 gap-y-2 py-5 sm:grid-cols-[minmax(0,16rem)_minmax(0,1fr)_auto]">
-                  <span className="font-semibold text-ink">{x.nombre}</span>
-                  {/* `block` en la pista: un `<span>` es en línea por defecto,
-                      y con `w-full` ignorado la barra de dentro resolvía su
-                      porcentaje contra otra caja. La de inmobiliarias, que es
-                      el 100 %, salía tres cuartos. */}
-                  <span
-                    aria-hidden
-                    className="block h-2 w-full overflow-hidden rounded-full bg-line"
-                  >
-                    <span
-                      className="block h-full rounded-full bg-brand"
-                      style={{ width: `${(x.pct / 34.9) * 100}%` }}
-                    />
-                  </span>
-                  <span className="font-mono text-sm tabular-nums text-brand sm:text-right">
-                    {x.etiqueta}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+          {/* LOS TRES PORCENTAJES, COMO BARRAS. Eran tres cifras dentro de
+              un párrafo y ahí no se comparan: «34,9» y «12,1» se leen igual de
+              largas. Dibujadas a escala, la primera es casi tres veces la
+              tercera, y eso es lo que el dato dice. */}
+          <BarrasDato
+            className="mt-12"
+            filas={SECTORES.map((x) => ({ nombre: x.nombre, valor: x.pct, etiqueta: x.etiqueta }))}
+          />
 
           <Reveal>
             <p className="mt-6 max-w-[62ch] text-sm leading-relaxed text-ink-muted">

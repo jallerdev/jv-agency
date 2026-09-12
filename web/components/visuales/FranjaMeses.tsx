@@ -103,14 +103,17 @@ export function FranjaMeses({
                 key={t.rotulo}
                 className="grid grid-cols-1 items-center gap-x-5 gap-y-1.5 sm:grid-cols-[minmax(0,1fr)_minmax(0,13rem)]"
               >
-                <span
+                {/* `div` y no `span`: son cajas de maquetación, y un `span`
+                    es contenido de texto para el navegador y para la regla de
+                    medida de lectura del sitio. */}
+                <div
                   aria-hidden
                   className="grid gap-px"
                   style={{ gridTemplateColumns: `repeat(${meses.length}, minmax(0,1fr))` }}
                 >
-                  <span
+                  <div
                     className={cn(
-                      "jv-franja__tramo block h-7 rounded-full",
+                      "jv-franja__tramo h-7 rounded-full",
                       /* Los tramos de trabajo al 45 % y no en `brand-quiet`:
                          al 12 % sobre esta superficie se leen como una ranura
                          vacía, no como un tramo marcado. La meta va llena, que
@@ -122,7 +125,7 @@ export function FranjaMeses({
                       transitionDelay: `${i * 140}ms`,
                     }}
                   />
-                </span>
+                </div>
 
                 <span className="min-w-0">
                   <span

@@ -762,9 +762,31 @@ main li:not([class*="max-w"]):not([class*="grid-cols"]):not(
   max-width: var(--maxw-prose);
 }
 
-main span.block:not([class*="max-w"]) {
+/* TERCERA MORDIDA DE ESTA REGLA, y la última que se deja pasar. Un `span` de
+   bloque que declara `w-full` o que está marcado `aria-hidden` NO es prosa: es
+   una pista de barra, un carril, un separador. La pista de las barras de dato
+   de las páginas de ciudad se quedaba en 68ch —611 px— dentro de una columna
+   de 845, así que la barra del 12 % de Suba, que es el máximo y vale el 100 %,
+   salía a tres cuartos de la pista y el reparto que la pieza dibuja quedaba
+   mal contado.
+
+   Las tres mordidas fueron del mismo tipo: la regla mira la ETIQUETA y no lo
+   que el elemento hace. Cada excepción nueva nombra un rasgo que solo tiene la
+   maquetación —un enlace con clases de flex, un `li` con columnas propias, un
+   `span` con ancho declarado—, nunca un caso concreto. */
+main span.block:not([class*="max-w"]):not([class*="w-full"]):not([aria-hidden="true"]) {
   max-width: var(--maxw-prose);
 }
+
+/* Se intentó además un `[aria-hidden="true"] span.block { max-width: none }`
+   para cubrir de una vez todo lo que cuelga de un dibujo, y NO FUNCIONA: la
+   regla de arriba lleva tres `:not()` y con ellos suma más especificidad que
+   cualquier reset razonable. Se quitó en vez de dejarla ahí sin efecto.
+
+   La lección real es otra y está en `BarrasDato.tsx`: una caja de maquetación
+   se declara `div`, no `span`. Un `span` es contenido de texto para el
+   navegador y para esta regla, y pedirle a la hoja de estilos que adivine
+   cuál de los dos es cada uno era el error de partida. */
 
 /* Los que SÍ declaran ancho, pero eligieron uno de CONTENEDOR y no de lectura.
    `max-w-3xl` son 768px: con el cuerpo a 18px eso da 86 caracteres por línea,

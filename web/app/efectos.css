@@ -1197,3 +1197,22 @@ input[type="radio"] { accent-color: var(--accent); }
   }
   .jv-franja[data-visible="true"] .jv-franja__tramo { transform: scaleX(1); }
 }
+
+/* ===========================================================================
+   Las barras de dato (`components/visuales/BarrasDato.tsx`)
+   ---------------------------------------------------------------------------
+   Cada barra se dibuja de izquierda a derecha al entrar la pieza en vista, y
+   de arriba abajo entre ellas: el orden de la lista es el orden del dato, de
+   mayor a menor. El retraso lo pone el componente.
+
+   `scaleX` con origen izquierdo. Con movimiento reducido las barras están
+   puestas desde el primer fotograma: el dato no depende del gesto.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-barras__barra {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-ps);
+  }
+  .jv-barras[data-visible="true"] .jv-barras__barra { transform: scaleX(1); }
+}

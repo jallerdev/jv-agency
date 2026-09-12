@@ -1,29 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Check,
-  Clock,
-  FileText,
-  MapPinOff,
-  MessageCircle,
-  Store,
-  UserRound,
-  Video,
-  Wrench,
-} from "lucide-react";
+import { ArrowRight, Check, MapPinOff } from "lucide-react";
 
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BotonCuentame } from "@/components/Cuentame";
+import { PageHero } from "@/components/kit/PageHero";
+import { SectionIndex } from "@/components/kit/SectionIndex";
+import { Cifras } from "@/components/kit/Cifras";
+import { ProofCard } from "@/components/kit/ProofCard";
+import { InOutLedger } from "@/components/kit/InOutLedger";
+import { FaqAccordion } from "@/components/kit/FaqAccordion";
+import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
+import { BarrasDato } from "@/components/visuales/BarrasDato";
 import { CasillaVacia } from "@/components/visuales/CasillaVacia";
-import { Comparador } from "@/components/visuales/Comparador";
-import { RailDistancia } from "@/components/visuales/RailDistancia";
+import { RutaDesdeTurbaco } from "@/components/visuales/RutaDesdeTurbaco";
 import { SITE_URL } from "@/lib/site";
 import { BUSINESS } from "@/lib/business";
 import { INCLUIDO_SIEMPRE, catalogo, money, PLAZOS } from "@/lib/quote";
@@ -145,32 +139,61 @@ const PRECIOS = [
  * Los cuatro perfiles salen de la composición REAL del registro mercantil de
  * Bogotá, no de una lluvia de ideas. Cada porcentaje es del boletín citado
  * arriba.
+ *
+ * SIN ICONO. Los llevaban, en azulejo de color de 48 px, y los cuatro iconos
+ * decían menos que los cuatro porcentajes: ahora la cifra ES el elemento y va
+ * en la banda de cifras del kit, con su lectura debajo.
  */
 const QUIEN = [
   {
-    icon: UserRound,
     dato: "52,1 %",
     titulo: "Personas naturales con registro mercantil",
     desc: "Más de la mitad de las empresas activas de Bogotá no son sociedades: son una persona con su RUT y su oficio. Yo también soy una de esas.",
   },
   {
-    icon: Store,
     dato: "43,8 %",
     titulo: "Comercio",
     desc: "El sector más grande, y el que más pesa en Kennedy (11,1 %), Suba (10,4 %) y Engativá (8,5 %). Lo que necesitas es un catálogo que se pueda mandar por WhatsApp sin que se vea roto.",
   },
   {
-    icon: Video,
     dato: "36,4 %",
     titulo: "Servicios",
     desc: "Concentrado en Chapinero (16,7 %), Usaquén (15,0 %) y Suba (13,8 %). Consultorios, estudios, salones, asesorías. Acá la página no vende un producto: vende una cita.",
   },
   {
-    icon: Wrench,
     dato: "16,9 %",
     titulo: "Industria",
     desc: "Talleres, confección, metalmecánica, alimentos. La página que sirve es la que le prueba a un comprador que existes y con qué máquinas trabajas.",
   },
+];
+
+/**
+ * LAS CINCO LOCALIDADES, para dibujarlas a escala.
+ *
+ * Estaban dentro del párrafo, en negrita y entre paréntesis. Ahí «12,0» y
+ * «8,3» se leen igual de largas y el lector se queda con «hay varias
+ * localidades», que es lo contrario del dato. `valor` es para el ancho;
+ * `etiqueta`, cómo se escribe: la coma decimal no es un punto.
+ *
+ * Mismo boletín que el resto de cifras de esta página: Observatorio de
+ * Desarrollo Económico de Bogotá, n.º 52, con datos de la Cámara de Comercio.
+ */
+const LOCALIDADES = [
+  { nombre: "Suba", valor: 12.0, etiqueta: "12,0 %" },
+  { nombre: "Kennedy", valor: 9.7, etiqueta: "9,7 %" },
+  { nombre: "Usaquén", valor: 9.4, etiqueta: "9,4 %" },
+  { nombre: "Engativá", valor: 8.5, etiqueta: "8,5 %" },
+  { nombre: "Chapinero", valor: 8.3, etiqueta: "8,3 %" },
+];
+
+const INDICE = [
+  { id: "confesion", texto: "Lo que no tengo acá" },
+  { id: "localidades", texto: "Bogotá en cifras" },
+  { id: "precios", texto: "Precios" },
+  { id: "como", texto: "Cómo se trabaja" },
+  { id: "cambia", texto: "Qué cambia" },
+  { id: "trabajo", texto: "Trabajo abierto" },
+  { id: "preguntas", texto: "Preguntas" },
 ];
 
 const PROCESO = [
@@ -348,27 +371,30 @@ export default function DisenoPaginasWebBogotaPage() {
       />
       <Header idioma="es" />
       <main id="contenido">
-        {/* ── Encabezado · canvas ────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
-          <Reveal>
-            <Badge>Bogotá · a distancia</Badge>
-            <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
+        <PageHero
+          titular="compacto"
+          variante="ciudad"
+          idioma="es"
+          migas={[{ texto: "Diseño de páginas web en Bogotá" }]}
+          eyebrow="Bogotá · a distancia"
+          titulo={
+            <>
               Diseño de páginas web en Bogotá,{" "}
-              <span className="block text-metal">desde Bolívar y a distancia</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Bogotá cerró septiembre de 2025 con 406.513 empresas activas. El 92,4 % son
-              microempresas y el 52,1 % ni siquiera son sociedades: son una persona con registro
-              mercantil.
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Yo también soy una de esas. Esta página está escrita para ese negocio, no para el que
-              tiene departamento de mercadeo.
-            </p>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <span className="block text-brand">desde Bolívar y a distancia</span>
+            </>
+          }
+          entradilla="Bogotá cerró septiembre de 2025 con 406.513 empresas activas. El 92,4 % son microempresas y el 52,1 % ni siquiera son sociedades: son una persona con registro mercantil."
+          precio="landing"
+          indice={<SectionIndex entradas={INDICE} idioma="es" variante="chip" />}
+          aparte={
+            <RutaDesdeTurbaco
+              destino="Bogotá"
+              distancia="≈ 1.000 km"
+              nota="A distancia, y lo digo yo primero. Se trabaja igual: la distancia decide si nos vemos en persona, no si tomo el proyecto."
+            />
+          }
+          acciones={
+            <>
               <Button size="lg" variant="primary" asChild>
                 <Link href="/agendar">
                   Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
@@ -377,85 +403,109 @@ export default function DisenoPaginasWebBogotaPage() {
               <Button size="lg" variant="outline" asChild>
                 <a href="#precios">Ver precios</a>
               </Button>
+            </>
+          }
+        />
+
+        {/* ── La confesión. Va arriba a propósito ────────────────────── */}
+        <section id="confesion" className="border-b border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:gap-16">
+              <Reveal>
+                <div className="lg:sticky lg:top-28">
+                  <MapPinOff className="h-6 w-6 text-brand" strokeWidth={1.75} aria-hidden="true" />
+                  <h2 className="mt-5 text-balance text-[length:var(--text-h2)]">
+                    Antes de seguir:
+                    <span className="text-brand">
+                      {" "}
+                      no tengo oficina en Bogotá ni cliente en Bogotá.
+                    </span>
+                  </h2>
+                </div>
+              </Reveal>
+
+              <Reveal delay={80}>
+                <p className="max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                  Vivo en Turbaco, Bolívar —al lado de Cartagena, no al lado de la Séptima—, y hoy
+                  no tengo un solo proyecto entregado allá. No te voy a poner una dirección de la
+                  calle 100 en el pie de página.
+                </p>
+                <p className="mt-5 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                  Si lo primero que necesitas es alguien que se te siente al frente, te ahorro la
+                  llamada: <strong className="text-ink">no soy yo</strong>. Si lo que necesitas es
+                  que quien te cotiza sea el mismo que diseña, programa y te contesta el WhatsApp
+                  seis meses después, sigue leyendo.
+                </p>
+                <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
+                  Yo también soy una de esas 406.513: una persona con registro mercantil. Esta
+                  página está escrita para ese negocio, no para el que tiene departamento de
+                  mercadeo.
+                </p>
+              </Reveal>
             </div>
-          </Reveal>
+          </div>
         </section>
 
-        {/* ── La confesión. Va arriba a propósito · banda ────────────── */}
-        <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
+        {/* ── Para quién es ──────────────────────────────────────────── */}
+        <section
+          id="localidades"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-white/15 p-7 sm:p-9 md:p-10">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-brand-line">
-                <MapPinOff className="h-6 w-6" aria-hidden="true" />
-              </span>
-              <h2 className="mt-5 font-display text-3xl text-ink sm:text-4xl">
-                Antes de seguir:
-                <span className="text-metal"> no tengo oficina en Bogotá ni cliente en Bogotá.</span>
-              </h2>
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Vivo en Turbaco, Bolívar —al lado de Cartagena, no al lado de la Séptima—, y hoy no
-                tengo un solo proyecto entregado allá. No te voy a poner una dirección de la calle
-                100 en el pie de página.
-              </p>
-              <p className="mt-4 font-body text-lg leading-relaxed text-ink-soft">
-                Si lo primero que necesitas es alguien que se te siente al frente, te ahorro la
-                llamada: <strong className="text-ink">no soy yo</strong>. Si lo que necesitas es que
-                quien te cotiza sea el mismo que diseña, programa y te contesta el WhatsApp seis
-                meses después, sigue leyendo.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal>
-            <RailDistancia className="mt-10" />
-          </Reveal>
-        </section>
-
-        {/* ── Para quién es · banda (mismo capítulo que la confesión) ── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="text-balance text-[length:var(--text-display)]">
               En Bogotá el negocio promedio no está en el Chicó
             </h2>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Las cinco localidades que más microempresas concentran son{" "}
-              <strong className="text-ink">
-                Suba (12,0 %), Kennedy (9,7 %), Usaquén (9,4 %), Engativá (8,5 %) y Chapinero
-                (8,3 %)
-              </strong>
-              : entre las cinco, casi la mitad del total. Barrios de local en la esquina y taller en
-              el primer piso, no de torre corporativa.
+            <p className="mt-4 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+              Entre las cinco localidades que más microempresas concentran suman casi la mitad del
+              total. Barrios de local en la esquina y taller en el primer piso, no de torre
+              corporativa.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-            {QUIEN.map((p, i) => {
-              const Icon = p.icon;
-              return (
-                <Reveal key={p.titulo} index={i}>
-                  <article className="h-full jv-card p-6 sm:p-7">
-                    <div className="flex items-center gap-4">
-                      <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-brand-line">
-                        <Icon className="h-6 w-6" aria-hidden="true" />
-                      </span>
-                      <span className="font-mono text-2xl text-primary-dark">{p.dato}</span>
-                    </div>
-                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{p.titulo}</h3>
-                    <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
-                  </article>
-                </Reveal>
-              );
+          {/* LAS CINCO LOCALIDADES, A ESCALA. Estaban dentro del párrafo, en
+              negrita y entre paréntesis, y ahí «12,0» y «8,3» se leen igual de
+              largas: el lector se queda con «hay varias localidades», que es lo
+              contrario del dato. */}
+          <BarrasDato
+            className="mt-12"
+            filas={LOCALIDADES}
+            nota="Porcentaje sobre el total de microempresas de la ciudad. Entre las cinco, casi la mitad."
+          />
+
+          <Cifras
+            className="mt-14"
+            cifras={QUIEN.map((q) => {
+              const n = Number(q.dato.replace(/\./g, "").replace(",", ".").replace(/[^\d.]/g, ""));
+              const entero = Number.isFinite(n) && !q.dato.includes(",");
+              return {
+                valor: entero ? n : 0,
+                sufijo: q.dato.includes("%") ? " %" : undefined,
+                cuenta: entero,
+                textoCrudo: entero ? undefined : q.dato,
+                etiqueta: q.titulo,
+              };
             })}
+          />
+
+          <div className="mt-8 grid grid-cols-1 gap-x-10 gap-y-5 md:grid-cols-2">
+            {QUIEN.map((q) => (
+              <Reveal key={q.titulo}>
+                <p className="max-w-[62ch] text-sm leading-relaxed text-ink-soft">
+                  <strong className="text-ink">{q.titulo}. </strong>
+                  {q.desc}
+                </p>
+              </Reveal>
+            ))}
           </div>
 
           <Reveal>
-            <p className="mt-6 font-body text-sm leading-relaxed text-ink-soft">
+            <p className="jv-rule mt-10 max-w-[62ch] pt-6 text-sm leading-relaxed text-ink-muted">
               Fuente de las cifras:{" "}
               <a
                 href={FUENTE_BOGOTA}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline underline-offset-4 hover:text-ink"
+                className="jv-enlace font-semibold text-brand"
               >
                 Observatorio de Desarrollo Económico de Bogotá, «Boletín Dinámica empresarial n.º
                 52»
@@ -466,207 +516,210 @@ export default function DisenoPaginasWebBogotaPage() {
           </Reveal>
         </section>
 
-        {/* ── Precios · CANVAS a propósito: son la respuesta ─────────── */}
-        <section id="precios" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-12 md:px-8">
+        {/* ── Precios ────────────────────────────────────────────────── */}
+        <section
+          id="precios"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <Badge>Precios</Badge>
-            <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
+            <p className="jv-eyebrow text-brand">Precios</p>
+            <h2 className="mt-4 text-balance text-[length:var(--text-display)]">
               Lo que cobro, escrito
             </h2>
-            <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              No te voy a decir que soy el más barato de Bogotá, porque no lo sé. Es el mismo número
-              que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Bogotá.
+            <p className="mt-4 max-w-[62ch] leading-relaxed text-ink-soft">
+              Precios de arranque. En Bogotá te van a cotizar esto mismo por dos y por tres veces
+              más; lo que no te van a decir es quién lo va a hacer.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {PRECIOS.map((p, i) => (
-              <Reveal key={p.nombre} index={i}>
-                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                  <h3 className="font-body text-xl font-semibold text-ink">{p.nombre}</h3>
-                  <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
-                    {p.desc}
-                  </p>
-                  {p.href && (
+          <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
+            {PRECIOS.map((p) => {
+              const fila = (
+                <>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[length:var(--text-h4)] font-semibold text-ink">
+                      {p.nombre}
+                    </span>
+                    <span className="mt-1.5 block max-w-[62ch] text-sm leading-relaxed text-ink-soft">
+                      {p.desc}
+                    </span>
+                    <span className="mt-2 block font-mono text-xs text-ink-muted">{p.plazo}</span>
+                  </span>
+                  <span className="flex items-baseline gap-2 font-mono tabular-nums sm:shrink-0">
+                    <span className="w-11 text-right text-xs text-ink-muted">
+                      {p.exacto ? "" : "desde"}
+                    </span>
+                    <span className="w-[7.5rem] text-right text-[length:var(--text-h4)] text-brand">
+                      {money(p.desde)}
+                    </span>
+                    <span className="w-9 whitespace-nowrap text-xs text-ink-muted">
+                      {p.mensual ? "/mes" : ""}
+                    </span>
+                  </span>
+                </>
+              );
+              return (
+                <li key={p.nombre} className="max-w-none">
+                  {p.href ? (
                     <Link
                       href={p.href}
-                      className="mt-3 inline-flex min-h-11 w-fit items-center gap-1 py-2.5 font-body text-sm font-semibold text-primary-dark underline underline-offset-4"
+                      className="focus-ring flex flex-col gap-3 py-5 transition-colors duration-base ease-ps hover:text-brand sm:flex-row sm:items-start sm:justify-between sm:gap-8"
                     >
-                      Ver el detalle{" "}
-                      <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      {fila}
                     </Link>
+                  ) : (
+                    <span className="flex flex-col gap-3 py-5 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+                      {fila}
+                    </span>
                   )}
-                  <p className="mt-4 jv-rule pt-4 font-mono text-lg text-primary-dark">
-                    {p.exacto ? "" : "desde "}
-                    {money(p.desde)}
-                    {p.mensual ? " / mes" : ""}
-                  </p>
-                  <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
-                    <Clock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                    {p.plazo}
-                  </p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+                </li>
+              );
+            })}
+          </ul>
 
           <Reveal>
-            <div className="mt-6 rounded-2xl border border-line bg-band/60 p-6 sm:p-7">
-              <p className="font-body leading-relaxed text-ink-soft">
-                <Link
-                  href="/servicios/software-a-la-medida"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  Software a la medida
-                </Link>{" "}
-                <strong className="text-ink">va aparte</strong>, según el alcance: un sistema
-                interno no se cotiza por tabla.
-              </p>
-              <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">
-                El desglose largo:{" "}
-                <Link
-                  href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  cuánto cuesta una página web
-                </Link>
-                ,{" "}
-                <Link
-                  href="/blog/cuanto-se-demora-hacer-una-pagina-web"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  cuánto se demora
-                </Link>{" "}
-                y{" "}
-                <Link
-                  href="/blog/cuanto-cuesta-el-seo-en-colombia"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  cuánto cuesta el SEO
-                </Link>
-                .
-              </p>
-            </div>
+            <p className="mt-8 max-w-[62ch] text-sm leading-relaxed text-ink-soft">
+              El desglose largo:{" "}
+              <Link
+                href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
+                className="jv-enlace font-semibold text-brand"
+              >
+                cuánto cuesta una página web
+              </Link>
+              ,{" "}
+              <Link
+                href="/blog/cuanto-se-demora-hacer-una-pagina-web"
+                className="jv-enlace font-semibold text-brand"
+              >
+                cuánto se demora
+              </Link>{" "}
+              y{" "}
+              <Link
+                href="/blog/cuanto-cuesta-el-seo-en-colombia"
+                className="jv-enlace font-semibold text-brand"
+              >
+                cuánto cuesta el SEO
+              </Link>
+              .
+            </p>
           </Reveal>
         </section>
 
-        {/* ── Qué incluye · cómo se trabaja a distancia · banda ──────── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Qué entra en cualquier proyecto
-              </h2>
-              <ul className="mt-8 grid gap-3">
-                {INCLUIDO_SIEMPRE.map((x) => (
-                  <li key={x} className="flex items-start gap-3 font-body text-ink-soft">
-                    <Check className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 font-body leading-relaxed text-ink-soft">
-                Si además necesitas que tu número conteste solo —horarios, precios, si hay
-                domicilio—, eso es un{" "}
-                <Link
-                  href="/servicios/chatbot-whatsapp"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  chatbot de WhatsApp
-                </Link>
-                , y se monta sobre el mismo número que ya usas.
-              </p>
-            </Reveal>
+        {/* ── Qué incluye · cómo se trabaja a distancia ──────────────── */}
+        <section id="como" className="border-y border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+              <Reveal>
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  Qué entra en cualquier proyecto
+                </h2>
+                <ul className="mt-8 flex flex-col gap-3">
+                  {INCLUIDO_SIEMPRE.map((x) => (
+                    <li key={x} className="flex items-start gap-3 leading-relaxed text-ink-soft">
+                      <Check
+                        className="mt-1 h-4 w-4 shrink-0 text-brand"
+                        strokeWidth={2.5}
+                        aria-hidden="true"
+                      />
+                      <span>{x}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
+                  Si además necesitas que tu número conteste solo —horarios, precios, si hay
+                  domicilio—, eso es un{" "}
+                  <Link
+                    href="/servicios/chatbot-whatsapp"
+                    className="jv-enlace font-semibold text-brand"
+                  >
+                    chatbot de WhatsApp
+                  </Link>
+                  , y se monta sobre el mismo número que ya usas.
+                </p>
+              </Reveal>
 
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Cómo funciona si tú estás allá y yo no
-              </h2>
-              <ol className="mt-8 grid gap-6">
-                {PROCESO.map((p) => (
-                  <li key={p.n} className="flex gap-4">
-                    <span className="font-mono text-sm text-primary-dark">{p.n}</span>
-                    <span>
-                      <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                      <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                        {p.d}
+              <Reveal delay={120}>
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  Cómo funciona si tú estás allá y yo no
+                </h2>
+                <ol className="mt-8 flex flex-col divide-y divide-line border-y border-line">
+                  {PROCESO.map((p) => (
+                    <li key={p.n} className="flex gap-5 py-5">
+                      <span className="font-mono text-sm tabular-nums text-brand">{p.n}</span>
+                      <span className="min-w-0">
+                        <strong className="block font-semibold text-ink">{p.t}</strong>
+                        <span className="mt-1.5 block text-sm leading-relaxed text-ink-soft">
+                          {p.d}
+                        </span>
                       </span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-body text-sm text-ink-soft">
-                <Clock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                Una página web, en 5 días
-              </p>
-            </Reveal>
+                    </li>
+                  ))}
+                </ol>
+                <p className="mt-8 font-mono text-sm text-ink-soft">Una página web, en 5 días</p>
+              </Reveal>
+            </div>
           </div>
         </section>
 
-        {/* ── Lo que cambia, a favor y en contra · banda (mismo capítulo).
-             Las dos columnas enteras: la de la derecha es la que hace
-             creíble la de la izquierda. ─────────────────────────────── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+        {/* ── Lo que cambia, a favor y en contra. Las dos columnas
+             enteras: la de la derecha es la que hace creíble la de la
+             izquierda. ────────────────────────────────────────────────── */}
+        <section
+          id="cambia"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="text-balance text-[length:var(--text-display)]">
               Qué cambia, en la práctica, porque yo no estoy en Cundinamarca
             </h2>
           </Reveal>
-          <Reveal>
-            <Comparador
-              className="mt-10"
-              tituloIncluye="Lo que cambia a tu favor"
-              tituloNoIncluye={
-                <>
-                  Lo que cambia <span className="text-metal">en tu contra</span>
-                </>
-              }
-              incluye={A_FAVOR}
-              noIncluye={EN_CONTRA}
-            />
-          </Reveal>
+
+          {/* El mismo mueble de «qué entra / qué no entra» del resto del
+              sitio: dos columnas del mismo peso, y el sello de la derecha en
+              tinta plena. La columna incómoda es la que hace creíble la otra,
+              así que no puede ser el apéndice de nadie. */}
+          <InOutLedger
+            className="mt-12"
+            idioma="es"
+            titulos={{ dentro: "Lo que cambia a tu favor", fuera: "Lo que cambia en tu contra" }}
+            dentro={A_FAVOR.map((x) => ({ texto: x }))}
+            fuera={EN_CONTRA.map((x) => ({ texto: x.texto, sello: x.quien }))}
+          />
         </section>
 
-        {/* ── Trabajo abierto · canvas. La cuarta casilla está vacía a
-             propósito: es la frase «ninguno es de Bogotá», dibujada. ─── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        {/* ── Trabajo abierto. La cuarta casilla está vacía a propósito:
+             es la frase «ninguno es de Bogotá», dibujada. ─────────────── */}
+        <section
+          id="trabajo"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="text-balance text-[length:var(--text-display)]">
               Trabajo mío que puedes abrir ahora.
-              <span className="text-metal"> Ninguno es de Bogotá.</span>
+              <span className="text-brand"> Ninguno es de Bogotá.</span>
             </h2>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[62ch] leading-relaxed text-ink-soft">
               Los tres están publicados con dominio propio y se comprueban con un clic, que es más
               de lo que se puede decir de la mayoría de los portafolios.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {ABIERTOS.map((p, i) => (
-              <Reveal key={p.nombre} index={i}>
-                <a
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex h-full flex-col jv-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift sm:p-7"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-body text-xl font-semibold text-ink">{p.nombre}</h3>
-                    <ArrowUpRight
-                      className="mt-1 h-4 w-4 shrink-0 text-ink-soft transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <span className="mt-2 w-fit break-all rounded-full border border-line px-3 py-1 font-mono text-xs text-ink-soft">
-                    {p.dominio}
-                  </span>
-                  <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">{p.que}</p>
-                </a>
+              <Reveal key={p.nombre} delay={i * 80} className="h-full">
+                <ProofCard
+                  idioma="es"
+                  nombre={p.nombre}
+                  cuerpo={p.que}
+                  dominio={p.dominio}
+                  url={p.url}
+                  estado="produccion"
+                />
               </Reveal>
             ))}
 
-            <Reveal index={3}>
-              <CasillaVacia className="h-full bg-surface/50" rotulo="Sin cliente de Bogotá">
+            <Reveal delay={240} className="h-full">
+              <CasillaVacia className="h-full" rotulo="Sin cliente de Bogotá">
                 Todavía no hay un proyecto entregado en Bogotá. Cuando lo haya, va aquí, con nombre
                 y con enlace.
               </CasillaVacia>
@@ -674,12 +727,9 @@ export default function DisenoPaginasWebBogotaPage() {
           </div>
 
           <Reveal>
-            <p className="mt-8 font-body leading-relaxed text-ink-soft">
+            <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
               El resto del portafolio, con las capturas de cada sitio, está en{" "}
-              <Link
-                href="/#portafolio"
-                className="font-semibold text-primary-dark underline underline-offset-4"
-              >
+              <Link href="/#portafolio" className="jv-enlace font-semibold text-brand">
                 la portada
               </Link>
               .
@@ -687,66 +737,42 @@ export default function DisenoPaginasWebBogotaPage() {
           </Reveal>
         </section>
 
-        {/* ── Preguntas · banda ──────────────────────────────────────── */}
-        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
-          <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Lo que pregunta un cliente de Bogotá
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid gap-4">
-            {FAQS.map((f, i) => (
-              <Reveal key={f.q} index={i}>
-                <article className="jv-card p-6 sm:p-7">
-                  <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
-                  <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
-                  {f.href && (
-                    <Link
-                      href={f.href}
-                      className="mt-2 inline-flex min-h-11 items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline underline-offset-4"
-                    >
-                      <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      {f.hrefLabel}
-                    </Link>
-                  )}
-                </article>
-              </Reveal>
-            ))}
+        {/* ── Preguntas ──────────────────────────────────────────────── */}
+        <section
+          id="preguntas"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+            <Reveal>
+              <div className="lg:sticky lg:top-28">
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  Lo que pregunta un cliente de Bogotá
+                </h2>
+              </div>
+            </Reveal>
+
+            <FaqAccordion
+              grupos={[
+                {
+                  titulo: "Lo que pregunta un cliente de Bogotá",
+                  items: FAQS.map((f) => ({ q: f.q, a: f.a })),
+                },
+              ]}
+            />
           </div>
         </section>
 
-        {/* ── Cierre · canvas ────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-16 text-center md:px-8 md:py-24">
+        {/* ── También trabajo ────────────────────────────────────────── */}
+        <section className="mx-auto max-w-[1280px] px-6 pb-20 md:px-12 md:pb-24">
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Cuéntame qué vende tu negocio y en qué localidad estás
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              En veinte minutos sabemos si esto te sirve, cuánto costaría y en cuánto quedaría en
-              línea. Si te conviene más alguien de Bogotá, te lo digo en esa misma llamada.
-            </p>
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Button size="lg" variant="primary" asChild>
-                <Link href="/agendar">
-                  Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
-                </Link>
-              </Button>
-              <BotonCuentame>
-                <MessageCircle className="h-5 w-5" aria-hidden="true" />
-                Cuéntame tu proyecto
-              </BotonCuentame>
-            </div>
-
-            <nav aria-label="Otras páginas del sitio" className="mt-12">
-              <p className="jv-eyebrow text-ink-soft">
-                También trabajo
-              </p>
-              <ul className="mt-4 flex flex-wrap justify-center gap-2">
+            <nav aria-label="Otras páginas del sitio">
+              <h2 className="jv-eyebrow text-ink-muted">También trabajo</h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
                 {OTRAS_PAGINAS.map((o) => (
                   <li key={o.href}>
                     <Link
                       href={o.href}
-                      className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 py-2.5 font-body text-sm text-ink-soft transition-colors hover:border-primary/40 hover:text-ink"
+                      className="jv-chip jv-chip-off min-h-11 text-sm hover:border-brand hover:text-brand"
                     >
                       {o.label}
                     </Link>
@@ -756,9 +782,17 @@ export default function DisenoPaginasWebBogotaPage() {
             </nav>
           </Reveal>
         </section>
+
+        <FinalCTA
+          idioma="es"
+          titulo="Cuéntame qué vende tu negocio y en qué localidad estás"
+          cuerpo="Veinte minutos por Meet. Sales con un rango de precio y un plazo reales, dichos en la llamada. Si no te sirve, te lo digo y no te cobro por decírtelo."
+          siguiente={<NextStep id="landing" idioma="es" />}
+        />
       </main>
       <Footer idioma="es" />
       <WhatsAppButton />
+      <BarraMovil idioma="es" />
     </>
   );
 }
