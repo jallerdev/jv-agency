@@ -472,6 +472,19 @@ input[type="radio"] { accent-color: var(--accent); }
 }
 
 /* ===========================================================================
+   El recibo de /precios (`components/visuales/Recibo.tsx`)
+   ---------------------------------------------------------------------------
+   Cada renglón entra por arriba, escalonado: es un papel que se imprime, no
+   una lista que aparece. El escalonado lo pone el componente con
+   `animation-delay` en línea, porque depende del índice del renglón.
+   =========================================================================== */
+@keyframes jv-recibo-imprime { from { opacity: 0; transform: translateY(-6px); } }
+.jv-recibo-linea { animation: jv-recibo-imprime 0.35s var(--ease-ps) both; }
+@media (prefers-reduced-motion: reduce) {
+  .jv-recibo-linea { animation: none; }
+}
+
+/* ===========================================================================
    Los dos estados del eje de SEO (/servicios/posicionamiento-seo)
    ---------------------------------------------------------------------------
    La sección dice que con las mismas tres letras te venden dos productos: uno

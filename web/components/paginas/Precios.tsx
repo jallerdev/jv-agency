@@ -1,18 +1,28 @@
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 
-import { DETALLE, LINEAS, PRECIOS, RENGLONES, type LineaPrecio, precioImpreso } from "@/content/paginas/precios";
+import {
+  DETALLE,
+  LINEAS,
+  PRECIOS,
+  type LineaPrecio,
+  precioImpreso,
+} from "@/content/paginas/precios";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
+import { CATALOGO, catalogo, money } from "@/lib/quote";
+import { POSTS } from "@/lib/blog";
+import { SLUGS } from "@/lib/blog-slugs";
+import { cn } from "@/lib/utils";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { BotonCuentame } from "@/components/Cuentame";
+import { Breadcrumbs } from "@/components/kit/Breadcrumbs";
+import { FinalCTA } from "@/components/kit/FinalCTA";
+import { Recibo } from "@/components/visuales/Recibo";
 
 /**
  * LA PÁGINA DE PRECIOS, EN LOS DOS IDIOMAS
@@ -30,6 +40,17 @@ import { BotonCuentame } from "@/components/Cuentame";
  * En Cartagena se verificó, pero en Barranquilla y en Bogotá varias sí los
  * publican. Una afirmación falsa en dos de las tres ciudades del mapa no se
  * escribe. Aquí se dice lo único cierto en todas: que yo los publico.
+ *
+ * QUÉ CAMBIÓ EN LA FASE 3, Y POR QUÉ
+ * ----------------------------------
+ * · LA TABLA ES EL HERO. Era una página con un titular, una entradilla de tres
+ *   líneas y, después de todo eso, los números. El que entra aquí viene a ver
+ *   cifras: ahora se ven en el primer pantallazo.
+ * · «Tu propuesta» dejó de ser un documento de ejemplo con las ranuras en
+ *   «$ —» y pasó a armarse: escoges, marcas y el recibo se imprime con el
+ *   total sumado. Y se lleva a la llamada con un botón.
+ * · Lo que cobra un tercero —la pasarela, el consumo de Meta— sale del propio
+ *   catálogo, así que no puede decir aquí una cosa y otra en su página.
  */
 
 /** Especificación de precio de una línea, o nada si no hay número. */
@@ -103,95 +124,8 @@ function datosEstructurados(idioma: Idioma, ruta: string, titulo: string, descri
   };
 }
 
-/**
- * LA PROPUESTA POR ESCRITO
- * ──────────────────────────────────────────────────────────────────────────
- * Esta página sostiene la promesa más grande del sitio —«el número te llega
- * por escrito antes de que pagues nada»— y la sostenía en prosa, dentro de una
- * nota de cuatro líneas bajo la tabla. Una promesa contada hay que creerla;
- * una promesa que se ve es un objeto.
- *
- * NO LLEVA UN SOLO NÚMERO, Y ESA ES LA PIEZA. Los importes son ranuras con
- * «$ —». Un total verosímil dentro de algo que parece una cotización sería
- * exactamente el dato inventado que este proyecto se prohíbe; y la ranura
- * vacía dice mejor lo que se quiere decir: ese renglón se llena contigo.
- *
- * Las guías de puntos y las ranuras van `aria-hidden`: son dibujo. Un lector
- * de pantalla oye los conceptos y luego el pie, que es donde está la frase.
- */
-function PropuestaPorEscrito({ idioma }: { idioma: Idioma }) {
-  const d = PRECIOS.documento;
-
-  return (
-    <figure className="mx-auto mt-8 max-w-2xl">
-      <div className="jv-card relative overflow-hidden">
-        {/* Lomo: el canto encuadernado de un documento, no un borde de tarjeta. */}
-        <span
-          aria-hidden
-          className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-brand-300 via-brand to-brand-700"
-        />
-
-        <div className="relative p-6 pl-7 sm:p-8 sm:pl-10">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line pb-4">
-            <p className="jv-eyebrow text-accent-ink">{d.eyebrow[idioma]}</p>
-            {/* Pastilla y no texto suelto: a 390 este rótulo quedaba pegado al
-                de la izquierda y los dos se leían como una sola línea. */}
-            <p className="jv-eyebrow rounded-full border border-line px-2.5 py-1 text-ink-soft">
-              {d.ejemplo[idioma]}
-            </p>
-          </div>
-
-          <ul>
-            {RENGLONES.map((r) => (
-              <li key={r.concepto.es} className="border-b border-dashed border-line py-4">
-                {/* El concepto y su ranura en la MISMA línea, con la guía de
-                    puntos en medio, y el detalle debajo a ancho completo. Si
-                    compartieran línea, a 390 la guía quedaría partida y el
-                    importe huérfano al fondo. */}
-                <span className="flex items-baseline gap-3">
-                  <span className="text-[15px] font-semibold text-ink">
-                    {r.concepto[idioma]}
-                  </span>
-                  <span aria-hidden className="min-w-4 flex-1 border-b border-dotted border-line" />
-                  <span aria-hidden className="shrink-0 font-mono text-sm tabular-nums text-ink-soft">
-                    $ —
-                  </span>
-                </span>
-                <span className="mt-1 block max-w-[42ch] text-[13px] leading-relaxed text-ink-soft">
-                  {r.detalle[idioma]}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          {/* La ranura del total es más marcada que las de arriba: es el
-              renglón que el visitante vino a buscar, y sigue vacío. */}
-          <div className="mt-5 flex items-baseline gap-3">
-            <span className="text-xl font-semibold text-ink">{d.total[idioma]}</span>
-            <span aria-hidden className="min-w-4 flex-1 border-b border-dotted border-line" />
-            <span
-              aria-hidden
-              className="shrink-0 rounded-lg border border-dashed border-brand/45 bg-brand/5 px-3 py-1.5 font-mono text-sm text-brand"
-            >
-              $ —
-            </span>
-          </div>
-
-          <div className="jv-rule mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 pt-4">
-            <span className="jv-eyebrow text-ink-soft">{d.firma[idioma]}</span>
-            <span className="jv-eyebrow text-accent-ink">{d.compromiso[idioma]}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Las dos condiciones honestas, íntegras. No se recortan: son lo que
-          hace creíble la tabla de arriba. */}
-      <figcaption className="mt-5 max-w-[62ch] text-pretty leading-relaxed text-ink-soft">
-        {d.pie[idioma]}
-      </figcaption>
-    </figure>
-  );
-}
+/** Los tres artículos de «¿cuánto cuesta…?», que son los que comparan mercado. */
+const COMPARAR = [SLUGS.cuestaWeb, SLUGS.cuestaChatbot, SLUGS.cuestaSeo];
 
 export function PaginaPrecios({
   idioma,
@@ -205,6 +139,35 @@ export function PaginaPrecios({
   titulo: string;
   descripcion: string;
 }) {
+  const es = idioma === "es";
+
+  /* Las líneas del recibo salen del catálogo: lo que se paga una vez puede ser
+     la base, lo que se paga cada mes o cada año se suma aparte. Nada de esto
+     se escribe aquí. */
+  const bases = CATALOGO.filter((s) => s.unidad === "unico").map((s) => ({
+    clave: s.id,
+    nombre: s.nombre[idioma],
+    monto: s.desde,
+    unidad: "unico" as const,
+    plazo: s.plazo?.[idioma],
+  }));
+  const extras = CATALOGO.filter((s) => s.unidad !== "unico").map((s) => ({
+    clave: s.id,
+    nombre: s.nombre[idioma],
+    monto: s.desde,
+    unidad: (s.unidad === "mes" ? "mes" : "anio") as "mes" | "anio",
+  }));
+
+  /* Lo que cobra un tercero vive en las notas del catálogo, junto al servicio
+     que lo arrastra. Aquí solo se recogen. */
+  const ajenos = CATALOGO.flatMap((s) =>
+    (s.notas ?? []).map((n) => ({ nombre: n[idioma], quien: s.nombre[idioma] })),
+  );
+
+  const articulos = COMPARAR.map((slug) =>
+    POSTS.find((p) => p.slug.es === slug.es),
+  ).filter(Boolean);
+
   return (
     <>
       <script
@@ -215,68 +178,107 @@ export function PaginaPrecios({
       />
       <Header idioma={idioma} />
       <main id="contenido">
-        {/* ── Encabezado ──────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-6 pb-8 pt-32 text-center md:px-12 md:pt-40">
-          <Reveal>
-            <Badge>{PRECIOS.badge[idioma]}</Badge>
-            <h1 className="mt-6 text-[length:var(--text-hero)]">
-              {PRECIOS.titulo[idioma]}{" "}
-              <span className="text-brand">{PRECIOS.tituloAcento[idioma]}</span>
-            </h1>
-            {/* Tres líneas a 390, no cinco: la tabla es la respuesta de esta
-                página y cada línea de entradilla la empuja hacia abajo. */}
-            <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-ink-soft">
-              {PRECIOS.entradilla[idioma]}
-            </p>
-          </Reveal>
-        </section>
+        {/* ── La tabla ES el hero ─────────────────────────────────────── */}
+        <header className="border-b border-line">
+          <div className="mx-auto max-w-[1280px] px-6 pb-16 pt-[calc(var(--header-h)+2rem)] md:px-12 md:pb-20 md:pt-[calc(var(--header-h)+3rem)]">
+            <Breadcrumbs migas={[{ texto: PRECIOS.badge[idioma] }]} idioma={idioma} />
 
-        {/* ── La tabla y cómo llega tu número ─────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-6 pb-14 pt-6 md:px-12 md:pb-16">
-          {/* Encabezado solo para lectores de pantalla: la sección necesita
-              nombre en el árbol de accesibilidad, pero el copy no le puso
-              título visible y no se inventa uno. */}
-          <h2 className="sr-only">{PRECIOS.tablaTitulo[idioma]}</h2>
+            <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-16">
+              <div>
+                {/* Sin Reveal: este es el LCP. */}
+                <h1 className="text-balance text-[length:var(--text-hero)]">
+                  {PRECIOS.titulo[idioma]}{" "}
+                  <span className="text-brand">{PRECIOS.tituloAcento[idioma]}</span>
+                </h1>
+                <p className="mt-6 max-w-[46ch] text-pretty text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                  {PRECIOS.entradilla[idioma]}
+                </p>
+              </div>
 
-          <Reveal>
-            <ul className="jv-card divide-y divide-line overflow-hidden">
-              {LINEAS.map((l) => (
-                <li key={l.servicio.es} className="px-5 py-5 sm:px-6 sm:py-6 md:px-8">
-                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                    <span className="text-xl font-semibold text-ink">{l.servicio[idioma]}</span>
-                    <span className="flex flex-col gap-1 sm:items-end">
-                      <span className="font-mono text-lg tabular-nums text-brand">
-                        {precioImpreso(l, idioma)}
-                      </span>
-                      {l.plazo && (
-                        /* `items-start` y no `items-center`: el plazo de la
-                           primera línea ocupa dos renglones a 390 y con el
-                           reloj centrado la segunda quedaba colgando. */
-                        <span className="inline-flex items-start gap-2 text-sm leading-relaxed text-ink-soft">
-                          <Clock className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden />
-                          {l.plazo[idioma]}
+              {/* La tabla, en el primer pantallazo. Cada fila es un enlace a
+                  la página donde ese número se explica: el precio sin el
+                  alcance al lado es la mitad del dato. */}
+              <div>
+                <h2 className="sr-only">{PRECIOS.tablaTitulo[idioma]}</h2>
+                <ul className="flex flex-col divide-y divide-line border-y border-line">
+                  {LINEAS.map((l) => {
+                    const servicio = CATALOGO.find((s) => s.nombre.es === l.servicio.es);
+                    const href = servicio ? enlaceReal(servicio.href[idioma]) : null;
+
+                    const fila = (
+                      <>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-[length:var(--text-h4)] font-semibold text-ink">
+                            {l.servicio[idioma]}
+                          </span>
+                          {l.plazo && (
+                            <span className="mt-1 flex items-center gap-2 text-sm text-ink-muted">
+                              <Clock className="h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden />
+                              {l.plazo[idioma]}
+                            </span>
+                          )}
                         </span>
-                      )}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+                        <span className="shrink-0 font-mono text-[length:var(--text-h4)] tabular-nums text-brand">
+                          {precioImpreso(l, idioma)}
+                        </span>
+                      </>
+                    );
 
-          <Reveal>
-            <PropuestaPorEscrito idioma={idioma} />
-          </Reveal>
+                    return (
+                      <li key={l.servicio.es}>
+                        {href ? (
+                          <Link
+                            href={href}
+                            className="focus-ring flex items-start justify-between gap-6 py-4 transition-colors duration-base ease-ps hover:text-brand"
+                          >
+                            {fila}
+                          </Link>
+                        ) : (
+                          <span className="flex items-start justify-between gap-6 py-4">{fila}</span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* ── Pieza firma: tu propuesta ───────────────────────────────── */}
+        <section id="propuesta" className="border-b border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-28">
+            <Reveal>
+              <h2 className="text-balance text-[length:var(--text-display)]">
+                {PRECIOS.documento.eyebrow[idioma]}
+              </h2>
+              <p className="mt-4 max-w-[52ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                {PRECIOS.documento.pie[idioma]}
+              </p>
+            </Reveal>
+
+            <Recibo
+              className="mt-14"
+              idioma={idioma}
+              bases={bases}
+              extras={extras}
+              ajenos={ajenos}
+              hrefAgenda={enlaceReal(es ? "/agendar" : "/en/book-a-call")}
+              /* `web` es el id real de `lib/services.ts`; el formulario valida
+                 contra su propia lista y descarta cualquier otro. */
+              servicioAgenda="web"
+            />
+          </div>
         </section>
 
         {/* ── Dónde ver el detalle ────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-6 py-12 md:px-12 md:py-14">
+        <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-12 md:py-24">
           <Reveal>
-            <h2 className="text-[length:var(--text-display)]">
+            <h2 className="text-balance text-[length:var(--text-h2)]">
               {PRECIOS.detalleTitulo[idioma]}
             </h2>
           </Reveal>
-          <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {DETALLE.map((d, i) => (
               <Reveal key={d.href.es} index={i}>
                 <Link
@@ -291,27 +293,49 @@ export function PaginaPrecios({
           </div>
         </section>
 
-        {/* ── Cierre ──────────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-3xl px-6 py-16 text-center md:px-12 md:py-20">
+        {/* ── Comparar con el mercado ─────────────────────────────────── */}
+        <section className="mx-auto max-w-[1280px] px-6 pb-20 md:px-12 md:pb-24">
           <Reveal>
-            <h2 className="text-balance text-[length:var(--text-display)]">
-              {PRECIOS.cierre.titulo[idioma]}
+            <h2 className="text-balance text-[length:var(--text-h2)]">
+              {es ? "Y si quieres comparar con el mercado" : "And if you want to compare with the market"}
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-pretty text-ink-soft">
-              {PRECIOS.cierre.cuerpo[idioma]}
+            <p className="mt-3 max-w-[52ch] leading-relaxed text-ink-soft">
+              {es
+                ? "Los tres artículos llevan los rangos de las agencias y los precios de lista, con su fuente y su fecha."
+                : "The three articles carry agency ranges and list prices, with source and date."}
             </p>
-            {/* A 390 los dos botones se apilan y se igualan a 280 px. El tope
-                no es estético: el botón flotante de WhatsApp ocupa x=318..374,
-                y uno a ancho completo se le mete 52 px debajo en cuanto el
-                scroll lo deja abajo a la derecha. */}
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
-              <Button asChild size="lg" className="w-full max-w-[17.5rem] sm:w-auto sm:max-w-none">
-                <a href={enlaceReal(PRECIOS.cierre.href[idioma])}>{PRECIOS.cierre.cta[idioma]}</a>
-              </Button>
-              <BotonCuentame className="w-full max-w-[17.5rem] sm:w-auto sm:max-w-none" />
-            </div>
           </Reveal>
+
+          <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
+            {articulos.map((p, i) =>
+              p ? (
+                <Reveal key={p.slug.es} delay={i * 70} className="h-full">
+                  <Link
+                    href={es ? `/blog/${p.slug.es}` : `/en/blog/${p.slug.en}`}
+                    className={cn(
+                      "jv-card jv-card-int flex h-full flex-col p-6",
+                      "transition-colors duration-base ease-ps hover:border-brand",
+                    )}
+                  >
+                    <span className="jv-titulo">{p.title[idioma]}</span>
+                    <span className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">
+                      {p.excerpt[idioma]}
+                    </span>
+                    <span className="jv-rule mt-5 flex items-center gap-2 pt-4 font-mono text-xs text-ink-muted">
+                      {p.readingMinutes} min
+                    </span>
+                  </Link>
+                </Reveal>
+              ) : null,
+            )}
+          </div>
         </section>
+
+        <FinalCTA
+          idioma={idioma}
+          titulo={PRECIOS.cierre.titulo[idioma]}
+          cuerpo={PRECIOS.cierre.cuerpo[idioma]}
+        />
       </main>
       <Footer idioma={idioma} />
       <WhatsAppButton idioma={idioma} />
