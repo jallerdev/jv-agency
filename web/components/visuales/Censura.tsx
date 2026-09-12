@@ -56,12 +56,39 @@ export function Censura({
                   `top: 50%` la barra cae en el centro de la CAJA de línea, que
                   con interlineado 1,375 queda un quinto de eme por debajo del
                   centro visual de las letras —tachaba el pie de la palabra en
-                  vez de la palabra—. `0.47em` es el centro óptico. */}
-              <span className="relative inline-block w-fit text-[length:var(--text-h4)] font-semibold leading-snug text-ink-soft">
+                  vez de la palabra—.
+
+                  `0.766em` NO ES A OJO: es el centro óptico medido con las
+                  métricas reales de Figtree en el navegador. Con letra de 19 px
+                  y `leading-snug`, la caja de línea mide 26,125 px, la línea
+                  base cae a 19,56 y la altura de x es de 10, así que la mitad
+                  de la minúscula está a 14,56 px del borde superior: 0,766em.
+                  El valor anterior, 0,47em, ponía la línea a 8,92 px —cinco y
+                  medio por encima— y con una barra gruesa no se notaba porque
+                  la barra tapaba de 5 a 13. Al adelgazarla, sí.
+
+                  Va atado a `leading-snug`: si cambia la interlínea de esta
+                  frase, hay que volver a medir. Es la contrapartida de poder
+                  animar el tachado —`text-decoration: line-through` lo colocaría
+                  solo, con las métricas de la fuente, pero no se puede barrer—.
+
+                  Y ES UN TACHADO, NO UNA BARRA DE CENSURA. Estaba en `0.42em`
+                  —ocho píxeles sobre una letra de diecinueve— y eso no tacha la
+                  frase: la borra. Luis lo vio y tenía razón: «no se ve qué es
+                  lo que estamos tachando». Era un fallo contra la propia
+                  intención de esta pieza, que está escrita tres párrafos más
+                  arriba: la frase tiene que LEERSE, porque el argumento es
+                  reconocerla —el visitante la ha visto, o la ha escrito, en su
+                  propia publicidad—. Con `0.1em` la línea cruza la palabra y la
+                  palabra se sigue leyendo, que es lo que hace un tachado. */}
+              {/* TINTA PLENA, no apagada: esta frase es EL CONTENIDO de la
+                  sección. Lo que la marca como rechazada es el tachado y el
+                  motivo de al lado, no un gris que además la cuesta leer. */}
+              <span className="relative inline-block w-fit text-[length:var(--text-h4)] font-semibold leading-snug text-ink">
                 {f.frase}
                 <span
                   aria-hidden
-                  className="jv-censura__barra absolute inset-x-0 top-[0.47em] block h-[0.42em] -translate-y-1/2 rounded-[2px] bg-brand"
+                  className="jv-censura__barra absolute inset-x-0 top-[0.766em] block h-[0.1em] -translate-y-1/2 rounded-full bg-brand"
                 />
               </span>
 
