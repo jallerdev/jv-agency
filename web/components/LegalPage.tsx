@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { Breadcrumbs } from "@/components/kit/Breadcrumbs";
+import { IndiceArticulo } from "@/components/visuales/IndiceArticulo";
 import { LEGAL_UPDATED } from "@/lib/business";
 
 /**
@@ -22,6 +24,18 @@ import { LEGAL_UPDATED } from "@/lib/business";
  *
  * Las cuatro son solo en castellano —así están declaradas en `SOLO_ESPANOL`—,
  * de ahí el `idioma="es"` fijo.
+ *
+ * QUÉ CAMBIÓ EN LA FASE 5, Y POR QUÉ
+ * ----------------------------------
+ * El encargo pide para estas cuatro lo mismo que para un artículo: tipografía
+ * de lectura, índice con anclas, fecha de actualización visible y barra de
+ * progreso. Y ninguna otra animación, que es la parte que importa: una página
+ * legal con revelados al hacer scroll se lee como un folleto, y lo que tiene
+ * que parecer es un documento.
+ *
+ * Así que comparten pieza con el blog —el mismo índice que se construye
+ * leyendo los `h2`, la misma barra de lectura— en vez de tener las suyas. Son
+ * el mismo problema: prosa larga que hay que poder recorrer.
  */
 export function LegalPage({
   title,
@@ -34,15 +48,42 @@ export function LegalPage({
 }) {
   return (
     <>
+      <span aria-hidden className="jv-lectura" />
+
       <Header idioma="es" />
-      <main id="contenido" className="mx-auto max-w-3xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
-        <p className="jv-eyebrow text-accent-ink">Legal</p>
-        <h1 className="mt-3 font-display text-4xl text-ink md:text-5xl">{title}</h1>
-        <p className="mt-4 max-w-2xl font-body text-base leading-relaxed text-ink-soft">{intro}</p>
-        <p className="mt-2 font-body text-sm text-ink-soft">
-          Última actualización: {LEGAL_UPDATED}
-        </p>
-        <div className="legal mt-10">{children}</div>
+      <main id="contenido">
+        <header className="border-b border-line">
+          <div className="mx-auto max-w-[1280px] px-6 pb-14 pt-[calc(var(--header-h)+2rem)] md:px-12 md:pb-16 md:pt-[calc(var(--header-h)+3rem)]">
+            <Breadcrumbs migas={[{ texto: title }]} idioma="es" />
+
+            <p className="jv-eyebrow mt-10 text-brand">Legal</p>
+            <h1 className="mt-4 max-w-[20ch] text-balance text-[length:var(--text-display)]">
+              {title}
+            </h1>
+            <p className="mt-6 max-w-[62ch] text-pretty text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+              {intro}
+            </p>
+            {/* La fecha en mono y arriba, no en letra pequeña al pie: en un
+                documento legal, cuándo se actualizó es parte del documento. */}
+            <p className="mt-8 font-mono text-xs text-ink-muted">
+              Última actualización: {LEGAL_UPDATED}
+            </p>
+          </div>
+        </header>
+
+        <div className="mx-auto max-w-[1280px] px-6 py-16 md:px-12 md:py-20">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[36rem_16rem] lg:justify-center lg:gap-16">
+            <article className="jv-cuerpo legal max-w-[36rem]" id="jv-legal">
+              {children}
+            </article>
+
+            <aside className="order-first lg:order-none">
+              <div className="lg:sticky lg:top-28">
+                <IndiceArticulo selector="#jv-legal" titulo="En esta página" />
+              </div>
+            </aside>
+          </div>
+        </div>
       </main>
       <Footer idioma="es" />
       <WhatsAppButton idioma="es" />

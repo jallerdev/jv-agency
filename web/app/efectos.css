@@ -1414,3 +1414,23 @@ a.jv-fila:active { transform: scale(0.995); }
   .jv-fila:hover .jv-fila__flecha,
   .jv-fila:focus-visible .jv-fila__flecha { opacity: 1; transform: none; }
 }
+
+/* ===========================================================================
+   La «/» del 404 (`app/(es)/not-found.tsx`)
+   ---------------------------------------------------------------------------
+   El trazo de la marca se dibuja una vez al cargar, con `stroke-dashoffset`,
+   que es como se traza una línea en SVG. Es el único adorno de esa página: un
+   404 no es sitio para una ilustración, pero sí para que la casa firme.
+
+   Con movimiento reducido nace dibujado.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-404__trazo {
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+    animation: jv-404-traza 1.1s var(--ease-ps) 0.15s forwards;
+  }
+}
+@keyframes jv-404-traza {
+  to { stroke-dashoffset: 0; }
+}

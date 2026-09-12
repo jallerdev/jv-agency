@@ -182,14 +182,14 @@ export function BlogPost({
               trescientos ochenta píxeles de nada entre el texto y el índice.
               Con las dos pistas fijas y la rejilla centrada, la página se lee
               como un libro abierto. */}
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[34rem_16rem] lg:justify-center lg:gap-16">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[36rem_16rem] lg:justify-center lg:gap-16">
             {/* EL CUERPO, con la medida de lectura mandando sobre la rejilla.
                 En `rem` y no en `ch`: el `ch` es el ancho del glifo «0» de la
                 primera fuente disponible y aquí caía al valor de reserva —68ch
                 daban 612 px, unas ochenta letras por línea, doce más de las que
                 el encargo permite—. 34 rem son 544 px y, con el cuerpo a 16 px,
                 unas setenta. */}
-            <article className="jv-cuerpo legal max-w-[34rem]" id="jv-articulo">
+            <article className="jv-cuerpo legal max-w-[36rem]" id="jv-articulo">
               {children}
             </article>
 
@@ -204,7 +204,7 @@ export function BlogPost({
           </div>
 
           {/* ── La ficha de autor ──────────────────────────────────────── */}
-          <div className="mt-16 max-w-[34rem] lg:mx-auto lg:ml-[calc(50%-25rem)]">
+          <div className="mt-16 max-w-[36rem] lg:mx-auto lg:ml-[calc(50%-26rem)]">
             <div className="jv-card flex flex-col gap-5 p-6 sm:flex-row sm:items-start sm:p-7">
               {/* El monograma y no un retrato: el sitio no tiene foto de Luis
                   y una de banco en la firma de un artículo sería atribuirle
@@ -246,7 +246,7 @@ export function BlogPost({
           </div>
 
           {/* ── El remate, según la categoría ──────────────────────────── */}
-          <aside className="mt-6 max-w-[34rem] lg:mx-auto lg:ml-[calc(50%-25rem)]">
+          <aside className="mt-6 max-w-[36rem] lg:mx-auto lg:ml-[calc(50%-26rem)]">
             <div className="jv-card p-6 sm:p-7">
               <h2 className="jv-titulo">{BLOG.cierre.titulo[idioma]}</h2>
               <p className="mt-3 leading-relaxed text-ink-soft">
