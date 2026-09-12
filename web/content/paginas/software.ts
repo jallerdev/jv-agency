@@ -541,8 +541,18 @@ export const SOFTWARE = {
  * ──────────────────────────────────────────────────────────────────────────
  * `{piso}` lo sustituye el componente con el número de `lib/quote.ts`.
  */
-export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
+export const SOFTWARE_FAQ_GRUPOS = [
+  { clave: "conviene", titulo: { es: "¿Me conviene?", en: "Is it right for me?" } },
+  { clave: "plata", titulo: { es: "Plata y plazos", en: "Money and timelines" } },
+  { clave: "tuyo", titulo: { es: "Qué queda tuyo", en: "What stays yours" } },
+  { clave: "quien", titulo: { es: "Quién lo hace y después qué", en: "Who does it, and then what" } },
+] as const satisfies readonly { clave: string; titulo: Texto }[];
+
+export type GrupoFaqSoftware = (typeof SOFTWARE_FAQ_GRUPOS)[number]["clave"];
+
+export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto; grupo: GrupoFaqSoftware }[] = [
   {
+    grupo: "plata",
     q: {
       es: "¿Cuánto cuesta un software a la medida? ¿Por qué no hay un precio publicado?",
       en: "What does custom software cost? Why isn't there a published price?",
@@ -553,6 +563,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "tuyo",
     q: {
       es: "¿El código queda 100% mío y en mi repositorio?",
       en: "Is the code 100% mine and in my repository?",
@@ -563,6 +574,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "tuyo",
     q: {
       es: "Si mañana trabajo con otro equipo, ¿me quedo amarrado a ti?",
       en: "If I work with another team tomorrow, am I locked in to you?",
@@ -573,6 +585,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "quien",
     q: {
       es: "Eres una sola persona. ¿Qué pasa si te pasa algo?",
       en: "You're one person. What happens if something happens to you?",
@@ -583,6 +596,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "quien",
     q: { es: "¿Quién va a escribir el código, con nombre?", en: "Who will write the code, by name?" },
     a: {
       es: "Luis Jaller. Yo diseño y yo programo, sin subcontratar ni pasarle el proyecto a un practicante después de la reunión de venta. Puedes ver el stack, los perfiles y el trabajo hecho en la página del estudio antes de contratar nada.",
@@ -590,6 +604,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "conviene",
     q: {
       es: "¿No me sirve mejor comprar un software ya hecho?",
       en: "Wouldn't I be better off buying software that already exists?",
@@ -600,6 +615,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "plata",
     q: {
       es: "¿Cuánto se demora? ¿Podemos empezar por lo mínimo y crecer?",
       en: "How long does it take? Can we start with the minimum and grow?",
@@ -610,6 +626,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "plata",
     q: { es: "¿Cómo se estructura el pago?", en: "How is payment structured?" },
     a: {
       es: "Por etapas y contra entregables, no un pago único al final ni todo por delante. Los anticipos, los hitos y el saldo van escritos en la propuesta antes de empezar, con qué se entrega en cada tramo. Si una etapa no se entregó, no se cobra.",
@@ -617,6 +634,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "quien",
     q: {
       es: "¿Qué incluye el soporte después de entregar?",
       en: "What does support include after handover?",
@@ -627,6 +645,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "tuyo",
     q: {
       es: "¿Dónde quedan mis datos? ¿Esto cumple la Ley 1581 de 2012?",
       en: "Where does my data live? Does this comply with Colombia's Law 1581 of 2012?",
@@ -637,6 +656,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "conviene",
     q: {
       es: "¿Se conecta con lo que ya uso: contabilidad, WhatsApp, Excel?",
       en: "Does it connect with what I already use: accounting, WhatsApp, spreadsheets?",
@@ -647,6 +667,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "tuyo",
     q: {
       es: "¿Me entregas documentación o quedo dependiendo de que tú te acuerdes?",
       en: "Do I get documentation or do I end up depending on your memory?",
@@ -657,6 +678,7 @@ export const SOFTWARE_FAQ: readonly { q: Texto; a: Texto }[] = [
     },
   },
   {
+    grupo: "conviene",
     q: {
       es: "¿Yo necesito software o me sirve una página web?",
       en: "Do I need software or will a website do?",
