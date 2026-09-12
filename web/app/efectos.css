@@ -1124,3 +1124,34 @@ input[type="radio"] { accent-color: var(--accent); }
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
+
+/* ===========================================================================
+   Las frases tachadas (`components/visuales/Censura.tsx`)
+   ---------------------------------------------------------------------------
+   La barra de censura se desliza sobre la frase cuando la pieza entra en
+   vista, de izquierda a derecha y una detrás de otra. Es el gesto que hace
+   legible una lista de normas: primero se lee la frase prohibida —que el
+   visitante reconoce porque la ha visto, o la ha escrito— y justo después se
+   tacha delante de él.
+
+   `scaleX` sobre el origen izquierdo, que es como se pasa un marcador. Animar
+   el ancho recalcularía la caja de cada renglón en todos los fotogramas.
+
+   Con movimiento reducido las barras están puestas desde el primer fotograma:
+   la frase SIGUE tachada, que es lo que la pieza afirma. Lo que se pierde es
+   el gesto, no el argumento.
+   =========================================================================== */
+.jv-censura__barra {
+  transform-origin: left;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jv-censura__barra {
+    transform: scaleX(0);
+    transition: transform var(--dur-ui, 0.22s) var(--ease-ps);
+  }
+  .jv-censura li:nth-child(2) .jv-censura__barra { transition-delay: 0.14s; }
+  .jv-censura li:nth-child(3) .jv-censura__barra { transition-delay: 0.28s; }
+  .jv-censura li:nth-child(4) .jv-censura__barra { transition-delay: 0.42s; }
+  .jv-censura li:nth-child(5) .jv-censura__barra { transition-delay: 0.56s; }
+  .jv-censura[data-visible="true"] .jv-censura__barra { transform: scaleX(1); }
+}

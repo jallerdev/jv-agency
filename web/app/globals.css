@@ -741,7 +741,11 @@ footer p:not([class*="max-w"]) {
   max-width: var(--maxw-prose);
 }
 
-main li:not([class*="max-w"]):not(
+/* Un `li` que declara sus PROPIAS COLUMNAS es una fila de tabla, no una
+   viñeta: la medida de lectura ahí recorta la rejilla entera. Pasó en la
+   pieza de frases tachadas de clínicas, donde la columna de la frase se
+   quedó en 196 px y todas las frases se partieron en dos renglones. */
+main li:not([class*="max-w"]):not([class*="grid-cols"]):not(
     :has(:is(div, article, section, aside, figure, ul, ol, dl, table, img, svg,
              video, button, input, h1, h2, h3, h4, h5, h6, p,
              /* Un enlace que se maqueta —flex o grid— es una FILA, no una
