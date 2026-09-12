@@ -12,14 +12,12 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BarraMovil } from "@/components/BarraMovil";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
-import { Pendiente } from "@/components/Pendiente";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/kit/PageHero";
 import { SectionIndex } from "@/components/kit/SectionIndex";
 import { Cifras } from "@/components/kit/Cifras";
 import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
 import { MismasManos } from "@/components/visuales/MismasManos";
-import { Bitacora, type EntradaBitacora } from "@/components/visuales/Bitacora";
 
 /**
  * QUIÉN ESTÁ DETRÁS, EN LOS DOS IDIOMAS
@@ -73,27 +71,6 @@ export function PaginaSobre({ idioma, ruta }: { idioma: Idioma; ruta: string }) 
     },
   };
 
-  /* La credencial primero: es lo único de esta lista que confirmó un tercero,
-     y lo único con fecha de verdad. Después, lo que está construido. */
-  const entradas: EntradaBitacora[] = [
-    {
-      clave: "meta",
-      nombre: SOBRE.bitacora.credencial.nombre[idioma],
-      etiqueta: SOBRE.bitacora.credencial.etiqueta[idioma],
-      cuerpo: SOBRE.bitacora.credencial.cuerpo[idioma],
-      fecha: SOBRE.bitacora.credencial.fecha[idioma],
-      credencial: true,
-    },
-    ...SOBRE.proyectos.map((p) => ({
-      clave: p.nombre,
-      nombre: p.nombre,
-      etiqueta: p.etiqueta[idioma],
-      cuerpo: p.cuerpo[idioma],
-      dominio: p.dominio,
-      url: p.url,
-    })),
-  ];
-
   const enlaces = [
     { texto: "LinkedIn", href: f.linkedin, Glifo: Linkedin },
     { texto: "GitHub", href: f.github, Glifo: Github },
@@ -103,7 +80,6 @@ export function PaginaSobre({ idioma, ruta }: { idioma: Idioma; ruta: string }) 
   const indice = [
     { id: "quien", texto: es ? "Quién responde" : "Who replies" },
     { id: "manos", texto: es ? "Las mismas manos" : "The same hands" },
-    { id: "bitacora", texto: SOBRE.bitacora.titulo[idioma] },
     { id: "trabajo", texto: SOBRE.enfoqueTitulo[idioma] },
     { id: "testimonios", texto: es ? "Recomendaciones" : "Recommendations" },
     { id: "stack", texto: SOBRE.stackTitulo[idioma] },
@@ -180,6 +156,17 @@ export function PaginaSobre({ idioma, ruta }: { idioma: Idioma; ruta: string }) 
                 {f.bio[idioma]}
               </p>
 
+              {/* LO QUE NO SE PUEDE NOMBRAR, DICHO POR SECTOR. Estaba en la
+                  bitácora, que se quitó, y es la única frase de esa sección que
+                  no vive en ningún otro sitio del sitio —los cuatro proyectos
+                  abiertos ya están en el portafolio de la portada y la
+                  credencial de Meta, en su hero—. Se queda aquí porque contesta
+                  «¿y qué más has hecho?» sin romper un NDA, que es lo que un
+                  cliente pregunta justo después de leer la bio. */}
+              <p className="jv-rule mt-8 max-w-[62ch] pt-6 text-sm leading-relaxed text-ink-muted">
+                {SOBRE.proyectosSectores[idioma]}
+              </p>
+
               {/* Los tres enlaces como pastillas con glifo: el mismo mueble que
                   la portada. Texto suelto con una flecha detrás deja la flecha
                   colgando sola en cuanto la columna se estrecha. */}
@@ -232,47 +219,6 @@ export function PaginaSobre({ idioma, ruta }: { idioma: Idioma; ruta: string }) 
               </Reveal>
             </div>
           </div>
-        </section>
-
-        {/* ── Bitácora ────────────────────────────────────────────────── */}
-        <section
-          id="bitacora"
-          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
-        >
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
-            <Reveal>
-              <div className="lg:sticky lg:top-28">
-                <h2 className="text-balance text-[length:var(--text-display)]">
-                  {SOBRE.bitacora.titulo[idioma]}
-                </h2>
-                <p className="mt-4 leading-relaxed text-ink-soft">
-                  {SOBRE.bitacora.entradilla[idioma]}
-                </p>
-
-                {/* Lo que no se puede nombrar, dicho por sector. Va con el
-                    titular y no al final del carril: es la condición bajo la
-                    que se lee la lista, no una nota a pie. */}
-                <p className="jv-rule mt-6 pt-5 text-sm leading-relaxed text-ink-muted">
-                  {SOBRE.proyectosSectores[idioma]}
-                </p>
-              </div>
-            </Reveal>
-
-            <Bitacora
-              entradas={entradas}
-              estados={{
-                enLinea: SOBRE.bitacora.enLinea[idioma],
-                sinDominio: SOBRE.bitacora.sinDominio[idioma],
-              }}
-              abrir={SOBRE.bitacora.abrir[idioma]}
-            />
-          </div>
-
-          <Pendiente>
-            [PENDIENTE: fechas de Luis] La bitácora está ordenada por lo comprobable —dominio y
-            credencial— porque no hay fechas confirmadas de InvitiApp, HalcónOS, Hummik ni
-            Bloomrose. Con las fechas pasa a orden cronológico sin tocar el diseño.
-          </Pendiente>
         </section>
 
         {/* ── Cómo trabajo ────────────────────────────────────────────── */}

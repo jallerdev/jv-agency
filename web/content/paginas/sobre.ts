@@ -172,61 +172,21 @@ export const SOBRE = {
      Regla de fondo: un sector que no se pueda sostener en una llamada no entra,
      aunque esté escrito en otro sitio. Es el mismo criterio que deja sin caso de
      SEO a la página de posicionamiento. */
+  /* LOS CUATRO PROYECTOS ABIERTOS YA NO ESTÁN AQUÍ, y no se perdieron: están en
+     `content/home/portafolio.ts`, que es de donde los lee el portafolio de la
+     portada, con captura y todo. Estaban duplicados en este archivo para
+     alimentar la bitácora de /sobre-nosotros, y esa sección se quitó: era una
+     línea de tiempo sin tiempo —el carril vertical prometía una cronología que
+     no existía— y encima repetía con menos información lo que la portada ya
+     enseña mejor.
+
+     Lo único de esa sección que no vivía en ningún otro sitio es la frase de
+     abajo, y por eso se mudó a la sección de «quién responde» en vez de irse
+     con el resto. */
   proyectosSectores: {
     es: "Los que no puedo nombrar son de SaaS empresarial y B2B, logística, analítica deportiva y comercio electrónico. Puedo decir el sector; el cliente, no.",
     en: "The ones I can't name are in enterprise and B2B SaaS, logistics, sports analytics and e-commerce. I can name the sector; the client, no.",
   },
-  proyectos: [
-    {
-      nombre: "Bloomrose",
-      etiqueta: { es: "Comercio electrónico", en: "E-commerce" },
-      cuerpo: {
-        es: "Tienda online de bisutería y accesorios, de punta a punta.",
-        en: "An online jewellery and accessories store, end to end.",
-      },
-      dominio: "bloomroseaccesorios.com",
-      url: "https://www.bloomroseaccesorios.com",
-    },
-    {
-      nombre: "HalcónOS",
-      etiqueta: { es: "SaaS / CRM", en: "SaaS / CRM" },
-      cuerpo: {
-        es: "CRM y gestor de proyectos para agencias.",
-        en: "A CRM and project manager for agencies.",
-      },
-      dominio: "halcon.jvagencia.com",
-      url: "https://halcon.jvagencia.com",
-    },
-    {
-      nombre: "InvitiApp",
-      etiqueta: { es: "SaaS de eventos", en: "Events SaaS" },
-      cuerpo: {
-        es: "Plataforma de invitaciones digitales para organizadores de eventos.",
-        en: "A digital invitations platform for event planners.",
-      },
-    },
-    {
-      /* Entra porque el portafolio de la portada lo enseña y esta página no, y
-         las dos hablaban del mismo trabajo con listas distintas. */
-      nombre: "Hummik",
-      etiqueta: { es: "Producto propio", en: "Own product" },
-      cuerpo: {
-        es: "Producto propio, en línea y con dominio propio.",
-        en: "An own product, online and on its own domain.",
-      },
-      dominio: "hummik.com",
-      url: "https://www.hummik.com",
-    },
-  ] as readonly {
-    nombre: string;
-    etiqueta: Texto;
-    cuerpo: Texto;
-    /* Solo los que están en línea. Sin dominio, la fila no promete que se
-       pueda abrir: InvitiApp existe y no tiene dirección pública, y decirlo
-       vale más que dejar un enlace muerto. */
-    dominio?: string;
-    url?: string;
-  }[],
 
   /* ── El retrato ───────────────────────────────────────────────────
      NO HAY FOTO DE LUIS, y mientras no la haya aquí va el monograma sobre el
@@ -265,26 +225,6 @@ export const SOBRE = {
      comprobar —el dominio— y no por un calendario que nadie confirmó. Cuando
      Luis pase las fechas, la bitácora pasa a orden cronológico y esta nota
      sobra. */
-  bitacora: {
-    titulo: { es: "Bitácora", en: "Log" },
-    entradilla: {
-      es: "Lo que está construido y sigue en línea, más la única credencial que me dio un tercero. Cada fila se abre o se verifica.",
-      en: "What's built and still online, plus the one credential a third party gave me. Every row opens or can be verified.",
-    },
-    enLinea: { es: "En línea", en: "Live" },
-    sinDominio: { es: "Sin dominio público", en: "No public domain" },
-    abrir: { es: "Abrir", en: "Open" },
-    credencial: {
-      nombre: { es: "Verificación de Meta", en: "Meta verification" },
-      etiqueta: { es: "Credencial", en: "Credential" },
-      cuerpo: {
-        es: "Proveedor de tecnología verificado. La conexión de WhatsApp la hago yo, no la terceriza nadie.",
-        en: "Verified tech provider. I do the WhatsApp connection myself; nobody subcontracts it.",
-      },
-      fecha: { es: "Julio de 2026", en: "July 2026" },
-    },
-  },
-
   /* El enlace a «Qué no hago» de la página de software. Va aquí, en la sección
      de cómo trabajo, porque la lista de lo que uno NO hace dice más del oficio
      que la lista de lo que sí. */
