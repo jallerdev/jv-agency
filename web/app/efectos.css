@@ -1101,3 +1101,26 @@ input[type="radio"] { accent-color: var(--accent); }
   .jv-paso { animation: jv-cal-entra var(--dur-ui, 0.22s) var(--ease-ps) both; }
   .jv-paso[data-sentido="atras"] { animation-name: jv-cal-entra-atras; }
 }
+
+/* ===========================================================================
+   La carta de servicios (`components/visuales/CartaServicios.tsx`)
+   ---------------------------------------------------------------------------
+   Las burbujas entran una detrás de otra cuando se escoge un servicio. El
+   retraso lo pone el componente en `animation-delay`, así que aquí solo vive
+   la forma del gesto.
+
+   LAS CINCO ESTÁN EN EL DOM DESDE EL PRINCIPIO. No hay temporizador que las
+   vaya montando: se retrasa su ENTRADA, no su existencia. Por eso con
+   movimiento reducido basta con no encender la animación —aparecen las cinco a
+   la vez, completas— y quien use lector de pantalla lee la conversación entera
+   sin esperar a nada.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-carta-msg {
+    animation: jv-carta-entra var(--dur-ui, 0.22s) var(--ease-ps) both;
+  }
+}
+@keyframes jv-carta-entra {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}

@@ -722,37 +722,10 @@ export function computeTotals(a: Answers): Totals {
   };
 }
 
-/**
- * EL PRECIO, EN EL IDIOMA DE QUIEN LO LEE
- * ──────────────────────────────────────────────────────────────────────────
- * Esto no es cosmética. En castellano el punto separa miles —$ 390.000 son
- * trescientos noventa mil— y en inglés el punto separa DECIMALES: un lector
- * angloparlante lee «$390.000» como trescientos noventa dólares con cero
- * centavos. La página en inglés estaba diciendo un precio mil veces menor que
- * el real, y encima en la moneda equivocada.
- *
- * Por eso el inglés lleva coma de miles y la sigla COP detrás: sin la sigla,
- * «$390,000» sobre un sitio que también vende fuera del país se lee en
- * dólares, que es el otro lado del mismo error.
- */
-const FORMATO = {
-  es: new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
-  }),
-  en: new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }),
-} as const;
-
-export const money = (n: number, idioma: "es" | "en" = "es") =>
-  idioma === "en"
-    ? `$${FORMATO.en.format(n)} COP`
-    : /* `es-CO` mete un espacio duro entre el signo y la cifra —«$ 850.000»— y
-         el precio autorizado se escribe «$850.000». Se quitaba en `Web.tsx` y
-         en `Software.tsx` con un ayudante copiado dos veces, así que la misma
-         cifra salía con espacio en la página de SEO y sin él en la de webs.
-         Se normaliza aquí, una vez, y las dos copias se van. */
-      FORMATO.es.format(n).replace(/^(\$)\s+/u, "$1");
+/* El formateador se mudó a `lib/money.ts` para que los componentes de cliente
+   puedan importarlo sin arrastrar este catálogo entero al navegador. Se
+   reexporta aquí: las cuarenta llamadas que ya existen no cambian de sitio. */
+export { money } from "@/lib/money";
 
 
 /** Semanas de entrega para un tipo de proyecto y plazo (default landing si no hay tipo). */

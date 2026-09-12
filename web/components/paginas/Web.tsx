@@ -336,6 +336,7 @@ export function PaginaWeb({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
       <Header idioma={idioma} />
       <main id="contenido">
         <PageHero
+          titular="compacto"
           variante="servicio"
           idioma={idioma}
           migas={[{ texto: WEB.badge[idioma] }]}

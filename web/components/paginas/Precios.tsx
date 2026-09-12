@@ -23,6 +23,7 @@ import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
 import { Breadcrumbs } from "@/components/kit/Breadcrumbs";
 import { FinalCTA } from "@/components/kit/FinalCTA";
+import { PrecioContado } from "@/components/kit/PrecioContado";
 import { Recibo } from "@/components/visuales/Recibo";
 
 /**
@@ -214,7 +215,7 @@ export function PaginaPrecios({
               <div>
                 <h2 className="sr-only">{PRECIOS.tablaTitulo[idioma]}</h2>
                 <ul className="flex flex-col divide-y divide-line border-y border-line">
-                  {LINEAS.map((l) => {
+                  {LINEAS.map((l, indiceFila) => {
                     const servicio = CATALOGO.find((s) => s.nombre.es === l.servicio.es);
                     const href = servicio ? enlaceReal(servicio.href[idioma]) : null;
 
@@ -254,7 +255,14 @@ export function PaginaPrecios({
                             {precioPartes(l, idioma).desde}
                           </span>
                           <span className="w-[7.5rem] text-right text-[length:var(--text-h4)] text-brand">
-                            {precioPartes(l, idioma).monto}
+                            {/* La cifra sube una vez al cargar. Si no hay
+                                número que contar —una línea «según alcance»—
+                                se pinta el texto tal cual. */}
+                            {l.montoCop !== undefined ? (
+                              <PrecioContado valor={l.montoCop} idioma={idioma} indice={indiceFila} />
+                            ) : (
+                              precioPartes(l, idioma).monto
+                            )}
                           </span>
                           <span className="w-9 whitespace-nowrap text-xs text-ink-muted">
                             {precioPartes(l, idioma).unidad}

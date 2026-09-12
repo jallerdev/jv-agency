@@ -54,6 +54,7 @@ export function PageHero({
   idioma,
   eyebrow,
   titulo,
+  titular = "hero",
   entradilla,
   precio,
   indice,
@@ -72,6 +73,18 @@ export function PageHero({
    * llevado a dos H1 uno debajo del otro.
    */
   titulo: React.ReactNode;
+  /**
+   * `compacto` baja el H1 de `--text-hero` a `--text-display`.
+   *
+   * No es gusto: el detector marca `oversized-h1` cuando un titular largo a
+   * 72 px se lleva un tercio de la pantalla, y tres páginas lo hacían —salones,
+   * diseño web y SEO—, todas con H1 de sesenta caracteres o más. El copy de
+   * esos titulares no se toca (son los que posicionan), así que lo que cede es
+   * el cuerpo. Un titular corto SÍ puede ir a 72 px, y por eso esto es una
+   * opción y no un cambio global: «Los precios, publicados» se merece el
+   * tamaño grande.
+   */
+  titular?: "hero" | "compacto";
   entradilla?: string;
   /** El servicio cuyo ticket se enseña. Sin él, no hay ticket. */
   precio?: ServicioPublicado["id"];
@@ -109,7 +122,10 @@ export function PageHero({
             {/* Sin Reveal: este es el LCP. */}
             <h1
               className={cn(
-                "text-balance text-[length:var(--text-hero)]",
+                "text-balance",
+                titular === "compacto"
+                  ? "text-[length:var(--text-display)]"
+                  : "text-[length:var(--text-hero)]",
                 eyebrow && "mt-4",
               )}
             >
