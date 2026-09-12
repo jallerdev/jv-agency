@@ -493,6 +493,12 @@ export const SEO = {
      están en línea, que el visitante puede abrir y medir él mismo. */
 
   faqTitulo: { es: "Lo que siempre preguntan", en: "What people always ask" },
+  faqGrupos: [
+    { clave: "resultados", titulo: { es: "Resultados y plazos", en: "Results and timelines" } },
+    { clave: "producto", titulo: { es: "Qué es y qué no es", en: "What it is and isn't" } },
+    { clave: "arranque", titulo: { es: "Antes de arrancar", en: "Before starting" } },
+    { clave: "mes", titulo: { es: "El trabajo de cada mes", en: "The monthly work" } },
+  ] as readonly { clave: "resultados" | "producto" | "arranque" | "mes"; titulo: Texto }[],
   cierre: {
     titulo: { es: "Dime qué vendes y en qué ciudad", en: "Tell me what you sell and in which city" },
     cuerpo: {
@@ -516,9 +522,11 @@ export const SEO = {
 export const SEO_FAQ: readonly {
   q: Texto;
   a: Texto;
+  grupo: "resultados" | "producto" | "arranque" | "mes";
   enlace?: { texto: Texto; href: string };
 }[] = [
   {
+    grupo: "resultados",
     q: {
       es: "¿Me garantizas el primer puesto en Google?",
       en: "Do you guarantee me first place on Google?",
@@ -529,6 +537,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "resultados",
     q: { es: "¿En cuánto tiempo veo algo?", en: "How long until I see something?" },
     a: {
       es: "Entre el mes 3 y el mes 6 empiezan a moverse las primeras búsquedas. Antes de eso hay datos, y sirven para corregir el rumbo, no para juzgar si funcionó. Si alguien te promete resultados en tres semanas, te está vendiendo otra cosa.",
@@ -536,6 +545,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "producto",
     q: {
       es: "¿Por qué es mensual y no un pago único?",
       en: "Why is it monthly and not a one-off payment?",
@@ -546,6 +556,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "producto",
     q: {
       es: "¿Qué diferencia hay entre el SEO técnico que viene con la web y esto que me cobras aparte?",
       en: "What's the difference between the technical SEO that comes with the site and this that you charge separately?",
@@ -556,6 +567,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "mes",
     q: {
       es: "¿Qué me entregas cada mes? ¿Cómo sé que trabajaste?",
       en: "What do you deliver each month? How do I know you worked?",
@@ -566,6 +578,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "arranque",
     q: {
       es: "¿Puedo contratar solo la auditoría y arreglarlo yo?",
       en: "Can I hire only the audit and fix it myself?",
@@ -576,6 +589,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "arranque",
     q: { es: "¿Sirve si la página me la hizo otro?", en: "Does it work if someone else built my site?" },
     a: {
       es: "Sí, y es la mitad de los casos. Por eso existe la revisión y arreglo del sitio de {puestaApunto}: es dejar la base pareja antes de empezar a empujar. Si la página la hice yo con SEO técnico incluido, eso ya está hecho y no se cobra.",
@@ -583,6 +597,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "resultados",
     q: { es: "Si dejo de pagar, ¿pierdo lo que gané?", en: "If I stop paying, do I lose what I gained?" },
     a: {
       es: "No de un día para otro, y nada de lo hecho se borra: las páginas, los contenidos, los arreglos y la ficha son tuyos y quedan. Lo que pasa es que el trabajo se detiene y los demás siguen, así que lo ganado se va desgastando con los meses. No es un interruptor, es una inercia.",
@@ -590,6 +605,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "arranque",
     q: {
       es: "¿Necesito la ficha de Google Business? ¿La creas tú?",
       en: "Do I need a Google Business profile? Do you create it?",
@@ -600,6 +616,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "producto",
     q: {
       es: "Otros me cobran $250.000 al mes. ¿Por qué tú cobras más?",
       en: "Others charge me $250,000 COP a month. Why do you charge more?",
@@ -614,6 +631,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "mes",
     q: {
       es: "¿Cuántas ciudades y cuántas búsquedas cubre el plan?",
       en: "How many cities and how many searches does the plan cover?",
@@ -624,6 +642,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "producto",
     q: {
       es: "¿Esto sirve para que me mencione ChatGPT o la IA de Google?",
       en: "Does this help ChatGPT or Google's AI mention me?",
@@ -634,6 +653,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "arranque",
     q: {
       es: "Vendo casi todo por WhatsApp. ¿El SEO me sirve igual?",
       en: "I sell almost everything over WhatsApp. Is SEO still any use to me?",
@@ -648,6 +668,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "mes",
     q: { es: "¿Tengo que escribir blog? ¿Lo escribes tú?", en: "Do I have to write a blog? Do you write it?" },
     a: {
       es: "Lo escribo yo. El plan de entrada trae 2 contenidos al mes, investigados, escritos, publicados y enlazados desde y hacia las páginas que corresponden. Si quieres más, cada contenido adicional cuesta {contenido} al mes.",
@@ -655,6 +676,7 @@ export const SEO_FAQ: readonly {
     },
   },
   {
+    grupo: "resultados",
     q: {
       es: "¿Cuánto tiempo tengo que quedarme amarrado?",
       en: "How long am I locked in for?",

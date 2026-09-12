@@ -36,6 +36,16 @@ export type Extra = {
   titulo: string;
   cuerpo?: string;
   precio: number;
+  /**
+   * Cómo se cobra ESTE extra. Por defecto va con la base.
+   *
+   * Existe porque el plan de SEO mezcla las dos cosas: una ciudad más sube la
+   * mensualidad, pero la puesta a punto del sitio se paga una vez. Sumarlas en
+   * un solo total daría un número que no existe —ni es lo que se paga el
+   * primer mes ni lo que se paga cada mes— y el visitante lo descubriría en la
+   * propuesta, que es el peor momento.
+   */
+  unidad?: "base" | "unico";
 };
 
 export function AddOnCalculator({
@@ -45,6 +55,7 @@ export function AddOnCalculator({
   idioma,
   titulo,
   totalEtiqueta,
+  totalUnicoEtiqueta,
   aviso,
   notas,
   desde,
@@ -57,6 +68,8 @@ export function AddOnCalculator({
   idioma: Idioma;
   titulo: string;
   totalEtiqueta: string;
+  /** Cómo se llama el pago único, si algún extra lo es. */
+  totalUnicoEtiqueta?: string;
   aviso: string;
   /** Lo que se paga igual y no lo cobro yo. Texto ya compuesto. */
   notas?: readonly string[];
@@ -64,7 +77,12 @@ export function AddOnCalculator({
   className?: string;
 }) {
   const [marcados, setMarcados] = useState<string[]>([]);
-  const total = base + extras.filter((e) => marcados.includes(e.clave)).reduce((s, e) => s + e.precio, 0);
+  const elegidos = extras.filter((e) => marcados.includes(e.clave));
+  const total =
+    base + elegidos.filter((e) => e.unidad !== "unico").reduce((s, e) => s + e.precio, 0);
+  const totalUnico = elegidos
+    .filter((e) => e.unidad === "unico")
+    .reduce((s, e) => s + e.precio, 0);
 
   const alternar = (clave: string) =>
     setMarcados((m) => (m.includes(clave) ? m.filter((c) => c !== clave) : [...m, clave]));
@@ -141,6 +159,18 @@ export function AddOnCalculator({
           >
             {desde} {money(total, idioma)}
           </p>
+
+          {totalUnico > 0 && totalUnicoEtiqueta && (
+            <>
+              <p className="jv-rule mt-6 pt-5 jv-eyebrow text-ink-muted">{totalUnicoEtiqueta}</p>
+              <p
+                aria-live="polite"
+                className="mt-2 font-mono text-[length:var(--text-h4)] tabular-nums text-ink"
+              >
+                {money(totalUnico, idioma)}
+              </p>
+            </>
+          )}
 
           <p className="mt-4 text-sm leading-relaxed text-ink-soft">{aviso}</p>
 

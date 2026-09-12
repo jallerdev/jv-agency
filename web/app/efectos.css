@@ -472,6 +472,44 @@ input[type="radio"] { accent-color: var(--accent); }
 }
 
 /* ===========================================================================
+   Las filas del mapa (`components/visuales/FichaAlMapa.tsx`)
+   ---------------------------------------------------------------------------
+   Al completar la ficha, el negocio entra al paquete y los de siempre bajan un
+   puesto. La entrada se anima; el reacomodo lo hace el propio flujo. Es corto
+   a propósito: lo que cuenta es que entró, no el viaje.
+   =========================================================================== */
+@keyframes jv-mapa-entra { from { opacity: 0; transform: translateY(-8px); } }
+.jv-mapa-fila { animation: jv-mapa-entra 0.35s var(--ease-ps) both; }
+@media (prefers-reduced-motion: reduce) {
+  .jv-mapa-fila { animation: none; }
+}
+
+/* ===========================================================================
+   El carril que se dibuja (`.jv-dibuja` + `components/AlEntrar.tsx`)
+   ---------------------------------------------------------------------------
+   Para el riel de meses de /servicios/posicionamiento-seo: la línea se traza
+   de izquierda a derecha cuando la pieza entra en vista, que es la forma de
+   decir «esto pasa en este orden y toma su tiempo» sin escribir una cifra de
+   resultado —que es justo lo que esa página tiene prohibido insinuar—.
+
+   Solo de `sm` en adelante: en un teléfono el riel es vertical y una línea que
+   se dibuja hacia abajo mientras se lee estorba más de lo que cuenta.
+   =========================================================================== */
+@media (min-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .jv-dibuja li > div > span[aria-hidden]:first-child {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-ps);
+  }
+  .jv-dibuja li:nth-child(2) > div > span[aria-hidden]:first-child { transition-delay: 0.12s; }
+  .jv-dibuja li:nth-child(3) > div > span[aria-hidden]:first-child { transition-delay: 0.24s; }
+  .jv-dibuja li:nth-child(4) > div > span[aria-hidden]:first-child { transition-delay: 0.36s; }
+  .jv-dibuja[data-visible="true"] li > div > span[aria-hidden]:first-child {
+    transform: scaleX(1);
+  }
+}
+
+/* ===========================================================================
    El diagrama de la conexión (`components/visuales/ConexionDirecta.tsx`)
    ---------------------------------------------------------------------------
    Dos gestos y los dos son el argumento: el eslabón del tercero se tacha y la
