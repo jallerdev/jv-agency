@@ -1309,17 +1309,42 @@ input[type="radio"] { accent-color: var(--accent); }
    `.jv-enlace` hace en el texto corrido, aquí disparado por la tarjeta entera
    en vez de por el propio título. */
 .jv-subrayado {
-  background-image: linear-gradient(var(--brand-500), var(--brand-500));
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 0% 2px;
-  transition: background-size var(--dur-ui, 0.22s) var(--ease-ps);
+  position: relative;
   padding-bottom: 2px;
 }
-.jv-card-int:hover .jv-subrayado,
-.jv-card-int:focus-visible .jv-subrayado { background-size: 100% 2px; }
+
+/* EL FILETE ES UN PSEUDOELEMENTO, NO UN DEGRADADO DE FONDO. Estaba hecho con
+   `background-image` y `background-size: 0% → 100%`, y eso costaba dos cosas:
+
+   · `background-size` no corre en el compositor. Repinta el titular entero en
+     cada fotograma del hover, y son once tarjetas en el índice del blog.
+
+   · Y a cualquier auditor de contraste —el detector incluido— ese degradado le
+     llega como el FONDO del elemento: «texto #fafafa sobre #e8623f, 3,2:1» en
+     los veintidós artículos. Es falso —el naranja es un filete de 2 px bajo la
+     línea de base, no la caja detrás del texto— pero un fondo de marca
+     declarado en un elemento con tinta clara es indistinguible de un fallo de
+     verdad hasta que alguien lo mira a mano. Con el filete en un `::after`, el
+     titular vuelve a no tener fondo y la hoja dice la verdad.
+
+   Los tres consumidores son `display: block` con un solo fragmento —los
+   blockifica su padre flex—, comprobado en el DOM: el `::after` cae bajo el
+   bloque entero igual que caía el `background-position: 0 100%`. */
+.jv-subrayado::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--brand-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-ui, 0.22s) var(--ease-ps);
+}
+.jv-card-int:hover .jv-subrayado::after,
+.jv-card-int:focus-visible .jv-subrayado::after { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) {
-  .jv-subrayado { transition: none; }
+  .jv-subrayado::after { transition: none; }
 }
 
 /* ===========================================================================
@@ -1349,6 +1374,13 @@ input[type="radio"] { accent-color: var(--accent); }
       z-index: 60;
       height: 2px;
       background: var(--brand-500);
+      /* TINTA DECLARADA AUNQUE NO LLEVE TEXTO. Es la misma regla que se aplicó
+         a los otros contenedores de acento: un relleno de marca que hereda el
+         casi blanco del cuerpo declara, sobre el papel, texto a 3,2:1. No hay
+         texto —y por eso no es un fallo de contraste real—, pero un auditor
+         que lea la hoja no puede saberlo, y un contenedor de marca sin tinta
+         propia es exactamente cómo aparecieron los nueve de las cotizaciones. */
+      color: var(--text-on-accent);
       transform-origin: left;
       animation: jv-lectura-avanza linear;
       animation-timeline: scroll(root block);

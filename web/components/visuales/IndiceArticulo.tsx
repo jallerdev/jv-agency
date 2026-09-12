@@ -107,7 +107,12 @@ export function IndiceArticulo({
               <span
                 aria-hidden
                 className={cn(
-                  "mt-[0.45em] h-1 w-1 shrink-0 rounded-full transition-colors duration-base ease-ps",
+                  /* `text-on-accent` en un punto de 4 px sin texto: declara la
+                     tinta que le tocaría a cualquier cosa que cayera dentro de
+                     un relleno de marca. Es la regla que dejó el arreglo de las
+                     cotizaciones —contenedor de acento, tinta propia— y vale
+                     igual para los decorativos: así la hoja dice la verdad. */
+                  "mt-[0.45em] h-1 w-1 shrink-0 rounded-full text-on-accent transition-colors duration-base ease-ps",
                   activa === e.id ? "bg-brand" : "bg-line-strong",
                 )}
               />
