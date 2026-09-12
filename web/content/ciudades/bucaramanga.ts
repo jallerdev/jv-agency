@@ -29,7 +29,7 @@ export const BUCARAMANGA: Ciudad = {
   tituloAcento: "desde Bolívar y a distancia",
   entradilla: [
     "Santander cerró 2025 con 91.293 empresas activas, un 4,6 % más que el año anterior. El 96,4 % son microempresas: es el tejido más micro de las ciudades grandes del país.",
-    "Esta página está escrita para ese negocio —uno o dos locales y un WhatsApp que no para—, no para el que tiene departamento de mercadeo.",
+    "Esta página está escrita para ese negocio: uno o dos locales y un WhatsApp que no para.",
   ],
 
   metaDescripcion:

@@ -24,7 +24,7 @@ export const CALI: Ciudad = {
   tituloAcento: "desde Bolívar y a distancia",
   entradilla: [
     "En la jurisdicción de la Cámara de Comercio de Cali hay 68.360 negocios registrados como persona natural y 42.335 como sociedad. Seis de cada diez no son una empresa: son una persona con su RUT.",
-    "Yo también soy una de esas. Esta página está escrita para ese negocio, no para el que tiene departamento de mercadeo.",
+    "Yo también soy una de esas: diseño, programo y contesto yo. Esta página está escrita para ese negocio.",
   ],
 
   metaDescripcion:

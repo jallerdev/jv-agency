@@ -439,8 +439,7 @@ export default function DisenoPaginasWebBogotaPage() {
                 </p>
                 <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
                   Yo también soy una de esas 406.513: una persona con registro mercantil. Esta
-                  página está escrita para ese negocio, no para el que tiene departamento de
-                  mercadeo.
+                  página está escrita para ese negocio.
                 </p>
               </Reveal>
             </div>
