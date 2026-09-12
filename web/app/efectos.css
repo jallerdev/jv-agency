@@ -1039,7 +1039,10 @@ input[type="radio"] { accent-color: var(--accent); }
    precisamente lo que hace avanzar el carril.
    =========================================================================== */
 .jv-clavado {
-  --jv-hueco: 1.5rem;
+  /* 2,5rem y no 1,5: al quitarle el recuadro a los paneles, lo único que
+     separa el texto de uno del texto del siguiente es este hueco. Con 24 px la
+     última línea del titular casi tocaba el panel de al lado. */
+  --jv-hueco: 2.5rem;
   --jv-panel: min(85vw, 34rem);
 }
 
@@ -1051,6 +1054,12 @@ input[type="radio"] { accent-color: var(--accent); }
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   padding-inline: var(--gutter);
+  /* SIN ESTO, EL ANCLAJE SE COME EL MARGEN LATERAL. `scroll-snap-align: start`
+     alinea el panel con el borde del área de desplazamiento, que está DENTRO
+     del relleno: al anclar, el primer panel quedaba pegado al canto de la
+     pantalla —medido: left = 0 en una ventana de 390— y el texto llegaba al
+     borde. `scroll-padding` le dice al anclaje que respete el mismo margen. */
+  scroll-padding-inline: var(--gutter);
   padding-bottom: 1rem;
 }
 .jv-clavado__riel::-webkit-scrollbar { display: none; }
@@ -1068,10 +1077,27 @@ input[type="radio"] { accent-color: var(--accent); }
 @supports (animation-timeline: view()) {
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
     .jv-clavado {
-      --jv-panel: min(76vw, 62rem);
+      /* EL PANEL OCUPA CASI TODA LA PANTALLA, no una tarjeta centrada. Con
+         76vw quedaban dos franjas de fondo a los lados y el panel se leía como
+         un objeto que pasa por delante de la sección; a 90vw el panel ES la
+         sección mientras está clavada.
+
+         El hueco sube de 1,5rem a 16vw por la misma razón: 90 + 16 son 106vw,
+         así que con un panel centrado el siguiente queda ENTERO fuera de la
+         pantalla y no asoma por el canto. Con 6vw asomaba —medido: el panel 03
+         empezaba a leerse a 1.290 px de una ventana de 1.440—, y dos paneles a
+         la vez es exactamente lo que se quitó al quitar la tarjeta. Asomar está
+         bien en el carril de móvil, donde dice «hay más»; aquí eso ya lo dicen
+         el contador y la barra. */
+      --jv-panel: min(90vw, 78rem);
+      --jv-hueco: 16vw;
       /* Una pantalla de recorrido por panel. Menos, y el carril corre más que
          el dedo; más, y la sección se hace un túnel. */
-      height: calc(var(--jv-paneles) * 100svh);
+      /* Menos el alto de la cabecera: el bloque clavado mide `100svh -
+         --header-h`, así que sin restarlo la sección tiene 88 px de recorrido
+         pegajoso DE MÁS —el carrusel ya terminó y la sección sigue clavada—, y
+         al soltarse el último panel salía cortado por arriba. */
+      height: calc(var(--jv-paneles) * 100svh - var(--header-h));
       view-timeline-name: --jv-clavado;
       view-timeline-axis: block;
     }

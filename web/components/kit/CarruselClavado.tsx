@@ -34,6 +34,18 @@ import type { Idioma } from "@/content/types";
  *
  * EL CONTADOR «0N / 0M» NO ES ADORNO. Un carril horizontal esconde cuántos
  * faltan, y eso es lo único que alguien necesita saber para decidir si sigue.
+ *
+ * SIN TARJETA, Y A CASI TODA LA SECCIÓN. Lo pidió Luis con la referencia
+ * delante: cada panel ocupa el ancho útil entero y no lleva recuadro. La razón
+ * es de lectura, no de gusto: una tarjeta de 62 rem centrada en una pantalla de
+ * 1440 deja dos franjas de fondo a los lados y el panel se lee como un objeto
+ * que pasa por delante. A ancho completo, el panel ES la sección mientras está
+ * clavada, que es lo que el gesto promete.
+ *
+ * Y al quitar el recuadro hay que devolverle al contenido la estructura que la
+ * caja le daba: el número grande ancla la columna, un filete de 32 px separa el
+ * rótulo, y el enlace pasa de mono pequeño a botón —sin borde alrededor, un
+ * enlace de 12 px no se ve desde el otro lado de la pantalla—.
  */
 
 export type PanelClavado = {
@@ -69,51 +81,70 @@ export function CarruselClavado({
         <ul className="jv-clavado__riel">
           {paneles.map((p) => (
             <li key={p.numero} className="jv-clavado__panel">
-              <article
-                className={cn(
-                  "jv-card jv-card-int group h-full overflow-hidden",
-                  /* Alto propio en la versión clavada: una tarjeta de 400 px
-                     centrada en una pantalla de 900 se lee como una tarjeta que
-                     pasa, no como un escenario. Con `min-h` la captura crece y
-                     la pieza ocupa el sitio que el gesto promete. */
-                  "lg:grid lg:min-h-[min(30rem,58svh)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]",
-                )}
-              >
-                <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-canvas lg:aspect-auto lg:border-b-0 lg:border-r">
+              <article className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
+                {/* ── La columna que habla ─────────────────────────────── */}
+                <div className="order-2 lg:order-1">
+                  {/* EL NÚMERO, GRANDE Y EN MONO. Es lo que dice cuántos
+                      faltan sin tener que contar tarjetas, y a este tamaño
+                      además ancla la columna: sin él, el titular empieza en el
+                      aire. El actual va en naranja y el total apagado, que es
+                      la única jerarquía que hace falta. */}
+                  <p className="font-mono tabular-nums leading-none">
+                    <span className="text-[length:var(--text-h1)] text-brand">{p.numero}</span>
+                    <span className="ml-2 text-[length:var(--text-h4)] text-ink-muted">
+                      / {total}
+                    </span>
+                  </p>
+
+                  {/* El filete antes del rótulo: separa el número del bloque de
+                      texto sin meter una caja, que es justo lo que se quitó. */}
+                  <p className="jv-eyebrow mt-7 flex items-center gap-4 text-ink-muted">
+                    <span aria-hidden className="h-px w-8 shrink-0 bg-line-strong" />
+                    {p.eyebrow}
+                  </p>
+
+{/* Un escalón más abajo en teléfono: a `--text-h1` la segunda línea del
+                      titular más largo medía 350 px dentro de un panel de 332 y se metía
+                      debajo del flotante de WhatsApp. */}
+                  <h3 className="mt-5 text-balance text-[length:var(--text-h2)] leading-[1.08] tracking-[-0.03em] text-ink lg:text-[length:var(--text-h1)]">
+                    {p.titulo}
+                  </h3>
+
+                  <p className="mt-6 max-w-[44ch] text-pretty text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                    {p.cuerpo}
+                  </p>
+
+                  {/* Botón y no enlace en mono: sin tarjeta alrededor, el panel
+                      necesita un objetivo que se vea desde el otro lado de la
+                      pantalla. */}
+                  <Link href={enlaceReal(p.enlace.href)} className="jv-boton-2 mt-9">
+                    {p.enlace.texto}
+                    <ArrowUpRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+                  </Link>
+                </div>
+
+                {/* ── La captura ───────────────────────────────────────────
+                    Sin tarjeta y sin borde: la imagen ES el objeto. Solo el
+                    radio de la casa y un filete tenue para que no se funda con
+                    el fondo negro por los cantos claros. */}
+                {/* LA PROPORCIÓN ES LA NATIVA DE LA CAPTURA, 16/10, y la altura
+                    se gana ensanchando la columna —1,15fr contra 0,85— y no
+                    recortando. Con 4/3 el panel crecía, sí, pero le comía el 17 %
+                    del ancho a la captura: en la de Marcopolo se perdía el botón
+                    «RESERVAR» del extremo derecho. Son capturas de trabajo real;
+                    recortarlas para que cuadre la maqueta es enseñar peor el
+                    trabajo. */}
+                <figure className="order-1 overflow-hidden rounded-[--radius-xl] border border-line bg-canvas lg:order-2">
                   <Image
                     src={p.imagen}
                     alt={p.alt}
                     width={1600}
                     height={1000}
                     quality={85}
-                    sizes="(min-width:1024px) 34rem, 85vw"
-                    className="h-full w-full object-cover object-top"
+                    sizes="(min-width:1024px) 40rem, 90vw"
+                    className="aspect-[16/10] h-full w-full object-cover object-top"
                   />
-                </div>
-
-                <div className="flex flex-col p-7 lg:justify-center lg:p-10">
-                  <div className="flex items-baseline justify-between gap-4">
-                    <p className="jv-eyebrow text-brand">{p.eyebrow}</p>
-                    <p className="font-mono text-xs tabular-nums text-ink-muted">
-                      {p.numero} / {total}
-                    </p>
-                  </div>
-
-                  <h3 className="jv-titulo mt-4 text-balance lg:text-[length:var(--text-h2)]">
-                    {p.titulo}
-                  </h3>
-                  <p className="mt-3 max-w-[46ch] text-pretty leading-relaxed text-ink-soft">
-                    {p.cuerpo}
-                  </p>
-
-                  <Link
-                    href={enlaceReal(p.enlace.href)}
-                    className="mt-6 inline-flex w-fit min-h-11 items-center gap-1.5 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps group-hover:text-brand"
-                  >
-                    {p.enlace.texto}
-                    <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-                  </Link>
-                </div>
+                </figure>
               </article>
             </li>
           ))}
