@@ -1216,3 +1216,46 @@ input[type="radio"] { accent-color: var(--accent); }
   }
   .jv-barras[data-visible="true"] .jv-barras__barra { transform: scaleX(1); }
 }
+
+/* ===========================================================================
+   El índice del blog (`components/visuales/FiltroBlog.tsx`)
+   ---------------------------------------------------------------------------
+   Dos gestos y ninguno más.
+
+   1 · LA ENTRADA AL FILTRAR. Las tarjetas que quedan entran escalonadas, con
+       el retraso que pone el componente y un tope de seis: a partir de ahí el
+       escalonado deja de leerse como orden y empieza a leerse como espera.
+
+   2 · LA CIFRA DE LA PORTADA se desplaza un pelo al pasar por encima. Es la
+       señal de que la tarjeta entera es el enlace, y va sobre la cifra —el
+       elemento con más peso— y no sobre el marco.
+
+   Las dos dentro de `no-preference`: con movimiento reducido la rejilla
+   aparece puesta y la cifra se queda quieta.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-articulo { animation: jv-articulo-entra var(--dur-ui, 0.22s) var(--ease-ps) both; }
+  .jv-portada__cifra { transition: transform var(--dur-ui, 0.22s) var(--ease-ps); }
+  .jv-card-int:hover .jv-portada__cifra { transform: translateX(4px); }
+}
+@keyframes jv-articulo-entra {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* El subrayado que crece bajo el titular de la tarjeta. Es el mismo gesto que
+   `.jv-enlace` hace en el texto corrido, aquí disparado por la tarjeta entera
+   en vez de por el propio título. */
+.jv-subrayado {
+  background-image: linear-gradient(var(--brand-500), var(--brand-500));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size var(--dur-ui, 0.22s) var(--ease-ps);
+  padding-bottom: 2px;
+}
+.jv-card-int:hover .jv-subrayado,
+.jv-card-int:focus-visible .jv-subrayado { background-size: 100% 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .jv-subrayado { transition: none; }
+}

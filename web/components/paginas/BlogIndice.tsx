@@ -1,9 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, Calendar, Clock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { BarraMovil } from "@/components/BarraMovil";
+import { Reveal } from "@/components/Reveal";
+import { Breadcrumbs } from "@/components/kit/Breadcrumbs";
+import { PortadaArticulo, type TramaPortada } from "@/components/kit/PortadaArticulo";
+import { FiltroBlog, type ArticuloVista } from "@/components/visuales/FiltroBlog";
 import { BLOG, BLOG_META } from "@/content/paginas/blog";
 import type { Idioma } from "@/content/types";
 import { AUTHOR, POSTS } from "@/lib/blog";
@@ -20,6 +25,20 @@ import { SITE_NAME, SITE_URL } from "@/lib/business";
  * es cuándo se revisó por última vez: un precio de hace dos años con fecha de
  * hace dos años se descarta solo, y con fecha de ayer, engaña. `publishedAt`
  * sigue yendo entero al schema, que es donde Google lo quiere.
+ *
+ * QUÉ CAMBIÓ EN LA FASE 5, Y POR QUÉ
+ * ----------------------------------
+ * Eran once filas de texto idénticas en una columna: rótulo, titular,
+ * entradilla, fecha. Nada distinguía un artículo de otro hasta leerlo, y el de
+ * precios —el que trae más gente— pesaba lo mismo que el último.
+ *
+ * · Cada artículo estrena PORTADA TIPOGRÁFICA: su cifra clave en grande sobre
+ *   una trama de su categoría. Sin una sola foto de banco y sin una sola
+ *   petición de red: son degradados de CSS.
+ * · El más reciente va DESTACADO y ancho, porque es el que se acaba de
+ *   revisar.
+ * · Cuatro filtros con su conteo. No desmontan nada: los once artículos siguen
+ *   en el HTML con el filtro puesto.
  */
 const FECHA = {
   es: new Intl.DateTimeFormat("es-CO", {
@@ -35,6 +54,19 @@ const FECHA = {
     timeZone: "UTC",
   }),
 } as const;
+
+/**
+ * Qué trama le toca a cada categoría. Se busca por la clave en castellano
+ * —que es la misma en los dos idiomas dentro del manifiesto— para que la
+ * versión en inglés no se quede sin textura.
+ */
+const TRAMA_POR_CATEGORIA: Record<string, TramaPortada> = {
+  Precios: "precios",
+  Decisión: "decision",
+  Guías: "guias",
+};
+
+const TODOS: Record<Idioma, string> = { es: "Todos", en: "All" };
 
 export function BlogIndice({ idioma }: { idioma: Idioma }) {
   const base = idioma === "es" ? "/blog" : "/en/blog";
@@ -60,6 +92,38 @@ export function BlogIndice({ idioma }: { idioma: Idioma }) {
     })),
   };
 
+  /** El más reciente por fecha de revisión: es el que se acaba de mirar.
+   *
+   *  DESEMPATE POR FECHA DE PUBLICACIÓN, y hace falta: los once se revisaron
+   *  el mismo día, así que sin segundo criterio el destacado lo decidía el
+   *  orden del archivo —y salía el último de la lista, no el más importante—. */
+  const fechaDe = (p: (typeof POSTS)[number]) => p.updatedAt ?? p.publishedAt;
+  const ordenados = [...POSTS].sort((a, b) => {
+    if (fechaDe(a) !== fechaDe(b)) return fechaDe(a) < fechaDe(b) ? 1 : -1;
+    return a.publishedAt < b.publishedAt ? 1 : -1;
+  });
+  const [destacado, ...resto] = ordenados;
+
+  /** Lo que cruza a cliente: cadenas ya resueltas, nunca objetos de idioma. */
+  const aVista = (p: (typeof POSTS)[number]): ArticuloVista => {
+    const fecha = fechaDe(p);
+    return {
+      slug: p.slug[idioma],
+      href: `${base}/${p.slug[idioma]}`,
+      titulo: p.title[idioma],
+      entradilla: p.excerpt[idioma],
+      categoria: p.category[idioma],
+      trama: TRAMA_POR_CATEGORIA[p.category.es] ?? "guias",
+      /* La cifra del artículo, o su tiempo de lectura. Nunca una inventada. */
+      cifra: p.cifra?.[idioma] ?? `${p.readingMinutes} ${BLOG.minutos[idioma]}`,
+      fecha: FECHA[idioma].format(new Date(fecha)),
+      fechaISO: fecha,
+      minutos: `${p.readingMinutes} ${BLOG.lectura[idioma]}`,
+    };
+  };
+
+  const vistaDestacado = aVista(destacado);
+
   return (
     <>
       <script
@@ -68,50 +132,66 @@ export function BlogIndice({ idioma }: { idioma: Idioma }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
       />
       <Header idioma={idioma} />
-      <main id="contenido" className="mx-auto max-w-4xl px-5 pb-24 pt-32 md:px-8 md:pt-40">
-        <p className="jv-eyebrow text-accent-ink">{BLOG.rotulo[idioma]}</p>
-        <h1 className="mt-3 font-display text-4xl text-ink md:text-5xl">{BLOG.titulo[idioma]}</h1>
-        <p className="mt-4 max-w-2xl font-body text-base leading-relaxed text-ink-soft">
-          {BLOG.entradilla[idioma]}
-        </p>
+      <main id="contenido">
+        <header className="border-b border-line">
+          <div className="mx-auto max-w-[1280px] px-6 pb-16 pt-[calc(var(--header-h)+2rem)] md:px-12 md:pb-20 md:pt-[calc(var(--header-h)+3rem)]">
+            <Breadcrumbs migas={[{ texto: BLOG.rotulo[idioma] }]} idioma={idioma} />
 
-        <div className="mt-14 flex flex-col gap-4">
-          {POSTS.map((p) => {
-            const fecha = p.updatedAt ?? p.publishedAt;
-            return (
-              <Link
-                key={p.slug[idioma]}
-                href={`${base}/${p.slug[idioma]}`}
-                className="group rounded-2xl border border-line p-7 transition-colors hover:border-accent/40 hover:bg-ink/[0.02]"
-              >
-                {/* Iba con la clase `jv-eyebrowst`, que no existe: una errata
-                    de una letra dejaba el rótulo sin versalitas ni tracking y
-                    no la delataba nada, porque el color sí se aplicaba. */}
-                <p className="jv-eyebrow text-accent-ink">{p.category[idioma]}</p>
-                <h2 className="mt-3 font-display text-2xl text-ink">{p.title[idioma]}</h2>
-                <p className="mt-3 font-body text-sm leading-relaxed text-ink-soft">
-                  {p.excerpt[idioma]}
+            <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)] lg:items-end lg:gap-16">
+              <div>
+                <p className="jv-eyebrow text-brand">{BLOG.rotulo[idioma]}</p>
+                {/* Sin Reveal: este es el LCP. */}
+                <h1 className="mt-4 text-balance text-[length:var(--text-display)]">
+                  {BLOG.titulo[idioma]}
+                </h1>
+                <p className="mt-6 max-w-[52ch] text-pretty text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                  {BLOG.entradilla[idioma]}
                 </p>
-                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 font-body text-xs text-ink-soft">
-                  <span className="inline-flex items-center gap-1.5">
-                    <Calendar className="size-3.5" />
-                    <time dateTime={fecha}>{FECHA[idioma].format(new Date(fecha))}</time>
+              </div>
+
+              {/* EL DESTACADO ES EL MÁS RECIENTE POR FECHA DE REVISIÓN, no por
+                  fecha de publicación: en un blog cuyo artículo estrella se
+                  reescribe cada vez que se mueve un precio, lo recién revisado
+                  vale más que lo recién escrito. */}
+              <Link
+                href={vistaDestacado.href}
+                className="jv-card jv-card-int jv-lift group flex flex-col overflow-hidden"
+              >
+                <PortadaArticulo
+                  cifra={vistaDestacado.cifra}
+                  categoria={vistaDestacado.categoria}
+                  trama={vistaDestacado.trama}
+                />
+                <span className="flex flex-col p-6 sm:p-7">
+                  <span className="jv-titulo jv-subrayado text-[length:var(--text-h3)]">
+                    {vistaDestacado.titulo}
                   </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Clock className="size-3.5" /> {p.readingMinutes} {BLOG.minutos[idioma]}
+                  <span className="mt-3 text-sm leading-relaxed text-ink-soft">
+                    {vistaDestacado.entradilla}
                   </span>
-                  <span className="ml-auto inline-flex items-center gap-1.5 text-accent-ink">
-                    {BLOG.leer[idioma]}{" "}
-                    <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                  <span className="jv-rule mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 pt-4 font-mono text-xs text-ink-muted">
+                    <time dateTime={vistaDestacado.fechaISO}>{vistaDestacado.fecha}</time>
+                    <span>{vistaDestacado.minutos}</span>
+                    <span className="ml-auto inline-flex items-center gap-1.5 text-brand">
+                      {BLOG.leer[idioma]}
+                      <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                    </span>
                   </span>
-                </div>
+                </span>
               </Link>
-            );
-          })}
-        </div>
+            </div>
+          </div>
+        </header>
+
+        <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-12 md:py-24">
+          <Reveal>
+            <FiltroBlog articulos={resto.map(aVista)} todos={TODOS[idioma]} />
+          </Reveal>
+        </section>
       </main>
       <Footer idioma={idioma} />
       <WhatsAppButton idioma={idioma} />
+      <BarraMovil idioma={idioma} />
     </>
   );
 }
