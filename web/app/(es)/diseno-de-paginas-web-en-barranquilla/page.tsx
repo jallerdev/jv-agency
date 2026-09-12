@@ -1,27 +1,25 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Building2,
-  Clock,
-  MapPin,
-  PartyPopper,
-  Scissors,
-  UtensilsCrossed,
-} from "lucide-react";
+import { ArrowRight, Building2, PartyPopper, Scissors, UtensilsCrossed } from "lucide-react";
 
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BotonCuentame } from "@/components/Cuentame";
+import { PageHero } from "@/components/kit/PageHero";
+import { SectionIndex } from "@/components/kit/SectionIndex";
+import { PainGrid } from "@/components/kit/PainGrid";
+import { ProofCard } from "@/components/kit/ProofCard";
+import { FaqAccordion } from "@/components/kit/FaqAccordion";
+import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
 import { Comparador } from "@/components/visuales/Comparador";
+import { FranjaMeses } from "@/components/visuales/FranjaMeses";
 import { HiloWhatsApp } from "@/components/visuales/HiloWhatsApp";
 import { CasillaVacia } from "@/components/visuales/CasillaVacia";
-import { RailDistancia } from "@/components/visuales/RailDistancia";
+import { RutaDesdeTurbaco } from "@/components/visuales/RutaDesdeTurbaco";
 import { SITE_URL } from "@/lib/site";
 import { catalogo, money, PLAZOS } from "@/lib/quote";
 
@@ -147,6 +145,34 @@ const PRECIOS: {
     desc: "Cuando no necesitas una página sino un sistema que te resuelva un proceso.",
     href: catalogo("software").href.es,
   },
+];
+
+/**
+ * LOS TRES SECTORES CON MÁS EMPRESAS NUEVAS, para dibujarlos a escala.
+ *
+ * Estaban dentro de un párrafo —«inmobiliarias (34,9%), servicios (24,6%) y
+ * hoteles y restaurantes (12,1%)»— y ahí no se comparan: «34,9» y «12,1» se
+ * leen igual de largas. En barras, la primera es casi tres veces la tercera,
+ * que es lo que el dato dice y lo que el párrafo no consigue decir.
+ *
+ * `pct` es el número para el ancho; `etiqueta`, cómo se escribe. No se derivan
+ * el uno del otro porque la coma decimal de «34,9» no es un punto.
+ */
+const SECTORES = [
+  { nombre: "Inmobiliarias", pct: 34.9, etiqueta: "34,9 %" },
+  { nombre: "Servicios", pct: 24.6, etiqueta: "24,6 %" },
+  { nombre: "Hoteles y restaurantes", pct: 12.1, etiqueta: "12,1 %" },
+];
+
+const INDICE = [
+  { id: "confesion", texto: "Dónde estoy" },
+  { id: "sectores", texto: "Qué se está abriendo" },
+  { id: "carnaval", texto: "El calendario del Carnaval" },
+  { id: "precios", texto: "Precios" },
+  { id: "entra", texto: "Qué entra y qué no" },
+  { id: "como", texto: "Cómo trabajo" },
+  { id: "trabajo", texto: "El trabajo de acá" },
+  { id: "preguntas", texto: "Preguntas" },
 ];
 
 const PARA_QUIEN = [
@@ -352,29 +378,30 @@ export default function BarranquillaPage() {
       />
       <Header idioma="es" />
       <main id="contenido">
-        {/* ── Encabezado · canvas ────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
-          <Reveal>
-            <Badge>
-              <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
-              Barranquilla · Atlántico
-            </Badge>
-            <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
+        <PageHero
+          titular="compacto"
+          variante="ciudad"
+          idioma="es"
+          migas={[{ texto: "Diseño de páginas web en Barranquilla" }]}
+          eyebrow="Barranquilla · Atlántico"
+          titulo={
+            <>
               Diseño de páginas web en Barranquilla,{" "}
-              <span className="block text-metal">sin oficina en Barranquilla</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Te lo digo antes de que preguntes: no tengo local en la 53 ni en Villa Country. Vivo
-              en Turbaco, Bolívar, y tu proyecto lo trabajo a distancia.
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Lo que sí tengo: el precio publicado más abajo, cinco días de plazo y una sola persona
-              contestándote — yo, que diseño y programo.
-            </p>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <span className="block text-brand">sin oficina en Barranquilla</span>
+            </>
+          }
+          entradilla="Te lo digo antes de que preguntes: no tengo local en la 53 ni en Villa Country. Vivo en Turbaco, Bolívar, y tu proyecto lo trabajo a distancia."
+          precio="landing"
+          indice={<SectionIndex entradas={INDICE} idioma="es" variante="chip" />}
+          aparte={
+            <RutaDesdeTurbaco
+              destino="Barranquilla"
+              distancia="≈ 120 km"
+              nota="El viaje se acuerda antes, no aparece en la factura. Soledad, Malambo, Galapa y Puerto Colombia, mismas condiciones."
+            />
+          }
+          acciones={
+            <>
               {/* «Agenda una llamada» y no «Cuéntame tu proyecto»: era la única
                   página del sitio con otra acción principal en el hero, y una
                   marca que dice lo mismo en siete ciudades no puede pedir cosas
@@ -387,139 +414,215 @@ export default function BarranquillaPage() {
               <Button size="lg" variant="outline" asChild>
                 <a href="#precios">Ver precios</a>
               </Button>
+            </>
+          }
+        />
+
+        {/* ── La confesión, arriba y no escondida ────────────────────── */}
+        <section id="confesion" className="border-b border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:gap-16">
+              <Reveal>
+                <div className="lg:sticky lg:top-28">
+                  <h2 className="text-balance text-[length:var(--text-h2)]">
+                    Búscale la dirección a cada uno.
+                    <span className="text-brand"> Yo te ahorro el minuto.</span>
+                  </h2>
+                </div>
+              </Reveal>
+
+              <Reveal delay={80}>
+                <p className="max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                  Cuando compares proveedores, bájate al pie de cada sitio y mira dónde dice que
+                  quedan. <strong className="text-ink">El mío dice Turbaco, Bolívar</strong>, y lo
+                  puse también en el título de esta página. Mismo Caribe, costa de al lado, pero no
+                  el Atlántico.
+                </p>
+                <p className="mt-6 max-w-[62ch] leading-relaxed text-ink-soft">
+                  Lo que sí tengo: el precio publicado más abajo, cinco días de plazo y una sola
+                  persona contestándote — yo, que diseño y programo.
+                </p>
+              </Reveal>
             </div>
-          </Reveal>
+          </div>
         </section>
 
-        {/* ── La confesión, arriba y no escondida · banda ────────────── */}
-        <section className="banda mx-auto max-w-5xl px-5 py-12 md:px-8">
+        {/* ── Qué se está abriendo ───────────────────────────────────── */}
+        <section
+          id="sectores"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <div className="rounded-[1.5rem] border border-primary/20 bg-gradient-to-br from-surface to-white/15 p-7 sm:p-9 md:p-10">
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Búscale la dirección a cada uno.
-                <span className="text-metal"> Yo te ahorro el minuto.</span>
-              </h2>
-              <p className="mt-5 font-body text-lg leading-relaxed text-ink-soft">
-                Cuando compares proveedores, bájate al pie de cada sitio y mira dónde dice que
-                quedan. <strong className="text-ink">El mío dice Turbaco, Bolívar</strong>, y lo
-                puse también en el título de esta página. Mismo Caribe, costa de al lado, pero no el
-                Atlántico.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal>
-            <RailDistancia
-              className="mt-10"
-              paradas={[
-                { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "Aquí vivo y aquí trabajo." },
-                { lugar: "Cartagena", distancia: "≈ 20 km", nota: "Nos vemos si el proyecto lo pide." },
-                { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "El viaje se acuerda antes, no aparece en la factura." },
-                { lugar: "Soledad, Malambo, Galapa, Puerto Colombia", distancia: "mismas condiciones", nota: "Desde acá da lo mismo, y esa es una ventaja tuya." },
-              ]}
-            />
-          </Reveal>
-        </section>
-
-        {/* ── Para quién es · banda (mismo capítulo que la confesión) ── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="text-balance text-[length:var(--text-display)]">
               Qué se está abriendo en Barranquilla ahora mismo
             </h2>
-            <p className="mt-5 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
               La Cámara de Comercio de Barranquilla reportó que en 2025 los sectores con más
               empresas creadas fueron inmobiliarias (34,9%), servicios (24,6%) y hoteles y
               restaurantes (12,1%), con 11.391 unidades nuevas en los primeros nueve meses.
             </p>
-            <p className="mt-3 max-w-3xl font-body text-sm leading-relaxed text-ink-soft">
+          </Reveal>
+
+          {/* LOS TRES PORCENTAJES, COMO BARRAS. Eran tres cifras dentro de un
+              párrafo y ahí no se comparan: «34,9» y «12,1» se leen igual de
+              largas. Dibujadas a escala, la primera es tres veces la tercera, y
+              eso es lo que el dato dice. */}
+          <Reveal delay={80}>
+            <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
+              {SECTORES.map((x) => (
+                <li key={x.nombre} className="grid grid-cols-1 items-center gap-x-8 gap-y-2 py-5 sm:grid-cols-[minmax(0,16rem)_minmax(0,1fr)_auto]">
+                  <span className="font-semibold text-ink">{x.nombre}</span>
+                  {/* `block` en la pista: un `<span>` es en línea por defecto,
+                      y con `w-full` ignorado la barra de dentro resolvía su
+                      porcentaje contra otra caja. La de inmobiliarias, que es
+                      el 100 %, salía tres cuartos. */}
+                  <span
+                    aria-hidden
+                    className="block h-2 w-full overflow-hidden rounded-full bg-line"
+                  >
+                    <span
+                      className="block h-full rounded-full bg-brand"
+                      style={{ width: `${(x.pct / 34.9) * 100}%` }}
+                    />
+                  </span>
+                  <span className="font-mono text-sm tabular-nums text-brand sm:text-right">
+                    {x.etiqueta}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal>
+            <p className="mt-6 max-w-[62ch] text-sm leading-relaxed text-ink-muted">
               Dos precisiones, porque ese dato se cita mal muy seguido: son empresas{" "}
               <strong className="text-ink">nuevas</strong>, no el total que existe, y cubren{" "}
-              <strong className="text-ink">la jurisdicción de la Cámara en el Atlántico</strong>,
-              no solamente la ciudad.
+              <strong className="text-ink">la jurisdicción de la Cámara en el Atlántico</strong>, no
+              solamente la ciudad.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-            {PARA_QUIEN.map((p, i) => {
-              const Icon = p.icon;
-              return (
-                <Reveal key={p.titulo} index={i}>
-                  <article className="h-full jv-card p-6 sm:p-7">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-brand-line">
-                      <Icon className="h-6 w-6" aria-hidden="true" />
-                    </span>
-                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{p.titulo}</h3>
-                    <p className="mt-2 font-body leading-relaxed text-ink-soft">{p.desc}</p>
-                  </article>
-                </Reveal>
-              );
-            })}
+          <PainGrid
+            className="mt-14"
+            dolores={PARA_QUIEN.map((p) => ({
+              titulo: p.titulo,
+              cuerpo: p.desc,
+              icono: p.icon,
+            }))}
+          />
+        </section>
+
+        {/* ── Pieza firma: el calendario del Carnaval ────────────────── */}
+        <section id="carnaval" className="border-y border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-28">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:items-center lg:gap-16">
+              <Reveal>
+                <h2 className="text-balance text-[length:var(--text-display)]">
+                  Si la quieres para el Carnaval, la cuenta empieza en octubre
+                </h2>
+                <p className="mt-4 max-w-[46ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                  Construirla toma 5 días, así que en enero llegas. Pero si además quieres que te
+                  encuentren buscando, eso no son días sino meses.
+                </p>
+              </Reveal>
+
+              <Reveal delay={100}>
+                <FranjaMeses
+                  rotulo="El año, visto desde el Carnaval"
+                  meses={[10, 11, 12, 1, 2]}
+                  tramos={[
+                    { desde: 10, hasta: 11, rotulo: "Pídela aquí", cuando: "octubre · noviembre" },
+                    { desde: 12, hasta: 1, rotulo: "Se construye", cuando: "diciembre · enero" },
+                    { desde: 2, hasta: 2, rotulo: "Carnaval", cuando: "febrero", meta: true },
+                  ]}
+                  nota="Los primeros movimientos de posicionamiento se ven entre el mes 3 y el 6. Nadie te puede prometer el primer puesto, ni yo tampoco."
+                />
+              </Reveal>
+            </div>
           </div>
         </section>
 
-        {/* ── Precios · CANVAS a propósito: son la respuesta ─────────── */}
-        <section id="precios" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-12 md:px-8">
+        {/* ── Precios ────────────────────────────────────────────────── */}
+        <section
+          id="precios"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <Badge>Precios</Badge>
-            <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
+            <p className="jv-eyebrow text-brand">Precios</p>
+            <h2 className="mt-4 text-balance text-[length:var(--text-display)]">
               Lo que cobro, escrito acá
             </h2>
-            <p className="mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[62ch] leading-relaxed text-ink-soft">
               Precios de arranque: suben con lo que el proyecto pida, y eso te lo digo por escrito
               antes de empezar, no después.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {PRECIOS.map((p, i) => (
-              <Reveal key={p.servicio} index={i}>
-                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                  <h3 className="font-body text-xl font-semibold text-ink">{p.servicio}</h3>
-                  <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
-                    {p.desc}
-                  </p>
-                  {p.href && (
+          <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
+            {PRECIOS.map((p) => {
+              const fila = (
+                <>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[length:var(--text-h4)] font-semibold text-ink">
+                      {p.servicio}
+                    </span>
+                    <span className="mt-1.5 block max-w-[62ch] text-sm leading-relaxed text-ink-soft">
+                      {p.desc}
+                    </span>
+                    <span className="mt-2 block font-mono text-xs text-ink-muted">{p.plazo}</span>
+                  </span>
+                  <span className="flex items-baseline gap-2 font-mono tabular-nums sm:shrink-0">
+                    <span className="w-11 text-right text-xs text-ink-muted">
+                      {p.desde.startsWith("desde") ? "desde" : ""}
+                    </span>
+                    <span className="w-[7.5rem] text-right text-[length:var(--text-h4)] text-brand">
+                      {p.desde.replace("desde ", "").replace("/mes", "")}
+                    </span>
+                    <span className="w-9 whitespace-nowrap text-xs text-ink-muted">
+                      {p.desde.includes("/mes") ? "/mes" : ""}
+                    </span>
+                  </span>
+                </>
+              );
+              return (
+                <li key={p.servicio} className="max-w-none">
+                  {p.href ? (
                     <Link
                       href={p.href}
-                      className="mt-3 inline-flex min-h-11 w-fit items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                      className="focus-ring flex flex-col gap-3 py-5 transition-colors duration-base ease-ps hover:text-brand sm:flex-row sm:items-start sm:justify-between sm:gap-8"
                     >
-                      Ver el detalle
-                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      {fila}
                     </Link>
+                  ) : (
+                    <span className="flex flex-col gap-3 py-5 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+                      {fila}
+                    </span>
                   )}
-                  <p className="mt-4 jv-rule pt-4 font-mono text-lg text-primary-dark">
-                    {p.desde}
-                  </p>
-                  <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
-                    <Clock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                    {p.plazo}
-                  </p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+                </li>
+              );
+            })}
+          </ul>
 
           <Reveal>
-            <p className="mt-6 max-w-3xl font-body text-sm leading-relaxed text-ink-soft">
+            <p className="mt-8 max-w-[62ch] text-sm leading-relaxed text-ink-soft">
               El desglose largo:{" "}
               <Link
                 href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
-                className="font-semibold text-primary-dark underline underline-offset-4"
+                className="jv-enlace font-semibold text-brand"
               >
                 cuánto cuesta una página web
               </Link>
               ,{" "}
               <Link
                 href="/blog/cuanto-se-demora-hacer-una-pagina-web"
-                className="font-semibold text-primary-dark underline underline-offset-4"
+                className="jv-enlace font-semibold text-brand"
               >
                 en qué se va el tiempo
               </Link>{" "}
               y{" "}
               <Link
                 href="/blog/cuanto-cuesta-el-seo-en-colombia"
-                className="font-semibold text-primary-dark underline underline-offset-4"
+                className="jv-enlace font-semibold text-brand"
               >
                 cuánto cuesta el SEO
               </Link>
@@ -528,20 +631,24 @@ export default function BarranquillaPage() {
           </Reveal>
         </section>
 
-        {/* ── Qué entra y qué no · banda. Las dos listas enteras: son la
-             columna vertebral de honestidad y no se recortan. La micro-
-             etiqueta dice QUIÉN lo hace entonces. ────────────────────── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+        {/* ── Qué entra y qué no. Las dos listas enteras: son la columna
+             vertebral de honestidad y no se recortan. ─────────────────── */}
+        <section
+          id="entra"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">Qué entra y qué no entra</h2>
+            <h2 className="text-balance text-[length:var(--text-display)]">
+              Qué entra y qué no entra
+            </h2>
           </Reveal>
-          <Reveal>
+          <Reveal delay={80}>
             <Comparador
-              className="mt-10"
+              className="mt-12"
               tituloIncluye="Entra por ese precio"
               tituloNoIncluye={
                 <>
-                  <span className="text-metal">No</span> entra
+                  <span className="text-brand">No</span> entra
                 </>
               }
               nota="Esta lista vale más que la otra. Los proyectos no se dañan por lo que se prometió: se dañan por lo que cada uno dio por hecho."
@@ -551,108 +658,115 @@ export default function BarranquillaPage() {
           </Reveal>
         </section>
 
-        {/* ── Cómo trabajo desde acá + el chat · banda (mismo capítulo) ─ */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
-            <Reveal>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                Cómo trabajo contigo desde acá
-              </h2>
-              <ol className="mt-8 grid gap-6">
-                {PROCESO.map((p) => (
-                  <li key={p.n} className="flex gap-4">
-                    <span className="font-mono text-sm text-primary-dark">{p.n}</span>
-                    <span>
-                      <strong className="block font-body font-semibold text-ink">{p.t}</strong>
-                      <span className="mt-1 block font-body text-sm leading-relaxed text-ink-soft">
-                        {p.d}
+        {/* ── Cómo trabajo desde acá + el chat ───────────────────────── */}
+        <section id="como" className="border-y border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+              <Reveal>
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  Cómo trabajo contigo desde acá
+                </h2>
+                <ol className="mt-8 flex flex-col divide-y divide-line border-y border-line">
+                  {PROCESO.map((p) => (
+                    <li key={p.n} className="flex gap-5 py-5">
+                      <span className="font-mono text-sm tabular-nums text-brand">{p.n}</span>
+                      <span className="min-w-0">
+                        <strong className="block font-semibold text-ink">{p.t}</strong>
+                        <span className="mt-1.5 block text-sm leading-relaxed text-ink-soft">
+                          {p.d}
+                        </span>
                       </span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </Reveal>
+                    </li>
+                  ))}
+                </ol>
+              </Reveal>
 
-            <Reveal delay={120}>
-              <h2 className="font-display text-3xl text-ink sm:text-4xl">
-                La página trae; WhatsApp cierra
-              </h2>
-              <p className="mt-4 font-body leading-relaxed text-ink-soft">
-                Acá casi nadie cierra por correo: cierra por chat, y a las horas en que ya nadie
-                está en el mostrador. Por eso también monto{" "}
-                <Link
-                  href="/servicios/chatbot-whatsapp"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  chatbots de WhatsApp
-                </Link>
-                .
-              </p>
-              <HiloWhatsApp
-                className="mt-8"
-                negocio="Salón de ejemplo"
-                iniciales="SE"
-                mensajes={[
-                  { de: "cliente", texto: "Buenas, ¿tienen turno mañana para color?", hora: "9:41 p.m." },
-                  { de: "bot", escribiendo: true },
-                  { de: "bot", texto: "Sí. Mañana quedan 10:30 a.m. y 3:00 p.m. ¿Cuál te sirve?", hora: "9:41 p.m." },
-                  { de: "cliente", texto: "El de las 3", hora: "9:42 p.m." },
-                  {
-                    de: "bot",
-                    traspaso: true,
-                    texto: "Listo, quedó apartado. Mañana a primera hora te lo confirma alguien del salón.",
-                    hora: "9:42 p.m.",
-                  },
-                ]}
-              />
-            </Reveal>
+              <Reveal delay={120}>
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  La página trae; WhatsApp cierra
+                </h2>
+                <p className="mt-4 max-w-[52ch] leading-relaxed text-ink-soft">
+                  Acá casi nadie cierra por correo: cierra por chat, y a las horas en que ya nadie
+                  está en el mostrador. Por eso también monto{" "}
+                  <Link
+                    href="/servicios/chatbot-whatsapp"
+                    className="jv-enlace font-semibold text-brand"
+                  >
+                    chatbots de WhatsApp
+                  </Link>
+                  .
+                </p>
+                <HiloWhatsApp
+                  className="mt-8"
+                  negocio="Salón de ejemplo"
+                  iniciales="SE"
+                  mensajes={[
+                    {
+                      de: "cliente",
+                      texto: "Buenas, ¿tienen turno mañana para color?",
+                      hora: "9:41 p.m.",
+                    },
+                    { de: "bot", escribiendo: true },
+                    {
+                      de: "bot",
+                      texto: "Sí. Mañana quedan 10:30 a.m. y 3:00 p.m. ¿Cuál te sirve?",
+                      hora: "9:41 p.m.",
+                    },
+                    { de: "cliente", texto: "El de las 3", hora: "9:42 p.m." },
+                    {
+                      de: "bot",
+                      traspaso: true,
+                      texto:
+                        "Listo, quedó apartado. Mañana a primera hora te lo confirma alguien del salón.",
+                      hora: "9:42 p.m.",
+                    },
+                  ]}
+                />
+              </Reveal>
+            </div>
           </div>
         </section>
 
-        {/* ── El único trabajo propio de Barranquilla · canvas.
-             La casilla vacía dice lo que decía un párrafo entero. ────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
+        {/* ── El único trabajo propio de Barranquilla ────────────────── */}
+        <section
+          id="trabajo"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <Badge>Trabajo propio de la ciudad</Badge>
-            <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
+            <p className="jv-eyebrow text-brand">Trabajo propio de la ciudad</p>
+            <h2 className="mt-4 text-balance text-[length:var(--text-display)]">
               Peluquería Marcopolo, y no me la encargaron
             </h2>
-            <p className="mt-5 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Es lo único que tengo de Barranquilla, así que no voy a estirarlo. Un salón con
-              cuatro décadas de oficio que diseñé y construí{" "}
+            <p className="mt-4 max-w-[62ch] leading-relaxed text-ink-soft">
+              Es lo único que tengo de Barranquilla, así que no voy a estirarlo. Un salón con cuatro
+              décadas de oficio que diseñé y construí{" "}
               <strong className="text-ink">por iniciativa propia</strong>. Todavía no está publicado
               con dominio propio: por eso hay captura y no enlace.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 md:items-stretch">
-            <Reveal>
-              <figure className="flex h-full flex-col overflow-hidden jv-card">
+          <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 md:items-stretch">
+            <Reveal className="h-full">
+              <ProofCard
+                idioma="es"
+                nombre="Peluquería Marcopolo"
+                categoria="Proyecto de estudio · Barranquilla"
+                cuerpo="Corte de autor, color editorial y tratamientos. Si quieres verlo funcionando te lo abro en la llamada compartiendo pantalla."
+                estado="estudio"
+              >
                 <Image
                   src="/work/marcopolo.webp"
                   alt="Captura de la página que construí para Peluquería Marcopolo, un salón de Barranquilla: portada con los servicios de corte y color."
                   width={1600}
                   height={1000}
                   sizes="(min-width: 768px) 50vw, 100vw"
-                  className="h-auto w-full border-b border-line"
+                  className="h-auto w-full"
                 />
-                <figcaption className="p-5 font-body text-sm leading-relaxed text-ink-soft sm:p-6">
-                  <span className="jv-eyebrow text-ink-soft">
-                    Proyecto de estudio · Barranquilla
-                  </span>
-                  <span className="mt-2 block">
-                    Corte de autor, color editorial y tratamientos. Si quieres verlo funcionando te
-                    lo abro en la llamada compartiendo pantalla.
-                  </span>
-                </figcaption>
-              </figure>
+              </ProofCard>
             </Reveal>
 
-            <Reveal delay={80}>
-              <CasillaVacia
-                className="h-full bg-surface/50"
-                rotulo="Sin cliente de Barranquilla"
-              >
+            <Reveal delay={80} className="h-full">
+              <CasillaVacia className="h-full" rotulo="Sin cliente de Barranquilla">
                 Todavía no hay un proyecto entregado a un cliente barranquillero. Cuando lo haya, va
                 aquí, con nombre y con enlace.
               </CasillaVacia>
@@ -660,13 +774,10 @@ export default function BarranquillaPage() {
           </div>
 
           <Reveal>
-            <p className="mt-8 font-body leading-relaxed text-ink-soft">
+            <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
               Lo que sí puedes abrir hoy son los proyectos en producción con dominio propio: están
               en{" "}
-              <Link
-                href="/#portafolio"
-                className="font-semibold text-primary-dark underline underline-offset-4"
-              >
+              <Link href="/#portafolio" className="jv-enlace font-semibold text-brand">
                 el portafolio de la portada
               </Link>
               .
@@ -674,70 +785,42 @@ export default function BarranquillaPage() {
           </Reveal>
         </section>
 
-        {/* ── Preguntas · banda ──────────────────────────────────────── */}
-        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
-          <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Lo que me preguntan desde Barranquilla
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid gap-4">
-            {FAQS.map((f, i) => (
-              <Reveal key={f.q} index={i}>
-                <article className="jv-card p-6 sm:p-7">
-                  <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
-                  <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
-                  {f.q.startsWith("Mi competencia") && (
-                    <p className="mt-2 flex flex-wrap gap-x-4">
-                      <Link
-                        href="/blog/pagina-web-o-solo-instagram"
-                        className="inline-flex min-h-11 items-center py-2.5 font-body text-sm font-semibold text-primary-dark underline underline-offset-4"
-                      >
-                        ¿Página web o solo Instagram?
-                      </Link>
-                      <Link
-                        href="/blog/mi-negocio-necesita-pagina-web"
-                        className="inline-flex min-h-11 items-center py-2.5 font-body text-sm font-semibold text-primary-dark underline underline-offset-4"
-                      >
-                        ¿Mi negocio necesita página web?
-                      </Link>
-                    </p>
-                  )}
-                </article>
-              </Reveal>
-            ))}
+        {/* ── Preguntas ──────────────────────────────────────────────── */}
+        <section
+          id="preguntas"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+            <Reveal>
+              <div className="lg:sticky lg:top-28">
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  Lo que me preguntan desde Barranquilla
+                </h2>
+              </div>
+            </Reveal>
+
+            <FaqAccordion
+              grupos={[
+                {
+                  titulo: "Lo que me preguntan desde Barranquilla",
+                  items: FAQS.map((f) => ({ q: f.q, a: f.a })),
+                },
+              ]}
+            />
           </div>
         </section>
 
-        {/* ── Cierre · canvas ────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-16 text-center md:px-8 md:py-24">
+        {/* ── También trabajo ────────────────────────────────────────── */}
+        <section className="mx-auto max-w-[1280px] px-6 pb-20 md:px-12 md:pb-24">
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Cuéntame qué vendes en Barranquilla
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              Veinte minutos alcanzan para saber si esto te sirve, cuánto costaría y qué día lo
-              tendrías. Si no te sirve, te lo digo y no te hago perder la tarde.
-            </p>
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Button size="lg" variant="primary" asChild>
-                <Link href="/agendar">
-                  Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
-                </Link>
-              </Button>
-              <BotonCuentame />
-            </div>
-
-            <nav aria-label="Otras páginas del sitio" className="mt-12">
-              <p className="jv-eyebrow text-ink-soft">
-                También trabajo
-              </p>
-              <ul className="mt-4 flex flex-wrap justify-center gap-2">
+            <nav aria-label="Otras páginas del sitio">
+              <h2 className="jv-eyebrow text-ink-muted">También trabajo</h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
                 {OTRAS_PAGINAS.map((o) => (
                   <li key={o.href}>
                     <Link
                       href={o.href}
-                      className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 py-2.5 font-body text-sm text-ink-soft transition-colors hover:border-primary/40 hover:text-ink"
+                      className="jv-chip jv-chip-off min-h-11 text-sm hover:border-brand hover:text-brand"
                     >
                       {o.label}
                     </Link>
@@ -747,9 +830,17 @@ export default function BarranquillaPage() {
             </nav>
           </Reveal>
         </section>
+
+        <FinalCTA
+          idioma="es"
+          titulo="Cuéntame qué vendes en Barranquilla"
+          cuerpo="Veinte minutos alcanzan para saber si esto te sirve, cuánto costaría y qué día lo tendrías. Si no te sirve, te lo digo y no te hago perder la tarde."
+          siguiente={<NextStep id="chatbot" idioma="es" />}
+        />
       </main>
       <Footer idioma="es" />
       <WhatsAppButton />
+      <BarraMovil idioma="es" />
     </>
   );
 }

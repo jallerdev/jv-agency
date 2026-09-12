@@ -1178,3 +1178,22 @@ input[type="radio"] { accent-color: var(--accent); }
   }
   .jv-ruta[data-visible="true"] .jv-ruta__linea { transform: scaleX(1); }
 }
+
+/* ===========================================================================
+   La franja de meses (`components/visuales/FranjaMeses.tsx`)
+   ---------------------------------------------------------------------------
+   Cada tramo se dibuja de izquierda a derecha cuando la pieza entra en vista,
+   y en el orden del calendario: es el orden en que hay que leerlos. El retraso
+   lo pone el componente en `transition-delay`.
+
+   `scaleX` con origen izquierdo. Con movimiento reducido los tramos están
+   puestos desde el primer fotograma: se pierde el gesto, no la cuenta.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-franja__tramo {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-ps);
+  }
+  .jv-franja[data-visible="true"] .jv-franja__tramo { transform: scaleX(1); }
+}
