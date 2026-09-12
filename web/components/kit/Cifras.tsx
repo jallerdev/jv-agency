@@ -29,6 +29,16 @@ export type CifraVista = {
   sufijo?: string;
   cuenta?: boolean;
   etiqueta: string;
+  /**
+   * La cifra tal cual, cuando no hay número que contar.
+   *
+   * Las páginas de ciudad traen datos del registro mercantil y algunos no son
+   * contables: «93,1 %» con decimal, un rango, un intervalo. Verlos subir de
+   * cero marea y no dicen nada que la cifra quieta no diga, así que la celda
+   * los imprime tal cual. La alternativa —inventar un número redondo para
+   * poder animarlo— es exactamente lo que este sitio no hace.
+   */
+  textoCrudo?: string;
 };
 
 export function Cifras({ cifras, className }: { cifras: readonly CifraVista[]; className?: string }) {
@@ -56,9 +66,15 @@ function Celda({ cifra }: { cifra: CifraVista }) {
     <div className="flex flex-col-reverse gap-2 bg-canvas p-6 md:p-7">
       <dt className="text-[0.9375rem] leading-snug text-ink-soft">{cifra.etiqueta}</dt>
       <dd className="font-mono text-[clamp(2.25rem,4.5vw,3.25rem)] leading-none tabular-nums text-ink">
-        {cifra.prefijo && <span className="text-ink-muted">{cifra.prefijo}</span>}
-        <span ref={ref}>{valor}</span>
-        {cifra.sufijo && <span className="text-brand">{cifra.sufijo}</span>}
+        {cifra.textoCrudo ? (
+          cifra.textoCrudo
+        ) : (
+          <>
+            {cifra.prefijo && <span className="text-ink-muted">{cifra.prefijo}</span>}
+            <span ref={ref}>{valor}</span>
+            {cifra.sufijo && <span className="text-brand">{cifra.sufijo}</span>}
+          </>
+        )}
       </dd>
     </div>
   );

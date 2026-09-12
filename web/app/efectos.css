@@ -1155,3 +1155,26 @@ input[type="radio"] { accent-color: var(--accent); }
   .jv-censura li:nth-child(5) .jv-censura__barra { transition-delay: 0.56s; }
   .jv-censura[data-visible="true"] .jv-censura__barra { transform: scaleX(1); }
 }
+
+/* ===========================================================================
+   La ruta desde Turbaco (`components/visuales/RutaDesdeTurbaco.tsx`)
+   ---------------------------------------------------------------------------
+   La línea se traza del origen al destino cuando la pieza entra en vista, y la
+   cifra de kilómetros sube a la vez. Novecientos milisegundos: lo que tarda el
+   ojo en ir de un topónimo al otro.
+
+   `scaleX` desde el origen izquierdo, que es como se traza una línea. Animar
+   el ancho recalcularía la caja en cada fotograma, y esta pieza vive en una
+   página que vende que el sitio va rápido.
+
+   Con movimiento reducido no hay nada que apagar: el componente ni siquiera
+   monta el observador y la línea nace entera.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-ruta__linea {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.9s var(--ease-ps);
+  }
+  .jv-ruta[data-visible="true"] .jv-ruta__linea { transform: scaleX(1); }
+}
