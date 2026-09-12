@@ -38,6 +38,42 @@ export function Documento({
        de nada. */
     <html lang={lang} className={`${figtree.variable} ${jetbrains.variable}`}>
       <body className="bg-canvas font-body text-ink-soft antialiased">
+        {/* QUIÉN VE EL AVISO DE COOKIES, DECIDIDO ANTES DEL PRIMER PINTADO.
+            ─────────────────────────────────────────────────────────────────
+            El aviso se montaba en un efecto —para no leer `localStorage`
+            durante la hidratación y que el servidor y el cliente no
+            discreparan— y eso lo pintaba DESPUÉS de hidratar. Con ello, el
+            elemento más grande que pintaba la página pasó a ser el párrafo del
+            aviso, y Google mide justo eso: Lighthouse daba LCP de 4,4 s en
+            /precios con un 90 % de «render delay», mientras el primer pintado
+            ocurría a los 0,9 s. La página se veía entera y la métrica contaba
+            el cartel que llegaba tres segundos tarde.
+
+            Este script de dos líneas es el patrón de siempre para esto: va en
+            línea y BLOQUEA, así que corre antes del primer fotograma, lee la
+            decisión guardada y la escribe en el <html>. El CSS hace el resto:
+            el aviso vive en el HTML del servidor y se enseña o no por atributo
+            —`.jv-cookies` en `app/efectos.css`—. React nunca decide si se ve,
+            así que no hay discrepancia de hidratación que evitar ni un segundo
+            pintado que pagar.
+
+            Sin JavaScript no se enseña, y es correcto: sin JavaScript tampoco
+            se carga Analytics, así que no hay nada que consentir. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var d=localStorage.getItem("jv-cookies");' +
+              'document.documentElement.dataset.cookies=d?"decidido":"pendiente";' +
+              /* Y devuelve el consentimiento concedido en las visitas
+                 siguientes. Antes lo hacía el efecto del componente; al
+                 quitarlo, quien había aceptado volvía a medirse sin cookies
+                 sin haberlo pedido. Va aquí porque es la única línea que ya
+                 lee la decisión, y después del `consent default` de la
+                 cabecera, que es de quien hereda el orden. */
+              'if(d==="si"&&window.gtag)window.gtag("consent","update",{analytics_storage:"granted"})}' +
+              'catch(e){document.documentElement.dataset.cookies="pendiente"}',
+          }}
+        />
         {/* El campo de manchas detrás de TODO el sitio, no solo del hero.
             Una sola instancia fija cubre las quince mil filas de scroll de
             cualquier página; poner una por sección multiplicaría por seis el

@@ -214,6 +214,20 @@
   /* ── Espacio y ritmo ─────────────────────────────────────────────────── */
   --maxw: 1200px;
   --maxw-narrow: 900px;
+  /* MEDIDO, Y NO MIDE 68 CARACTERES. El `ch` es el ancho del glifo «0» de la
+     primera fuente disponible, y en este sitio resuelve al valor de reserva
+     —0,5em— en vez de al avance real de Figtree. Sobre el párrafo de 18 px de
+     la declaración de la portada, `68ch` da 816 px: unos 89 caracteres por
+     línea, contra los 65-75 que pide la §11 del encargo. Es el mismo fallo de
+     unidad que ya mordió tres veces en la fase 4 —las filas de precio, la caja
+     de Censura y la barra de dato—, y las tres se arreglaron pasando a `rem`.
+
+     NO SE TOCA AQUÍ, y la razón es de alcance, no de criterio: este token rige
+     la prosa de las cuarenta rutas Y de la portada, y la §12.1 del encargo dice
+     que la portada es la referencia y no se toca. Cambiarlo a `36rem` estrecha
+     240 px cada bloque de texto del sitio, empezando por el home. Es una
+     decisión de Luis, no un arreglo que se pueda colar en una pasada de
+     rendimiento. Queda la medida escrita para que se decida con ella delante. */
   --maxw-prose: 68ch;
   --gutter: 1.25rem;    /* px-5: el margen lateral de todas las secciones */
   --section-y: clamp(4.5rem, 9vw, 8.5rem);

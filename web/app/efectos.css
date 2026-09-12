@@ -1570,3 +1570,19 @@ a.jv-fila:active { transform: scale(0.995); }
     height: max(44px, 100%);
   }
 }
+
+/* ===========================================================================
+   EL AVISO DE COOKIES: EN EL HTML DESDE EL PRINCIPIO, VISIBLE POR ATRIBUTO
+   ---------------------------------------------------------------------------
+   Oculto por defecto y enseñado solo cuando el script en línea de
+   `app/Documento.tsx` —que corre antes del primer pintado— dice que no hay
+   decisión guardada. Así el aviso forma parte del primer fotograma para quien
+   tiene que verlo, y no existe para quien ya decidió: ni parpadeo en un sentido
+   ni en el otro.
+
+   Por qué no se resuelve con estado de React: montarlo en un efecto lo pintaba
+   después de hidratar, y eso convertía su párrafo en el elemento LCP de todas
+   las rutas —4,4 s medidos en /precios, con el primer pintado a 0,9—.
+   =========================================================================== */
+.jv-cookies { display: none; }
+html[data-cookies="pendiente"] .jv-cookies { display: block; }
