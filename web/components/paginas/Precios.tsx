@@ -23,7 +23,7 @@ import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
 import { Breadcrumbs } from "@/components/kit/Breadcrumbs";
 import { FinalCTA } from "@/components/kit/FinalCTA";
-import { PrecioContado } from "@/components/kit/PrecioContado";
+import { FilaPrecio } from "@/components/kit/FilaPrecio";
 import { Recibo } from "@/components/visuales/Recibo";
 
 /**
@@ -217,73 +217,23 @@ export function PaginaPrecios({
                 <ul className="flex flex-col divide-y divide-line border-y border-line">
                   {LINEAS.map((l, indiceFila) => {
                     const servicio = CATALOGO.find((s) => s.nombre.es === l.servicio.es);
-                    const href = servicio ? enlaceReal(servicio.href[idioma]) : null;
-
-                    const fila = (
-                      <>
-                        <span className="min-w-0 flex-1">
-                          <span className="block text-[length:var(--text-h4)] font-semibold text-ink">
-                            {l.servicio[idioma]}
-                          </span>
-                          {l.plazo && (
-                            <span className="mt-1 flex items-center gap-2 text-sm text-ink-muted">
-                              <Clock className="h-3.5 w-3.5 shrink-0" strokeWidth={2} aria-hidden />
-                              {l.plazo[idioma]}
-                            </span>
-                          )}
-                        </span>
-                        {/* TRES RANURAS DE ANCHO FIJO en `ch`, y no una cadena
-                            alineada a la derecha. Con la cadena entera —«desde
-                            $180.000 al mes»— las cifras no caían nunca una
-                            debajo de otra: el sufijo de periodicidad empujaba
-                            el número siete caracteres a la izquierda. Con la
-                            ranura del importe a la derecha y las otras dos con
-                            su ancho, la columna de pesos se lee de arriba
-                            abajo, que es a lo que se viene a una lista de
-                            precios.
-
-                            `shrink-0` solo cuando hay dos columnas: apilado,
-                            encogerse no significa nada. */}
-                        {/* Las ranuras van en `rem` y no en `ch`. El `ch` es el
-                            ancho del glifo «0» de la PRIMERA fuente disponible,
-                            y aquí resolvía a 0,5 em —el valor de reserva— en vez
-                            de los 0,6 em de JetBrains Mono: «$2.500.000» se
-                            salía de su caja 19 px. Medido, el importe más largo
-                            pide 114 px. */}
-                        <span className="flex items-baseline gap-2 font-mono tabular-nums sm:shrink-0">
-                          <span className="w-11 text-right text-xs text-ink-muted">
-                            {precioPartes(l, idioma).desde}
-                          </span>
-                          <span className="w-[7.5rem] text-right text-[length:var(--text-h4)] text-brand">
-                            {/* La cifra sube una vez al cargar. Si no hay
-                                número que contar —una línea «según alcance»—
-                                se pinta el texto tal cual. */}
-                            {l.montoCop !== undefined ? (
-                              <PrecioContado valor={l.montoCop} idioma={idioma} indice={indiceFila} />
-                            ) : (
-                              precioPartes(l, idioma).monto
-                            )}
-                          </span>
-                          <span className="w-9 whitespace-nowrap text-xs text-ink-muted">
-                            {precioPartes(l, idioma).unidad}
-                          </span>
-                        </span>
-                      </>
-                    );
-
+                    const partes = precioPartes(l, idioma);
                     return (
-                      <li key={l.servicio.es}>
-                        {href ? (
-                          <Link
-                            href={href}
-                            className="focus-ring flex flex-col gap-1 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6 transition-colors duration-base ease-ps hover:text-brand"
-                          >
-                            {fila}
-                          </Link>
-                        ) : (
-                          <span className="flex flex-col gap-1 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">{fila}</span>
-                        )}
-                      </li>
+                      <FilaPrecio
+                        key={l.servicio.es}
+                        idioma={idioma}
+                        indice={indiceFila}
+                        /* La tabla ES el hero de esta página: aquí la cuenta
+                           se ve, y es lo único del sitio que cuenta al cargar
+                           en vez de al entrar en vista. */
+                        cuenta
+                        nombre={l.servicio[idioma]}
+                        plazo={l.plazo?.[idioma]}
+                        monto={l.montoCop ?? partes.monto}
+                        desde={Boolean(l.esDesde)}
+                        unidad={partes.unidad}
+                        href={servicio ? enlaceReal(servicio.href[idioma]) : undefined}
+                      />
                     );
                   })}
                 </ul>

@@ -1259,3 +1259,158 @@ input[type="radio"] { accent-color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   .jv-subrayado { transition: none; }
 }
+
+/* ===========================================================================
+   El artículo del blog (`components/BlogPost.tsx`)
+   ---------------------------------------------------------------------------
+   1 · LA BARRA DE LECTURA. Crece con el desplazamiento del documento, y lo
+       hace con `animation-timeline: scroll()`: ni un listener, ni un
+       fotograma de JavaScript, y corre en el compositor. Donde no hay soporte
+       —o con movimiento reducido— la barra sencillamente no aparece: es un
+       indicador de progreso, no contenido.
+
+   2 · LA RESPUESTA CORTA. Los once artículos abren con un párrafo que empieza
+       por «Respuesta corta:» en negrita. Es lo mejor que tiene cada uno —y lo
+       que un resumen de IA cita— y estaba puesto como un párrafo más. La regla
+       lo encuentra por su FORMA, sin tocar los once archivos: el primer
+       párrafo del cuerpo cuyo primer hijo es un `<strong>`.
+   =========================================================================== */
+.jv-lectura { display: none; }
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .jv-lectura {
+      display: block;
+      position: fixed;
+      inset-inline: 0;
+      top: 0;
+      z-index: 60;
+      height: 2px;
+      background: var(--brand-500);
+      transform-origin: left;
+      animation: jv-lectura-avanza linear;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+@keyframes jv-lectura-avanza {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* SIN FILETE DE ACENTO AL COSTADO, y se probó. Un rail de 3 px en el borde
+   izquierdo de una caja redondeada es de los patrones que el detector marca
+   por su nombre —`side-tab`— y que la guía de diseño lista entre los tics de
+   interfaz generada. La caja se distingue igual por lo que es: otra
+   superficie, su propio filete completo y un cuerpo un punto mayor. */
+.jv-cuerpo > p:first-of-type:has(> strong:first-child) {
+  margin-bottom: 2rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: 1.25rem 1.5rem;
+  color: var(--color-ink);
+  font-size: 1.0625rem;
+}
+.jv-cuerpo > p:first-of-type:has(> strong:first-child) > strong:first-child {
+  color: var(--brand-500);
+}
+
+/* ===========================================================================
+   La fila de precio (`components/kit/FilaPrecio.tsx`)
+   ---------------------------------------------------------------------------
+   LA CORTINA. Al pasar por encima entra un velo de marca desde la izquierda,
+   en el sentido de la lectura. No es un cambio de color: es un gesto con
+   dirección, y eso es lo que convierte una fila de tabla en algo que se ve
+   pulsable. Detrás va el filete izquierdo, que aparece con ella.
+
+   EL IMPORTE NO SE MUEVE. Es lo único de la fila alineado con las otras
+   siete, y desplazarlo rompería la columna de pesos que la tabla existe para
+   construir. Lo que se corre es el nombre —seis píxeles— y la flecha del
+   final, que nace corrida y aterriza.
+
+   `scaleX` sobre el origen izquierdo y `opacity`: las dos en el compositor.
+   Nada de animar el ancho ni el fondo, que obligarían a repintar la fila
+   entera en cada fotograma de una tabla de ocho.
+
+   SOLO CON PUNTERO DE VERDAD. En táctil el hover se queda pegado después de
+   tocar y la fila se quedaría encendida sin motivo; `:active` sí vale en los
+   dos y es el que confirma el toque.
+   =========================================================================== */
+.jv-fila::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    90deg,
+    rgb(var(--brand-500-rgb) / 0.1),
+    rgb(var(--brand-500-rgb) / 0.02)
+  );
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.jv-fila::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  z-index: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--brand-500);
+  transform: scaleY(0);
+  transform-origin: center;
+}
+.jv-fila__flecha {
+  opacity: 0;
+  transform: translateX(-6px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .jv-fila::before,
+  .jv-fila::after,
+  .jv-fila__flecha,
+  .jv-fila__nombre {
+    transition:
+      opacity var(--dur-ui, 0.22s) var(--ease-ps),
+      transform var(--dur-ui, 0.22s) var(--ease-ps);
+  }
+  .jv-fila:hover::before,
+  .jv-fila:focus-visible::before {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  .jv-fila:hover::after,
+  .jv-fila:focus-visible::after {
+    transform: scaleY(1);
+  }
+  .jv-fila:hover .jv-fila__flecha,
+  .jv-fila:focus-visible .jv-fila__flecha {
+    opacity: 1;
+    transform: none;
+  }
+  .jv-fila:hover .jv-fila__nombre,
+  .jv-fila:focus-visible .jv-fila__nombre {
+    transform: translateX(6px);
+    color: var(--brand-500);
+  }
+}
+
+/* El toque, en cualquier dispositivo. */
+a.jv-fila:active { transform: scale(0.995); }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-fila::before,
+  .jv-fila::after,
+  .jv-fila__flecha,
+  .jv-fila__nombre { transition: none; }
+  /* Sin gesto, pero el estado sigue existiendo: quien navega con teclado
+     tiene que ver dónde está parado. */
+  .jv-fila:hover::before,
+  .jv-fila:focus-visible::before { opacity: 1; transform: scaleX(1); }
+  .jv-fila:hover .jv-fila__flecha,
+  .jv-fila:focus-visible .jv-fila__flecha { opacity: 1; transform: none; }
+}

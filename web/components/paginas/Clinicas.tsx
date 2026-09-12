@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/kit/PageHero";
 import { SectionIndex } from "@/components/kit/SectionIndex";
 import { PainGrid } from "@/components/kit/PainGrid";
+import { FilaPrecio } from "@/components/kit/FilaPrecio";
 import { ProofCard } from "@/components/kit/ProofCard";
 import { FaqAccordion } from "@/components/kit/FaqAccordion";
 import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
@@ -365,48 +366,20 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
           </Reveal>
 
           <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
-            {CLINICAS.precios.map((p) => {
+            {CLINICAS.precios.map((p, i) => {
               const piso = PISO_POR_SERVICIO[p.clave];
               return (
-                <li key={p.clave} className="max-w-none">
-                  <Link
-                    href={enlaceReal(p.href[idioma])}
-                    className="focus-ring flex flex-col gap-3 py-5 transition-colors duration-base ease-ps hover:text-brand sm:flex-row sm:items-start sm:justify-between sm:gap-8"
-                  >
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-[length:var(--text-h4)] font-semibold text-ink">
-                        {p.titulo[idioma]}
-                      </span>
-                      <span className="mt-1.5 block max-w-[62ch] text-sm leading-relaxed text-ink-soft">
-                        {p.cuerpo[idioma]}
-                      </span>
-                      <span className="mt-2 block font-mono text-xs text-ink-muted">
-                        {p.plazo[idioma]}
-                      </span>
-                    </span>
-
-                    {piso === null ? (
-                      /* Sin número que dar, la fila lo dice con palabras y no
-                         finge una cifra. La ranura es la misma, así que la
-                         columna no se descuadra. */
-                      <span className="font-mono text-sm text-ink-muted sm:w-[10.75rem] sm:shrink-0 sm:text-right">
-                        {CLINICAS.segunAlcance[idioma]}
-                      </span>
-                    ) : (
-                      <span className="flex items-baseline gap-2 font-mono tabular-nums sm:shrink-0">
-                        <span className="w-11 text-right text-xs text-ink-muted">
-                          {CLINICAS.desde[idioma]}
-                        </span>
-                        <span className="w-[7.5rem] text-right text-[length:var(--text-h4)] text-brand">
-                          {money(piso, idioma)}
-                        </span>
-                        <span className="w-9 whitespace-nowrap text-xs text-ink-muted">
-                          {p.clave === "seoMes" ? (es ? "/mes" : "/mo") : ""}
-                        </span>
-                      </span>
-                    )}
-                  </Link>
-                </li>
+                <FilaPrecio
+                  key={p.clave}
+                  idioma={idioma}
+                  indice={i}
+                  nombre={p.titulo[idioma]}
+                  descripcion={p.cuerpo[idioma]}
+                  plazo={p.plazo[idioma]}
+                  monto={piso ?? CLINICAS.segunAlcance[idioma]}
+                  unidad={p.clave === "seoMes" ? (es ? "/mes" : "/mo") : undefined}
+                  href={enlaceReal(p.href[idioma])}
+                />
               );
             })}
           </ul>

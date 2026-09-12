@@ -369,7 +369,10 @@
        idiomas. `--color-ink-soft` es el mismo tono de cuerpo que usa el resto
        del sitio y mide 9,4:1. */
     color: var(--color-ink-soft);
-    font-size: 0.975rem;
+    /* 1rem y no 0,975: era el único tamaño del sitio fuera de la escala, un
+       valor a ojo que nadie eligió. A 16 px y con la medida en 34 rem salen
+       unas setenta letras por línea, que es la banda buena. */
+    font-size: 1rem;
   }
   .legal p {
     margin-bottom: 1rem;

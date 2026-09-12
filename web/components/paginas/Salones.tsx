@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/kit/PageHero";
 import { SectionIndex } from "@/components/kit/SectionIndex";
 import { PainGrid } from "@/components/kit/PainGrid";
+import { FilaPrecio } from "@/components/kit/FilaPrecio";
 import { ProofCard } from "@/components/kit/ProofCard";
 import { FaqAccordion } from "@/components/kit/FaqAccordion";
 import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
@@ -372,37 +373,18 @@ export function PaginaSalones({ idioma, ruta }: { idioma: Idioma; ruta: string }
               /precios, para que el precio de un sector y el de la página de
               precios se lean como el mismo dato y no como dos ofertas. */}
           <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
-            {SALONES.precios.map((p) => (
-              <li key={p.clave} className="max-w-none">
-                <Link
-                  href={enlaceReal(p.href[idioma])}
-                  className="focus-ring flex flex-col gap-3 py-5 transition-colors duration-base ease-ps hover:text-brand sm:flex-row sm:items-start sm:justify-between sm:gap-8"
-                >
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-[length:var(--text-h4)] font-semibold text-ink">
-                      {p.titulo[idioma]}
-                    </span>
-                    <span className="mt-1.5 block max-w-[62ch] text-sm leading-relaxed text-ink-soft">
-                      {p.cuerpo[idioma]}
-                    </span>
-                    <span className="mt-2 block font-mono text-xs text-ink-muted">
-                      {p.plazo[idioma]}
-                    </span>
-                  </span>
-
-                  <span className="flex items-baseline gap-2 font-mono tabular-nums sm:shrink-0">
-                    <span className="w-11 text-right text-xs text-ink-muted">
-                      {SALONES.desde[idioma]}
-                    </span>
-                    <span className="w-[7.5rem] text-right text-[length:var(--text-h4)] text-brand">
-                      {money(PISO_POR_SERVICIO[p.clave], idioma)}
-                    </span>
-                    <span className="w-9 whitespace-nowrap text-xs text-ink-muted">
-                      {p.clave === "seoMes" ? (es ? "/mes" : "/mo") : ""}
-                    </span>
-                  </span>
-                </Link>
-              </li>
+            {SALONES.precios.map((p, i) => (
+              <FilaPrecio
+                key={p.clave}
+                idioma={idioma}
+                indice={i}
+                nombre={p.titulo[idioma]}
+                descripcion={p.cuerpo[idioma]}
+                plazo={p.plazo[idioma]}
+                monto={PISO_POR_SERVICIO[p.clave]}
+                unidad={p.clave === "seoMes" ? (es ? "/mes" : "/mo") : undefined}
+                href={enlaceReal(p.href[idioma])}
+              />
             ))}
           </ul>
 

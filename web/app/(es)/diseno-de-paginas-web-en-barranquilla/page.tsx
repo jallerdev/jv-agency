@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/kit/PageHero";
 import { SectionIndex } from "@/components/kit/SectionIndex";
 import { PainGrid } from "@/components/kit/PainGrid";
+import { FilaPrecio } from "@/components/kit/FilaPrecio";
 import { ProofCard } from "@/components/kit/ProofCard";
 import { FaqAccordion } from "@/components/kit/FaqAccordion";
 import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
@@ -539,48 +540,20 @@ export default function BarranquillaPage() {
           </Reveal>
 
           <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
-            {PRECIOS.map((p) => {
-              const fila = (
-                <>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-[length:var(--text-h4)] font-semibold text-ink">
-                      {p.servicio}
-                    </span>
-                    <span className="mt-1.5 block max-w-[62ch] text-sm leading-relaxed text-ink-soft">
-                      {p.desc}
-                    </span>
-                    <span className="mt-2 block font-mono text-xs text-ink-muted">{p.plazo}</span>
-                  </span>
-                  <span className="flex items-baseline gap-2 font-mono tabular-nums sm:shrink-0">
-                    <span className="w-11 text-right text-xs text-ink-muted">
-                      {p.desde.startsWith("desde") ? "desde" : ""}
-                    </span>
-                    <span className="w-[7.5rem] text-right text-[length:var(--text-h4)] text-brand">
-                      {p.desde.replace("desde ", "").replace("/mes", "")}
-                    </span>
-                    <span className="w-9 whitespace-nowrap text-xs text-ink-muted">
-                      {p.desde.includes("/mes") ? "/mes" : ""}
-                    </span>
-                  </span>
-                </>
-              );
-              return (
-                <li key={p.servicio} className="max-w-none">
-                  {p.href ? (
-                    <Link
-                      href={p.href}
-                      className="focus-ring flex flex-col gap-3 py-5 transition-colors duration-base ease-ps hover:text-brand sm:flex-row sm:items-start sm:justify-between sm:gap-8"
-                    >
-                      {fila}
-                    </Link>
-                  ) : (
-                    <span className="flex flex-col gap-3 py-5 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
-                      {fila}
-                    </span>
-                  )}
-                </li>
-              );
-            })}
+            {PRECIOS.map((p, i) => (
+              <FilaPrecio
+                key={p.servicio}
+                idioma="es"
+                indice={i}
+                nombre={p.servicio}
+                descripcion={p.desc}
+                plazo={p.plazo}
+                monto={Number(p.desde.replace(/[^\d]/g, ""))}
+                desde={p.desde.startsWith("desde")}
+                unidad={p.desde.includes("/mes") ? "/mes" : undefined}
+                href={p.href}
+              />
+            ))}
           </ul>
 
           <Reveal>
