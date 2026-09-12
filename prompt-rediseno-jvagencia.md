@@ -402,6 +402,7 @@ La "/" del logo grande, dibujándose. Texto en la voz del sitio (propuesta, a ap
 | 4    | Plantilla de sectores y de ciudades (5 páginas)                                                                                    | `shape` de la plantilla una vez, luego `layout` + `animate` por página                    | Sí                |
 | 5    | Blog, artículo, imágenes sociales, 404, legales, paridad `/en`                                                                     | `typeset` (lectura del blog), `harden` (i18n de `/en`), `delight` (404)                   | Sí                |
 | 6    | QA completa (sección 11)                                                                                                           | `audit`, `optimize`, `polish` + `detect` en todas las URLs                                | —                 |
+| 7    | Rendimiento en móvil (sección 13). Va **después** de la 6: optimizar mientras las páginas todavía cambian es medir humo            | `optimize`                                                                                | Sí                |
 
 Cada PR incluye: capturas antes y después en 375 px y 1440 px, reporte de Lighthouse móvil, salida de `npx impeccable detect` antes y después, lista de cambios de texto (debería estar vacía salvo la sección 9) y la lista de `[PENDIENTE]`.
 
@@ -433,3 +434,79 @@ Impeccable tiene criterio propio, y eso es bueno. Pero este sitio ya tiene una i
 6. **`bolder`** solo si `critique` dice explícitamente que una página interna se queda corta frente al home, y solo sobre la sección señalada.
 7. **`live` para iterar las piezas firma:** úsalo en el servidor de desarrollo local para comparar variantes de cada pieza firma antes de fijarla. Nunca contra el sitio en producción.
 8. **Los límites de rendimiento de la sección 11 ganan** sobre cualquier efecto que proponga un comando. Si una animación no cabe en el presupuesto, se simplifica.
+
+---
+
+## 13. Fase 7 — Rendimiento en móvil
+
+Va **después de la fase 6**, y el orden importa: optimizar mientras las páginas
+todavía cambian es medir humo. Cuando la QA cierre, esto se mide, se arregla y
+se vuelve a medir.
+
+### Lo que hay hoy, medido y no supuesto
+
+**PageSpeed Insights sobre producción, 11 de septiembre de 2026** —producción
+corre el código ANTERIOR al rediseño de las internas, así que estos números son
+la línea base del sitio publicado, no del trabajo nuevo:
+
+| | Móvil | Escritorio |
+|---|---|---|
+| Rendimiento | **66** | 94 |
+| First Contentful Paint | 3,6 s | 1,0 s |
+| Largest Contentful Paint | **6,0 s** | 1,2 s |
+| Speed Index | 5,9 s | 1,6 s |
+| Total Blocking Time | 50 ms | 50 ms |
+| Cumulative Layout Shift | 0 | 0 |
+
+Accesibilidad 90 · Prácticas recomendadas 100 · SEO 100 en las dos.
+
+**Y medido en local sobre el build nuevo**, con un teléfono emulado a 4× de CPU
+y 4G lenta: FCP 2,37 s, LCP 2,37 s, CLS 0, 285 KB transferidos —171 KB de
+JavaScript y 114 KB de fuentes—.
+
+### Lo que esos números ya dicen
+
+- **TBT de 50 ms y CLS de 0.** No es JavaScript ejecutándose ni contenido que
+  salta: el problema es que el **primer pintado llega tarde**.
+- **FCP y LCP coinciden**, en producción y en local. Cuando por fin se pinta
+  algo, se pinta todo: hay una cadena de bloqueo antes del primer pixel.
+- **El elemento LCP es un párrafo**, no una imagen. O sea que ni siquiera hay
+  una imagen grande a la que culpar: lo que tarda es el texto en poder
+  dibujarse.
+- **114 KB de fuentes** frente a 171 KB de JavaScript. En una página de texto
+  sobre fondo negro, las fuentes pesan casi tanto como todo el código.
+
+### El trabajo, por orden de impacto probable
+
+1. **Las fuentes primero.** Dos familias variables autoalojadas. Comprobar el
+   rango de pesos que se usa de verdad, subsetear a latín, revisar
+   `font-display` y precargar **solo** la que pinta el LCP. Un fallback con
+   métricas ajustadas (`size-adjust`) para que el intercambio no mueva nada.
+   Objetivo: bajar de 114 KB y que el texto sea visible antes de que llegue la
+   fuente.
+2. **El campo de manchas** (`components/Blobs.tsx`) cubre todo el sitio y es de
+   cliente. Medir qué aporta a la cadena crítica; si estorba, que entre después
+   del primer pintado.
+3. **Inventario de JavaScript por ruta.** El encargo fija un techo de +30 KB
+   comprimidos por página y la fase 2 añadió piezas de cliente. Medir ruta por
+   ruta, y cortar lo que no pague su peso: importaciones de iconos sueltas,
+   componentes de cliente que podrían ser de servidor.
+4. **Por qué el LCP es un párrafo.** Si el H1 debería serlo y no lo es, algo lo
+   está retrasando. Mirar la cadena completa: HTML → CSS crítico → fuente →
+   pintado.
+5. **Imágenes:** `priority` solo en la del hero de cada página, `sizes`
+   correctos —los de las capturas se revisaron en la fase 2, el resto no— y
+   formatos modernos.
+6. **Cabeceras y caché en Vercel**, que es lo último y lo más barato.
+7. **Volver a medir**: PSI sobre la URL de previsualización de la rama y, tras
+   el merge, sobre producción. Con las mismas cinco métricas de la tabla.
+
+### Criterios de aceptación de la fase
+
+- Móvil **≥ 90** en las tres rutas que más entran: portada,
+  `/servicios/diseno-de-paginas-web` y `/precios`.
+- **LCP < 2,5 s** en el teléfono emulado, **CLS 0**, **TBT < 200 ms**.
+- El presupuesto de JavaScript de la sección 11 se cumple ruta por ruta, no de
+  media.
+- Ni una animación de las piezas firma se quita para llegar a la cifra: si algo
+  no cabe, se simplifica —que es lo que ya manda la sección 12.8—.
