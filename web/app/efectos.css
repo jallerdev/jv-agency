@@ -917,3 +917,32 @@ input[type="radio"] { accent-color: var(--accent); }
   .jv-cred__luz { display: none; }
   .jv-visto { animation: none; stroke-dashoffset: 0; }
 }
+
+/* ===========================================================================
+   La bitácora de /sobre-nosotros (`components/visuales/Bitacora.tsx`)
+   ---------------------------------------------------------------------------
+   El carril se traza de arriba abajo cuando la pieza entra en vista. Es el
+   único gesto de la sección: las filas nacen legibles y no desvanecen, porque
+   una bitácora de cinco entradas con cinco fade-up es la marca más reconocible
+   de un sitio genérico —y el encargo lo dice con esas palabras—.
+
+   `scaleY` sobre el origen superior, que es como se dibuja una línea; animar
+   la altura recalcularía la caja de cada fila en todos los fotogramas.
+
+   Con movimiento reducido la línea está dibujada desde el primer fotograma: no
+   hace falta apagar nada, basta con no encenderlo.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-bitacora__linea {
+    transform: translateX(-50%) scaleY(0);
+    transform-origin: top;
+    transition: transform var(--dur-set, 0.9s) var(--ease-ps);
+  }
+  .jv-bitacora li:nth-child(2) .jv-bitacora__linea { transition-delay: 0.1s; }
+  .jv-bitacora li:nth-child(3) .jv-bitacora__linea { transition-delay: 0.2s; }
+  .jv-bitacora li:nth-child(4) .jv-bitacora__linea { transition-delay: 0.3s; }
+  .jv-bitacora li:nth-child(5) .jv-bitacora__linea { transition-delay: 0.4s; }
+  .jv-bitacora[data-visible="true"] .jv-bitacora__linea {
+    transform: translateX(-50%) scaleY(1);
+  }
+}

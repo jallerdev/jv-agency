@@ -1,3 +1,4 @@
+import type { Cifra } from "@/content/home/founder";
 import type { Texto } from "@/content/types";
 
 /**
@@ -30,12 +31,38 @@ export const SOBRE = {
     verPortafolio: { es: "Portafolio", en: "Portfolio" },
   },
 
+  /* LA FORMA CAMBIÓ, LAS CIFRAS NO. Eran cadenas —«3+», «<24 h»— y una cadena
+     no se puede contar hacia arriba. Ahora son número más adorno, que es lo
+     que el contador necesita y lo que ya usa la portada: mismo dato, misma
+     forma, un solo contador para las dos páginas.
+
+     `cuenta` decide cuáles suben. Un tope —«menos de 24 horas»— no crece, y
+     verlo subir de 0 a 24 diría lo contrario de lo que dice. «1 persona»
+     tampoco: contar hasta uno no es una cuenta, es un parpadeo. */
   cifras: [
-    { valor: "3+", etiqueta: { es: "años construyendo producto", en: "years building product" } },
-    { valor: "11+", etiqueta: { es: "proyectos en producción", en: "projects in production" } },
-    { valor: "<24 h", etiqueta: { es: "tiempo de respuesta", en: "response time" } },
-    { valor: "1", etiqueta: { es: "persona, de principio a fin", en: "person, end to end" } },
-  ] as readonly { valor: string; etiqueta: Texto }[],
+    {
+      valor: 3,
+      sufijo: "+",
+      cuenta: true,
+      etiqueta: { es: "años construyendo producto", en: "years building product" },
+    },
+    {
+      valor: 11,
+      sufijo: "+",
+      cuenta: true,
+      etiqueta: { es: "proyectos en producción", en: "projects in production" },
+    },
+    {
+      valor: 24,
+      prefijo: "<",
+      sufijo: " h",
+      etiqueta: { es: "tiempo de respuesta", en: "response time" },
+    },
+    {
+      valor: 1,
+      etiqueta: { es: "persona, de principio a fin", en: "person, end to end" },
+    },
+  ] as readonly Cifra[],
 
   enfoqueTitulo: { es: "Cómo trabajo", en: "How I work" },
   enfoque: [
@@ -157,6 +184,8 @@ export const SOBRE = {
         es: "Tienda online de bisutería y accesorios, de punta a punta.",
         en: "An online jewellery and accessories store, end to end.",
       },
+      dominio: "bloomroseaccesorios.com",
+      url: "https://www.bloomroseaccesorios.com",
     },
     {
       nombre: "HalcónOS",
@@ -165,6 +194,8 @@ export const SOBRE = {
         es: "CRM y gestor de proyectos para agencias.",
         en: "A CRM and project manager for agencies.",
       },
+      dominio: "halcon.jvagencia.com",
+      url: "https://halcon.jvagencia.com",
     },
     {
       nombre: "InvitiApp",
@@ -183,8 +214,86 @@ export const SOBRE = {
         es: "Producto propio, en línea y con dominio propio.",
         en: "An own product, online and on its own domain.",
       },
+      dominio: "hummik.com",
+      url: "https://www.hummik.com",
     },
-  ] as readonly { nombre: string; etiqueta: Texto; cuerpo: Texto }[],
+  ] as readonly {
+    nombre: string;
+    etiqueta: Texto;
+    cuerpo: Texto;
+    /* Solo los que están en línea. Sin dominio, la fila no promete que se
+       pueda abrir: InvitiApp existe y no tiene dirección pública, y decirlo
+       vale más que dejar un enlace muerto. */
+    dominio?: string;
+    url?: string;
+  }[],
+
+  /* ── El retrato ───────────────────────────────────────────────────
+     NO HAY FOTO DE LUIS, y mientras no la haya aquí va el monograma sobre el
+     plano de marca. Es exactamente la misma decisión que toma la portada y por
+     el mismo motivo: una foto de banco en la página que dice «hablas conmigo»
+     sería la mentira más cara del sitio. El marcador de que falta la foto sale
+     en desarrollo, no en producción: un cliente no tiene por qué leerlo. */
+  retrato: {
+    pie: { es: "Luis Jaller · Turbaco, Bolívar", en: "Luis Jaller · Turbaco, Bolívar" },
+    nota: {
+      es: "Sin foto de archivo. Cuando haya una mía, va aquí.",
+      en: "No stock photo. When there's one of me, it goes here.",
+    },
+  },
+
+  /* ── La pieza firma ───────────────────────────────────────────────
+     Una sola por página, y en esta es esta. Lo que el visitante ve a la
+     izquierda lo produce el código de la derecha, y los dos salen del mismo
+     archivo: no es una captura de código puesta al lado de una captura de
+     interfaz. */
+  manos: {
+    titulo: { es: "«En las mismas manos», literalmente", en: "\u201cIn the same hands\u201d, literally" },
+    entradilla: {
+      es: "A la izquierda, lo que ve tu cliente. A la derecha, el código que lo dibuja. Mueve la barra y verás que son la misma cosa.",
+      en: "On the left, what your customer sees. On the right, the code that draws it. Move the bar and you'll see they're the same thing.",
+    },
+    nota: {
+      es: "Los dos lados salen del mismo archivo de este sitio. Si uno cambia y el otro no, se nota aquí mismo.",
+      en: "Both sides come from the same file in this site. If one changes and the other doesn't, it shows right here.",
+    },
+  },
+
+  /* ── La bitácora ──────────────────────────────────────────────────
+     SIN FECHAS INVENTADAS. La única entrada con fecha es la verificación de
+     Meta, que tiene una de verdad; el resto se ordena por lo que se puede
+     comprobar —el dominio— y no por un calendario que nadie confirmó. Cuando
+     Luis pase las fechas, la bitácora pasa a orden cronológico y esta nota
+     sobra. */
+  bitacora: {
+    titulo: { es: "Bitácora", en: "Log" },
+    entradilla: {
+      es: "Lo que está construido y sigue en línea, más la única credencial que me dio un tercero. Cada fila se abre o se verifica.",
+      en: "What's built and still online, plus the one credential a third party gave me. Every row opens or can be verified.",
+    },
+    enLinea: { es: "En línea", en: "Live" },
+    sinDominio: { es: "Sin dominio público", en: "No public domain" },
+    abrir: { es: "Abrir", en: "Open" },
+    credencial: {
+      nombre: { es: "Verificación de Meta", en: "Meta verification" },
+      etiqueta: { es: "Credencial", en: "Credential" },
+      cuerpo: {
+        es: "Proveedor de tecnología verificado. La conexión de WhatsApp la hago yo, no la terceriza nadie.",
+        en: "Verified tech provider. I do the WhatsApp connection myself; nobody subcontracts it.",
+      },
+      fecha: { es: "Julio de 2026", en: "July 2026" },
+    },
+  },
+
+  /* El enlace a «Qué no hago» de la página de software. Va aquí, en la sección
+     de cómo trabajo, porque la lista de lo que uno NO hace dice más del oficio
+     que la lista de lo que sí. */
+  noHagoAntes: { es: "La otra mitad de cómo trabajo es ", en: "The other half of how I work is " },
+  noHagoEnlace: { es: "lo que no hago", en: "what I don't do" },
+  noHagoDespues: {
+    es: ": siete encargos que digo que no antes de cobrarlos, con el motivo de cada uno.",
+    en: ": seven jobs I turn down before charging for them, with the reason for each.",
+  },
 
   cierre: {
     titulo: { es: "¿Hablamos de tu proyecto?", en: "Shall we talk about your project?" },
