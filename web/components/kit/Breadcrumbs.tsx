@@ -95,7 +95,10 @@ export function Breadcrumbs({
                 ) : (
                   <Link
                     href={m.href}
-                    className="jv-navlink text-sm text-ink-soft hover:text-ink"
+                    /* `jv-toque`: la miga mide veinte píxeles de alto y el dedo
+                       necesita cuarenta y cuatro. El área crece sin mover la
+                       línea ni el subrayado. Ver `app/efectos.css`. */
+                    className="jv-toque jv-navlink text-sm text-ink-soft hover:text-ink"
                   >
                     {m.texto}
                   </Link>

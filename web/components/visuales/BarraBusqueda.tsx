@@ -59,7 +59,7 @@ export function BarraBusqueda({
       </div>
 
       {enlace && (
-        <a href={enlace.href} className="jv-enlace mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-brand">
+        <a href={enlace.href} className="jv-toque jv-enlace mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-brand">
           {enlace.texto}
         </a>
       )}

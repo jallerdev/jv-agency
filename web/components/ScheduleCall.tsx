@@ -881,7 +881,7 @@ function BotonCalendario({ href, texto }: { href: string; texto: string }) {
     <a
       href={href}
       download="llamada-jv-agencia.ics"
-      className="jv-enlace mt-4 inline-flex min-h-11 items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-ink-soft"
+      className="jv-toque jv-enlace mt-4 inline-flex min-h-11 items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-ink-soft"
     >
       <CalendarPlus className="h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
       {texto}

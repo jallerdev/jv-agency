@@ -123,7 +123,7 @@ export function NextStep({
       <PriceTag id={id} idioma={idioma} tam="sm" className="mt-4" conPlazo={false} />
       <Link
         href={catalogo(id).href[idioma]}
-        className="jv-navlink mt-5 block w-fit text-sm font-semibold text-ink"
+        className="jv-toque jv-navlink mt-5 block w-fit text-sm font-semibold text-ink"
       >
         {idioma === "es" ? "Ver el detalle" : "See the detail"}
       </Link>

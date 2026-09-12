@@ -178,7 +178,9 @@ function CabeceraFoco({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
         <Link
           href={inicio}
           aria-label={idioma === "es" ? "JV Agencia — Inicio" : "JV Agencia — Home"}
-          className="shrink-0"
+          /* El logotipo mide 28x28 y es el único camino de vuelta desde el
+             formulario: área de toque completa. */
+          className="jv-toque flex h-11 shrink-0 items-center"
         >
           <Logo className="h-7 w-auto text-ink" />
         </Link>
@@ -189,7 +191,7 @@ function CabeceraFoco({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
               href={otro}
               hrefLang={idioma === "es" ? "en" : "es"}
               aria-label={idioma === "es" ? "Ver en inglés" : "Ver en español"}
-              className="flex items-center gap-1 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps hover:text-ink"
+              className="jv-toque flex h-11 items-center gap-1 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps hover:text-ink"
             >
               <span className={idioma === "es" ? "text-ink" : undefined}>ES</span>
               <span aria-hidden className="text-line">

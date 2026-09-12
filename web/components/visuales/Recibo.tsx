@@ -197,7 +197,10 @@ export function Recibo({
                 <label
                   key={b.clave}
                   className={cn(
-                    "cursor-pointer rounded-full border px-4 py-2.5 text-sm font-semibold transition-surface duration-base ease-ps",
+                    /* `min-h-11`: con `py-2.5` la pastilla medía 42 px y el mínimo
+                       táctil son 44. Dos píxeles, y son los que separan un
+                       control que se acierta de uno que no. */
+                    "flex cursor-pointer items-center justify-center rounded-full border px-4 py-2.5 text-sm font-semibold transition-surface duration-base ease-ps min-h-11",
                     suya
                       ? "border-brand bg-brand text-on-accent"
                       : "border-line bg-surface text-ink-soft hover:border-brand/40 hover:text-ink",

@@ -105,7 +105,7 @@ export function PainGrid({
                  flecha dice que lleva a otra página. */
               <Link
                 href={d.enlace.href}
-                className="jv-enlace mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-brand"
+                className="jv-toque jv-enlace mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-brand"
               >
                 {d.enlace.texto}
                 <ArrowUpRight aria-hidden="true" strokeWidth={2} className="h-4 w-4" />

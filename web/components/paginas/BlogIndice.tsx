@@ -68,6 +68,13 @@ const TRAMA_POR_CATEGORIA: Record<string, TramaPortada> = {
 
 const TODOS: Record<Idioma, string> = { es: "Todos", en: "All" };
 
+/* Lo que oye quien filtra con lector de pantalla. Con singular propio: «1
+   artículos» es el detalle por el que una frase generada suena a máquina. */
+const RECUENTO: Record<Idioma, { uno: string; varios: string }> = {
+  es: { uno: "1 artículo", varios: "{n} artículos" },
+  en: { uno: "1 article", varios: "{n} articles" },
+};
+
 export function BlogIndice({ idioma }: { idioma: Idioma }) {
   const base = idioma === "es" ? "/blog" : "/en/blog";
 
@@ -185,7 +192,11 @@ export function BlogIndice({ idioma }: { idioma: Idioma }) {
 
         <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-12 md:py-24">
           <Reveal>
-            <FiltroBlog articulos={resto.map(aVista)} todos={TODOS[idioma]} />
+            <FiltroBlog
+              articulos={resto.map(aVista)}
+              todos={TODOS[idioma]}
+              recuento={RECUENTO[idioma]}
+            />
           </Reveal>
         </section>
       </main>

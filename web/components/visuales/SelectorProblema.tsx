@@ -136,7 +136,7 @@ export function SelectorProblema({
               {p.href && (
                 <Link
                   href={p.href}
-                  className="jv-enlace mt-4 inline-flex min-h-11 w-fit items-center text-sm font-semibold text-brand"
+                  className="jv-toque jv-enlace mt-4 inline-flex min-h-11 w-fit items-center text-sm font-semibold text-brand"
                 >
                   {p.rotulo}
                 </Link>

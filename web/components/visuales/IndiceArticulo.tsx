@@ -100,7 +100,19 @@ export function IndiceArticulo({
               href={`#${e.id}`}
               aria-current={activa === e.id ? "true" : undefined}
               className={cn(
+                /* RELLENO DE VERDAD, NO `.jv-toque`: las entradas van una debajo
+                   de otra con cuatro píxeles de aire, y dos áreas extendidas de
+                   44 px se solaparían —la de arriba se quedaría con los toques
+                   de la de abajo—. Aquí el alto tiene que crecer: 19 px de texto
+                   más 28 de relleno son 47.
+
+                   Y solo con puntero grueso. En escritorio la lista se queda
+                   densa, que es lo que un índice pegado al costado tiene que
+                   ser. El punto de marca sigue alineado con la primera línea en
+                   los dos casos porque la fila no cambia de alineación: crece el
+                   relleno, no la caja del texto. */
                 "flex gap-2.5 py-1.5 text-sm leading-snug transition-colors duration-base ease-ps",
+                "[@media(pointer:coarse)]:py-3.5",
                 activa === e.id ? "font-semibold text-ink" : "text-ink-soft hover:text-ink",
               )}
             >

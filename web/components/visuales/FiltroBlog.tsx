@@ -43,11 +43,17 @@ export type ArticuloVista = {
 export function FiltroBlog({
   articulos,
   todos,
+  recuento,
   className,
 }: {
   articulos: readonly ArticuloVista[];
   /** Cómo se llama la pastilla que no filtra nada. */
   todos: string;
+  /* CÓMO SE DICE «N ARTÍCULOS», EN DOS CADENAS Y NO EN UNA FUNCIÓN. Esto es
+     un componente de cliente y `BlogIndice` es de servidor: pasarle una
+     función revienta el build con «Functions cannot be passed directly to
+     Client Components». El plural lleva `{n}` y se sustituye aquí. */
+  recuento: { uno: string; varios: string };
   className?: string;
 }) {
   const [filtro, setFiltro] = useState<string | null>(null);
@@ -98,6 +104,22 @@ export function FiltroBlog({
           );
         })}
       </ul>
+
+      {/* EL RECUENTO, EN VOZ ALTA. Pulsar una pastilla cambia lo que hay en la
+          rejilla y, con lector de pantalla, no cambia nada: el botón anuncia su
+          propio estado —«Precios, pulsado»— y ahí se acaba el aviso. Quien no
+          ve la rejilla no sabe si quedaron cuatro artículos o ninguno.
+
+          `polite` y no `assertive`: es el resultado de una acción que se acaba
+          de hacer a propósito, no una alerta. Va en `sr-only` porque en
+          pantalla el resultado ya se ve —son las tarjetas—, y repetirlo en
+          tinta sería ruido para quien sí las ve. */}
+      <p aria-live="polite" className="sr-only">
+        {(() => {
+          const n = articulos.filter((a) => !filtro || a.categoria === filtro).length;
+          return n === 1 ? recuento.uno : recuento.varios.replace("{n}", String(n));
+        })()}
+      </p>
 
       <ul key={filtro ?? "todos"} className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {articulos.map((a, i) => {

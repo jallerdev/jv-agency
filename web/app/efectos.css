@@ -1528,3 +1528,45 @@ a.jv-fila:active { transform: scale(0.995); }
 @keyframes jv-404-traza {
   to { stroke-dashoffset: 0; }
 }
+
+/* ===========================================================================
+   EL ÁREA DE TOQUE QUE NO MUEVE NADA
+   ---------------------------------------------------------------------------
+   Un enlace de texto mide lo que mide su línea: veinte píxeles. En un teléfono
+   eso es un objetivo que se falla, y la §11 del encargo pide cuarenta y
+   cuatro. Medido a 375 px antes de esto: setenta y siete migas de pan, veintitrés
+   enlaces de «ver el detalle» y una docena de enlaces de sección por debajo del
+   mínimo.
+
+   CRECER CON RELLENO NO SIRVE AQUÍ. `.jv-navlink` y `.jv-enlace` cuelgan su
+   subrayado de un `::after` anclado al borde inferior: doce píxeles de relleno
+   se llevan el subrayado doce píxeles hacia abajo, y el gesto de hover del
+   sitio entero se descoloca.
+
+   Así que el área crece con un `::before` TRANSPARENTE. No pinta nada y no
+   ocupa sitio —es `absolute`—, pero sí recibe el toque: el navegador cuenta los
+   pseudoelementos en la prueba de impacto y se lo atribuye a su elemento. La
+   línea se dibuja donde estaba y el dedo tiene cuarenta y cuatro píxeles de
+   alto y ocho de más a cada lado.
+
+   SOLO CON PUNTERO GRUESO. Con ratón, veinte píxeles sobran y un área invisible
+   que sobresale doce píxeles solo sirve para robarle el hover al vecino.
+
+   NO VALE PARA LISTAS APRETADAS. Donde los enlaces van uno debajo de otro con
+   cuatro píxeles de aire —el índice del artículo—, dos áreas de cuarenta y
+   cuatro se solapan y la de arriba se queda con los toques de la de abajo. Ahí
+   el alto tiene que crecer de verdad, y por eso el índice usa `min-h-11` en vez
+   de esta clase.
+   =========================================================================== */
+.jv-toque { position: relative; }
+
+@media (pointer: coarse) {
+  .jv-toque::before {
+    content: "";
+    position: absolute;
+    inset-inline: -0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: max(44px, 100%);
+  }
+}
