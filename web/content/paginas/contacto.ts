@@ -13,9 +13,12 @@ import type { Texto } from "@/content/types";
  * —porque es la que la gente usa— y el correo al final, para lo que tiene
  * adjuntos. Ninguna esconde a la otra detrás de una pestaña.
  *
- * NO SE PROMETE UN HORARIO DE ATENCIÓN. El estudio es una persona; publicar
- * «lunes a viernes de 8 a 6» sería inventar una disponibilidad. Lo que sí se
- * puede sostener es el tiempo de respuesta, y eso es lo que se dice.
+ * EL HORARIO YA NO SE CALLA, PERO NO SE PROMETE. Durante meses aquí no había
+ * horario porque publicar uno sin confirmarlo habría sido inventar una
+ * disponibilidad. Luis lo confirmó el 11 de septiembre de 2026 y vive en
+ * `BUSINESS.horario`, así que la página puede enseñar la hora de Turbaco en
+ * vivo. Lo que sigue sin prometerse es contestar dentro de ese horario: la
+ * promesa es, como siempre, menos de 24 horas.
  */
 export const CONTACTO = {
   badge: { es: "Contacto", en: "Contact" },
@@ -24,6 +27,12 @@ export const CONTACTO = {
   entradilla: {
     es: "Escribes tú y contesto yo: aquí no hay bandeja compartida ni ejecutivo de cuentas. Elige la vía que te quede cómoda.",
     en: "You write and I answer: there's no shared inbox and no account executive here. Pick whichever way suits you.",
+  },
+
+  canalesTitulo: { es: "Tres formas, y las tres llegan a mí", en: "Three ways, and all three reach me" },
+  canalesEntradilla: {
+    es: "Ninguna pasa por un formulario que nadie mira. Elige por lo que necesitas ahora: cerrar el alcance, preguntar algo suelto o mandar un archivo.",
+    en: "None of them goes through a form nobody checks. Pick by what you need right now: to settle the scope, to ask a quick question, or to send a file.",
   },
 
   vias: [

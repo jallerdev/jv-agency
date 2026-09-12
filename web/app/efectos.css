@@ -1062,3 +1062,42 @@ input[type="radio"] { accent-color: var(--accent); }
 @keyframes jv-clavado-avanza {
   to { transform: scaleX(1); }
 }
+
+/* ===========================================================================
+   El calendario propio (`components/kit/Calendario.tsx`)
+   ---------------------------------------------------------------------------
+   El mes entra por el lado del que viene: hacia adelante desde la derecha,
+   hacia atrás desde la izquierda. Es la única forma de que cambiar de mes no
+   se sienta como que la rejilla parpadeó y salieron otros números.
+
+   Doce píxeles de recorrido y 220 ms, que es el tramo de `--dur-ui`: lo justo
+   para leer la dirección sin que haya que esperar a que termine para pulsar.
+
+   Con movimiento reducido no hay nada que apagar porque no se enciende: la
+   regla entera vive dentro de la consulta.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-calendario__mes { animation: jv-cal-entra var(--dur-ui, 0.22s) var(--ease-ps) both; }
+  .jv-calendario__mes[data-sentido="atras"] { animation-name: jv-cal-entra-atras; }
+}
+@keyframes jv-cal-entra {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes jv-cal-entra-atras {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ===========================================================================
+   El paso del formulario de agenda (`components/ScheduleCall.tsx`)
+   ---------------------------------------------------------------------------
+   Los dos pasos entran de lado, igual que el mes del calendario y por el mismo
+   motivo: sin dirección, pasar del paso 1 al 2 se lee como que el formulario
+   se recargó con otros campos. Adelante desde la derecha, atrás desde la
+   izquierda, y el mismo tramo de 220 ms.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-paso { animation: jv-cal-entra var(--dur-ui, 0.22s) var(--ease-ps) both; }
+  .jv-paso[data-sentido="atras"] { animation-name: jv-cal-entra-atras; }
+}

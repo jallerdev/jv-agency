@@ -7,6 +7,7 @@ import {
   PRECIOS,
   type LineaPrecio,
   precioImpreso,
+  precioPartes,
 } from "@/content/paginas/precios";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
@@ -230,11 +231,34 @@ export function PaginaPrecios({
                             </span>
                           )}
                         </span>
-                        {/* `shrink-0` solo cuando hay dos columnas: apilado,
-                            encogerse no significa nada y el precio ya manda su
-                            propio renglón. */}
-                        <span className="font-mono text-[length:var(--text-h4)] tabular-nums text-brand sm:shrink-0">
-                          {precioImpreso(l, idioma)}
+                        {/* TRES RANURAS DE ANCHO FIJO en `ch`, y no una cadena
+                            alineada a la derecha. Con la cadena entera —«desde
+                            $180.000 al mes»— las cifras no caían nunca una
+                            debajo de otra: el sufijo de periodicidad empujaba
+                            el número siete caracteres a la izquierda. Con la
+                            ranura del importe a la derecha y las otras dos con
+                            su ancho, la columna de pesos se lee de arriba
+                            abajo, que es a lo que se viene a una lista de
+                            precios.
+
+                            `shrink-0` solo cuando hay dos columnas: apilado,
+                            encogerse no significa nada. */}
+                        {/* Las ranuras van en `rem` y no en `ch`. El `ch` es el
+                            ancho del glifo «0» de la PRIMERA fuente disponible,
+                            y aquí resolvía a 0,5 em —el valor de reserva— en vez
+                            de los 0,6 em de JetBrains Mono: «$2.500.000» se
+                            salía de su caja 19 px. Medido, el importe más largo
+                            pide 114 px. */}
+                        <span className="flex items-baseline gap-2 font-mono tabular-nums sm:shrink-0">
+                          <span className="w-11 text-right text-xs text-ink-muted">
+                            {precioPartes(l, idioma).desde}
+                          </span>
+                          <span className="w-[7.5rem] text-right text-[length:var(--text-h4)] text-brand">
+                            {precioPartes(l, idioma).monto}
+                          </span>
+                          <span className="w-9 whitespace-nowrap text-xs text-ink-muted">
+                            {precioPartes(l, idioma).unidad}
+                          </span>
                         </span>
                       </>
                     );

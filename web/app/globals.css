@@ -743,7 +743,17 @@ footer p:not([class*="max-w"]) {
 
 main li:not([class*="max-w"]):not(
     :has(:is(div, article, section, aside, figure, ul, ol, dl, table, img, svg,
-             video, button, input, h1, h2, h3, h4, h5, h6, p))
+             video, button, input, h1, h2, h3, h4, h5, h6, p,
+             /* Un enlace que se maqueta —flex o grid— es una FILA, no una
+                viñeta con un enlace dentro. Faltaba, y costó una tarde: en la
+                tabla de /precios las filas sin plazo se quedaban 92 px cortas
+                respecto a las que sí lo tienen, porque esas llevan el reloj en
+                `<svg>` y ese sí estaba en la lista. Resultado: una lista de
+                precios en la que los importes no caían en columna.
+                El enlace de prosa normal —`<a href>` sin clases de
+                maquetación— sigue sin escaparse, que es lo que esta regla
+                quiere proteger. */
+             a[class*="flex"], a[class*="grid"]))
   ) {
   max-width: var(--maxw-prose);
 }

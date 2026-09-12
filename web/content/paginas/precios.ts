@@ -52,6 +52,38 @@ export type LineaPrecio = {
  */
 const DESDE: Record<Idioma, string> = { es: "desde ", en: "from " };
 const AL_MES: Record<Idioma, string> = { es: " al mes", en: " a month" };
+/** El mismo dato en corto, para donde el sufijo tiene una ranura y no un renglón. */
+const UNIDAD_CORTA: Record<Idioma, string> = { es: "/mes", en: "/mo" };
+
+/**
+ * El precio partido en sus tres trozos: «desde», el importe y la periodicidad.
+ *
+ * La tabla los necesita SEPARADOS para poder alinearlos en columnas. Con el
+ * precio como una sola cadena alineada a la derecha, las cifras no caían nunca
+ * una debajo de otra: «desde $850.000» y «desde $180.000 al mes» acaban en el
+ * mismo borde, así que el «180.000» quedaba siete caracteres a la izquierda del
+ * «850.000». En una lista de precios, los números se leen en columna o no se
+ * comparan.
+ *
+ * `precioImpreso` se queda para el dato estructurado y para donde haga falta el
+ * texto seguido; las dos salen del mismo sitio y no pueden discrepar.
+ */
+export function precioPartes(
+  l: LineaPrecio,
+  idioma: Idioma,
+): { desde: string; monto: string; unidad: string } {
+  if (l.montoCop === undefined) {
+    return { desde: "", monto: l.precio?.[idioma] ?? "", unidad: "" };
+  }
+  return {
+    desde: l.esDesde ? DESDE[idioma].trim() : "",
+    monto: money(l.montoCop, idioma),
+    /* «/mes» y no «al mes»: en la tabla el sufijo vive en una ranura de ancho
+       fijo al lado del importe, y «al mes» se partía en dos renglones. Es
+       además el mismo sufijo que usa el recibo de «Tu propuesta». */
+    unidad: l.mensual ? UNIDAD_CORTA[idioma] : "",
+  };
+}
 
 export function precioImpreso(l: LineaPrecio, idioma: Idioma): string {
   if (l.montoCop === undefined) return l.precio?.[idioma] ?? "";
