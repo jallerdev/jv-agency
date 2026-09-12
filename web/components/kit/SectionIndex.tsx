@@ -171,7 +171,11 @@ export function SectionIndex({
             abierto ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
           )}
         >
-          <div className="overflow-hidden">
+          {/* `invisible` además del recorte: `inert` saca los enlaces del foco,
+              pero el texto seguía PINTADO debajo del recorte —el detector lo
+              marcaba como `text-occlusion` y es exactamente eso—. Oculto de
+              verdad mientras está plegado, y sigue en el DOM. */}
+          <div className={cn("overflow-hidden", !abierto && "invisible")}>
             <div className="pt-4">{lista}</div>
           </div>
         </div>

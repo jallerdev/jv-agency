@@ -52,6 +52,24 @@
         ],
         "createdAt": "2026-09-12T00:52:30.510Z",
         "reason": "Las 'tarjetas anidadas' son las BURBUJAS del chat dentro del hilo: es lo que es una conversacion de WhatsApp, no una tarjeta metida en otra. Comprobado en el DOM: hijo div.w-fit.max-w-[85%].rounded-2xl dentro de div.jv-card."
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "web/app/efectos.css"
+        ],
+        "createdAt": "2026-09-12T01:20:36.619Z",
+        "reason": "Mismo caso ya registrado para app/efectos.css: el gancho corre desde la raiz del repo y la ruta le llega con el prefijo web/. Las dos unicas instancias del archivo son deliberadas y no son texto de lectura: .text-halcon (logotipo de HalconOS en la rampa de marca) y .jv-marca-agua (marca de agua del pie, aria-hidden, cuyo degradado existe para NO bajarle el contraste al texto que la cruza)."
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "web/components/visuales/FichaAlMapa.tsx"
+        ],
+        "createdAt": "2026-09-12T01:32:16.609Z",
+        "reason": "Las 'tarjetas anidadas' son las FILAS DEL PAQUETE DEL MAPA dentro del panel: un resultado de Google Maps es una ficha con su borde, no una tarjeta metida en otra. Comprobado en el DOM: li.jv-mapa-fila dentro del contenedor de la pieza."
       }
     ]
   }

@@ -107,6 +107,7 @@ function FilaMapa({
 export function FichaAlMapa({
   campos,
   competidores,
+  tuCategoria,
   consulta,
   idioma,
   tituloFicha,
@@ -117,6 +118,8 @@ export function FichaAlMapa({
 }: {
   campos: readonly CampoFicha[];
   competidores: readonly Competidor[];
+  /** Cómo se rotula TU fila cuando entra. «Mismo servicio» es de ellos. */
+  tuCategoria: string;
   /** La búsqueda escrita en la barra del mapa. */
   consulta: string;
   idioma: Idioma;
@@ -266,7 +269,7 @@ export function FichaAlMapa({
             <FilaMapa
               tuyo
               nombre={t.tuNegocio}
-              categoria={competidores[0]?.categoria ?? ""}
+              categoria={tuCategoria}
               distancia="0,3 km"
               estrellas={5}
             />

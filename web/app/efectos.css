@@ -472,6 +472,56 @@ input[type="radio"] { accent-color: var(--accent); }
 }
 
 /* ===========================================================================
+   Los dos estados del eje de SEO (/servicios/posicionamiento-seo)
+   ---------------------------------------------------------------------------
+   La sección dice que con las mismas tres letras te venden dos productos: uno
+   se hace UNA VEZ y otro se sostiene CADA MES. Los dos iconos lo dicen sin
+   texto: el visto se dibuja una vez y se queda; el ciclo gira despacio y no
+   para.
+
+   El giro es lento a propósito —doce segundos por vuelta—: a esa velocidad se
+   lee como «esto sigue corriendo» y no como «esto está cargando», que es
+   justo el malentendido que habría que evitar.
+   =========================================================================== */
+.jv-visto path {
+  stroke-dasharray: 28;
+  stroke-dashoffset: 28;
+  transition: stroke-dashoffset 0.7s var(--ease-ps);
+}
+[data-visible="true"] .jv-visto path { stroke-dashoffset: 0; }
+.jv-ciclo { animation: jv-girar 12s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-visto path { stroke-dashoffset: 0; transition: none; }
+  .jv-ciclo { animation: none; }
+}
+
+/* ===========================================================================
+   La barra de búsqueda del hero (`components/visuales/BarraBusqueda.tsx`)
+   ---------------------------------------------------------------------------
+   Se escribe una vez con `steps()` sobre el ancho: tantos pasos como letras
+   tiene la consulta —el componente los pasa en `--jv-caracteres`—, así que el
+   texto aparece letra a letra sin un temporizador en JavaScript. El cursor es
+   el borde derecho, que parpadea mientras dura y se apaga al terminar.
+   =========================================================================== */
+.jv-tecleo {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--brand-500);
+  width: 0;
+  animation:
+    jv-tecleo 1.6s steps(var(--jv-caracteres, 20)) 0.4s forwards,
+    jv-cursor 0.7s step-end 5;
+}
+@keyframes jv-tecleo { to { width: 100%; } }
+@keyframes jv-cursor { 50% { border-color: transparent; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-tecleo { width: 100%; animation: none; border-right-color: transparent; }
+}
+
+/* ===========================================================================
    Las filas del mapa (`components/visuales/FichaAlMapa.tsx`)
    ---------------------------------------------------------------------------
    Al completar la ficha, el negocio entra al paquete y los de siempre bajan un

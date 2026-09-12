@@ -46,8 +46,12 @@ export function BarraBusqueda({
         {/* `ch` y no un ancho en píxeles: la caja mide exactamente lo que mide
             el texto en la fuente mono, así que el cursor cae donde termina la
             palabra en cualquier idioma. */}
+        {/* Sin `truncate`: la clase trae `text-overflow: ellipsis` y, mientras
+            el ancho va de 0 a 100, el texto se leía «funeraria en Cartage…».
+            `.jv-tecleo` ya recorta y no parte la línea; los puntos suspensivos
+            solo sobraban. */}
         <span
-          className="jv-tecleo min-w-0 truncate font-mono text-sm text-ink"
+          className="jv-tecleo min-w-0 font-mono text-sm text-ink"
           style={{ "--jv-caracteres": consulta.length } as React.CSSProperties}
         >
           {consulta}
