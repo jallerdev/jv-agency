@@ -47,6 +47,7 @@ export function ProofCard({
   estado,
   idioma,
   destacada = false,
+  como: Titulo = "h3",
   className,
   children,
 }: {
@@ -61,6 +62,13 @@ export function ProofCard({
   idioma: Idioma;
   /** Una tarjeta por rejilla puede pedir más aire. */
   destacada?: boolean;
+  /**
+   * El nivel del titular. `h3` por defecto, que es lo correcto dentro de una
+   * sección con su propio `h2`. En el costado de un hero la tarjeta va justo
+   * detrás del `h1` y ahí `h3` salta un nivel —de las pocas cosas que un
+   * lector de pantalla no puede reconstruir—, así que esa página pasa `h2`.
+   */
+  como?: "h2" | "h3";
   className?: string;
   /** La captura, si la hay. */
   children?: React.ReactNode;
@@ -121,9 +129,9 @@ export function ProofCard({
           {categoria && <span className="jv-chip jv-chip-off text-xs">{categoria}</span>}
         </div>
 
-        <h3 className={cn("jv-titulo mt-4", destacada && "text-[length:var(--text-h3)]")}>
+        <Titulo className={cn("jv-titulo mt-4", destacada && "text-[length:var(--text-h3)]")}>
           {nombre}
-        </h3>
+        </Titulo>
         {cuerpo && <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{cuerpo}</p>}
         {dominio && (
           /* `break-all` porque un dominio largo en un teléfono de 390px

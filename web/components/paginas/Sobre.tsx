@@ -151,6 +151,7 @@ export function PaginaSobre({ idioma, ruta }: { idioma: Idioma; ruta: string }) 
         {/* ── Las cifras ──────────────────────────────────────────────── */}
         <section className="mx-auto max-w-[1280px] px-6 pt-16 md:px-12 md:pt-20">
           <Cifras
+            idioma={idioma}
             cifras={SOBRE.cifras.map((c) => ({
               valor: c.valor,
               prefijo: c.prefijo,

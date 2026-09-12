@@ -39,9 +39,27 @@ export type CifraVista = {
    * poder animarlo— es exactamente lo que este sitio no hace.
    */
   textoCrudo?: string;
+  /**
+   * La fuente del dato, cuando cada cifra tiene la suya.
+   *
+   * Las páginas de ciudad citan tres mediciones distintas —el censo de la
+   * cámara, el registro mercantil, un observatorio— y meterlas en una sola
+   * línea al final obliga al lector a adivinar cuál sostiene cuál. Una cifra
+   * oficial sin su fuente al lado es una cifra inventada con mejor tipografía.
+   */
+  pie?: string;
 };
 
-export function Cifras({ cifras, className }: { cifras: readonly CifraVista[]; className?: string }) {
+export function Cifras({
+  cifras,
+  idioma = "es",
+  className,
+}: {
+  cifras: readonly CifraVista[];
+  /** Decide el separador de millares. «43044» no es una cifra publicable. */
+  idioma?: "es" | "en";
+  className?: string;
+}) {
   return (
     <dl
       className={cn(
@@ -50,32 +68,46 @@ export function Cifras({ cifras, className }: { cifras: readonly CifraVista[]; c
       )}
     >
       {cifras.map((c) => (
-        <Celda key={c.etiqueta} cifra={c} />
+        <Celda key={c.etiqueta} cifra={c} idioma={idioma} />
       ))}
     </dl>
   );
 }
 
-function Celda({ cifra }: { cifra: CifraVista }) {
+function Celda({ cifra, idioma }: { cifra: CifraVista; idioma: "es" | "en" }) {
   const { ref, valor } = useCountUp(cifra.valor, Boolean(cifra.cuenta));
+  /* CON SEPARADOR DE MILLARES. El contador devuelve un número pelado y
+     «43044» no es una cifra publicable en castellano: el censo de la cámara
+     dice 43.044 y así tiene que leerse, mientras cuenta y al aterrizar. */
+  const impreso = new Intl.NumberFormat(idioma === "es" ? "es-CO" : "en-US").format(valor);
 
   return (
     /* `flex-col-reverse` y no un orden distinto en el marcado: una lista de
        descripción se define término → descripción, y que la cifra se vea
        arriba es cosa del diseño, no del HTML. */
-    <div className="flex flex-col-reverse gap-2 bg-canvas p-6 md:p-7">
-      <dt className="text-[0.9375rem] leading-snug text-ink-soft">{cifra.etiqueta}</dt>
-      <dd className="font-mono text-[clamp(2.25rem,4.5vw,3.25rem)] leading-none tabular-nums text-ink">
+    <div className="flex flex-col bg-canvas p-6 md:p-7">
+      {/* `order` y no `flex-col-reverse`: con el pie de fuente son tres cosas
+          y el invertido solo sirve para dos. Una lista de descripción se
+          define término → descripción; el orden visual es cosa del diseño. */}
+      <dt className="order-2 mt-2 text-[0.9375rem] leading-snug text-ink-soft">
+        {cifra.etiqueta}
+      </dt>
+      <dd className="order-1 font-mono text-[clamp(2.25rem,4.5vw,3.25rem)] leading-none tabular-nums text-ink">
         {cifra.textoCrudo ? (
           cifra.textoCrudo
         ) : (
           <>
             {cifra.prefijo && <span className="text-ink-muted">{cifra.prefijo}</span>}
-            <span ref={ref}>{valor}</span>
+            <span ref={ref}>{impreso}</span>
             {cifra.sufijo && <span className="text-brand">{cifra.sufijo}</span>}
           </>
         )}
       </dd>
+      {cifra.pie && (
+        <dd className="jv-rule order-3 mt-5 pt-4 font-mono text-xs leading-relaxed text-ink-muted">
+          {cifra.pie}
+        </dd>
+      )}
     </div>
   );
 }
