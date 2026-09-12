@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 
 import { CABECERA, NAV, type EntradaNav } from "@/content/layout/header";
 import type { Idioma } from "@/content/types";
-import { enlaceReal, rutaEnOtroIdioma } from "@/lib/rutas";
+import { enlaceReal, puenteDeIdioma } from "@/lib/rutas";
 import { Logo } from "@/components/Logo";
 import { PisoDeRuta } from "@/components/kit/Precio";
 import { cn } from "@/lib/utils";
@@ -140,7 +140,13 @@ export function Header({ idioma }: { idioma: Idioma }) {
   const panel = useRef<HTMLDivElement>(null);
   const disparador = useRef<HTMLButtonElement>(null);
 
-  const otroIdioma = rutaEnOtroIdioma(ruta ?? "/");
+  const idiomaPar = puenteDeIdioma(ruta ?? "/");
+  /* El rótulo cambia cuando no hay equivalente: el enlace sigue existiendo
+     —esa es la corrección— pero no puede seguir prometiendo «la misma
+     página en inglés» cuando lo que hay al otro lado es la portada. */
+  const rotuloIdioma = idiomaPar.exacto
+    ? CABECERA.idioma[idioma]
+    : CABECERA.idiomaSinPar[idioma];
 
   /* --- Estado por scroll, con histéresis y un solo rAF ------------------- */
   useEffect(() => {
@@ -236,7 +242,19 @@ export function Header({ idioma }: { idioma: Idioma }) {
             : "border-b border-transparent bg-transparent"
         )}
       >
-        <div className="mx-auto flex h-[var(--header-h)] max-w-[1280px] items-center gap-8 px-6 md:px-12">
+        {/* EL ALTO ES PARTE DEL ESTADO, no solo el fondo. «Se compacta» quiere
+            decir eso: al empezar a leer, la barra baja de 88 a 68 px y el
+            logotipo con ella. Un encabezado que solo cambia de color al bajar
+            no se ha compactado, se ha pintado. La transición va sobre `height`
+            —un valor, no un `transform`—, que es lo correcto aquí: hay que
+            devolverle veinte píxeles de pantalla al contenido, y un `scale`
+            los dejaría reservados. */}
+        <div
+          className={cn(
+            "mx-auto flex max-w-[1280px] items-center gap-8 px-6 transition-[height] duration-slow ease-ps md:px-12",
+            solida ? "h-[var(--header-h-min)]" : "h-[var(--header-h)]",
+          )}
+        >
           <Link
             href={idioma === "es" ? "/" : "/en"}
             /* `-mx-2 px-2` lleva el área táctil a 44 de ancho sin mover el logotipo:
@@ -244,7 +262,12 @@ export function Header({ idioma }: { idioma: Idioma }) {
             className="-mx-2 flex h-11 min-w-11 shrink-0 items-center justify-center px-2 text-ink transition-colors duration-base ease-ps hover:text-brand"
             aria-label="JV Agencia"
           >
-            <Logo className="h-8 w-auto" />
+            <Logo
+              className={cn(
+                "w-auto transition-[height] duration-slow ease-ps",
+                solida ? "h-7" : "h-8",
+              )}
+            />
           </Link>
 
           <nav aria-label="Principal" className="ml-auto hidden items-center gap-8 lg:flex">
@@ -275,18 +298,19 @@ export function Header({ idioma }: { idioma: Idioma }) {
             {/* Sin equivalente en el otro idioma no se pinta nada: mandar de
                 una página de ciudad a la portada en inglés es un salto que
                 nadie pidió. */}
-            {otroIdioma && (
-              <Link
-                href={otroIdioma}
-                hrefLang={idioma === "es" ? "en" : "es"}
-                aria-label={CABECERA.idioma[idioma]}
-                className="hidden items-center gap-1 font-mono text-[0.8125rem] uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps hover:text-ink sm:flex"
-              >
-                <span className={idioma === "es" ? "text-ink" : undefined}>ES</span>
-                <span aria-hidden className="text-line">/</span>
-                <span className={idioma === "en" ? "text-ink" : undefined}>EN</span>
-              </Link>
-            )}
+            <Link
+              href={idiomaPar.href}
+              /* Sin `hrefLang` cuando no es la misma página: ver la nota de
+                 `puenteDeIdioma` en `lib/rutas.ts`. */
+              hrefLang={idiomaPar.exacto ? (idioma === "es" ? "en" : "es") : undefined}
+              aria-label={rotuloIdioma}
+              title={idiomaPar.exacto ? undefined : rotuloIdioma}
+              className="hidden items-center gap-1 font-mono text-[0.8125rem] uppercase tracking-[0.12em] text-ink-muted transition-colors duration-base ease-ps hover:text-ink sm:flex"
+            >
+              <span className={idioma === "es" ? "text-ink" : undefined}>ES</span>
+              <span aria-hidden className="text-line">/</span>
+              <span className={idioma === "en" ? "text-ink" : undefined}>EN</span>
+            </Link>
 
             <Link
               href={enlaceReal(CABECERA.cta.href[idioma])}
@@ -336,8 +360,21 @@ export function Header({ idioma }: { idioma: Idioma }) {
           </div>
 
           <nav aria-label="Principal" className="flex flex-col px-6 pb-12 pt-4">
-            {NAV.map((entrada) => (
-              <div key={entrada.href.es} className="border-b border-line">
+            {NAV.map((entrada, i) => (
+              /* EL ESCALONADO DE 40 MS. No es adorno: el cajón se abre de
+                 golpe sobre toda la pantalla, y sin cascada aparecen siete
+                 filas idénticas a la vez y el ojo no sabe por dónde empezar.
+                 Con 40 ms de diferencia la lista se lee de arriba abajo en el
+                 orden en que está escrita, y la última fila entra a los 280 ms
+                 —antes de que el pulgar llegue a la pantalla—.
+                 El índice va en `--i` y el retraso lo calcula el CSS: hacerlo
+                 con `setTimeout` por fila es lo mismo que acabó agrupándose en
+                 la tabla de precios cuando la pestaña no estaba al frente. */
+              <div
+                key={entrada.href.es}
+                className="jv-cajon__fila border-b border-line"
+                style={{ "--i": i } as CSSProperties}
+              >
                 <Link
                   href={enlaceReal(entrada.href[idioma])}
                   className="flex min-h-[3.5rem] items-center font-display text-2xl font-semibold tracking-[-0.02em] text-ink"
@@ -365,19 +402,32 @@ export function Header({ idioma }: { idioma: Idioma }) {
               </div>
             ))}
 
-            <Link href={enlaceReal(CABECERA.cta.href[idioma])} className="jv-boton mt-8 justify-center">
+            <Link
+              href={enlaceReal(CABECERA.cta.href[idioma])}
+              className="jv-cajon__fila jv-boton mt-8 justify-center"
+              style={{ "--i": NAV.length } as CSSProperties}
+            >
               {CABECERA.cta.texto[idioma]}
             </Link>
 
-            {otroIdioma && (
-              <Link
-                href={otroIdioma}
-                hrefLang={idioma === "es" ? "en" : "es"}
-                className="mt-6 flex min-h-11 items-center justify-center font-mono text-xs uppercase tracking-[0.12em] text-ink-muted"
-              >
-                {CABECERA.idioma[idioma]}
-              </Link>
-            )}
+            <Link
+              href={idiomaPar.href}
+              hrefLang={idiomaPar.exacto ? (idioma === "es" ? "en" : "es") : undefined}
+              /* La frase larga NO va en versalitas: «Cambiar a inglés» son dos
+                 palabras y en mayúsculas se lee como un rótulo, pero una frase
+                 de once en mayúsculas se lee a trompicones —es el caso de uso
+                 para el que las versalitas no sirven—. Rótulo corto, mono y
+                 caja alta; frase larga, caja normal. */
+              className={cn(
+                "jv-cajon__fila mt-6 flex min-h-11 items-center justify-center text-center text-ink-muted",
+                idiomaPar.exacto
+                  ? "font-mono text-xs uppercase tracking-[0.12em]"
+                  : "px-6 text-sm leading-relaxed",
+              )}
+              style={{ "--i": NAV.length + 1 } as CSSProperties}
+            >
+              {rotuloIdioma}
+            </Link>
           </nav>
         </div>
       )}

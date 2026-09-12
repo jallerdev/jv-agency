@@ -152,11 +152,24 @@ export function PriceCard({
  * entrada—, así que se elige por precio y no a mano. Es la misma regla con la
  * que `PISOS.chatbot` sale de un `Math.min` de los cinco tipos de bot.
  *
+ * PERO SOLO ENTRE LO QUE SE PUEDE COMPRAR SUELTO, y esto era un fallo de
+ * verdad: «lo más barato de la página» dejaba entrar los complementos, que son
+ * baratos justamente porque van encima de otra cosa. El menú anunciaba el
+ * chatbot de WhatsApp «desde $180.000 al mes» —que es el MANTENIMIENTO del bot
+ * que ya compraste, no el bot— y la entrada de precios «$290.000 al año», que
+ * es la renovación del dominio de un sitio que todavía no existe. Dos cifras
+ * ciertas y las dos mintiendo, en el sitio cuyo argumento es publicar precios.
+ *
+ * `paraBases` es el marcador: una línea que lo declara no se vende sola, y por
+ * tanto no puede ser el «desde» de nada. Con ellas fuera, el chatbot vuelve a
+ * $700.000, el SEO se queda en la auditoría —que sí se compra suelta— y
+ * `/precios` deja de anunciar un precio, que es lo correcto: no es un producto.
+ *
  * Devuelve `null` para una ruta que no vende nada, que es lo que le pasa a
  * media navegación.
  */
 export function pisoDeRuta(href: string, idioma: Idioma): ServicioPublicado | null {
-  const candidatos = CATALOGO.filter((s) => s.href[idioma] === href);
+  const candidatos = CATALOGO.filter((s) => s.href[idioma] === href && !s.paraBases?.length);
   if (!candidatos.length) return null;
   return candidatos.reduce((a, b) => (b.desde < a.desde ? b : a));
 }

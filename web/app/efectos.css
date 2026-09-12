@@ -709,6 +709,68 @@ input[type="radio"] { accent-color: var(--accent); }
   }
 }
 
+/* ---------------------------------------------------------------------------
+   …Y SE DIBUJA AL LLEGAR AL PIE.
+
+   La marca se descubre de abajo arriba con `clip-path`, como si las letras
+   salieran del canto inferior de la página. No es un fundido: un fundido de
+   opacidad sobre algo que ya está al 6 % no se ve, y esto —el último gesto de
+   cualquier página del sitio— tiene que registrarse o no vale la pena tenerlo.
+
+   VA CON `view-timeline`, EN EL COMPOSITOR. Ni observador ni oyente de scroll:
+   el progreso lo lleva el propio navegador contra la posición del elemento, y
+   el pie es justo donde menos se puede pagar un `IntersectionObserver` más.
+
+   LOS DOS RESGUARDOS IMPORTAN LOS DOS. Sin `@supports`, un navegador que no
+   entienda `animation-timeline` se queda con el `clip-path` inicial y la marca
+   no aparece NUNCA —el fallo clásico de las animaciones de scroll—. Y el rango
+   se cierra en `entry 75%` y no en `entry 100%` a propósito: la marca vive en
+   el último renglón de la página, así que «entrar del todo» y «llegar al tope
+   del scroll» son casi el mismo instante, y al 100 % el dibujo se quedaba a
+   medias en las páginas cortas.
+   --------------------------------------------------------------------------- */
+@keyframes jv-marca-sube {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .jv-marca-agua {
+      animation: jv-marca-sube linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 75%;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   La cascada del cajón de menú.
+
+   40 ms por fila, contados desde el índice y no desde un temporizador. El
+   retraso es aritmética de CSS: el navegador la resuelve aunque la pestaña
+   pase a segundo plano, que es donde ocho `setTimeout` se agrupan y la cascada
+   deja de existir.
+
+   `both` conserva el primer fotograma antes de empezar: sin él, las filas con
+   retraso se pintan enteras, saltan a invisible y vuelven a entrar.
+   --------------------------------------------------------------------------- */
+@keyframes jv-cajon-entra {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.jv-cajon__fila {
+  animation: jv-cajon-entra var(--duration-base) var(--ease-ps) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Un menú que no se puede usar hasta que termine de entrar es peor que uno
+     que entra de golpe. Aquí se queda puesto desde el primer fotograma. */
+  .jv-cajon__fila { animation: none; }
+}
+
 /* ===========================================================================
    La pila apilada
    ---------------------------------------------------------------------------

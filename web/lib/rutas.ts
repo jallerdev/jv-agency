@@ -97,6 +97,33 @@ export function rutaEnOtroIdioma(ruta: string): string | null {
   return RUTAS[limpia] ?? null;
 }
 
+/**
+ * A DÓNDE LLEVA EL CONMUTADOR DE IDIOMA, SIEMPRE.
+ *
+ * `rutaEnOtroIdioma` devuelve `null` en las diez rutas que existen solo en
+ * castellano —las siete de ciudad y las tres legales—, y con eso la cabecera
+ * dejaba de pintar el conmutador. Visto desde el código es prudente; visto
+ * desde la pantalla, quien llega a «diseño de páginas web en Cali» desde un
+ * buscador en inglés ve un sitio que en todas las demás páginas ofrece inglés
+ * y en esta no, sin decir por qué. Eso no es prudencia, es una función que
+ * desaparece.
+ *
+ * Así que el conmutador se pinta siempre. Cuando no hay equivalente lleva a la
+ * portada del otro idioma y LO DICE —en el `title` y en el nombre accesible—,
+ * que es la diferencia entre un puente y un enlace roto.
+ *
+ * `exacto: false` también sirve para lo otro que hay que hacer distinto: ese
+ * enlace NO lleva `hrefLang`. Declarar `hrefLang="en"` sobre la portada
+ * inglesa desde la página de Cali le estaría diciendo al buscador que una es
+ * la traducción de la otra, y no lo es. El `hreflang` del documento sigue
+ * siendo solo `es-CO`, como debe.
+ */
+export function puenteDeIdioma(ruta: string): { href: string; exacto: boolean } {
+  const otra = rutaEnOtroIdioma(ruta);
+  if (otra) return { href: otra, exacto: true };
+  return { href: idiomaDeRuta(ruta) === "es" ? "/en" : "/", exacto: false };
+}
+
 /** El par de un artículo del blog, o `null` si la ruta no es un artículo. */
 function paraBlog(ruta: string): string | null {
   const es = ruta.startsWith("/blog/") ? ruta.slice("/blog/".length) : null;

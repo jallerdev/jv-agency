@@ -120,5 +120,13 @@ export const CABECERA = {
   menu: { es: "Menú", en: "Menu" },
   cerrar: { es: "Cerrar", en: "Close" },
   idioma: { es: "Cambiar a inglés", en: "Switch to Spanish" },
+  /* Para las diez rutas que solo existen en castellano —las siete de ciudad y
+     las tres legales—. El conmutador se pinta igual y lleva a la portada del
+     otro idioma, pero diciendo a dónde va: un enlace que promete la misma
+     página en inglés y entrega otra distinta es peor que no ofrecer nada. */
+  idiomaSinPar: {
+    es: "Esta página solo existe en español. Ir a la portada en inglés",
+    en: "This page only exists in Spanish. Go to the Spanish home page",
+  },
   saltar: { es: "Saltar al contenido", en: "Skip to content" },
 } as const;

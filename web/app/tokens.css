@@ -224,6 +224,17 @@
      quede alta y vacía, que es peor que baja. */
   --header-h: 5.5rem;   /* alto real del header fijo, medido */
 
+  /* EL ALTO COMPACTO, al que baja la barra en cuanto se empieza a leer.
+     4,25rem = 68 px: veinte menos, que es lo que se nota sin que la barra
+     cambie de categoría —un salto a 56 px obliga a encoger el logotipo y los
+     enlaces, y entonces ya no es la misma barra encogida sino otra barra—.
+
+     `--header-h` NO cambia con el scroll y no debe: es lo que reservan las
+     cuarenta páginas en su relleno superior, y atarlo al estado de la barra
+     significaría que el contenido sube veinte píxeles solo. La barra se
+     encoge; el hueco que dejó reservado se queda donde estaba. */
+  --header-h-min: 4.25rem;
+
   /* Alto de la barra de acción móvil (`components/BarraMovil.tsx`), medida:
      44 px de botón + 12 px de aire arriba y abajo + el filete de 1 px. Va con
      el borde seguro del teléfono sumado, porque en un iPhone la barra se
