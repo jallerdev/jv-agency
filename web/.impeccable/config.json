@@ -1,14 +1,170 @@
 {
   "detector": {
     "ignoreRules": [
-      "gradient-text"
+      "gradient-text",
+      "hero-eyebrow-chip",
+      "kicker-above-heading",
+      "all-caps-body",
+      "radial-spotlight-glow"
     ],
     "ignoreFiles": [],
     "ignoreValues": [
       {
+        "rule": "overused-font",
+        "value": "fraunces",
+        "createdAt": "2026-09-03T03:59:45.398Z",
+        "reason": "Fraunces + Plus Jakarta Sans es la tipografia de los documentos de cliente de J&V desde antes de este trabajo: la usan cotizacion-funeraria-sfa, cotizacion-aula-monica, cotizacion-pixels-maker, propuesta-sencilla-monica, guia-funeraria-sfa, guia-fotos-celular, kit-vendedores, capacitacion-vendedores y playbook-vendedores. Cambiarla en uno solo rompe la familia visual."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "web/public/capacitacion-vendedores.html"
+        ],
+        "createdAt": "2026-09-03T03:59:45.432Z",
+        "reason": "El border-left de 3px en .note y .decir es el patron heredado de los 9 HTML de web/public, todos anteriores a este archivo. Es estilo de cita/aviso, no tarjeta con pestana lateral."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "web/public/playbook-vendedores.html"
+        ],
+        "createdAt": "2026-09-03T03:59:45.466Z",
+        "reason": "Mismo patron heredado que en capacitacion-vendedores: .note y .guion usan el border-left de la familia de documentos J&V."
+      },
+      {
+        "rule": "aphoristic-cadence",
+        "value": "*",
+        "files": [
+          "web/public/capacitacion-vendedores.html"
+        ],
+        "createdAt": "2026-09-05T03:47:21.458Z",
+        "reason": "Falso positivo de idioma, verificado corriendo la regex del detector sobre el archivo. NOT_A_RE (el patron ingles 'Not a X. Y.') da 0 coincidencias; las 7 que disparan vienen de SHORT_REBUTTAL_RE, que busca una frase seguida de 'No' o 'Just'. En ingles eso es una replica cortante; en espanol 'No' es el adverbio de negacion y abre cualquier imperativo: 'No la leas de corrido', 'No son sugerencias', 'No se comparte con clientes'. Los contrastes reales son 2, por debajo del umbral de 3 de la propia regla."
+      },
+      {
+        "rule": "aphoristic-cadence",
+        "value": "*",
+        "files": [
+          "web/public/playbook-vendedores.html"
+        ],
+        "createdAt": "2026-09-05T03:47:21.494Z",
+        "reason": "Falso positivo de idioma, verificado corriendo la regex del detector sobre el archivo. NOT_A_RE (el patron ingles 'Not a X. Y.') da 0 coincidencias; las 7 que disparan vienen de SHORT_REBUTTAL_RE, que busca una frase seguida de 'No' o 'Just'. En ingles eso es una replica cortante; en espanol 'No' es el adverbio de negacion y abre cualquier imperativo: 'No la leas de corrido', 'No son sugerencias', 'No se comparte con clientes'. Los contrastes reales son 2, por debajo del umbral de 3 de la propia regla. Mismo caso: documento en espanol con imperativos que empiezan por No."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "public/guia-fotos-celular.html",
+          "web/public/guia-fotos-celular.html"
+        ],
+        "createdAt": "2026-09-09T04:26:38.818Z",
+        "reason": "Mismo patron heredado que en las otras guias: el border-left de 3px en .note es el estilo de aviso de los documentos de cliente de J&V, presente en los nueve HTML de web/public desde antes. No es tarjeta con pestana lateral. Se registran las dos formas de ruta porque el hook las reporta relativas a su cwd, que varia entre la raiz y web/."
+      },
+      {
+        "rule": "aphoristic-cadence",
+        "value": "*",
+        "files": [
+          "public/guia-fotos-celular.html",
+          "web/public/guia-fotos-celular.html"
+        ],
+        "createdAt": "2026-09-09T04:26:38.853Z",
+        "reason": "Falso positivo de idioma, verificado con la regex del detector sobre este archivo: NOT_A_RE (el patron ingles real) da 0; las 3 coincidencias vienen de SHORT_REBUTTAL_RE, que marca una frase seguida de 'No'. En espanol 'No' es el adverbio de negacion y abre imperativos normales: 'No las edites ni les pongas filtros', 'No cuesta nada'. Cadencia aforistica real: cero."
+      },
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "createdAt": "2026-09-09T23:16:51.104Z"
+      },
+      {
         "rule": "gradient-text",
         "value": "background-clip: text gradient",
         "createdAt": "2026-09-10T02:28:07.129Z"
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "createdAt": "2026-09-11T07:45:25.986064Z",
+        "reason": "Marca JV, definida en el home. `.jv-eyebrow` (JetBrains Mono 11px, 0.16em, --text-muted) es el rotulo de seccion del sistema y esta en app/efectos.css y en DESIGN.md: aparece en la portada, que es la referencia visual del sitio. Quitarlo de las internas las haria distintas del home, que es justo lo contrario del encargo."
+      },
+      {
+        "rule": "kicker-above-heading",
+        "value": "*",
+        "createdAt": "2026-09-11T07:45:25.986064Z",
+        "reason": "Mismo elemento que hero-eyebrow-chip: `.jv-eyebrow` sobre un h2 de seccion. Decision del home, registrada en DESIGN.md."
+      },
+      {
+        "rule": "radial-spotlight-glow",
+        "value": "*",
+        "createdAt": "2026-09-11T07:45:25.986064Z",
+        "reason": "Es `--bloom-brand`, el UNICO degradado que el sistema permite y esta escrito asi en app/tokens.css: naranja al 8% en radial detras de un titular. Va en la portada. La regla marca el patron generico; aca es una decision de marca documentada."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#000",
+        "createdAt": "2026-09-11T15:40:50.100Z"
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "app/efectos.css"
+        ],
+        "createdAt": "2026-09-11T15:47:25.560Z",
+        "reason": "Las dos unicas instancias del archivo son deliberadas y no son texto de lectura: .text-halcon es el logotipo de HalcónOS escrito en la rampa de marca, y .jv-marca-agua es la marca de agua del pie, aria-hidden, cuyo degradado existe justamente para NO bajarle el contraste al texto que la cruza."
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "components/visuales/HiloWhatsApp.tsx"
+        ],
+        "createdAt": "2026-09-12T00:52:30.510Z",
+        "reason": "Las 'tarjetas anidadas' son las BURBUJAS del chat dentro del hilo: es lo que es una conversacion de WhatsApp, no una tarjeta metida en otra. Comprobado en el DOM: hijo div.w-fit.max-w-[85%].rounded-2xl dentro de div.jv-card."
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "web/app/efectos.css"
+        ],
+        "createdAt": "2026-09-12T01:20:36.619Z",
+        "reason": "Mismo caso ya registrado para app/efectos.css: el gancho corre desde la raiz del repo y la ruta le llega con el prefijo web/. Las dos unicas instancias del archivo son deliberadas y no son texto de lectura: .text-halcon (logotipo de HalconOS en la rampa de marca) y .jv-marca-agua (marca de agua del pie, aria-hidden, cuyo degradado existe para NO bajarle el contraste al texto que la cruza)."
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "web/components/visuales/FichaAlMapa.tsx"
+        ],
+        "createdAt": "2026-09-12T01:32:16.609Z",
+        "reason": "Las 'tarjetas anidadas' son las FILAS DEL PAQUETE DEL MAPA dentro del panel: un resultado de Google Maps es una ficha con su borde, no una tarjeta metida en otra. Comprobado en el DOM: li.jv-mapa-fila dentro del contenedor de la pieza."
+      },
+      {
+        "rule": "layout-transition",
+        "value": "transition: height",
+        "createdAt": "2026-09-12T06:34:45.800179Z",
+        "reason": "Es la cabecera que se compacta al bajar (§8.17 del encargo): de 88 a 68 px. La regla advierte del reflujo y aqui no lo hay fuera de la propia barra: el <header> es position:fixed y NADA del documento depende de su alto —las cuarenta paginas reservan --header-h, que es constante—, asi que el layout se queda dentro de sus seis hijos. MEDIDO con traza de devtools.timeline sobre la portada, doce transiciones ida y vuelta: 3,7 ms de Layout en total, 0,31 ms por transicion, contra 0 ms con la barra congelada. La alternativa compositable —escalar o desplazar— no sirve: hay que devolverle veinte pixeles de pantalla al contenido y un transform los dejaria reservados."
+      },
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "components/sections/Header.tsx",
+          "web/components/sections/Header.tsx"
+        ],
+        "createdAt": "2026-09-12T07:10:00.000Z",
+        "reason": "Solo en la cabecera, y solo ahi. Es la barra que se compacta al bajar (§8.17 del encargo): de 88 a 68 px, con la transicion sobre `height` porque hay que devolverle veinte pixeles de pantalla al contenido y un transform los dejaria reservados. El reflujo no sale del <header>: es position:fixed y nada del documento depende de su alto —las cuarenta paginas reservan --header-h, que es constante—. MEDIDO con traza de devtools.timeline, doce transiciones ida y vuelta sobre la portada: 3,7 ms de Layout en total, 0,31 ms por transicion, contra 0 ms con la barra congelada."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "11px",
+        "files": [
+          "app/globals.css",
+          "web/app/globals.css"
+        ],
+        "createdAt": "2026-09-12T12:26:08.483Z",
+        "reason": "Falso positivo comprobado: el '11px' esta DENTRO de un comentario de app/globals.css (linea 613), en el inventario que documenta las 223 repeticiones que justificaron crear las clases de componente — '65x font-mono text-[11px] uppercase tracking-... -> antetitulo'. Describe como se escribia el antetitulo ANTES del refactor, no una declaracion viva: la clase real es .jv-eyebrow y toma su tamano de var(--text-eyebrow)."
       }
     ]
   }

@@ -213,7 +213,7 @@ function SeoToggle({
         </span>
         <span className="shrink-0 text-right">
           <span className="block font-mono text-sm text-primary-dark">+ {money(price)}</span>
-          <span className="block font-body text-[11px] text-ink-soft">una sola vez</span>
+          <span className="block font-body text-xs text-ink-soft">una sola vez</span>
         </span>
       </button>
       <details className="group border-t border-line-soft px-4 pb-3">
@@ -281,7 +281,7 @@ function SeoStepBody({
                   <span className="block font-mono text-sm text-primary-dark">
                     {money(SEO_PRICES.plan[o.id])}
                   </span>
-                  <span className="block font-body text-[11px] text-ink-soft">al mes</span>
+                  <span className="block font-body text-xs text-ink-soft">al mes</span>
                 </span>
               </button>
             );
@@ -476,7 +476,7 @@ function SeoSummary({ answers, sticky }: { answers: SeoAnswers; sticky?: boolean
             <span className="font-body text-sm text-ink-soft">Primer pago</span>
             <span className="shrink-0 font-mono text-base text-ink">{money(t.primerPago)}</span>
           </div>
-          <p className="mt-1 font-body text-[11px] text-ink-soft">
+          <p className="mt-1 font-body text-xs text-ink-soft">
             Arranque más el primer mes. Del segundo mes en adelante son {money(t.monthlyTotal)}.
           </p>
         </div>

@@ -29,7 +29,7 @@ export const BUCARAMANGA: Ciudad = {
   tituloAcento: "desde Bolívar y a distancia",
   entradilla: [
     "Santander cerró 2025 con 91.293 empresas activas, un 4,6 % más que el año anterior. El 96,4 % son microempresas: es el tejido más micro de las ciudades grandes del país.",
-    "Esta página está escrita para ese negocio —uno o dos locales y un WhatsApp que no para—, no para el que tiene departamento de mercadeo.",
+    "Esta página está escrita para ese negocio: uno o dos locales y un WhatsApp que no para.",
   ],
 
   metaDescripcion:
@@ -39,10 +39,11 @@ export const BUCARAMANGA: Ciudad = {
 
   confesion: {
     titulo: "Antes de seguir:",
-    tituloAcento: " no tengo oficina en Bucaramanga ni cliente en Santander.",
+    tituloAcento: " trabajo Bucaramanga a distancia, desde Bolívar.",
     parrafos: [
-      "Vivo en Turbaco, Bolívar, a unos 550 kilómetros de la Mesa de Ruitoque. Hoy no tengo un solo proyecto entregado en Santander, y no te voy a poner una dirección de Cabecera en el pie de página.",
-      "Si lo primero que necesitas es alguien que se te siente al frente, te ahorro la llamada: no soy yo. Si lo que necesitas es que quien te cotiza sea el mismo que diseña, programa y te contesta el WhatsApp seis meses después, sigue leyendo.",
+      "Vivo en Turbaco, Bolívar, a unos 550 kilómetros. No tengo oficina en Santander y todavía no hay un proyecto entregado allá: cuando lo haya, va en esta misma página con nombre y con enlace.",
+      "A distancia significa videollamada para arrancar, WhatsApp para el día a día y un enlace donde ves el sitio crecer antes de que salga. Es como trabajé Bloomrose, que está en línea y se puede abrir ahora mismo.",
+      "Y quien te cotiza es el mismo que diseña, programa y te contesta el WhatsApp seis meses después. Eso no cambia con la distancia.",
     ],
   },
 
@@ -91,10 +92,10 @@ export const BUCARAMANGA: Ciudad = {
   },
 
   precioNota:
-    "No te voy a decir que soy el más barato de Bucaramanga, porque no lo sé. Es el mismo número que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Santander.",
+    "Es el mismo número que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Santander.",
 
   sinCliente: {
-    rotulo: "Sin cliente de Santander",
+    rotulo: "La casilla de Santander",
     texto:
       "Todavía no hay un proyecto entregado en Bucaramanga. Cuando lo haya, va aquí, con nombre y con enlace.",
   },

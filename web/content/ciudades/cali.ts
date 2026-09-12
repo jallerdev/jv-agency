@@ -24,7 +24,7 @@ export const CALI: Ciudad = {
   tituloAcento: "desde Bolívar y a distancia",
   entradilla: [
     "En la jurisdicción de la Cámara de Comercio de Cali hay 68.360 negocios registrados como persona natural y 42.335 como sociedad. Seis de cada diez no son una empresa: son una persona con su RUT.",
-    "Yo también soy una de esas. Esta página está escrita para ese negocio, no para el que tiene departamento de mercadeo.",
+    "Yo también soy una de esas: diseño, programo y contesto yo. Esta página está escrita para ese negocio.",
   ],
 
   metaDescripcion:
@@ -34,10 +34,11 @@ export const CALI: Ciudad = {
 
   confesion: {
     titulo: "Antes de seguir:",
-    tituloAcento: " no tengo oficina en Cali ni cliente en el Valle.",
+    tituloAcento: " trabajo Cali a distancia, desde Bolívar.",
     parrafos: [
-      "Vivo en Turbaco, Bolívar. Está a unos 900 kilómetros de Cali y hoy no tengo un solo proyecto entregado en el Valle del Cauca. No te voy a poner una dirección del sur en el pie de página.",
-      "Si lo primero que necesitas es alguien que se te siente al frente, te ahorro la llamada: no soy yo. Si lo que necesitas es que quien te cotiza sea el mismo que diseña, programa y te contesta el WhatsApp seis meses después, sigue leyendo.",
+      "Vivo en Turbaco, Bolívar, a unos 900 kilómetros. No tengo oficina en el Valle y todavía no hay un proyecto entregado allá: cuando lo haya, va en esta misma página con nombre y con enlace.",
+      "A distancia significa videollamada para arrancar, WhatsApp para el día a día y un enlace donde ves el sitio crecer antes de que salga. Es como trabajé Bloomrose, que está en línea y se puede abrir ahora mismo.",
+      "Y quien te cotiza es el mismo que diseña, programa y te contesta el WhatsApp seis meses después. Eso no cambia con la distancia.",
     ],
   },
 
@@ -85,10 +86,10 @@ export const CALI: Ciudad = {
   },
 
   precioNota:
-    "No te voy a decir que soy el más barato de Cali, porque no lo sé. Es el mismo número que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Valle del Cauca.",
+    "Es el mismo número que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Valle del Cauca.",
 
   sinCliente: {
-    rotulo: "Sin cliente del Valle",
+    rotulo: "La casilla del Valle",
     texto:
       "Todavía no hay un proyecto entregado en Cali. Cuando lo haya, va aquí, con nombre y con enlace.",
   },

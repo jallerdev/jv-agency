@@ -42,18 +42,16 @@ export function Seccion({
  * El antetítulo de sección: mono, mayúscula, naranja.
  *
  * Es uno de los cinco sitios donde el acento tiene permitido aparecer.
+ *
+ * Se apoya en `.jv-eyebrow`, que es la definición del sistema, en vez de
+ * repetir sus valores: aquí había una segunda versión escrita a mano —mismo
+ * tamaño pero `0.12em` de tracking en vez de `0.16em`— y el sitio acababa con
+ * dos antetítulos que se parecían sin ser iguales. La clase de Tailwind gana
+ * al color de la clase base, que es lo que queremos: misma forma, tinta de
+ * marca.
  */
 export function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <p
-      className={cn(
-        "font-mono text-[0.75rem] uppercase tracking-[0.12em] text-brand",
-        className
-      )}
-    >
-      {children}
-    </p>
-  );
+  return <p className={cn("jv-eyebrow text-brand", className)}>{children}</p>;
 }
 
 /**

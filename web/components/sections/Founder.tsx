@@ -117,21 +117,26 @@ function Cifra({
 }) {
   const { ref, valor } = useCountUp(cifra.valor, Boolean(cifra.cuenta));
 
+  /* UN SOLO `div` ENTRE EL `dl` Y SUS `dt`/`dd`, y es la regla del HTML, no una
+     preferencia: una lista de descripción admite que cada pareja vaya envuelta
+     en un `div` —para poder maquetarla— pero en UNO. Aquí había dos anidados,
+     `.jv-cap` por fuera y el flex por dentro, y con eso el `dl` deja de ser una
+     lista de descripción válida: los `dt` y los `dd` quedan huérfanos para quien
+     la lee con lector de pantalla. Lo cazó Lighthouse en la portada
+     —`definition-list` y `dlitem`, accesibilidad en 93— y se arregla juntando
+     las dos clases en la misma caja, que es donde tenían que estar.
+
+     El <dd> va antes en el marcado y el flex lo pone arriba: una lista de
+     descripción se define término→descripción, y el orden visual es cosa del
+     diseño, no del HTML. */
   return (
-    <div className="jv-cap">
-      {/* El <dd> va antes en el marcado y el flex lo pone arriba: una lista de
-          descripción se define término→descripción, y el orden visual es cosa
-          del diseño, no del HTML. */}
-      <div className="flex flex-col-reverse gap-1">
-        <dt className="text-[0.9375rem] leading-snug text-ink-soft">{cifra.etiqueta[idioma]}</dt>
-        <dd className="font-mono text-[clamp(2.5rem,5vw,3.5rem)] leading-none tabular-nums text-ink">
-          {cifra.prefijo && (
-            <span className="text-ink-muted">{cifra.prefijo}</span>
-          )}
-          <span ref={ref}>{valor}</span>
-          {cifra.sufijo && <span className="text-brand">{cifra.sufijo}</span>}
-        </dd>
-      </div>
+    <div className="jv-cap flex flex-col-reverse gap-1">
+      <dt className="text-[0.9375rem] leading-snug text-ink-soft">{cifra.etiqueta[idioma]}</dt>
+      <dd className="font-mono text-[clamp(2.5rem,5vw,3.5rem)] leading-none tabular-nums text-ink">
+        {cifra.prefijo && <span className="text-ink-muted">{cifra.prefijo}</span>}
+        <span ref={ref}>{valor}</span>
+        {cifra.sufijo && <span className="text-brand">{cifra.sufijo}</span>}
+      </dd>
     </div>
   );
 }

@@ -44,6 +44,20 @@ export type BlogPost = {
   readingMinutes: number;
   keywords: Traducido<readonly string[]>;
   category: Traducido<string>;
+  /**
+   * LA CIFRA DE LA PORTADA. Solo donde existe una de verdad.
+   *
+   * Las portadas del índice son tipográficas —sin fotos de banco— y lo que
+   * ponen en grande es el dato con el que se entra al artículo: el piso de
+   * precio, el plazo, la ventana de resultados. Todos salen de `lib/quote.ts`
+   * o son la frase que el sitio entero sostiene («entre el mes 3 y el 6»).
+   *
+   * Los artículos que no tienen una cifra que dar NO SE INVENTAN UNA: su
+   * portada cae al tiempo de lectura, que también es un dato real y además es
+   * distinto en cada uno. Un número bonito puesto ahí para llenar el hueco es
+   * exactamente lo que este blog existe para no hacer.
+   */
+  cifra?: Traducido<string>;
 };
 
 export const AUTHOR = {
@@ -85,6 +99,7 @@ export const POSTS: BlogPost[] = [
       ],
     },
     category: { es: "Precios", en: "Pricing" },
+    cifra: { es: "$850.000", en: "$850,000" },
   },
   {
     slug: SLUGS.cuestaChatbot,
@@ -124,6 +139,7 @@ export const POSTS: BlogPost[] = [
       ],
     },
     category: { es: "Precios", en: "Pricing" },
+    cifra: { es: "$700.000", en: "$700,000" },
   },
   {
     slug: SLUGS.cuestaSeo,
@@ -158,6 +174,7 @@ export const POSTS: BlogPost[] = [
       ],
     },
     category: { es: "Precios", en: "Pricing" },
+    cifra: { es: "mes 3 a 6", en: "month 3 to 6" },
   },
   {
     slug: SLUGS.necesitaWeb,
@@ -286,6 +303,7 @@ export const POSTS: BlogPost[] = [
       ],
     },
     category: { es: "Guías", en: "Guides" },
+    cifra: { es: "5 días", en: "5 days" },
   },
   {
     slug: SLUGS.googleMaps,
@@ -381,6 +399,7 @@ export const POSTS: BlogPost[] = [
       ],
     },
     category: { es: "Precios", en: "Pricing" },
+    cifra: { es: "$290.000", en: "$290,000" },
   },
   {
     slug: SLUGS.landingPage,

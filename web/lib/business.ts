@@ -96,6 +96,42 @@ export const BUSINESS = {
   /** Mercado al que prestamos servicio. */
   areaServed: "Latinoamérica",
 
+  /**
+   * Horario de atención, confirmado por Luis el 11 de septiembre de 2026.
+   *
+   * Vive aquí y no en el copy de /contacto porque lo van a leer tres sitios:
+   * la hora local en vivo de esa página («son las 3:12 p. m. en Turbaco, y sí
+   * estoy»), el `openingHoursSpecification` del dato estructurado, y cualquier
+   * aviso de «fuera de horario» del formulario. Escrito tres veces se
+   * desincroniza a la primera.
+   *
+   * Las horas van en 24 h y en la zona `America/Bogota`, que es la única que
+   * aplica: no hay horario de verano en Colombia, así que el desfase con UTC
+   * es siempre −05:00 y no hay que ajustar nada dos veces al año.
+   *
+   * `dias` usa los códigos de schema.org para que el JSON-LD los tome tal cual.
+   */
+  zonaHoraria: "America/Bogota",
+  horario: [
+    {
+      dias: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      abre: "08:00",
+      cierra: "18:00",
+      etiqueta: { es: "Lunes a viernes", en: "Monday to Friday" },
+    },
+    {
+      dias: ["Saturday"],
+      abre: "09:00",
+      cierra: "14:00",
+      etiqueta: { es: "Sábados", en: "Saturdays" },
+    },
+  ] as readonly {
+    dias: readonly string[];
+    abre: string;
+    cierra: string;
+    etiqueta: { es: string; en: string };
+  }[],
+
   /** Redes sociales activas (las vacías no se renderizan ni entran al JSON-LD). */
   social: {
     facebook: "https://www.facebook.com/profile.php?id=61590790404252",

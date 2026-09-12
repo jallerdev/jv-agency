@@ -302,7 +302,7 @@ function OptionRow({
       <span className="shrink-0 text-right">
         <span className="block font-mono text-sm text-primary-dark">{price}</span>
         {priceNote && (
-          <span className="block font-body text-[11px] text-ink-soft">{priceNote}</span>
+          <span className="block font-body text-xs text-ink-soft">{priceNote}</span>
         )}
       </span>
     </button>
@@ -433,7 +433,7 @@ function StepBody({
                   <span className="block font-mono text-sm text-primary-dark">
                     {money(PRICES.base[o.id])}
                   </span>
-                  <span className="block font-body text-[11px] text-ink-soft">
+                  <span className="block font-body text-xs text-ink-soft">
                     {basePages(o.id)} página{basePages(o.id) > 1 ? "s" : ""} incluida
                     {basePages(o.id) > 1 ? "s" : ""}
                   </span>
@@ -1037,7 +1037,7 @@ function SummaryPanel({ answers, sticky }: { answers: Answers; sticky?: boolean 
               <span className="font-body text-xs text-ink-soft"> /mes</span>
             </span>
           </div>
-          <p className="mt-1 font-body text-[11px] text-ink-soft">
+          <p className="mt-1 font-body text-xs text-ink-soft">
             Aparte del proyecto. Empieza al mes siguiente de la entrega.
           </p>
         </div>

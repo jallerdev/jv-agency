@@ -166,6 +166,82 @@ export const SALONES = {
     } as Traducido<readonly string[]>,
   },
 
+  /* ── La pieza firma: la carta de servicios ────────────────────────
+     Las dos ideas centrales de esta página —precio publicado y reservar sin
+     veinte mensajes— vivían en dos bloques separados: una rejilla de razones y
+     un hilo de WhatsApp fijo. Aquí se unen: se toca un servicio de la carta y
+     la conversación de al lado arranca CON ESE servicio.
+
+     LOS PRECIOS DE LA CARTA SON DE UN SALÓN DE EJEMPLO, NO DE JV AGENCIA, y la
+     pieza lo rotula dentro de sí misma. No sale de `lib/quote.ts` a propósito:
+     ese módulo es la fuente de lo que cobra el estudio, y meter ahí el precio
+     de un corte de pelo sería contaminar la única fuente de precios reales con
+     cifras de muestra. */
+  carta: {
+    titulo: {
+      es: "Tu carta, y lo que pasa cuando alguien la lee",
+      en: "Your menu, and what happens when someone reads it",
+    },
+    entradilla: {
+      es: "Toca un servicio. A la derecha ves la conversación que tendría tu WhatsApp con ese servicio, sin que tú contestes nada.",
+      en: "Tap a service. On the right you'll see the conversation your WhatsApp would have about it, without you answering a thing.",
+    },
+    rotulo: { es: "Carta · ejemplo", en: "Menu · example" },
+    ayuda: { es: "Toca un servicio", en: "Tap a service" },
+    nota: {
+      es: "Los precios de la carta son de un salón de ejemplo, no míos. Los míos están más abajo.",
+      en: "The menu prices belong to an example salon, not to me. Mine are further down.",
+    },
+    servicios: [
+      {
+        clave: "corte",
+        nombre: { es: "Corte de autor", en: "Signature cut" },
+        duracion: { es: "45 min", en: "45 min" },
+        precio: { es: "desde $45.000", en: "from $45,000" },
+      },
+      {
+        clave: "color",
+        nombre: { es: "Color completo", en: "Full colour" },
+        duracion: { es: "3 horas", en: "3 hours" },
+        precio: { es: "desde $180.000", en: "from $180,000" },
+      },
+      {
+        clave: "unas",
+        nombre: { es: "Manicure y pedicure", en: "Manicure and pedicure" },
+        duracion: { es: "1 h 15", en: "1 h 15" },
+        precio: { es: "desde $60.000", en: "from $60,000" },
+      },
+      {
+        clave: "masaje",
+        nombre: { es: "Masaje relajante", en: "Relaxing massage" },
+        duracion: { es: "1 hora", en: "1 hour" },
+        precio: { es: "desde $110.000", en: "from $110,000" },
+      },
+    ] as readonly { clave: string; nombre: Texto; duracion: Texto; precio: Texto }[],
+    /* El guion es uno solo y se compone con el servicio elegido: cuatro
+       guiones escritos a mano se habrían desincronizado al primer retoque. */
+    guion: {
+      es: [
+        "Buenas, ¿tienen cupo el sábado para {servicio}?",
+        "¡Hola! Sí. {Servicio} toma {duracion} y va {precio}. El sábado me quedan las 9:00 a. m. y las 11:30 a. m.",
+        "La de 11:30",
+        "Listo, quedaste el sábado a las 11:30 a. m. Te llega un recordatorio el día antes.",
+        "Si quieres cambiar la hora o preguntar por un precio puntual, mañana te contesta una persona del salón.",
+      ],
+      en: [
+        "Hi, do you have a Saturday slot for {servicio}?",
+        "Hi! Yes. {Servicio} takes {duracion} and it's {precio}. On Saturday I have 9:00 a.m. and 11:30 a.m. left.",
+        "The 11:30 one",
+        "Done, you're booked Saturday at 11:30 a.m. You'll get a reminder the day before.",
+        "If you want to change the time or ask about a specific price, someone from the salon will answer tomorrow.",
+      ],
+    } as Traducido<readonly string[]>,
+    horas: {
+      es: ["9:41 p. m.", "9:41 p. m.", "9:42 p. m.", "9:42 p. m.", "9:42 p. m."],
+      en: ["9:41 p.m.", "9:41 p.m.", "9:42 p.m.", "9:42 p.m.", "9:42 p.m."],
+    } as Traducido<readonly string[]>,
+  },
+
   trabajoBadge: { es: "Lo que hay hecho", en: "What's been built" },
   trabajoTitulo: {
     es: "El trabajo de este sector que tengo, dicho como es",
@@ -302,7 +378,11 @@ export const SALONES = {
     {
       clave: "tienda",
       titulo: { es: "Tienda online", en: "Online store" },
-      plazo: { es: "3 semanas", en: "3 weeks" },
+      /* «3 a 5», no «3»: en el cotizador (`PRICES.deliveryWeeks.ecom`) tres
+         semanas es el plazo URGENTE, que lleva un 25 % de recargo, y cinco es
+         el estándar. Anunciar el urgente como si fuera el normal es prometer
+         un plazo que se cobra aparte. */
+      plazo: { es: "3 a 5 semanas", en: "3 to 5 weeks" },
       cuerpo: {
         es: "Si además vendes producto: catálogo con inventario, carrito, pagos en línea y envíos.",
         en: "If you also sell product: catalogue with inventory, cart, online payments and shipping.",

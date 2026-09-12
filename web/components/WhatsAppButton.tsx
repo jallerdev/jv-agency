@@ -187,7 +187,10 @@ export function WhatsAppButton({ idioma = "es" }: { idioma?: Idioma } = {}) {
         {ring && (
           <span
             aria-hidden
-            className="absolute inline-flex h-full w-full animate-ping-thrice rounded-full bg-primary opacity-30 motion-reduce:hidden"
+            /* `text-on-accent` sin texto que pintar, por lo mismo que el punto
+               del índice y la barra de lectura: relleno de marca, tinta
+               declarada. */
+            className="absolute inline-flex h-full w-full animate-ping-thrice rounded-full bg-primary text-on-accent opacity-30 motion-reduce:hidden"
           />
         )}
         <span className="tap-target relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary-dark text-on-accent shadow-soft transition-card duration-slow ease-state group-hover:-translate-y-0.5 group-hover:bg-primary group-hover:shadow-lift group-focus-visible:-translate-y-0.5 group-focus-visible:shadow-lift group-active:translate-y-0 group-active:scale-[0.96] group-active:shadow-soft">

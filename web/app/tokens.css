@@ -185,7 +185,12 @@
      el cuerpo y deja los 14 para la interfaz densa. La página estaba tomando
      el tamaño de la tabla, no el del texto. */
   --text-body-size: 1.125rem;
-  --text-eyebrow: 0.6875rem;
+  /* 12px y no 11. El antetítulo pasa contraste de sobra, pero a 11px con
+     0,16em de tracking y en mayúscula es el texto más pequeño del sitio y el
+     detector lo marcaba catorce veces. Doce sigue siendo un rótulo —no compite
+     con nada— y sale del último escalón en el que un texto en mono mayúscula
+     se lee de un vistazo. */
+  --text-eyebrow: 0.75rem;
 
   --lh-tight: 1;
   --lh-display: 1.05;
@@ -209,6 +214,32 @@
   /* ── Espacio y ritmo ─────────────────────────────────────────────────── */
   --maxw: 1200px;
   --maxw-narrow: 900px;
+  /* MEDIDO, Y NO MIDE 68 CARACTERES. El `ch` es el ancho del glifo «0» de la
+     primera fuente disponible, y en este sitio resuelve al valor de reserva
+     —0,5em— en vez de al avance real de Figtree. Resultado: `68ch` da entre 79
+     y 91 caracteres por línea según el tamaño de letra, contra los 65-75 que
+     pide la §11 del encargo. Es el mismo fallo de unidad que ya mordió tres
+     veces en la fase 4, y las tres se arreglaron cambiando la unidad.
+
+     EL ARREGLO ES `34em`, no un `rem`. El `em` resuelve contra el tamaño del
+     elemento que lo USA, así que da los mismos ~68 caracteres a 12 px y a 18;
+     un valor en `rem` acierta en un tamaño y falla en el otro, que es justo el
+     problema que el `ch` venía a resolver. 34em = 68 × 0,5em, el avance medio
+     de Figtree.
+
+     EL ALCANCE REAL, MEDIDO RUTA POR RUTA cambiando el token y mirando qué se
+     movía: 262 bloques en 29 de las 59 rutas. Los cinco servicios y los dos
+     sectores se llevan la mayoría —de 8 a 21 bloques cada uno—; las siete
+     ciudades, entre 6 y 8; y la portada, UNO: el renglón de 12 px que dice
+     «Sin compromiso. Recibirás la invitación de Google Meet en tu correo»,
+     que pasaría de 544 a 408 px.
+
+     O SEA QUE LA §12.1 NO ES EL OBSTÁCULO que se anotó aquí antes. Se escribió
+     que el cambio «toca la portada» y que «obliga a repensar los anchos de esas
+     rejillas»; comprobado con capturas del antes y el después, ninguna de las
+     dos cosas se sostiene. Los párrafos afectados viven dentro de tarjetas
+     anchas, no de celdas ajustadas, así que al estrecharse no dejan un hueco
+     raro: se leen mejor. La decisión es de Luis y las capturas están hechas.
   --maxw-prose: 68ch;
   --gutter: 1.25rem;    /* px-5: el margen lateral de todas las secciones */
   --section-y: clamp(4.5rem, 9vw, 8.5rem);
@@ -218,6 +249,17 @@
      suben en la misma proporción (0,9375 → 1,0625rem) para que la barra no
      quede alta y vacía, que es peor que baja. */
   --header-h: 5.5rem;   /* alto real del header fijo, medido */
+
+  /* EL ALTO COMPACTO, al que baja la barra en cuanto se empieza a leer.
+     4,25rem = 68 px: veinte menos, que es lo que se nota sin que la barra
+     cambie de categoría —un salto a 56 px obliga a encoger el logotipo y los
+     enlaces, y entonces ya no es la misma barra encogida sino otra barra—.
+
+     `--header-h` NO cambia con el scroll y no debe: es lo que reservan las
+     cuarenta páginas en su relleno superior, y atarlo al estado de la barra
+     significaría que el contenido sube veinte píxeles solo. La barra se
+     encoge; el hueco que dejó reservado se queda donde estaba. */
+  --header-h-min: 4.25rem;
 
   /* Alto de la barra de acción móvil (`components/BarraMovil.tsx`), medida:
      44 px de botón + 12 px de aire arriba y abajo + el filete de 1 px. Va con

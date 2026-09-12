@@ -722,37 +722,10 @@ export function computeTotals(a: Answers): Totals {
   };
 }
 
-/**
- * EL PRECIO, EN EL IDIOMA DE QUIEN LO LEE
- * ──────────────────────────────────────────────────────────────────────────
- * Esto no es cosmética. En castellano el punto separa miles —$ 390.000 son
- * trescientos noventa mil— y en inglés el punto separa DECIMALES: un lector
- * angloparlante lee «$390.000» como trescientos noventa dólares con cero
- * centavos. La página en inglés estaba diciendo un precio mil veces menor que
- * el real, y encima en la moneda equivocada.
- *
- * Por eso el inglés lleva coma de miles y la sigla COP detrás: sin la sigla,
- * «$390,000» sobre un sitio que también vende fuera del país se lee en
- * dólares, que es el otro lado del mismo error.
- */
-const FORMATO = {
-  es: new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
-  }),
-  en: new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }),
-} as const;
-
-export const money = (n: number, idioma: "es" | "en" = "es") =>
-  idioma === "en"
-    ? `$${FORMATO.en.format(n)} COP`
-    : /* `es-CO` mete un espacio duro entre el signo y la cifra —«$ 850.000»— y
-         el precio autorizado se escribe «$850.000». Se quitaba en `Web.tsx` y
-         en `Software.tsx` con un ayudante copiado dos veces, así que la misma
-         cifra salía con espacio en la página de SEO y sin él en la de webs.
-         Se normaliza aquí, una vez, y las dos copias se van. */
-      FORMATO.es.format(n).replace(/^(\$)\s+/u, "$1");
+/* El formateador se mudó a `lib/money.ts` para que los componentes de cliente
+   puedan importarlo sin arrastrar este catálogo entero al navegador. Se
+   reexporta aquí: las cuarenta llamadas que ya existen no cambian de sitio. */
+export { money } from "@/lib/money";
 
 
 /** Semanas de entrega para un tipo de proyecto y plazo (default landing si no hay tipo). */
@@ -1265,6 +1238,11 @@ export const PISOS = {
      mientras la página de chatbots empezaba en 700.000, o sea un «desde» más
      caro que el precio más barato del mismo servicio. */
   chatbot: Math.min(...Object.values(A_PRICES.base)),
+  /* El mantenimiento del chatbot, mensual. Es el plan básico: el más barato de
+     los tres, que es lo que un «desde» tiene que enseñar. Sin plan la
+     automatización queda sin monitoreo, y el día que Meta rechace una plantilla
+     o expire el token el bot deja de contestar sin avisar. */
+  chatbotMes: A_PRICES.mantenimiento.basico,
   /* El piso del software a la medida. No sale de sumar pantallas: sale de que
      hasta el encargo más pequeño arranca con diseño de base de datos, accesos
      y despliegue, y ese trabajo existe aunque la interfaz sea una sola vista.
@@ -1272,3 +1250,219 @@ export const PISOS = {
      barata. */
   software: 2000000,
 } as const;
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  EL CATÁLOGO PUBLICADO
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// `PISOS` resolvió los precios copiados a mano. Los PLAZOS siguen copiados, y
+// ya se desincronizaron: la tienda se anunciaba en «3 semanas» en la meta
+// descripción de su propia página, en tres ciudades y en los dos sectores, y
+// en «3 a 5 semanas» en /precios y en el cuerpo de esa misma página. El
+// chatbot iba «de 1 a 5 semanas» en su página y en Bogotá, y «de 2 a 5» en
+// Cartagena y en los sectores. Un plazo no es un detalle de redacción: es lo
+// segundo que pregunta un cliente y lo primero que le recuerda a uno cuando se
+// pasa.
+//
+// La regla para resolverlos: MANDA LA PÁGINA DEL SERVICIO. Es la que el
+// cliente lee entera antes de escribir, la que tiene el detalle del alcance y
+// la única donde el plazo aparece con lo que lo mueve. Las ciudades, los
+// sectores y /precios lo citan; no lo deciden.
+//
+// `null` significa que ese servicio NO tiene plazo de entrega, no que falte
+// el dato: la renovación es anual y el SEO mensual es trabajo continuo. Poner
+// un número ahí sería prometer un resultado, que es justo lo que el sitio dice
+// que no hace.
+
+/** Una cadena en las dos lenguas, sin depender de la capa de contenido. */
+export type Bilingue = { es: string; en: string };
+
+export const PLAZOS = {
+  landing: { es: "5 días", en: "5 days" },
+  corporativa: { es: "1 a 2 semanas", en: "1 to 2 weeks" },
+  tienda: { es: "3 a 5 semanas", en: "3 to 5 weeks" },
+  chatbot: { es: "de 1 a 5 semanas", en: "1 to 5 weeks" },
+  auditoria: { es: "5 días", en: "5 days" },
+  software: {
+    es: "primera versión útil en un mes",
+    en: "first useful version in a month",
+  },
+  seoMes: null,
+  renovacion: null,
+} as const satisfies Record<string, Bilingue | null>;
+
+/** Cómo se cobra cada línea. */
+export type Unidad = "unico" | "mes" | "anio";
+
+export type ServicioPublicado = {
+  id: keyof typeof PISOS;
+  nombre: Bilingue;
+  /** El «desde», en pesos. Sale de `PISOS`, nunca de un literal. */
+  desde: number;
+  unidad: Unidad;
+  /** `null` cuando el servicio no tiene entrega: ver la nota de `PLAZOS`. */
+  plazo: Bilingue | null;
+  href: Bilingue;
+  desc: Bilingue;
+  /** Lo que cobra un tercero y por eso NO está en el precio de arriba. */
+  notas: Bilingue[];
+  /**
+   * Para qué líneas base tiene sentido este recurrente, y solo esas.
+   *
+   * Existe porque /precios ofrecía los tres extras con cualquier base: se podía
+   * escoger «Auditoría SEO» y marcar «Mantenimiento del chatbot», que es
+   * mantener un bot que no se compró, o «Renovación anual» de un sitio que la
+   * auditoría no entrega. Un armador que deja armar cosas imposibles no
+   * inspira confianza en los números que enseña al lado.
+   *
+   * Solo lo llevan los recurrentes. Una línea sin este campo no es un extra.
+   */
+  paraBases?: readonly ServicioPublicado["id"][];
+};
+
+/**
+ * Todo lo que el sitio cobra, en un solo sitio, para que ninguna página pueda
+ * enseñar una lista distinta de otra.
+ *
+ * Faltaban tres líneas en /precios —el chatbot, su mantenimiento y el piso del
+ * software, que ya existe en `PISOS.software`— mientras las tres se anunciaban
+ * en la portada, en las páginas de servicio y en las ciudades. Y Barranquilla
+ * enseñaba seis tarjetas sin chatbot teniendo una sección entera de
+ * conversación de WhatsApp.
+ */
+export const CATALOGO: readonly ServicioPublicado[] = [
+  {
+    id: "landing",
+    nombre: { es: "Página web", en: "Website" },
+    desde: PISOS.landing,
+    unidad: "unico",
+    plazo: {
+      es: `${PLAZOS.landing.es} la landing · ${PLAZOS.corporativa.es} la corporativa`,
+      en: `${PLAZOS.landing.en} for a landing page · ${PLAZOS.corporativa.en} for a corporate site`,
+    },
+    href: { es: "/servicios/diseno-de-paginas-web", en: "/en/services/web-design" },
+    desc: {
+      es: "De una landing a una web corporativa. Diseño propio, no plantilla comprada.",
+      en: "From a landing page to a corporate site. Designed from scratch, not a bought template.",
+    },
+    notas: [],
+  },
+  {
+    id: "tienda",
+    nombre: { es: "Tienda virtual", en: "Online store" },
+    desde: PISOS.tienda,
+    unidad: "unico",
+    plazo: PLAZOS.tienda,
+    href: { es: "/servicios/tiendas-virtuales", en: "/en/services/online-stores" },
+    desc: {
+      es: "Catálogo, carrito, pagos en línea y panel para administrar productos e inventario.",
+      en: "Catalogue, cart, online payments and a panel to manage products and stock.",
+    },
+    notas: [
+      {
+        es: "La pasarela de pago cobra su comisión por venta. Ese porcentaje es suyo, no mío.",
+        en: "The payment gateway charges its own commission per sale. That percentage is theirs, not mine.",
+      },
+    ],
+  },
+  {
+    id: "chatbot",
+    nombre: { es: "Chatbot de WhatsApp", en: "WhatsApp chatbot" },
+    desde: PISOS.chatbot,
+    unidad: "unico",
+    plazo: PLAZOS.chatbot,
+    href: { es: "/servicios/chatbot-whatsapp", en: "/en/services/whatsapp-chatbot" },
+    desc: {
+      es: "Tu número contesta solo: responde lo repetido, capta interesados y agenda.",
+      en: "Your number answers on its own: handles the repeated questions, captures leads and books.",
+    },
+    notas: [
+      {
+        es: "El consumo de la API de Meta lo cobra Meta, a tu cuenta y no a la mía.",
+        en: "Meta's API usage is billed by Meta, to your account and not mine.",
+      },
+    ],
+  },
+  {
+    id: "chatbotMes",
+    nombre: { es: "Mantenimiento del chatbot", en: "Chatbot maintenance" },
+    desde: PISOS.chatbotMes,
+    unidad: "mes",
+    plazo: null,
+    href: { es: "/servicios/chatbot-whatsapp", en: "/en/services/whatsapp-chatbot" },
+    desc: {
+      es: "Monitoreo del token y de las plantillas. Sin plan, si Meta rechaza una plantilla el bot deja de contestar y nadie se entera.",
+      en: "Token and template monitoring. Without a plan, if Meta rejects a template the bot stops answering and nobody notices.",
+    },
+    notas: [],
+    /* No se mantiene un bot que no se compró. */
+    paraBases: ["chatbot"],
+  },
+  {
+    id: "auditoria",
+    nombre: { es: "Auditoría SEO", en: "SEO audit" },
+    desde: PISOS.auditoria,
+    unidad: "unico",
+    plazo: PLAZOS.auditoria,
+    href: { es: "/servicios/posicionamiento-seo", en: "/en/services/seo" },
+    desc: {
+      es: "Qué te está frenando hoy en Google, con la lista de arreglos en orden de impacto.",
+      en: "What is holding you back on Google today, with the fixes listed by impact.",
+    },
+    notas: [],
+  },
+  {
+    id: "seoMes",
+    nombre: { es: "SEO local mensual", en: "Monthly local SEO" },
+    desde: PISOS.seoMes,
+    unidad: "mes",
+    plazo: null,
+    href: { es: "/servicios/posicionamiento-seo", en: "/en/services/seo" },
+    desc: {
+      es: "Trabajo continuo de posicionamiento en búsquedas con ciudad.",
+      en: "Ongoing work to rank for searches that name a city.",
+    },
+    notas: [],
+    /* Donde hay algo que posicionar: una web, una tienda, o el sitio que la
+       auditoría acaba de revisar —que es su continuación natural—. Un chatbot
+       no sale en Google y un sistema interno no tiene por qué salir. */
+    paraBases: ["landing", "tienda", "auditoria"],
+  },
+  {
+    id: "software",
+    nombre: { es: "Software a la medida", en: "Custom software" },
+    desde: PISOS.software,
+    unidad: "unico",
+    plazo: PLAZOS.software,
+    href: { es: "/servicios/software-a-la-medida", en: "/en/services/custom-software" },
+    desc: {
+      es: "Sistemas internos: inventario, pedidos, historias, comisiones. Hasta el más pequeño arranca con base de datos, accesos y despliegue.",
+      en: "Internal systems: stock, orders, records, commissions. Even the smallest one starts with a database, credentials and deployment.",
+    },
+    notas: [],
+  },
+  {
+    id: "renovacion",
+    nombre: { es: "Renovación anual", en: "Yearly renewal" },
+    desde: PISOS.renovacion,
+    unidad: "anio",
+    plazo: null,
+    href: { es: "/precios", en: "/en/pricing" },
+    desc: {
+      es: "Dominio, alojamiento, certificado y respaldos del sitio entregado.",
+      en: "Domain, hosting, certificate and backups of the delivered site.",
+    },
+    notas: [],
+    /* «Del sitio entregado»: solo la web y la tienda lo son. La auditoría
+       revisa un sitio que ya es tuyo y el software a la medida lleva su propio
+       despliegue dentro del alcance, no una tarifa de lista. */
+    paraBases: ["landing", "tienda"],
+  },
+];
+
+/** Una línea del catálogo por id, para que una página no tenga que filtrar. */
+export const catalogo = (id: ServicioPublicado["id"]): ServicioPublicado => {
+  const l = CATALOGO.find((s) => s.id === id);
+  if (!l) throw new Error(`No hay línea de catálogo para "${id}"`);
+  return l;
+};

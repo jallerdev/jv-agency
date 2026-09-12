@@ -144,6 +144,56 @@ export const CLINICAS = {
       "Comparisons with other professionals or clinics. You don't need to put anyone down to explain why people come to you.",
     ],
   } as Traducido<readonly string[]>,
+  /* ── La pieza firma: las frases tachadas ──────────────────────────
+     Las cuatro reglas de arriba son correctas y nadie las lee: son cuatro
+     párrafos de norma en la página de alguien que llegó buscando una web. Las
+     FRASES concretas que esas reglas prohíben sí se leen, porque el visitante
+     las ha visto —o las ha escrito— en su propia publicidad.
+
+     Ninguna se inventa: las tres primeras están literalmente en la primera
+     regla, la cuarta sale de la de los datos de paciente y la quinta de la de
+     las comparaciones. El motivo de cada una va al lado, porque una frase
+     tachada sin motivo es una regla arbitraria. */
+  noEscriboFrases: [
+    {
+      frase: { es: "Resultados garantizados", en: "Guaranteed results" },
+      motivo: {
+        es: "Ningún resultado clínico se puede garantizar, y escribirlo te expone.",
+        en: "No clinical result can be guaranteed, and writing it exposes you.",
+      },
+    },
+    {
+      frase: { es: "Sin dolor", en: "Pain-free" },
+      motivo: {
+        es: "Depende del paciente, no de la publicidad.",
+        en: "That depends on the patient, not on the advertising.",
+      },
+    },
+    {
+      frase: { es: "Recuperación en 3 días", en: "Recovery in 3 days" },
+      motivo: {
+        es: "Un plazo clínico no es una promesa de marketing.",
+        en: "A clinical timeline isn't a marketing promise.",
+      },
+    },
+    {
+      frase: { es: "Antes y después de pacientes", en: "Patient before-and-afters" },
+      motivo: {
+        es: "Dato sensible: sin autorización escrita, no va.",
+        en: "Sensitive data: without written consent, it doesn't go up.",
+      },
+    },
+    {
+      frase: { es: "El mejor de la ciudad", en: "The best in the city" },
+      motivo: {
+        es: "Comparación sin sustento. Y no te hace falta.",
+        en: "An unsupported comparison. And you don't need it.",
+      },
+    },
+  ] as readonly { frase: Texto; motivo: Texto }[],
+  noEscriboRotulo: { es: "Borrador · lo que se tacha", en: "Draft · what gets struck" },
+  noEscriboReglas: { es: "Y la regla detrás de cada una", en: "And the rule behind each one" },
+
   noEscriboCierreAntes: {
     es: "Y lo aplico conmigo mismo: tengo un sitio de salud terminado que ",
     en: "And I apply it to myself: I have a finished healthcare site that ",
@@ -227,10 +277,10 @@ export const CLINICAS = {
   /* El hueco declarado. Va del mismo alto que las otras tres tarjetas: es lo
      más creíble de la sección y no se quita. */
   casilla: {
-    rotulo: { es: "Lo que no tengo", en: "What I don't have" },
+    rotulo: { es: "Hasta dónde llega hoy", en: "How far it goes today" },
     cuerpo: {
-      es: "Todavía no tengo una clínica de varias sedes ni una historia clínica conectada. Si tu proyecto es más grande, te lo digo de frente en la llamada: prefiero perder el trabajo a inventarme un caso.",
-      en: "I don't yet have a multi-site clinic or a connected clinical record system. If your project is bigger, I'll tell you straight on the call: I'd rather lose the work than invent a case study.",
+      es: "Todavía no he conectado una historia clínica ni trabajado una clínica de varias sedes. Si tu proyecto llega hasta ahí, lo hablamos en la llamada y miramos qué parte sí se puede hacer ya: no me invento un caso para quedarme con el trabajo.",
+      en: "I haven't yet connected a clinical record system or worked with a multi-site clinic. If your project goes that far, we talk it through on the call and look at which part can be done now: I don't invent a case study to win the work.",
     },
   },
   portafolioAntes: { es: "Lo demás está en ", en: "The rest is in " },

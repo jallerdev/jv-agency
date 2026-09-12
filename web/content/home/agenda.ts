@@ -97,6 +97,12 @@ export const FORM = {
         despues: " con el enlace de Google Meet. También puedes unirte desde aquí:",
       }),
       unirse: "Unirse a Google Meet",
+      /* La descarga del `.ics`. Existe porque la invitación de Google llega al
+         correo, y quien reserva desde el trabajo con Outlook o desde un
+         teléfono sin la cuenta de Google puesta se queda sin recordatorio. Un
+         archivo de calendario lo abre cualquier agenda del mundo. */
+      calendario: "Añadir a mi calendario",
+      evento: "Llamada de diagnóstico · JV Agencia",
       sinMeet:
         "Para confirmar la cita, envíame los datos por WhatsApp. Te respondo para cerrar el horario.",
       confirmar: "Confirmar por WhatsApp",
@@ -163,6 +169,8 @@ export const FORM = {
         despues: " with the Google Meet link. You can also join from here:",
       }),
       unirse: "Join Google Meet",
+      calendario: "Add to my calendar",
+      evento: "Diagnostic call · JV Agencia",
       sinMeet:
         "To confirm the appointment, send me the details on WhatsApp. I'll reply to lock the time in.",
       confirmar: "Confirm on WhatsApp",

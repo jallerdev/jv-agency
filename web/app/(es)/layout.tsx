@@ -81,11 +81,22 @@ export const metadata: Metadata = {
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "JV Agencia — diseño y código en las mismas manos" }],
   },
   twitter: {
+    /* SIN `title` ni `description` literales, y es el arreglo de un fallo real:
+       Next fusiona los metadatos por objeto, así que una página que declara su
+       propio `openGraph` y no declara `twitter` heredaba ESTE título. Resultado:
+       las cuarenta internas compartían la tarjeta de Twitter de la portada —la
+       página de SEO se anunciaba como «Páginas web, tiendas virtuales y software
+       en Colombia»—. Sin estos dos campos, Next compone la tarjeta con el
+       `title` y la `description` de cada página, que es lo que se quería.
+
+       Y SIN `images`, por lo mismo llevado hasta el final: esa línea fijaba el
+       `twitter:image` de la portada en las cuarenta rutas, y el convenio de
+       archivo —`opengraph-image.tsx`— solo pisa el `og:image`, no el de
+       Twitter. Al quitarla, X cae en el `og:image`, que es lo que su propia
+       especificación manda hacer cuando no hay `twitter:image`, y cada página
+       anuncia SU tarjeta. La alternativa era cuarenta `twitter-image.tsx`
+       idénticos a los que ya hay. */
     card: "summary_large_image",
-    title: "Páginas web, tiendas virtuales y software en Colombia | JV Agencia",
-    description:
-      "Páginas web, tiendas virtuales y chatbots de WhatsApp para PYMEs de Colombia y LATAM.",
-    images: ["/og.png"],
   },
 };
 

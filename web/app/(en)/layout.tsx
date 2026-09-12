@@ -65,11 +65,12 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
+    /* Sin `title` ni `description` literales, por la misma razón que en el
+       layout español: se heredaban a todas las internas y cada página anunciaba
+       en Twitter el título de la portada. Ver la nota de `app/(es)/layout.tsx`.
+       Sin `images` por la misma razón: el convenio de archivo no pisa el
+       `twitter:image`, y X cae en el `og:image` cuando no hay ninguno. */
     card: "summary_large_image",
-    title: "Web design, online stores and custom software | JV Agencia",
-    description:
-      "Websites, online stores and WhatsApp chatbots for small businesses in Colombia and LATAM.",
-    images: ["/og.png"],
   },
 };
 

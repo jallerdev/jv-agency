@@ -168,7 +168,7 @@ export function MetaTechProvider({
             />
           </div>
 
-          <p className="mt-5 font-mono text-[11px] uppercase leading-relaxed tracking-[0.16em] text-accent-ink">
+          <p className="mt-5 font-mono text-xs uppercase leading-relaxed tracking-[0.16em] text-accent-ink">
             {t.sello}
           </p>
           <p className="mt-2 text-balance font-body text-xl font-semibold leading-[1.2] text-ink">

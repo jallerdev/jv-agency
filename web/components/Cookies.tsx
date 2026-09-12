@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 import { COOKIES } from "@/content/layout/cookies";
 import type { Idioma } from "@/content/types";
@@ -17,10 +16,20 @@ import type { Idioma } from "@/content/types";
  *
  * DECISIONES QUE PARECEN DETALLES Y NO LO SON:
  *
- * · No se pinta en el primer render. Leer localStorage durante la hidratación
- *   hace que el servidor y el cliente devuelvan HTML distinto, y React lo
- *   marca como error. Se lee en un efecto: el aviso aparece un instante
- *   después, que es exactamente cuando debe.
+ * · QUIÉN LO VE NO LO DECIDE REACT, y esto fue un arreglo de rendimiento con
+ *   nombre y cifra. Se montaba en un efecto —para no leer `localStorage`
+ *   durante la hidratación, que haría discrepar servidor y cliente— y eso lo
+ *   pintaba DESPUÉS de hidratar. Resultado: el párrafo de este aviso pasó a ser
+ *   el elemento más grande que pintaba cada página, o sea el LCP que mide
+ *   Google. Lighthouse daba 4,4 s en /precios, con un 90 % de «render delay»,
+ *   mientras el primer pintado ocurría a los 0,9 s: la página se veía entera y
+ *   la métrica contaba el cartel que llegaba tres segundos tarde.
+ *
+ *   Ahora el aviso va SIEMPRE en el HTML del servidor y se enseña por atributo:
+ *   un script en línea que bloquea —`app/Documento.tsx`— lee la decisión antes
+ *   del primer fotograma y escribe `data-cookies` en el <html>; el CSS hace el
+ *   resto. React no decide nada sobre su visibilidad, así que no hay
+ *   discrepancia que evitar ni un segundo pintado que pagar.
  *
  * · Aceptar y rechazar pesan lo mismo. Un «rechazar» en gris pequeño al lado
  *   de un «aceptar» naranja no es una elección libre, y un consentimiento que
@@ -50,25 +59,11 @@ function guardar(valor: "si" | "no") {
 }
 
 export function Cookies({ idioma }: { idioma: Idioma }) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    let decidido: string | null = null;
-    try {
-      decidido = window.localStorage.getItem(CLAVE);
-    } catch {
-      /* Si no se puede leer, se vuelve a preguntar. Preguntar de más es
-         molesto; medir sin permiso es otra cosa. */
-    }
-    if (decidido === "si") window.gtag?.("consent", "update", { analytics_storage: "granted" });
-    if (!decidido) setVisible(true);
-  }, []);
-
-  if (!visible) return null;
-
   const decidir = (valor: "si" | "no") => {
     guardar(valor);
-    setVisible(false);
+    /* Se esconde por el mismo atributo por el que se enseñó: una sola vía para
+       decidir si el aviso se ve, y vive en el <html>, no en el estado. */
+    document.documentElement.dataset.cookies = "decidido";
   };
 
   return (
@@ -78,10 +73,10 @@ export function Cookies({ idioma }: { idioma: Idioma }) {
       /* Por encima de la barra de CTA móvil, que ocupa el borde inferior hasta
          `lg`. Sin este desplazamiento las dos se pisan y el botón «Aceptar»
          queda debajo de la barra, que es justo el que hay que poder tocar. */
-      className="fixed bottom-[6.25rem] left-4 right-4 z-50 max-w-md sm:right-auto lg:bottom-4"
+      className="jv-cookies fixed bottom-[6.25rem] left-4 right-4 z-50 max-w-md sm:right-auto lg:bottom-4"
     >
       <div className="jv-card bg-raised p-5">
-        <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
+        <p className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
           {COOKIES.titulo[idioma]}
         </p>
         <p className="mt-3 text-sm leading-relaxed text-ink-soft">{COOKIES.texto[idioma]}</p>

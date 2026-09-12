@@ -3,10 +3,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   Building2,
-  Clock,
-  ExternalLink,
   Hotel,
-  MapPin,
   Ship,
   Stethoscope,
   Store,
@@ -16,16 +13,23 @@ import {
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { BarraMovil } from "@/components/BarraMovil";
 import { Reveal } from "@/components/Reveal";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BotonCuentame } from "@/components/Cuentame";
+import { PageHero } from "@/components/kit/PageHero";
+import { SectionIndex } from "@/components/kit/SectionIndex";
+import { Cifras } from "@/components/kit/Cifras";
+import { PainGrid } from "@/components/kit/PainGrid";
+import { FilaPrecio } from "@/components/kit/FilaPrecio";
+import { ProofCard } from "@/components/kit/ProofCard";
+import { FaqAccordion } from "@/components/kit/FaqAccordion";
+import { FinalCTA, NextStep } from "@/components/kit/FinalCTA";
 import { RailPlazo } from "@/components/visuales/RailPlazo";
 import { ListaAcopio } from "@/components/visuales/ListaAcopio";
 import { PanelAutonomia } from "@/components/visuales/PanelAutonomia";
 import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
-import { A_PRICES, money } from "@/lib/quote";
+import { catalogo, money, PLAZOS } from "@/lib/quote";
 
 /**
  * Página de ciudad para la intención transaccional «diseño de páginas web en
@@ -145,48 +149,63 @@ const PARA_QUIEN = [
  * todo el sitio; el del chatbot sale de `lib/quote.ts` para que no haya dos
  * verdades. El formato de moneda también sale de ahí.
  */
+/* El número Y EL PLAZO salen del catálogo de `lib/quote.ts`. El plazo estaba
+   escrito a mano y decía «de 2 a 5 semanas» para el chatbot cuando su propia
+   página dice «de 1 a 5»: la ciudad cita el plazo, no lo decide. Las
+   descripciones sí son de Cartagena y se quedan como están. */
+const D = (id: Parameters<typeof catalogo>[0]) => catalogo(id);
+
 const PRECIOS = [
   {
-    q: "Página web",
-    desde: money(850000),
-    plazo: "5 días",
+    q: D("landing").nombre.es,
+    desde: money(D("landing").desde),
+    plazo: PLAZOS.landing.es,
     d: "Carga rápido, se ve seria en el teléfono y dice en diez segundos qué haces. Con tu dominio y tu correo.",
-    href: "/servicios/diseno-de-paginas-web",
+    href: D("landing").href.es,
   },
   {
-    q: "Tienda online",
-    desde: money(2500000),
-    plazo: "3 semanas",
+    q: catalogo("tienda").nombre.es,
+    desde: money(D("tienda").desde),
+    plazo: PLAZOS.tienda.es,
     d: "Catálogo con inventario, carrito, cuentas de cliente, pagos en línea y cotización de envíos. Como Bloomrose.",
-    href: "/servicios/tiendas-virtuales",
+    href: D("tienda").href.es,
   },
   {
-    q: "Chatbot de WhatsApp",
-    desde: money(A_PRICES.base.faq),
-    plazo: "de 2 a 5 semanas",
+    q: D("chatbot").nombre.es,
+    desde: money(D("chatbot").desde),
+    plazo: PLAZOS.chatbot.es,
     d: "Tu número contesta solo las preguntas de siempre y te pasa la conversación cuando vale la pena.",
-    href: "/servicios/chatbot-whatsapp",
+    href: D("chatbot").href.es,
   },
   {
-    q: "Auditoría SEO",
-    desde: money(390000),
-    plazo: "5 días",
+    q: D("auditoria").nombre.es,
+    desde: money(D("auditoria").desde),
+    plazo: PLAZOS.auditoria.es,
     d: "Por qué no apareces y qué se arregla primero. Sirve igual si la página te la hizo otro.",
-    href: "/servicios/posicionamiento-seo",
+    href: D("auditoria").href.es,
   },
   {
     q: "SEO local, mensual",
-    desde: `${money(650000)}/mes`,
+    desde: `${money(D("seoMes").desde)}/mes`,
     plazo: "trabajo continuo",
     d: "Aparecer en búsquedas con ciudad: «funeraria en Cartagena», «avisos publicitarios en Cartagena».",
-    href: "/servicios/posicionamiento-seo",
+    href: D("seoMes").href.es,
   },
   {
-    q: "Software a la medida",
-    desde: "Según el alcance",
-    plazo: "se define al cotizar",
+    /* Faltaba, y es la única línea que se vuelve a cobrar cada año: callarla
+       acá y decirla en /precios es justo la sorpresa que el sitio promete no
+       dar. */
+    q: D("renovacion").nombre.es,
+    desde: money(D("renovacion").desde),
+    plazo: "una vez al año",
+    d: "Dominio, alojamiento, certificado y respaldos del sitio ya entregado. Se dice desde el primer día.",
+  },
+  {
+    q: D("software").nombre.es,
+    desde: money(D("software").desde),
+    plazo: PLAZOS.software.es,
     d: "Cuando el problema no es una página sino un proceso: reservas, inventario, historia clínica.",
-    href: "/servicios/software-a-la-medida",
+    href: D("software").href.es,
   },
 ];
 
@@ -211,6 +230,87 @@ const OTRAS_PAGINAS = [
   { href: "/servicios/chatbot-whatsapp", label: "Chatbot de WhatsApp" },
 ];
 
+/**
+ * LOS BARRIOS, COMO TEXTURA TIPOGRÁFICA.
+ *
+ * Ninguno es un dato nuevo: los nueve están escritos en los párrafos de
+ * `PARA_QUIEN` y en el de las cifras. Puestos juntos en mono sobre el titular
+ * hacen lo que ninguna foto de banco haría en esta página —decir «esto es de
+ * aquí»— antes de que se lea una línea. Si alguien copia este archivo para
+ * otra ciudad, esta lista es lo primero que se cae, que es la idea.
+ */
+const BARRIOS = [
+  "Centro",
+  "Getsemaní",
+  "San Diego",
+  "Bocagrande",
+  "Castillogrande",
+  "Manga",
+  "Pie de la Popa",
+  "Bazurto",
+  "Turbaco",
+];
+
+const INDICE = [
+  { id: "cifras", texto: "La ciudad en cifras" },
+  { id: "negocios", texto: "Para quién es" },
+  { id: "precios", texto: "Precios" },
+  { id: "proceso", texto: "Cómo se hace" },
+  { id: "cerca", texto: "Desde dónde" },
+  { id: "trabajo", texto: "El trabajo de acá" },
+  { id: "preguntas", texto: "Preguntas" },
+];
+
+/**
+ * El trabajo de esta zona. La FORMA de cada tarjeta dice de qué clase es
+ * —filete continuo y enlace para lo que está en línea, filete discontinuo para
+ * lo que se construyó por iniciativa propia—, así que alguien que pase la
+ * vista sin leer las etiquetas igual ve tres cosas distintas.
+ *
+ * La funeraria es CLIENTE y su sitio está en producción, pero no lleva enlace:
+ * Luis autorizó nombrarla, no publicar su dirección. Al otro negocio
+ * cartagenero NO lo autorizó, así que no aparece ni de pasada.
+ */
+const TRABAJO = [
+  {
+    nombre: "Bloomrose",
+    categoria: "Tienda en línea · Cartagena",
+    cuerpo:
+      "Tienda de bisutería y accesorios de Cartagena. La diseñé y la programé completa: catálogo con inventario, carrito, cuentas de cliente, pagos en línea y cotización de envíos. Es la que puedes abrir ahora mismo y comprobar.",
+    dominio: "bloomroseaccesorios.com",
+    url: "https://www.bloomroseaccesorios.com",
+    estado: "produccion" as const,
+  },
+  {
+    nombre: "Funeraria San Francisco de Asís",
+    categoria: "Cliente · Cartagena",
+    cuerpo:
+      "Le entregué la página y el trabajo mensual de posicionamiento, apuntado a la búsqueda que de verdad importa en ese negocio: «funeraria en Cartagena». Es un sector donde nadie compara durante semanas — se busca una vez, con prisa y en el peor día, y se llama al primero que inspire confianza.",
+    estado: "produccion" as const,
+  },
+  {
+    nombre: "Fta. Elka Gómez",
+    categoria: "Proyecto de estudio · Cartagena",
+    cuerpo:
+      "Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y experiencias de spa. La construí por iniciativa propia, no me la encargaron, y todavía no tiene dominio conectado. Por eso no hay enlace que abrir: prefiero decírtelo a colgar una captura y llamarlo cliente.",
+    estado: "estudio" as const,
+  },
+  {
+    nombre: "Animal Expert",
+    categoria: "Proyecto de estudio · Turbaco",
+    cuerpo:
+      "Centro médico veterinario de Turbaco: consulta especializada, cirugía, rayos X y agenda en línea. Mismo caso que el anterior: por iniciativa propia, en el pueblo donde vivo.",
+    estado: "estudio" as const,
+  },
+] as readonly {
+  nombre: string;
+  categoria: string;
+  cuerpo: string;
+  dominio?: string;
+  url?: string;
+  estado: "produccion" | "estudio";
+}[];
+
 const FAQS = [
   {
     q: "¿Tienes oficina en Cartagena?",
@@ -230,7 +330,7 @@ const FAQS = [
   },
   {
     q: "Ya me hicieron una página y no aparece por ningún lado. ¿La rehacemos?",
-    a: "Primero la reviso. Muchas veces no es la página: es que en ninguna parte dice «Cartagena», nunca se le avisó a Google que existe y no hay una sola reseña. La auditoría cuesta desde " + money(390000) + " y en 5 días te digo qué tiene. Si conviene rehacerla te lo digo, y si no, también.",
+    a: "Primero la reviso. Muchas veces no es la página: es que en ninguna parte dice «Cartagena», nunca se le avisó a Google que existe y no hay una sola reseña. La auditoría cuesta desde " + money(catalogo("auditoria").desde) + " y en 5 días te digo qué tiene. Si conviene rehacerla te lo digo, y si no, también.",
   },
   {
     q: "La carta me cambia según lo que llegue de Bazurto. ¿Toca llamarte cada vez?",
@@ -283,22 +383,33 @@ export default function DisenoPaginasWebCartagenaPage() {
       {
         "@type": "Offer",
         name: "Página web",
-        description: "Página web a la medida, con dominio y correo propio. Entrega en 5 días.",
+        description: `Página web a la medida, con dominio y correo propio. Entrega en ${PLAZOS.landing.es}.`,
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 850000,
+          minPrice: catalogo("landing").desde,
         },
         availability: "https://schema.org/InStock",
       },
       {
         "@type": "Offer",
-        name: "Tienda online",
-        description: "Catálogo, carrito, pagos en línea y cotización de envíos. Entrega en 3 semanas.",
+        name: "Tienda virtual",
+        description: `Catálogo, carrito, pagos en línea y cotización de envíos. Entrega en ${PLAZOS.tienda.es}.`,
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 2500000,
+          minPrice: catalogo("tienda").desde,
+        },
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        name: "Chatbot de WhatsApp",
+        description: `Automatización conectada directo a Meta, a nombre del negocio. Entrega ${PLAZOS.chatbot.es}.`,
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          priceCurrency: "COP",
+          minPrice: catalogo("chatbot").desde,
         },
         availability: "https://schema.org/InStock",
       },
@@ -309,7 +420,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 390000,
+          minPrice: catalogo("auditoria").desde,
         },
         availability: "https://schema.org/InStock",
       },
@@ -320,7 +431,7 @@ export default function DisenoPaginasWebCartagenaPage() {
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "COP",
-          minPrice: 650000,
+          minPrice: catalogo("seoMes").desde,
         },
         availability: "https://schema.org/InStock",
       },
@@ -335,30 +446,39 @@ export default function DisenoPaginasWebCartagenaPage() {
       />
       <Header idioma="es" />
       <main id="contenido">
-        {/* ── Encabezado · canvas ────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 pb-8 pt-32 text-center md:px-8 md:pt-40">
-          <Reveal>
-            <Badge>
-              <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
-              Cartagena de Indias · Bolívar
-            </Badge>
-            <h1 className="mt-6 font-display text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
+        <PageHero
+          titular="compacto"
+          variante="ciudad"
+          idioma="es"
+          migas={[{ texto: "Diseño de páginas web en Cartagena" }]}
+          eyebrow="Cartagena de Indias · Bolívar"
+          titulo={
+            <>
               Diseño de páginas web en Cartagena de Indias,{" "}
-              <span className="block text-metal">y vivo a 20 kilómetros de allí</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Vivo y trabajo en Turbaco, subiendo. No vengo de otra ciudad a entender el mercado de
-              Cartagena: es donde compro el pan.
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl font-body text-lg leading-relaxed text-ink-soft">
-              Diseño y programo yo mismo, sin equipo intermedio. Desde{" "}
-              <strong className="text-ink">{money(850000)}</strong>, en{" "}
-              <strong className="text-ink">5 días</strong>.
-            </p>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <span className="block text-brand">y vivo a 20 kilómetros de allí</span>
+            </>
+          }
+          entradilla="Vivo y trabajo en Turbaco, subiendo. No vengo de otra ciudad a entender el mercado de Cartagena: es donde compro el pan."
+          precio="landing"
+          indice={<SectionIndex entradas={INDICE} idioma="es" variante="chip" />}
+          /* LA ÚNICA PÁGINA DE CIUDAD CON UN CLIENTE DE VERDAD EN LA CIUDAD, y
+             por eso el costado del hero no lleva el esquema de la ruta —que es
+             lo que llevan las otras seis— sino la tienda que se puede abrir.
+             Un dominio que funciona vale más que un dibujo de distancia. */
+          aparte={
+            <ProofCard
+              idioma="es"
+              como="h2"
+              nombre="Bloomrose"
+              categoria="Tienda en línea · Cartagena"
+              cuerpo="Tienda de bisutería y accesorios de Cartagena, diseñada y programada completa: catálogo con inventario, carrito, cuentas, pagos en línea y cotización de envíos."
+              dominio="bloomroseaccesorios.com"
+              url="https://www.bloomroseaccesorios.com"
+              estado="produccion"
+            />
+          }
+          acciones={
+            <>
               <Button size="lg" variant="primary" asChild>
                 <Link href="/agendar">
                   Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
@@ -367,38 +487,44 @@ export default function DisenoPaginasWebCartagenaPage() {
               <Button size="lg" variant="outline" asChild>
                 <a href="#precios">Ver los precios</a>
               </Button>
-            </div>
-          </Reveal>
-        </section>
+            </>
+          }
+        />
 
-        {/* ── La ciudad, con cifras comprobables · banda ─────────────── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+        {/* ── La ciudad, con cifras comprobables ─────────────────────── */}
+        <section
+          id="cifras"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="text-balance text-[length:var(--text-display)]">
               Cómo es de verdad el comercio de esta ciudad
             </h2>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
               Mediciones públicas de la Cámara de Comercio y del Registro Mercantil. Explican a
               quién le hablo.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
-            {CIFRAS.map((c, i) => (
-              <Reveal key={c.dato} index={i}>
-                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                  <p className="font-display text-4xl text-primary-dark">{c.dato}</p>
-                  <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">{c.de}</p>
-                  <p className="mt-5 jv-rule pt-4 font-mono text-[11px] leading-relaxed text-ink-soft">
-                    {c.fuente}
-                  </p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+          {/* Cada cifra con SU fuente al lado y no las tres con una nota común:
+              son tres mediciones distintas y juntarlas obligaría a adivinar
+              cuál sostiene cuál. */}
+          <Cifras
+            className="mt-12 lg:grid-cols-3"
+            cifras={CIFRAS.map((c) => {
+              const n = Number(c.dato.replace(/\./g, "").replace("%", ""));
+              return {
+                valor: Number.isFinite(n) ? n : 0,
+                sufijo: c.dato.includes("%") ? "%" : undefined,
+                cuenta: Number.isFinite(n),
+                etiqueta: c.de,
+                pie: c.fuente,
+              };
+            })}
+          />
 
           <Reveal>
-            <p className="mt-6 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+            <p className="mt-10 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
               Ese 13% son los hoteles chiquitos de San Diego, los hostales de Getsemaní y los
               restaurantes de barrio. Casi ninguno tiene página propia: viven de un perfil de
               Instagram y de un mensaje que a las nueve de la noche nadie alcanza a contestar.
@@ -406,306 +532,270 @@ export default function DisenoPaginasWebCartagenaPage() {
           </Reveal>
         </section>
 
-        {/* ── Para quién es · banda (mismo capítulo que las cifras) ──── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+        {/* ── Para quién es ──────────────────────────────────────────── */}
+        <section
+          id="negocios"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            {/* LOS BARRIOS, COMO TEXTURA. No son un dato nuevo: los nueve
+                aparecen escritos en los párrafos de abajo. Puestos aquí en
+                mono y en tinta apagada hacen lo que ninguna ilustración de
+                banco haría en esta página —decir «esto es de aquí»— antes de
+                que se lea una sola línea. `aria-hidden` porque repetirlos a un
+                lector de pantalla no añade nada. */}
+            {/* En caja normal y no en versalitas: son NOMBRES PROPIOS, y
+                ciento cinco caracteres en mayúscula sostenida son un párrafo
+                en mayúscula, que es más difícil de leer y que el detector
+                marca con razón. «Getsemaní» se lee mejor que «GETSEMANÍ». */}
+            <p aria-hidden className="font-mono text-xs text-ink-muted">
+              {BARRIOS.join(" · ")}
+            </p>
+            <h2 className="mt-5 text-balance text-[length:var(--text-display)]">
               Los negocios de Cartagena a los que esto les sirve
             </h2>
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-            {PARA_QUIEN.map((p, i) => {
-              const Icon = p.icon;
-              return (
-                <Reveal key={p.titulo} index={i}>
-                  <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-quiet text-accent-ink ring-1 ring-inset ring-brand-line">
-                      <Icon className="h-6 w-6" aria-hidden="true" />
-                    </span>
-                    <h3 className="mt-5 font-body text-xl font-semibold text-ink">{p.titulo}</h3>
-                    <p className="mt-2 flex-1 font-body leading-relaxed text-ink-soft">{p.desc}</p>
-                    {p.link && (
-                      <Link
-                        href={p.link.href}
-                        className="mt-4 inline-flex min-h-11 items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-                      >
-                        {p.link.label}{" "}
-                        <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      </Link>
-                    )}
-                  </article>
-                </Reveal>
-              );
-            })}
-          </div>
+
+          <PainGrid
+            className="mt-12"
+            dolores={PARA_QUIEN.map((p) => ({
+              titulo: p.titulo,
+              cuerpo: p.desc,
+              icono: p.icon,
+              enlace: p.link ? { texto: p.link.label, href: p.link.href } : undefined,
+            }))}
+          />
         </section>
 
-        {/* ── Precios · CANVAS a propósito: son la respuesta ─────────── */}
-        <section id="precios" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-12 md:px-8">
+        {/* ── Precios ────────────────────────────────────────────────── */}
+        <section
+          id="precios"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <Badge>Precios</Badge>
-            <h2 className="mt-6 font-display text-3xl text-ink sm:text-4xl">
+            <p className="jv-eyebrow text-brand">Precios</p>
+            <h2 className="mt-4 text-balance text-[length:var(--text-display)]">
               Lo que cuesta, sin que tengas que escribir para preguntar
             </h2>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[62ch] leading-relaxed text-ink-soft">
               Precios de partida reales. De ahí para arriba según lo que necesites, y te lo digo
               antes de empezar, no en la factura.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
             {PRECIOS.map((p, i) => (
-              <Reveal key={p.q} index={i}>
-                <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                  <h3 className="font-body text-xl font-semibold text-ink">{p.q}</h3>
-                  <p className="mt-2 flex-1 font-body text-sm leading-relaxed text-ink-soft">
-                    {p.d}
-                  </p>
-                  {p.href && (
-                    <Link
-                      href={p.href}
-                      className="mt-3 inline-flex min-h-11 w-fit items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-                    >
-                      Ver el detalle{" "}
-                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    </Link>
-                  )}
-                  <div className="mt-4 jv-rule pt-4">
-                    <p className="font-mono text-lg text-primary-dark">
-                      {p.desde === "Según el alcance" ? p.desde : `desde ${p.desde}`}
-                    </p>
-                    <p className="mt-1 inline-flex items-center gap-2 font-body text-sm text-ink-soft">
-                      <Clock className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                      {p.plazo}
-                    </p>
-                  </div>
-                </article>
-              </Reveal>
+              <FilaPrecio
+                key={p.q}
+                idioma="es"
+                indice={i}
+                nombre={p.q}
+                descripcion={p.d}
+                plazo={p.plazo}
+                /* `desde` viene dentro de la cadena en este archivo, así que
+                   se saca el número para que la ranura lo alinee. */
+                monto={Number(p.desde.replace(/[^\d]/g, ""))}
+                unidad={p.desde.includes("/mes") ? "/mes" : undefined}
+                href={p.href}
+              />
             ))}
-          </div>
+          </ul>
 
           <Reveal>
-            <div className="mt-6 grid gap-4 rounded-2xl border border-line bg-band/60 p-6 font-body leading-relaxed text-ink-soft sm:p-7">
-              <p>
-                <strong className="text-ink">La renovación anual cuesta {money(290000)}</strong> y
-                cubre dominio, alojamiento y que la página siga actualizada y en pie. Lo digo acá
+            <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2">
+              <p className="max-w-[62ch] leading-relaxed text-ink-soft">
+                <strong className="text-ink">
+                  La renovación anual cuesta {money(catalogo("renovacion").desde)}
+                </strong>{" "}
+                y cubre dominio, alojamiento y que la página siga actualizada y en pie. Lo digo acá
                 arriba y no en una nota al pie: es el costo que a todo el mundo se le aparece de
                 sorpresa al año siguiente.
               </p>
-              <p>
+              <p className="max-w-[62ch] leading-relaxed text-ink-soft">
                 Los primeros movimientos de posicionamiento se ven{" "}
                 <strong className="text-ink">entre el mes 3 y el mes 6</strong>. Nadie te puede
                 prometer el primer puesto en Google, ni yo tampoco.
               </p>
-              <p className="text-sm">
-                El desglose largo:{" "}
-                <Link
-                  href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  cuánto cuesta una página web
-                </Link>
-                ,{" "}
-                <Link
-                  href="/blog/cuanto-se-demora-hacer-una-pagina-web"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  cuánto se demora
-                </Link>{" "}
-                y{" "}
-                <Link
-                  href="/blog/cuanto-cuesta-el-seo-en-colombia"
-                  className="font-semibold text-primary-dark underline underline-offset-4"
-                >
-                  cuánto cuesta el SEO
-                </Link>
-                .
-              </p>
             </div>
+            <p className="mt-6 max-w-[62ch] text-sm leading-relaxed text-ink-soft">
+              El desglose largo:{" "}
+              <Link
+                href="/blog/cuanto-cuesta-una-pagina-web-en-colombia"
+                className="jv-enlace font-semibold text-brand"
+              >
+                cuánto cuesta una página web
+              </Link>
+              ,{" "}
+              <Link
+                href="/blog/cuanto-se-demora-hacer-una-pagina-web"
+                className="jv-enlace font-semibold text-brand"
+              >
+                cuánto se demora
+              </Link>{" "}
+              y{" "}
+              <Link
+                href="/blog/cuanto-cuesta-el-seo-en-colombia"
+                className="jv-enlace font-semibold text-brand"
+              >
+                cuánto cuesta el SEO
+              </Link>
+              .
+            </p>
           </Reveal>
         </section>
 
-        {/* ── Cómo se hace · banda. El rail cuenta los días y el tramo
-             punteado dice que el reloj arranca con TU material, que es la
-             condición que más discusiones ahorra después. ─────────────── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Cómo se hace, y cuándo arranca el reloj
-            </h2>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Antes del día 1 hablamos veinte minutos y te mando la propuesta escrita, con el
-              precio adentro. No hay ejecutivo de cuentas: hablas con el que escribe el código.
-            </p>
-          </Reveal>
-
-          <Reveal>
-            <RailPlazo
-              className="mt-10"
-              previo={{
-                etiqueta: "Antes del día 1",
-                texto: "Tus textos, tus fotos y tus precios. El reloj no ha arrancado.",
-              }}
-              hitos={DIAS}
-            />
-          </Reveal>
-
-          <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
+        {/* ── Cómo se hace. El rail cuenta los días y el tramo punteado
+             dice que el reloj arranca con TU material, que es la condición
+             que más discusiones ahorra después. ───────────────────────── */}
+        <section id="proceso" className="border-y border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24">
             <Reveal>
-              <ListaAcopio
-                almacen="acopio-cartagena"
-                titulo="Lo que tienes que mandarme para que arranque"
-                items={[
-                  "Tu logo, en el mejor archivo que tengas",
-                  "Los textos, o el visto bueno para que los escriba yo",
-                  "Fotos del sitio, del equipo y del trabajo hecho",
-                  "Precios o carta, si los vas a publicar",
-                  "Horarios reales, sábados y festivos incluidos",
-                  "Accesos al dominio y al correo, si ya los tienes",
-                ]}
+              <h2 className="text-balance text-[length:var(--text-display)]">
+                Cómo se hace, y cuándo arranca el reloj
+              </h2>
+              <p className="mt-4 max-w-[62ch] leading-relaxed text-ink-soft">
+                Antes del día 1 hablamos veinte minutos y te mando la propuesta escrita, con el
+                precio adentro. No hay ejecutivo de cuentas: hablas con el que escribe el código.
+              </p>
+            </Reveal>
+
+            <Reveal delay={80}>
+              <RailPlazo
+                className="mt-12"
+                previo={{
+                  etiqueta: "Antes del día 1",
+                  texto: "Tus textos, tus fotos y tus precios. El reloj no ha arrancado.",
+                }}
+                hitos={DIAS}
               />
             </Reveal>
 
-            <Reveal delay={120}>
-              <PanelAutonomia
-                titulo="Y esto lo cambias tú, sin escribirme"
-                precio={{ etiqueta: "Cambiar un precio de la carta", campo: "$ 38.000", boton: "Guardar" }}
-                archivo={{ etiqueta: "Subir la foto del plato", nombre: "cazuela-de-mariscos.jpg", nota: "Listo" }}
-                estado={{ etiqueta: "Marcar una reserva", elegida: "Confirmada", nota: "El cliente recibe el aviso" }}
+            <div className="mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
+              <Reveal>
+                <ListaAcopio
+                  almacen="acopio-cartagena"
+                  titulo="Lo que tienes que mandarme para que arranque"
+                  items={[
+                    "Tu logo, en el mejor archivo que tengas",
+                    "Los textos, o el visto bueno para que los escriba yo",
+                    "Fotos del sitio, del equipo y del trabajo hecho",
+                    "Precios o carta, si los vas a publicar",
+                    "Horarios reales, sábados y festivos incluidos",
+                    "Accesos al dominio y al correo, si ya los tienes",
+                  ]}
+                />
+              </Reveal>
+
+              <Reveal delay={120}>
+                <PanelAutonomia
+                  titulo="Y esto lo cambias tú, sin escribirme"
+                  precio={{
+                    etiqueta: "Cambiar un precio de la carta",
+                    campo: "$ 38.000",
+                    boton: "Guardar",
+                  }}
+                  archivo={{
+                    etiqueta: "Subir la foto del plato",
+                    nombre: "cazuela-de-mariscos.jpg",
+                    nota: "Listo",
+                  }}
+                  estado={{
+                    etiqueta: "Marcar una reserva",
+                    elegida: "Confirmada",
+                    nota: "El cliente recibe el aviso",
+                  }}
+                />
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Desde dónde ────────────────────────────────────────────── */}
+        <section
+          id="cerca"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:gap-16">
+            <Reveal>
+              <div className="lg:sticky lg:top-28">
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  Qué significa que esté en Turbaco y no en Bocagrande
+                </h2>
+              </div>
+            </Reveal>
+
+            <Reveal delay={80}>
+              <p className="max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                En persona cubro Cartagena de Indias, Turbaco, Arjona, Turbaná y el resto de
+                Bolívar; a distancia, el resto del país. Hablas siempre conmigo, de la primera
+                llamada a la entrega, y si llegas a tener alguna inconformidad o un reclamo, te
+                responde el mismo que hizo el trabajo.
+              </p>
+
+              <RailDistancia
+                className="mt-10"
+                paradas={[
+                  { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "Aquí vivo y aquí trabajo." },
+                  {
+                    lugar: "Cartagena de Indias",
+                    distancia: "≈ 20 km",
+                    nota: "Nos vemos si el proyecto lo pide.",
+                  },
+                  {
+                    lugar: "Barranquilla",
+                    distancia: "≈ 120 km",
+                    nota: "También trabajo allá, a distancia.",
+                  },
+                  {
+                    lugar: "El resto del país",
+                    distancia: "a distancia",
+                    nota: "Y lo digo yo primero.",
+                  },
+                ]}
               />
             </Reveal>
           </div>
         </section>
 
-        {/* ── Desde dónde · banda (mismo capítulo que «cómo se hace») ── */}
-        <section className="banda mx-auto max-w-6xl px-5 py-12 md:px-8">
+        {/* ── El trabajo propio de esta zona ─────────────────────────── */}
+        <section
+          id="trabajo"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Qué significa que esté en Turbaco y no en Bocagrande
-            </h2>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
-              Cubro Cartagena de Indias, Turbaco, Arjona, Turbaná y el resto de Bolívar. Hablas
-              siempre conmigo, de la primera llamada a la entrega, y cuando escribas para reclamar
-              va a contestar el que hizo el trabajo.
-            </p>
-          </Reveal>
-
-          <Reveal>
-            <RailDistancia
-              className="mt-10"
-              paradas={[
-                { lugar: "Turbaco, Bolívar", distancia: "0 km", nota: "Aquí vivo y aquí trabajo." },
-                { lugar: "Cartagena de Indias", distancia: "≈ 20 km", nota: "Nos vemos si el proyecto lo pide." },
-                { lugar: "Barranquilla", distancia: "≈ 120 km", nota: "También trabajo allá, a distancia." },
-                { lugar: "El resto del país", distancia: "a distancia", nota: "Y lo digo yo primero." },
-              ]}
-            />
-          </Reveal>
-        </section>
-
-        {/* ── El trabajo propio de esta zona · canvas ────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 py-12 md:px-8">
-          <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="text-balance text-[length:var(--text-display)]">
               Lo que he hecho de este lado
             </h2>
-            <p className="mt-4 max-w-3xl font-body text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 max-w-[62ch] leading-relaxed text-ink-soft">
               Acá no hay logos de relleno. Digo cuál está en línea y se puede abrir, y cuál lo
               construí por iniciativa propia.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-            <Reveal>
-              <article className="flex h-full flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-surface to-white/15 p-6 sm:p-7">
-                <span className="w-fit rounded-full bg-primary/12 px-3 py-1 jv-eyebrow text-primary-dark">
-                  En línea · Cartagena
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Bloomrose</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Tienda de bisutería y accesorios de Cartagena. La diseñé y la programé completa:
-                  catálogo con inventario, carrito, cuentas de cliente, pagos en línea y cotización
-                  de envíos. Es la que puedes abrir ahora mismo y comprobar.
-                </p>
-                <a
-                  href="https://www.bloomroseaccesorios.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex min-h-11 w-fit items-center gap-2 py-2.5 font-body text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-                >
-                  bloomroseaccesorios.com{" "}
-                  <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
-                </a>
-                <p className="mt-1 font-body text-sm leading-relaxed text-ink-soft">
-                  Cómo se arma una así está en{" "}
-                  <Link
-                    href="/servicios/tiendas-virtuales"
-                    className="font-semibold text-primary-dark underline underline-offset-4"
-                  >
-                    creación de tiendas virtuales
-                  </Link>
-                  .
-                </p>
-              </article>
-            </Reveal>
-
-            <Reveal delay={80}>
-              <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
-                  Proyecto de estudio · Cartagena
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Fta. Elka Gómez</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Más de 30 años tratando el dolor en Cartagena: rehabilitación física, masaje y
-                  experiencias de spa. La construí por iniciativa propia, no me la encargaron, y
-                  todavía no tiene dominio conectado. Por eso no hay enlace que abrir: prefiero
-                  decírtelo a colgar una captura y llamarlo cliente.
-                </p>
-              </article>
-            </Reveal>
-
-            <Reveal delay={160}>
-              <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
-                  Proyecto de estudio · Turbaco
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">Animal Expert</h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Centro médico veterinario de Turbaco: consulta especializada, cirugía, rayos X y
-                  agenda en línea. Mismo caso que el anterior: por iniciativa propia, en el pueblo
-                  donde vivo.
-                </p>
-              </article>
-            </Reveal>
-
-            {/* CLIENTE REAL, y el unico de esta pagina: los otros dos son
-                proyectos de estudio. Luis autorizo nombrar a la funeraria; al
-                otro negocio cartagenero NO, asi que no aparece ni de pasada. */}
-            <Reveal delay={240}>
-              <article className="flex h-full flex-col jv-card p-6 sm:p-7">
-                <span className="w-fit rounded-full border border-line px-3 py-1 jv-eyebrow text-ink-soft">
-                  Cliente · Cartagena
-                </span>
-                <h3 className="mt-4 font-display text-2xl text-ink">
-                  Funeraria San Francisco de Asís
-                </h3>
-                <p className="mt-3 flex-1 font-body leading-relaxed text-ink-soft">
-                  Le entregué la página y el trabajo mensual de posicionamiento, apuntado a la
-                  búsqueda que de verdad importa en ese negocio: «funeraria en Cartagena». Es un
-                  sector donde nadie compara durante semanas — se busca una vez, con prisa y en el
-                  peor día, y se llama al primero que inspire confianza.
-                </p>
-              </article>
-            </Reveal>
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {TRABAJO.map((t, i) => (
+              <Reveal key={t.nombre} delay={i * 80} className="h-full">
+                <ProofCard
+                  idioma="es"
+                  nombre={t.nombre}
+                  categoria={t.categoria}
+                  cuerpo={t.cuerpo}
+                  dominio={t.dominio}
+                  url={t.url}
+                  estado={t.estado}
+                />
+              </Reveal>
+            ))}
           </div>
 
           <Reveal>
-            <p className="mt-8 font-body leading-relaxed text-ink-soft">
-              Lo demás está en{" "}
-              <Link
-                href="/#portafolio"
-                className="font-semibold text-primary-dark underline underline-offset-4"
-              >
+            <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
+              Cómo se arma una tienda como la de Bloomrose está en{" "}
+              <Link href="/servicios/tiendas-virtuales" className="jv-enlace font-semibold text-brand">
+                creación de tiendas virtuales
+              </Link>
+              . Lo demás está en{" "}
+              <Link href="/#portafolio" className="jv-enlace font-semibold text-brand">
                 el portafolio completo
               </Link>
               , con la misma separación: lo que está en producción con dominio propio y lo que no.
@@ -713,54 +803,42 @@ export default function DisenoPaginasWebCartagenaPage() {
           </Reveal>
         </section>
 
-        {/* ── Preguntas de acá · banda ───────────────────────────────── */}
-        <section className="banda mx-auto max-w-4xl px-5 py-12 md:px-8">
-          <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Lo que me preguntan los negocios de Cartagena
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid gap-4">
-            {FAQS.map((f, i) => (
-              <Reveal key={f.q} index={i}>
-                <article className="jv-card p-6 sm:p-7">
-                  <h3 className="font-body text-xl font-semibold text-ink">{f.q}</h3>
-                  <p className="mt-3 font-body leading-relaxed text-ink-soft">{f.a}</p>
-                </article>
-              </Reveal>
-            ))}
+        {/* ── Preguntas de acá ───────────────────────────────────────── */}
+        <section
+          id="preguntas"
+          className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24"
+        >
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+            <Reveal>
+              <div className="lg:sticky lg:top-28">
+                <h2 className="text-balance text-[length:var(--text-h2)]">
+                  Lo que me preguntan los negocios de Cartagena
+                </h2>
+              </div>
+            </Reveal>
+
+            <FaqAccordion
+              grupos={[
+                {
+                  titulo: "Lo que me preguntan los negocios de Cartagena",
+                  items: FAQS.map((f) => ({ q: f.q, a: f.a })),
+                },
+              ]}
+            />
           </div>
         </section>
 
-        {/* ── Cierre · canvas ────────────────────────────────────────── */}
-        <section className="mx-auto max-w-4xl px-5 py-16 text-center md:px-8 md:py-24">
+        {/* ── También trabajo ────────────────────────────────────────── */}
+        <section className="mx-auto max-w-[1280px] px-6 pb-20 md:px-12 md:pb-24">
           <Reveal>
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
-              Cuéntame qué vendes y en qué parte de Cartagena
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-ink-soft">
-              En veinte minutos sabemos si te sirve, cuánto costaría y en cuánto la tendrías. Si no
-              es una página lo que necesitas, te lo digo y no te cobro por decírtelo.
-            </p>
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Button size="lg" variant="primary" asChild>
-                <Link href="/agendar">
-                  Agenda una llamada <ArrowRight className="h-5 w-5" aria-hidden="true" />
-                </Link>
-              </Button>
-              <BotonCuentame />
-            </div>
-
-            <nav aria-label="Otras páginas del sitio" className="mt-12">
-              <p className="jv-eyebrow text-ink-soft">
-                También trabajo
-              </p>
-              <ul className="mt-4 flex flex-wrap justify-center gap-2">
+            <nav aria-label="Otras páginas del sitio">
+              <h2 className="jv-eyebrow text-ink-muted">También trabajo</h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
                 {OTRAS_PAGINAS.map((o) => (
                   <li key={o.href}>
                     <Link
                       href={o.href}
-                      className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 py-2.5 font-body text-sm text-ink-soft transition-colors hover:border-primary/40 hover:text-ink"
+                      className="jv-chip jv-chip-off min-h-11 text-sm hover:border-brand hover:text-brand"
                     >
                       {o.label}
                     </Link>
@@ -770,9 +848,17 @@ export default function DisenoPaginasWebCartagenaPage() {
             </nav>
           </Reveal>
         </section>
+
+        <FinalCTA
+          idioma="es"
+          titulo="Cuéntame qué vendes y en qué parte de Cartagena"
+          cuerpo="En veinte minutos sabemos si te sirve, cuánto costaría y en cuánto la tendrías. Si no es una página lo que necesitas, te lo digo y no te cobro por decírtelo."
+          siguiente={<NextStep id="tienda" idioma="es" />}
+        />
       </main>
       <Footer idioma="es" />
       <WhatsAppButton />
+      <BarraMovil idioma="es" />
     </>
   );
 }

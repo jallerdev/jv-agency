@@ -90,7 +90,7 @@
 .jv-glowsec::before,
 .jv-glowsec::after { content: ""; position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; height: clamp(90px, 14vh, 180px); }
 .jv-glowsec::before { top: 0; background: linear-gradient(180deg, var(--canvas) 0%, rgba(9, 9, 11, 0) 100%); }
-.jv-glowsec::after { bottom: 0; background: linear-gradient(0deg, var(--canvas) 0%, rgba(9, 9, 11, 0) 100%); }
+.jv-glowsec::after { bottom: 0; background: linear-gradient(0deg, var(--canvas) 0%, rgb(var(--canvas-rgb) / 0) 100%); }
 .jv-glowsec .jv-gg {
   -webkit-mask-image: radial-gradient(125% 118% at 50% 45%, #000 48%, #0000 90%);
   mask-image: radial-gradient(125% 118% at 50% 45%, #000 48%, #0000 90%);
@@ -107,6 +107,25 @@
   font-weight: 500;
   letter-spacing: var(--ls-eyebrow);
   text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* El mismo rótulo cuando lo que lleva es una FRASE y no una etiqueta.
+   Un rótulo de dos palabras en mayúscula se lee de un vistazo; una frase de
+   sesenta caracteres en mayúscula hay que descifrarla, porque la mayúscula
+   borra los ascendentes y descendentes que dan forma a la palabra. Y justo
+   esas frases largas son las etiquetas de honestidad —«Ejemplo · pantallas de
+   muestra, producto y precios inventados»—, que son las que más falta hace
+   que se lean.
+
+   Conserva la familia, el tamaño y el color: sigue siendo el mismo elemento
+   del sistema. Solo suelta la mayúscula y afloja el tracking, que en caja
+   baja sobra. */
+.jv-eyebrow-frase {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--text-muted);
 }
 
@@ -131,7 +150,16 @@
 .jv-marquee { display: flex; width: max-content; animation: var(--dur-marquee) linear infinite jv-marquee; }
 
 .jv-lift { transition: transform var(--dur-lift) var(--ease-ps), box-shadow 0.4s var(--ease-ps), border-color 0.18s var(--ease-ps), background 0.18s var(--ease-ps); }
-.jv-lift:hover { transform: translateY(-2px); }
+/* El levantamiento SOLO donde hay puntero de verdad.
+   En una pantalla táctil `:hover` no es un estado pasajero: se queda pegado
+   después de tocar y no se suelta hasta que tocas otra cosa. Una tarjeta que
+   se queda 2px arriba después de tocarla parece rota, y el usuario no tiene
+   forma de deshacerlo. `(hover: hover)` excluye justamente eso. */
+@media (hover: hover) {
+  .jv-lift:hover { transform: translateY(-2px); }
+}
+/* La pulsación sí va en todas partes: es el acuse de recibo del toque, y
+   dura lo que dura el dedo encima. */
 .jv-lift:active { transform: scale(0.985); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -322,6 +350,426 @@ input[type="radio"] { accent-color: var(--accent); }
 }
 .jv-latido { animation: jv-latido 2.4s var(--ease-ps) infinite; }
 @media (prefers-reduced-motion: reduce) { .jv-latido { animation: none; } }
+
+/* ===========================================================================
+   La transición entre páginas
+   ---------------------------------------------------------------------------
+   El fundido lo hace la View Transitions API del navegador; aquí solo se le
+   dan las curvas y los tiempos. El montaje está en `app/Documento.tsx`.
+
+   LAS DOS DURAN LO MISMO Y VAN EN LINEAL, y las dos cosas se comprobaron
+   congelando la transición a mitad de camino. Estaban a 160 ms la que sale y
+   260 la que entra, por aquello de que salir rápido se siente más ágil: a los
+   110 ms la vieja iba por 0,31 de opacidad y la nueva por 0,42, o sea que
+   entre las dos no llegaban ni a la mitad y el fundido pasaba por un bajón
+   oscuro. Con la misma duración y curva lineal, lo que una pierde lo gana la
+   otra en el mismo instante.
+
+   `mix-blend-mode: plus-lighter` es la otra mitad del arreglo: sin él, dos
+   capas al 50 % siguen dejando ver el fondo entre ambas. Sumándolas, el
+   fundido mantiene el brillo de punta a punta. Es la misma técnica que usa el
+   navegador en su fundido de fábrica.
+
+   NO HAY DESPLAZAMIENTO NI ESCALA, solo opacidad. Al cambiar de ruta el
+   documento vuelve al principio de golpe (`components/AlCambiarDeRuta.tsx`),
+   así que la foto vieja ya está en otra posición que la nueva; añadirle un
+   movimiento propio encima convierte el corte en un tumbo.
+
+   `both` en las dos: sin él, la foto nueva parpadea a opacidad 1 en el frame
+   anterior al arranque de su animación.
+
+   POR QUÉ SE APUNTA A `.jv-pagina` Y NO A `root`. Medido en Chrome: React no
+   transiciona la raíz. A cada hijo del `<ViewTransition>` le pone un nombre
+   generado —`_t_0_`, `_t_0__1`, `_t_0__2`…— y anima cada uno por su cuenta a
+   250 ms con curva `linear`. Con `::view-transition-old(root)` estas reglas no
+   se aplicaban a nada y la transición corría con los tiempos por defecto de
+   React. La propiedad `default="jv-pagina"` del componente les pone a todos
+   `view-transition-class: jv-pagina`, que es el gancho estable: los nombres
+   generados no lo son.
+   =========================================================================== */
+@keyframes jv-pagina-sale  { to   { opacity: 0; } }
+@keyframes jv-pagina-entra { from { opacity: 0; } }
+
+/* `root` VA TAMBIÉN, y no sobra: React nombra a sus hijos, pero todo lo que
+   queda fuera de ese reparto —el fondo del documento, las manchas, la barra
+   móvil— sigue viajando en la foto de la raíz, y esa se fundía con los 250 ms
+   lineales de fábrica. Medido: dos ritmos distintos en la misma transición. */
+::view-transition-old(root),
+::view-transition-old(.jv-pagina),
+::view-transition-new(root),
+::view-transition-new(.jv-pagina) { mix-blend-mode: plus-lighter; }
+
+::view-transition-old(root),
+::view-transition-old(.jv-pagina) { animation: jv-pagina-sale 200ms linear both; }
+::view-transition-new(root),
+::view-transition-new(.jv-pagina) { animation: jv-pagina-entra 200ms linear both; }
+
+/* El grupo anima GEOMETRÍA —lleva la caja de cada elemento de su posición y
+   tamaño viejos a los nuevos— y va al mismo tiempo que el fundido para que
+   todo termine a la vez; de fábrica son 250 ms y el fundido 200.
+
+   SE PROBÓ A 0 s Y FUE PEOR, que es justo lo contrario de lo que parecía:
+   sin animación de grupo, cada bloque aparece de golpe en su caja nueva, así
+   que la foto del pie de la página que llega se planta encima del titular de
+   la que se va. En la captura congelada se veían las dos columnas del pie
+   sobre el hero. Con el grupo animado, cada bloque viaja de donde estaba a
+   donde va y no se cruza con lo que no le toca. */
+::view-transition-group(*) { animation-duration: 200ms; }
+
+/* Con movimiento reducido no se funde nada: la página nueva aparece y ya. No
+   basta con acortar el tiempo —un fundido corto sigue siendo un fundido.
+   El `*` cubre también lo que React nombre por su cuenta. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ===========================================================================
+   «Cinco días, en pantalla» (`components/visuales/CincoDias.tsx`)
+   ---------------------------------------------------------------------------
+   Cada pantalla entra una vez, al cambiar de paso, y su estado FINAL es el que
+   cuenta: con movimiento reducido todo esto se apaga y las cinco ilustraciones
+   se ven enteras y quietas. Nada de lo que se anima aquí es información.
+
+   El escalonado lo pone el componente con `animation-delay` en línea, porque
+   el retraso depende del índice del elemento y eso no se puede escribir en una
+   hoja de estilos sin una regla por posición.
+
+   EL CÓDIGO SE ESCRIBE CON `clip-path`, no con un contador de caracteres en
+   JavaScript: la línea se descubre de izquierda a derecha como si la
+   estuvieran tecleando, y son cuatro líneas de CSS en vez de un temporizador.
+   =========================================================================== */
+@keyframes jv-dia-cae    { from { opacity: 0; transform: translateY(-12px); } }
+@keyframes jv-dia-entra  { from { opacity: 0; transform: translateY(8px); } }
+@keyframes jv-dia-teclea { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes jv-dia-brota  { from { opacity: 0; transform: scale(0.6); } }
+@keyframes jv-dia-abre   { from { opacity: 0; transform: translateX(14px); } }
+
+.jv-dia-archivo    { animation: jv-dia-cae    var(--dur-reveal, 0.7s) var(--ease-ps) both; }
+.jv-dia-bloque     { animation: jv-dia-entra  0.45s var(--ease-ps) both; }
+.jv-dia-diseno     { animation: jv-dia-entra  0.5s  var(--ease-ps) both; }
+.jv-dia-codigo     { animation: jv-dia-teclea 0.5s  var(--ease-ps) both; }
+.jv-dia-escritorio { animation: jv-dia-entra  0.5s  var(--ease-ps) both; }
+.jv-dia-telefono   { animation: jv-dia-abre   0.5s  var(--ease-ps) 0.12s both; }
+.jv-dia-nota       { animation: jv-dia-brota  0.35s var(--ease-ps) 0.45s both; }
+.jv-dia-nota--2    { animation-delay: 0.7s; }
+.jv-dia-publicado  { animation: jv-dia-entra  0.5s  var(--ease-ps) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-dia-archivo,
+  .jv-dia-bloque,
+  .jv-dia-diseno,
+  .jv-dia-codigo,
+  .jv-dia-escritorio,
+  .jv-dia-telefono,
+  .jv-dia-nota,
+  .jv-dia-publicado {
+    animation: none;
+  }
+}
+
+/* ===========================================================================
+   El recibo de /precios (`components/visuales/Recibo.tsx`)
+   ---------------------------------------------------------------------------
+   Cada renglón entra por arriba, escalonado: es un papel que se imprime, no
+   una lista que aparece. El escalonado lo pone el componente con
+   `animation-delay` en línea, porque depende del índice del renglón.
+   =========================================================================== */
+@keyframes jv-recibo-imprime { from { opacity: 0; transform: translateY(-6px); } }
+.jv-recibo-linea { animation: jv-recibo-imprime 0.35s var(--ease-ps) both; }
+@media (prefers-reduced-motion: reduce) {
+  .jv-recibo-linea { animation: none; }
+}
+
+/* ===========================================================================
+   Los dos estados del eje de SEO (/servicios/posicionamiento-seo)
+   ---------------------------------------------------------------------------
+   La sección dice que con las mismas tres letras te venden dos productos: uno
+   se hace UNA VEZ y otro se sostiene CADA MES. Los dos iconos lo dicen sin
+   texto: el visto se dibuja una vez y se queda; el ciclo gira despacio y no
+   para.
+
+   El giro es lento a propósito —doce segundos por vuelta—: a esa velocidad se
+   lee como «esto sigue corriendo» y no como «esto está cargando», que es
+   justo el malentendido que habría que evitar.
+   =========================================================================== */
+.jv-visto path {
+  stroke-dasharray: 28;
+  stroke-dashoffset: 28;
+  transition: stroke-dashoffset 0.7s var(--ease-ps);
+}
+[data-visible="true"] .jv-visto path { stroke-dashoffset: 0; }
+.jv-ciclo { animation: jv-girar 12s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-visto path { stroke-dashoffset: 0; transition: none; }
+  .jv-ciclo { animation: none; }
+}
+
+/* ===========================================================================
+   La barra de búsqueda del hero (`components/visuales/BarraBusqueda.tsx`)
+   ---------------------------------------------------------------------------
+   Se escribe una vez con `steps()` sobre el ancho: tantos pasos como letras
+   tiene la consulta —el componente los pasa en `--jv-caracteres`—, así que el
+   texto aparece letra a letra sin un temporizador en JavaScript. El cursor es
+   el borde derecho, que parpadea mientras dura y se apaga al terminar.
+   =========================================================================== */
+.jv-tecleo {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--brand-500);
+  width: 0;
+  animation:
+    jv-tecleo 1.6s steps(var(--jv-caracteres, 20)) 0.4s forwards,
+    jv-cursor 0.7s step-end 5;
+}
+@keyframes jv-tecleo { to { width: 100%; } }
+@keyframes jv-cursor { 50% { border-color: transparent; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-tecleo { width: 100%; animation: none; border-right-color: transparent; }
+}
+
+/* ===========================================================================
+   Las filas del mapa (`components/visuales/FichaAlMapa.tsx`)
+   ---------------------------------------------------------------------------
+   Al completar la ficha, el negocio entra al paquete y los de siempre bajan un
+   puesto. La entrada se anima; el reacomodo lo hace el propio flujo. Es corto
+   a propósito: lo que cuenta es que entró, no el viaje.
+   =========================================================================== */
+@keyframes jv-mapa-entra { from { opacity: 0; transform: translateY(-8px); } }
+.jv-mapa-fila { animation: jv-mapa-entra 0.35s var(--ease-ps) both; }
+@media (prefers-reduced-motion: reduce) {
+  .jv-mapa-fila { animation: none; }
+}
+
+/* ===========================================================================
+   El carril que se dibuja (`.jv-dibuja` + `components/AlEntrar.tsx`)
+   ---------------------------------------------------------------------------
+   Para el riel de meses de /servicios/posicionamiento-seo: la línea se traza
+   de izquierda a derecha cuando la pieza entra en vista, que es la forma de
+   decir «esto pasa en este orden y toma su tiempo» sin escribir una cifra de
+   resultado —que es justo lo que esa página tiene prohibido insinuar—.
+
+   Solo de `sm` en adelante: en un teléfono el riel es vertical y una línea que
+   se dibuja hacia abajo mientras se lee estorba más de lo que cuenta.
+   =========================================================================== */
+@media (min-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .jv-dibuja li > div > span[aria-hidden]:first-child {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-ps);
+  }
+  .jv-dibuja li:nth-child(2) > div > span[aria-hidden]:first-child { transition-delay: 0.12s; }
+  .jv-dibuja li:nth-child(3) > div > span[aria-hidden]:first-child { transition-delay: 0.24s; }
+  .jv-dibuja li:nth-child(4) > div > span[aria-hidden]:first-child { transition-delay: 0.36s; }
+  .jv-dibuja[data-visible="true"] li > div > span[aria-hidden]:first-child {
+    transform: scaleX(1);
+  }
+}
+
+/* ===========================================================================
+   El diagrama de la conexión (`components/visuales/ConexionDirecta.tsx`)
+   ---------------------------------------------------------------------------
+   Dos gestos y los dos son el argumento: el eslabón del tercero se tacha y la
+   línea directa se dibuja. Arrancan cuando la pieza entra en vista —el
+   componente pone `data-visible`—, no al cargar la página: una animación que
+   termina antes de que alguien llegue a mirarla no existe.
+
+   Las dos van con `scaleX` sobre el origen izquierdo, que es como se dibuja
+   una línea; animar el ancho recalcularía la caja en cada fotograma.
+   =========================================================================== */
+.jv-corte,
+.jv-linea {
+  transform: scaleX(0);
+  transition: transform var(--dur-reveal, 0.7s) var(--ease-ps);
+}
+.jv-corte-x {
+  opacity: 0;
+  transition: opacity var(--duration-base, 0.24s) var(--ease-ps) 0.5s;
+}
+[data-visible="true"] .jv-corte,
+[data-visible="true"] .jv-linea { transform: scaleX(1); }
+[data-visible="true"] .jv-corte-x { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* El estado final desde el principio: el dibujo dice lo mismo quieto. */
+  .jv-corte,
+  .jv-linea { transform: scaleX(1); transition: none; }
+  .jv-corte-x { opacity: 1; transition: none; }
+}
+
+/* ===========================================================================
+   «Así compra tu cliente» (`components/visuales/AsiCompra.tsx`)
+   ---------------------------------------------------------------------------
+   Tres gestos y ni uno decorativo: la talla que se tacha porque el inventario
+   ya la descontó, el envío que primero calcula y después dice cuánto, y el
+   aviso que entra cuando el pago confirma. Cada uno es la respuesta a la duda
+   del paso que lo enseña.
+
+   El envío hace un RELEVO: «Calculando…» se apaga y la cifra entra en su
+   sitio, las dos en la misma celda. Por eso la cifra va en `absolute` —si
+   fueran dos elementos en flujo, la fila cambiaría de alto a mitad de la
+   animación y el total daría un salto.
+
+   Con movimiento reducido todo esto queda en su estado final: la M tachada, el
+   envío con su cifra, el aviso puesto. No se acorta: se quita.
+   =========================================================================== */
+@keyframes jv-compra-tachar  { from { opacity: 0.35; } to { opacity: 1; } }
+@keyframes jv-compra-apagar  { to   { opacity: 0; } }
+@keyframes jv-compra-prender { from { opacity: 0; } to { opacity: 1; } }
+@keyframes jv-compra-subir   { from { opacity: 0; transform: translateY(6px); } }
+@keyframes jv-compra-entrar  { from { opacity: 0; transform: translateY(12px); } }
+@keyframes jv-compra-girar   { to   { transform: rotate(1turn); } }
+
+.jv-compra-agotada    { animation: jv-compra-tachar 0.5s var(--ease-ps) both; }
+.jv-compra-calculando { animation: jv-compra-apagar 0.3s var(--ease-ps) 0.7s both; }
+.jv-compra-envio      { animation: jv-compra-prender 0.3s var(--ease-ps) 0.9s both; }
+.jv-compra-total      { animation: jv-compra-subir 0.4s var(--ease-ps) 1s both; }
+.jv-compra-medio      { animation: jv-compra-prender 0.4s var(--ease-ps) both; }
+.jv-compra-boton      { animation: jv-compra-prender 0.4s var(--ease-ps) 0.2s both; }
+.jv-compra-aviso      { animation: jv-compra-entrar 0.5s var(--ease-ps) 1.1s both; }
+.jv-compra-girar      { animation: jv-compra-girar 1s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-compra-agotada,
+  .jv-compra-total,
+  .jv-compra-medio,
+  .jv-compra-boton,
+  .jv-compra-aviso,
+  .jv-compra-girar {
+    animation: none;
+  }
+  /* El relevo del envío no se puede «no animar»: sin animación las dos celdas
+     se pintan encima. Se resuelve al revés, dejando puesta la que manda. */
+  .jv-compra-calculando { animation: none; opacity: 0; }
+  .jv-compra-envio      { animation: none; opacity: 1; }
+}
+
+/* ===========================================================================
+   El acordeón de preguntas (`components/kit/FaqAccordion.tsx`)
+   ---------------------------------------------------------------------------
+   `list-style: none` no basta: Safari pinta su propio triángulo con un
+   pseudoelemento que solo se quita por nombre. Sin esta línea, el acordeón
+   lleva una flechita gris delante de la pregunta solo en un navegador.
+
+   El cuerpo entra con un fundido corto en vez de crecer de alto: `<details>`
+   no anima su apertura y forzarlo pide medir el contenido con JavaScript, que
+   es justo lo que este acordeón no usa.
+   =========================================================================== */
+.jv-faq-fila::-webkit-details-marker { display: none; }
+.jv-faq-cuerpo { animation: jv-faq-abre 220ms var(--ease-ps) both; }
+@keyframes jv-faq-abre {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jv-faq-cuerpo { animation: none; }
+}
+
+/* ===========================================================================
+   La marca de agua del pie
+   ---------------------------------------------------------------------------
+   Estaba en un 4% de opacidad plana: sobre #111111 eso da #171717, seis
+   niveles de gris por encima del fondo. Medido, no adivinado: nadie lo iba a
+   percibir, y una marca de agua que no se percibe es peso muerto en el DOM.
+
+   NO SE ARREGLA SUBIENDO LA OPACIDAD A SECAS. El renglón legal y los iconos
+   sociales pasan POR ENCIMA de las letras, así que cada punto de opacidad que
+   sube aclara el fondo real de ese texto y le baja el contraste. Un 12% plano
+   deja la marca visible y el copyright peor de lo que estaba.
+
+   Lo resuelve el degradado: las letras se pintan con `background-clip: text`,
+   fuertes en la base —donde no hay nada encima, solo el borde inferior del
+   pie— y casi apagadas en su parte alta, que es justo por donde cruza el
+   texto. La marca gana presencia donde puede y la cede donde debe.
+
+   El `@supports` no es ceremonia: sin `background-clip: text` el color
+   transparente dejaría la marca invisible del todo. Ahí cae a un relleno
+   plano, que es exactamente lo que había antes.
+   =========================================================================== */
+.jv-marca-agua {
+  color: rgb(var(--blanco-rgb) / 0.06);
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .jv-marca-agua {
+    background-image: linear-gradient(
+      to top,
+      rgb(var(--blanco-rgb) / 0.14) 0%,
+      rgb(var(--blanco-rgb) / 0.085) 45%,
+      rgb(var(--blanco-rgb) / 0.02) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   …Y SE DIBUJA AL LLEGAR AL PIE.
+
+   La marca se descubre de abajo arriba con `clip-path`, como si las letras
+   salieran del canto inferior de la página. No es un fundido: un fundido de
+   opacidad sobre algo que ya está al 6 % no se ve, y esto —el último gesto de
+   cualquier página del sitio— tiene que registrarse o no vale la pena tenerlo.
+
+   VA CON `view-timeline`, EN EL COMPOSITOR. Ni observador ni oyente de scroll:
+   el progreso lo lleva el propio navegador contra la posición del elemento, y
+   el pie es justo donde menos se puede pagar un `IntersectionObserver` más.
+
+   LOS DOS RESGUARDOS IMPORTAN LOS DOS. Sin `@supports`, un navegador que no
+   entienda `animation-timeline` se queda con el `clip-path` inicial y la marca
+   no aparece NUNCA —el fallo clásico de las animaciones de scroll—. Y el rango
+   se cierra en `entry 75%` y no en `entry 100%` a propósito: la marca vive en
+   el último renglón de la página, así que «entrar del todo» y «llegar al tope
+   del scroll» son casi el mismo instante, y al 100 % el dibujo se quedaba a
+   medias en las páginas cortas.
+   --------------------------------------------------------------------------- */
+@keyframes jv-marca-sube {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .jv-marca-agua {
+      animation: jv-marca-sube linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 75%;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   La cascada del cajón de menú.
+
+   40 ms por fila, contados desde el índice y no desde un temporizador. El
+   retraso es aritmética de CSS: el navegador la resuelve aunque la pestaña
+   pase a segundo plano, que es donde ocho `setTimeout` se agrupan y la cascada
+   deja de existir.
+
+   `both` conserva el primer fotograma antes de empezar: sin él, las filas con
+   retraso se pintan enteras, saltan a invisible y vuelven a entrar.
+   --------------------------------------------------------------------------- */
+@keyframes jv-cajon-entra {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.jv-cajon__fila {
+  animation: jv-cajon-entra var(--duration-base) var(--ease-ps) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Un menú que no se puede usar hasta que termine de entrar es peor que uno
+     que entra de golpe. Aquí se queda puesto desde el primer fotograma. */
+  .jv-cajon__fila { animation: none; }
+}
 
 /* ===========================================================================
    La pila apilada
@@ -531,3 +979,636 @@ input[type="radio"] { accent-color: var(--accent); }
   .jv-cred__luz { display: none; }
   .jv-visto { animation: none; stroke-dashoffset: 0; }
 }
+
+/* ===========================================================================
+   La bitácora de /sobre-nosotros (`components/visuales/Bitacora.tsx`)
+   ---------------------------------------------------------------------------
+   El carril se traza de arriba abajo cuando la pieza entra en vista. Es el
+   único gesto de la sección: las filas nacen legibles y no desvanecen, porque
+   una bitácora de cinco entradas con cinco fade-up es la marca más reconocible
+   de un sitio genérico —y el encargo lo dice con esas palabras—.
+
+   `scaleY` sobre el origen superior, que es como se dibuja una línea; animar
+   la altura recalcularía la caja de cada fila en todos los fotogramas.
+
+   Con movimiento reducido la línea está dibujada desde el primer fotograma: no
+   hace falta apagar nada, basta con no encenderlo.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-bitacora__linea {
+    transform: translateX(-50%) scaleY(0);
+    transform-origin: top;
+    transition: transform var(--dur-set, 0.9s) var(--ease-ps);
+  }
+  .jv-bitacora li:nth-child(2) .jv-bitacora__linea { transition-delay: 0.1s; }
+  .jv-bitacora li:nth-child(3) .jv-bitacora__linea { transition-delay: 0.2s; }
+  .jv-bitacora li:nth-child(4) .jv-bitacora__linea { transition-delay: 0.3s; }
+  .jv-bitacora li:nth-child(5) .jv-bitacora__linea { transition-delay: 0.4s; }
+  .jv-bitacora[data-visible="true"] .jv-bitacora__linea {
+    transform: translateX(-50%) scaleY(1);
+  }
+}
+
+/* ===========================================================================
+   El carrusel clavado (`components/kit/CarruselClavado.tsx`)
+   ---------------------------------------------------------------------------
+   La sección se queda quieta mientras el carril pasa de lado. Es el gesto que
+   pedía la fase 3c y el que Luis señaló con la referencia de palo-seco.
+
+   NO SECUESTRA EL SCROLL, y esa es la condición de que exista. No hay
+   `preventDefault`, ni listener de rueda, ni temporizador: la sección mide
+   varias pantallas de alto, dentro va un bloque `sticky`, y el carril se
+   traslada con una ANIMACIÓN POR SCROLL de CSS. Quien baja sigue bajando a su
+   ritmo; si sube, todo se deshace exactamente igual. La rueda nunca deja de
+   ser suya.
+
+   VA EN EL COMPOSITOR. `animation-timeline` corre fuera del hilo principal, así
+   que la pieza no cuesta un fotograma de JavaScript. Era la objeción de peso:
+   este sitio vende «rápido de verdad» y un carrusel clavado a golpe de
+   `scroll` + rAF es justo lo que estropea esa promesa.
+
+   EL RESPALDO ES LO QUE YA HABÍA: sin animaciones por scroll, en móvil o con
+   `prefers-reduced-motion`, queda el carril con anclaje —`overflow-x: auto` y
+   `scroll-snap`— que es utilizable con dedo, con rueda y con teclado. Nada de
+   lo que se lee depende del efecto.
+
+   `overflow: clip` Y NO `hidden` en el bloque clavado: `hidden` crea un
+   contenedor de scroll propio, y entonces tabular hasta un enlace de un panel
+   que aún no ha entrado lo desplaza POR DENTRO y descuadra la pieza. Con
+   `clip` no hay contenedor: el navegador desplaza el documento, que es
+   precisamente lo que hace avanzar el carril.
+   =========================================================================== */
+.jv-clavado {
+  /* 2,5rem y no 1,5: al quitarle el recuadro a los paneles, lo único que
+     separa el texto de uno del texto del siguiente es este hueco. Con 24 px la
+     última línea del titular casi tocaba el panel de al lado. */
+  --jv-hueco: 2.5rem;
+  --jv-panel: min(85vw, 34rem);
+}
+
+.jv-clavado__riel {
+  display: flex;
+  gap: var(--jv-hueco);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-inline: var(--gutter);
+  /* SIN ESTO, EL ANCLAJE SE COME EL MARGEN LATERAL. `scroll-snap-align: start`
+     alinea el panel con el borde del área de desplazamiento, que está DENTRO
+     del relleno: al anclar, el primer panel quedaba pegado al canto de la
+     pantalla —medido: left = 0 en una ventana de 390— y el texto llegaba al
+     borde. `scroll-padding` le dice al anclaje que respete el mismo margen. */
+  scroll-padding-inline: var(--gutter);
+  padding-bottom: 1rem;
+}
+.jv-clavado__riel::-webkit-scrollbar { display: none; }
+
+.jv-clavado__panel {
+  flex: 0 0 auto;
+  width: var(--jv-panel);
+  scroll-snap-align: start;
+}
+
+/* La barra de avance solo dice algo cuando el carril avanza solo. En el
+   respaldo el propio carril ya enseña dónde está. */
+.jv-clavado__barra { display: none; }
+
+@supports (animation-timeline: view()) {
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .jv-clavado {
+      /* EL PANEL OCUPA CASI TODA LA PANTALLA, no una tarjeta centrada. Con
+         76vw quedaban dos franjas de fondo a los lados y el panel se leía como
+         un objeto que pasa por delante de la sección; a 90vw el panel ES la
+         sección mientras está clavada.
+
+         El hueco sube de 1,5rem a 16vw por la misma razón: 90 + 16 son 106vw,
+         así que con un panel centrado el siguiente queda ENTERO fuera de la
+         pantalla y no asoma por el canto. Con 6vw asomaba —medido: el panel 03
+         empezaba a leerse a 1.290 px de una ventana de 1.440—, y dos paneles a
+         la vez es exactamente lo que se quitó al quitar la tarjeta. Asomar está
+         bien en el carril de móvil, donde dice «hay más»; aquí eso ya lo dicen
+         el contador y la barra. */
+      --jv-panel: min(90vw, 78rem);
+      --jv-hueco: 16vw;
+      /* Una pantalla de recorrido por panel. Menos, y el carril corre más que
+         el dedo; más, y la sección se hace un túnel. */
+      /* Menos el alto de la cabecera: el bloque clavado mide `100svh -
+         --header-h`, así que sin restarlo la sección tiene 88 px de recorrido
+         pegajoso DE MÁS —el carrusel ya terminó y la sección sigue clavada—, y
+         al soltarse el último panel salía cortado por arriba. */
+      height: calc(var(--jv-paneles) * 100svh - var(--header-h));
+      view-timeline-name: --jv-clavado;
+      view-timeline-axis: block;
+    }
+
+    .jv-clavado__pin {
+      position: sticky;
+      top: var(--header-h);
+      display: flex;
+      height: calc(100svh - var(--header-h));
+      flex-direction: column;
+      justify-content: center;
+      overflow: clip;
+    }
+
+    .jv-clavado__riel {
+      width: max-content;
+      overflow: visible;
+      scroll-snap-type: none;
+      padding-bottom: 0;
+      /* El primer panel nace centrado, no pegado al borde. */
+      padding-inline: calc((100vw - var(--jv-panel)) / 2);
+      animation: jv-clavado-desliza linear both;
+      animation-timeline: --jv-clavado;
+      /* `contain` sobre un sujeto más alto que la pantalla es exactamente el
+         tramo en el que la sección la cubre entera: el mismo en el que el
+         bloque está clavado. */
+      animation-range: contain 0% contain 100%;
+    }
+
+    .jv-clavado__barra { display: block; }
+    .jv-clavado__barra > span {
+      display: block;
+      height: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      animation: jv-clavado-avanza linear both;
+      animation-timeline: --jv-clavado;
+      animation-range: contain 0% contain 100%;
+    }
+  }
+}
+
+@keyframes jv-clavado-desliza {
+  to {
+    transform: translateX(
+      calc(-1 * (var(--jv-paneles) - 1) * (var(--jv-panel) + var(--jv-hueco)))
+    );
+  }
+}
+@keyframes jv-clavado-avanza {
+  to { transform: scaleX(1); }
+}
+
+/* ===========================================================================
+   El calendario propio (`components/kit/Calendario.tsx`)
+   ---------------------------------------------------------------------------
+   El mes entra por el lado del que viene: hacia adelante desde la derecha,
+   hacia atrás desde la izquierda. Es la única forma de que cambiar de mes no
+   se sienta como que la rejilla parpadeó y salieron otros números.
+
+   Doce píxeles de recorrido y 220 ms, que es el tramo de `--dur-ui`: lo justo
+   para leer la dirección sin que haya que esperar a que termine para pulsar.
+
+   Con movimiento reducido no hay nada que apagar porque no se enciende: la
+   regla entera vive dentro de la consulta.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-calendario__mes { animation: jv-cal-entra var(--dur-ui, 0.22s) var(--ease-ps) both; }
+  .jv-calendario__mes[data-sentido="atras"] { animation-name: jv-cal-entra-atras; }
+}
+@keyframes jv-cal-entra {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes jv-cal-entra-atras {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ===========================================================================
+   El paso del formulario de agenda (`components/ScheduleCall.tsx`)
+   ---------------------------------------------------------------------------
+   Los dos pasos entran de lado, igual que el mes del calendario y por el mismo
+   motivo: sin dirección, pasar del paso 1 al 2 se lee como que el formulario
+   se recargó con otros campos. Adelante desde la derecha, atrás desde la
+   izquierda, y el mismo tramo de 220 ms.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-paso { animation: jv-cal-entra var(--dur-ui, 0.22s) var(--ease-ps) both; }
+  .jv-paso[data-sentido="atras"] { animation-name: jv-cal-entra-atras; }
+}
+
+/* ===========================================================================
+   La carta de servicios (`components/visuales/CartaServicios.tsx`)
+   ---------------------------------------------------------------------------
+   Las burbujas entran una detrás de otra cuando se escoge un servicio. El
+   retraso lo pone el componente en `animation-delay`, así que aquí solo vive
+   la forma del gesto.
+
+   LAS CINCO ESTÁN EN EL DOM DESDE EL PRINCIPIO. No hay temporizador que las
+   vaya montando: se retrasa su ENTRADA, no su existencia. Por eso con
+   movimiento reducido basta con no encender la animación —aparecen las cinco a
+   la vez, completas— y quien use lector de pantalla lee la conversación entera
+   sin esperar a nada.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-carta-msg {
+    animation: jv-carta-entra var(--dur-ui, 0.22s) var(--ease-ps) both;
+  }
+}
+@keyframes jv-carta-entra {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ===========================================================================
+   Las frases tachadas (`components/visuales/Censura.tsx`)
+   ---------------------------------------------------------------------------
+   La barra de censura se desliza sobre la frase cuando la pieza entra en
+   vista, de izquierda a derecha y una detrás de otra. Es el gesto que hace
+   legible una lista de normas: primero se lee la frase prohibida —que el
+   visitante reconoce porque la ha visto, o la ha escrito— y justo después se
+   tacha delante de él.
+
+   `scaleX` sobre el origen izquierdo, que es como se pasa un marcador. Animar
+   el ancho recalcularía la caja de cada renglón en todos los fotogramas.
+
+   Con movimiento reducido las barras están puestas desde el primer fotograma:
+   la frase SIGUE tachada, que es lo que la pieza afirma. Lo que se pierde es
+   el gesto, no el argumento.
+   =========================================================================== */
+.jv-censura__barra {
+  transform-origin: left;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jv-censura__barra {
+    transform: scaleX(0);
+    transition: transform var(--dur-ui, 0.22s) var(--ease-ps);
+  }
+  .jv-censura li:nth-child(2) .jv-censura__barra { transition-delay: 0.14s; }
+  .jv-censura li:nth-child(3) .jv-censura__barra { transition-delay: 0.28s; }
+  .jv-censura li:nth-child(4) .jv-censura__barra { transition-delay: 0.42s; }
+  .jv-censura li:nth-child(5) .jv-censura__barra { transition-delay: 0.56s; }
+  .jv-censura[data-visible="true"] .jv-censura__barra { transform: scaleX(1); }
+}
+
+/* ===========================================================================
+   La ruta desde Turbaco (`components/visuales/RutaDesdeTurbaco.tsx`)
+   ---------------------------------------------------------------------------
+   La línea se traza del origen al destino cuando la pieza entra en vista, y la
+   cifra de kilómetros sube a la vez. Novecientos milisegundos: lo que tarda el
+   ojo en ir de un topónimo al otro.
+
+   `scaleX` desde el origen izquierdo, que es como se traza una línea. Animar
+   el ancho recalcularía la caja en cada fotograma, y esta pieza vive en una
+   página que vende que el sitio va rápido.
+
+   Con movimiento reducido no hay nada que apagar: el componente ni siquiera
+   monta el observador y la línea nace entera.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-ruta__linea {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.9s var(--ease-ps);
+  }
+  .jv-ruta[data-visible="true"] .jv-ruta__linea { transform: scaleX(1); }
+}
+
+/* ===========================================================================
+   La franja de meses (`components/visuales/FranjaMeses.tsx`)
+   ---------------------------------------------------------------------------
+   Cada tramo se dibuja de izquierda a derecha cuando la pieza entra en vista,
+   y en el orden del calendario: es el orden en que hay que leerlos. El retraso
+   lo pone el componente en `transition-delay`.
+
+   `scaleX` con origen izquierdo. Con movimiento reducido los tramos están
+   puestos desde el primer fotograma: se pierde el gesto, no la cuenta.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-franja__tramo {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-ps);
+  }
+  .jv-franja[data-visible="true"] .jv-franja__tramo { transform: scaleX(1); }
+}
+
+/* ===========================================================================
+   Las barras de dato (`components/visuales/BarrasDato.tsx`)
+   ---------------------------------------------------------------------------
+   Cada barra se dibuja de izquierda a derecha al entrar la pieza en vista, y
+   de arriba abajo entre ellas: el orden de la lista es el orden del dato, de
+   mayor a menor. El retraso lo pone el componente.
+
+   `scaleX` con origen izquierdo. Con movimiento reducido las barras están
+   puestas desde el primer fotograma: el dato no depende del gesto.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-barras__barra {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-ps);
+  }
+  .jv-barras[data-visible="true"] .jv-barras__barra { transform: scaleX(1); }
+}
+
+/* ===========================================================================
+   El índice del blog (`components/visuales/FiltroBlog.tsx`)
+   ---------------------------------------------------------------------------
+   Dos gestos y ninguno más.
+
+   1 · LA ENTRADA AL FILTRAR. Las tarjetas que quedan entran escalonadas, con
+       el retraso que pone el componente y un tope de seis: a partir de ahí el
+       escalonado deja de leerse como orden y empieza a leerse como espera.
+
+   2 · LA CIFRA DE LA PORTADA se desplaza un pelo al pasar por encima. Es la
+       señal de que la tarjeta entera es el enlace, y va sobre la cifra —el
+       elemento con más peso— y no sobre el marco.
+
+   Las dos dentro de `no-preference`: con movimiento reducido la rejilla
+   aparece puesta y la cifra se queda quieta.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-articulo { animation: jv-articulo-entra var(--dur-ui, 0.22s) var(--ease-ps) both; }
+  .jv-portada__cifra { transition: transform var(--dur-ui, 0.22s) var(--ease-ps); }
+  .jv-card-int:hover .jv-portada__cifra { transform: translateX(4px); }
+}
+@keyframes jv-articulo-entra {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* El subrayado que crece bajo el titular de la tarjeta. Es el mismo gesto que
+   `.jv-enlace` hace en el texto corrido, aquí disparado por la tarjeta entera
+   en vez de por el propio título. */
+.jv-subrayado {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+/* EL FILETE ES UN PSEUDOELEMENTO, NO UN DEGRADADO DE FONDO. Estaba hecho con
+   `background-image` y `background-size: 0% → 100%`, y eso costaba dos cosas:
+
+   · `background-size` no corre en el compositor. Repinta el titular entero en
+     cada fotograma del hover, y son once tarjetas en el índice del blog.
+
+   · Y a cualquier auditor de contraste —el detector incluido— ese degradado le
+     llega como el FONDO del elemento: «texto #fafafa sobre #e8623f, 3,2:1» en
+     los veintidós artículos. Es falso —el naranja es un filete de 2 px bajo la
+     línea de base, no la caja detrás del texto— pero un fondo de marca
+     declarado en un elemento con tinta clara es indistinguible de un fallo de
+     verdad hasta que alguien lo mira a mano. Con el filete en un `::after`, el
+     titular vuelve a no tener fondo y la hoja dice la verdad.
+
+   Los tres consumidores son `display: block` con un solo fragmento —los
+   blockifica su padre flex—, comprobado en el DOM: el `::after` cae bajo el
+   bloque entero igual que caía el `background-position: 0 100%`. */
+.jv-subrayado::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--brand-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-ui, 0.22s) var(--ease-ps);
+}
+.jv-card-int:hover .jv-subrayado::after,
+.jv-card-int:focus-visible .jv-subrayado::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .jv-subrayado::after { transition: none; }
+}
+
+/* ===========================================================================
+   El artículo del blog (`components/BlogPost.tsx`)
+   ---------------------------------------------------------------------------
+   1 · LA BARRA DE LECTURA. Crece con el desplazamiento del documento, y lo
+       hace con `animation-timeline: scroll()`: ni un listener, ni un
+       fotograma de JavaScript, y corre en el compositor. Donde no hay soporte
+       —o con movimiento reducido— la barra sencillamente no aparece: es un
+       indicador de progreso, no contenido.
+
+   2 · LA RESPUESTA CORTA. Los once artículos abren con un párrafo que empieza
+       por «Respuesta corta:» en negrita. Es lo mejor que tiene cada uno —y lo
+       que un resumen de IA cita— y estaba puesto como un párrafo más. La regla
+       lo encuentra por su FORMA, sin tocar los once archivos: el primer
+       párrafo del cuerpo cuyo primer hijo es un `<strong>`.
+   =========================================================================== */
+.jv-lectura { display: none; }
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .jv-lectura {
+      display: block;
+      position: fixed;
+      inset-inline: 0;
+      top: 0;
+      z-index: 60;
+      height: 2px;
+      background: var(--brand-500);
+      /* TINTA DECLARADA AUNQUE NO LLEVE TEXTO. Es la misma regla que se aplicó
+         a los otros contenedores de acento: un relleno de marca que hereda el
+         casi blanco del cuerpo declara, sobre el papel, texto a 3,2:1. No hay
+         texto —y por eso no es un fallo de contraste real—, pero un auditor
+         que lea la hoja no puede saberlo, y un contenedor de marca sin tinta
+         propia es exactamente cómo aparecieron los nueve de las cotizaciones. */
+      color: var(--text-on-accent);
+      transform-origin: left;
+      animation: jv-lectura-avanza linear;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+@keyframes jv-lectura-avanza {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* SIN FILETE DE ACENTO AL COSTADO, y se probó. Un rail de 3 px en el borde
+   izquierdo de una caja redondeada es de los patrones que el detector marca
+   por su nombre —`side-tab`— y que la guía de diseño lista entre los tics de
+   interfaz generada. La caja se distingue igual por lo que es: otra
+   superficie, su propio filete completo y un cuerpo un punto mayor. */
+.jv-cuerpo > p:first-of-type:has(> strong:first-child) {
+  margin-bottom: 2rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: 1.25rem 1.5rem;
+  color: var(--color-ink);
+  font-size: 1.0625rem;
+}
+.jv-cuerpo > p:first-of-type:has(> strong:first-child) > strong:first-child {
+  color: var(--brand-500);
+}
+
+/* ===========================================================================
+   La fila de precio (`components/kit/FilaPrecio.tsx`)
+   ---------------------------------------------------------------------------
+   LA CORTINA. Al pasar por encima entra un velo de marca desde la izquierda,
+   en el sentido de la lectura. No es un cambio de color: es un gesto con
+   dirección, y eso es lo que convierte una fila de tabla en algo que se ve
+   pulsable. Detrás va el filete izquierdo, que aparece con ella.
+
+   EL IMPORTE NO SE MUEVE. Es lo único de la fila alineado con las otras
+   siete, y desplazarlo rompería la columna de pesos que la tabla existe para
+   construir. Lo que se corre es el nombre —seis píxeles— y la flecha del
+   final, que nace corrida y aterriza.
+
+   `scaleX` sobre el origen izquierdo y `opacity`: las dos en el compositor.
+   Nada de animar el ancho ni el fondo, que obligarían a repintar la fila
+   entera en cada fotograma de una tabla de ocho.
+
+   SOLO CON PUNTERO DE VERDAD. En táctil el hover se queda pegado después de
+   tocar y la fila se quedaría encendida sin motivo; `:active` sí vale en los
+   dos y es el que confirma el toque.
+   =========================================================================== */
+.jv-fila::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    90deg,
+    rgb(var(--brand-500-rgb) / 0.1),
+    rgb(var(--brand-500-rgb) / 0.02)
+  );
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.jv-fila::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  z-index: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--brand-500);
+  transform: scaleY(0);
+  transform-origin: center;
+}
+.jv-fila__flecha {
+  opacity: 0;
+  transform: translateX(-6px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .jv-fila::before,
+  .jv-fila::after,
+  .jv-fila__flecha,
+  .jv-fila__nombre {
+    transition:
+      opacity var(--dur-ui, 0.22s) var(--ease-ps),
+      transform var(--dur-ui, 0.22s) var(--ease-ps);
+  }
+  .jv-fila:hover::before,
+  .jv-fila:focus-visible::before {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  .jv-fila:hover::after,
+  .jv-fila:focus-visible::after {
+    transform: scaleY(1);
+  }
+  .jv-fila:hover .jv-fila__flecha,
+  .jv-fila:focus-visible .jv-fila__flecha {
+    opacity: 1;
+    transform: none;
+  }
+  .jv-fila:hover .jv-fila__nombre,
+  .jv-fila:focus-visible .jv-fila__nombre {
+    transform: translateX(6px);
+    color: var(--brand-500);
+  }
+}
+
+/* El toque, en cualquier dispositivo. */
+a.jv-fila:active { transform: scale(0.995); }
+
+@media (prefers-reduced-motion: reduce) {
+  .jv-fila::before,
+  .jv-fila::after,
+  .jv-fila__flecha,
+  .jv-fila__nombre { transition: none; }
+  /* Sin gesto, pero el estado sigue existiendo: quien navega con teclado
+     tiene que ver dónde está parado. */
+  .jv-fila:hover::before,
+  .jv-fila:focus-visible::before { opacity: 1; transform: scaleX(1); }
+  .jv-fila:hover .jv-fila__flecha,
+  .jv-fila:focus-visible .jv-fila__flecha { opacity: 1; transform: none; }
+}
+
+/* ===========================================================================
+   La «/» del 404 (`app/(es)/not-found.tsx`)
+   ---------------------------------------------------------------------------
+   El trazo de la marca se dibuja una vez al cargar, con `stroke-dashoffset`,
+   que es como se traza una línea en SVG. Es el único adorno de esa página: un
+   404 no es sitio para una ilustración, pero sí para que la casa firme.
+
+   Con movimiento reducido nace dibujado.
+   =========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .jv-404__trazo {
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+    animation: jv-404-traza 1.1s var(--ease-ps) 0.15s forwards;
+  }
+}
+@keyframes jv-404-traza {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ===========================================================================
+   EL ÁREA DE TOQUE QUE NO MUEVE NADA
+   ---------------------------------------------------------------------------
+   Un enlace de texto mide lo que mide su línea: veinte píxeles. En un teléfono
+   eso es un objetivo que se falla, y la §11 del encargo pide cuarenta y
+   cuatro. Medido a 375 px antes de esto: setenta y siete migas de pan, veintitrés
+   enlaces de «ver el detalle» y una docena de enlaces de sección por debajo del
+   mínimo.
+
+   CRECER CON RELLENO NO SIRVE AQUÍ. `.jv-navlink` y `.jv-enlace` cuelgan su
+   subrayado de un `::after` anclado al borde inferior: doce píxeles de relleno
+   se llevan el subrayado doce píxeles hacia abajo, y el gesto de hover del
+   sitio entero se descoloca.
+
+   Así que el área crece con un `::before` TRANSPARENTE. No pinta nada y no
+   ocupa sitio —es `absolute`—, pero sí recibe el toque: el navegador cuenta los
+   pseudoelementos en la prueba de impacto y se lo atribuye a su elemento. La
+   línea se dibuja donde estaba y el dedo tiene cuarenta y cuatro píxeles de
+   alto y ocho de más a cada lado.
+
+   SOLO CON PUNTERO GRUESO. Con ratón, veinte píxeles sobran y un área invisible
+   que sobresale doce píxeles solo sirve para robarle el hover al vecino.
+
+   NO VALE PARA LISTAS APRETADAS. Donde los enlaces van uno debajo de otro con
+   cuatro píxeles de aire —el índice del artículo—, dos áreas de cuarenta y
+   cuatro se solapan y la de arriba se queda con los toques de la de abajo. Ahí
+   el alto tiene que crecer de verdad, y por eso el índice usa `min-h-11` en vez
+   de esta clase.
+   =========================================================================== */
+.jv-toque { position: relative; }
+
+@media (pointer: coarse) {
+  .jv-toque::before {
+    content: "";
+    position: absolute;
+    inset-inline: -0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: max(44px, 100%);
+  }
+}
+
+/* ===========================================================================
+   EL AVISO DE COOKIES: EN EL HTML DESDE EL PRINCIPIO, VISIBLE POR ATRIBUTO
+   ---------------------------------------------------------------------------
+   Oculto por defecto y enseñado solo cuando el script en línea de
+   `app/Documento.tsx` —que corre antes del primer pintado— dice que no hay
+   decisión guardada. Así el aviso forma parte del primer fotograma para quien
+   tiene que verlo, y no existe para quien ya decidió: ni parpadeo en un sentido
+   ni en el otro.
+
+   Por qué no se resuelve con estado de React: montarlo en un efecto lo pintaba
+   después de hidratar, y eso convertía su párrafo en el elemento LCP de todas
+   las rutas —4,4 s medidos en /precios, con el primer pintado a 0,9—.
+   =========================================================================== */
+.jv-cookies { display: none; }
+html[data-cookies="pendiente"] .jv-cookies { display: block; }

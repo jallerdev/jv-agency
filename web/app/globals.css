@@ -346,14 +346,25 @@
     font-family: var(--font-body), system-ui, sans-serif;
     line-height: 1.7;
   }
+  /* LOS DOS TITULARES VAN A LA ESCALA, y era la última deuda que `DESIGN.md`
+     dejaba anotada de este bloque: «.legal corre su propio ramal —1.4rem en el
+     h2, 1.1rem en el h3, 0.975rem en el cuerpo—... se alinean cuando les toque
+     su fase». El cuerpo se alineó al rehacer las legales; estos dos se
+     quedaron, y su fase ya pasó.
+
+     `--text-h3` para el h2 y `--text-h4` para el h3, que es el escalón que le
+     toca a un documento: el `--text-h2` del sistema es un titular de sección de
+     hasta 38 px y aquí lo que hay son epígrafes numerados de una política de
+     privacidad. La diferencia visual es de un píxel y medio en cada uno; lo que
+     cambia es que dejan de ser dos valores que solo existen aquí. */
   .legal h2 {
-    font-size: 1.4rem;
+    font-size: var(--text-h3);
     margin-top: 2.5rem;
     margin-bottom: 0.75rem;
     color: var(--color-ink);
   }
   .legal h3 {
-    font-size: 1.1rem;
+    font-size: var(--text-h4);
     margin-top: 1.75rem;
     margin-bottom: 0.5rem;
     color: var(--color-ink);
@@ -369,7 +380,12 @@
        idiomas. `--color-ink-soft` es el mismo tono de cuerpo que usa el resto
        del sitio y mide 9,4:1. */
     color: var(--color-ink-soft);
-    font-size: 0.975rem;
+    /* `--text-body-size` y no un valor a ojo. Estaba en 0,975rem, el único
+       tamaño del sitio fuera de la escala; se probó 1rem y también lo está.
+       El token son 18 px, que es el cuerpo que el sistema declara para prosa,
+       y con la columna en 36 rem dan unas sesenta y siete letras por línea:
+       dentro de la banda que pide el encargo. */
+    font-size: var(--text-body-size);
   }
   .legal p {
     margin-bottom: 1rem;
@@ -705,10 +721,99 @@
 
    El tope va a los que NO declaran el suyo: donde alguien escribió
    `max-w-[46ch]` o `max-w-2xl` esa decisión manda, porque ahí se penso.
+
+   Y cubre `li`, `dd` y `blockquote`, no solo `p`: la prosa de un artículo de
+   blog vive tanto en viñetas como en párrafos, y los `li` iban a 88-91
+   caracteres mientras los `p` de al lado iban a 68. El pie entra también: su
+   aviso de copyright iba a 82ch en las 59 rutas.
    Y si el párrafo está centrado, los márgenes automáticos evitan que
    estrechar la caja lo empuje a la izquierda.
+
+   LO QUE SE APRENDIÓ DESPUÉS, Y CUESTA CARO OLVIDARLO
+   ---------------------------------------------------
+   La primera versión metía `li` y `span` a secas, y eso ROMPIÓ TRES SITIOS
+   del home y de /precios, que es exactamente lo que Luis vio:
+
+   · Las tarjetas del proceso apilado son `<li>`. Quedaron cortadas a 612 px
+     dentro de un contenedor de 1.184: media pantalla vacía a la derecha.
+   · En el portafolio, el nombre del proyecto vive en un `<span class="flex-1">`
+     que empuja al estado «en línea» hacia el borde. Con el tope, el estado se
+     quedaba plantado en mitad de la fila.
+   · En la tabla de precios, cada renglón es un `<li>`: el precio dejó de
+     llegar al borde derecho de la tarjeta.
+
+   Un `li` o un `span` no son prosa por ser `li` o `span`: la mitad de la
+   maquetación del sitio vive ahí. Ahora el tope distingue:
+
+   · `li` SOLO cuando no contiene estructura. Un `<li>` con un `div`, una
+     tarjeta, un botón o una rejilla dentro es una celda, no una viñeta, y
+     `:has()` lo dice sin tener que etiquetar nada a mano.
+   · `span` SOLO cuando es de bloque declarado —`class="block"`—, que era el
+     caso que motivó incluirlo: las descripciones de los planes de SEO, a
+     100ch. Un `span` en línea nunca necesitó esto.
    =========================================================================== */
-main p:not([class*="max-w"]) {
+main :is(p, dd, dt, blockquote, figcaption):not([class*="max-w"]),
+footer p:not([class*="max-w"]) {
+  max-width: var(--maxw-prose);
+}
+
+/* Un `li` que declara sus PROPIAS COLUMNAS es una fila de tabla, no una
+   viñeta: la medida de lectura ahí recorta la rejilla entera. Pasó en la
+   pieza de frases tachadas de clínicas, donde la columna de la frase se
+   quedó en 196 px y todas las frases se partieron en dos renglones. */
+main li:not([class*="max-w"]):not([class*="grid-cols"]):not(
+    :has(:is(div, article, section, aside, figure, ul, ol, dl, table, img, svg,
+             video, button, input, h1, h2, h3, h4, h5, h6, p,
+             /* Un enlace que se maqueta —flex o grid— es una FILA, no una
+                viñeta con un enlace dentro. Faltaba, y costó una tarde: en la
+                tabla de /precios las filas sin plazo se quedaban 92 px cortas
+                respecto a las que sí lo tienen, porque esas llevan el reloj en
+                `<svg>` y ese sí estaba en la lista. Resultado: una lista de
+                precios en la que los importes no caían en columna.
+                El enlace de prosa normal —`<a href>` sin clases de
+                maquetación— sigue sin escaparse, que es lo que esta regla
+                quiere proteger. */
+             a[class*="flex"], a[class*="grid"]))
+  ) {
+  max-width: var(--maxw-prose);
+}
+
+/* TERCERA MORDIDA DE ESTA REGLA, y la última que se deja pasar. Un `span` de
+   bloque que declara `w-full` o que está marcado `aria-hidden` NO es prosa: es
+   una pista de barra, un carril, un separador. La pista de las barras de dato
+   de las páginas de ciudad se quedaba en 68ch —611 px— dentro de una columna
+   de 845, así que la barra del 12 % de Suba, que es el máximo y vale el 100 %,
+   salía a tres cuartos de la pista y el reparto que la pieza dibuja quedaba
+   mal contado.
+
+   Las tres mordidas fueron del mismo tipo: la regla mira la ETIQUETA y no lo
+   que el elemento hace. Cada excepción nueva nombra un rasgo que solo tiene la
+   maquetación —un enlace con clases de flex, un `li` con columnas propias, un
+   `span` con ancho declarado—, nunca un caso concreto. */
+main span.block:not([class*="max-w"]):not([class*="w-full"]):not([aria-hidden="true"]) {
+  max-width: var(--maxw-prose);
+}
+
+/* Se intentó además un `[aria-hidden="true"] span.block { max-width: none }`
+   para cubrir de una vez todo lo que cuelga de un dibujo, y NO FUNCIONA: la
+   regla de arriba lleva tres `:not()` y con ellos suma más especificidad que
+   cualquier reset razonable. Se quitó en vez de dejarla ahí sin efecto.
+
+   La lección real es otra y está en `BarrasDato.tsx`: una caja de maquetación
+   se declara `div`, no `span`. Un `span` es contenido de texto para el
+   navegador y para esta regla, y pedirle a la hoja de estilos que adivine
+   cuál de los dos es cada uno era el error de partida. */
+
+/* Los que SÍ declaran ancho, pero eligieron uno de CONTENEDOR y no de lectura.
+   `max-w-3xl` son 768px: con el cuerpo a 18px eso da 86 caracteres por línea,
+   y era la causa más repetida del sitio —servicios, sectores y las tres
+   ciudades viejas—. `max-w-4xl` son 896px, peor todavía. `max-w-2xl` se queda:
+   672px dan ~75ch, que es el tope de la banda buena.
+
+   Va después de la regla de arriba y con la misma especificidad, así que gana
+   por orden. No toca contenedores: solo pica cuando la clase está en el propio
+   elemento de texto. */
+main :is(p, li, blockquote):is([class*="max-w-3xl"], [class*="max-w-4xl"]) {
   max-width: var(--maxw-prose);
 }
 /* Aquí NO va ningún `margin-inline: auto`.

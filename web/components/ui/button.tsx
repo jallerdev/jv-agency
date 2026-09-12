@@ -2,36 +2,58 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-body font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        /* Bronce de marca con texto crema. Antes el relleno era el cobre
-           (#C0763B) con texto tinta, y el comentario decia que era seguro en
-           contraste: no lo era. Daba 4,28:1 y el minimo para texto normal es
-           4,5:1. Ponerle letras claras a ese mismo cobre lo empeoraba a 3,31:1,
-           asi que el arreglo no era cambiar el texto sino el relleno.
-
-           El bronce #985C3E con crema da 4,96:1, y al pasar el hover a
-           primary-dark sube a 7,97:1. De paso, el CTA del hero y el del
-           encabezado dejan de ser dos botones distintos: son el mismo. */
-        primary:
-          "rounded-full bg-primary text-on-accent shadow-soft hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lift",
-        outline:
-          "rounded-full border border-primary/35 bg-transparent text-primary-dark hover:border-primary hover:bg-primary/5",
-        ghost: "rounded-full text-ink-soft hover:text-ink hover:bg-ink/5",
-      },
-      size: {
-        sm: "h-11 px-5 text-sm",
-        md: "h-12 px-7 text-base",
-        lg: "h-14 px-9 text-lg",
-        xl: "h-16 px-11 text-xl",
-      },
+/**
+ * EL BOTÓN DELEGA EN EL SISTEMA, NO LO REPITE.
+ *
+ * Aquí vivía una segunda definición de botón, escrita cuando el sitio era
+ * bronce sobre papel: relleno `bg-primary`, sombra `shadow-soft`, y un
+ * `hover:-translate-y-0.5` con `hover:shadow-lift`. Los comentarios seguían
+ * explicando contrastes del cobre #C0763B, que no existe desde el rediseño.
+ *
+ * El resultado eran DOS botones en el mismo sitio: la cabecera de la portada
+ * usa `.jv-boton` —la definición del sistema, documentada en DESIGN.md— y
+ * diecinueve archivos usaban este. Se parecían lo suficiente para que nadie lo
+ * notara y lo bastante poco para que el sitio no se sintiera de una sola mano,
+ * que es justo lo que hay que arreglar.
+ *
+ * Ahora esto es una capa fina sobre las clases del sistema. Cambiar el botón
+ * del sitio entero vuelve a ser cambiar una regla en `app/globals.css`.
+ *
+ * Dos cosas que se van con el cambio, y ninguna se echa de menos:
+ *   · La sombra. La escala entera vale `none` desde el rediseño, así que
+ *     `shadow-soft` y `shadow-lift` no pintaban nada: eran ruido en la clase.
+ *   · El `-translate-y-0.5` en hover. Sin guardia de puntero, en una pantalla
+ *     táctil `:hover` se queda pegado después de tocar y el botón se queda
+ *     medio píxel arriba hasta que tocas otra cosa.
+ */
+const buttonVariants = cva("inline-flex items-center justify-center gap-2 whitespace-nowrap", {
+  variants: {
+    variant: {
+      /* Naranja con texto casi negro: 5,96:1. El blanco sobre este naranja da
+         3,36:1 y por eso el sistema no lo usa. */
+      primary: "jv-boton",
+      /* Filete, sin relleno. Nunca compite con el primario. */
+      outline: "jv-boton-2",
+      /* Sin caja: para acciones terciarias dentro de un bloque. */
+      /* `bg-raised` y no una utilidad de capa de estado: `--hs-hover` existe en
+         los tokens pero no está expuesta en tailwind.config, así que
+         `hover:bg-hover` no habría generado ni una regla —el fallo silencioso
+         que este repo ya pagó ochenta veces—. */
+      ghost:
+        "min-h-[2.75rem] rounded-full px-5 font-semibold text-ink-soft transition-colors duration-base ease-ps hover:bg-raised hover:text-ink",
     },
-    defaultVariants: { variant: "primary", size: "md" },
-  }
-);
+    /* El tamaño solo ajusta alto, aire y cuerpo de letra: la forma, el color y
+       la transición los pone la clase del sistema. `sm` son 44px, que es el
+       mínimo táctil y el suelo de todo lo que se pueda tocar. */
+    size: {
+      sm: "h-11 px-5 text-sm",
+      md: "h-12 px-7 text-base",
+      lg: "h-14 px-9 text-lg",
+      xl: "h-16 px-11 text-xl",
+    },
+  },
+  defaultVariants: { variant: "primary", size: "md" },
+});
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,

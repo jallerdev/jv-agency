@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   AlertCircle,
   ArrowRight,
   ArrowLeft,
   Check,
   CalendarCheck,
+  CalendarPlus,
   Clock,
   Loader2,
   RotateCcw,
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Calendario } from "@/components/kit/Calendario";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/contact";
 import { OPCIONES_SERVICIO } from "@/lib/services";
@@ -56,7 +58,21 @@ const chipOn = "border-primary bg-primary text-on-accent shadow-soft";
 const chipOff =
   "border-line bg-background/50 text-ink-soft hover:border-primary/45 hover:bg-background hover:text-ink";
 
-export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
+export function ScheduleCall({
+  idioma = "es",
+  comoTitulo: Titulo = "h3",
+}: {
+  idioma?: Idioma;
+  /**
+   * El nivel del titular de la tarjeta.
+   *
+   * En la portada y en /contacto la tarjeta vive DENTRO de una sección que ya
+   * tiene su `<h2>`, así que `h3` es lo correcto. En /agendar es el contenido
+   * principal y va detrás del `<h1>`: dejarla en `h3` ahí salta un nivel, que
+   * es de las pocas cosas que un lector de pantalla no puede reconstruir.
+   */
+  comoTitulo?: "h2" | "h3";
+}) {
   /* Todos los textos del formulario, en el idioma de la página. `T` es corto a
      propósito: aparece cuarenta veces y `TEXTOS_DEL_FORMULARIO[idioma]` en
      cada una escondería el marcado. */
@@ -67,6 +83,12 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
      encima, y por eso el paso no entra en `reset` como un estado más sino
      volviendo al 1, que es donde empieza todo. */
   const [paso, setPaso] = useState<1 | 2>(1);
+  /* Hacia dónde se movió el paso, para que la transición vaya en esa
+     dirección. Sin dirección, pasar del 1 al 2 se lee como que el formulario
+     se recargó con otros campos. */
+  const [sentidoPaso, setSentidoPaso] = useState<"adelante" | "atras">("adelante");
+  const pasoRef = useRef<HTMLDivElement>(null);
+  const moverFocoPaso = useRef(false);
   const [service, setService] = useState("");
   const [time, setTime] = useState("");
   const [values, setValues] = useState({ name: "", email: "", phone: "", date: "", note: "" });
@@ -83,7 +105,49 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
   const uid = useId();
   const serviceErrorId = `${uid}-service-error`;
   const timeErrorId = `${uid}-time-error`;
+  const dateErrorId = `${uid}-date-error`;
   const noteId = `${uid}-note`;
+
+  /**
+   * LLEGAR CON EL SERVICIO Y LA NOTA YA PUESTOS
+   * ------------------------------------------------------------------------
+   * El selector de formato de /servicios/diseno-de-paginas-web termina en un
+   * botón de agendar, y sería absurdo que después de contestar tres preguntas
+   * hubiera que volver a decir qué se quiere: el botón trae `?servicio=` y
+   * `?nota=` y esto los recoge.
+   *
+   * Se lee de `window.location` y no con `useSearchParams()` a propósito: ese
+   * hook obliga a envolver el componente en `<Suspense>` o tumba la página
+   * entera a renderizado dinámico, y /agendar hoy es estática. Aquí el
+   * parámetro solo ayuda a rellenar un formulario; si no llega, no pasa nada.
+   *
+   * El servicio se VALIDA contra la lista real. Un `?servicio=loquesea` de una
+   * URL manipulada no puede meter una opción que no existe en el formulario.
+   */
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const servicio = q.get("servicio");
+    if (servicio && SERVICES.some((s) => s.id === servicio)) setService(servicio);
+
+    const nota = q.get("nota");
+    /* 400 caracteres: lo que cabe en el área de texto sin que el visitante
+       tenga que desplazarse dentro de ella para ver qué se escribió en su
+       nombre. */
+    if (nota) setValues((s) => ({ ...s, note: nota.slice(0, 400) }));
+  }, []);
+
+  /* Al cambiar de paso, el foco entra en el primer control del paso nuevo.
+     Sin esto, quien navega con teclado pulsa «Continuar» y el foco se queda en
+     un botón que acaba de cambiar de texto, sin ninguna señal de que media
+     tarjeta se ha renovado debajo. */
+  useEffect(() => {
+    if (!moverFocoPaso.current) return;
+    moverFocoPaso.current = false;
+    const primero = pasoRef.current?.querySelector<HTMLElement>(
+      'input:not([type="hidden"]):not([disabled]), button:not([disabled]), [tabindex="0"]',
+    );
+    primero?.focus();
+  }, [paso]);
 
   // Cargar horarios libres cuando cambia la fecha.
   useEffect(() => {
@@ -165,6 +229,8 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
         irAlPrimerError(form);
         return;
       }
+      setSentidoPaso("adelante");
+      moverFocoPaso.current = true;
       setPaso(2);
       return;
     }
@@ -250,6 +316,61 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   })();
 
+  /**
+   * EL ARCHIVO DE CALENDARIO
+   * ------------------------------------------------------------------------
+   * La invitación de Google llega al correo, pero quien reserva desde el
+   * trabajo con Outlook, o desde un teléfono sin esa cuenta puesta, se queda
+   * sin recordatorio. Un `.ics` lo abre cualquier agenda.
+   *
+   * LAS HORAS VAN EN UTC Y SE CALCULAN A MANO. Colombia no tiene horario de
+   * verano, así que `America/Bogota` está siempre en −05:00 y la conversión es
+   * una suma fija. Construirlo con `new Date(...)` del navegador habría usado
+   * la zona del VISITANTE: quien reserve desde España se habría llevado la cita
+   * siete horas corrida.
+   *
+   * Se genera como `data:` y no como blob para no tener que revocar una URL:
+   * el archivo son cuatrocientos bytes y vive lo que vive la pestaña.
+   */
+  const icsHref = (() => {
+    if (!values.date || !time) return null;
+    const [h, m] = time.split(":").map(Number);
+    /* −05:00 fijo: la hora local del estudio más cinco da UTC. */
+    const inicio = new Date(`${values.date}T00:00:00.000Z`);
+    inicio.setUTCHours(h + 5, m, 0, 0);
+    const fin = new Date(inicio.getTime() + 20 * 60 * 1000);
+    const sello = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    /* RFC 5545: los saltos son CRLF y las comas y los puntos y coma van
+       escapados dentro de un valor de texto. */
+    const esc = (x: string) => x.replace(/([,;\\])/g, "\\$1").replace(/\n/g, "\\n");
+
+    const lineas = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//JV Agencia//Agenda//ES",
+      "BEGIN:VEVENT",
+      /* El UID sale de la cita, no de un aleatorio: `Math.random()` durante el
+         render es impuro y, además, cambiaría el identificador en cada
+         repintado. Dos descargas de la MISMA cita tienen que traer el mismo
+         UID o la agenda del cliente acaba con dos eventos duplicados. */
+      `UID:${sello(inicio)}-${values.email.replace(/[^a-z0-9]/gi, "").slice(0, 24)}@jvagencia.com`,
+      `DTSTAMP:${sello(new Date())}`,
+      `DTSTART:${sello(inicio)}`,
+      `DTEND:${sello(fin)}`,
+      `SUMMARY:${esc(T.exito.evento)}`,
+      `DESCRIPTION:${esc(serviceLabel)}`,
+      ...(meetLink ? [`LOCATION:${esc(meetLink)}`, `URL:${esc(meetLink)}`] : []),
+      "BEGIN:VALARM",
+      "TRIGGER:-PT15M",
+      "ACTION:DISPLAY",
+      `DESCRIPTION:${esc(T.exito.evento)}`,
+      "END:VALARM",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ];
+    return `data:text/calendar;charset=utf-8,${encodeURIComponent(lineas.join("\r\n"))}`;
+  })();
+
   /* La tarjeta es la misma pieza en los dos estados —formulario y acuse—, así
      que el marco vive en una constante y no se duplica. `shadow-glow` es el
      único de la página: es el elemento que debe dominar. */
@@ -271,7 +392,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
             <Check className="h-6 w-6" strokeWidth={2} />
           </span>
           <div className="min-w-0">
-            <h3 className="font-display text-2xl leading-tight text-ink">{T.exito.saludo(firstName)}</h3>
+            <Titulo className="font-display text-2xl leading-tight text-ink">{T.exito.saludo(firstName)}</Titulo>
             <p className="font-body text-sm text-ink-soft">
               {meetLink ? T.exito.agendada : T.exito.recibida}
             </p>
@@ -320,6 +441,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
                 <RotateCcw className="h-4 w-4" strokeWidth={2} /> {T.exito.otra}
               </Button>
             </div>
+            {icsHref && <BotonCalendario href={icsHref} texto={T.exito.calendario} />}
           </>
         ) : (
           <>
@@ -336,6 +458,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
                 <RotateCcw className="h-4 w-4" strokeWidth={2} /> {T.exito.otra}
               </Button>
             </div>
+            {icsHref && <BotonCalendario href={icsHref} texto={T.exito.calendario} />}
           </>
         )}
       </div>
@@ -348,7 +471,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-background text-primary-dark">
           <CalendarCheck className="h-5 w-5" strokeWidth={2} />
         </span>
-        <h3 className="font-display text-2xl leading-tight text-ink">{T.titulo}</h3>
+        <Titulo className="font-display text-2xl leading-tight text-ink">{T.titulo}</Titulo>
       </div>
       <p className="mt-3 text-pretty font-body text-sm leading-relaxed text-ink-soft">
 {T.intro}
@@ -367,7 +490,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
       <div className="mt-5 flex items-center gap-3">
         <p
           aria-live="polite"
-          className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-accent-ink"
+          className="font-mono text-xs uppercase tracking-[0.12em] text-accent-ink"
         >
           {T.paso(paso)}
         </p>
@@ -384,7 +507,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
           />
         </span>
       </div>
-      <p className="mt-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-soft">
+      <p className="mt-2 font-mono text-xs uppercase tracking-[0.12em] text-ink-soft">
         {T.promesa}
       </p>
 
@@ -393,7 +516,12 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
           primero. Pedir «¿en qué te ayudo?» de entrada obliga a decidir el
           proyecto antes de haber escrito el nombre, y ahí es donde la gente
           cierra la pestaña. */}
-      <div hidden={paso !== 1}>
+      <div
+        hidden={paso !== 1}
+        ref={paso === 1 ? pasoRef : undefined}
+        data-sentido={sentidoPaso}
+        className="jv-paso"
+      >
         <div className="mt-4 jv-rule pt-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label={T.nombre} error={errors.name}>
@@ -448,7 +576,12 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
           en el DOM, así que volver atrás no pierde nada y el autocompletado
           del navegador no se reinicia. Y con `hidden` los campos ocultos
           tampoco son paradas de tabulador. */}
-      <div hidden={paso !== 2}>
+      <div
+        hidden={paso !== 2}
+        ref={paso === 2 ? pasoRef : undefined}
+        data-sentido={sentidoPaso}
+        className="jv-paso"
+      >
       {/* Servicio */}
         {/* El borde va en el envoltorio, no en el <fieldset>: el navegador encaja
             el <legend> DENTRO del borde del fieldset y la regla queda partiendo
@@ -487,40 +620,24 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
 
       {/* Fecha */}
         <div className="mt-4 jv-rule pt-4">
-          <div className="sm:max-w-[calc(50%-0.5rem)]">
-            {/* El campo nativo pinta el marcador según el locale del NAVEGADOR,
-                no del documento: en un Chrome en inglés sale «mm/dd/yyyy» en un
-                sitio colombiano y no hay forma de cambiarlo. Anunciar un formato
-                fijo sería mentir la mitad de las veces, así que se confirma la
-                fecha elegida en palabras debajo del campo. */}
-            <Field
-              label={T.fecha}
-              error={errors.date}
-              note={values.date ? prettyDate(values.date, T.locale) : undefined}
-            >
-              {(p) => (
-                <Input
-                  {...p}
-                  type="date"
-                  min={todayISO()}
-                  value={values.date}
-                  onChange={(e) => set("date", e.target.value)}
-                  disabled={submitting}
-                  /* Tocar el campo abre el calendario, no solo el iconito de
-                     16 px de la derecha. */
-                  onClick={(e) => {
-                    const el = e.currentTarget as HTMLInputElement & { showPicker?: () => void };
-                    try {
-                      el.showPicker?.();
-                    } catch {
-                      /* Navegador que no lo permite fuera de su propio gesto. */
-                    }
-                  }}
-                  className="[&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-55 [&::-webkit-calendar-picker-indicator]:transition-opacity hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
-                />
-              )}
-            </Field>
-          </div>
+          {/* EL CALENDARIO ES PROPIO, no un `<input type="date">`. El campo
+              nativo pintaba su marcador según el locale del NAVEGADOR —en un
+              Chrome en inglés, «mm/dd/yyyy» en un sitio colombiano— y, peor,
+              dejaba escoger domingos: el visitante se enteraba de que no había
+              horario después, cuando la lista volvía vacía. El calendario apaga
+              los días sin horario leyéndolos de `BUSINESS.horario`. */}
+          <Calendario
+            idioma={idioma}
+            value={values.date}
+            disabled={submitting}
+            onChange={(d) => set("date", d)}
+          />
+          <FieldError id={dateErrorId} message={errors.date} />
+          {values.date && !errors.date && (
+            <p className="mt-3 font-mono text-xs text-ink-soft first-letter:uppercase">
+              {prettyDate(values.date, T.locale)}
+            </p>
+          )}
         </div>
 
       {/* Hora */}
@@ -530,7 +647,7 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
             <Clock className="h-4 w-4 text-ink-soft" strokeWidth={2} aria-hidden />
 {T.hora}
             {values.date && !loadingSlots && slots && slots.length > 0 && (
-              <span className="font-mono text-[11px] font-normal tabular-nums text-ink-soft">
+              <span className="font-mono text-xs font-normal tabular-nums text-ink-soft">
                 {T.libres(slots.length)}
               </span>
             )}
@@ -642,7 +759,11 @@ export function ScheduleCall({ idioma = "es" }: { idioma?: Idioma }) {
         <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
           <button
             type="button"
-            onClick={() => setPaso(1)}
+            onClick={() => {
+              setSentidoPaso("atras");
+              moverFocoPaso.current = true;
+              setPaso(1);
+            }}
             disabled={submitting}
             className="jv-boton-2 justify-center disabled:opacity-60 sm:w-auto"
           >
@@ -740,9 +861,30 @@ function Field({
         ),
       })}
       {note && !error && (
-        <p className="mt-1.5 font-mono text-[11px] text-ink-soft first-letter:uppercase">{note}</p>
+        <p className="mt-1.5 font-mono text-xs text-ink-soft first-letter:uppercase">{note}</p>
       )}
       <FieldError id={errorId} message={error} />
     </div>
+  );
+}
+
+/**
+ * El enlace de descarga del `.ics`.
+ *
+ * Terciario a propósito: va debajo de los dos botones y en tinta apagada. Lo
+ * que resuelve la cita es unirse al Meet o confirmar por WhatsApp; el archivo
+ * de calendario es una comodidad, y ponerlo al mismo peso repartiría la
+ * atención entre tres acciones donde solo una es la siguiente.
+ */
+function BotonCalendario({ href, texto }: { href: string; texto: string }) {
+  return (
+    <a
+      href={href}
+      download="llamada-jv-agencia.ics"
+      className="jv-toque jv-enlace mt-4 inline-flex min-h-11 items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-ink-soft"
+    >
+      <CalendarPlus className="h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
+      {texto}
+    </a>
   );
 }

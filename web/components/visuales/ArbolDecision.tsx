@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 import type { Idioma } from "@/content/types";
 import { cn } from "@/lib/utils";
@@ -35,10 +38,24 @@ export type NodoArbol =
     }
   | {
       tipo: "resultado";
+      /**
+       * Con qué se corresponde este resultado fuera del árbol. Sirve para que
+       * la página destaque la tarjeta del formato que acaba de salir: el
+       * árbol dice cuál es y la rejilla lo señala, en vez de dejar que el
+       * visitante busque a ojo entre tres tarjetas cuál era la suya.
+       */
+      clave?: string;
       titulo: string;
       detalle: string;
       /** El piso y el plazo. Sácalos de PRICES/lib, nunca de un literal aquí. */
       pie?: string;
+      /**
+       * Qué hacer con la respuesta. Contestar tres preguntas y quedarse
+       * mirando el resultado es dejar al visitante en la puerta: el botón lo
+       * lleva a agendar CON lo que acaba de contestar —el formulario llega
+       * con el servicio marcado y la nota escrita—, sin pedirle que lo repita.
+       */
+      accion?: { texto: string; href: string };
       enlace?: { texto: string; href: string };
     };
 
@@ -52,20 +69,30 @@ const T = {
   es: {
     reiniciar: "Empezar de nuevo",
     pista: "Contesta y te digo cuál de los formatos te sirve.",
+    /* Estaba escrito a pelo en el JSX, así que la página inglesa pintaba
+       «Lo que te sirve» encima de un resultado en inglés. */
+    rotulo: "Lo que te sirve",
   },
   en: {
     reiniciar: "Start over",
     pista: "Answer and I'll tell you which of the formats suits you.",
+    rotulo: "What suits you",
   },
 } as const;
 
 export function ArbolDecision({
   raiz,
   idioma = "es",
+  onResultado,
   className,
 }: {
   raiz: NodoArbol;
   idioma?: Idioma;
+  /**
+   * Se avisa cada vez que cambia el resultado alcanzado, con su `clave`, y
+   * con `null` mientras no haya resultado o al empezar de nuevo.
+   */
+  onResultado?: (clave: string | null) => void;
   className?: string;
 }) {
   const t = T[idioma];
@@ -82,6 +109,14 @@ export function ArbolDecision({
     contestadas.push({ nodo: actual, elegida });
     actual = siguiente.siguiente;
   }
+
+  /* El aviso sale en un efecto y no dentro del onClick: el resultado no
+     depende de la opción pulsada sino de a dónde lleva la rama entera, y eso
+     solo se sabe después de recorrer el árbol con la ruta nueva. */
+  const claveActual = actual.tipo === "resultado" ? actual.clave ?? null : null;
+  useEffect(() => {
+    onResultado?.(claveActual);
+  }, [claveActual, onResultado]);
 
   const responder = (nivel: number, opcion: number) =>
     setRuta((r) => [...r.slice(0, nivel), opcion]);
@@ -115,46 +150,66 @@ export function ArbolDecision({
   );
 
   return (
+    /* PREGUNTAS A UN LADO, RESPUESTA AL OTRO, a partir de `md`.
+       En una sola columna, el panel de respuesta es una caja vacía de 136 px
+       de alto y ancho completo esperando a que alguien conteste: parece que la
+       sección se quedó a medio construir. En dos columnas, el hueco es la
+       mitad de la pieza que espera su otra mitad, que es lo que es. */
     <div className={cn("jv-card p-5 sm:p-6", className)}>
-      <div className="grid gap-5">
-        {contestadas.map((c, i) => pregunta(c.nodo, i, c.elegida))}
-        {actual.tipo === "pregunta" && pregunta(actual, contestadas.length, null)}
-      </div>
+      <div className="grid gap-5 md:grid-cols-2 md:items-start md:gap-6">
+        <div className="grid gap-5">
+          {contestadas.map((c, i) => pregunta(c.nodo, i, c.elegida))}
+          {actual.tipo === "pregunta" && pregunta(actual, contestadas.length, null)}
+        </div>
 
-      {/* Alto reservado: el contenido de abajo no salta al cambiar de rama.
-          Lo que se anima es la opacidad, nunca la altura. */}
-      <div
-        aria-live="polite"
-        className="mt-5 grid min-h-[8.5rem] content-center rounded-xl border border-line bg-background p-4 transition-opacity duration-quick ease-state"
-      >
+        {/* Alto reservado: el contenido de abajo no salta al cambiar de rama.
+            Lo que se anima es la opacidad, nunca la altura. */}
+        <div
+          aria-live="polite"
+          className="grid min-h-[8.5rem] content-center rounded-xl border border-line bg-background p-4 transition-opacity duration-quick ease-state md:min-h-[11rem]"
+        >
         {actual.tipo === "resultado" ? (
           <div>
-            <p className="jv-eyebrow text-accent-ink">
-              Lo que te sirve
-            </p>
+            <p className="jv-eyebrow text-accent-ink">{t.rotulo}</p>
             <p className="mt-2 font-body text-xl font-semibold leading-tight text-ink">{actual.titulo}</p>
             <p className="mt-2 text-pretty font-body text-[15px] leading-snug text-ink-soft">
               {actual.detalle}
             </p>
             {actual.pie && (
-              <p className="mt-3 font-mono text-[11px] tabular-nums text-primary-dark">
+              <p className="mt-3 font-mono text-xs tabular-nums text-primary-dark">
                 {actual.pie}
               </p>
             )}
-            {actual.enlace && (
-              <Link
-                href={actual.enlace.href}
-                className="mt-3 inline-flex min-h-11 items-center font-body text-[15px] font-semibold text-primary-dark underline underline-offset-4"
-              >
-                {actual.enlace.texto}
-              </Link>
+            {(actual.accion || actual.enlace) && (
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                {actual.accion && (
+                  <Button size="sm" variant="primary" asChild>
+                    <Link href={actual.accion.href}>
+                      {actual.accion.texto}
+                      <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+                    </Link>
+                  </Button>
+                )}
+                {actual.enlace && (
+                  <Link
+                    href={actual.enlace.href}
+                    className="jv-enlace inline-flex min-h-11 items-center font-body text-[15px] font-semibold text-brand"
+                  >
+                    {actual.enlace.texto}
+                  </Link>
+                )}
+              </div>
             )}
           </div>
         ) : (
-          <p className="text-balance text-center font-body text-[15px] leading-snug text-ink-soft">
+          /* `mx-auto`: el tope de medida de línea de `globals.css` encoge la
+             caja, y sin márgenes automáticos un texto centrado se queda
+             pegado a la izquierda de su contenedor. */
+          <p className="mx-auto text-balance text-center font-body text-[15px] leading-snug text-ink-soft">
             {t.pista}
           </p>
         )}
+        </div>
       </div>
 
       {ruta.length > 0 && (

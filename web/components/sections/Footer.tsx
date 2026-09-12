@@ -70,7 +70,7 @@ export function Footer({ idioma }: { idioma: Idioma }) {
               >
                 {BUSINESS.whatsappDisplay}
               </a>
-              <p className="pt-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
+              <p className="pt-2 font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
                 {PIE.base[idioma]}
               </p>
             </div>
@@ -78,7 +78,7 @@ export function Footer({ idioma }: { idioma: Idioma }) {
 
           {COLUMNAS.map((col) => (
             <nav key={col.titulo.es} aria-label={col.titulo[idioma]}>
-              <h2 className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
+              <h2 className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
                 {col.titulo[idioma]}
               </h2>
               <ul className="mt-4 flex flex-col">
@@ -138,12 +138,18 @@ export function Footer({ idioma }: { idioma: Idioma }) {
           borde inferior en vez de dejar flotando el hueco de la interlínea,
           que es lo que delata una marca de agua puesta sin mirar.
 
-          EN MÓVIL SUBE DE TAMAÑO Y DE OPACIDAD, y no por gusto: 14vw son
-          201 px en un monitor de 1440 y 55 px en un teléfono de 390, así que
-          la misma regla da una marca de agua en uno y un renglón perdido en el
-          otro. Sube a 16vw —62 px— y del 4 % al 5,5 %, porque un 4 % funciona
-          con letras de 200 px, donde hay superficie de sobra para que el ojo
-          la registre, y con letras de 62 px sobre casi negro no se ve nada.
+          EN MÓVIL SUBE DE TAMAÑO, y no por gusto: 14vw son 201 px en un
+          monitor de 1440 y 55 px en un teléfono de 390, así que la misma regla
+          da una marca de agua en uno y un renglón perdido en el otro. Sube a
+          16vw —62 px—, porque con letras de 200 px hay superficie de sobra
+          para que el ojo registre un gris muy bajo y con letras de 62 px no.
+
+          LA TINTA YA NO ES UNA OPACIDAD PLANA. Estaba al 4 %: sobre #111111
+          eso es #171717 y no lo percibía nadie. Ahora la pone
+          `.jv-marca-agua` con un degradado —fuerte en la base, apagada en la
+          parte alta— porque el renglón legal cruza por encima de las letras y
+          subir la opacidad entera le habría bajado el contraste a ese texto.
+          El porqué completo está en `app/efectos.css`.
 
           16vw ES EL TECHO, no una cifra a ojo: medido a diez anchos entre 320
           y 2560, «JV AGENCIA» ocupa el 90 % del viewport a 16vw y se pasa del
@@ -156,7 +162,7 @@ export function Footer({ idioma }: { idioma: Idioma }) {
           `components/BarraMovil.tsx`. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -bottom-[0.14em] -z-10 select-none whitespace-nowrap text-center font-display text-[16vw] font-semibold leading-[0.75] tracking-[-0.04em] text-ink opacity-[0.055] lg:text-[14vw] lg:opacity-[0.04]"
+        className="jv-marca-agua pointer-events-none absolute inset-x-0 -bottom-[0.14em] -z-10 select-none whitespace-nowrap text-center font-display text-[16vw] font-semibold leading-[0.75] tracking-[-0.04em] lg:text-[14vw]"
       >
         JV AGENCIA
       </span>

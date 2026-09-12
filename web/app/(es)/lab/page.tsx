@@ -323,7 +323,7 @@ export default function TallerDeVisuales() {
       </section>
 
       <section className="mx-auto max-w-4xl px-5 py-12 md:px-8">
-        <p className="font-mono text-[11px] leading-relaxed text-ink-soft">
+        <p className="font-mono text-xs leading-relaxed text-ink-soft">
           Piso de SEO local leído en vivo desde lib/quote.ts:{" "}
           <strong className="text-ink">{money(SEO_PRICES.plan.local)}/mes</strong>. Si este número
           no coincide con el de la página, la página tiene un literal escrito a mano.
