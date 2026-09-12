@@ -38,11 +38,11 @@ export const MEDELLIN: Ciudad = {
 
   confesion: {
     titulo: "Antes de seguir:",
-    tituloAcento: " no tengo oficina en Medellín ni cliente en Antioquia.",
+    tituloAcento: " trabajo Medellín a distancia, desde Bolívar.",
     parrafos: [
-      "Vivo en Turbaco, Bolívar, a unos 640 kilómetros del Poblado. Hoy no tengo un solo proyecto entregado en Antioquia, y no te voy a poner una dirección de El Tesoro en el pie de página.",
-      "Medellín tiene más estudios de diseño y desarrollo por metro cuadrado que cualquier otra ciudad del país, y varios muy buenos. Si lo que necesitas es alguien que se te siente al frente un martes, la respuesta honesta es que allá lo consigues y acá no.",
-      "Lo que sí tengo es que hablas con quien programa. No hay ejecutivo de cuenta repitiéndote lo que le dijo el diseñador, y el que te cotiza es el que te contesta el WhatsApp seis meses después.",
+      "Vivo en Turbaco, Bolívar, a unos 640 kilómetros. No tengo oficina en Antioquia y todavía no hay un proyecto entregado allá: cuando lo haya, va en esta misma página con nombre y con enlace.",
+      "A distancia significa videollamada para arrancar, WhatsApp para el día a día y un enlace donde ves el sitio crecer antes de que salga. Es como trabajé Bloomrose, que está en línea y se puede abrir ahora mismo.",
+      "Y hablas con quien programa. No hay ejecutivo de cuenta repitiéndote lo que le dijo el diseñador: el que te cotiza es el que te contesta el WhatsApp seis meses después.",
     ],
   },
 
@@ -91,10 +91,10 @@ export const MEDELLIN: Ciudad = {
   },
 
   precioNota:
-    "No te voy a decir que soy el más barato de Medellín, porque allá hay estudios buenos compitiendo duro y no lo sé. Es el mismo número que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Antioquia.",
+    "No compito por ser el más barato de Medellín: compito porque el precio está publicado y el tuyo es el mismo que le cobro a un negocio de Turbaco. No sube porque tu dirección diga Antioquia.",
 
   sinCliente: {
-    rotulo: "Sin cliente de Antioquia",
+    rotulo: "La casilla de Antioquia",
     texto:
       "Todavía no hay un proyecto entregado en Medellín. Cuando lo haya, va aquí, con nombre y con enlace.",
   },

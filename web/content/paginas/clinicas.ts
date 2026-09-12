@@ -277,10 +277,10 @@ export const CLINICAS = {
   /* El hueco declarado. Va del mismo alto que las otras tres tarjetas: es lo
      más creíble de la sección y no se quita. */
   casilla: {
-    rotulo: { es: "Lo que no tengo", en: "What I don't have" },
+    rotulo: { es: "Hasta dónde llega hoy", en: "How far it goes today" },
     cuerpo: {
-      es: "Todavía no tengo una clínica de varias sedes ni una historia clínica conectada. Si tu proyecto es más grande, te lo digo de frente en la llamada: prefiero perder el trabajo a inventarme un caso.",
-      en: "I don't yet have a multi-site clinic or a connected clinical record system. If your project is bigger, I'll tell you straight on the call: I'd rather lose the work than invent a case study.",
+      es: "Todavía no he conectado una historia clínica ni trabajado una clínica de varias sedes. Si tu proyecto llega hasta ahí, lo hablamos en la llamada y miramos qué parte sí se puede hacer ya: no me invento un caso para quedarme con el trabajo.",
+      en: "I haven't yet connected a clinical record system or worked with a multi-site clinic. If your project goes that far, we talk it through on the call and look at which part can be done now: I don't invent a case study to win the work.",
     },
   },
   portafolioAntes: { es: "Lo demás está en ", en: "The rest is in " },

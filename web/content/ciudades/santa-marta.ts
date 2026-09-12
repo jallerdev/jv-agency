@@ -42,10 +42,11 @@ export const SANTA_MARTA: Ciudad = {
 
   confesion: {
     titulo: "Antes de seguir:",
-    tituloAcento: " no tengo oficina en Santa Marta ni cliente en el Magdalena.",
+    tituloAcento: " estoy en la misma costa, a cuatro horas por la troncal.",
     parrafos: [
-      "Vivo en Turbaco, Bolívar. Son unos 250 kilómetros por la troncal, pasando por Barranquilla: unas cuatro horas. Es la misma costa y es la única de mis páginas de ciudad donde puedo decir que un viaje de ida y vuelta en el día es posible — pero hoy no tengo un solo proyecto entregado allá y no te lo voy a esconder.",
-      "Si lo que necesitas es alguien en tu recepción cada semana, contrata a alguien de Santa Marta. Si lo que necesitas es que quien te cotiza sea el mismo que diseña, programa y te contesta el WhatsApp en plena temporada alta, sigue leyendo.",
+      "Vivo en Turbaco, Bolívar: unos 250 kilómetros por la troncal, pasando por Barranquilla. De las siete ciudades que trabajo, es la única donde ir y volver en el mismo día es posible, así que una reunión presencial se puede arreglar.",
+      "No tengo oficina en el Magdalena y todavía no hay un proyecto entregado allá: cuando lo haya, va en esta misma página con nombre y con enlace. Mientras tanto, el trabajo que sí está en línea se puede abrir ahora mismo —Bloomrose, en Cartagena—.",
+      "Y quien te cotiza es el mismo que diseña, programa y te contesta el WhatsApp en plena temporada alta.",
     ],
   },
 
@@ -101,7 +102,7 @@ export const SANTA_MARTA: Ciudad = {
     "Es el mismo número que le cobro a un negocio de Turbaco o de Cartagena: no sube porque tu dirección diga El Rodadero. Y si tu negocio es estacional, la conversación de cuándo arrancar la tenemos en la llamada — no es lo mismo publicar en octubre que en diciembre.",
 
   sinCliente: {
-    rotulo: "Sin cliente del Magdalena",
+    rotulo: "La casilla del Magdalena",
     texto:
       "Todavía no hay un proyecto entregado en Santa Marta. Cuando lo haya, va aquí, con nombre y con enlace.",
   },

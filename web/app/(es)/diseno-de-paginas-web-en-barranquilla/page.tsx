@@ -719,7 +719,7 @@ export default function BarranquillaPage() {
             </Reveal>
 
             <Reveal delay={80} className="h-full">
-              <CasillaVacia className="h-full" rotulo="Sin cliente de Barranquilla">
+              <CasillaVacia className="h-full" rotulo="La casilla de Barranquilla">
                 Todavía no hay un proyecto entregado a un cliente barranquillero. Cuando lo haya, va
                 aquí, con nombre y con enlace.
               </CasillaVacia>

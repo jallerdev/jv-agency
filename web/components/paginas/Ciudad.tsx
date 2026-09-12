@@ -235,12 +235,16 @@ export function PaginaCiudad({ ciudad }: { ciudad: Ciudad }) {
     })),
   };
 
+  /* El índice sigue el orden real de la página. «Cómo trabajo a distancia» y no
+     «Lo que no tengo acá»: la sección dice las dos cosas —lo que falta y lo que
+     hay— y nombrarla por la mitad negativa la convertía en el primer enlace que
+     leía alguien que acaba de llegar de Google. */
   const indice = [
-    { id: "confesion", texto: "Lo que no tengo acá" },
     { id: "datos", texto: `${ciudad.nombre} en cifras` },
     { id: "precios", texto: "Precios" },
     { id: "como", texto: "Cómo se trabaja" },
     { id: "trabajo", texto: "Trabajo abierto" },
+    { id: "confesion", texto: "Cómo trabajo a distancia" },
     { id: "preguntas", texto: "Preguntas" },
   ];
 
@@ -287,41 +291,6 @@ export function PaginaCiudad({ ciudad }: { ciudad: Ciudad }) {
             </>
           }
         />
-
-        {/* ── La confesión. Va arriba a propósito ─────────────────────── */}
-        <section id="confesion" className="border-b border-line bg-tint">
-          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24">
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:gap-16">
-              <Reveal>
-                <div className="lg:sticky lg:top-28">
-                  <MapPinOff
-                    className="h-6 w-6 text-brand"
-                    strokeWidth={1.75}
-                    aria-hidden="true"
-                  />
-                  <h2 className="mt-5 text-balance text-[length:var(--text-h2)]">
-                    {ciudad.confesion.titulo}
-                    <span className="text-brand">{ciudad.confesion.tituloAcento}</span>
-                  </h2>
-                </div>
-              </Reveal>
-
-              <Reveal delay={80}>
-                {ciudad.confesion.parrafos.map((p) => (
-                  <p
-                    key={p}
-                    className="mt-5 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft first:mt-0"
-                  >
-                    {p}
-                  </p>
-                ))}
-                <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
-                  {ciudad.entradilla[1]}
-                </p>
-              </Reveal>
-            </div>
-          </div>
-        </section>
 
         {/* ── Los datos de la ciudad ─────────────────────────────────── */}
         <section
@@ -572,6 +541,52 @@ export function PaginaCiudad({ ciudad }: { ciudad: Ciudad }) {
               .
             </p>
           </Reveal>
+        </section>
+
+        {/* ── LA CONFESIÓN, DESPUÉS DE LA PRUEBA Y NO ANTES ───────────────
+            Estaba justo debajo del hero, y en el índice se llamaba «Lo que no
+            tengo acá». O sea que a estas páginas —que son entradas de buscador:
+            alguien teclea «diseño de páginas web en Cali» y aterriza aquí sin
+            saber nada de la casa— lo primero que les decían era lo que NO hay.
+
+            La confesión se queda, entera, porque es lo que separa esta página
+            de una doorway page y porque es verdad. Lo que cambia es cuándo se
+            lee: después de las cifras de la ciudad, de los precios, de cómo se
+            trabaja y del trabajo abierto. Ahí la misma frase se lee como
+            franqueza de alguien que ya enseñó lo que hace; arriba del todo se
+            leía como una disculpa antes de saludar. */}
+        <section id="confesion" className="border-b border-line bg-tint">
+          <div className="mx-auto max-w-[1280px] scroll-mt-28 px-6 py-20 md:px-12 md:py-24">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:gap-16">
+              <Reveal>
+                <div className="lg:sticky lg:top-28">
+                  <MapPinOff
+                    className="h-6 w-6 text-brand"
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                  />
+                  <h2 className="mt-5 text-balance text-[length:var(--text-h2)]">
+                    {ciudad.confesion.titulo}
+                    <span className="text-brand">{ciudad.confesion.tituloAcento}</span>
+                  </h2>
+                </div>
+              </Reveal>
+
+              <Reveal delay={80}>
+                {ciudad.confesion.parrafos.map((p) => (
+                  <p
+                    key={p}
+                    className="mt-5 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft first:mt-0"
+                  >
+                    {p}
+                  </p>
+                ))}
+                <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
+                  {ciudad.entradilla[1]}
+                </p>
+              </Reveal>
+            </div>
+          </div>
         </section>
 
         {/* ── Preguntas ──────────────────────────────────────────────── */}

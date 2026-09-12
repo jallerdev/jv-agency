@@ -417,25 +417,26 @@ export default function DisenoPaginasWebBogotaPage() {
                   <MapPinOff className="h-6 w-6 text-brand" strokeWidth={1.75} aria-hidden="true" />
                   <h2 className="mt-5 text-balance text-[length:var(--text-h2)]">
                     Antes de seguir:
-                    <span className="text-brand">
-                      {" "}
-                      no tengo oficina en Bogotá ni cliente en Bogotá.
-                    </span>
+                    <span className="text-brand"> trabajo Bogotá a distancia, desde Bolívar.</span>
                   </h2>
                 </div>
               </Reveal>
 
               <Reveal delay={80}>
                 <p className="max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
-                  Vivo en Turbaco, Bolívar —al lado de Cartagena, no al lado de la Séptima—, y hoy
-                  no tengo un solo proyecto entregado allá. No te voy a poner una dirección de la
-                  calle 100 en el pie de página.
+                  Vivo en Turbaco, Bolívar —al lado de Cartagena, no al lado de la Séptima—. No
+                  tengo oficina en Bogotá y todavía no hay un proyecto entregado allá: cuando lo
+                  haya, va en esta misma página con nombre y con enlace.
                 </p>
                 <p className="mt-5 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
-                  Si lo primero que necesitas es alguien que se te siente al frente, te ahorro la
-                  llamada: <strong className="text-ink">no soy yo</strong>. Si lo que necesitas es
-                  que quien te cotiza sea el mismo que diseña, programa y te contesta el WhatsApp
-                  seis meses después, sigue leyendo.
+                  A distancia significa videollamada para arrancar, WhatsApp para el día a día y un
+                  enlace donde ves el sitio crecer antes de que salga. Es como trabajé{" "}
+                  <strong className="text-ink">Bloomrose</strong>, que está en línea y se puede
+                  abrir ahora mismo.
+                </p>
+                <p className="mt-5 max-w-[62ch] text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
+                  Y quien te cotiza es el mismo que diseña, programa y te contesta el WhatsApp seis
+                  meses después. Eso no cambia con la distancia.
                 </p>
                 <p className="mt-8 max-w-[62ch] leading-relaxed text-ink-soft">
                   Yo también soy una de esas 406.513: una persona con registro mercantil. Esta
@@ -691,7 +692,7 @@ export default function DisenoPaginasWebBogotaPage() {
             ))}
 
             <Reveal delay={240} className="h-full">
-              <CasillaVacia className="h-full" rotulo="Sin cliente de Bogotá">
+              <CasillaVacia className="h-full" rotulo="La casilla de Bogotá">
                 Todavía no hay un proyecto entregado en Bogotá. Cuando lo haya, va aquí, con nombre
                 y con enlace.
               </CasillaVacia>
