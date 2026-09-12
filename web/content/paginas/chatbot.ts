@@ -198,10 +198,12 @@ export const CHATBOT = {
    * no es «¿funciona?» sino «¿va a sonar como un robot y espantarme al
    * cliente?», y eso solo se contesta enseñando las palabras exactas.
    *
-   * `aprobado` DICE LA VERDAD SOBRE CADA UNO. El de citas es el que ya estaba
-   * publicado y lo escribió Luis; los otros cuatro son BORRADORES escritos
-   * para esta pieza y están pendientes de que él los apruebe o los reescriba.
-   * Mientras `aprobado` sea falso, la página pinta el marcador en desarrollo.
+   * `aprobado` DICE LA VERDAD SOBRE CADA UNO, y hoy los cinco lo están: el de
+   * citas lo escribió Luis desde el principio, y los otros cuatro los aprobó
+   * tras leerlos, con un cambio suyo —la dirección del guion de respuestas—. El
+   * campo se queda porque el día que se añada un sexto va a nacer en `false`, y
+   * mientras lo esté la página pinta el marcador en desarrollo, nunca en
+   * producción.
    *
    * NINGÚN GUION LLEVA CIFRAS: ni precios, ni plazos, ni descuentos. Un
    * ejemplo de conversación con un precio inventado dentro es un precio
@@ -215,9 +217,15 @@ export const CHATBOT = {
     },
     /* RESPUESTAS AUTOMÁTICAS. Lo que prueba: contesta lo repetido al instante y
        a las 9:41 de la noche, y SABE DÓNDE PARA. La última es el traspaso: un
-       bot que promete saberlo todo es el que espanta al cliente. */
+       bot que promete saberlo todo es el que espanta al cliente.
+
+       LA DIRECCIÓN VA EN FORMATO COLOMBIANO, «Cra 45 # 72-18», y no en un «a
+       unas diez cuadras» que suena a relleno. Lo pidió Luis: nadie le escribe a
+       un domicilio diciendo cuántas cuadras hay, le escribe la dirección. Y
+       enseñar que el bot la entiende y contesta «esa dirección la cubrimos» es
+       la mitad de lo que esa tarjeta vende. */
     faq: {
-      aprobado: false,
+      aprobado: true,
       negocio: { es: "Negocio de ejemplo", en: "Example business" },
       iniciales: "NE",
       mensajes: {
@@ -226,16 +234,16 @@ export const CHATBOT = {
           "¡Hola! Hoy hasta las 6:00 p. m. Los sábados cerramos a las 2:00 p. m.",
           "¿Y hacen domicilios?",
           "Sí, dentro de la ciudad. Dime por dónde queda y te confirmo de una si llegamos.",
-          "Aquí cerca, a unas diez cuadras",
-          "Ahí llegamos sin problema. Y lo que yo no sepa contestar, mañana a primera hora te lo contesta una persona del negocio.",
+          "Cra 45 # 72-18",
+          "Esa dirección la cubrimos sin problema. Y lo que yo no sepa contestar, mañana a primera hora te lo contesta una persona del negocio.",
         ],
         en: [
           "Hi, what time do you close today?",
           "Hi! Today until 6:00 p.m. On Saturdays we close at 2:00 p.m.",
           "And do you deliver?",
           "Yes, within the city. Tell me roughly where you are and I'll confirm straight away whether we reach it.",
-          "Close by, about ten blocks away",
-          "We reach that easily. And anything I can't answer, someone from the business will answer first thing tomorrow.",
+          "Cra 45 # 72-18",
+          "We cover that address no problem. And anything I can't answer, someone from the business will answer first thing tomorrow.",
         ],
       } as Traducido<readonly string[]>,
     },
@@ -245,7 +253,7 @@ export const CHATBOT = {
        Cinco burbujas y no seis: abre el negocio, así que con seis la última
        sería del cliente y la conversación acabaría sin respuesta. */
     avisos: {
-      aprobado: false,
+      aprobado: true,
       negocio: { es: "Negocio de ejemplo", en: "Example business" },
       iniciales: "NE",
       mensajes: {
@@ -271,7 +279,7 @@ export const CHATBOT = {
        contestan a medias, y eso lo sabe cualquiera que haya mandado un
        formulario por WhatsApp. */
     leads: {
-      aprobado: false,
+      aprobado: true,
       negocio: { es: "Negocio de ejemplo", en: "Example business" },
       iniciales: "NE",
       mensajes: {
@@ -297,7 +305,7 @@ export const CHATBOT = {
        cobro, confirmo— y no solo la consulta de inventario. La objeción real es
        «¿y quién me avisa cuando pague?»: la última burbuja es esa respuesta. */
     pedidos: {
-      aprobado: false,
+      aprobado: true,
       negocio: { es: "Negocio de ejemplo", en: "Example business" },
       iniciales: "NE",
       mensajes: {
