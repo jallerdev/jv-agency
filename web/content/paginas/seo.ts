@@ -23,8 +23,8 @@ export const SEO = {
   },
   tituloAcento: { es: "sin pagar por cada clic", en: "without paying for every click" },
   entradilla: {
-    es: "Tu cliente ya está buscando lo que vendes: escribe «funeraria en Cartagena», mira los primeros que salen y llama a uno. Si no estás ahí, no es que no te quieran: es que no te ven. Posicionar es meterte en esa lista y quedarte.",
-    en: "Your customer is already searching for what you sell: they type “funeral home in Cartagena”, look at the first ones that come up and call one. If you're not there, it isn't that they don't want you: it's that they don't see you. Ranking means getting into that list and staying.",
+    es: "Tu cliente ya está buscando lo que vendes: escribe «salón de belleza en Cartagena», mira los primeros que salen y llama a uno. Si no estás ahí, no es que no te quieran: es que no te ven. Posicionar es meterte en esa lista y quedarte.",
+    en: "Your customer is already searching for what you sell: they type “beauty salon in Cartagena”, look at the first ones that come up and call one. If you're not there, it isn't that they don't want you: it's that they don't see you. Ranking means getting into that list and staying.",
   },
   ctaPrincipal: { es: "Agenda una llamada", en: "Book a call" },
   ctaSecundario: { es: "Ver precios", en: "See pricing" },
@@ -417,7 +417,18 @@ export const SEO = {
     { etiqueta: { es: "Publicaciones", en: "Posts" } },
     { etiqueta: { es: "Preguntas frecuentes", en: "Frequently asked questions" } },
   ] as readonly { etiqueta: Texto; valor?: Texto }[],
-  consultaEjemplo: { es: "funeraria en Cartagena", en: "funeral home in Cartagena" },
+  /* LA CONSULTA DE EJEMPLO, Y POR QUÉ ESTA.
+     Era «funeraria en Cartagena». Tenía la urgencia más alta que existe en
+     búsqueda local —nadie compara tres funerarias— pero era la peor vitrina
+     para esta página: demanda baja y ningún dueño de PYME se ve reflejado en
+     ella. Un salón de belleza sí: está entre las consultas locales de más
+     volumen del país, se decide por cercanía y fotos, y es uno de los dos
+     sectores que este sitio ya trabaja aparte.
+     No repite el «odontólogo en Cartagena» de /sectores/clinicas-y-consultorios
+     a propósito: dos páginas con el mismo ejemplo se leen como una plantilla.
+     La funeraria sigue nombrada donde toca —la página de Cartagena—, que es
+     donde es un cliente real y autorizado, no un ejemplo. */
+  consultaEjemplo: { es: "salón de belleza en Cartagena", en: "beauty salon in Cartagena" },
   ciudadesTitulo: { es: "Y por ciudad, si es lo tuyo", en: "And by city, if that's your thing" },
   ciudadesEntradilla: {
     es: "Cada ciudad se trabaja aparte, con sus propias páginas y sus propias búsquedas.",

@@ -946,3 +946,119 @@ input[type="radio"] { accent-color: var(--accent); }
     transform: translateX(-50%) scaleY(1);
   }
 }
+
+/* ===========================================================================
+   El carrusel clavado (`components/kit/CarruselClavado.tsx`)
+   ---------------------------------------------------------------------------
+   La sección se queda quieta mientras el carril pasa de lado. Es el gesto que
+   pedía la fase 3c y el que Luis señaló con la referencia de palo-seco.
+
+   NO SECUESTRA EL SCROLL, y esa es la condición de que exista. No hay
+   `preventDefault`, ni listener de rueda, ni temporizador: la sección mide
+   varias pantallas de alto, dentro va un bloque `sticky`, y el carril se
+   traslada con una ANIMACIÓN POR SCROLL de CSS. Quien baja sigue bajando a su
+   ritmo; si sube, todo se deshace exactamente igual. La rueda nunca deja de
+   ser suya.
+
+   VA EN EL COMPOSITOR. `animation-timeline` corre fuera del hilo principal, así
+   que la pieza no cuesta un fotograma de JavaScript. Era la objeción de peso:
+   este sitio vende «rápido de verdad» y un carrusel clavado a golpe de
+   `scroll` + rAF es justo lo que estropea esa promesa.
+
+   EL RESPALDO ES LO QUE YA HABÍA: sin animaciones por scroll, en móvil o con
+   `prefers-reduced-motion`, queda el carril con anclaje —`overflow-x: auto` y
+   `scroll-snap`— que es utilizable con dedo, con rueda y con teclado. Nada de
+   lo que se lee depende del efecto.
+
+   `overflow: clip` Y NO `hidden` en el bloque clavado: `hidden` crea un
+   contenedor de scroll propio, y entonces tabular hasta un enlace de un panel
+   que aún no ha entrado lo desplaza POR DENTRO y descuadra la pieza. Con
+   `clip` no hay contenedor: el navegador desplaza el documento, que es
+   precisamente lo que hace avanzar el carril.
+   =========================================================================== */
+.jv-clavado {
+  --jv-hueco: 1.5rem;
+  --jv-panel: min(85vw, 34rem);
+}
+
+.jv-clavado__riel {
+  display: flex;
+  gap: var(--jv-hueco);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-inline: var(--gutter);
+  padding-bottom: 1rem;
+}
+.jv-clavado__riel::-webkit-scrollbar { display: none; }
+
+.jv-clavado__panel {
+  flex: 0 0 auto;
+  width: var(--jv-panel);
+  scroll-snap-align: start;
+}
+
+/* La barra de avance solo dice algo cuando el carril avanza solo. En el
+   respaldo el propio carril ya enseña dónde está. */
+.jv-clavado__barra { display: none; }
+
+@supports (animation-timeline: view()) {
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .jv-clavado {
+      --jv-panel: min(76vw, 62rem);
+      /* Una pantalla de recorrido por panel. Menos, y el carril corre más que
+         el dedo; más, y la sección se hace un túnel. */
+      height: calc(var(--jv-paneles) * 100svh);
+      view-timeline-name: --jv-clavado;
+      view-timeline-axis: block;
+    }
+
+    .jv-clavado__pin {
+      position: sticky;
+      top: var(--header-h);
+      display: flex;
+      height: calc(100svh - var(--header-h));
+      flex-direction: column;
+      justify-content: center;
+      overflow: clip;
+    }
+
+    .jv-clavado__riel {
+      width: max-content;
+      overflow: visible;
+      scroll-snap-type: none;
+      padding-bottom: 0;
+      /* El primer panel nace centrado, no pegado al borde. */
+      padding-inline: calc((100vw - var(--jv-panel)) / 2);
+      animation: jv-clavado-desliza linear both;
+      animation-timeline: --jv-clavado;
+      /* `contain` sobre un sujeto más alto que la pantalla es exactamente el
+         tramo en el que la sección la cubre entera: el mismo en el que el
+         bloque está clavado. */
+      animation-range: contain 0% contain 100%;
+    }
+
+    .jv-clavado__barra { display: block; }
+    .jv-clavado__barra > span {
+      display: block;
+      height: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      animation: jv-clavado-avanza linear both;
+      animation-timeline: --jv-clavado;
+      animation-range: contain 0% contain 100%;
+    }
+  }
+}
+
+@keyframes jv-clavado-desliza {
+  to {
+    transform: translateX(
+      calc(-1 * (var(--jv-paneles) - 1) * (var(--jv-panel) + var(--jv-hueco)))
+    );
+  }
+}
+@keyframes jv-clavado-avanza {
+  to { transform: scaleX(1); }
+}

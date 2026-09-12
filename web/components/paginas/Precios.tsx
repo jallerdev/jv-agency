@@ -144,25 +144,37 @@ export function PaginaPrecios({
   /* Las líneas del recibo salen del catálogo: lo que se paga una vez puede ser
      la base, lo que se paga cada mes o cada año se suma aparte. Nada de esto
      se escribe aquí. */
+  /* Con qué servicio de la agenda abre cada base. `lib/services.ts` tiene su
+     propia lista de ids y el formulario descarta cualquier otro, así que la
+     correspondencia se escribe aquí una vez en vez de adivinarse allá. */
+  const SERVICIO_AGENDA: Record<string, string> = {
+    landing: "web",
+    tienda: "web",
+    chatbot: "chatbot",
+    auditoria: "seo",
+    software: "software",
+  };
+
   const bases = CATALOGO.filter((s) => s.unidad === "unico").map((s) => ({
     clave: s.id,
     nombre: s.nombre[idioma],
     monto: s.desde,
     unidad: "unico" as const,
     plazo: s.plazo?.[idioma],
+    servicio: SERVICIO_AGENDA[s.id],
+    /* Lo que cobra un tercero viaja PEGADO a la línea que lo arrastra, no en
+       una lista aparte: así el recibo solo advierte de la comisión de la
+       pasarela cuando de verdad hay tienda. */
+    ajeno: s.notas[0]?.[idioma],
   }));
   const extras = CATALOGO.filter((s) => s.unidad !== "unico").map((s) => ({
     clave: s.id,
     nombre: s.nombre[idioma],
     monto: s.desde,
     unidad: (s.unidad === "mes" ? "mes" : "anio") as "mes" | "anio",
+    paraBases: s.paraBases,
+    ajeno: s.notas[0]?.[idioma],
   }));
-
-  /* Lo que cobra un tercero vive en las notas del catálogo, junto al servicio
-     que lo arrastra. Aquí solo se recogen. */
-  const ajenos = CATALOGO.flatMap((s) =>
-    (s.notas ?? []).map((n) => ({ nombre: n[idioma], quien: s.nombre[idioma] })),
-  );
 
   const articulos = COMPARAR.map((slug) =>
     POSTS.find((p) => p.slug.es === slug.es),
@@ -218,7 +230,10 @@ export function PaginaPrecios({
                             </span>
                           )}
                         </span>
-                        <span className="shrink-0 font-mono text-[length:var(--text-h4)] tabular-nums text-brand">
+                        {/* `shrink-0` solo cuando hay dos columnas: apilado,
+                            encogerse no significa nada y el precio ya manda su
+                            propio renglón. */}
+                        <span className="font-mono text-[length:var(--text-h4)] tabular-nums text-brand sm:shrink-0">
                           {precioImpreso(l, idioma)}
                         </span>
                       </>
@@ -229,12 +244,12 @@ export function PaginaPrecios({
                         {href ? (
                           <Link
                             href={href}
-                            className="focus-ring flex items-start justify-between gap-6 py-4 transition-colors duration-base ease-ps hover:text-brand"
+                            className="focus-ring flex flex-col gap-1 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6 transition-colors duration-base ease-ps hover:text-brand"
                           >
                             {fila}
                           </Link>
                         ) : (
-                          <span className="flex items-start justify-between gap-6 py-4">{fila}</span>
+                          <span className="flex flex-col gap-1 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">{fila}</span>
                         )}
                       </li>
                     );
@@ -262,10 +277,10 @@ export function PaginaPrecios({
               idioma={idioma}
               bases={bases}
               extras={extras}
-              ajenos={ajenos}
               hrefAgenda={enlaceReal(es ? "/agendar" : "/en/book-a-call")}
-              /* `web` es el id real de `lib/services.ts`; el formulario valida
-                 contra su propia lista y descarta cualquier otro. */
+              /* Respaldo por si una base nueva del catálogo entra sin
+                 correspondencia. El formulario valida contra su propia lista
+                 y descarta cualquier id que no conozca. */
               servicioAgenda="web"
             />
           </div>

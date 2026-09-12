@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
  * LA BARRA DE BÚSQUEDA DEL HERO
  * ─────────────────────────────────────────────────────────────────────────
  * La página habla de aparecer cuando alguien te busca, y lo decía solo con
- * palabras. Esto lo pone en pantalla: la consulta del propio copy —«funeraria
- * en Cartagena»— escribiéndose una vez en una barra.
+ * palabras. Esto lo pone en pantalla: la consulta del propio copy —«salón de
+ * belleza en Cartagena»— escribiéndose una vez en una barra.
  *
  * SE ESCRIBE UNA SOLA VEZ Y SE QUEDA. Un texto que se escribe y se borra en
  * bucle es un anuncio de aeropuerto: obliga a esperar a que vuelva a pasar lo
@@ -47,7 +47,7 @@ export function BarraBusqueda({
             el texto en la fuente mono, así que el cursor cae donde termina la
             palabra en cualquier idioma. */}
         {/* Sin `truncate`: la clase trae `text-overflow: ellipsis` y, mientras
-            el ancho va de 0 a 100, el texto se leía «funeraria en Cartage…».
+            el ancho va de 0 a 100, el texto se leía «salón de belleza en Cartage…».
             `.jv-tecleo` ya recorta y no parte la línea; los puntos suspensivos
             solo sobraban. */}
         <span

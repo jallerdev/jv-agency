@@ -1333,6 +1333,18 @@ export type ServicioPublicado = {
   desc: Bilingue;
   /** Lo que cobra un tercero y por eso NO está en el precio de arriba. */
   notas: Bilingue[];
+  /**
+   * Para qué líneas base tiene sentido este recurrente, y solo esas.
+   *
+   * Existe porque /precios ofrecía los tres extras con cualquier base: se podía
+   * escoger «Auditoría SEO» y marcar «Mantenimiento del chatbot», que es
+   * mantener un bot que no se compró, o «Renovación anual» de un sitio que la
+   * auditoría no entrega. Un armador que deja armar cosas imposibles no
+   * inspira confianza en los números que enseña al lado.
+   *
+   * Solo lo llevan los recurrentes. Una línea sin este campo no es un extra.
+   */
+  paraBases?: readonly ServicioPublicado["id"][];
 };
 
 /**
@@ -1410,6 +1422,8 @@ export const CATALOGO: readonly ServicioPublicado[] = [
       en: "Token and template monitoring. Without a plan, if Meta rejects a template the bot stops answering and nobody notices.",
     },
     notas: [],
+    /* No se mantiene un bot que no se compró. */
+    paraBases: ["chatbot"],
   },
   {
     id: "auditoria",
@@ -1436,6 +1450,10 @@ export const CATALOGO: readonly ServicioPublicado[] = [
       en: "Ongoing work to rank for searches that name a city.",
     },
     notas: [],
+    /* Donde hay algo que posicionar: una web, una tienda, o el sitio que la
+       auditoría acaba de revisar —que es su continuación natural—. Un chatbot
+       no sale en Google y un sistema interno no tiene por qué salir. */
+    paraBases: ["landing", "tienda", "auditoria"],
   },
   {
     id: "software",
@@ -1462,6 +1480,10 @@ export const CATALOGO: readonly ServicioPublicado[] = [
       en: "Domain, hosting, certificate and backups of the delivered site.",
     },
     notas: [],
+    /* «Del sitio entregado»: solo la web y la tienda lo son. La auditoría
+       revisa un sitio que ya es tuyo y el software a la medida lleva su propio
+       despliegue dentro del alcance, no una tarifa de lista. */
+    paraBases: ["landing", "tienda"],
   },
 ];
 

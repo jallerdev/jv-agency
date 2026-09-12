@@ -44,6 +44,17 @@ export type LineaRecibo = {
   plazo?: string;
   /** Lo cobra un tercero y no entra en ningún total. */
   ajeno?: string;
+  /**
+   * Solo en los extras: con qué bases tiene sentido este recurrente.
+   *
+   * Sin esto, el armador dejaba escoger «Auditoría SEO» y marcar
+   * «Mantenimiento del chatbot» —mantener un bot que no se compró— o la
+   * renovación anual de un sitio que la auditoría no entrega. Sale del
+   * catálogo, no de aquí: esta pieza filtra, no decide.
+   */
+  paraBases?: readonly string[];
+  /** Solo en las bases: el id de servicio con el que abre la agenda. */
+  servicio?: string;
 };
 
 const T = {
@@ -59,6 +70,7 @@ const T = {
     firma: "Luis Jaller · Turbaco, Bolívar",
     compromiso: "Por escrito, antes de pagar nada",
     recibo: "Tu propuesta",
+    sinExtras: "Esta línea no lleva recurrentes publicados: lo que necesite va dentro de su alcance.",
   },
   en: {
     base: "What do you want to put together?",
@@ -72,6 +84,7 @@ const T = {
     firma: "Luis Jaller · Turbaco, Bolívar",
     compromiso: "In writing, before paying anything",
     recibo: "Your proposal",
+    sinExtras: "This line has no published recurring items: whatever it needs goes inside its scope.",
   },
 } as const;
 
@@ -108,7 +121,6 @@ function useInterpolado(objetivo: number) {
 export function Recibo({
   bases,
   extras,
-  ajenos,
   idioma,
   hrefAgenda,
   servicioAgenda,
@@ -118,11 +130,9 @@ export function Recibo({
   bases: readonly LineaRecibo[];
   /** Lo que se suma encima. Varios. */
   extras: readonly LineaRecibo[];
-  /** Lo que cobra un tercero: se lista, no se suma. */
-  ajenos: readonly { nombre: string; quien: string }[];
   idioma: Idioma;
   hrefAgenda: string;
-  /** El id de servicio del formulario de agenda. */
+  /** El id de servicio de la agenda cuando la base elegida no trae el suyo. */
   servicioAgenda: string;
   className?: string;
 }) {
@@ -135,8 +145,23 @@ export function Recibo({
   const [marcados, setMarcados] = useState<string[]>([]);
 
   const elegida = bases.find((b) => b.clave === base) ?? bases[0];
-  const puestos = extras.filter((e) => marcados.includes(e.clave));
+
+  /* Los extras que esta base admite. Las marcas de los que desaparecen no se
+     borran: si el visitante vuelve a la base de antes, se las encuentra donde
+     las dejó. Lo que no pasa es que cuenten mientras no aplican. */
+  const disponibles = extras.filter(
+    (e) => !e.paraBases || (elegida && e.paraBases.includes(elegida.clave)),
+  );
+  const puestos = disponibles.filter((e) => marcados.includes(e.clave));
   const lineas = [elegida, ...puestos].filter(Boolean) as LineaRecibo[];
+
+  /* Lo que cobra un tercero sale de las líneas que están EN el recibo. Antes
+     se listaban todas las del catálogo a la vez, así que una propuesta de
+     auditoría advertía de la comisión de la pasarela de pago y del consumo de
+     la API de Meta sin tener ni tienda ni chatbot. */
+  const ajenos = lineas
+    .filter((l) => l.ajeno)
+    .map((l) => ({ nombre: l.ajeno as string, quien: l.nombre }));
 
   const suma = (u: LineaRecibo["unidad"]) =>
     lineas.filter((l) => l.unidad === u).reduce((s, l) => s + l.monto, 0);
@@ -192,10 +217,15 @@ export function Recibo({
           </div>
         </fieldset>
 
+        {disponibles.length === 0 ? (
+          <p className="jv-rule mt-8 max-w-[52ch] pt-6 text-sm leading-relaxed text-ink-soft">
+            {t.sinExtras}
+          </p>
+        ) : (
         <fieldset className="jv-rule mt-8 pt-6">
           <legend className="jv-eyebrow text-ink-muted">{t.extras}</legend>
           <ul className="mt-4 flex flex-col divide-y divide-line border-y border-line">
-            {extras.map((e) => {
+            {disponibles.map((e) => {
               const marcado = marcados.includes(e.clave);
               return (
                 <li key={e.clave}>
@@ -234,6 +264,7 @@ export function Recibo({
             })}
           </ul>
         </fieldset>
+        )}
 
         {/* Lo que cobra un tercero. Va en la misma pieza y NO suma: es la
             mitad de la honestidad de esta página. */}
@@ -318,7 +349,10 @@ export function Recibo({
           </div>
 
           <Link
-            href={`${hrefAgenda}?servicio=${servicioAgenda}&nota=${encodeURIComponent(nota)}`}
+            /* El servicio sale de la base elegida. Iba fijo en «web», así que
+               armar una propuesta de chatbot abría la llamada marcando página
+               web y había que corregirlo a mano. */
+            href={`${hrefAgenda}?servicio=${elegida?.servicio ?? servicioAgenda}&nota=${encodeURIComponent(nota)}`}
             className="jv-boton mt-5 flex w-full items-center justify-center gap-2"
           >
             {t.llevar}
