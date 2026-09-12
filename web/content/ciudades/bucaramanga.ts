@@ -92,7 +92,7 @@ export const BUCARAMANGA: Ciudad = {
   },
 
   precioNota:
-    "No compito por ser el más barato de Bucaramanga: compito porque el precio está publicado y el tuyo es el mismo que le cobro a un negocio de Turbaco. No sube porque tu dirección diga Santander.",
+    "Es el mismo número que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Santander.",
 
   sinCliente: {
     rotulo: "La casilla de Santander",

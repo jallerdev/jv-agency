@@ -37,12 +37,12 @@ export const WEB = {
 
   diferenciador: {
     titulo: {
-      es: "Casi nadie publica precio y plazo juntos.",
-      en: "Almost nobody publishes price and timeline together.",
+      es: "Saber cuánto cuesta suele tomar tres llamadas.",
+      en: "Finding out what it costs usually takes three calls.",
     },
     acento: {
-      es: "Y ninguno dice quién escribe el código.",
-      en: "And none of them says who writes the code.",
+      es: "Aquí, bajar la página.",
+      en: "Here, scrolling down.",
     },
     parrafo1: {
       es: "Unas agencias ponen precio y no dicen cuánto tardan; otras dicen «de 4 a 8 semanas» y te mandan a un formulario. Saber cuánto te cuesta te toma tres llamadas.",

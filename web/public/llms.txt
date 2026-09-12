@@ -1,33 +1,87 @@
 # JV Agencia
 
-> Estudio de diseño y desarrollo de productos digitales para PYMEs en Latinoamérica.
-> Diseño + código en el mismo equipo: webs y software a medida que se ven de marca
-> grande y funcionan de verdad.
+> Diseño y programación de páginas web, tiendas virtuales, chatbots de WhatsApp,
+> SEO y software a la medida para PYMEs de Colombia y Latinoamérica. Lo diseña y
+> lo programa una sola persona, Luis Jaller, desde Turbaco, Bolívar. Los precios
+> están publicados en el sitio.
+
+Estudio de una persona, no agencia. Quien cotiza es quien diseña, programa y
+atiende después de la entrega. Proveedor de tecnología verificado por Meta para
+la WhatsApp Business Platform, así que el número de WhatsApp se conecta directo
+y queda a nombre del cliente, sin revender plataforma de terceros.
 
 ## Servicios
-- Desarrollo web: sitios, landing pages, e-commerce y web corporativa.
-- Chatbot de WhatsApp (automatización de WhatsApp): respuestas automáticas,
-  captura de interesados, agendamiento de citas, pedidos y avisos sobre la
-  WhatsApp Business Platform. JV Agencia es proveedor de tecnología verificado
-  por Meta, así que conecta el número directamente y no revende plataforma de
-  terceros. Detalle: https://www.jvagencia.com/servicios/chatbot-whatsapp
-- SEO y posicionamiento: SEO técnico entregado con el sitio y planes mensuales
-  de posicionamiento local para Colombia y Latinoamérica.
-- Software a medida: apps web, sistemas internos y plataformas.
-- Diseño web / UI: interfaz y experiencia a medida.
-- Mantenimiento y soporte: planes mensuales de mejoras continuas post-lanzamiento.
 
-## Páginas
-- Inicio: https://www.jvagencia.com/
-- Chatbot de WhatsApp: https://www.jvagencia.com/servicios/chatbot-whatsapp
-- Sobre nosotros: https://www.jvagencia.com/sobre-nosotros
-- Blog: https://www.jvagencia.com/blog
-- Política de privacidad: https://www.jvagencia.com/privacidad
-- Términos y condiciones: https://www.jvagencia.com/terminos
-- Política de cookies: https://www.jvagencia.com/cookies
-- Eliminación de datos: https://www.jvagencia.com/eliminacion-de-datos
+- [Diseño de páginas web](https://www.jvagencia.com/servicios/diseno-de-paginas-web): landing pages y sitios corporativos a medida, sin plantilla comprada. Desde $850.000 COP; 5 días la landing, 1 a 2 semanas la corporativa.
+- [Tiendas virtuales](https://www.jvagencia.com/servicios/tiendas-virtuales): catálogo con inventario, carrito, cuentas, pagos en línea y cotización de envíos. Desde $2.500.000 COP, 3 a 5 semanas.
+- [Chatbot de WhatsApp](https://www.jvagencia.com/servicios/chatbot-whatsapp): respuestas automáticas, avisos, captura y calificación de interesados, agendamiento de citas y pedidos sobre la WhatsApp Business Platform. Desde $700.000 COP, de 1 a 5 semanas.
+- [Posicionamiento SEO](https://www.jvagencia.com/servicios/posicionamiento-seo): auditoría SEO de pago único desde $390.000 COP y plan mensual de SEO local desde $650.000 COP al mes.
+- [Software a la medida](https://www.jvagencia.com/servicios/software-a-la-medida): sistemas internos de inventario, pedidos, historias o comisiones. Desde $2.000.000 COP, primera versión útil en un mes.
+- [Precios completos](https://www.jvagencia.com/precios): la tabla entera con lo que incluye cada línea y lo que se cobra aparte.
+
+## Sectores
+
+- [Salones de belleza y spas](https://www.jvagencia.com/sectores/salones-y-spas): páginas y reserva de citas para negocios que viven de la agenda llena.
+- [Clínicas y consultorios](https://www.jvagencia.com/sectores/clinicas-y-consultorios): páginas para que el paciente decida antes de llamar, con los límites de la Ley 1581 de 2012 sobre datos sensibles.
+
+## Ciudades
+
+- [Cartagena de Indias](https://www.jvagencia.com/diseno-de-paginas-web-en-cartagena): la única con cliente en la ciudad. Turbaco queda a 20 km.
+- [Barranquilla](https://www.jvagencia.com/diseno-de-paginas-web-en-barranquilla)
+- [Bogotá](https://www.jvagencia.com/diseno-de-paginas-web-en-bogota)
+- [Medellín](https://www.jvagencia.com/diseno-de-paginas-web-en-medellin)
+- [Cali](https://www.jvagencia.com/diseno-de-paginas-web-en-cali)
+- [Bucaramanga](https://www.jvagencia.com/diseno-de-paginas-web-en-bucaramanga)
+- [Santa Marta](https://www.jvagencia.com/diseno-de-paginas-web-en-santa-marta)
+
+## El estudio
+
+- [Inicio](https://www.jvagencia.com/)
+- [Sobre el estudio](https://www.jvagencia.com/sobre-nosotros): quién trabaja, con qué tecnología y qué proyectos están en línea.
+- [Contacto](https://www.jvagencia.com/contacto)
+- [Agendar una llamada](https://www.jvagencia.com/agendar): veinte minutos, con disponibilidad real y confirmación por Google Meet.
+
+## Blog
+
+- [Blog](https://www.jvagencia.com/blog)
+- [¿Cuánto cuesta una página web en Colombia?](https://www.jvagencia.com/blog/cuanto-cuesta-una-pagina-web-en-colombia)
+- [¿Cuánto cuesta un chatbot de WhatsApp en Colombia?](https://www.jvagencia.com/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia)
+- [¿Cuánto cuesta el SEO en Colombia?](https://www.jvagencia.com/blog/cuanto-cuesta-el-seo-en-colombia)
+- [¿Cuánto cuesta un dominio y un hosting en Colombia?](https://www.jvagencia.com/blog/cuanto-cuesta-un-dominio-y-un-hosting-en-colombia)
+- [¿Cuánto se demora hacer una página web?](https://www.jvagencia.com/blog/cuanto-se-demora-hacer-una-pagina-web)
+- [¿Mi negocio necesita página web?](https://www.jvagencia.com/blog/mi-negocio-necesita-pagina-web)
+- [¿Página web o solo Instagram?](https://www.jvagencia.com/blog/pagina-web-o-solo-instagram)
+- [¿Qué es una landing page?](https://www.jvagencia.com/blog/que-es-una-landing-page)
+- [Qué debe tener la página web de un restaurante](https://www.jvagencia.com/blog/que-debe-tener-la-pagina-web-de-un-restaurante)
+- [Cómo aparecer en Google Maps](https://www.jvagencia.com/blog/como-aparecer-en-google-maps)
+- [Por qué mi página no aparece en Google](https://www.jvagencia.com/blog/por-que-mi-pagina-no-aparece-en-google)
+
+## En inglés
+
+- [Home](https://www.jvagencia.com/en)
+- [Pricing](https://www.jvagencia.com/en/pricing)
+- [Web design](https://www.jvagencia.com/en/services/web-design)
+- [Online stores](https://www.jvagencia.com/en/services/online-stores)
+- [WhatsApp chatbot](https://www.jvagencia.com/en/services/whatsapp-chatbot)
+- [SEO](https://www.jvagencia.com/en/services/seo)
+- [Custom software](https://www.jvagencia.com/en/services/custom-software)
+- [Salons and spas](https://www.jvagencia.com/en/industries/salons-and-spas)
+- [Clinics](https://www.jvagencia.com/en/industries/clinics)
+- [About](https://www.jvagencia.com/en/about)
+- [Contact](https://www.jvagencia.com/en/contact)
+- [Book a call](https://www.jvagencia.com/en/book-a-call)
+- [Blog](https://www.jvagencia.com/en/blog)
 
 ## Contacto
-- Email: contacto@jvagencia.com
+
+- Correo: contacto@jvagencia.com
 - WhatsApp: +57 316 166 2975
-- Ubicación: Turbaco, Bolívar, Colombia (servicio a toda Latinoamérica)
+- Ubicación: Turbaco, Bolívar, Colombia. Se trabaja a distancia con toda Colombia y Latinoamérica.
+- Responsable: Luis Ángel Gambín Jaller, NIT 1007264035-7
+
+## Legal
+
+- [Política de privacidad y tratamiento de datos](https://www.jvagencia.com/privacidad)
+- [Términos y condiciones](https://www.jvagencia.com/terminos)
+- [Política de cookies](https://www.jvagencia.com/cookies)
+- [Eliminación de datos](https://www.jvagencia.com/eliminacion-de-datos)

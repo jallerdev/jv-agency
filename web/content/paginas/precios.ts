@@ -238,8 +238,8 @@ export const PRECIOS = {
   titulo: { es: "Los precios,", en: "The prices," },
   tituloAcento: { es: "publicados.", en: "published." },
   entradilla: {
-    es: "Casi nadie los pone. Yo sí: miras el número y sabes si te sirvo, sin gastar una llamada.",
-    en: "Almost nobody publishes them. I do: you look at the number and know whether I'm any use to you, without spending a call.",
+    es: "Miras el número y sabes si te sirvo, sin gastar una llamada. Cada línea dice qué incluye y qué se cobra aparte.",
+    en: "You look at the number and know whether I'm any use to you, without spending a call. Each line says what it includes and what is billed separately.",
   },
   tablaTitulo: { es: "Precios y plazos", en: "Prices and timelines" },
   documento: {

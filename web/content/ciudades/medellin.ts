@@ -91,7 +91,7 @@ export const MEDELLIN: Ciudad = {
   },
 
   precioNota:
-    "No compito por ser el más barato de Medellín: compito porque el precio está publicado y el tuyo es el mismo que le cobro a un negocio de Turbaco. No sube porque tu dirección diga Antioquia.",
+    "Es el mismo número que le cobro a un negocio de Turbaco: no sube porque tu dirección diga Antioquia.",
 
   sinCliente: {
     rotulo: "La casilla de Antioquia",
