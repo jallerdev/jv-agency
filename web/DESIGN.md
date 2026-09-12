@@ -262,11 +262,16 @@ detector la marcaba como salida del sistema:
 | `ui-xs` | 0.875rem | `.skip-link`, pastillas y pies de tabla |
 | `text-xs` | 0.75rem | cifras de las demos, horas, pies de fuente y el rótulo |
 
-**Fuera de la escala, y es deuda anotada:** `.legal` corre su propio ramal
-—1.4rem en el h2, 1.1rem en el h3, 0.975rem en el cuerpo— que no coincide con
-ningún paso del sistema; y `MetaTechProvider` usa `text-[13px]` y `1.75rem`
-sueltos. Ninguno es visible en la portada, así que ninguno se toca en caliente:
-se alinean cuando les toque su fase.
+**`.legal` ya está alineado.** Corría su propio ramal —1.4rem en el h2, 1.1rem
+en el h3, 0.975rem en el cuerpo— y los tres se fueron a la escala: el cuerpo a
+`--text-body-size` al rehacer las páginas legales, y los dos titulares a
+`--text-h3` y `--text-h4`. El paso de tabla, 0.9375rem, ya era `ui-sm`.
+
+**Fuera de la escala, y es la deuda que queda:** `MetaTechProvider` usa
+`text-[13px]` y `1.75rem` sueltos. Sí es visible en la portada —es la tarjeta
+de la credencial de Meta en el hero—, así que no se toca en caliente: la §12.1
+del encargo declara la portada referencia intocable y alinear esos dos valores
+la cambiaría de aspecto sin que nadie lo haya pedido.
 
 **Medida de línea: 65–75 caracteres.** `main p` sin `max-w` propio hereda
 `68ch`. El tope solo aplica a quien no declara el suyo: donde alguien escribió

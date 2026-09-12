@@ -346,14 +346,25 @@
     font-family: var(--font-body), system-ui, sans-serif;
     line-height: 1.7;
   }
+  /* LOS DOS TITULARES VAN A LA ESCALA, y era la última deuda que `DESIGN.md`
+     dejaba anotada de este bloque: «.legal corre su propio ramal —1.4rem en el
+     h2, 1.1rem en el h3, 0.975rem en el cuerpo—... se alinean cuando les toque
+     su fase». El cuerpo se alineó al rehacer las legales; estos dos se
+     quedaron, y su fase ya pasó.
+
+     `--text-h3` para el h2 y `--text-h4` para el h3, que es el escalón que le
+     toca a un documento: el `--text-h2` del sistema es un titular de sección de
+     hasta 38 px y aquí lo que hay son epígrafes numerados de una política de
+     privacidad. La diferencia visual es de un píxel y medio en cada uno; lo que
+     cambia es que dejan de ser dos valores que solo existen aquí. */
   .legal h2 {
-    font-size: 1.4rem;
+    font-size: var(--text-h3);
     margin-top: 2.5rem;
     margin-bottom: 0.75rem;
     color: var(--color-ink);
   }
   .legal h3 {
-    font-size: 1.1rem;
+    font-size: var(--text-h4);
     margin-top: 1.75rem;
     margin-bottom: 0.5rem;
     color: var(--color-ink);
