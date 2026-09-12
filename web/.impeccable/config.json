@@ -155,6 +155,16 @@
         ],
         "createdAt": "2026-09-12T07:10:00.000Z",
         "reason": "Solo en la cabecera, y solo ahi. Es la barra que se compacta al bajar (§8.17 del encargo): de 88 a 68 px, con la transicion sobre `height` porque hay que devolverle veinte pixeles de pantalla al contenido y un transform los dejaria reservados. El reflujo no sale del <header>: es position:fixed y nada del documento depende de su alto —las cuarenta paginas reservan --header-h, que es constante—. MEDIDO con traza de devtools.timeline, doce transiciones ida y vuelta sobre la portada: 3,7 ms de Layout en total, 0,31 ms por transicion, contra 0 ms con la barra congelada."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "11px",
+        "files": [
+          "app/globals.css",
+          "web/app/globals.css"
+        ],
+        "createdAt": "2026-09-12T12:26:08.483Z",
+        "reason": "Falso positivo comprobado: el '11px' esta DENTRO de un comentario de app/globals.css (linea 613), en el inventario que documenta las 223 repeticiones que justificaron crear las clases de componente — '65x font-mono text-[11px] uppercase tracking-... -> antetitulo'. Describe como se escribia el antetitulo ANTES del refactor, no una declaracion viva: la clase real es .jv-eyebrow y toma su tamano de var(--text-eyebrow)."
       }
     ]
   }
