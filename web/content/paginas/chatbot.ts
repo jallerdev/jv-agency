@@ -185,8 +185,8 @@ export const CHATBOT = {
        esas cosas que no se leen mal pero delatan que el texto viene traducido,
        así que va en la tabla como cualquier otra frase. */
     horas: {
-      es: ["9:41 p. m.", "9:41 p. m.", "9:42 p. m.", "9:42 p. m.", "9:42 p. m."],
-      en: ["9:41 p.m.", "9:41 p.m.", "9:42 p.m.", "9:42 p.m.", "9:42 p.m."],
+      es: ["9:41 p. m.", "9:41 p. m.", "9:42 p. m.", "9:42 p. m.", "9:42 p. m.", "9:43 p. m."],
+      en: ["9:41 p.m.", "9:41 p.m.", "9:42 p.m.", "9:42 p.m.", "9:42 p.m.", "9:43 p.m."],
     } as Traducido<readonly string[]>,
   },
 
@@ -213,6 +213,9 @@ export const CHATBOT = {
       negocio: { es: "Salón de ejemplo", en: "Example salon" },
       iniciales: "SE",
     },
+    /* RESPUESTAS AUTOMÁTICAS. Lo que prueba: contesta lo repetido al instante y
+       a las 9:41 de la noche, y SABE DÓNDE PARA. La última es el traspaso: un
+       bot que promete saberlo todo es el que espanta al cliente. */
     faq: {
       aprobado: false,
       negocio: { es: "Negocio de ejemplo", en: "Example business" },
@@ -220,35 +223,53 @@ export const CHATBOT = {
       mensajes: {
         es: [
           "Buenas, ¿a qué hora abren hoy?",
-          "¡Hola! Hoy abrimos de 8:00 a. m. a 6:00 p. m., y los sábados hasta las 2:00 p. m.",
+          "¡Hola! Hoy hasta las 6:00 p. m. Los sábados cerramos a las 2:00 p. m.",
           "¿Y hacen domicilios?",
-          "Sí, dentro de la ciudad. Dime tu barrio y te digo de una si llegamos y cuánto sale.",
+          "Sí, dentro de la ciudad. Dime por dónde queda y te confirmo de una si llegamos.",
+          "Aquí cerca, a unas diez cuadras",
+          "Ahí llegamos sin problema. Y lo que yo no sepa contestar, mañana a primera hora te lo contesta una persona del negocio.",
         ],
         en: [
-          "Hi, what time do you open today?",
-          "Hi! Today we're open 8:00 a.m. to 6:00 p.m., and Saturdays until 2:00 p.m.",
+          "Hi, what time do you close today?",
+          "Hi! Today until 6:00 p.m. On Saturdays we close at 2:00 p.m.",
           "And do you deliver?",
-          "Yes, within the city. Tell me your neighbourhood and I'll tell you straight away if we reach it and what it costs.",
+          "Yes, within the city. Tell me roughly where you are and I'll confirm straight away whether we reach it.",
+          "Close by, about ten blocks away",
+          "We reach that easily. And anything I can't answer, someone from the business will answer first thing tomorrow.",
         ],
       } as Traducido<readonly string[]>,
     },
+    /* AVISOS Y RECORDATORIOS. Lo que prueba no es que el negocio pueda mandar
+       un mensaje —eso lo hace cualquiera— sino que el cliente puede RESPONDER y
+       cambiarlo sin llamar a nadie. Ahí es donde se caen las citas perdidas.
+       Cinco burbujas y no seis: abre el negocio, así que con seis la última
+       sería del cliente y la conversación acabaría sin respuesta. */
     avisos: {
       aprobado: false,
       negocio: { es: "Negocio de ejemplo", en: "Example business" },
       iniciales: "NE",
       mensajes: {
         es: [
-          "Tu pedido ya está listo. Lo puedes recoger hoy hasta las 6:00 p. m.",
-          "Perfecto, paso a las 5",
-          "Anotado. Si algo cambia, respóndeme por acá y lo movemos.",
+          "Tu pedido ya está listo. Lo puedes recoger mañana desde las 8:00 a. m.",
+          "Perfecto, paso mañana a las 5",
+          "Anotado para mañana a las 5:00 p. m. Si algo cambia, respóndeme por acá y lo movemos.",
+          "Uy, mejor el jueves. Se me complicó",
+          "Listo, te lo guardo hasta el jueves. Te escribo por acá cuando abramos.",
         ],
         en: [
-          "Your order is ready. You can pick it up today until 6:00 p.m.",
-          "Perfect, I'll come by at 5",
-          "Noted. If anything changes, reply here and we'll move it.",
+          "Your order is ready. You can pick it up from 8:00 a.m. tomorrow.",
+          "Perfect, I'll come by at 5 tomorrow",
+          "Noted for tomorrow at 5:00 p.m. If anything changes, reply here and we'll move it.",
+          "Actually, better Thursday. Something came up",
+          "Done, I'll hold it until Thursday. I'll message you here when we open.",
         ],
       } as Traducido<readonly string[]>,
     },
+    /* CAPTURA Y CALIFICACIÓN. Lo que prueba: hace las dos preguntas que ahorran
+       la primera llamada y ENTREGA al interesado con esas respuestas puestas.
+       Las preguntas van de una en una: dos juntas en el mismo mensaje se
+       contestan a medias, y eso lo sabe cualquiera que haya mandado un
+       formulario por WhatsApp. */
     leads: {
       aprobado: false,
       negocio: { es: "Negocio de ejemplo", en: "Example business" },
@@ -256,18 +277,25 @@ export const CHATBOT = {
       mensajes: {
         es: [
           "Hola, quiero cotizar",
-          "Con gusto. Dos preguntas rápidas para no hacerte repetir después: ¿para cuándo lo necesitas y en qué ciudad estás?",
-          "Para el mes entrante, en Barranquilla",
-          "Listo. Te dejo con una persona del equipo y le paso esos dos datos, así arrancas la conversación adelantado.",
+          "Con gusto. Dos preguntas rápidas para no hacerte repetir después: ¿para cuándo lo necesitas?",
+          "Para el mes entrante, todavía sin fecha fija",
+          "Perfecto. ¿Y en qué ciudad estás?",
+          "En Barranquilla",
+          "Listo. Le paso esos dos datos a una persona del equipo y te escribe mañana a primera hora, así arrancas la conversación adelantado.",
         ],
         en: [
           "Hi, I'd like a quote",
-          "Happy to. Two quick questions so you don't have to repeat yourself later: when do you need it and which city are you in?",
-          "Next month, in Barranquilla",
-          "Done. I'm handing you to someone on the team with those two details, so you start the conversation ahead.",
+          "Happy to. Two quick questions so you don't have to repeat yourself later: when do you need it?",
+          "Next month, no fixed date yet",
+          "Got it. And which city are you in?",
+          "Barranquilla",
+          "Done. I'll pass those two details to someone on the team and they'll write to you first thing tomorrow, so you start the conversation ahead.",
         ],
       } as Traducido<readonly string[]>,
     },
+    /* PEDIDOS Y CATÁLOGO. Lo que prueba es el CICLO COMPLETO —hay, aparto,
+       cobro, confirmo— y no solo la consulta de inventario. La objeción real es
+       «¿y quién me avisa cuando pague?»: la última burbuja es esa respuesta. */
     pedidos: {
       aprobado: false,
       negocio: { es: "Negocio de ejemplo", en: "Example business" },
@@ -277,13 +305,17 @@ export const CHATBOT = {
           "¿Todavía tienen el kit de tres?",
           "Sí, queda en inventario. ¿Te lo aparto?",
           "Sí, por favor",
-          "Hecho, queda apartado a tu nombre. Te paso el enlace de pago y apenas entre te confirmo por acá.",
+          "Hecho, queda apartado a tu nombre. Te paso el enlace de pago y lo dejo reservado mientras tanto.",
+          "Ya pagué",
+          "Confirmado, entró el pago. Te aviso por acá apenas salga para tu dirección.",
         ],
         en: [
           "Do you still have the set of three?",
           "Yes, it's in stock. Shall I hold it for you?",
           "Yes, please",
-          "Done, it's held in your name. I'll send you the payment link and confirm here as soon as it comes through.",
+          "Done, it's held in your name. I'll send you the payment link and keep it reserved meanwhile.",
+          "Just paid",
+          "Confirmed, the payment came through. I'll let you know here as soon as it ships to your address.",
         ],
       } as Traducido<readonly string[]>,
     },
