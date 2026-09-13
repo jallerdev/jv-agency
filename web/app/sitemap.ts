@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { POSTS } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 import { RUTAS } from "@/lib/rutas";
+import { revisado } from "@/lib/revisiones";
 
 // Páginas de ciudad: intención de DECISIÓN ("diseño de páginas web en X").
 // Son las que traen a alguien que ya quiere contratar, así que pesan igual
@@ -69,13 +70,15 @@ function pareja(ruta: string, en: string) {
   };
 }
 
-/** La entrada de la URL inglesa, con el mismo par que su castellana. */
-function enConPar(rutaEs: string, prioridad: number) {
+/** La entrada de la URL inglesa, con el mismo par y la misma fecha que su
+ *  castellana: son la misma página traducida, así que se revisan juntas. */
+function enConPar(rutaEs: string, prioridad: number, zona: Parameters<typeof revisado>[0]) {
   const en = RUTAS[rutaEs];
   if (!en) return [];
   return [
     {
       url: `${SITE_URL}${en}`,
+      lastModified: revisado(zona),
       changeFrequency: "monthly" as const,
       priority: prioridad,
       alternates: { languages: pareja(rutaEs, en) },
@@ -90,18 +93,26 @@ const ES_DE: Readonly<Record<string, string>> = Object.fromEntries(
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: SITE_URL, changeFrequency: "monthly", priority: 1, alternates: idiomas("/") },
+    {
+      url: SITE_URL,
+      lastModified: revisado("portada"),
+      changeFrequency: "monthly",
+      priority: 1,
+      alternates: idiomas("/"),
+    },
     /* La portada en inglés entra como URL propia: `alternates` le dice a
        Google que son la misma página en dos lenguas, pero cada una tiene que
        estar listada para que la rastree. */
-    ...enConPar("/", 0.9),
+    ...enConPar("/", 0.9, "portada"),
     ...CIUDADES.map((ruta) => ({
       url: `${SITE_URL}/${ruta}`,
+      lastModified: revisado("ciudades"),
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
     ...SERVICIOS.map((ruta) => ({
       url: `${SITE_URL}/${ruta}`,
+      lastModified: revisado("servicios"),
       changeFrequency: "monthly" as const,
       priority: 0.9,
       alternates: idiomas(`/${ruta}`),
@@ -114,6 +125,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       .filter((en) => en.startsWith("/en/services/"))
       .map((en) => ({
         url: `${SITE_URL}${en}`,
+        lastModified: revisado("servicios"),
         changeFrequency: "monthly" as const,
         priority: 0.8,
         alternates: { languages: pareja(ES_DE[en], en) },
@@ -122,13 +134,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // contratar y la enlazan el Header, el Hero, el pie y cada articulo.
     {
       url: `${SITE_URL}/precios`,
+      lastModified: revisado("precios"),
       changeFrequency: "monthly",
       priority: 0.9,
       alternates: idiomas("/precios"),
     },
-    ...enConPar("/precios", 0.8),
+    ...enConPar("/precios", 0.8, "precios"),
     ...SECTORES.map((ruta) => ({
       url: `${SITE_URL}/${ruta}`,
+      lastModified: revisado("sectores"),
       changeFrequency: "monthly" as const,
       priority: 0.85,
       alternates: idiomas(`/${ruta}`),
@@ -137,17 +151,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       .filter((en) => en.startsWith("/en/industries/"))
       .map((en) => ({
         url: `${SITE_URL}${en}`,
+        lastModified: revisado("sectores"),
         changeFrequency: "monthly" as const,
         priority: 0.75,
         alternates: { languages: pareja(ES_DE[en], en) },
       })),
     {
       url: `${SITE_URL}/blog`,
+      lastModified: revisado("blog"),
       changeFrequency: "weekly",
       priority: 0.9,
       alternates: idiomas("/blog"),
     },
-    ...enConPar("/blog", 0.8),
+    ...enConPar("/blog", 0.8, "blog"),
     // Los posts salen del manifest de lib/blog.ts: al agregar uno allí entra
     // solo acá, sin tener que acordarse de tocar este archivo.
     //
@@ -180,28 +196,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
     {
       url: `${SITE_URL}/sobre-nosotros`,
+      lastModified: revisado("sobre"),
       changeFrequency: "monthly",
       priority: 0.7,
       alternates: idiomas("/sobre-nosotros"),
     },
-    ...enConPar("/sobre-nosotros", 0.6),
+    ...enConPar("/sobre-nosotros", 0.6, "sobre"),
     {
       url: `${SITE_URL}/contacto`,
+      lastModified: revisado("contacto"),
       changeFrequency: "monthly",
       priority: 0.8,
       alternates: idiomas("/contacto"),
     },
-    ...enConPar("/contacto", 0.7),
+    ...enConPar("/contacto", 0.7, "contacto"),
     {
       url: `${SITE_URL}/agendar`,
+      lastModified: revisado("agendar"),
       changeFrequency: "monthly",
       priority: 0.8,
       alternates: idiomas("/agendar"),
     },
-    ...enConPar("/agendar", 0.7),
-    { url: `${SITE_URL}/privacidad`, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${SITE_URL}/terminos`, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${SITE_URL}/cookies`, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${SITE_URL}/eliminacion-de-datos`, changeFrequency: "yearly", priority: 0.3 },
+    ...enConPar("/agendar", 0.7, "agendar"),
+    /* La fecha de las legales es la del TEXTO legal, no la del último retoque
+       de maqueta: es lo único que le importa a quien la lee, y es la misma que
+       la propia página escribe en su encabezado. */
+    ...["privacidad", "terminos", "cookies", "eliminacion-de-datos"].map((ruta) => ({
+      url: `${SITE_URL}/${ruta}`,
+      lastModified: revisado("legales"),
+      changeFrequency: "yearly" as const,
+      priority: 0.3,
+    })),
   ];
 }
