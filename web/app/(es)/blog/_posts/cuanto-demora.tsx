@@ -146,8 +146,8 @@ export function CuantoDemoraPost() {
         Y en SEO el tiempo compone: una página que lleva seis meses publicada rankea mejor que
         una idéntica publicada ayer. Salir antes no es solo llegar antes — es empezar antes el
         reloj que sí importa. Ese reloj tiene su propio presupuesto, aparte del de la web:{" "}
-        <Link href="/blog/cuanto-cuesta-el-seo-en-colombia">
-          cuánto cuesta el SEO en Colombia
+        <Link href="/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia">
+          cuánto cuesta el posicionamiento SEO en Colombia
         </Link>
         .
       </p>

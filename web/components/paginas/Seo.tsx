@@ -510,7 +510,7 @@ export function PaginaSeo({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
               </Link>
               {SEO.restoPreciosMedio[idioma]}
               <Link
-                href="/blog/cuanto-cuesta-el-seo-en-colombia"
+                href="/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia"
                 className="jv-enlace font-semibold text-brand"
               >
                 {SEO.restoPreciosBlog[idioma]}

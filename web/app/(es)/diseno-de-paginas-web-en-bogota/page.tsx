@@ -568,7 +568,7 @@ export default function DisenoPaginasWebBogotaPage() {
               </Link>{" "}
               y{" "}
               <Link
-                href="/blog/cuanto-cuesta-el-seo-en-colombia"
+                href="/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia"
                 className="jv-enlace font-semibold text-brand"
               >
                 cuánto cuesta el SEO

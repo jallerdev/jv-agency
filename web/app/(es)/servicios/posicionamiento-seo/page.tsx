@@ -7,14 +7,27 @@ import { SITE_URL } from "@/lib/site";
  * El término va con las dos palabras juntas —posicionamiento y SEO— porque así
  * es como se busca acá y así lo titula el líder del sector.
  *
- * ESTA PÁGINA NO REPITE EL ARTÍCULO DEL BLOG: «¿Cuánto cuesta el SEO en
- * Colombia?» explica el mercado con tablas y fuentes citadas; esta vende el
- * servicio. Se enlazan, no se copian.
+ * ESTA PÁGINA NO REPITE EL ARTÍCULO DEL BLOG: «¿Cuánto cuesta el posicionamiento
+ * SEO en Colombia?» explica el mercado con tablas y fuentes citadas; esta vende
+ * el servicio. Se enlazan, no se copian.
+ *
+ * POR QUÉ LA DESCRIPCIÓN YA NO LLEVA PRECIOS
+ * ------------------------------------------
+ * Los llevaba —«Auditoría desde $390.000 y plan mensual desde $650.000»— y eso
+ * la metía a competir contra su propio artículo por «cuánto cuesta el
+ * posicionamiento SEO en Colombia». Search Console lo mostraba partido el
+ * 2026-09-15: esta página en el puesto 61,8 y el artículo en el 24, para la
+ * misma consulta. Google no sabía cuál servir y no subía ninguna.
+ *
+ * El reparto quedó así: el artículo responde CUÁNTO CUESTA, esta página
+ * responde QUIÉN LO HACE. Los precios siguen en el cuerpo, que es donde
+ * convierten, y en el openGraph, que es lo que se ve al compartir y no compite
+ * en búsqueda.
  */
 export const metadata: Metadata = {
   title: "Posicionamiento SEO en Colombia | JV Agencia",
   description:
-    "Posicionamiento web y SEO local en Colombia. Auditoría desde $390.000 y plan mensual desde $650.000. No prometo el primer puesto: garantizo el trabajo y el informe.",
+    "Posicionamiento web y SEO local en Colombia para PYMEs. No prometo el primer puesto: garantizo el trabajo, el informe mensual y que sepas exactamente qué se hizo.",
   alternates: {
     canonical: "/servicios/posicionamiento-seo",
     languages: {

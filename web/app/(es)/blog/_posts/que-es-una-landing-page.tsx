@@ -114,8 +114,8 @@ export function QueEsUnaLandingPagePost() {
         Así que si tu plan es &quot;hago la landing y dejo de pagar publicidad cuando empiece a
         aparecer en Google&quot;, ese plan tiene un hueco. Aparecer en Google es otro trabajo, con
         su propio presupuesto y sus propios plazos —{" "}
-        <Link href="/blog/cuanto-cuesta-el-seo-en-colombia">
-          cuánto cuesta el SEO en Colombia
+        <Link href="/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia">
+          cuánto cuesta el posicionamiento SEO en Colombia
         </Link>{" "}
         lo desarrolla.
       </p>

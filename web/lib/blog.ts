@@ -144,11 +144,11 @@ export const POSTS: BlogPost[] = [
   {
     slug: SLUGS.cuestaSeo,
     title: {
-      es: "¿Cuánto cuesta el SEO en Colombia? Precios reales 2026",
+      es: "¿Cuánto cuesta el posicionamiento SEO en Colombia? 2026",
       en: "How much does SEO cost in Colombia? Real 2026 prices",
     },
     description: {
-      es: "Rangos reales del posicionamiento mensual y de las auditorías en Colombia, por qué existe un piso de precio y cómo reconocer el humo.",
+      es: "Cuánto cuesta el posicionamiento SEO en Colombia: rangos reales del plan mensual y de la auditoría, por qué hay un piso de precio y cómo reconocer el humo.",
       en: "Real ranges for monthly SEO work and audits in Colombia, why a price floor exists, and how to spot the sales pitch.",
     },
     excerpt: {

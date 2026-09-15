@@ -27,7 +27,7 @@ export const SLUGS = {
     en: "how-much-does-a-whatsapp-chatbot-cost-in-colombia",
   },
   cuestaSeo: {
-    es: "cuanto-cuesta-el-seo-en-colombia",
+    es: "cuanto-cuesta-el-posicionamiento-seo-en-colombia",
     en: "how-much-does-seo-cost-in-colombia",
   },
   necesitaWeb: {

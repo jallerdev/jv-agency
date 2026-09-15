@@ -161,7 +161,7 @@ export function NoApareceEnGooglePost() {
         está frenando hoy y la lista de arreglos en orden de impacto, para que la ejecute
         cualquiera — yo o tu proveedor actual. Cuánto cuesta ese trabajo en el mercado colombiano,
         con rangos y qué debería incluir, está en{" "}
-        <Link href="/blog/cuanto-cuesta-el-seo-en-colombia">cuánto cuesta el SEO en Colombia</Link>
+        <Link href="/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia">cuánto cuesta el posicionamiento SEO en Colombia</Link>
         .
       </p>
       <p>

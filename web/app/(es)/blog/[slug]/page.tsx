@@ -37,7 +37,7 @@ const CUERPOS: Record<string, () => React.JSX.Element> = {
   "que-debe-tener-la-pagina-web-de-un-restaurante": WebRestaurantePost,
   "cuanto-se-demora-hacer-una-pagina-web": CuantoDemoraPost,
   "cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia": CuantoCuestaChatbotPost,
-  "cuanto-cuesta-el-seo-en-colombia": CuantoCuestaSeoPost,
+  "cuanto-cuesta-el-posicionamiento-seo-en-colombia": CuantoCuestaSeoPost,
   "como-aparecer-en-google-maps": AparecerEnGoogleMapsPost,
   "por-que-mi-pagina-no-aparece-en-google": NoApareceEnGooglePost,
   "cuanto-cuesta-un-dominio-y-un-hosting-en-colombia": DominioYHostingPost,

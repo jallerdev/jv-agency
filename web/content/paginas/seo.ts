@@ -480,7 +480,7 @@ export const SEO = {
           es: "¿Cuánto cuesta el SEO en Colombia?",
           en: "What does SEO cost in Colombia?",
         },
-        href: "/blog/cuanto-cuesta-el-seo-en-colombia",
+        href: "/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia",
       },
     },
     {
@@ -638,7 +638,7 @@ export const SEO_FAQ: readonly {
     },
     enlace: {
       texto: { es: "cuánto cuesta el SEO en Colombia", en: "what SEO costs in Colombia" },
-      href: "/blog/cuanto-cuesta-el-seo-en-colombia",
+      href: "/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia",
     },
   },
   {

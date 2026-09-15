@@ -231,7 +231,7 @@ export function AparecerEnGoogleMapsPost() {
         Ese trabajo —ficha, sitio y contenido empujando juntos, mes a mes— es{" "}
         <Link href="/servicios/posicionamiento-seo">posicionamiento SEO</Link>, y lo que cuesta en
         el mercado colombiano está en{" "}
-        <Link href="/blog/cuanto-cuesta-el-seo-en-colombia">cuánto cuesta el SEO en Colombia</Link>
+        <Link href="/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia">cuánto cuesta el posicionamiento SEO en Colombia</Link>
         . Si tu negocio está en la costa o en el interior, cómo lo trabajo por ciudad está en{" "}
         <Link href="/diseno-de-paginas-web-en-cartagena">Cartagena</Link>,{" "}
         <Link href="/diseno-de-paginas-web-en-barranquilla">Barranquilla</Link>,{" "}

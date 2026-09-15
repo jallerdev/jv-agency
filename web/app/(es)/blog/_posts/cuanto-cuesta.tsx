@@ -93,7 +93,7 @@ export function CuantoCuestaPost() {
         Hay dos más que la gente da por incluidas y son servicios completos por su cuenta, cada
         uno con su propio presupuesto: posicionar el sitio para que aparezca en Google —los
         rangos están en{" "}
-        <Link href="/blog/cuanto-cuesta-el-seo-en-colombia">cuánto cuesta el SEO en Colombia</Link>—
+        <Link href="/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia">cuánto cuesta el posicionamiento SEO en Colombia</Link>—
         y automatizar el WhatsApp que empieza a sonar cuando el sitio funciona, con los números
         en{" "}
         <Link href="/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia">

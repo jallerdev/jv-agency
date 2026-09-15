@@ -219,6 +219,23 @@ const nextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  /* El artículo de precio del SEO nació como `cuanto-cuesta-el-seo-en-colombia`
+     y se renombró el 2026-09-15 para incluir «posicionamiento», que es la
+     palabra con la que de verdad se busca —y la que usan, sin excepción, las
+     siete páginas que hoy rankean por encima—. Se hizo a los seis días de
+     publicarlo, cuando todavía no había autoridad que perder.
+
+     La redirección se queda para siempre: hay enlaces externos y resultados de
+     Google apuntando al slug viejo, y un 404 ahí tira lo poco acumulado. */
+  async redirects() {
+    return [
+      {
+        source: "/blog/cuanto-cuesta-el-seo-en-colombia",
+        destination: "/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
