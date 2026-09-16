@@ -47,7 +47,12 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}/acceso`,
+      /* EL `?doc=` TIENE QUE IR EN LA URL. Facebook —y con él WhatsApp— trata
+         `og:url` como la dirección canónica y vuelve a rastrear ESA, no la que
+         le dieron. Con `/acceso` a secas el segundo rastreo llegaba sin
+         parámetro, no encontraba documento y la vista previa se quedaba en el
+         título genérico aunque el primero hubiera salido bien. */
+      url: doc ? `${SITE_URL}/acceso?doc=${doc.id}` : `${SITE_URL}/acceso`,
       siteName: "JV Agencia",
       locale: "es_LA",
       type: "website",
