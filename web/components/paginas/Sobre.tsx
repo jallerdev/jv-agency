@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Github, Linkedin, UserRound } from "lucide-react";
 
-import { SOBRE } from "@/content/paginas/sobre";
+import { GOOGLE_ACREDITADO, GOOGLE_ROTULO, SOBRE } from "@/content/paginas/sobre";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { BUSINESS, SITE_URL, WHATSAPP_LINK } from "@/lib/business";
@@ -50,6 +50,17 @@ import { MismasManos } from "@/components/visuales/MismasManos";
  */
 export function PaginaSobre({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
   const f = SOBRE.fundador;
+
+  /* EL RÓTULO DE GOOGLE VA APAGADO y se enciende desde un solo sitio. La
+     condición exacta —qué tiene que pasar antes— está escrita arriba del
+     interruptor, en `content/paginas/sobre.ts`. Aquí solo se aplica, y se
+     aplica en los tres sitios donde el rótulo significa algo: el cargo bajo el
+     nombre, la bio, y el `knowsAbout` que leen los buscadores. */
+  const rol = GOOGLE_ACREDITADO ? GOOGLE_ROTULO.rol[idioma] : f.rol[idioma];
+  const bio = GOOGLE_ACREDITADO ? f.bio[idioma] + GOOGLE_ROTULO.bio[idioma] : f.bio[idioma];
+  const conocimientos = GOOGLE_ACREDITADO
+    ? [...SOBRE.conocimientos[idioma], ...GOOGLE_ROTULO.conocimientos[idioma]]
+    : [...SOBRE.conocimientos[idioma]];
   const es = idioma === "es";
   const url = `${SITE_URL}${ruta}`;
 
@@ -63,11 +74,11 @@ export function PaginaSobre({ idioma, ruta }: { idioma: Idioma; ruta: string }) 
       "@id": `${SITE_URL}${BUSINESS.personId}`,
       "@type": "Person",
       name: BUSINESS.founderName,
-      jobTitle: f.rol[idioma],
+      jobTitle: rol,
       worksFor: { "@id": `${SITE_URL}/#organization` },
       url,
       sameAs: [f.linkedin, f.github, f.portafolio],
-      knowsAbout: SOBRE.conocimientos[idioma],
+      knowsAbout: conocimientos,
     },
   };
 
@@ -147,13 +158,13 @@ export function PaginaSobre({ idioma, ruta }: { idioma: Idioma; ruta: string }) 
             <Reveal>
               <div className="lg:sticky lg:top-28">
                 <h2 className="text-balance text-[length:var(--text-h2)]">{f.nombre}</h2>
-                <p className="jv-eyebrow mt-2 text-accent-ink">{f.rol[idioma]}</p>
+                <p className="jv-eyebrow mt-2 text-accent-ink">{rol}</p>
               </div>
             </Reveal>
 
             <Reveal delay={80}>
               <p className="max-w-[62ch] text-pretty text-[length:var(--text-lead)] leading-relaxed text-ink-soft">
-                {f.bio[idioma]}
+                {bio}
               </p>
 
               {/* LO QUE NO SE PUEDE NOMBRAR, DICHO POR SECTOR. Estaba en la

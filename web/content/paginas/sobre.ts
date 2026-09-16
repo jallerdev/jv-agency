@@ -9,6 +9,63 @@ import type { Texto } from "@/content/types";
  * mejor». Los nombres de tecnología y de proyecto tampoco se traducen: son
  * nombres propios.
  */
+/**
+ * EL RÓTULO DE GOOGLE — APAGADO A PROPÓSITO
+ * ──────────────────────────────────────────────────────────────────────────
+ * Luis pidió el 2026-09-15 figurar como experto en posicionamiento en Google,
+ * y lo pidió con una condición pegada: **«una vez logremos mejorar mucho el
+ * SEO»**. Esa segunda mitad no es un adorno de la frase, es la frase. Un
+ * estudio que vende credibilidad no puede estrenar el rótulo antes que el
+ * resultado: es el mismo criterio que hoy deja a /servicios/posicionamiento-seo
+ * sin caso de éxito, y por el que este archivo no redondea una cifra hacia
+ * arriba.
+ *
+ * Así que el texto ya está escrito y no está publicado. El día que se cumpla
+ * la condición, esto se enciende cambiando `false` por `true` y no hay que
+ * redactar nada con prisa.
+ *
+ * QUÉ TIENE QUE PASAR ANTES. Las tres, no una:
+ *
+ *   1. Una consulta comercial de verdad —del tipo «diseño de páginas web en
+ *      Cartagena»— en el **top 3** de Google, sostenida **30 días**. Medida en
+ *      Search Console, no mirando el buscador desde el propio navegador, que
+ *      enseña una posición personalizada y siempre más bonita.
+ *   2. **Tres consultas distintas** en primera página, no una sola con suerte.
+ *      Una es un golpe; tres son un método, y el rótulo habla del método.
+ *   3. La **ficha de Google Business verificada** y saliendo en el mapa. Sin
+ *      eso no hay posicionamiento local que enseñar.
+ *
+ * QUÉ NO CAMBIA AL ENCENDERLO. No se publican cifras —ni «+300 % de visitas»
+ * ni posiciones en un gráfico—, ni se cuenta que el caso es el propio sitio.
+ * El rótulo se sostiene porque cuando alguien lo compruebe, va a estar ahí.
+ *
+ * POR QUÉ NO DICE «SEO». Porque la clienta no dice SEO. Dice «que me
+ * encuentren», «que salga yo y no el de al lado». `cliente-ideal.md` de la
+ * carpeta social lo tiene como regla: si la palabra no la usaría ella hablando
+ * con su hermana, no va. SEO se queda para `conocimientos`, que lo leen las
+ * máquinas.
+ */
+export const GOOGLE_ACREDITADO: boolean = false;
+
+/** Lo que entra en la página el día que `GOOGLE_ACREDITADO` sea `true`. */
+export const GOOGLE_ROTULO = {
+  rol: {
+    es: "Diseñador web y experto en aparecer en Google",
+    en: "Web designer and Google visibility specialist",
+  },
+  /* Se añade al final de la bio, no la reemplaza. En su idioma, no en el mío:
+     nada de «posicionamiento orgánico» ni «indexación». */
+  bio: {
+    es: " Y me encargo de que te encuentren: que cuando alguien busque lo que tú haces, en tu ciudad, salgas tú y no el de al lado.",
+    en: " And I make sure people find you: when somebody searches for what you do, in your city, you come up — not the shop next door.",
+  },
+  /* Esto sí va en jerga: `knowsAbout` lo leen buscadores, no personas. */
+  conocimientos: {
+    es: ["Posicionamiento en Google", "SEO local", "Google Business Profile"],
+    en: ["Search engine optimization", "Local SEO", "Google Business Profile"],
+  },
+} as const;
+
 export const SOBRE = {
   badge: { es: "El estudio", en: "The studio" },
   titulo: { es: "Diseño y código,", en: "Design and code," },
