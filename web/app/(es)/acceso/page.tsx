@@ -3,13 +3,58 @@ import Link from "next/link";
 
 import { Logo } from "@/components/Logo";
 import { buscarDocPorId, buscarDoc } from "@/lib/private-docs";
+import { SITE_URL } from "@/lib/site";
 import { AccesoForm } from "./AccesoForm";
 
-export const metadata: Metadata = {
-  title: "Acceso · JV Agencia",
-  description: "Documento privado de JV Agencia.",
-  robots: { index: false, follow: false },
-};
+/**
+ * LA VISTA PREVIA DEL ENLACE, Y POR QUÉ HAY QUE ARMARLA A MANO
+ * ──────────────────────────────────────────────────────────────────────────
+ * Esto era un `metadata` fijo con `title` y `description`, y el resultado en
+ * WhatsApp era la tarjeta de la portada: «Páginas web, tiendas virtuales y
+ * software en Colombia». No era caché ni un error del rastreador.
+ *
+ * Next fusiona los metadatos campo por campo, y `openGraph` es UN campo. Una
+ * página que declara `title` y `description` pero no declara `openGraph`
+ * hereda el `openGraph` entero del layout —con su `og:title`, su
+ * `og:description` y su `og:image`— y no se le deriva ninguno del suyo. El
+ * `<title>` salía bien; el `og:title` era el de la portada.
+ *
+ * Además el rastreador nunca llega a la URL compartida: `/cotizacion-…`
+ * responde 307 hacia aquí, así que la vista previa de TODO documento privado
+ * es la de esta página. Por eso se arma por documento, leyendo `?doc=`.
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ doc?: string }>;
+}): Promise<Metadata> {
+  const { doc: docId } = await searchParams;
+  const doc = buscarDocPorId(docId ?? "");
+
+  const title = doc ? `${doc.titulo} · JV Agencia` : "Acceso · JV Agencia";
+  const description = doc
+    ? `${doc.descripcion} Es un documento privado: pide contraseña.`
+    : "Documento privado de JV Agencia. Pide contraseña.";
+
+  return {
+    title,
+    description,
+    robots: { index: false, follow: false },
+    /* Se repiten title y description aquí a propósito: sin este objeto, el
+       `openGraph` del layout se hereda entero y vuelve el fallo de arriba.
+       No se declara `images`, para que siga valiendo la de `opengraph-image`
+       de esta misma carpeta. */
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/acceso`,
+      siteName: "JV Agencia",
+      locale: "es_LA",
+      type: "website",
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
 
 /**
  * Pantalla de acceso a los documentos privados.
