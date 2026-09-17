@@ -96,7 +96,11 @@ export function Articulo({
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     keywords: post.keywords[idioma].join(", "),
     articleSection: post.category[idioma],
-    wordCount: post.readingMinutes * 250,
+    /* `wordCount` salía de multiplicar los minutos de lectura por 250. Era una
+       cifra inventada por aritmética, publicada como dato estructurado. Es la
+       misma regla que el manifiesto ya aplica a `cifra`: un número que no se
+       puede calcular con honestidad no se emite. Si algún día se cuentan las
+       palabras de verdad, vuelve. */
     isPartOf: { "@id": `${SITE_URL}${base}#blog` },
   };
 

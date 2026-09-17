@@ -119,10 +119,22 @@ export function BlogPost({
   const revisado = post.updatedAt ?? post.publishedAt;
 
   /* Los relacionados: primero los de su misma categoría, y si no llegan a dos,
-     se completa con los más recientes. Nunca él mismo. */
+     se completa con los más recientes. Nunca él mismo.
+
+     LA ROTACIÓN NO ES UN ADORNO. Antes esto cogía los hermanos de categoría en
+     el orden del manifiesto y cortaba en dos, así que los últimos de cada
+     categoría no salían NUNCA: `por-que-mi-pagina-no-aparece-en-google` y
+     `cuanto-cuesta-un-dominio-y-un-hosting-en-colombia` recibían cero huecos
+     mientras otros recibían tres. El primero Google decidió no indexarlo, y el
+     segundo es la página de más impresiones del sitio con un solo enlace
+     entrante. Girando la lista por la posición del artículo dentro de su
+     categoría, los once reciben dos. El sitio no gana un enlace: los reparte. */
   const otros = POSTS.filter((p) => p.slug.es !== post.slug.es);
+  const hermanos = otros.filter((p) => p.category.es === post.category.es);
+  const enCategoria = POSTS.filter((p) => p.category.es === post.category.es);
+  const giro = Math.max(0, enCategoria.findIndex((p) => p.slug.es === post.slug.es));
   const relacionados = [
-    ...otros.filter((p) => p.category.es === post.category.es),
+    ...hermanos.map((_, k) => hermanos[(k + giro) % hermanos.length]),
     ...otros.filter((p) => p.category.es !== post.category.es),
   ].slice(0, 2);
 

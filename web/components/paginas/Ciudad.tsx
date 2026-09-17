@@ -1,3 +1,4 @@
+import { CIUDADES as INDICE } from "@/content/ciudades/indice";
 import Link from "next/link";
 import { ArrowRight, Check, MapPinOff } from "lucide-react";
 
@@ -156,15 +157,7 @@ const ABIERTOS = [
  * misma. Escritas a mano, la séptima ciudad habría dejado seis listas
  * desactualizadas y un enlace a sí misma en alguna.
  */
-const CIUDADES = [
-  { href: "/diseno-de-paginas-web-en-cartagena", label: "Cartagena" },
-  { href: "/diseno-de-paginas-web-en-barranquilla", label: "Barranquilla" },
-  { href: "/diseno-de-paginas-web-en-bogota", label: "Bogotá" },
-  { href: "/diseno-de-paginas-web-en-medellin", label: "Medellín" },
-  { href: "/diseno-de-paginas-web-en-cali", label: "Cali" },
-  { href: "/diseno-de-paginas-web-en-bucaramanga", label: "Bucaramanga" },
-  { href: "/diseno-de-paginas-web-en-santa-marta", label: "Santa Marta" },
-];
+const CIUDADES = INDICE.map((c) => ({ href: c.ruta, label: c.nombre }));
 
 /**
  * Saca el número de un dato como «93,1 %» o «28.247» para poder contarlo.

@@ -1,3 +1,4 @@
+import { RUTAS_CIUDAD } from "@/content/ciudades/indice";
 import type { MetadataRoute } from "next";
 
 import { POSTS } from "@/lib/blog";
@@ -8,15 +9,7 @@ import { revisado } from "@/lib/revisiones";
 // Páginas de ciudad: intención de DECISIÓN ("diseño de páginas web en X").
 // Son las que traen a alguien que ya quiere contratar, así que pesan igual
 // que la página de servicio y por encima de cualquier artículo.
-const CIUDADES = [
-  "diseno-de-paginas-web-en-cartagena",
-  "diseno-de-paginas-web-en-barranquilla",
-  "diseno-de-paginas-web-en-bogota",
-  "diseno-de-paginas-web-en-medellin",
-  "diseno-de-paginas-web-en-cali",
-  "diseno-de-paginas-web-en-bucaramanga",
-  "diseno-de-paginas-web-en-santa-marta",
-] as const;
+const CIUDADES = RUTAS_CIUDAD;
 
 // Páginas de servicio: intención de DECISIÓN también ("chatbot de WhatsApp
 // Colombia", "crear tienda virtual Colombia"). Pesan igual que las de ciudad,

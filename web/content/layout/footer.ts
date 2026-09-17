@@ -1,3 +1,4 @@
+import { enlacesCiudad } from "@/content/ciudades/indice";
 import type { Texto, Traducido } from "@/content/types";
 
 /**
@@ -70,56 +71,12 @@ export const COLUMNAS: readonly ColumnaPie[] = [
       },
       /* Las SIETE de ciudad no se traducen: «diseño de páginas web en
          Cartagena» es SEO local y no tiene búsqueda equivalente en inglés.
-         Apuntan al español desde las dos lenguas, a propósito. */
-      {
-        texto: { es: "Cartagena", en: "Cartagena" },
-        href: {
-          es: "/diseno-de-paginas-web-en-cartagena",
-          en: "/diseno-de-paginas-web-en-cartagena",
-        },
-      },
-      {
-        texto: { es: "Barranquilla", en: "Barranquilla" },
-        href: {
-          es: "/diseno-de-paginas-web-en-barranquilla",
-          en: "/diseno-de-paginas-web-en-barranquilla",
-        },
-      },
-      {
-        texto: { es: "Bogotá", en: "Bogotá" },
-        href: {
-          es: "/diseno-de-paginas-web-en-bogota",
-          en: "/diseno-de-paginas-web-en-bogota",
-        },
-      },
-      {
-        texto: { es: "Medellín", en: "Medellín" },
-        href: {
-          es: "/diseno-de-paginas-web-en-medellin",
-          en: "/diseno-de-paginas-web-en-medellin",
-        },
-      },
-      {
-        texto: { es: "Cali", en: "Cali" },
-        href: {
-          es: "/diseno-de-paginas-web-en-cali",
-          en: "/diseno-de-paginas-web-en-cali",
-        },
-      },
-      {
-        texto: { es: "Bucaramanga", en: "Bucaramanga" },
-        href: {
-          es: "/diseno-de-paginas-web-en-bucaramanga",
-          en: "/diseno-de-paginas-web-en-bucaramanga",
-        },
-      },
-      {
-        texto: { es: "Santa Marta", en: "Santa Marta" },
-        href: {
-          es: "/diseno-de-paginas-web-en-santa-marta",
-          en: "/diseno-de-paginas-web-en-santa-marta",
-        },
-      },
+         Apuntan al español desde las dos lenguas, a propósito.
+
+         Salen de `content/ciudades/indice.ts`: esta lista sí estaba completa,
+         pero las de `/precios` y las dos de servicio se habían quedado en tres
+         y la única forma de que no vuelva a pasar es que haya un solo sitio. */
+      ...enlacesCiudad("nombre"),
     ],
   },
   {

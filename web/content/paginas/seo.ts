@@ -1,3 +1,4 @@
+import { enlacesCiudadPlanos } from "@/content/ciudades/indice";
 import type { Texto, Traducido } from "@/content/types";
 
 /**
@@ -434,11 +435,9 @@ export const SEO = {
     es: "Cada ciudad se trabaja aparte, con sus propias páginas y sus propias búsquedas.",
     en: "Each city is worked on separately, with its own pages and its own searches.",
   },
-  ciudades: [
-    { texto: { es: "Cartagena", en: "Cartagena" }, href: "/diseno-de-paginas-web-en-cartagena" },
-    { texto: { es: "Barranquilla", en: "Barranquilla" }, href: "/diseno-de-paginas-web-en-barranquilla" },
-    { texto: { es: "Bogotá", en: "Bogotá" }, href: "/diseno-de-paginas-web-en-bogota" },
-  ] as readonly { texto: Texto; href: string }[],
+  /* Las siete salen de `content/ciudades/indice.ts`. Estaban escritas a mano
+     y se quedaron en tres cuando se publicaron las cuatro nuevas. */
+  ciudades: enlacesCiudadPlanos("nombre"),
   iaTitulo: {
     es: "Y lo que ya se está moviendo: que te nombre la IA",
     en: "And what's already moving: getting named by AI",

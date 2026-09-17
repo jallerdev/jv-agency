@@ -1,3 +1,4 @@
+import { enlacesCiudadPlanos } from "@/content/ciudades/indice";
 import type { Texto, Traducido } from "@/content/types";
 
 /**
@@ -866,18 +867,6 @@ export const WEB_CERCA = {
   /* Las tres de ciudad no se traducen: «diseño de páginas web en Cartagena» es
      SEO local en español y no tiene búsqueda equivalente en inglés. Desde el
      inglés apuntan a la española. */
-  ciudades: [
-    {
-      texto: { es: "Páginas web en Cartagena", en: "Websites in Cartagena" },
-      href: "/diseno-de-paginas-web-en-cartagena",
-    },
-    {
-      texto: { es: "Páginas web en Barranquilla", en: "Websites in Barranquilla" },
-      href: "/diseno-de-paginas-web-en-barranquilla",
-    },
-    {
-      texto: { es: "Páginas web en Bogotá", en: "Websites in Bogotá" },
-      href: "/diseno-de-paginas-web-en-bogota",
-    },
-  ] as readonly { texto: Texto; href: string }[],
+  /* Las siete, desde `content/ciudades/indice.ts`. */
+  ciudades: enlacesCiudadPlanos("paginas"),
 };

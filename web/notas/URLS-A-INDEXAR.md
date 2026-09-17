@@ -34,7 +34,7 @@ mirar `app/sitemap.ts` antes de pedir la indexación a mano.
 - https://www.jvagencia.com/blog
 - https://www.jvagencia.com/blog/cuanto-cuesta-una-pagina-web-en-colombia
 - https://www.jvagencia.com/blog/cuanto-cuesta-un-chatbot-de-whatsapp-en-colombia
-- https://www.jvagencia.com/blog/cuanto-cuesta-el-seo-en-colombia
+- https://www.jvagencia.com/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia
 - https://www.jvagencia.com/blog/mi-negocio-necesita-pagina-web
 - https://www.jvagencia.com/blog/pagina-web-o-solo-instagram
 - https://www.jvagencia.com/blog/que-debe-tener-la-pagina-web-de-un-restaurante

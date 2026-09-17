@@ -1,4 +1,5 @@
 import type { Idioma, Texto, Traducido } from "@/content/types";
+import { enlacesCiudad } from "@/content/ciudades/indice";
 import { CATALOGO, money, PISOS } from "@/lib/quote";
 
 /**
@@ -208,29 +209,10 @@ export const DETALLE: readonly { texto: Texto; href: Traducido<string> }[] = [
     texto: { es: "Software a la medida", en: "Custom software" },
     href: { es: "/servicios/software-a-la-medida", en: "/en/services/custom-software" },
   },
-  /* Las tres de ciudad no tienen versión en inglés y no la van a tener: son
-     SEO local en español. Desde el inglés apuntan a la española. */
-  {
-    texto: { es: "Páginas web en Cartagena", en: "Websites in Cartagena" },
-    href: {
-      es: "/diseno-de-paginas-web-en-cartagena",
-      en: "/diseno-de-paginas-web-en-cartagena",
-    },
-  },
-  {
-    texto: { es: "Páginas web en Barranquilla", en: "Websites in Barranquilla" },
-    href: {
-      es: "/diseno-de-paginas-web-en-barranquilla",
-      en: "/diseno-de-paginas-web-en-barranquilla",
-    },
-  },
-  {
-    texto: { es: "Páginas web en Bogotá", en: "Websites in Bogotá" },
-    href: {
-      es: "/diseno-de-paginas-web-en-bogota",
-      en: "/diseno-de-paginas-web-en-bogota",
-    },
-  },
+  /* Las SIETE de ciudad no tienen versión en inglés y no la van a tener: son
+     SEO local en español. Desde el inglés apuntan a la española. Salen de
+     `content/ciudades/indice.ts` porque escritas a mano se quedaron en tres. */
+  ...enlacesCiudad("paginas"),
 ];
 
 export const PRECIOS = {
