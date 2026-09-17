@@ -302,7 +302,101 @@
   .bar .marca .nombre{ font-family:var(--display); font-size:20px; font-weight:600;
                        letter-spacing:-.01em; color:var(--ink); transition:color .2s; }
   .bar .marca:hover .nombre{ color:var(--primary); }
-</style>
+
+  /* ================================================================
+     EL COLOR EN EL PDF
+
+     Las reglas de impresion de mas arriba aplanan el documento a
+     tinta oscura sobre blanco. Nacieron de un accidente —un barrido
+     de color dejo el PDF en negro con casi todo el texto invisible—
+     y arreglaron el contraste, pero se llevaron por delante la
+     marca: la nota al margen, el aviso y la caja del precio salian
+     iguales que un parrafo cualquiera, y son justo lo que hay que
+     distinguir de un vistazo.
+
+     Aqui vuelve el color, caja por caja. El papel sigue blanco: lo
+     que se repinta son los recuadros, no la hoja.
+
+     Dos cosas que no se ven venir:
+
+     1. print-color-adjust:exact. Sin esto el navegador descarta
+        TODO fondo al imprimir y no se pinta ni una de estas reglas.
+     2. Los tintes van subidos. Los de pantalla (alfa .07 a .16)
+        estan calculados sobre un fondo casi negro; los mismos
+        valores sobre papel blanco dan un tono que no se despega del
+        papel. Se reescriben en opaco. El par hex va primero como
+        respaldo y color-mix despues, para que cada documento tire
+        de su propio --primary si el navegador lo soporta.
+
+     Todo tinte queda por encima de 14:1 contra la tinta #161616.
+     ================================================================ */
+  @media print{
+    /* Sin esto, nada de lo de abajo llega al papel. */
+    *, *::before, *::after{
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+    }
+
+    /* — NARANJA — la nota al margen, el aviso y los recuadros que
+         el documento destaca. */
+    .note, .obj .q, .calc__detail, .fig.on,
+    .cell.hero, .cfg__cell.is-hero,
+    .offerbox, .calc__out, .plan--pick, .opt--pick{
+      background-color:#FCE6E0 !important;
+      background-color:color-mix(in srgb, var(--primary) 16%, #FFFFFF) !important;
+    }
+    .note, .obj .q, .calc__detail{
+      border-left:3px solid #E8623F !important;
+      border-left-color:var(--primary) !important;
+    }
+    /* Las cajas que son un bloque entero llevan filete completo: en
+       papel es lo que las separa del parrafo de al lado. */
+    .offerbox, .calc__out, .plan--pick, .opt--pick, .cell.hero, .cfg__cell.is-hero{
+      border:1.5px solid #E8623F !important;
+      border-color:var(--primary) !important;
+    }
+
+    /* — VERDE — lo que se regala, lo que confirma. Sube al 22 %:
+         el verde es mas claro que el naranja y al 16 % no se ve. */
+    .good, .note.good, .guion, .cpt .decir{
+      background-color:#D7F8E3 !important;
+      background-color:color-mix(in srgb, var(--success) 22%, #FFFFFF) !important;
+      border-left:3px solid #15803D !important;
+    }
+
+    /* — ROJO — lo que hay que evitar. En hex fijo: --error no existe
+         en todos estos documentos. */
+    .note.stop, .callout.todo{
+      background-color:#F8E3E0 !important;
+      border-left:3px solid #B0453C !important;
+    }
+
+    /* — GRIS — las superficies que en pantalla son un negro apenas
+         mas claro que el fondo. En papel, un gris apenas mas oscuro. */
+    .tag, .helper kbd, .fig, thead th{ background-color:#F2F1EE !important; }
+
+    /* — LAS CIFRAS — vuelven al naranja de la marca. #B0431F sobre
+         blanco da 5,6:1: es tinta de lectura, no solo decorado. El
+         #E8623F de pantalla daria 3,2:1 y aqui no alcanza. */
+    .offerbox__amt, .grande, .cifra b, .plan__amt, .calc__out .v{
+      color:#B0431F !important;
+    }
+    /* Y lo que el documento marca en verde como texto. */
+    .regalo i{ color:#15803D !important; }
+
+    /* — RELLENO NARANJA MACIZO — conserva su par del sistema:
+         naranja con tinta casi negra, igual que el boton del sitio.
+         Blanco sobre este naranja daria 3,2:1. */
+    [style*="background:var(--accent)"], [style*="background:var(--primary)"],
+    [style*="background:#E8623F"],
+    .plan--pick .plan__tag, .seg input:checked + span{
+      background-color:#E8623F !important;
+      background-color:var(--primary) !important;
+      color:#180C06 !important;
+    }
+  }
+
+  </style>
 </head>
 <body>
 
