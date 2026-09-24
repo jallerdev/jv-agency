@@ -242,6 +242,14 @@ export function AparecerEnGoogleMapsPost() {
         <Link href="/diseno-de-paginas-web-en-bucaramanga">Bucaramanga</Link>.
       </p>
       <p>
+        Y si el sitio ya existe pero no lo encuentras en Google por más que lo busques, eso
+        es otro problema con otras causas:{" "}
+        <Link href="/blog/por-que-mi-pagina-no-aparece-en-google">
+          por qué mi página no aparece en Google
+        </Link>
+        .
+      </p>
+      <p>
         Una última cosa, por si llegaste hasta acá buscando a quién contratar: nadie puede
         prometerte el primer puesto del mapa, y el que te lo prometa te está vendiendo algo que no
         controla. Lo que sí se puede prometer es el trabajo y el informe de lo que se hizo.

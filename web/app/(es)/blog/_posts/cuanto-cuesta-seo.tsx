@@ -452,7 +452,11 @@ export function CuantoCuestaSeoPost() {
         <Link href="/blog/mi-negocio-necesita-pagina-web">
           ¿mi negocio necesita página web?
         </Link>{" "}
-        —y si tu negocio es{" "}
+        —o, si el sitio ya existe y lo que pasa es que no aparece,{" "}
+        <Link href="/blog/por-que-mi-pagina-no-aparece-en-google">
+          por qué mi página no aparece en Google
+        </Link>
+        , que suele salir más barato de arreglar de lo que la gente cree— y si tu negocio es{" "}
         <Link href="/sectores/salones-y-spas">un salón o un spa</Link> o{" "}
         <Link href="/sectores/clinicas-y-consultorios">una clínica o un consultorio</Link>, ahí
         está lo que cambia en cada caso— y después vuelve. Y si ya lo tienes claro,{" "}

@@ -239,6 +239,14 @@ export function HowToShowUpOnGoogleMapsPost() {
         Spanish, because that&apos;s the language the searches are in.
       </p>
       <p>
+        And if the site already exists but you can&apos;t find it on Google no matter how hard
+        you look, that&apos;s a different problem with different causes:{" "}
+        <Link href="/en/blog/why-my-website-doesnt-show-up-on-google">
+          why my website doesn&apos;t show up on Google
+        </Link>
+        .
+      </p>
+      <p>
         One last thing, in case you got here looking for someone to hire: nobody can promise you
         the top of the map, and anyone who promises it is selling you something they don&apos;t
         control. What can be promised is the work and the report of what was done.

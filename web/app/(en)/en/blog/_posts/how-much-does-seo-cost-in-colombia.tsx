@@ -454,7 +454,11 @@ export function SeoCostPost() {
         <Link href="/en/blog/does-my-business-need-a-website">
           does my business need a website?
         </Link>{" "}
-        — and if your business is{" "}
+        — or, if the site already exists and the problem is that it doesn&apos;t show up,{" "}
+        <Link href="/en/blog/why-my-website-doesnt-show-up-on-google">
+          why my website doesn&apos;t show up on Google
+        </Link>
+        , which is usually cheaper to fix than people think — and if your business is{" "}
         <Link href="/en/industries/salons-and-spas">a salon or a spa</Link> or{" "}
         <Link href="/en/industries/clinics">a clinic or a practice</Link>, what changes in each case
         is there — and then come back. And if you&apos;re already clear,{" "}
