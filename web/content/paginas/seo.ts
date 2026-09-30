@@ -205,7 +205,7 @@ export const SEO = {
     en: ". And if what you want is to understand the market before comparing proposals, ",
   },
   restoPreciosBlog: {
-    es: "cuánto cuesta el SEO en Colombia",
+    es: "cuánto cuesta el posicionamiento SEO en Colombia",
     en: "what SEO costs in Colombia",
   },
   restoPreciosDespues: {
@@ -476,7 +476,7 @@ export const SEO = {
       },
       enlace: {
         texto: {
-          es: "¿Cuánto cuesta el SEO en Colombia?",
+          es: "¿Cuánto cuesta el posicionamiento SEO en Colombia?",
           en: "What does SEO cost in Colombia?",
         },
         href: "/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia",
@@ -636,7 +636,7 @@ export const SEO_FAQ: readonly {
       en: "Because below a certain price you don't buy less SEO: you buy something else with the same name —bought links, unreviewed machine-written articles, or a PDF exported from a tool with a logo on top—. The full maths, with tool prices and the hours a month of work takes, I wrote with sources in",
     },
     enlace: {
-      texto: { es: "cuánto cuesta el SEO en Colombia", en: "what SEO costs in Colombia" },
+      texto: { es: "cuánto cuesta el posicionamiento SEO en Colombia", en: "what SEO costs in Colombia" },
       href: "/blog/cuanto-cuesta-el-posicionamiento-seo-en-colombia",
     },
   },

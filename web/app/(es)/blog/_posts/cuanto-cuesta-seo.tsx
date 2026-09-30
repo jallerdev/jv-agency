@@ -2,8 +2,9 @@ import Link from "next/link";
 
 import { SEO_PRICES } from "@/lib/quote";
 
-// Post: ¿Cuánto cuesta el SEO en Colombia?
-// Query objetivo: "cuánto cuesta el SEO en Colombia"
+// Post: ¿Cuánto cuesta el posicionamiento SEO en Colombia?
+// Query objetivo: "cuánto cuesta el posicionamiento SEO en Colombia"
+// (slug renombrado el 2026-09-15; el viejo redirige en next.config.mjs)
 //
 // Los precios propios NO se escriben a mano: salen de SEO_PRICES en
 // lib/quote.ts, que es lo que cotiza el cotizador. Si mañana sube el plan
