@@ -156,6 +156,7 @@ export const POSTS: BlogPost[] = [
       en: "Technical SEO is paid once; ranking is monthly. That confusion is how $300,000-peso plans get sold that don't even cover the tooling.",
     },
     publishedAt: "2026-09-09",
+    updatedAt: "2026-09-24",
     readingMinutes: 8,
     keywords: {
       es: [
@@ -320,6 +321,7 @@ export const POSTS: BlogPost[] = [
       en: "I will start with what suits me least: the listing is free, it takes an afternoon, and for proximity searches it beats your website.",
     },
     publishedAt: "2026-09-11",
+    updatedAt: "2026-09-24",
     readingMinutes: 8,
     keywords: {
       es: [
