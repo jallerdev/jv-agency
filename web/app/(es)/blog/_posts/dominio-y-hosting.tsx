@@ -208,6 +208,19 @@ export function DominioYHostingPost() {
         ficha de Google y las redes—, empieza por{" "}
         <Link href="/blog/mi-negocio-necesita-pagina-web">¿mi negocio necesita página web?</Link>
       </p>
+
+      <h2>Si prefieres no volver a pensar en esto</h2>
+      <p>
+        Dominio, alojamiento, certificado y respaldos de un sitio ya entregado cuestan{" "}
+        <strong>{money(PISOS.renovacion)}</strong> al año, todo a tu nombre desde el primer día. Y
+        si el sitio todavía no existe, esa línea entra en el presupuesto desde la primera
+        conversación en vez de aparecer en el mes trece.
+      </p>
+      <p>
+        <Link href="/agendar">Agenda una llamada</Link> y te ubico en un rango ahí mismo, sin
+        cotización de por medio. Si lo que querías era el número para comparar una cotización que
+        ya tienes, está arriba y no hace falta que hablemos: para eso escribí el artículo.
+      </p>
     </>
   );
 }
