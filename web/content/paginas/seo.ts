@@ -438,6 +438,16 @@ export const SEO = {
   /* Las siete salen de `content/ciudades/indice.ts`. Estaban escritas a mano
      y se quedaron en tres cuando se publicaron las cuatro nuevas. */
   ciudades: enlacesCiudadPlanos("nombre"),
+  /* La guía de Google Maps es el artículo con más impresiones del blog (340
+     por semana a inicios de noviembre de 2026, puesto 22) y solo la enlazaban
+     dos artículos. Esta sección habla justo de la ficha, y la columna de al
+     lado de las ciudades estaba vacía. */
+  guiaTitulo: { es: "Si prefieres hacerlo tú", en: "If you'd rather do it yourself" },
+  guiaEntradilla: {
+    es: "La ficha se crea y se llena sin pagarle a nadie. Escribí los pasos, el error que más fichas tumba y lo que mueve la aguja después:",
+    en: "You can create and fill in the profile without paying anyone. I wrote down the steps, the mistake that takes most listings down and what moves the needle afterwards:",
+  },
+  guiaEnlace: { es: "cómo aparecer en Google Maps", en: "how to show up on Google Maps" },
   iaTitulo: {
     es: "Y lo que ya se está moviendo: que te nombre la IA",
     en: "And what's already moving: getting named by AI",

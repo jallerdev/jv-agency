@@ -389,6 +389,12 @@ export const CLINICAS = {
     es: "El bloque de tres que sale arriba del mapa se alimenta de una ficha bien llena, y llenarla es gratis.",
     en: "The block of three that shows above the map feeds on a well-filled profile, and filling it is free.",
   },
+  /* Enlace a la guía de Google Maps, que explica cómo llenarla uno mismo. */
+  fichaGuiaAntes: {
+    es: "Los pasos para hacerlo tú están en la guía de",
+    en: "The steps to do it yourself are in the guide on",
+  },
+  fichaGuiaEnlace: { es: "cómo aparecer en Google Maps", en: "how to show up on Google Maps" },
   fichaTituloCaja: { es: "Ficha de Google Business", en: "Google Business Profile" },
   fichaRotulo: {
     es: "Ejemplo · campos genéricos, no los de ningún negocio",

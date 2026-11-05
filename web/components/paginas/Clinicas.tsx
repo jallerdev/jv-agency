@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { CLINICAS, CLINICAS_FAQ } from "@/content/paginas/clinicas";
+import { SLUGS } from "@/lib/blog-slugs";
 import type { Idioma } from "@/content/types";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
@@ -409,7 +410,16 @@ export function PaginaClinicas({ idioma, ruta }: { idioma: Idioma; ruta: string 
               {CLINICAS.fichaTitulo[idioma]}
             </h2>
             <p className="mt-4 max-w-[62ch] leading-relaxed text-ink-soft">
-              {CLINICAS.fichaEntradilla[idioma]}
+              {CLINICAS.fichaEntradilla[idioma]} {CLINICAS.fichaGuiaAntes[idioma]}{" "}
+              <Link
+                href={
+                  idioma === "es" ? `/blog/${SLUGS.googleMaps.es}` : `/en/blog/${SLUGS.googleMaps.en}`
+                }
+                className="jv-enlace font-semibold text-brand"
+              >
+                {CLINICAS.fichaGuiaEnlace[idioma]}
+              </Link>
+              .
             </p>
           </Reveal>
 

@@ -3,6 +3,7 @@ import { ArrowRight, Check, MapPin, RefreshCw, Sparkles } from "lucide-react";
 
 import { SEO, SEO_FAQ } from "@/content/paginas/seo";
 import type { Idioma } from "@/content/types";
+import { SLUGS } from "@/lib/blog-slugs";
 import { enlaceReal } from "@/lib/rutas";
 import { SITE_URL } from "@/lib/site";
 import { SEO_HONESTY_NOTE, SEO_PRICES, money, PISOS } from "@/lib/quote";
@@ -412,6 +413,19 @@ export function PaginaSeo({ idioma, ruta }: { idioma: Idioma; ruta: string }) {
                       </li>
                     ))}
                   </ul>
+                </div>
+                <div>
+                  <h3 className="jv-titulo">{SEO.guiaTitulo[idioma]}</h3>
+                  <p className="mt-3 leading-relaxed text-ink-soft">
+                    {SEO.guiaEntradilla[idioma]}{" "}
+                    <Link
+                      href={es ? `/blog/${SLUGS.googleMaps.es}` : `/en/blog/${SLUGS.googleMaps.en}`}
+                      className="jv-enlace font-semibold text-brand"
+                    >
+                      {SEO.guiaEnlace[idioma]}
+                    </Link>
+                    .
+                  </p>
                 </div>
               </div>
             </Reveal>
