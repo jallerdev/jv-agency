@@ -23,6 +23,9 @@
  * abre la cotización de un cliente.
  */
 
+/** Lo que dice la tarjeta de WhatsApp de un enlace con palabras. */
+export type Portada = { eyebrow: string; titulo: string; descripcion: string };
+
 export type DocPrivado = {
   /** Identificador corto. Nombra la cookie y viaja en la URL de acceso. */
   id: string;
@@ -41,8 +44,16 @@ export type DocPrivado = {
    * Otros archivos de public/ que van con el documento, como la demo que la
    * cotización enlaza. Se sirven tal cual y los abre la misma cookie: sin esto,
    * el cliente entraría a la cotización y la demo le volvería a pedir la clave.
+   * `corto` es el nombre con que se entra por el enlace de palabras
+   * (/propuesta/…/tienda), y el resto es su tarjeta de WhatsApp.
    */
-  anexos?: string[];
+  anexos?: ({ archivo: string; corto: string } & Portada)[];
+  /**
+   * Enlace con palabras (ver RUTA_PROPUESTA): `slug` es el nombre legible del
+   * enlace y el resto, la tarjeta que muestra WhatsApp. Sin esto, el documento
+   * solo abre con contraseña o con llave.
+   */
+  enlace?: { slug: string } & Portada;
   /** Variable de entorno con la contraseña. Sin ella, nadie entra. */
   passEnv: string;
 };
@@ -126,7 +137,21 @@ export const DOCS_PRIVADOS: DocPrivado[] = [
     descripcion: "La tienda virtual y su ejemplo navegable.",
     paths: ["/cotizacion-meli-shop", "/cotizacion-meli-shop.html"],
     file: "/cotizacion-meli-shop.html",
-    anexos: ["/ejemplo-tienda-meli-shop.html"],
+    anexos: [
+      {
+        archivo: "/ejemplo-tienda-meli-shop.html",
+        corto: "tienda",
+        eyebrow: "Ejemplo navegable",
+        titulo: "Así se vería la tienda de Meli Shop",
+        descripcion: "Recórrala como lo haría una clienta: tallas, bolsa y pago.",
+      },
+    ],
+    enlace: {
+      slug: "meli-shop",
+      eyebrow: "Propuesta",
+      titulo: "Tienda virtual para Meli Shop",
+      descripcion: "Lo que incluye, el plazo y la inversión.",
+    },
     passEnv: "COTIZACION_MELI_PASSWORD",
   },
 ];
@@ -147,9 +172,37 @@ export const nombreCookie = (id: string) => `jv_acc_${id}`;
  * la contraseña. Por eso vence sola, nadie puede fabricarla sin la clave, y
  * cambiar la contraseña la anula. Abre lo mismo que la cookie, ni más ni menos:
  * quien reciba el enlace reenviado también entra, igual que si le pasaran la
- * contraseña. La emite `scripts/enlace-acceso.ts`.
+ * contraseña. Para WhatsApp es mejor el enlace con palabras (RUTA_PROPUESTA),
+ * que se lee y no parece un código.
  */
 export const PARAM_LLAVE = "llave";
+
+/**
+ * Enlace con palabras: `/propuesta/<slug>/<tres-palabras>[/<anexo>]`, p. ej.
+ * `www.jvagencia.com/propuesta/meli-shop/coral-brisa-palma`. Es lo que se le
+ * manda al cliente por WhatsApp; lo imprime `scripts/enlace-acceso.mjs`.
+ *
+ * - Las palabras son los tres primeros bytes del HMAC de la contraseña,
+ *   leídos en lib/palabras.ts. No se guardan en ningún lado y cambiar la
+ *   contraseña las cambia: así se anula un enlace. No vencen solas.
+ * - Son 24 bits, pocos para una firma: lo que impide adivinarlas es el límite
+ *   de intentos del proxy (20 cada 15 minutos por IP), no el largo.
+ * - <anexo> es el `corto` de un anexo, para entrar directo a él. No va firmado
+ *   porque no abre nada distinto: solo elige la puerta dentro del documento.
+ *
+ * Con palabras buenas responde una página mínima que (1) lleva la tarjeta de
+ * WhatsApp del documento, (2) deja la cookie de siempre y (3) salta a la
+ * página real. No sirve el documento en esta URL: sus enlaces relativos se
+ * romperían, y WhatsApp sin la cookie habría mostrado la tarjeta de la
+ * pantalla de acceso, que dice «este enlace pide contraseña».
+ */
+export const RUTA_PROPUESTA = "/propuesta/";
+
+/** Ruta de la imagen de la tarjeta: `/tarjeta/<slug>[/<anexo>]` (app/tarjeta). */
+export const RUTA_TARJETA = "/tarjeta";
+
+export const buscarDocPorSlug = (slug: string) =>
+  DOCS_PRIVADOS.find((d) => d.enlace?.slug === slug);
 
 /**
  * Canonicaliza la ruta antes de compararla.
@@ -188,8 +241,10 @@ export function buscarDoc(pathname: string): DocPrivado | undefined {
 }
 
 /** Si la ruta es un anexo del documento (se sirve tal cual, sin rewrite). */
-export const esAnexo = (doc: DocPrivado, pathname: string) =>
-  !!doc.anexos?.includes(normalizarRuta(pathname));
+export const esAnexo = (doc: DocPrivado, pathname: string) => {
+  const r = normalizarRuta(pathname);
+  return !!doc.anexos?.some((a) => a.archivo === r);
+};
 
 export const buscarDocPorId = (id: string) => DOCS_PRIVADOS.find((d) => d.id === id);
 
@@ -241,4 +296,62 @@ export async function tokenValido(
   const vence = Number(token.slice(0, corte));
   if (!Number.isFinite(vence) || Date.now() > vence) return false;
   return igualSeguro(token.slice(corte + 1), await firmar(`${docId}.${vence}`, clave));
+}
+
+// ── Enlace con palabras (ver RUTA_PROPUESTA) ───────────────────────────────
+
+/**
+ * Las 256 palabras de los enlaces de propuesta (ver RUTA_PROPUESTA). Cada palabra es un byte de la firma: tres palabras, tres
+ * bytes.
+ *
+ * NO SE REORDENA NI SE CAMBIA. El enlace de un cliente sale de la posición de
+ * cada palabra en esta lista; mover una sola cambia los enlaces ya enviados y
+ * dejan de abrir. Si alguna sobra, se reemplaza en su mismo lugar y se avisa
+ * que los enlaces que la usaban hay que volverlos a mandar.
+ *
+ * Por qué estas: se escriben bien sin tildes ni eñe (así «limon» no parece un
+ * error), son de la naturaleza, la fruta y la costa, y ninguna tiene doble
+ * sentido en Colombia (fuera quedaron «concha», «conejo», «foca», «pavo» y
+ * «coyote»).
+ */
+const PALABRAS: readonly string[] = [
+  "agua", "alba", "alga", "alma", "almendra", "amapola", "ancla", "arena",
+  "aroma", "arpa", "arrecife", "astro", "aurora", "avena", "avellana", "azul",
+  "abeja", "acacia", "aguacate", "albahaca", "alondra", "ardilla", "ballena", "balsa",
+  "barca", "baya", "begonia", "bosque", "brisa", "brillo", "bruma", "brote",
+  "cacao", "cactus", "calma", "camelia", "canario", "canela", "canoa", "capullo",
+  "caracol", "cardo", "carey", "cascada", "cedro", "ceiba", "cereza", "chispa",
+  "cielo", "ciervo", "cigarra", "ciruela", "cisne", "clavel", "cobre", "coco",
+  "cocuyo", "cometa", "copa", "coral", "cosecha", "costa", "cristal", "cumbre",
+  "dalia", "delta", "diamante", "dorado", "duna", "durazno", "eco", "espiga",
+  "esmeralda", "estero", "estrella", "eucalipto", "faro", "fiesta", "flamenco", "flor",
+  "fresa", "fruta", "fuente", "gacela", "gardenia", "garza", "gaviota", "gema",
+  "girasol", "glaciar", "globo", "golfo", "gota", "granada", "granate", "granizo",
+  "grano", "grillo", "guadua", "guayaba", "guacamaya", "hamaca", "helecho", "hibisco",
+  "hiedra", "hielo", "higo", "hinojo", "hoja", "iguana", "iris", "isla",
+  "jacinto", "jade", "jaguar", "jengibre", "jilguero", "junco", "lago", "laguna",
+  "laurel", "lava", "lavanda", "lila", "lima", "lince", "lirio", "llama",
+  "lluvia", "loma", "loto", "lucero", "luna", "luz", "madera", "magnolia",
+  "malva", "mamey", "manantial", "mango", "manglar", "manta", "manzana", "mar",
+  "marea", "marfil", "margarita", "mariposa", "medusa", "melisa", "menta", "miel",
+  "mimosa", "mineral", "mirlo", "mirto", "monte", "mora", "morado", "musgo",
+  "naranja", "nardo", "neblina", "nieve", "nogal", "norte", "nube", "nutria",
+  "oasis", "ola", "olivo", "olmo", "onda", "orca", "orilla", "oro",
+  "ostra", "palma", "paloma", "pampa", "pantera", "papaya", "pera", "perla",
+  "pimienta", "pinar", "pino", "piedra", "planeta", "playa", "pluma", "polen",
+  "pomelo", "pradera", "prisma", "puma", "quetzal", "rama", "rayo", "reseda",
+  "ribera", "roble", "roca", "romero", "rosa", "sabana", "salvia", "sauce",
+  "selva", "semilla", "sendero", "sierra", "sirena", "sol", "sombra", "tamarindo",
+  "tierra", "tilo", "tomillo", "topacio", "tortuga", "trigo", "trueno", "turquesa",
+  "uva", "vainilla", "valle", "vela", "venado", "verano", "verbena", "vergel",
+  "viento", "violeta", "yuca", "zafiro", "zarza", "zorzal", "albatros", "alce",
+  "arce", "arco", "campo", "canto", "caoba", "cauce", "celeste", "cobalto",
+  "colina", "corcel", "cordillera", "corriente", "crema", "cuarzo", "cueva", "dulce",
+];
+
+/** Las tres palabras del documento: `coral-brisa-palma`. */
+export async function palabrasDe(docId: string, clave: string): Promise<string> {
+  // Prefijo «palabras.» para que esta firma nunca coincida con la de una cookie.
+  const hex = await firmar(`palabras.${docId}`, clave);
+  return [0, 1, 2].map((i) => PALABRAS[parseInt(hex.slice(i * 2, i * 2 + 2), 16)]).join("-");
 }
