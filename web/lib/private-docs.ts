@@ -37,6 +37,12 @@ export type DocPrivado = {
    * emparejamiento es por prefijo (el caso del cotizador).
    */
   file: string | null;
+  /**
+   * Otros archivos de public/ que van con el documento, como la demo que la
+   * cotización enlaza. Se sirven tal cual y los abre la misma cookie: sin esto,
+   * el cliente entraría a la cotización y la demo le volvería a pedir la clave.
+   */
+  anexos?: string[];
   /** Variable de entorno con la contraseña. Sin ella, nadie entra. */
   passEnv: string;
 };
@@ -114,6 +120,15 @@ export const DOCS_PRIVADOS: DocPrivado[] = [
     file: "/propuesta-sencilla-monica.html",
     passEnv: "COTIZACION_MONICA_PASSWORD",
   },
+  {
+    id: "meli",
+    titulo: "Propuesta · Meli Shop",
+    descripcion: "La tienda virtual y su ejemplo navegable.",
+    paths: ["/cotizacion-meli-shop", "/cotizacion-meli-shop.html"],
+    file: "/cotizacion-meli-shop.html",
+    anexos: ["/ejemplo-tienda-meli-shop.html"],
+    passEnv: "COTIZACION_MELI_PASSWORD",
+  },
 ];
 
 /** Ruta de la pantalla de acceso. Nunca puede quedar detrás de la puerta. */
@@ -123,6 +138,18 @@ export const RUTA_ACCESO = "/acceso";
 export const DURACION_MS = 30 * 24 * 60 * 60 * 1000; // 30 días
 
 export const nombreCookie = (id: string) => `jv_acc_${id}`;
+
+/**
+ * Enlace con llave: `/cotizacion-x?llave=<token>`. Sirve para mandarle la
+ * cotización al cliente por WhatsApp sin que tenga que escribir nada.
+ *
+ * La llave es el mismo token firmado de la cookie (`<vence>.<firma>`), nunca
+ * la contraseña. Por eso vence sola, nadie puede fabricarla sin la clave, y
+ * cambiar la contraseña la anula. Abre lo mismo que la cookie, ni más ni menos:
+ * quien reciba el enlace reenviado también entra, igual que si le pasaran la
+ * contraseña. La emite `scripts/enlace-acceso.ts`.
+ */
+export const PARAM_LLAVE = "llave";
 
 /**
  * Canonicaliza la ruta antes de compararla.
@@ -153,11 +180,16 @@ export function normalizarRuta(pathname: string): string {
 export function buscarDoc(pathname: string): DocPrivado | undefined {
   const r = normalizarRuta(pathname);
   return DOCS_PRIVADOS.find((d) =>
-    d.file
+    esAnexo(d, r) ||
+    (d.file
       ? d.paths.includes(r)
-      : d.paths.some((p) => r === p || r.startsWith(p + "/")),
+      : d.paths.some((p) => r === p || r.startsWith(p + "/"))),
   );
 }
+
+/** Si la ruta es un anexo del documento (se sirve tal cual, sin rewrite). */
+export const esAnexo = (doc: DocPrivado, pathname: string) =>
+  !!doc.anexos?.includes(normalizarRuta(pathname));
 
 export const buscarDocPorId = (id: string) => DOCS_PRIVADOS.find((d) => d.id === id);
 
@@ -188,9 +220,13 @@ export function igualSeguro(a: string, b: string): boolean {
   return diff === 0;
 }
 
-/** Token para la cookie: `<vence>.<firma>`. */
-export async function emitirToken(docId: string, clave: string): Promise<string> {
-  const vence = Date.now() + DURACION_MS;
+/** Token para la cookie o la llave: `<vence>.<firma>`. */
+export async function emitirToken(
+  docId: string,
+  clave: string,
+  duracionMs: number = DURACION_MS,
+): Promise<string> {
+  const vence = Date.now() + duracionMs;
   return `${vence}.${await firmar(`${docId}.${vence}`, clave)}`;
 }
 

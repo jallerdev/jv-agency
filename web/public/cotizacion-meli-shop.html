@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Propuesta — Tienda virtual · Meli Shop</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  Tienda virtual · Meli Shop (ropa femenina, Turbaco) · @melishoppp.co
+  ═══════════════════════════════════════════════════════════════════════════
+
+  Hereda el estilo de `docs/cotizaciones/estilo-plantilla.css`: se edita allí
+  y se corre `python3 docs/cotizaciones/sincronizar-estilo.py`. Lo que se
+  escriba entre los marcadores de estilo se sobrescribe. El bloque `.muestra`
+  va en un <style> aparte, fuera de los marcadores, porque solo existe aquí.
+
+  Va con su ejemplo navegable: `ejemplo-tienda-meli-shop.html`.
+
+  COLOR: rosa de la clienta (#C2296A), no el verde de la plantilla. Se
+  sobrescriben los tokens en el segundo <style>; la hoja común no se toca.
+
+  ── DE DÓNDE SALE CADA PESO ────────────────────────────────────────────────
+  Nada se inventó: todo sale de `web/lib/quote.ts`, el mismo motor del
+  cotizador y de /servicios/tiendas-virtuales.
+
+    Tienda virtual (PISOS.tienda, el «desde» publicado) .... $ 2.500.000
+      ya trae pago en línea, envíos y panel, igual que la página pública
+    Tallas y colores (toggles.variants) ..................... $   250.000
+    Pedido por WhatsApp (cobro.ambas − cobro.pasarela) ..... $    80.000
+    Identidad a partir del logo (marca["solo-logo"]) ........ $   180.000
+    Dominio + alojamiento + base de datos, 1.er año ......... $   250.000
+      (domain + hosting; la base de datos entra en el mismo valor)
+                                                               ───────────
+    Subtotal de lista ....................................... $ 3.260.000
+    Descuento del 25 % (la promoción por la que escribió) ... − $ 815.000
+                                                               ───────────
+    Total ................................................... $ 2.445.000
+    Anticipo 50 % / saldo 50 % .............................. $ 1.222.500 c/u
+
+  El 25 % va sobre los cinco conceptos. Opcionales y renovación quedan a
+  precio de lista, y así lo dice la letra pequeña de la inversión.
+
+  Opcionales: integración con Envia 250.000 (precio fijado por el emisor,
+  no sale de quote.ts) · coupons 150.000 · cartrecovery 300.000 · email 150.000 ·
+  invoicing 700.000. Renovación desde el segundo año: PISOS.renovacion.
+  Plazo: PLAZOS.tienda (3 a 5 semanas desde catálogo completo) → cinco.
+
+  ── POR CONFIRMAR ANTES DE ENVIAR ──────────────────────────────────────────
+    · El consecutivo JV-2026-025 sigue al de Pixels (024). Si se emitió otra
+      propuesta después, se corre.
+    · Cupones va como opcional aunque ella tiene historia destacada de
+      «Ofertas». Si lo pide dentro del paquete: ($ 3.410.000 − 25 %) = $ 2.557.500.
+
+  ── REGISTRO ───────────────────────────────────────────────────────────────
+  Formal y de usted desde el primer borrador (ver la nota de Davi sobre el
+  documento del Fondo Mixto). Nada de «arrancar», «a mano», «de verdad».
+    NO                          SÍ
+    Carrito / checkout          Bolsa de compras
+    Variantes                   Tallas y colores
+    Stock                       Existencias
+    Pasarela                    Pasarela de pago (se nombra una vez, con ejemplos)
+    Hosting                     Alojamiento
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+
+<style>
+/* ==ESTILO:INICIO== */
+/* ═══════════════════════════════════════════════════════════════════════════
+   HOJA CANÓNICA DE LAS COTIZACIONES — identidad «Papel»
+   ───────────────────────────────────────────────────────────────────────────
+   Fuente de verdad. Vive inyectada dentro de cada
+   `web/public/cotizacion-*.html` entre ==ESTILO:INICIO== y ==ESTILO:FIN==.
+   Para propagar un cambio se edita AQUÍ y se corre
+   `python3 docs/cotizaciones/sincronizar-estilo.py`.
+
+   ── Agnóstica ──────────────────────────────────────────────────────────────
+   No lleva la marca de quien emite ni la de quien recibe. Quien firma entra
+   por token y el logo por un hueco marcado en la barra. Por eso el sistema es
+   neutro: no es la paleta de nadie.
+
+   ── Por qué papel y no el oscuro de la familia anterior ────────────────────
+   Las cotizaciones anteriores de este repositorio van en naranja sobre casi
+   negro. Dos costos. Estético: se leen como página de producto, no como algo
+   que se firma. Y técnico: para imprimir hay que invertir el suelo entero, y
+   esa inversión es donde aquella hoja acumuló sus peores parches —un
+   `body *{ background-color:transparent !important }` que barría todas las
+   superficies y de paso oscurecía el `background:#fff` de su propia regla de
+   papel—. Naciendo claro, el PDF es el mismo documento sin trucos.
+
+   ── El sistema ─────────────────────────────────────────────────────────────
+   Papel crema cálido · tinta casi negra · verde profundo como único acento ·
+   ámbar reservado EXCLUSIVAMENTE a los datos sin llenar.
+
+   Tipografías: Bricolage Grotesque en titulares, Instrument Sans en el texto,
+   IBM Plex Mono en cifras y etiquetas. Bricolage es variable con eje óptico
+   (12 a 96): aprieta las formas en titular y conserva cuerpo a 21 px. Se
+   probó contra cuatro serifs editoriales; las serifs leían «informe
+   corporativo» o se adelgazaban al bajar de tamaño. El contraste con el texto
+   lo da la forma, no la clase de letra.
+
+   ── MOBILE FIRST ───────────────────────────────────────────────────────────
+   Las reglas base son las del celular. Se sube con `min-width`, nunca se baja
+   con `max-width`. Importa de verdad en un documento como este: la tabla de
+   precios nace como fichas apiladas —que es como se lee en un teléfono— y
+   solo se convierte en tabla cuando hay ancho para las tres columnas. Al
+   revés, el celular heredaba una tabla y había que deshacerla.
+
+   Regla de oro del contenido: el cliente no lee, RECORRE. El peso va en
+   tarjetas, pasos numerados y fases. La prosa se reserva para las tres frases
+   de la portada y para las notas donde de verdad hay que matizar.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root{
+  /* El crema no es decorativo: el blanco puro a pantalla completa cansa, y en
+     un documento que se recorre entero se nota. */
+  --paper:#FBF8F2; --card:#FFFFFF; --card-2:#F4F0E7;
+  --ink:#14120E; --ink-soft:#54504A; --ink-dim:#86817A;
+  --line:#E6E0D4; --line-firm:#D3CBBC;
+
+  /* Verde profundo: único acento. Dice acuerdo y cifra, no «oferta». */
+  --accent:#0F5D52; --accent-soft:#E4EFEC; --accent-deep:#0A4139;
+
+  /* Ámbar: SOLO lo que falta llenar. Si aparece en otro sitio, el documento
+     pierde su única señal de alarma. */
+  --token:#B45309; --token-bg:#FDF4E3; --token-line:#D9A05B;
+
+  --display:'Bricolage Grotesque', system-ui, sans-serif;
+  --body:'Instrument Sans', system-ui, sans-serif;
+  --mono:'IBM Plex Mono', Menlo, monospace;
+
+  --radio:10px;
+}
+
+*{ box-sizing:border-box }
+html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; scroll-behavior:smooth }
+body{
+  margin:0; background:var(--paper); color:var(--ink); font-family:var(--body);
+  font-size:15.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{ font-family:var(--display); color:var(--ink); line-height:1.1; margin:0; font-weight:600 }
+/* A cada tamaño su óptico. El eje `opsz` de Bricolage no es decorativo: en el
+   extremo alto cierra contornos y acorta astas, que es lo que evita que un
+   titular de 58 px se vea como texto inflado. */
+h1{ font-variation-settings:'opsz' 96; letter-spacing:-.035em }
+h2{ font-variation-settings:'opsz' 72; letter-spacing:-.03em }
+p{ margin:0 0 14px }
+strong{ font-weight:600; color:var(--ink) }
+::selection{ background:rgba(15,93,82,.17) }
+a{ color:var(--accent) }
+
+/* ── Barra ──────────────────────────────────────────────────────────────── */
+.bar{
+  position:sticky; top:0; z-index:20; display:flex; align-items:center;
+  justify-content:space-between; gap:14px; padding:11px 18px;
+  background:rgba(251,248,242,.93); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.marca{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; min-width:0 }
+/* El logo entra como <img> o como <svg> en línea; las dos formas quedan a la
+   misma altura y quien escribe la cotización no toca el CSS. El `max-width`
+   evita que un logotipo apaisado empuje al botón de PDF fuera de la barra. */
+.marca img, .marca svg{ height:26px; width:auto; max-width:170px; display:block; color:var(--ink) }
+.marca .nombre{
+  font-family:var(--display); font-size:17px; font-weight:600;
+  font-variation-settings:'opsz' 24; letter-spacing:-.025em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color .2s;
+}
+a.marca:hover .nombre{ color:var(--accent) }
+/* En el celular no cabe y además es redundante: el nombre del cliente está en
+   la portada, a un dedo de distancia. */
+.bar__quien{ display:none }
+.btn{
+  font-family:var(--body); font-weight:600; font-size:10.5px; letter-spacing:.07em;
+  text-transform:uppercase; padding:9px 15px; border-radius:999px;
+  border:1px solid var(--accent); background:var(--accent); color:#FFFFFF;
+  cursor:pointer; white-space:nowrap; transition:background .2s, border-color .2s;
+}
+.btn:hover{ background:var(--accent-deep); border-color:var(--accent-deep) }
+.btn:focus-visible{ outline:2px solid var(--token); outline-offset:3px }
+
+.doc{ max-width:900px; margin:0 auto; padding:30px 18px 72px }
+
+/* ── Portada ────────────────────────────────────────────────────────────── */
+.eyebrow{
+  font-family:var(--mono); font-size:10px; letter-spacing:.17em;
+  text-transform:uppercase; color:var(--accent); display:block; margin-bottom:14px;
+}
+.head h1{ font-size:clamp(31px,8vw,58px); letter-spacing:-.035em; margin-bottom:18px }
+.head__sub{ color:var(--ink-soft); font-size:16.5px; max-width:56ch; margin-bottom:28px }
+.chips{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(135px,1fr)); gap:16px 22px;
+  padding:20px 0; border-top:1px solid var(--line-firm); border-bottom:1px solid var(--line-firm);
+}
+.chip{ display:flex; flex-direction:column; gap:5px }
+.chip span{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--ink-dim);
+}
+.chip b{
+  font-family:var(--display); font-weight:600; font-size:19px; line-height:1.15;
+  font-variation-settings:'opsz' 32; letter-spacing:-.025em;
+}
+
+/* ── Secciones ──────────────────────────────────────────────────────────── */
+.sec{ margin-top:50px }
+.sec > h2{
+  font-size:clamp(24px,5.4vw,33px); letter-spacing:-.03em;
+  padding-bottom:12px; margin-bottom:20px; border-bottom:1px solid var(--line-firm);
+  display:flex; align-items:baseline; gap:11px; flex-wrap:wrap;
+}
+.sec > h2 .n{
+  font-family:var(--mono); font-size:11px; color:var(--accent);
+  letter-spacing:.1em; font-weight:500;
+}
+.sec h3{
+  font-family:var(--body); font-weight:700; font-size:10.5px; text-transform:uppercase;
+  letter-spacing:.16em; color:var(--accent); margin:34px 0 13px;
+}
+.sec h3:first-child{ margin-top:2px }
+
+/* ── Dato sin llenar ────────────────────────────────────────────────────────
+   Tiene que gritar, en pantalla y en papel. Una cotización que sale con un
+   precio en blanco se nota tarde y se nota mal. */
+.tok{
+  display:inline-block; font-family:var(--mono); font-size:.85em; font-weight:600;
+  background:var(--token-bg); color:var(--token);
+  border:1px dashed var(--token-line); border-radius:4px; padding:1px 7px;
+  white-space:nowrap;
+}
+
+/* ── Tarjetas de lo que se puede hacer ──────────────────────────────────────
+   COLUMNAS, NO REJILLA. Con `grid` las tarjetas de una misma fila se igualan
+   a la más alta: una de nueve viñetas junto a una de tres abría un hueco de
+   doscientos píxeles, y sacar la larga a fila propia solo movía el hueco de
+   sitio. Con columnas CSS el navegador reparte las tarjetas y equilibra las
+   alturas él solo, sin importar cuánto mida cada una.
+   El orden de lectura pasa a ser por columna, y aquí da igual: es un catálogo
+   de capacidades, no una secuencia. */
+.mods{ margin:16px 0 }
+
+/* ── Tarjetas en pares ───────────────────────────────────────────────────
+   Rejilla de dos, no columnas. `.mods` usa `columns`, que llena en greedy:
+   con tres tarjetas reparte 2+1 y con alturas muy distintas deja un hueco
+   largo al pie de una columna. En rejilla las dos de cada fila miden lo
+   mismo y el borde inferior queda parejo.
+
+   Se usa para los dos grupos de filtros —diez ítems cada uno, el doble de
+   altos que el resto, y lo que según el cliente decide la reserva— y para
+   cualquier grupo de cuatro, que cae en dos filas limpias. */
+.duo{ display:grid; gap:13px; margin:16px 0 }
+.duo .mod{ margin:0 }
+.mod{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radio);
+  padding:18px 19px; margin:0 0 13px; break-inside:avoid;
+  box-shadow:0 1px 2px rgba(20,18,14,.035);
+}
+.mod b{
+  display:block; font-family:var(--display); font-weight:600; font-size:18.5px;
+  font-variation-settings:'opsz' 24; letter-spacing:-.022em; margin-bottom:6px;
+}
+.mod p{ margin:0; font-size:14.5px; color:var(--ink-soft); line-height:1.45 }
+.mod ul{ margin:12px 0 0; padding:0; list-style:none; font-size:14px; color:var(--ink-soft) }
+.mod li{ position:relative; padding-left:17px; margin-bottom:7px; line-height:1.45 }
+.mod li:last-child{ margin-bottom:0 }
+.mod li::before{
+  content:''; position:absolute; left:3px; top:8px; width:5px; height:5px;
+  border-radius:50%; background:var(--accent);
+}
+
+/* ── Recorrido numerado ─────────────────────────────────────────────────── */
+.flow{ list-style:none; counter-reset:f; margin:18px 0 0; padding:0 0 0 28px; border-left:2px solid var(--line-firm) }
+.flow li{ counter-increment:f; position:relative; padding:0 0 22px 2px }
+.flow li:last-child{ padding-bottom:0 }
+.flow li::before{
+  content:counter(f); position:absolute; left:-42px; top:-2px;
+  width:27px; height:27px; border-radius:50%;
+  background:var(--accent); color:#FFFFFF;
+  font-family:var(--mono); font-size:12px; font-weight:500;
+  display:flex; align-items:center; justify-content:center;
+}
+.flow b{
+  display:block; font-family:var(--display); font-weight:600; font-size:17.5px;
+  font-variation-settings:'opsz' 24; letter-spacing:-.022em; margin-bottom:3px;
+}
+.flow p{ margin:0; font-size:14.5px; color:var(--ink-soft) }
+/* Los últimos pasos son los del dueño, no los del huésped: van en papel
+   propio para que se vea que el recorrido no termina en la reserva. */
+.flow li.mio{ background:var(--accent-soft); border-radius:var(--radio); padding:15px 17px 16px; margin:0 0 10px -4px }
+.flow li.mio::before{ top:13px; left:-38px }
+
+/* ── Fases ──────────────────────────────────────────────────────────────── */
+.fases{ display:grid; gap:13px; margin:18px 0 }
+.fase{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radio);
+  padding:20px 21px; box-shadow:0 1px 2px rgba(20,18,14,.035);
+}
+.fase__head{ display:flex; align-items:baseline; gap:11px; flex-wrap:wrap; margin-bottom:12px }
+.fase__n{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:#FFFFFF; background:var(--accent); padding:4px 10px; border-radius:999px; font-weight:500;
+}
+.fase__head b{
+  font-family:var(--display); font-weight:600; font-size:20px;
+  font-variation-settings:'opsz' 32; letter-spacing:-.025em;
+}
+.fase__head .plazo{ font-family:var(--mono); font-size:11px; color:var(--ink-dim); width:100% }
+.fase__in{ margin:0; padding:0; list-style:none; font-size:14.5px; color:var(--ink-soft) }
+.fase__in li{ position:relative; padding-left:16px; margin-bottom:6px; line-height:1.45 }
+.fase__in li::before{ content:''; position:absolute; left:2px; top:8px; width:5px; height:5px; border-radius:50%; background:var(--line-firm) }
+/* Lo que de verdad vende: no la lista de tareas, sino qué puede ABRIR Y
+   PROBAR el cliente el día que la fase cierra. */
+.fase__see{
+  margin:16px 0 0; padding:15px 17px; border-radius:8px;
+  background:var(--accent-soft); font-size:15.5px; line-height:1.45;
+  color:var(--accent-deep);
+}
+.fase__see span{
+  display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:5px;
+}
+.fase__see strong{
+  font-family:var(--display); font-weight:600; font-size:17.5px;
+  font-variation-settings:'opsz' 32; letter-spacing:-.022em; color:var(--accent-deep);
+}
+
+/* ── El total ───────────────────────────────────────────────────────────────
+   Lo primero que busca cualquiera al abrir una cotización es la cifra. Estaba
+   repartida en cuatro sitios y repetida cuatro veces no resalta en ninguno.
+   Un solo sitio donde grita. */
+.total{
+  margin:18px 0 24px; padding:24px 22px;
+  background:var(--accent-deep); color:#FFFFFF; border-radius:12px;
+}
+.total > span{
+  display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:rgba(255,255,255,.62); margin-bottom:11px;
+}
+.total b{
+  display:block; font-family:var(--display); font-weight:600;
+  font-size:clamp(32px,8.5vw,62px); font-variation-settings:'opsz' 96;
+  letter-spacing:-.04em; line-height:1;
+}
+.total p{ margin:13px 0 0; font-size:14px; color:rgba(255,255,255,.72) }
+
+/* ── Tablas: nacen como fichas ──────────────────────────────────────────────
+   Esta es la regla que justifica el mobile first. En un teléfono una tabla de
+   tres columnas comprime el precio al tamaño de la descripción, y el precio
+   es justo lo que se busca. Así que la ficha es la forma BASE, y la tabla
+   aparece solo cuando hay ancho. */
+.tbl-wrap{ margin:14px 0 }
+table{ width:100%; border-collapse:collapse; font-size:15px; display:block }
+thead{ display:none }
+tbody{ display:block }
+tr{
+  display:block; border:1px solid var(--line); border-radius:var(--radio);
+  padding:15px 17px; margin-bottom:11px; background:var(--card);
+}
+td{ display:block; padding:3px 0; border:none; color:var(--ink-soft); line-height:1.45 }
+td.name{
+  font-family:var(--display); font-weight:600; font-size:17.5px; color:var(--ink);
+  font-variation-settings:'opsz' 24; letter-spacing:-.022em; margin-bottom:5px;
+}
+td[data-l]::before{
+  content:attr(data-l) ' · '; font-family:var(--mono); font-size:9.5px;
+  text-transform:uppercase; letter-spacing:.13em; color:var(--ink-dim);
+}
+td.name::before{ display:none }
+td.price{ font-family:var(--mono); font-size:19px; color:var(--ink); margin-top:4px }
+tr.totalrow{ border:2px solid var(--accent) }
+tr.totalrow .name{ font-size:20px }
+
+/* ── Qué entra y qué no ─────────────────────────────────────────────────────
+   La columna de la derecha vale tanto como la de la izquierda: ahí mueren los
+   «pensé que estaba incluido» de la semana ocho. */
+.alcance{ display:grid; gap:13px; margin:18px 0 }
+.alcance > div{ border:1px solid var(--line); border-radius:var(--radio); padding:18px 20px; background:var(--card) }
+/* `.alcance > div` pesa (0,1,1) y `.alcance--no` solo (0,1,0): sin el hijo
+   directo en el selector, el fondo blanco de arriba gana y las dos columnas
+   salen idénticas. */
+.alcance > .alcance--no{ background:var(--card-2); border-color:var(--line-firm) }
+.alcance h4{
+  font-family:var(--body); font-weight:700; font-size:10.5px; letter-spacing:.15em;
+  text-transform:uppercase; margin:0 0 13px;
+}
+.alcance--si h4{ color:var(--accent) }
+.alcance--no h4{ color:var(--ink-dim) }
+.alcance ul{ margin:0; padding:0; list-style:none; font-size:14.5px; line-height:1.45 }
+.alcance li{ display:grid; grid-template-columns:auto 1fr; gap:11px; margin-bottom:10px; align-items:start }
+.alcance li:last-child{ margin-bottom:0 }
+.alcance li::before{ font-family:var(--mono); font-size:13px; font-weight:600; line-height:1.45 }
+.alcance--si li{ color:var(--ink-soft) }
+.alcance--si li::before{ content:'✓'; color:var(--accent) }
+/* La equis es contenido, no adorno: distingue «no entra» de «entra». En gris
+   claro sobre crema daba 1,3:1 y desaparecía. */
+.alcance--no li{ color:var(--ink-dim) }
+.alcance--no li::before{ content:'✕'; color:var(--ink-dim) }
+
+/* ── Cómo se paga ───────────────────────────────────────────────────────── */
+.pagos{ display:grid; gap:13px; margin:18px 0 }
+.pago{
+  border:1px solid var(--line); border-radius:var(--radio); padding:20px 21px;
+  background:var(--card); box-shadow:0 1px 2px rgba(20,18,14,.035);
+}
+.pago .cuando{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--accent); margin:0 0 8px;
+}
+.pago .monto{
+  font-family:var(--display); font-size:28px; font-weight:600; line-height:1;
+  font-variation-settings:'opsz' 72; letter-spacing:-.03em; margin:0 0 9px;
+}
+.pago .detalle{ margin:0; font-size:14px; color:var(--ink-soft) }
+
+/* ── Tres piezas en fila ────────────────────────────────────────────────────
+   Se usa en el equipo, en los tres pagos y en el mapa de crecimiento. Tres es
+   el número que cabe en una fila sin apretarse y que no se lee como lista.
+   Debajo de 760 px caen a dos y una, que es mejor que tres columnas de 110 px. */
+.trio{ display:grid; gap:13px; margin:18px 0 }
+.trio .mod{ margin-bottom:0 }
+@media (min-width:760px){
+  .trio{ grid-template-columns:repeat(3,1fr) }
+  /* `.pagos` reparte en dos desde 560 px; con tres pagos hay que ganarle. */
+  .pagos.trio{ grid-template-columns:repeat(3,1fr) }
+}
+
+/* ── Mapa de crecimiento ────────────────────────────────────────────────────
+   Las fases que todavía no se cotizan. Van en trazo discontinuo: se ve que
+   existen y se ve que no están compradas. */
+.ruta{ border:1px dashed var(--line-firm); border-radius:var(--radio);
+       padding:18px 20px; background:transparent }
+.ruta--hoy{ border-style:solid; border-color:var(--accent);
+            background:var(--accent-soft) }
+.ruta span{ display:block; font-family:var(--mono); font-size:9.5px;
+            letter-spacing:.15em; text-transform:uppercase;
+            color:var(--ink-dim); margin-bottom:9px }
+.ruta--hoy span{ color:var(--accent) }
+.ruta b{ display:block; font-family:var(--display); font-weight:600; font-size:18px;
+         font-variation-settings:'opsz' 24; letter-spacing:-.022em; margin-bottom:5px }
+.ruta p{ margin:0; font-size:14px; color:var(--ink-soft); line-height:1.45 }
+.ruta--hoy p{ color:var(--accent-deep) }
+
+/* ── Lo que necesito del cliente ────────────────────────────────────────── */
+.material{ display:grid; gap:11px 26px; margin:14px 0 0; padding:0; list-style:none; font-size:15px }
+/* Viñeta posicionada, no en rejilla. Con `display:grid` cada hijo del <li> se
+   volvía una celda: un <strong> en mitad de la frase partía el renglón y el
+   resto del texto caía a una fila nueva, debajo y descolgado. Así el <li>
+   admite cualquier contenido en línea sin romperse. */
+.material li{ position:relative; padding-left:18px; color:var(--ink-soft) }
+/* Punto, no casilla: el cuadro vacío parece un checkbox que se puede marcar,
+   y es una promesa de interacción que un documento impreso no cumple. */
+.material li::before{ content:''; position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:var(--accent) }
+
+/* ── Notas ──────────────────────────────────────────────────────────────── */
+.note{
+  background:var(--card-2); border-left:3px solid var(--line-firm);
+  padding:15px 18px; border-radius:0 8px 8px 0; font-size:14.5px; margin:18px 0;
+  color:var(--ink-soft);
+}
+.note p:last-child{ margin-bottom:0 }
+.note strong{ color:var(--ink) }
+.note--ok{ background:var(--accent-soft); border-left-color:var(--accent); color:var(--accent-deep) }
+.note--ok strong{ color:var(--accent-deep) }
+.fine{ font-size:13.5px; color:var(--ink-dim); font-style:italic }
+
+/* ── Cierre ─────────────────────────────────────────────────────────────── */
+.foot{ margin-top:64px; text-align:center }
+.rule{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:22px }
+.rule i{ display:block; height:1px; width:64px; background:var(--line-firm) }
+.rule b{ width:6px; height:6px; background:var(--accent); transform:rotate(45deg) }
+.foot p{ max-width:54ch; margin:0 auto 10px; color:var(--ink-soft) }
+.foot .sign{
+  font-family:var(--display); font-size:20px; font-weight:600;
+  font-variation-settings:'opsz' 32; letter-spacing:-.02em; color:var(--ink); margin-top:18px;
+}
+.foot .sign span{ color:var(--accent) }
+.foot .contact{ font-family:var(--mono); font-size:12px; color:var(--ink-dim); margin-top:6px }
+
+/* ═══ A PARTIR DE AQUÍ SE SUBE ══════════════════════════════════════════════
+   Nada de `max-width`. Cada corte añade, no deshace. */
+
+@media (min-width:560px){
+  .pagos{ grid-template-columns:1fr 1fr }
+  .material{ grid-template-columns:1fr 1fr }
+}
+
+@media (min-width:640px){
+  .alcance{ grid-template-columns:1fr 1fr }
+}
+
+@media (min-width:700px){
+  body{ font-size:16px }
+  .bar{ padding:13px clamp(18px,5vw,56px); gap:16px }
+  .bar__quien{
+    display:inline; font-family:var(--mono); font-size:10.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-dim); margin-left:4px; white-space:nowrap;
+  }
+  .marca img, .marca svg{ height:27px; max-width:190px }
+  .marca .nombre{ font-size:19px }
+  .btn{ font-size:11.5px; letter-spacing:.08em; padding:10px 19px }
+  .doc{ padding:clamp(32px,6vw,60px) clamp(18px,5vw,56px) 90px }
+
+  .head__sub{ font-size:17.5px; margin-bottom:32px }
+  .head h1{ margin-bottom:20px }
+  .chips{ gap:18px 24px; padding:22px 0 }
+  .chip b{ font-size:21px }
+
+  .sec{ margin-top:58px }
+  .sec > h2{ padding-bottom:13px; margin-bottom:22px; gap:13px }
+  .sec h3{ margin:36px 0 14px }
+
+  /* Las tarjetas se reparten en dos columnas equilibradas por el navegador. */
+  .mods{ columns:2; column-gap:13px }
+  .duo{ grid-template-columns:1fr 1fr }
+  .mod{ padding:20px 21px; margin-bottom:13px }
+  .mod b{ font-size:19px }
+
+  .flow{ padding-left:32px; margin-top:20px }
+  .flow li{ padding-bottom:25px }
+  .flow li::before{ left:-47px; width:30px; height:30px; font-size:12.5px }
+  .flow li.mio{ padding:16px 18px 17px }
+  .flow li.mio::before{ top:14px; left:-43px }
+  .flow b{ font-size:18.5px }
+
+  .fase{ padding:22px 23px }
+  .fase__head{ gap:13px; margin-bottom:13px }
+  .fase__head b{ font-size:21px }
+  /* Con ancho, el plazo se va a la derecha de su propia línea de título. */
+  .fase__head .plazo{ width:auto; margin-left:auto; font-size:11.5px }
+  .fase__see{ padding:16px 19px; font-size:16px }
+  .fase__see strong{ font-size:18px }
+
+  .total{ padding:30px clamp(22px,4vw,34px); margin:20px 0 26px }
+  .total p{ font-size:14.5px }
+
+  /* Y aquí la ficha vuelve a ser tabla. */
+  .tbl-wrap{ overflow-x:auto }
+  table{ display:table }
+  thead{ display:table-header-group }
+  tbody{ display:table-row-group }
+  tr{
+    display:table-row; border:none; border-radius:0; padding:0;
+    margin:0; background:transparent;
+  }
+  thead th{
+    font-family:var(--body); font-weight:700; font-size:10px; text-transform:uppercase;
+    letter-spacing:.14em; color:var(--ink-dim); text-align:left; padding:10px 12px;
+    border-bottom:1px solid var(--line-firm);
+  }
+  td{ display:table-cell; padding:14px 12px; vertical-align:top; border-bottom:1px solid var(--line) }
+  td[data-l]::before{ display:none }
+  td.name{ font-family:var(--body); font-size:15px; letter-spacing:0; margin-bottom:0 }
+  td.price{ font-size:14px; white-space:nowrap; text-align:right; margin-top:0 }
+  tr.totalrow{ border:none }
+  .totalrow td{ border-top:2px solid var(--ink); border-bottom:none; padding-top:17px }
+  .totalrow .name{
+    font-family:var(--display); font-size:23px; font-weight:600;
+    font-variation-settings:'opsz' 32; letter-spacing:-.025em; color:var(--ink);
+  }
+  .totalrow .price{ font-size:18px; font-weight:600 }
+
+  .alcance > div{ padding:20px 22px }
+  .pago{ padding:22px 23px }
+  .pago .monto{ font-size:31px }
+  .note{ padding:16px 20px; margin:20px 0 }
+  .foot{ margin-top:74px }
+  .foot .sign{ font-size:21px }
+}
+
+@media (min-width:900px){
+  .head h1{ max-width:22ch }
+}
+
+/* ── Papel ──────────────────────────────────────────────────────────────────
+   Casi no hay nada que hacer, y ESA es la ventaja de haber nacido claro: el
+   impreso es el mismo documento. Se quita el cromo de pantalla, se fuerza la
+   tabla —que en papel siempre hay ancho— y se evita que las piezas se partan
+   entre páginas. */
+@media print{
+  @page{ size:A4; margin:14mm 12mm }
+  html, body{ background:#FFFFFF !important }
+  *{ box-shadow:none !important }
+  body{ font-size:10.4pt; line-height:1.46 }
+  .bar{ display:none !important }
+  .doc{ max-width:none; padding:0 }
+  .sec{ margin-top:24px }
+  .sec > h2{ break-after:avoid; font-size:16pt }
+  .head h1{ font-size:26pt; max-width:22ch }
+
+  .mods{ columns:2; column-gap:12px }
+  .duo{ grid-template-columns:1fr 1fr }
+  .mod, .fase, .pago, .note, .alcance > div, tr, .flow li, .chips, .total{ break-inside:avoid }
+
+  /* El panel del total se imprime en blanco con filete: a sangre se come el
+     tóner y la cifra sale peor que sin fondo. */
+  .total{ background:#FFFFFF !important; color:var(--ink) !important; border:2px solid var(--accent) }
+  .total > span{ color:var(--accent) !important }
+  .total p{ color:var(--ink-soft) !important }
+
+  table{ display:table; font-size:9.4pt }
+  thead{ display:table-header-group }
+  tbody{ display:table-row-group }
+  tr{ display:table-row; border:none; padding:0; margin:0; background:transparent }
+  td{ display:table-cell; padding:9px 10px; border-bottom:1px solid var(--line) }
+  td[data-l]::before{ display:none }
+  td.name{ font-family:var(--body); font-size:9.4pt; letter-spacing:0; margin-bottom:0 }
+  td.price{ text-align:right; white-space:nowrap; font-size:9.4pt; margin-top:0 }
+  tr.totalrow{ border:none }
+  .totalrow td{ border-top:2px solid var(--ink); border-bottom:none }
+  .totalrow .name{ font-family:var(--display); font-size:14pt }
+
+  .fase__head .plazo{ width:auto; margin-left:auto }
+  .foot{ margin-top:34px; break-inside:avoid }
+}
+/* ==ESTILO:FIN== */
+</style>
+<style>
+/* Solo en esta propuesta: el rosa de Meli Shop en lugar del verde de la
+   hoja común. Va como capa encima de los tokens, así la hoja canónica y las
+   otras cotizaciones no cambian. Contrastes medidos: acento sobre papel
+   5,3:1 · texto profundo sobre fondo suave 7,5:1 · blanco sobre acento 5,5:1. */
+:root{
+  --accent:#C2296A; --accent-soft:#FCE6EF; --accent-deep:#8C1A4B;
+  --paper:#FFF9FB; --card-2:#FBF0F4; --line:#F1DEE6; --line-firm:#E3C9D4;
+}
+::selection{ background:rgba(194,41,106,.18) }
+
+/* Legibilidad, también solo aquí. La hoja común baja las etiquetas hasta
+   9,5 px y el gris tenue queda en 3,6:1; esta propuesta sale a la clienta
+   ahora y no espera a que se decida el cambio de la hoja común.
+   Gris nuevo: 5,5:1 sobre blanco y 4,9:1 sobre el rosa claro. */
+:root{ --ink-dim:#6E6862 }
+.btn, .bar__quien, .eyebrow, .chip span, .sec h3, .fase__n, .fase__see span,
+.total > span, td[data-l]::before, .alcance h4, .pago .cuando, thead th{ font-size:11px }
+.note{ border-left:0; border:1px solid var(--line); border-radius:var(--radio) }
+.note--ok{ border-color:#F6C9DA }
+
+/* Las tres pantallas del ejemplo. */
+.muestra{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:20px 0 4px }
+.muestra img{ width:100%; height:auto; display:block; border-radius:14px; border:1px solid var(--line); background:var(--card) }
+.muestra figcaption{ grid-column:1/-1; font-size:13px; color:var(--ink-dim); font-style:italic; margin-top:2px }
+@media print{ .muestra{ break-inside:avoid } }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <a class="marca" href="https://jvagencia.com" target="_blank" rel="noopener">
+    <svg viewBox="0 0 748 622" role="img" aria-label="JV Agencia" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,622) scale(0.1,-0.1)" stroke="none"><path fill="currentColor" d="M2850 4106 l0 -1713 58 -7 c79 -9 228 9 304 37 73 26 158 80 207 130 l33 35 0 1529 c0 840 -1 1567 -1 1616 l-1 87 -300 0 -300 0 0 -1714z"/><path fill="currentColor" d="M6431 5803 c-16 -31 -922 -2197 -1101 -2633 -59 -144 -394 -952 -467 -1127 -15 -35 -27 -62 -29 -60 -3 4 -166 389 -250 594 -43 106 -82 193 -85 193 -3 0 -73 -75 -156 -167 -83 -93 -181 -200 -216 -238 l-65 -71 88 -224 c48 -124 201 -504 340 -845 139 -341 271 -666 294 -722 22 -57 44 -103 47 -103 8 0 18 21 146 335 62 154 143 350 178 435 35 85 127 313 205 505 78 193 229 559 335 815 106 256 232 560 280 675 48 116 140 338 205 495 65 157 148 357 185 445 37 88 84 201 105 250 88 210 336 800 440 1045 160 378 170 402 170 411 0 5 -144 9 -320 9 -294 0 -320 -1 -329 -17z"/><path fill="currentColor" d="M3580 4250 l0 -759 110 -281 c61 -154 110 -285 110 -290 0 -25 27 -1 130 113 137 153 260 311 289 370 l22 45 -34 89 c-19 48 -55 139 -81 201 -26 62 -44 118 -40 124 12 18 122 1 175 -29 156 -85 173 -290 41 -510 -83 -139 -278 -376 -476 -580 -247 -256 -453 -402 -656 -464 -102 -32 -254 -33 -320 -3 -65 30 -107 69 -138 128 -24 45 -27 62 -27 146 1 73 6 109 23 155 21 56 22 75 22 317 0 144 -4 258 -9 258 -5 0 -46 -39 -91 -87 -298 -315 -386 -641 -251 -928 71 -150 207 -274 352 -320 44 -14 86 -25 94 -25 8 0 16 -3 18 -8 3 -4 -3 -66 -14 -139 -71 -488 -254 -804 -555 -956 -183 -92 -378 -107 -580 -43 -288 92 -508 376 -618 799 -23 89 -63 326 -68 412 l-3 40 -304 3 -304 2 6 -117 c20 -378 178 -745 432 -998 317 -318 788 -462 1305 -400 512 61 920 328 1130 740 87 171 155 417 181 657 11 105 12 107 41 119 46 19 192 113 267 171 327 257 720 694 870 969 147 270 157 524 31 740 -126 214 -372 330 -635 301 -44 -5 -83 -6 -87 -3 -5 4 -32 65 -62 136 -200 482 -280 665 -288 665 -5 0 -8 342 -8 -760z"/></g></svg>
+    <span class="nombre">Agencia</span>
+    <span class="bar__quien">Propuesta para Meli Shop</span>
+  </a>
+  <button class="btn" onclick="window.print()">Guardar como PDF</button>
+</div>
+
+<div class="doc">
+
+  <!-- 01 · PORTADA ─────────────────────────────────────────────────────── -->
+  <header class="head">
+    <span class="eyebrow">Propuesta · 19 de noviembre de 2026</span>
+    <h1>Que su clienta compre sin esperar respuesta.</h1>
+    <p class="head__sub">
+      Hoy cada venta pasa por una conversación: reenviar la foto, confirmar la
+      talla, enviar el número de Nequi y esperar el comprobante. La tienda
+      muestra la colección con sus tallas, cobra en línea y le entrega el
+      pedido listo para despachar.
+    </p>
+    <div class="chips">
+      <div class="chip"><span>Qué se construye</span><b>Tienda y panel</b></div>
+      <div class="chip"><span>Plazo</span><b>Cinco semanas</b></div>
+      <div class="chip"><span>Descuento</span><b>25&nbsp;%</b></div>
+      <div class="chip"><span>Inversión</span><b>$&nbsp;2.445.000</b></div>
+    </div>
+  </header>
+
+  <!-- 02 · QUÉ INCLUYE ─────────────────────────────────────────────────── -->
+  <section class="sec">
+    <h2><span class="n">02</span> Qué incluye</h2>
+
+    <div class="duo">
+      <article class="mod">
+        <b>Para sus clientas</b>
+        <ul>
+          <li>Catálogo por categoría y por colección de temporada</li>
+          <li>Tallas y colores con existencias propias; la agotada no se puede pedir</li>
+          <li>Cuatro formas de entrega, cada una con la tarifa que usted defina: recoger en Turbaco sin costo, domicilio en Turbaco, domicilio en Cartagena y envío nacional por transportadora</li>
+          <li>Pago con Nequi, PSE, Bancolombia o tarjeta, sin enviar comprobantes</li>
+          <li>O el pedido ya escrito por WhatsApp</li>
+          <li>Aviso cuando sale el pedido, con el número de guía</li>
+        </ul>
+      </article>
+
+      <article class="mod">
+        <b>Para usted, el panel</b>
+        <ul>
+          <li>Publicar, editar y ocultar prendas, con fotos y precios</li>
+          <li>Existencias que se descuentan solas con cada venta</li>
+          <li>Aviso cuando una talla está por agotarse</li>
+          <li>Pedidos con su estado; al despachar, registra el número de guía y la clienta recibe el aviso</li>
+          <li>Tarifas de envío y monto para envío gratis</li>
+        </ul>
+      </article>
+    </div>
+
+    <figure class="muestra">
+      <img src="ejemplo-tienda-meli-shop/vista-inicio.webp" alt="Ejemplo: portada de la tienda de Meli Shop en el celular" width="600" height="1298" />
+      <img src="ejemplo-tienda-meli-shop/vista-ficha.webp" alt="Ejemplo: ficha de una blusa con la talla M agotada" width="600" height="1298" />
+      <img src="ejemplo-tienda-meli-shop/vista-panel.webp" alt="Ejemplo: panel de pedidos de Meli Shop" width="600" height="1298" />
+      <figcaption>Ejemplo con fotos de su Instagram; nombres, precios y tallas de ejemplo.</figcaption>
+    </figure>
+
+    <div class="note note--ok">
+      <p>
+        <strong>Puede recorrerla antes de decidir:</strong>
+        <a href="ejemplo-tienda-meli-shop.html">jvagencia.com/ejemplo-tienda-meli-shop.html</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 03 · LAS FASES ───────────────────────────────────────────────────── -->
+  <section class="sec">
+    <h2><span class="n">03</span> En qué orden se construye</h2>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Fase</th><th>Al cerrar la fase</th><th style="text-align:right">Plazo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">1 · Diseño y catálogo</td>
+            <td data-l="Resultado">Usted publica una prenda con sus tallas y la ve en la tienda, desde un enlace privado</td>
+            <td class="price" data-l="Plazo">Semanas 1 y 2</td>
+          </tr>
+          <tr>
+            <td class="name">2 · Compra y pago</td>
+            <td data-l="Resultado">Una compra de prueba, de principio a fin, llega a su panel</td>
+            <td class="price" data-l="Plazo">Semanas 3 y 4</td>
+          </tr>
+          <tr>
+            <td class="name">3 · Publicación</td>
+            <td data-l="Resultado">La tienda queda en su dominio, con hasta cincuenta prendas cargadas, y recibe pagos reales</td>
+            <td class="price" data-l="Plazo">Semana 5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="fine">
+      El plazo comienza cuando la lista de prendas y sus fotos estén completas;
+      la fase 1 puede avanzar con las primeras diez.
+    </p>
+  </section>
+
+  <!-- 04 · INVERSIÓN ───────────────────────────────────────────────────── -->
+  <section class="sec">
+    <h2><span class="n">04</span> Inversión</h2>
+
+    <div class="total">
+      <span>Inversión total · con el 25&nbsp;% de descuento</span>
+      <b>$ 2.445.000</b>
+      <p>Antes $ 3.260.000 · ahorro de $ 815.000 · pesos colombianos</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Concepto</th><th>Qué incluye</th><th style="text-align:right">Valor</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Tienda virtual</td>
+            <td data-l="Incluye">Catálogo, bolsa de compras, pago en línea, envíos y panel</td>
+            <td class="price" data-l="Valor">$ 2.500.000</td>
+          </tr>
+          <tr>
+            <td class="name">Tallas y colores</td>
+            <td data-l="Incluye">Existencias propias por talla y por color</td>
+            <td class="price" data-l="Valor">$ 250.000</td>
+          </tr>
+          <tr>
+            <td class="name">Pedido por WhatsApp</td>
+            <td data-l="Incluye">El pedido llega ya escrito, además del pago en línea</td>
+            <td class="price" data-l="Valor">$ 80.000</td>
+          </tr>
+          <tr>
+            <td class="name">Identidad de la tienda</td>
+            <td data-l="Incluye">Paleta y tipografías a partir de su logo</td>
+            <td class="price" data-l="Valor">$ 180.000</td>
+          </tr>
+          <tr>
+            <td class="name">Dominio, alojamiento y base de datos</td>
+            <td data-l="Incluye">Primer año, a su nombre: la dirección de la tienda, el servidor y la base de datos de prendas, clientas y pedidos</td>
+            <td class="price" data-l="Valor">$ 250.000</td>
+          </tr>
+          <tr>
+            <td class="name">Subtotal</td>
+            <td data-l="Detalle">Valor de lista</td>
+            <td class="price" data-l="Valor">$ 3.260.000</td>
+          </tr>
+          <tr>
+            <td class="name">Descuento del 25&nbsp;%</td>
+            <td data-l="Detalle">Promoción vigente</td>
+            <td class="price" data-l="Valor">− $ 815.000</td>
+          </tr>
+          <tr class="totalrow">
+            <td class="name">Total</td>
+            <td data-l="Plazo">Cinco semanas</td>
+            <td class="price" data-l="Total">$ 2.445.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Forma de pago</h3>
+    <div class="pagos trio">
+      <div class="pago">
+        <p class="cuando">Al aprobar</p>
+        <p class="monto">$ 1.222.500</p>
+        <p class="detalle">Comienza la fase 1.</p>
+      </div>
+      <div class="pago">
+        <p class="cuando">Contra publicación</p>
+        <p class="monto">$ 1.222.500</p>
+        <p class="detalle">Con la tienda publicada y aprobada por usted.</p>
+      </div>
+      <div class="pago">
+        <p class="cuando">Desde el segundo año</p>
+        <p class="monto">$ 290.000</p>
+        <p class="detalle">Al año: dominio, alojamiento, base de datos y mantenimiento. Sin mensualidad ni comisión por venta.</p>
+      </div>
+    </div>
+
+    <h3>Opcional, aparte del total</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Qué es</th><th>Para qué sirve</th><th style="text-align:right">Valor</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Envíos con Envia</td>
+            <td data-l="Para qué">En lugar de tarifas fijas y guía manual: la tarifa real de la transportadora se calcula al pagar y la guía se genera desde el panel. Cada envío lo cobra Envia, en su cuenta</td>
+            <td class="price" data-l="Valor">$ 250.000</td>
+          </tr>
+          <tr>
+            <td class="name">Cupones y descuentos</td>
+            <td data-l="Para qué">Códigos y precio tachado en temporada de ofertas</td>
+            <td class="price" data-l="Valor">$ 150.000</td>
+          </tr>
+          <tr>
+            <td class="name">Recuperación de compras</td>
+            <td data-l="Para qué">Recordatorio a quien dejó la compra a medias</td>
+            <td class="price" data-l="Valor">$ 300.000</td>
+          </tr>
+          <tr>
+            <td class="name">Correo con su dominio</td>
+            <td data-l="Para qué">pedidos@ su dominio, en lugar de Gmail</td>
+            <td class="price" data-l="Valor">$ 150.000</td>
+          </tr>
+          <tr>
+            <td class="name">Facturación electrónica</td>
+            <td data-l="Para qué">Factura automática ante la DIAN, si el negocio está obligado</td>
+            <td class="price" data-l="Valor">$ 700.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Alcance de la propuesta</h3>
+    <div class="alcance">
+      <div class="alcance--si">
+        <h4>Incluye</h4>
+        <ul>
+          <li>Diseño propio con la identidad de Meli Shop</li>
+          <li>Seis páginas, pensadas primero para el celular</li>
+          <li>Carga inicial de hasta cincuenta prendas</li>
+          <li>Certificado de seguridad y copias de respaldo</li>
+          <li>Capacitación y treinta días de ajustes sin costo</li>
+        </ul>
+      </div>
+      <div class="alcance--no">
+        <h4>No incluye</h4>
+        <ul>
+          <li>Cuenta y comisiones de la pasarela de pago</li>
+          <li>Empaque, despacho y transportadora</li>
+          <li>Fotografía de producto</li>
+          <li>Publicidad en redes</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="fine">
+      El descuento aplica a los cinco conceptos; opcionales y renovación van
+      a valor de lista. El dinero de las
+      ventas llega directo a la cuenta de Meli Shop; JV Agencia no cobra
+      porcentaje sobre ellas. No se cobra IVA: el emisor es no responsable de IVA.
+    </p>
+  </section>
+
+  <!-- 05 · PARA COMENZAR ───────────────────────────────────────────────── -->
+  <section class="sec">
+    <h2><span class="n">05</span> Para comenzar necesito de usted</h2>
+
+    <ul class="material">
+      <li>El logo en la mejor calidad disponible</li>
+      <li>La lista de prendas con precio, tallas, colores y existencias; le envío la plantilla</li>
+      <li>Las fotos originales de cada prenda</li>
+      <li>Las tarifas de envío y su política de cambios</li>
+      <li>El número de WhatsApp de pedidos y el dominio que prefiere</li>
+      <li>La cuenta en la pasarela de pago, a nombre del negocio; le acompaño en el proceso</li>
+    </ul>
+
+    <div class="note note--ok">
+      <p>
+        <strong>Apruebe y comenzamos con la fase 1.</strong> Responda este
+        documento o escríbame por WhatsApp al +57&nbsp;316&nbsp;166&nbsp;2975.
+      </p>
+    </div>
+  </section>
+
+  <div class="foot">
+    <div class="rule"><i></i><b></b><i></i></div>
+    <p class="sign">Luis Jaller · <span>JV Agencia</span></p>
+    <p class="contact">contacto@jvagencia.com · jvagencia.com · WhatsApp +57&nbsp;316&nbsp;166&nbsp;2975</p>
+    <p class="fine" style="margin-top:14px">
+      Propuesta JV-2026-025 para Meli Shop · valores en pesos colombianos.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>

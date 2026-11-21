@@ -3,8 +3,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { CABECERA_RUTA } from "@/lib/rutas";
 import {
   buscarDoc,
+  esAnexo,
   nombreCookie,
   tokenValido,
+  PARAM_LLAVE,
   RUTA_ACCESO,
 } from "@/lib/private-docs";
 
@@ -72,9 +74,15 @@ export async function proxy(req: NextRequest) {
   if (!doc) return seguir(req);
 
   const clave = process.env[doc.passEnv];
+  // Enlace con llave (ver PARAM_LLAVE): entra y deja la misma llave como cookie.
+  // Se sirve directo, sin redirigir: WhatsApp arma la vista previa con esta
+  // URL, y una redirección le mostraría la pantalla de acceso.
+  const llave = req.nextUrl.searchParams.get(PARAM_LLAVE) ?? undefined;
+  const conLlave = !!clave && (await tokenValido(llave, doc.id, clave));
   const abierto =
+    conLlave ||
     // Sin contraseña configurada nadie entra: mejor inaccesible que abierto.
-    !!clave && (await tokenValido(req.cookies.get(nombreCookie(doc.id))?.value, doc.id, clave));
+    (!!clave && (await tokenValido(req.cookies.get(nombreCookie(doc.id))?.value, doc.id, clave)));
 
   if (!abierto) {
     const url = req.nextUrl.clone();
@@ -89,7 +97,7 @@ export async function proxy(req: NextRequest) {
 
   // Con acceso: se sirve el archivo estático (o la ruta de la app, si no hay
   // archivo), siempre con noindex y sin caché.
-  const res = doc.file
+  const res = doc.file && !esAnexo(doc, pathname)
     ? (() => {
         const url = req.nextUrl.clone();
         url.pathname = doc.file as string;
@@ -99,5 +107,17 @@ export async function proxy(req: NextRequest) {
 
   res.headers.set("X-Robots-Tag", "noindex, nofollow");
   res.headers.set("Cache-Control", "no-store");
+  if (conLlave && llave) {
+    // La cookie dura lo que le queda a la llave: así la demo y las visitas
+    // siguientes abren sin el parámetro, y nada dura más que el enlace.
+    const segundos = Math.floor((Number(llave.split(".")[0]) - Date.now()) / 1000);
+    res.cookies.set(nombreCookie(doc.id), llave, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: segundos,
+    });
+  }
   return res;
 }

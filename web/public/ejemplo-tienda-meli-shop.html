@@ -1,0 +1,1049 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Meli Shop · Ejemplo de tienda</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#C2296A" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200..500&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Outfit:wght@300..700&display=swap" rel="stylesheet" />
+
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  EJEMPLO NAVEGABLE · Tienda virtual de Meli Shop (Turbaco)
+  ═══════════════════════════════════════════════════════════════════════════
+
+  Acompaña a `cotizacion-meli-shop.html`. No es la tienda: es la maqueta que
+  se le muestra a la clienta para que haga una compra completa antes de firmar.
+
+  QUÉ ES REAL Y QUÉ NO
+    Real      Las fotos (recortadas de su Instagram, carpeta
+              `ejemplo-tienda-meli-shop/`), el rosa de su logo, su lema.
+    Ejemplo   Nombres de prenda, precios, tallas, existencias, tarifas de
+              envío, umbral de envío gratis, pedidos del panel y la clienta
+              «Laura». Lo dice la guía de la izquierda y no se quita.
+
+  Las fotos son de una cuenta ajena: antes de subir este archivo a producción
+  con la clienta sin firmar, preguntarle. Están aquí para que ella se vea.
+
+  CÓMO ESTÁ HECHO
+    Un archivo, sin build. El estado vive en `S`; cada vista es una <section>
+    que se pinta entera al entrar. Los clics van por delegación con
+    `data-a="acción"`. Lo que se compra descuenta existencias, y lo que se
+    repone en el panel vuelve a aparecer en la tienda: esa ida y vuelta es el
+    argumento de venta, no un adorno.
+
+  Registro: la tienda le habla a la compradora de TÚ (es la voz de su
+  Instagram: «Viste linda, siéntete única»). La guía le habla a la dueña de
+  USTED, igual que la propuesta.
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+
+<style>
+:root{
+  --rosa:#EC4E8A; --rosa-deep:#C2296A; --rosa-50:#FFF1F6; --rosa-100:#FCDCE8;
+  --ink:#2A1420; --ink-soft:#6B5260; --ink-dim:#7D6772;
+  --paper:#FFF8FB; --card:#FFFFFF; --line:#F1DEE6;
+  --mango:#F8B932; --turq:#0B7A74; --turq-50:#E2F4F2; --wa:#0F7A40;
+  --display:'Fraunces', Georgia, serif;
+  --body:'Outfit', system-ui, sans-serif;
+  --logo:'Antonio', 'Arial Narrow', sans-serif;
+  --r:18px;
+}
+*{ box-sizing:border-box }
+html,body{ margin:0; height:100% }
+body{
+  font-family:var(--body); color:var(--ink); background:var(--paper);
+  font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+button{ font:inherit; color:inherit; cursor:pointer }
+img{ display:block; max-width:100% }
+:focus-visible{ outline:2.5px solid var(--rosa-deep); outline-offset:2px; border-radius:6px }
+[hidden]{ display:none !important }
+
+/* ── Escenario ──────────────────────────────────────────────────────────── */
+.stage{ min-height:100dvh }
+.phone{ position:relative; height:100dvh; overflow:hidden }
+.app{ height:100%; overflow-y:auto; overscroll-behavior:contain; background:var(--paper); scroll-behavior:smooth }
+
+/* Cinta del celular: solo existe sin la guía al lado. */
+.cinta{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:8px 14px; background:var(--ink); color:#FBE7EF; font-size:12px; letter-spacing:.02em;
+}
+.cinta b{ font-weight:600; color:#fff }
+.cinta button{ background:transparent; border:1px solid rgba(255,255,255,.35); color:#fff;
+  border-radius:99px; padding:4px 11px; font-size:11.5px; font-weight:600 }
+
+/* ── Guía (columna en escritorio, hoja en celular) ──────────────────────── */
+.guia{
+  display:none; position:fixed; z-index:60; left:0; right:0; bottom:0; max-height:86dvh; overflow:auto;
+  background:#fff; border-radius:24px 24px 0 0; padding:26px 22px 30px;
+  box-shadow:0 -20px 60px rgba(42,20,32,.25);
+}
+.guia.abierta{ display:block; animation:sube .28s ease-out }
+.velo{ display:none; position:fixed; inset:0; background:rgba(42,20,32,.4); z-index:55 }
+.velo.abierto{ display:block }
+@keyframes sube{ from{ transform:translateY(40px); opacity:0 } }
+.guia .x{ position:absolute; top:14px; right:14px; border:0; background:var(--rosa-50); width:34px; height:34px; border-radius:50%; font-size:18px }
+.guia__eyebrow{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--rosa-deep); font-weight:600 }
+.guia h1{ font-family:var(--display); font-weight:600; font-size:30px; line-height:1.05; letter-spacing:-.02em; margin:10px 0 12px }
+.guia h1 em{ color:var(--rosa-deep) }
+.guia > p{ color:var(--ink-soft); margin:0 0 18px }
+.pasos{ list-style:none; margin:0 0 18px; padding:0; display:grid; gap:8px }
+.paso{
+  width:100%; display:grid; grid-template-columns:32px 1fr; gap:12px; text-align:left;
+  border:1px solid var(--line); background:#fff; border-radius:14px; padding:12px 14px;
+  transition:border-color .2s, background .2s, transform .2s;
+}
+.paso:hover{ border-color:var(--rosa-100); transform:translateX(3px) }
+.paso i{ font-style:normal; width:32px; height:32px; border-radius:50%; display:grid; place-items:center;
+  background:var(--rosa-50); color:var(--rosa-deep); font-weight:700; font-size:14px }
+.paso b{ display:block; font-weight:600; font-size:15px }
+.paso span{ display:block; font-size:13px; color:var(--ink-soft); line-height:1.4; margin-top:2px }
+.paso.activo{ border-color:var(--rosa-deep); background:var(--rosa-50) }
+.paso.activo i{ background:var(--rosa-deep); color:#fff }
+.aviso{ font-size:13px; color:var(--ink-soft); background:#FFF6DF; border:1px solid #F6DFA6;
+  padding:12px 14px; border-radius:12px; margin:0 0 16px }
+.guia__pie{ display:flex; justify-content:space-between; gap:12px; font-size:13px; color:var(--ink-dim) }
+.guia__pie a{ color:var(--rosa-deep); font-weight:600; text-decoration:none }
+
+@media (min-width:980px){
+  body{
+    background:
+      radial-gradient(520px 420px at 8% 12%, rgba(248,185,50,.22), transparent 70%),
+      radial-gradient(560px 480px at 92% 88%, rgba(14,140,133,.16), transparent 70%),
+      radial-gradient(700px 600px at 70% 10%, rgba(236,78,138,.18), transparent 70%),
+      #FBEFF3;
+  }
+  .stage{ display:grid; grid-template-columns:minmax(320px,410px) 390px; gap:72px;
+    justify-content:center; align-items:center; padding:28px 32px }
+  .guia{ display:block; position:static; max-height:none; overflow:visible; background:transparent;
+    box-shadow:none; padding:0; border-radius:0; animation:none }
+  .guia .x, .velo, .cinta{ display:none !important }
+  .guia h1{ font-size:44px }
+  .phone{ height:min(844px, calc(100dvh - 56px)); border-radius:50px; padding:11px; background:#1E1017;
+    box-shadow:0 50px 90px -30px rgba(30,16,23,.42) }
+  .app{ border-radius:40px; scrollbar-width:none }
+  .app::-webkit-scrollbar{ display:none }
+}
+
+/* ── Marquesina y encabezado ────────────────────────────────────────────── */
+.marquee{ background:var(--rosa-deep); color:#fff; font-size:12.5px; font-weight:500; letter-spacing:.02em; text-align:center }
+.marquee div{ padding:8px 14px }
+.top{
+  position:sticky; top:0; z-index:20; display:grid; grid-template-columns:44px 1fr 44px; align-items:center;
+  padding:8px 10px; background:rgba(255,248,251,.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
+}
+.ico{ width:44px; height:44px; display:grid; place-items:center; border:0; background:transparent; border-radius:50%; position:relative }
+.ico svg{ width:22px; height:22px }
+.logo{ justify-self:center; border:0; background:none; font-family:var(--logo); font-weight:300; color:var(--rosa);
+  font-size:25px; letter-spacing:.06em; line-height:1; padding:6px }
+.logo small{ display:block; font-size:11px; letter-spacing:.3em; color:var(--ink-dim); font-family:var(--body); font-weight:500; margin-top:3px; text-align:center }
+.cuenta{ position:absolute; top:6px; right:5px; min-width:18px; height:18px; padding:0 5px; border-radius:99px;
+  background:var(--rosa-deep); color:#fff; font-size:10.5px; font-weight:700; display:grid; place-items:center }
+.cuenta.salta{ animation:salta .5s cubic-bezier(.16,1,.3,1) }
+@keyframes salta{ 30%{ transform:scale(1.35) } }
+
+/* ── Portada ────────────────────────────────────────────────────────────── */
+.hero{ position:relative; padding:26px 20px 30px; overflow:hidden;
+  background:linear-gradient(170deg, var(--rosa-50) 0%, #FFE3EE 100%) }
+.hero::after{ content:''; position:absolute; width:260px; height:260px; right:-90px; top:-70px; border-radius:50%;
+  background:radial-gradient(circle, rgba(248,185,50,.35), transparent 65%) }
+.hero__eb{ position:relative; z-index:2; display:inline-flex; gap:6px; align-items:center; font-size:11px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--rosa-deep); background:#fff; padding:5px 11px; border-radius:99px }
+.hero h1{ position:relative; z-index:2; font-family:var(--display); font-weight:600; font-size:41px; line-height:.98;
+  letter-spacing:-.03em; margin:14px 0 10px; max-width:9.5ch }
+.hero h1 em{ color:var(--rosa-deep); font-weight:500 }
+.hero p{ position:relative; z-index:2; color:var(--ink-soft); margin:0 0 18px; max-width:30ch }
+.collage{ position:relative; height:270px; margin-top:8px }
+.collage img{ position:absolute; width:58%; aspect-ratio:4/5; object-fit:cover; border-radius:16px;
+  border:5px solid #fff; box-shadow:0 18px 40px -16px rgba(42,20,32,.30) }
+.collage .a{ left:0; top:14px; transform:rotate(-5deg); animation:entra .7s .1s both ease-out }
+.collage .b{ right:0; top:0; transform:rotate(4deg); animation:entra .7s .25s both ease-out }
+.sello{ position:absolute; z-index:3; left:44%; bottom:-6px; width:92px; height:92px; border-radius:50%;
+  background:var(--mango); color:var(--ink); display:grid; place-items:center; text-align:center;
+  font-family:var(--display); font-style:italic; font-weight:600; font-size:14px; line-height:1.05;
+  transform:rotate(-10deg); box-shadow:0 10px 24px -8px rgba(0,0,0,.25); animation:entra .7s .45s both ease-out }
+@keyframes entra{ from{ opacity:0; translate:0 22px } }
+
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:99px;
+  padding:14px 22px; font-weight:600; font-size:15px; background:var(--rosa-deep); color:#fff;
+  transition:transform .15s, background .2s, opacity .2s }
+.btn:active{ transform:scale(.97) }
+.btn:hover{ background:#A81F59 }
+.btn[disabled]{ background:#D9C3CD; cursor:not-allowed }
+.btn--ink{ background:var(--ink) } .btn--ink:hover{ background:#000 }
+.btn--wa{ background:var(--wa) } .btn--wa:hover{ background:#0B6534 }
+.btn--claro{ background:#fff; color:var(--ink); border:1.5px solid var(--line) } .btn--claro:hover{ background:var(--rosa-50) }
+.btn--full{ width:100% }
+
+/* ── Secciones de la tienda ─────────────────────────────────────────────── */
+.bloque{ padding:28px 16px 6px }
+#catalogo{ scroll-margin-top:64px }
+.bloque h2{ font-family:var(--display); font-weight:600; font-size:26px; letter-spacing:-.02em; margin:0 0 4px; line-height:1.1 }
+.bloque h2 em{ color:var(--rosa-deep) }
+.bloque .sub{ color:var(--ink-soft); font-size:14px; margin:0 0 16px }
+.cols{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.colec{ border:0; padding:0; background:none; text-align:left }
+.colec img{ width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--r); transition:transform .35s }
+.colec:hover img{ transform:scale(1.02) }
+.colec b{ display:block; margin-top:8px; font-weight:600; font-size:14.5px }
+.colec span{ font-size:12.5px; color:var(--ink-dim) }
+
+.chips{ display:flex; gap:8px; overflow-x:auto; padding:2px 16px 14px; margin:0 -16px; scrollbar-width:none }
+.chips::-webkit-scrollbar{ display:none }
+.chip{ flex:none; border:1.5px solid var(--line); background:#fff; border-radius:99px; padding:8px 14px; font-size:13.5px; font-weight:500 }
+.chip.on{ background:var(--ink); border-color:var(--ink); color:#fff }
+
+.grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px 12px }
+.card{ border:0; padding:0; background:none; text-align:left; animation:entra .5s both ease-out }
+.card__img{ position:relative; border-radius:var(--r); overflow:hidden; background:var(--rosa-50) }
+.card__img img{ width:100%; aspect-ratio:4/5; object-fit:cover; transition:transform .45s }
+.card:hover .card__img img{ transform:scale(1.04) }
+.badge{ position:absolute; left:8px; top:8px; font-size:10.5px; font-weight:700; letter-spacing:.04em;
+  padding:4px 9px; border-radius:99px; background:#fff; color:var(--ink) }
+.badge--nuevo{ background:var(--mango) }
+.badge--ultimas{ background:var(--rosa-deep); color:#fff }
+.card b{ display:block; font-weight:600; font-size:14.5px; margin-top:9px; line-height:1.25 }
+.card .tipo{ display:block; font-size:12.5px; color:var(--ink-dim); margin-top:1px }
+.card .precio{ display:block; font-weight:600; font-size:15px; margin-top:4px; color:var(--rosa-deep) }
+.tallitas{ display:flex; gap:5px; margin-top:6px; font-size:11px; color:var(--ink-soft); letter-spacing:.03em }
+.tallitas s{ color:var(--ink-dim); text-decoration-color:var(--rosa-deep) }
+
+.promesas{ display:grid; gap:10px; padding:26px 16px 6px }
+.promesa{ display:grid; grid-template-columns:44px 1fr; gap:12px; align-items:center; background:#fff;
+  border:1px solid var(--line); border-radius:16px; padding:13px 14px }
+.promesa i{ width:44px; height:44px; border-radius:12px; display:grid; place-items:center; font-style:normal }
+.promesa i svg{ width:22px; height:22px }
+.promesa b{ display:block; font-size:14.5px }
+.promesa span{ font-size:13px; color:var(--ink-soft); line-height:1.35 }
+
+.feria{ margin:26px 16px 0; border-radius:24px; overflow:hidden; display:grid; grid-template-columns:42% 1fr;
+  background:var(--ink); color:#fff }
+.feria img{ width:100%; height:100%; object-fit:cover }
+.feria div{ padding:20px 16px }
+.feria b{ font-family:var(--display); font-weight:600; font-size:21px; line-height:1.1; display:block; margin-bottom:8px }
+.feria b em{ color:var(--mango) }
+.feria p{ margin:0 0 14px; font-size:13.5px; color:#E9D3DC }
+.feria .btn{ padding:10px 16px; font-size:13.5px }
+
+.pie{ margin-top:30px; padding:30px 20px 40px; background:var(--rosa-50); text-align:center }
+.pie .logo{ font-size:34px }
+.pie p{ margin:8px 0 16px; color:var(--ink-soft); font-size:14px }
+.pie nav{ display:flex; flex-wrap:wrap; justify-content:center; gap:6px 16px; font-size:13px; margin-bottom:18px }
+.pie nav span{ color:var(--ink-soft); text-decoration:underline; text-decoration-color:var(--rosa-100); text-underline-offset:3px }
+.pie small{ display:block; color:var(--ink-dim); font-size:11.5px }
+
+/* ── Ficha ──────────────────────────────────────────────────────────────── */
+.volver{ display:inline-flex; align-items:center; gap:6px; border:0; background:none; font-weight:600; font-size:14px; padding:12px 16px 4px; color:var(--ink-soft) }
+.foto{ position:relative; margin:8px 16px 0; border-radius:24px; overflow:hidden }
+.foto img{ width:100%; aspect-ratio:4/5; object-fit:cover; animation:aparece .45s ease-out }
+@keyframes aparece{ from{ opacity:0; transform:scale(1.03) } }
+.foto .badge{ left:12px; top:12px }
+.ficha{ padding:18px 16px 8px }
+.ficha .eb{ font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--rosa-deep) }
+.ficha h1{ font-family:var(--display); font-weight:600; font-size:31px; letter-spacing:-.02em; line-height:1.05; margin:6px 0 4px }
+.ficha .tipo{ color:var(--ink-soft); margin:0 0 10px }
+.ficha .precio{ font-size:22px; font-weight:700; color:var(--rosa-deep) }
+.opcion{ margin-top:20px }
+.opcion__t{ display:flex; justify-content:space-between; align-items:baseline; font-size:14px; margin-bottom:10px }
+.opcion__t b{ font-weight:600 } .opcion__t span{ color:var(--ink-soft) }
+.swatches{ display:flex; gap:10px }
+.sw{ width:36px; height:36px; border-radius:50%; border:2px solid #fff; box-shadow:0 0 0 1.5px var(--line); padding:0 }
+.sw.on{ box-shadow:0 0 0 2px var(--ink) }
+.tallas{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px }
+.talla{ height:48px; border-radius:12px; border:1.5px solid var(--line); background:#fff; font-weight:600; font-size:15px; position:relative; overflow:hidden }
+.talla.on{ border-color:var(--ink); background:var(--ink); color:#fff }
+.talla:disabled{ color:#C8B5BD; cursor:not-allowed; background:#FBF6F8 }
+.talla:disabled::after{ content:''; position:absolute; inset:0; background:linear-gradient(to top right, transparent calc(50% - 1px), #DCC9D1 50%, transparent calc(50% + 1px)) }
+.quedan{ min-height:22px; font-size:13.5px; margin-top:9px; font-weight:500 }
+.quedan.poco{ color:#B3401A }
+.quedan.ok{ color:var(--turq) }
+.quedan.no{ color:var(--ink-dim) }
+details.guiat{ margin-top:14px; border:1px solid var(--line); border-radius:12px; background:#fff }
+details.guiat summary{ padding:12px 14px; font-weight:600; font-size:14px; cursor:pointer; list-style:none }
+details.guiat summary::after{ content:'+'; float:right; color:var(--rosa-deep); font-weight:700 }
+details.guiat[open] summary::after{ content:'–' }
+details.guiat table{ width:calc(100% - 28px); margin:0 14px 14px; border-collapse:collapse; font-size:13px }
+details.guiat th, details.guiat td{ text-align:left; padding:6px 4px; border-top:1px solid var(--line) }
+details.guiat th{ color:var(--ink-dim); font-weight:500 }
+.desc{ color:var(--ink-soft); margin:18px 0 0 }
+.datos{ list-style:none; padding:0; margin:16px 0 0; display:grid; gap:9px; font-size:14px }
+.datos li{ display:flex; gap:10px; align-items:flex-start }
+.datos svg{ width:19px; height:19px; flex:none; color:var(--turq); margin-top:1px }
+.compra{ position:sticky; bottom:0; z-index:15; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom)); background:rgba(255,248,251,.95); backdrop-filter:blur(10px);
+  border-top:1px solid var(--line); margin-top:22px }
+.compra .precio{ font-weight:700; font-size:18px }
+.compra .precio small{ display:block; font-size:11px; font-weight:500; color:var(--ink-dim) }
+.preg{ width:100%; margin-top:10px }
+.mini{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px }
+.mini .card b{ font-size:13px } .mini .card .precio{ font-size:13.5px }
+
+/* ── Bolsa y pago ───────────────────────────────────────────────────────── */
+.titulo{ font-family:var(--display); font-weight:600; font-size:30px; letter-spacing:-.02em; margin:4px 16px 4px }
+.titulo em{ color:var(--rosa-deep) }
+.subt{ margin:0 16px 16px; color:var(--ink-soft); font-size:14px }
+.lineas{ padding:0 16px; display:grid; gap:12px }
+.linea{ display:grid; grid-template-columns:78px 1fr; gap:12px; background:#fff; border:1px solid var(--line); border-radius:16px; padding:10px }
+.linea img{ width:78px; aspect-ratio:4/5; object-fit:cover; border-radius:10px }
+.linea b{ font-size:14.5px; display:block }
+.linea .var{ font-size:12.5px; color:var(--ink-soft) }
+.linea .fila{ display:flex; justify-content:space-between; align-items:center; margin-top:8px }
+.cant{ display:inline-flex; align-items:center; border:1.5px solid var(--line); border-radius:99px }
+.cant button{ width:32px; height:32px; border:0; background:none; font-size:17px; font-weight:600 }
+.cant span{ min-width:22px; text-align:center; font-weight:600; font-size:14px }
+.quitar{ border:0; background:none; color:var(--ink-dim); font-size:12.5px; text-decoration:underline; padding:4px 0 0 }
+.barra{ margin:18px 16px 0; background:var(--turq-50); border-radius:14px; padding:12px 14px; font-size:13.5px; color:#0A5F5A }
+.barra .riel{ height:6px; border-radius:99px; background:#C5E7E3; margin-top:8px; overflow:hidden }
+.barra .riel i{ display:block; height:100%; background:var(--turq); border-radius:99px; transition:width .5s ease }
+.h3{ font-weight:600; font-size:15px; margin:24px 16px 10px }
+.radios{ padding:0 16px; display:grid; gap:8px }
+.radio{ display:grid; grid-template-columns:22px 1fr auto; gap:12px; align-items:center; background:#fff; border:1.5px solid var(--line);
+  border-radius:14px; padding:12px 14px; cursor:pointer; transition:border-color .2s, background .2s }
+.radio input{ appearance:none; width:20px; height:20px; border-radius:50%; border:2px solid #D7C4CC; margin:0; display:grid; place-items:center }
+.radio input:checked{ border-color:var(--rosa-deep) }
+.radio input:checked::after{ content:''; width:10px; height:10px; border-radius:50%; background:var(--rosa-deep) }
+.radio:has(input:checked){ border-color:var(--rosa-deep); background:var(--rosa-50) }
+.radio b{ display:block; font-size:14.5px; font-weight:600 }
+.radio span{ font-size:12.5px; color:var(--ink-soft) }
+.radio em{ font-style:normal; font-weight:600; font-size:14px }
+.radio em.gratis{ color:var(--turq) }
+.totales{ margin:20px 16px 0; padding:14px 16px; background:#fff; border:1px solid var(--line); border-radius:16px; font-size:14.5px }
+.totales div{ display:flex; justify-content:space-between; padding:4px 0 }
+.totales .tot{ border-top:1px dashed var(--line); margin-top:6px; padding-top:10px; font-weight:700; font-size:18px }
+.acciones{ padding:18px 16px 30px; display:grid; gap:10px }
+.o{ text-align:center; font-size:12.5px; color:var(--ink-dim); position:relative }
+.vacia{ text-align:center; padding:50px 26px }
+.vacia b{ font-family:var(--display); font-size:24px; display:block; margin-bottom:6px }
+.vacia p{ color:var(--ink-soft); margin:0 0 20px }
+
+.campos{ padding:0 16px; display:grid; gap:10px }
+.campo label{ display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin:0 0 5px 2px }
+.campo input{ width:100%; border:1.5px solid var(--line); background:#fff; border-radius:12px; padding:12px 14px; font:inherit; font-size:15px; color:var(--ink) }
+.campo input:focus{ outline:none; border-color:var(--rosa-deep) }
+.metodos{ padding:0 16px; display:grid; grid-template-columns:1fr 1fr; gap:8px }
+.metodo{ display:grid; gap:2px; text-align:left; background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:12px; cursor:pointer }
+.metodo input{ position:absolute; opacity:0; pointer-events:none }
+.metodo:has(input:checked){ border-color:var(--rosa-deep); background:var(--rosa-50) }
+.metodo:has(input:focus-visible){ outline:2.5px solid var(--rosa-deep); outline-offset:2px }
+.metodo b{ font-size:14.5px } .metodo span{ font-size:12px; color:var(--ink-soft) }
+.seguro{ display:flex; gap:8px; justify-content:center; align-items:center; font-size:12px; color:var(--ink-dim); margin-top:2px }
+.seguro svg{ width:14px; height:14px }
+
+/* ── Confirmación ───────────────────────────────────────────────────────── */
+.listo{ text-align:center; padding:40px 22px 10px }
+.listo .ok{ width:84px; height:84px; margin:0 auto 18px; border-radius:50%; background:var(--rosa-deep); color:#fff; display:grid; place-items:center;
+  animation:aparece .6s cubic-bezier(.16,1,.3,1) both }
+.listo .ok svg{ width:40px; height:40px }
+.listo h1{ font-family:var(--display); font-weight:600; font-size:32px; letter-spacing:-.02em; margin:0 0 8px; line-height:1.05 }
+.listo p{ color:var(--ink-soft); margin:0 auto; max-width:30ch }
+.num{ display:inline-block; margin-top:14px; font-weight:700; letter-spacing:.06em; background:var(--rosa-50); color:var(--rosa-deep); padding:6px 14px; border-radius:99px; font-size:13.5px }
+.linea-t{ list-style:none; margin:24px 16px 0; padding:16px; background:#fff; border:1px solid var(--line); border-radius:18px; display:grid; gap:14px }
+.linea-t li{ display:grid; grid-template-columns:26px 1fr; gap:12px; font-size:14px; color:var(--ink-dim) }
+.linea-t li i{ width:26px; height:26px; border-radius:50%; border:2px solid var(--line); display:grid; place-items:center; font-style:normal; font-size:13px }
+.linea-t li.hecho{ color:var(--ink) }
+.linea-t li.hecho i{ background:var(--turq); border-color:var(--turq); color:#fff }
+.linea-t b{ display:block; font-weight:600 }
+.linea-t span{ font-size:12.5px }
+.puente{ margin:20px 16px 0; padding:16px; border-radius:18px; background:var(--ink); color:#F6E3EB; font-size:14px }
+.puente b{ color:#fff }
+.puente .btn{ margin-top:12px; background:var(--mango); color:var(--ink) }
+.puente .btn:hover{ background:#FFC94F }
+
+/* ── WhatsApp ───────────────────────────────────────────────────────────── */
+.wa-top{ position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:10px; padding:10px 12px; background:#075E54; color:#fff }
+.wa-top .ico{ color:#fff; width:36px; height:36px }
+.wa-av{ width:38px; height:38px; border-radius:50%; background:#fff; color:var(--rosa); font-family:var(--logo); font-size:11px; display:grid; place-items:center; letter-spacing:.04em; line-height:1; text-align:center }
+.wa-top b{ display:block; font-size:15.5px } .wa-top span{ font-size:12px; opacity:.8 }
+#v-whats, #v-panel{ min-height:100%; display:flex; flex-direction:column }
+.wa-fondo{ flex:1; padding:18px 12px 24px; background:#ECE5DD;
+  background-image:radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px); background-size:14px 14px }
+.wa-nota{ text-align:center; font-size:12px; background:#FFF5C4; color:#5B4A12; border-radius:8px; padding:7px 10px; margin:0 auto 14px; max-width:290px }
+.globo{ margin-left:auto; max-width:88%; background:#D9FDD3; border-radius:12px 2px 12px 12px; padding:9px 11px 6px; font-size:14px; white-space:pre-line; box-shadow:0 1px 1px rgba(0,0,0,.08); animation:entra .4s both }
+.globo small{ display:block; text-align:right; font-size:11px; color:#4F616B; margin-top:4px }
+.globo small .vist{ color:#53BDEB }
+.wa-acc{ margin-top:16px; display:grid; gap:10px }
+
+/* ── Panel de la dueña ──────────────────────────────────────────────────── */
+.p-top{ position:sticky; top:0; z-index:5; padding:16px 16px 18px; background:var(--ink); color:#fff }
+.p-top .eb{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#F6A8C6; font-weight:600 }
+.p-top h1{ font-family:var(--display); font-weight:600; font-size:27px; margin:4px 0 0; letter-spacing:-.02em }
+.p-top .ico{ position:absolute; right:10px; top:12px; color:#fff }
+.kpis{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:14px 12px 4px; background:#F7F1F4 }
+.kpi{ background:#fff; border-radius:14px; padding:11px 10px; border:1px solid var(--line) }
+.kpi span{ display:block; font-size:11px; color:var(--ink-dim); line-height:1.2 }
+.kpi b{ display:block; font-size:18px; font-weight:700; margin-top:4px; font-variant-numeric:tabular-nums }
+.panel{ flex:1; background:#F7F1F4; padding-bottom:30px }
+.panel h2{ font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); margin:18px 16px 10px; font-weight:600 }
+.pedidos{ padding:0 12px; display:grid; gap:10px }
+.pedido{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:13px 14px; animation:entra .4s both }
+.pedido.nuevo{ border-color:var(--rosa-deep); box-shadow:0 0 0 3px var(--rosa-50) }
+.pedido header{ display:flex; justify-content:space-between; align-items:baseline; gap:8px }
+.pedido header b{ font-size:15px }
+.pedido header span{ font-weight:700; font-variant-numeric:tabular-nums }
+.pedido p{ margin:4px 0 0; font-size:13px; color:var(--ink-soft) }
+.pedido footer{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-top:10px }
+.pill{ font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:99px; background:#EEE6EA; color:var(--ink-soft) }
+.pill--pagado{ background:var(--turq-50); color:#0A5F5A }
+.pill--wa{ background:#FFF1CC; color:#7A5600 }
+.pill--nuevo{ background:var(--rosa-deep); color:#fff; margin-left:6px }
+.pedido .btn{ padding:8px 13px; font-size:12.5px }
+.stock{ margin:0 12px; background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden }
+.stock div{ display:grid; grid-template-columns:40px 1fr auto; gap:10px; align-items:center; padding:10px 12px; border-top:1px solid var(--line) }
+.stock div:first-child{ border-top:0 }
+.stock img{ width:40px; height:48px; object-fit:cover; border-radius:8px }
+.stock b{ display:block; font-size:13.5px } .stock span{ font-size:12px; color:var(--ink-soft) }
+.stock span.cero{ color:#B3401A; font-weight:600 }
+.stock .btn{ padding:7px 12px; font-size:12px }
+.stock p{ padding:14px; margin:0; font-size:13.5px; color:var(--ink-soft) }
+.p-nota{ margin:14px 12px 0; font-size:12.5px; color:var(--ink-soft); line-height:1.45 }
+
+/* ── Avisos flotantes ───────────────────────────────────────────────────── */
+.toast{ position:absolute; z-index:40; left:14px; right:14px; bottom:22px; display:flex; align-items:center; gap:12px;
+  background:var(--ink); color:#fff; border-radius:16px; padding:12px 14px; font-size:13.5px; line-height:1.35;
+  box-shadow:0 18px 40px -12px rgba(0,0,0,.4); transform:translateY(140%); opacity:0; transition:transform .4s cubic-bezier(.16,1,.3,1), opacity .25s }
+.toast.ver{ transform:none; opacity:1 }
+.toast button{ margin-left:auto; flex:none; border:0; background:var(--mango); color:var(--ink); border-radius:99px; padding:7px 12px; font-size:12.5px; font-weight:600 }
+.cargando{ position:absolute; inset:0; z-index:45; display:grid; place-items:center; align-content:center; gap:14px;
+  background:rgba(255,248,251,.92); backdrop-filter:blur(4px); font-weight:600; color:var(--ink-soft) }
+.giro{ width:46px; height:46px; border-radius:50%; border:4px solid var(--rosa-100); border-top-color:var(--rosa-deep); animation:gira .8s linear infinite }
+@keyframes gira{ to{ transform:rotate(360deg) } }
+
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important }
+}
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- ── GUÍA para la dueña ─────────────────────────────────────────────── -->
+  <aside class="guia" id="guia" aria-label="Guía del ejemplo">
+    <button class="x" data-a="guia" aria-label="Cerrar guía">×</button>
+    <span class="guia__eyebrow">Ejemplo navegable · JV Agencia</span>
+    <h1>La tienda de Meli Shop, <em>antes de construirla.</em></h1>
+    <p>
+      Haga una compra completa como la haría una clienta: elija una prenda,
+      la talla, el envío y el pago. Al final, vea el pedido tal como le
+      llegaría a usted.
+    </p>
+    <ol class="pasos">
+      <li><button class="paso" data-a="paso" data-v="inicio"><i>1</i><div><b>La colección</b><span>Lo que ve la clienta al tocar el enlace de su Instagram.</span></div></button></li>
+      <li><button class="paso" data-a="paso" data-v="producto"><i>2</i><div><b>La prenda</b><span>Cada talla con sus propias existencias. La agotada no se puede pedir.</span></div></button></li>
+      <li><button class="paso" data-a="paso" data-v="bolsa"><i>3</i><div><b>La bolsa y el envío</b><span>El envío se calcula según la ciudad. Recoger en Turbaco no tiene costo.</span></div></button></li>
+      <li><button class="paso" data-a="paso" data-v="pago"><i>4</i><div><b>El pago</b><span>Nequi, PSE, Bancolombia o tarjeta. O el pedido ya escrito por WhatsApp.</span></div></button></li>
+      <li><button class="paso" data-a="paso" data-v="panel"><i>5</i><div><b>Su panel</b><span>El pedido llega con talla, dirección y pago confirmado.</span></div></button></li>
+    </ol>
+    <p class="aviso">
+      Las fotos son de su Instagram. Los nombres, precios, tallas, existencias
+      y tarifas de envío son de ejemplo: los definitivos los define usted desde
+      el panel. Aquí no se cobra nada.
+    </p>
+    <div class="guia__pie">
+      <a href="cotizacion-meli-shop.html">← Volver a la propuesta</a>
+      <span>jvagencia.com</span>
+    </div>
+  </aside>
+  <div class="velo" id="velo" data-a="guia"></div>
+
+  <!-- ── EL TELÉFONO ────────────────────────────────────────────────────── -->
+  <div class="phone">
+    <div class="app" id="app">
+
+      <div class="cinta"><span><b>Ejemplo</b> · tienda de Meli Shop</span><button data-a="guia">Ver guía</button></div>
+
+      <div class="marquee" id="marquee"><div></div></div>
+
+      <header class="top" id="top">
+        <button class="ico" data-a="filtro" data-f="todo" data-scroll="1" aria-label="Ver categorías">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+        <button class="logo" data-a="ir" data-v="inicio" aria-label="Meli Shop, inicio">MELI SHOP<small>TURBACO</small></button>
+        <button class="ico" data-a="ir" data-v="bolsa" aria-label="Tu bolsa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+          <span class="cuenta" id="cuenta" hidden>0</span>
+        </button>
+      </header>
+
+      <main>
+        <section class="v" id="v-inicio"></section>
+        <section class="v" id="v-producto" hidden></section>
+        <section class="v" id="v-bolsa" hidden></section>
+        <section class="v" id="v-pago" hidden></section>
+        <section class="v" id="v-listo" hidden></section>
+        <section class="v" id="v-whats" hidden></section>
+        <section class="v" id="v-panel" hidden></section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"><span></span></div>
+    <div class="cargando" id="cargando" hidden><div class="giro"></div><span>Conectando con la pasarela de pago…</span></div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   DATOS DE EJEMPLO
+   Nombres, precios, tallas y existencias inventados. Las fotos sí son suyas.
+   ════════════════════════════════════════════════════════════════════════ */
+const IMG = n => `ejemplo-tienda-meli-shop/${n}.webp`;
+const TALLAS = ['XS', 'S', 'M', 'L'];
+
+const PRODUCTOS = [
+  { id:'getsemani', img:'lima', nombre:'Blusa Getsemaní', tipo:'Blusa de hombro descubierto', cat:'blusas', precio:59900, nuevo:true,
+    colores:[['Lima','#C9EE3B'],['Negro','#1E1E1E'],['Blanco','#FFFFFF']], stock:{XS:3,S:5,M:0,L:2},
+    desc:'Manga larga, tela fresca con elasticidad y un hombro al descubierto. Va con short de jean y tenis blancos.' },
+  { id:'fiesta', img:'fucsia', nombre:'Top Fiesta', tipo:'Top asimétrico de lentejuelas', cat:'blusas', precio:69900,
+    colores:[['Fucsia','#D6247A'],['Plata','#C9CCD3']], stock:{XS:0,S:1,M:1,L:1},
+    desc:'Lentejuelas en todo el frente, un solo hombro y forro suave por dentro. Para las fiestas de noviembre.' },
+  { id:'coral', img:'coral', nombre:'Blusa Coral', tipo:'Manga larga ajustada', cat:'blusas', precio:54900,
+    colores:[['Coral','#F2475A'],['Negro','#1E1E1E']], stock:{XS:2,S:4,M:4,L:3},
+    desc:'Cuello redondo, manga larga y tela que se ajusta sin apretar.' },
+  { id:'novembrina', img:'oliva', nombre:'Top Novembrina', tipo:'Halter con flecos', cat:'blusas', col:'novembrina', precio:64900, nuevo:true,
+    colores:[['Oliva','#7E8B2A']], stock:{XS:1,S:3,M:2,L:0},
+    desc:'Cuello halter, espalda descubierta y flecos que se mueven al caminar. Pieza de la Cápsula Novembrina 2026.' },
+  { id:'esencia', img:'corset', nombre:'Vestido Esencia', tipo:'Vestido corsé', cat:'vestidos', col:'cartagena', precio:109900,
+    colores:[['Blanco','#FFFFFF']], stock:{XS:2,S:3,M:2,L:1},
+    desc:'Corsé con tirantes finos y falda con vuelo. De la colección Esencia Cartagena.' },
+  { id:'palmera', img:'tropical', nombre:'Vestido Palmera', tipo:'Vestido estampado tropical', cat:'vestidos', precio:99900,
+    colores:[['Tropical','#5E8F5B']], stock:{XS:0,S:2,M:3,L:2},
+    desc:'Estampado de hojas y flores, cuello halter y largo a media pierna. Fresco para el calor de la costa.' },
+  { id:'luna', img:'luna', nombre:'Vestido Luna', tipo:'Escote en V con aberturas', cat:'vestidos', precio:114900, nuevo:true,
+    colores:[['Blanco','#FFFFFF'],['Negro','#1E1E1E']], stock:{XS:2,S:2,M:3,L:1},
+    desc:'Escote en V, aberturas en la cintura y falda corta con vuelo.' },
+  { id:'rosa', img:'rosa', nombre:'Conjunto Rosa', tipo:'Chaqueta y licra deportiva', cat:'conjuntos', precio:129900,
+    colores:[['Rosa','#F6B6CF'],['Blanco','#FFFFFF']], stock:{XS:1,S:4,M:5,L:3},
+    desc:'Chaqueta blanca con cremallera y licra rosa de tiro alto que no transparenta.' },
+  { id:'bocagrande', img:'crop', nombre:'Set Bocagrande', tipo:'Camisa crop y falda estampada', cat:'conjuntos', col:'cartagena', precio:119900,
+    colores:[['Blanco y negro','#2B2B2B']], stock:{XS:2,S:2,M:1,L:1},
+    desc:'Camisa corta de botones y falda negra con palmeras. De la colección Esencia Cartagena.' },
+  { id:'mosaico', img:'mosaico', nombre:'Pantalón Mosaico', tipo:'Palazzo estampado', cat:'pantalones', precio:89900,
+    colores:[['Mosaico','#D9773B']], stock:{XS:2,S:3,M:3,L:2},
+    desc:'Bota ancha, tiro alto y estampado de retazos. Se ve bien con camiseta blanca.' },
+  { id:'noche', img:'malla', nombre:'Blusa Noche', tipo:'Malla transparente', cat:'blusas', precio:49900,
+    colores:[['Negro','#1E1E1E']], stock:{XS:3,S:3,M:2,L:2},
+    desc:'Malla negra de manga larga con cuello alto. Se usa sola o sobre un top.' },
+];
+
+const CATS = [['todo','Todo'],['blusas','Blusas y tops'],['vestidos','Vestidos'],['conjuntos','Conjuntos'],['pantalones','Pantalones'],['novembrina','Cápsula Novembrina'],['cartagena','Esencia Cartagena']];
+
+const ENVIOS = {
+  recoger:  { n:'Recoger en Turbaco',     d:'Lista el mismo día',                  v:0,     local:true },
+  turbaco:  { n:'Domicilio en Turbaco',   d:'Llega hoy si pides antes de las 3 p. m.', v:5000,  local:true },
+  cartagena:{ n:'Domicilio en Cartagena', d:'Llega mañana',                         v:8000,  local:true },
+  nacional: { n:'Otra ciudad',            d:'Por transportadora · 2 a 4 días',      v:16000, local:false },
+};
+const GRATIS_DESDE = 200000;
+const METODOS = { nequi:['Nequi','Desde tu app'], pse:['PSE','Cualquier banco'], bancolombia:['Bancolombia','Botón de pago'], tarjeta:['Tarjeta','Crédito o débito'] };
+
+const S = {
+  vista:'inicio', filtro:'todo', prod:null, talla:null, color:0,
+  bolsa:[], envio:'cartagena', metodo:'nequi', seq:1043,
+  cliente:{ nombre:'Laura Gómez', cel:'301 234 5678', dir:'Cra. 3 # 5-20, Manga' },
+  pedidos:[
+    { id:'MS-1042', cliente:'Valentina R.', ciudad:'Cartagena', items:'Vestido Esencia · S', total:117900, estado:'pagado', metodo:'PSE' },
+    { id:'MS-1041', cliente:'Daniela M.', ciudad:'Recoge en Turbaco', items:'Top Fiesta · M  ·  Blusa Noche · S', total:119800, estado:'listo', metodo:'Nequi' },
+    { id:'MS-1040', cliente:'Andrea C.', ciudad:'Barranquilla', items:'Conjunto Rosa · M', total:145900, estado:'enviado', metodo:'Tarjeta', guia:'2400183' },
+  ],
+  ultimo:null,
+};
+
+/* ════════════════════════════════════════════════════════════════════════
+   UTILIDADES
+   ════════════════════════════════════════════════════════════════════════ */
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const cop = n => '$' + n.toLocaleString('es-CO');
+const byId = id => PRODUCTOS.find(p => p.id === id);
+const stockTotal = p => TALLAS.reduce((s, t) => s + p.stock[t], 0);
+const unidades = () => S.bolsa.reduce((s, l) => s + l.cant, 0);
+const subtotal = () => S.bolsa.reduce((s, l) => s + byId(l.id).precio * l.cant, 0);
+const envioCosto = () => {
+  const e = ENVIOS[S.envio];
+  return e.local && subtotal() >= GRATIS_DESDE ? 0 : e.v;
+};
+const total = () => subtotal() + envioCosto();
+
+const ICO = {
+  back:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+  truck:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>',
+  swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13l-3-3M20 15H7l3 3"/></svg>',
+  card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 19l1.3-3.6A8 8 0 1 1 8.6 19z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  out:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg>',
+};
+
+let toastT;
+function toast(msg, accion){
+  const t = $('#toast');
+  t.innerHTML = `<span>${msg}</span>` + (accion ? `<button data-a="ir" data-v="${accion[1]}">${accion[0]}</button>` : '');
+  t.classList.add('ver');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('ver'), 3600);
+}
+
+function actualizarCuenta(saltar){
+  const c = $('#cuenta'), n = unidades();
+  c.hidden = n === 0; c.textContent = n;
+  if (saltar){ c.classList.remove('salta'); void c.offsetWidth; c.classList.add('salta') }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   NAVEGACIÓN
+   ════════════════════════════════════════════════════════════════════════ */
+const PASO = { inicio:'inicio', producto:'producto', bolsa:'bolsa', pago:'pago', whats:'pago', listo:'pago', panel:'panel' };
+const PINTAR = {};
+
+function ir(v){
+  S.vista = v;
+  $('#toast').classList.remove('ver');
+  document.querySelectorAll('.v').forEach(s => s.hidden = s.id !== 'v-' + v);
+  const tienda = !['whats','panel'].includes(v);
+  $('#top').hidden = !tienda; $('#marquee').hidden = !tienda;
+  PINTAR[v]();
+  app.scrollTo({ top:0, behavior:'instant' });
+  document.querySelectorAll('.paso').forEach(b => b.classList.toggle('activo', b.dataset.v === PASO[v]));
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   VISTAS
+   ════════════════════════════════════════════════════════════════════════ */
+function tarjeta(p){
+  const ult = stockTotal(p) <= 3;
+  const badge = ult ? '<span class="badge badge--ultimas">Últimas unidades</span>'
+              : p.nuevo ? '<span class="badge badge--nuevo">Nuevo</span>' : '';
+  const tallas = TALLAS.map(t => p.stock[t] ? `<span>${t}</span>` : `<s>${t}</s>`).join('');
+  return `<button class="card" data-a="prod" data-id="${p.id}">
+    <div class="card__img"><img src="${IMG(p.img)}" alt="${p.nombre}, ${p.tipo.toLowerCase()}" loading="lazy">${badge}</div>
+    <b>${p.nombre}</b><span class="tipo">${p.tipo}</span><span class="precio">${cop(p.precio)}</span>
+    <span class="tallitas" aria-label="Tallas disponibles">${tallas}</span>
+  </button>`;
+}
+
+function filtrados(){
+  const f = S.filtro;
+  if (f === 'todo') return PRODUCTOS;
+  return PRODUCTOS.filter(p => p.cat === f || p.col === f);
+}
+
+PINTAR.inicio = () => {
+  const nCol = c => PRODUCTOS.filter(p => p.col === c).length;
+  $('#v-inicio').innerHTML = `
+    <div class="hero">
+      <span class="hero__eb">💗 Cápsula Novembrina 2026</span>
+      <h1>Viste linda, siéntete <em>única.</em></h1>
+      <p>Ropa con el color de la costa. Eliges tu talla, pagas aquí mismo y te llega a la puerta.</p>
+      <button class="btn" data-a="filtro" data-f="todo" data-scroll="1">Ver la colección</button>
+      <div class="collage">
+        <img class="a" src="${IMG('mural')}" alt="Blusa coral manga larga frente a un mural de colores">
+        <img class="b" src="${IMG('novembrina')}" alt="Cápsula Novembrina 2026, top halter oliva">
+        <div class="sello">Desde<br>Turbaco,<br>con amor</div>
+      </div>
+    </div>
+
+    <div class="bloque">
+      <h2>Colecciones</h2>
+      <p class="sub">Las de temporada, juntas en un solo lugar.</p>
+      <div class="cols">
+        <button class="colec" data-a="filtro" data-f="novembrina" data-scroll="1"><img src="${IMG('novembrina')}" alt="Cápsula Novembrina 2026"><b>Cápsula Novembrina</b><span>${nCol('novembrina')} prenda${nCol('novembrina') === 1 ? '' : 's'}</span></button>
+        <button class="colec" data-a="filtro" data-f="cartagena" data-scroll="1"><img src="${IMG('cartagena')}" alt="Colección Esencia Cartagena"><b>Esencia Cartagena</b><span>${nCol('cartagena')} prendas</span></button>
+      </div>
+    </div>
+
+    <div class="bloque" id="catalogo">
+      <h2>Lo <em>nuevo</em></h2>
+      <p class="sub">Toca una prenda para ver tallas y colores.</p>
+      <div class="chips" role="tablist">${CATS.map(([k, n]) => `<button class="chip${S.filtro === k ? ' on' : ''}" role="tab" aria-selected="${S.filtro === k}" data-a="filtro" data-f="${k}">${n}</button>`).join('')}</div>
+      <div class="grid" id="grid">${filtrados().map(tarjeta).join('')}</div>
+    </div>
+
+    <div class="promesas">
+      <div class="promesa"><i style="background:var(--rosa-50);color:var(--rosa-deep)">${ICO.card}</i><div><b>Paga como prefieras</b><span>Nequi, PSE, Bancolombia, tarjeta o por WhatsApp.</span></div></div>
+      <div class="promesa"><i style="background:var(--turq-50);color:var(--turq)">${ICO.truck}</i><div><b>Envío gratis desde ${cop(GRATIS_DESDE)}</b><span>En Turbaco y Cartagena. Al resto del país, por transportadora.</span></div></div>
+      <div class="promesa"><i style="background:#FFF4D9;color:#A06B00">${ICO.swap}</i><div><b>Cambios de talla</b><span>Hasta cinco días después de recibir tu pedido.</span></div></div>
+    </div>
+
+    <div class="feria">
+      <img src="${IMG('feria')}" alt="Puesto de Meli Shop en una feria de emprendimiento">
+      <div>
+        <b>¿Nos viste en una <em>feria?</em></b>
+        <p>Lo que te probaste en el puesto también está aquí, con tu talla.</p>
+        <button class="btn" data-a="filtro" data-f="todo" data-scroll="1">Buscar la prenda</button>
+      </div>
+    </div>
+
+    <footer class="pie">
+      <span class="logo" aria-hidden="true">MELI SHOP</span>
+      <p>Viste linda, siéntete única 💗<br>Tienda virtual en Turbaco · @melishoppp.co</p>
+      <nav><span>Envíos</span><span>Cambios y devoluciones</span><span>Guía de tallas</span><span>Términos y privacidad</span></nav>
+      <small>Tienda diseñada y construida por JV Agencia</small>
+    </footer>`;
+};
+
+PINTAR.producto = () => {
+  const p = byId(S.prod);
+  const t = S.talla, n = t ? p.stock[t] : null;
+  let quedan = '<span class="quedan no">Elige tu talla para ver si hay.</span>';
+  if (t) quedan = n <= 2 ? `<span class="quedan poco">¡Solo ${n === 1 ? 'queda 1' : 'quedan 2'} en talla ${t}!</span>`
+                         : `<span class="quedan ok">Disponible en talla ${t}.</span>`;
+  const agotadas = TALLAS.filter(x => !p.stock[x]);
+  const relacion = PRODUCTOS.filter(x => x.id !== p.id && (x.cat === p.cat || x.col === p.col)).slice(0, 3);
+  const ult = stockTotal(p) <= 3;
+  $('#v-producto').innerHTML = `
+    <button class="volver" data-a="ir" data-v="inicio">${ICO.back} Colección</button>
+    <div class="foto"><img src="${IMG(p.img)}" alt="${p.nombre}, ${p.tipo.toLowerCase()}">${ult ? '<span class="badge badge--ultimas">Últimas unidades</span>' : p.nuevo ? '<span class="badge badge--nuevo">Nuevo</span>' : ''}</div>
+    <div class="ficha">
+      <span class="eb">${p.col === 'novembrina' ? 'Cápsula Novembrina' : p.col === 'cartagena' ? 'Esencia Cartagena' : CATS.find(c => c[0] === p.cat)[1]}</span>
+      <h1>${p.nombre}</h1>
+      <p class="tipo">${p.tipo}</p>
+      <span class="precio">${cop(p.precio)}</span>
+
+      <div class="opcion">
+        <div class="opcion__t"><b>Color</b><span>${p.colores[S.color][0]}</span></div>
+        <div class="swatches">${p.colores.map(([nom, hex], i) => `<button class="sw${i === S.color ? ' on' : ''}" style="background:${hex}" data-a="color" data-i="${i}" aria-label="Color ${nom}" aria-pressed="${i === S.color}"></button>`).join('')}</div>
+      </div>
+
+      <div class="opcion">
+        <div class="opcion__t"><b>Talla</b><span>${agotadas.length ? 'Agotada: ' + agotadas.join(', ') : 'Todas disponibles'}</span></div>
+        <div class="tallas">${TALLAS.map(x => `<button class="talla${x === t ? ' on' : ''}" data-a="talla" data-t="${x}" ${p.stock[x] ? '' : 'disabled aria-label="Talla ' + x + ' agotada"'} aria-pressed="${x === t}">${x}</button>`).join('')}</div>
+        <div aria-live="polite">${quedan}</div>
+      </div>
+
+      <details class="guiat">
+        <summary>Guía de tallas</summary>
+        <table>
+          <tr><th>Talla</th><th>Busto</th><th>Cintura</th><th>Cadera</th></tr>
+          <tr><td>XS</td><td>80–84</td><td>62–66</td><td>86–90</td></tr>
+          <tr><td>S</td><td>85–89</td><td>67–71</td><td>91–95</td></tr>
+          <tr><td>M</td><td>90–94</td><td>72–76</td><td>96–100</td></tr>
+          <tr><td>L</td><td>95–100</td><td>77–82</td><td>101–106</td></tr>
+        </table>
+      </details>
+
+      <p class="desc">${p.desc}</p>
+      <ul class="datos">
+        <li>${ICO.truck}<span>Turbaco y Cartagena: llega mañana. Resto del país: 2 a 4 días.</span></li>
+        <li>${ICO.swap}<span>Si no te queda, la cambias por otra talla hasta cinco días después.</span></li>
+      </ul>
+      <button class="btn btn--claro preg" data-a="preguntar">${ICO.chat.replace('<svg', '<svg width="18" height="18"')} Preguntar por WhatsApp</button>
+    </div>
+
+    ${relacion.length ? `<div class="bloque"><h2>Completa el <em>look</em></h2><p class="sub">De la misma línea.</p><div class="mini">${relacion.map(tarjeta).join('')}</div></div>` : ''}
+
+    <div class="compra">
+      <span class="precio">${cop(p.precio)}<small>${t ? 'Talla ' + t + ' · ' + p.colores[S.color][0] : 'Sin talla elegida'}</small></span>
+      <button class="btn btn--full" data-a="agregar" ${t ? '' : 'disabled'}>${t ? 'Agregar a la bolsa' : 'Elige tu talla'}</button>
+    </div>`;
+};
+
+PINTAR.bolsa = () => {
+  const el = $('#v-bolsa');
+  if (!S.bolsa.length){
+    el.innerHTML = `<div class="vacia"><b>Tu bolsa está vacía</b><p>Cuando agregues una prenda, aparece aquí con su talla.</p><button class="btn" data-a="ir" data-v="inicio">Ver la colección</button></div>`;
+    return;
+  }
+  const sub = subtotal(), falta = Math.max(0, GRATIS_DESDE - sub), pct = Math.min(100, sub / GRATIS_DESDE * 100);
+  el.innerHTML = `
+    <button class="volver" data-a="ir" data-v="inicio">${ICO.back} Seguir comprando</button>
+    <h1 class="titulo">Tu <em>bolsa</em></h1>
+    <p class="subt">${unidades()} prenda${unidades() === 1 ? '' : 's'}</p>
+    <div class="lineas">${S.bolsa.map((l, k) => { const p = byId(l.id); return `
+      <div class="linea">
+        <img src="${IMG(p.img)}" alt="">
+        <div>
+          <b>${p.nombre}</b><span class="var">Talla ${l.talla} · ${p.colores[l.color][0]}</span>
+          <div class="fila">
+            <span class="cant"><button data-a="cant" data-k="${k}" data-d="-1" aria-label="Quitar una">−</button><span>${l.cant}</span><button data-a="cant" data-k="${k}" data-d="1" aria-label="Agregar una">+</button></span>
+            <b>${cop(p.precio * l.cant)}</b>
+          </div>
+          <button class="quitar" data-a="quitar" data-k="${k}">Quitar</button>
+        </div>
+      </div>`; }).join('')}
+    </div>
+
+    <div class="barra">${falta ? `Te faltan <b>${cop(falta)}</b> para el envío gratis en Turbaco y Cartagena.` : '¡Tienes <b>envío gratis</b> en Turbaco y Cartagena!'}<div class="riel"><i style="width:${pct}%"></i></div></div>
+
+    <p class="h3">¿Cómo te lo hacemos llegar?</p>
+    <div class="radios">${Object.entries(ENVIOS).map(([k, e]) => {
+      const gratis = e.v === 0 || (e.local && sub >= GRATIS_DESDE);
+      return `<label class="radio"><input type="radio" name="envio" value="${k}" ${S.envio === k ? 'checked' : ''}><div><b>${e.n}</b><span>${e.d}</span></div><em class="${gratis ? 'gratis' : ''}">${gratis ? 'Gratis' : cop(e.v)}</em></label>`;
+    }).join('')}</div>
+
+    <div class="totales">
+      <div><span>Prendas</span><span>${cop(sub)}</span></div>
+      <div><span>Envío</span><span>${envioCosto() ? cop(envioCosto()) : 'Gratis'}</span></div>
+      <div class="tot"><span>Total</span><span>${cop(total())}</span></div>
+    </div>
+
+    <div class="acciones">
+      <button class="btn btn--full" data-a="ir" data-v="pago">Ir a pagar · ${cop(total())}</button>
+      <span class="o">o, si prefieres hablar primero</span>
+      <button class="btn btn--wa btn--full" data-a="whatsapp">${ICO.chat.replace('<svg', '<svg width="18" height="18"')} Enviar el pedido por WhatsApp</button>
+    </div>`;
+};
+
+PINTAR.pago = () => {
+  if (!S.bolsa.length) return PINTAR.bolsa(), ir('bolsa');
+  const recoger = S.envio === 'recoger';
+  $('#v-pago').innerHTML = `
+    <button class="volver" data-a="ir" data-v="bolsa">${ICO.back} Bolsa</button>
+    <h1 class="titulo">Pagar</h1>
+    <p class="subt">${unidades()} prenda${unidades() === 1 ? '' : 's'} · ${ENVIOS[S.envio].n} · <b>${cop(total())}</b></p>
+
+    <p class="h3" style="margin-top:6px">Tus datos</p>
+    <div class="campos">
+      <div class="campo"><label for="f-nombre">Nombre</label><input id="f-nombre" value="${S.cliente.nombre}" autocomplete="name"></div>
+      <div class="campo"><label for="f-cel">Celular (para avisarte por WhatsApp)</label><input id="f-cel" value="${S.cliente.cel}" inputmode="tel" autocomplete="tel"></div>
+      ${recoger ? '' : `<div class="campo"><label for="f-dir">Dirección de entrega</label><input id="f-dir" value="${S.cliente.dir}" autocomplete="street-address"></div>`}
+    </div>
+
+    <p class="h3">¿Cómo vas a pagar?</p>
+    <div class="metodos">${Object.entries(METODOS).map(([k, [n, d]]) => `<label class="metodo"><input type="radio" name="metodo" value="${k}" ${S.metodo === k ? 'checked' : ''}><b>${n}</b><span>${d}</span></label>`).join('')}</div>
+
+    <div class="totales">
+      <div><span>Prendas</span><span>${cop(subtotal())}</span></div>
+      <div><span>Envío</span><span>${envioCosto() ? cop(envioCosto()) : 'Gratis'}</span></div>
+      <div class="tot"><span>Total</span><span>${cop(total())}</span></div>
+    </div>
+
+    <div class="acciones">
+      <button class="btn btn--full" data-a="pagar">Pagar ${cop(total())}</button>
+      <span class="seguro">${ICO.lock} Pago protegido por la pasarela · ejemplo, no se cobra</span>
+    </div>`;
+};
+
+PINTAR.listo = () => {
+  const o = S.ultimo;
+  const recoger = o.envio === 'recoger';
+  $('#v-listo').innerHTML = `
+    <div class="listo">
+      <div class="ok">${ICO.check}</div>
+      <h1>¡Gracias, ${o.nombre.split(' ')[0]}!</h1>
+      <p>Tu pago quedó confirmado. Te avisamos por WhatsApp ${recoger ? 'cuando esté lista para recoger' : 'cuando salga tu pedido'}.</p>
+      <span class="num">Pedido ${o.id} · ${cop(o.total)}</span>
+    </div>
+    <ol class="linea-t">
+      <li class="hecho"><i>✓</i><div><b>Pagado con ${o.metodo}</b><span>Sin enviar comprobantes.</span></div></li>
+      <li><i>2</i><div><b>En preparación</b><span>Meli Shop empaca tu pedido.</span></div></li>
+      <li><i>3</i><div><b>${recoger ? 'Lista para recoger en Turbaco' : 'Enviado'}</b><span>${recoger ? 'Te escribimos cuando puedas pasar.' : 'Te llega el número de guía.'}</span></div></li>
+    </ol>
+    <div class="puente">
+      <b>Así lo vio la clienta.</b> Ahora vea lo que le llega a usted en ese mismo momento.
+      <button class="btn btn--full" data-a="ir" data-v="panel">Ver el panel de Meli Shop →</button>
+    </div>
+    <div class="acciones"><button class="btn btn--claro btn--full" data-a="ir" data-v="inicio">Seguir comprando</button></div>`;
+};
+
+PINTAR.whats = () => {
+  const o = S.ultimo;
+  const lineas = o.lineas.map(l => `• ${l.nombre} · ${l.color} · talla ${l.talla} × ${l.cant} — ${cop(l.valor)}`).join('\n');
+  $('#v-whats').innerHTML = `
+    <div class="wa-top">
+      <button class="ico" data-a="ir" data-v="bolsa" aria-label="Volver">${ICO.back}</button>
+      <span class="wa-av">MELI<br>SHOP</span>
+      <div><b>Meli Shop</b><span>Cuenta de empresa</span></div>
+    </div>
+    <div class="wa-fondo">
+      <p class="wa-nota">La tienda escribe el mensaje. La clienta solo toca «enviar».</p>
+      <div class="globo">¡Hola, Meli Shop! 💗 Quiero hacer este pedido (${o.id}):
+
+${lineas}
+
+Envío: ${ENVIOS[o.envio].n} — ${o.envioV ? cop(o.envioV) : 'gratis'}
+<b>Total: ${cop(o.total)}</b>
+
+A nombre de: ${o.nombre}<small>${new Date().toLocaleTimeString('es-CO', { hour:'numeric', minute:'2-digit' })} <span class="vist">✓✓</span></small></div>
+      <div class="wa-acc">
+        <div class="puente" style="margin:0">
+          <b>Sin reenviar fotos ni preguntar tallas.</b> El pedido llega completo y además queda registrado en su panel, para confirmar el pago desde allí.
+          <button class="btn btn--full" data-a="ir" data-v="panel">Ver el panel de Meli Shop →</button>
+        </div>
+      </div>
+    </div>`;
+};
+
+const ESTADO = {
+  'por-confirmar': { pill:'pill--wa',     txt:'Por WhatsApp · confirmar pago', btn:'Confirmar pago' },
+  pagado:          { pill:'pill--pagado', txt:'Pagado · por despachar',        btn:'Marcar como enviado' },
+  listo:           { pill:'pill--pagado', txt:'Pagado · recoge en tienda',     btn:'Marcar como entregado' },
+  enviado:         { pill:'',             txt:'Enviado',                       btn:null },
+  entregado:       { pill:'',             txt:'Entregado',                     btn:null },
+};
+
+PINTAR.panel = () => {
+  const ventas = S.pedidos.filter(o => o.estado !== 'por-confirmar').reduce((s, o) => s + o.total, 0);
+  const porDespachar = S.pedidos.filter(o => ['pagado','listo','por-confirmar'].includes(o.estado)).length;
+  const bajas = [];
+  PRODUCTOS.forEach(p => TALLAS.forEach(t => { if (p.stock[t] <= 1) bajas.push([p, t]) }));
+  bajas.sort((a, b) => a[0].stock[a[1]] - b[0].stock[b[1]]);
+  $('#v-panel').innerHTML = `
+    <div class="p-top">
+      <span class="eb">Panel · Meli Shop</span>
+      <h1>Hola, Melanie 💗</h1>
+      <button class="ico" data-a="ir" data-v="inicio" aria-label="Volver a la tienda">${ICO.out}</button>
+    </div>
+    <div class="panel">
+      <div class="kpis">
+        <div class="kpi"><span>Ventas de hoy</span><b>${cop(ventas)}</b></div>
+        <div class="kpi"><span>Pedidos de hoy</span><b>${S.pedidos.length}</b></div>
+        <div class="kpi"><span>Por atender</span><b>${porDespachar}</b></div>
+      </div>
+
+      <h2>Pedidos</h2>
+      <div class="pedidos">${S.pedidos.map(o => { const e = ESTADO[o.estado]; return `
+        <article class="pedido${o.nuevo ? ' nuevo' : ''}">
+          <header><b>${o.cliente}${o.nuevo ? '<span class="pill pill--nuevo">Nuevo</span>' : ''}</b><span>${cop(o.total)}</span></header>
+          <p>${o.id} · ${o.ciudad}${o.metodo ? ' · ' + o.metodo : ''}</p>
+          <p>${o.items}</p>
+          <footer><span class="pill ${e.pill}">${e.txt}${o.guia ? ' · guía ' + o.guia : ''}</span>${e.btn ? `<button class="btn btn--ink" data-a="estado" data-id="${o.id}">${e.btn}</button>` : ''}</footer>
+        </article>`; }).join('')}
+      </div>
+
+      <h2>Existencias por agotarse</h2>
+      <div class="stock">${bajas.length ? bajas.slice(0, 6).map(([p, t]) => `
+        <div><img src="${IMG(p.img)}" alt=""><div><b>${p.nombre} · talla ${t}</b><span class="${p.stock[t] ? '' : 'cero'}">${p.stock[t] ? 'Queda 1' : 'Agotada en la tienda'}</span></div><button class="btn btn--claro" data-a="reponer" data-id="${p.id}" data-t="${t}">+3</button></div>`).join('')
+        : '<p>Ninguna talla por debajo de dos unidades.</p>'}
+      </div>
+      <p class="p-nota">Reponga una talla agotada y vuelva a la tienda: la talla aparece disponible de inmediato. Cada venta descuenta sola de estas existencias.</p>
+    </div>`;
+};
+
+/* ════════════════════════════════════════════════════════════════════════
+   ACCIONES
+   ════════════════════════════════════════════════════════════════════════ */
+function abrirProducto(id){
+  S.prod = id; S.talla = null; S.color = 0;
+  ir('producto');
+}
+
+function asegurarBolsa(){
+  if (S.bolsa.length) return;
+  S.bolsa.push({ id:'getsemani', talla:'S', color:0, cant:1 });
+  actualizarCuenta(true);
+}
+
+function crearPedido(porWhatsApp){
+  const lineas = S.bolsa.map(l => { const p = byId(l.id); return { nombre:p.nombre, talla:l.talla, color:p.colores[l.color][0], cant:l.cant, valor:p.precio * l.cant }; });
+  const o = {
+    id:'MS-' + S.seq++, nombre:S.cliente.nombre, lineas, envio:S.envio, envioV:envioCosto(), total:total(),
+    metodo: porWhatsApp ? 'WhatsApp' : METODOS[S.metodo][0],
+  };
+  S.ultimo = o;
+  // El pago confirmado descuenta existencias; el pedido por WhatsApp las aparta igual.
+  S.bolsa.forEach(l => { const p = byId(l.id); p.stock[l.talla] = Math.max(0, p.stock[l.talla] - l.cant) });
+  S.pedidos.forEach(x => x.nuevo = false);
+  S.pedidos.unshift({
+    id:o.id, cliente:o.nombre.split(' ')[0] + ' ' + (o.nombre.split(' ')[1] || '').charAt(0) + '.', nuevo:true,
+    ciudad: S.envio === 'recoger' ? 'Recoge en Turbaco' : S.envio === 'nacional' ? 'Otra ciudad' : ENVIOS[S.envio].n.replace('Domicilio en ', ''),
+    items: lineas.map(l => `${l.nombre} · ${l.talla}`).join('  ·  '), total:o.total, metodo:o.metodo,
+    estado: porWhatsApp ? 'por-confirmar' : S.envio === 'recoger' ? 'listo' : 'pagado',
+    recoger: S.envio === 'recoger',
+  });
+  S.bolsa = [];
+  actualizarCuenta();
+}
+
+function leerDatos(){
+  const v = id => ($('#' + id) || {}).value;
+  S.cliente.nombre = (v('f-nombre') || '').trim() || 'Laura Gómez';
+  S.cliente.cel = (v('f-cel') || '').trim() || S.cliente.cel;
+  if ($('#f-dir')) S.cliente.dir = v('f-dir').trim() || S.cliente.dir;
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a]');
+  if (!b) return;
+  const a = b.dataset.a;
+
+  if (a === 'guia'){
+    const abierta = $('#guia').classList.toggle('abierta');
+    $('#velo').classList.toggle('abierto', abierta);
+    return;
+  }
+  if (a === 'paso'){
+    $('#guia').classList.remove('abierta'); $('#velo').classList.remove('abierto');
+    const v = b.dataset.v;
+    if (v === 'producto') return abrirProducto(S.prod || 'getsemani');
+    if (v === 'bolsa' || v === 'pago') asegurarBolsa();
+    return ir(v);
+  }
+  if (a === 'ir') return ir(b.dataset.v);
+  if (a === 'prod') return abrirProducto(b.dataset.id);
+
+  if (a === 'filtro'){
+    S.filtro = b.dataset.f;
+    if (S.vista !== 'inicio') ir('inicio'); else PINTAR.inicio();
+    if (b.dataset.scroll) requestAnimationFrame(() => $('#catalogo').scrollIntoView({ behavior:'smooth', block:'start' }));
+    return;
+  }
+  if (a === 'color'){ S.color = +b.dataset.i; return PINTAR.producto() }
+  if (a === 'talla'){ S.talla = b.dataset.t; return PINTAR.producto() }
+
+  if (a === 'agregar'){
+    const p = byId(S.prod);
+    const ya = S.bolsa.find(l => l.id === p.id && l.talla === S.talla && l.color === S.color);
+    if (ya){
+      if (ya.cant >= p.stock[S.talla]) return toast(`No hay más unidades en talla ${S.talla}.`);
+      ya.cant++;
+    } else S.bolsa.push({ id:p.id, talla:S.talla, color:S.color, cant:1 });
+    actualizarCuenta(true);
+    return toast(`${p.nombre} · talla ${S.talla}, en tu bolsa.`, ['Ver bolsa', 'bolsa']);
+  }
+  if (a === 'cant'){
+    const l = S.bolsa[+b.dataset.k], p = byId(l.id), d = +b.dataset.d;
+    if (d > 0 && l.cant >= p.stock[l.talla]) toast(`No hay más unidades en talla ${l.talla}.`);
+    else l.cant += d;
+    if (l.cant <= 0) S.bolsa.splice(+b.dataset.k, 1);
+    actualizarCuenta(); return PINTAR.bolsa();
+  }
+  if (a === 'quitar'){ S.bolsa.splice(+b.dataset.k, 1); actualizarCuenta(); return PINTAR.bolsa() }
+
+  if (a === 'pagar'){
+    leerDatos();
+    $('#cargando').hidden = false;
+    setTimeout(() => { $('#cargando').hidden = true; crearPedido(false); ir('listo') }, 1300);
+    return;
+  }
+  if (a === 'whatsapp'){ crearPedido(true); return ir('whats') }
+  if (a === 'preguntar') return toast('En la tienda real se abre el chat de Meli Shop con esta prenda ya escrita.');
+
+  if (a === 'estado'){
+    const o = S.pedidos.find(x => x.id === b.dataset.id);
+    if (o.estado === 'por-confirmar'){ o.estado = o.recoger ? 'listo' : 'pagado'; toast('Pago confirmado. La clienta recibió el aviso.') }
+    else if (o.estado === 'pagado'){ o.estado = 'enviado'; o.guia = String(2400184 + Math.floor(Math.random() * 900)); toast('Enviado. La clienta recibió el número de guía por WhatsApp.') }
+    else if (o.estado === 'listo'){ o.estado = 'entregado'; toast('Entregado. El pedido queda cerrado.') }
+    o.nuevo = false;
+    return PINTAR.panel();
+  }
+  if (a === 'reponer'){
+    const p = byId(b.dataset.id);
+    p.stock[b.dataset.t] += 3;
+    toast(`${p.nombre} · talla ${b.dataset.t}: ahora hay ${p.stock[b.dataset.t]}.`, ['Ver en la tienda', 'inicio']);
+    return PINTAR.panel();
+  }
+});
+
+document.addEventListener('change', e => {
+  if (e.target.name === 'envio'){ S.envio = e.target.value; PINTAR.bolsa() }
+  if (e.target.name === 'metodo'){ S.metodo = e.target.value }
+});
+
+$('#marquee div').textContent = `Envío gratis desde ${cop(GRATIS_DESDE)} en Turbaco y Cartagena`;
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('#guia').classList.contains('abierta')){
+    $('#guia').classList.remove('abierta'); $('#velo').classList.remove('abierto');
+  }
+});
+
+ir('inicio');
+</script>
+</body>
+</html>
