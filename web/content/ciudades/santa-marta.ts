@@ -35,8 +35,10 @@ export const SANTA_MARTA: Ciudad = {
     "Ahí la página web no es la vitrina del local: es el local. Y es el único caso donde digo eso en serio.",
   ],
 
+  /* Bajo 155 caracteres y con lo concreto delante: la anterior medía 190 y
+     Google la cortaba antes del precio. */
   metaDescripcion:
-    "Diseño y programo páginas web para negocios de Santa Marta desde $850.000 y en 5 días. Trabajo desde Turbaco, Bolívar: misma costa, misma hora y viaje de ida y vuelta en el día si hace falta.",
+    "Páginas web para hoteles, restaurantes y tours de Santa Marta, para que te encuentren y te escriban directo, sin comisión. Desde $850.000 y en 5 días.",
   ogDescripcion:
     "Páginas web para hoteles, restaurantes y negocios de Santa Marta desde $850.000 y en 5 días. Desde la misma costa, hablando siempre con quien programa.",
 

@@ -29,7 +29,7 @@ import { ListaAcopio } from "@/components/visuales/ListaAcopio";
 import { PanelAutonomia } from "@/components/visuales/PanelAutonomia";
 import { RailDistancia } from "@/components/visuales/RailDistancia";
 import { SITE_URL } from "@/lib/site";
-import { catalogo, money, PLAZOS } from "@/lib/quote";
+import { catalogo, money, PISOS, PLAZOS } from "@/lib/quote";
 
 /**
  * Página de ciudad para la intención transaccional «diseño de páginas web en
@@ -65,14 +65,19 @@ import { catalogo, money, PLAZOS } from "@/lib/quote";
  * banda · PRECIOS en canvas para que destaquen · cómo se hace y desde dónde en
  * banda · prueba de trabajo en canvas · preguntas en banda · cierre en
  * canvas—. Lo que cambia entre hermanas es el material, no la estructura.
+ *
+ * TITLE (nov. 2026): «diseño web cartagena» es la consulta con más impresiones,
+ * por encima de la forma larga; el title lleva las dos formas y el precio.
  */
+const TITULO = `Diseño web en Cartagena: páginas web desde ${money(PISOS.landing)}`;
+
 export const metadata: Metadata = {
-  title: "Diseño de páginas web en Cartagena de Indias | JV Agencia",
+  title: TITULO,
   description:
     "Diseño y programo páginas web para negocios de Cartagena de Indias. Desde $850.000 y en 5 días. Vivo en Turbaco, a 20 kilómetros: nos vemos si hace falta.",
   alternates: { canonical: "/diseno-de-paginas-web-en-cartagena" },
   openGraph: {
-    title: "Diseño de páginas web en Cartagena de Indias | JV Agencia",
+    title: TITULO,
     description:
       "Páginas web para negocios de Cartagena y Bolívar, desde $850.000 y en 5 días. Las diseño y las programo yo, desde Turbaco.",
     url: `${SITE_URL}/diseno-de-paginas-web-en-cartagena`,

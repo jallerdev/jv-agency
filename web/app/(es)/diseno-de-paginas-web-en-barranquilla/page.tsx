@@ -23,7 +23,7 @@ import { HiloWhatsApp } from "@/components/visuales/HiloWhatsApp";
 import { CasillaVacia } from "@/components/visuales/CasillaVacia";
 import { RutaDesdeTurbaco } from "@/components/visuales/RutaDesdeTurbaco";
 import { SITE_URL } from "@/lib/site";
-import { catalogo, money, PLAZOS } from "@/lib/quote";
+import { catalogo, money, PISOS, PLAZOS } from "@/lib/quote";
 
 /**
  * Página de ciudad para la intención transaccional «diseño de páginas web en
@@ -63,13 +63,17 @@ import { catalogo, money, PLAZOS } from "@/lib/quote";
  * ESQUELETO COMPARTIDO con Cartagena y Bogotá: mismo orden de secciones y
  * mismo ritmo de bandas. Lo que cambia entre hermanas es el material.
  */
+/* «diseño web barranquilla» trae más impresiones que la forma larga (Search
+   Console, nov. 2026): el title lleva las dos formas y el precio. */
+const TITULO = `Diseño web en Barranquilla: páginas web desde ${money(PISOS.landing)}`;
+
 export const metadata: Metadata = {
-  title: "Diseño de páginas web en Barranquilla | JV Agencia",
+  title: TITULO,
   description:
     "Diseño y programo páginas web para negocios de Barranquilla desde $850.000 y en 5 días. Trabajo desde Turbaco, Bolívar, y te lo digo antes de que preguntes.",
   alternates: { canonical: "/diseno-de-paginas-web-en-barranquilla" },
   openGraph: {
-    title: "Diseño de páginas web en Barranquilla | JV Agencia",
+    title: TITULO,
     description:
       "Páginas web para negocios de Barranquilla desde $850.000 y en 5 días. Sin oficina allá, y lo digo de frente.",
     url: `${SITE_URL}/diseno-de-paginas-web-en-barranquilla`,

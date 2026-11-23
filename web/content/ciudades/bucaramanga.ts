@@ -32,8 +32,10 @@ export const BUCARAMANGA: Ciudad = {
     "Esta página está escrita para ese negocio: uno o dos locales y un WhatsApp que no para.",
   ],
 
+  /* Bajo 155 caracteres y con lo concreto delante: la anterior medía 172. Lo
+     de «a distancia» se queda: la página lo dice arriba y el snippet no lo esconde. */
   metaDescripcion:
-    "Diseño y programo páginas web para negocios de Bucaramanga desde $850.000 y en 5 días. Trabajo a distancia desde Bolívar: no tengo oficina en Santander y te lo digo de una.",
+    "Páginas web para negocios de Bucaramanga desde $850.000, listas en 5 días. A distancia: precio escrito, dominio a tu nombre y hablas con quien programa.",
   ogDescripcion:
     "Páginas web para negocios de Bucaramanga desde $850.000 y en 5 días. A distancia, desde Bolívar, y hablando siempre con quien programa.",
 
