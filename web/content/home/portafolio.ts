@@ -74,7 +74,7 @@ export const PORTAFOLIO: Portafolio = {
             es: "Tienda de bisutería y accesorios para el mercado colombiano: catálogo con inventario, carrito, cuentas, pagos en línea y cotización de envíos.",
             en: "Jewellery and accessories store for the Colombian market: catalogue with inventory, cart, accounts, online payments and shipping quotes.",
           },
-          imagen: "/work/bloomrose.webp",
+          imagen: "/work/bloomrose-navidad.webp",
           url: "https://www.bloomroseaccesorios.com",
           dominio: "bloomroseaccesorios.com",
         },

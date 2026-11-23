@@ -337,7 +337,7 @@ export default function TallerDeVisuales() {
    del componente, y es lo que hay que poder ver en el taller. */
 function ComparadorAnchosDemo() {
   const captura = {
-    src: "/work/bloomrose.webp",
+    src: "/work/bloomrose-navidad.webp",
     alt: "Captura del sitio de Bloomrose",
     width: 1200,
     height: 800,

@@ -229,7 +229,7 @@ const CLAVES_FORMATO = ["landing", "corporativa", "rediseno"] as const;
  * el margen, como si la maqueta estuviera rota.
  */
 const CAPTURAS: Record<string, { src: string; ratio: string }> = {
-  Bloomrose: { src: "/work/bloomrose.webp", ratio: "2000/1160" },
+  Bloomrose: { src: "/work/bloomrose-navidad.webp", ratio: "2000/1160" },
   "HalcónOS y Hummik": { src: "/work/halconos.webp", ratio: "1600/1000" },
   "HalcónOS and Hummik": { src: "/work/halconos.webp", ratio: "1600/1000" },
 };

@@ -564,8 +564,8 @@ export const TIENDAS = {
       en: "Jewellery and accessories for the Colombian market. Catalogue with inventory, cart, accounts, online payments and shipping. Coded to measure, not assembled on a template.",
     },
     alt: {
-      es: "Tienda virtual de Bloomrose: catálogo de bisutería y accesorios con carrito y pagos en línea",
-      en: "Bloomrose online store: jewellery and accessories catalogue with cart and online payments",
+      es: "Portada de la tienda virtual de Bloomrose: dos calendarios de adviento en preventa, con precio y unidades disponibles",
+      en: "Bloomrose online store home page: two advent calendars on pre-sale, with price and units left",
     },
     puntos: {
       es: [

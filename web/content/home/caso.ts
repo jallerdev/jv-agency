@@ -34,7 +34,7 @@ export const CASO: Caso = {
   categoria: { es: "Tienda online", en: "Online store" },
   dominio: "bloomroseaccesorios.com",
   url: "https://www.bloomroseaccesorios.com",
-  imagen: "/work/bloomrose.webp",
+  imagen: "/work/bloomrose-navidad.webp",
   alt: {
     es: "Bloomrose — tienda de bisutería y accesorios que diseñé y construí",
     en: "Bloomrose — jewellery and accessories store I designed and built",

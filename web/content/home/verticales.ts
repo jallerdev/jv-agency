@@ -57,7 +57,7 @@ export const VERTICALES: Verticales = {
         texto: { es: "Ver tiendas virtuales", en: "See online stores" },
         href: { es: "/servicios/tiendas-virtuales", en: "/en/services/online-stores" },
       },
-      imagen: "/work/bloomrose.webp",
+      imagen: "/work/bloomrose-navidad.webp",
       alt: {
         es: "Bloomrose — tienda online que diseñé y desarrollé",
         en: "Bloomrose — online store I designed and built",

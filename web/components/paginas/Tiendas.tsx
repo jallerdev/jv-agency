@@ -99,7 +99,7 @@ function TelefonoBloomrose({ idioma }: { idioma: Idioma }) {
           />
           <div className="relative aspect-[390/780]">
             <Image
-              src="/work/bloomrose-movil.webp"
+              src="/work/bloomrose-navidad-movil.webp"
               alt={TIENDAS.caso.alt[idioma]}
               fill
               sizes="256px"
@@ -580,7 +580,7 @@ export function PaginaTiendas({ idioma, ruta }: { idioma: Idioma; ruta: string }
                     inventada, `object-cover` se come un lado de la captura. */}
                 <div className="relative border-b border-line bg-surface" style={{ aspectRatio: "2000 / 1160" }}>
                   <Image
-                    src="/work/bloomrose.webp"
+                    src="/work/bloomrose-navidad.webp"
                     alt={TIENDAS.caso.alt[idioma]}
                     fill
                     sizes="(min-width: 1024px) 740px, 100vw"
